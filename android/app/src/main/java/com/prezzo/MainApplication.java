@@ -1,4 +1,4 @@
-package com.pepperoniapptemplate;
+package com.prezzo;
 
 import android.app.Application;
 

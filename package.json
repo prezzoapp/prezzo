@@ -1,13 +1,13 @@
 {
-  "name": "PepperoniAppTemplate",
-  "author": "Futurice",
-  "description": "React Native App Starter Kit for Android and iOS",
+  "name": "Prezzo",
+  "author": "ishmaelthedestroyer",
+  "description": "The digital menu for restaurants.",
   "license": "MIT",
-  "homepage": "http://getpepperoni.com",
-  "bugs": "https://github.com/futurice/pepperoni-app-kit/issues",
+  "homepage": "https://prezzo.io",
+  "bugs": "https://github.com/odotan/prezzo/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/futurice/pepperoni-app-kit"
+    "url": "https://github.com/odotan/prezzo"
   },
   "keywords": [
     "React Native",
@@ -20,7 +20,7 @@
   "private": false,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "bundle:ios": "node ./node_modules/react-native/local-cli/cli.js bundle --platform ios --entry-file index.js --bundle-output ios/PepperoniAppTemplate/main.jsbundle --dev=false --verbose",
+    "bundle:ios": "node ./node_modules/react-native/local-cli/cli.js bundle --platform ios --entry-file index.js --bundle-output ios/Prezzo/main.jsbundle --dev=false --verbose",
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint src test",
