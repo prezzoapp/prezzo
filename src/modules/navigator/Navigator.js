@@ -1,6 +1,8 @@
+// @Flow
 import {Platform} from 'react-native';
 import {TabNavigator, StackNavigator} from 'react-navigation';
 
+import Tutorial from '../../components/Tutorial';
 import CounterViewContainer from '../counter/CounterViewContainer';
 import ColorViewContainer from '../colors/ColorViewContainer';
 
@@ -24,7 +26,7 @@ export const MainScreenNavigator = TabNavigator({
 });
 
 MainScreenNavigator.navigationOptions = {
-  title: 'Pepperoni App Template',
+  title: 'Prezzo',
   headerTitleStyle: {color: 'white'},
   headerStyle: {
     backgroundColor: headerColor,
@@ -32,9 +34,13 @@ MainScreenNavigator.navigationOptions = {
   }
 };
 
+Tutorial.navigationOptions = {
+  header: null
+};
+
 // Root navigator is a StackNavigator
 const AppNavigator = StackNavigator({
-  Home: {screen: MainScreenNavigator},
+  Home: {screen: Tutorial},
   InfiniteColorStack: {screen: ColorViewContainer}
 });
 

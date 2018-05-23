@@ -1,3 +1,4 @@
+// @flow
 import {Map} from 'immutable';
 import {loop, Effects} from 'redux-loop-symbol-ponyfill';
 import {generateRandomNumber} from '../../services/randomNumberService';
