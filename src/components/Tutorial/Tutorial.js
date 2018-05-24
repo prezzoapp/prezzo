@@ -8,10 +8,10 @@ import FacebookButton from '../FacebookButton';
 import {FONT_FAMILY} from '../../services/constants';
 
 const images = {
-  tutorial1: require('../../../assets/images/tutorial-1.png'),
-  tutorial2: require('../../../assets/images/tutorial-2.png'),
-  tutorial3: require('../../../assets/images/tutorial-3.png'),
-  tutorial4: require('../../../assets/images/tutorial-4.png')
+  tutorial1: require('../../../assets/images/tutorial/tutorial-1.png'),
+  tutorial2: require('../../../assets/images/tutorial/tutorial-2.png'),
+  tutorial3: require('../../../assets/images/tutorial/tutorial-3.png'),
+  tutorial4: require('../../../assets/images/tutorial/tutorial-4.png')
 };
 
 class Tutorial extends React.Component {
