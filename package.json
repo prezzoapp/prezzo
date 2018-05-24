@@ -36,6 +36,11 @@
       "node_modules/(?!(jest-)?react-native|react-navigation)"
     ]
   },
+  "rnpm": {
+      "assets": [
+      	"./assets/fonts/"
+      ]
+  },
   "dependencies": {
     "bluebird": "^3.3.5",
     "event-emitter": "^0.3.4",

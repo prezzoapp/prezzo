@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
+import {FONT_FAMILY} from '../../services/constants';
 
 type Props = {
   text: string,
@@ -29,11 +30,11 @@ const styles = {
     color: 'white',
     fontSize: 20,
     fontWeight: '600',
+    fontFamily: FONT_FAMILY,
     paddingTop: 10,
     paddingBottom: 10
   },
   button: {
-    // fontFamily: 'ClearSans-Medium',
     width: '90%',
     marginLeft: 20,
     marginRight: 20,

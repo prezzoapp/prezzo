@@ -5,12 +5,13 @@ import Swiper from 'react-native-swiper';
 import TutorialScreen from './TutorialScreen';
 import Button from '../Button';
 import FacebookButton from '../FacebookButton';
+import {FONT_FAMILY} from '../../services/constants';
 
 const images = {
-  tutorial1: require('../../../images/tutorial-1.png'),
-  tutorial2: require('../../../images/tutorial-2.png'),
-  tutorial3: require('../../../images/tutorial-3.png'),
-  tutorial4: require('../../../images/tutorial-4.png')
+  tutorial1: require('../../../assets/images/tutorial-1.png'),
+  tutorial2: require('../../../assets/images/tutorial-2.png'),
+  tutorial3: require('../../../assets/images/tutorial-3.png'),
+  tutorial4: require('../../../assets/images/tutorial-4.png')
 };
 
 class Tutorial extends React.Component {
@@ -30,7 +31,7 @@ class Tutorial extends React.Component {
         <View style={styles.header}>
           <TouchableOpacity>
             <Text style={styles.login}>
-              Login
+              Log In
             </Text>
           </TouchableOpacity>
         </View>
@@ -67,7 +68,9 @@ const styles = StyleSheet.create({
     height: '20%'
   },
   login: {
-    fontSize: 24,
+    fontSize: 18,
+    fontFamily: FONT_FAMILY,
+    letterSpacing: 0,
     marginRight: 20,
     color: '#fff',
     alignSelf: 'flex-end'
