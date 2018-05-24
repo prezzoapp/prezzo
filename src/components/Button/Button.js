@@ -3,8 +3,6 @@ import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import {FONT_FAMILY} from '../../services/constants';
 
-console.log('FONT_FAMILY', FONT_FAMILY);
-
 type Props = {
   text: string,
   style: object
@@ -13,8 +11,6 @@ type Props = {
 const Button = ({onPress, style, children}: Props) => {
   const buttonStyle = {...styles.button, ...style};
   const textStyle = {...styles.text};
-
-  console.log('buttonStyle', buttonStyle, style);
 
   return (
     <TouchableOpacity

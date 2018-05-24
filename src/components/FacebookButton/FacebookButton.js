@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import {Text, Image, TouchableOpacity} from 'react-native';
+import {LoginManager} from 'react-native-fbsdk';
 import {FONT_FAMILY} from '../../services/constants';
 
 type Props = {
@@ -8,14 +9,29 @@ type Props = {
   style: object
 };
 
-const Button = ({onPress, style}: Props) => {
+const login = () => {
+  // Attempt a login using the Facebook login dialog asking for default permissions.
+  LoginManager.logInWithReadPermissions(['public_profile']).then(result => {
+    if (result.isCancelled) {
+      console.log('Login cancelled');
+    } else {
+      const permissions = result.grantedPermissions.toString();
+      console.log(`Login success with permissions: ${permissions}`);
+      console.log('result', result);
+    }
+  }, error => {
+    console.log('Login fail with error: ' + error);
+  });
+};
+
+const Button = ({style}: Props) => {
   const buttonStyle = {...styles.button, ...style};
   const textStyle = {...styles.text};
   const iconStyle = {...styles.icon};
 
   return (
     <TouchableOpacity
-      onPress={() => onPress && onPress()}
+      onPress={() => login()}
       style={buttonStyle}
     >
       <Image
