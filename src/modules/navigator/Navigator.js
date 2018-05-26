@@ -3,6 +3,8 @@ import {Platform} from 'react-native';
 import {TabNavigator, StackNavigator} from 'react-navigation';
 
 import Tutorial from '../../components/Tutorial';
+import EnableNotifications from '../EnableNotifications';
+
 import CounterViewContainer from '../counter/CounterViewContainer';
 import ColorViewContainer from '../colors/ColorViewContainer';
 
@@ -41,7 +43,10 @@ Tutorial.navigationOptions = {
 // Root navigator is a StackNavigator
 const AppNavigator = StackNavigator({
   Home: {screen: Tutorial},
+  EnableNotifications: {screen: EnableNotifications},
   InfiniteColorStack: {screen: ColorViewContainer}
+}, {
+  initialRouteName: 'Home'
 });
 
 export default AppNavigator;

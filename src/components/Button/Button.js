@@ -3,21 +3,23 @@ import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import {FONT_FAMILY} from '../../services/constants';
 
-type Props = {
-  text: string,
-  style: object
-};
+// type Props = {
+//   text: string,
+//   style: object,
+//   textStyle: object
+// };
+type Props = {};
 
-const Button = ({onPress, style, children}: Props) => {
-  const buttonStyle = {...styles.button, ...style};
-  const textStyle = {...styles.text};
+const Button = ({onPress, style, textStyle, children}: Props) => {
+  const buttonStyleFinal = {...styles.button, ...style};
+  const textStyleFinal = {...styles.text, ...textStyle};
 
   return (
     <TouchableOpacity
       onPress={() => onPress && onPress()}
-      style={buttonStyle}
+      style={buttonStyleFinal}
     >
-      <Text style={textStyle}>
+      <Text style={textStyleFinal}>
         {children}
       </Text>
     </TouchableOpacity>

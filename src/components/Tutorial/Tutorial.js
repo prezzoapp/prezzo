@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import Swiper from 'react-native-swiper';
 import TutorialScreen from './TutorialScreen';
@@ -15,6 +16,15 @@ const images = {
 };
 
 class Tutorial extends React.Component {
+
+  static propTypes = {
+    navigate: PropTypes.func.isRequired
+  };
+
+  navigateToEnableNotifications() {
+    this.props.navigate({routeName: 'EnableNotifications'});
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -37,7 +47,10 @@ class Tutorial extends React.Component {
         </View>
         <View style={styles.footer}>
           <FacebookButton style={buttonStyles.facebookButton} />
-          <Button style={buttonStyles.createAccountButton}>
+          <Button
+            style={buttonStyles.createAccountButton}
+            onPress={() => this.navigateToEnableNotifications()}
+          >
             Create Account
           </Button>
         </View>
