@@ -15,6 +15,7 @@ const LoginTextInput = ({onChange, label, type}: Props) => {
       <Text style={styles.label}>{label}</Text>
       <TextInput
         style={styles.input}
+        secureTextEntry={type === 'password'}
         onChangeText={text => onChange && onChange(text)}
       />
     </View>

@@ -2,6 +2,9 @@
 import React from 'react';
 import {ImageBackground, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {NavigationActions} from 'react-navigation';
 import {FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
 import NextButton from './NextButton';
@@ -34,14 +37,18 @@ class SignupEmail extends React.Component<Props, State> {
   };
 
   getCheckboxImage() {
-    return this.state.isSubscribedToPromotions ?
-      require('../../../assets/images/icons/checkbox-checked.png')
+    return this.state.isSubscribedToPromotions
+      ? require('../../../assets/images/icons/checkbox-checked.png')
       : require('../../../assets/images/icons/arrow-right.png');
   }
 
   toggleSubscription() {
     const isSubscribedToPromotions = !this.state.isSubscribedToPromotions;
     this.setState({isSubscribedToPromotions});
+  }
+
+  navigateToPassword() {
+    this.props.navigate({routeName: 'SignupPassword'});
   }
 
   render() {
@@ -73,7 +80,10 @@ class SignupEmail extends React.Component<Props, State> {
           </Text>
         </TouchableOpacity>
 
-        <NextButton style={nextButtonStyle} />
+        <NextButton
+          style={nextButtonStyle}
+          onPress={() => this.navigateToPassword()}
+        />
       </ImageBackground>
     );
   }
@@ -125,4 +135,11 @@ const nextButtonStyle = {
   alignSelf: 'flex-end'
 };
 
-export default SignupEmail;
+export default connect(
+  null,
+  dispatch => {
+    return {
+      navigate: bindActionCreators(NavigationActions.navigate, dispatch)
+    };
+  }
+)(SignupEmail);

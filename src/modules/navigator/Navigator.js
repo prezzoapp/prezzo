@@ -6,6 +6,7 @@ import Tutorial from '../../components/Tutorial';
 import EnableNotifications from '../EnableNotifications';
 import SignupName from '../Signup/SignupName';
 import SignupEmail from '../Signup/SignupEmail';
+import SignupPassword from '../Signup/SignupPassword';
 
 import CounterViewContainer from '../counter/CounterViewContainer';
 import ColorViewContainer from '../colors/ColorViewContainer';
@@ -48,6 +49,7 @@ const AppNavigator = StackNavigator({
   EnableNotifications: {screen: EnableNotifications},
   SignupName: {screen: SignupName},
   SignupEmail: {screen: SignupEmail},
+  SignupPassword: {screen: SignupPassword},
   InfiniteColorStack: {screen: ColorViewContainer}
 }, {
   initialRouteName: 'Home'
