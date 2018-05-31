@@ -2,10 +2,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {View, Image, Text, StyleSheet} from 'react-native';
+import Permissions from 'react-native-permissions';
 import {FONT_FAMILY, FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD} from '../../services/constants';
 import Button from '../../components/Button';
 
-class EnableNotificationsView extends React.Component {
+type Props = {};
+
+type State = {
+  photoPermission: 'authorized' | 'denied' | 'restricted' | 'undetermined'
+};
+
+class EnableNotificationsView extends React.Component<Props, State> {
   static propTypes = {
     navigate: PropTypes.func.isRequired
   };
@@ -14,11 +21,42 @@ class EnableNotificationsView extends React.Component {
     header: null
   };
 
+  state = {
+    notificationPermission: 'undetermined'
+  };
+
+  componentDidMount() {
+    Permissions.check('notification').then(response => {
+      console.log('setting notificationPermission', response);
+      // Response is one of: 'authorized', 'denied',
+      // 'restricted', or 'undetermined'
+      this.setState({notificationPermission: response});
+    });
+  }
+
+  requestPermission = () => {
+    Permissions.request('notification').then(response => {
+      // Returns once the user has chosen to 'allow' or to 'not allow' access
+      // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+      this.setState({notificationPermission: response});
+    });
+  }
+
   navigateToTutorial() {
     this.props.navigate({routeName: 'Home'});
   }
 
   render() {
+    const doesHavePermission = this.state.notificationPermission === 'authorized';
+    const notifyButtonStyle = {
+      ...buttonStyles.notify
+    };
+
+    if (doesHavePermission) {
+      notifyButtonStyle.backgroundColor = '#d3d3d3';
+      notifyButtonStyle.borderColor = '#d3d3d3';
+    }
+
     return (
       <View style={styles.container}>
         <Image
@@ -32,7 +70,12 @@ class EnableNotificationsView extends React.Component {
           We can let you know when someone messages you, or notify you about
           other important account activity.
         </Text>
-        <Button style={buttonStyles.notify} textStyle={buttonStyles.notifyText}>
+        <Button
+          style={notifyButtonStyle}
+          textStyle={buttonStyles.notifyText}
+          disabled={doesHavePermission}
+          onPress={() => this.requestPermission()}
+        >
           Yes, Notify Me
         </Button>
         <Button
