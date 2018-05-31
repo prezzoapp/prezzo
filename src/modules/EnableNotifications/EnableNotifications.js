@@ -9,7 +9,7 @@ import Button from '../../components/Button';
 type Props = {};
 
 type State = {
-  photoPermission: 'authorized' | 'denied' | 'restricted' | 'undetermined'
+  notificationPermission: 'authorized' | 'denied' | 'restricted' | 'undetermined'
 };
 
 class EnableNotificationsView extends React.Component<Props, State> {
@@ -44,6 +44,10 @@ class EnableNotificationsView extends React.Component<Props, State> {
 
   navigateToTutorial() {
     this.props.navigate({routeName: 'Home'});
+  }
+
+  navigateToSignup() {
+    this.props.navigate({routeName: 'Signup'});
   }
 
   render() {
@@ -81,7 +85,7 @@ class EnableNotificationsView extends React.Component<Props, State> {
         <Button
           style={buttonStyles.skip}
           textStyle={buttonStyles.skipText}
-          onPress={() => this.navigateToTutorial()}
+          onPress={() => this.navigateToSignup()}
         >
           Skip
         </Button>
