@@ -47,7 +47,7 @@ class EnableNotificationsView extends React.Component<Props, State> {
   }
 
   navigateToSignup() {
-    this.props.navigate({routeName: 'Signup'});
+    this.props.navigate({routeName: 'SignupName'});
   }
 
   render() {

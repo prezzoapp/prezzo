@@ -23,7 +23,7 @@ const Button = ({onPress, style}: Props) => {
   );
 };
 
-const buttonSize: number = 50;
+const buttonSize: number = 40;
 
 const styles = {
   button: {

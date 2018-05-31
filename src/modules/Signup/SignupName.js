@@ -1,11 +1,24 @@
 // @flow
 import React from 'react';
 import {ImageBackground, Text, StyleSheet} from 'react-native';
-import {FONT_FAMILY, FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD} from '../../services/constants';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {NavigationActions} from 'react-navigation';
+import {FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
 import NextButton from './NextButton';
 
-class SignupName extends React.Component {
+type Props = {
+  navigate: PropTypes.func.isRequired
+};
+
+type State = {
+  firstName: string,
+  lastName: string
+};
+
+class SignupName extends React.Component<Props, State> {
   static navigationOptions = {
     headerStyle: {
       position: 'absolute',
@@ -22,6 +35,10 @@ class SignupName extends React.Component {
     firstName: '',
     lastName: ''
   };
+
+  navigateToSignupEmail() {
+    this.props.navigate({routeName: 'SignupEmail'});
+  }
 
   render() {
     return (
@@ -45,7 +62,10 @@ class SignupName extends React.Component {
           onChange={lastName => console.log('updated lastName', lastName)}
         />
 
-        <NextButton style={nextButtonStyle} />
+        <NextButton
+          style={nextButtonStyle}
+          onPress={() => this.navigateToSignupEmail()}
+        />
       </ImageBackground>
     );
   }
@@ -67,7 +87,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: FONT_FAMILY_BOLD,
     color: '#fff',
-    marginBottom: 20,
+    marginBottom: 40,
     backgroundColor: 'transparent'
   }
 });
@@ -76,4 +96,11 @@ const nextButtonStyle = {
   alignSelf: 'flex-end'
 };
 
-export default SignupName;
+export default connect(
+  null,
+  dispatch => {
+    return {
+      navigate: bindActionCreators(NavigationActions.navigate, dispatch)
+    };
+  }
+)(SignupName);

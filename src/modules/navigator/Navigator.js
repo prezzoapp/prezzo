@@ -4,7 +4,8 @@ import {TabNavigator, StackNavigator} from 'react-navigation';
 
 import Tutorial from '../../components/Tutorial';
 import EnableNotifications from '../EnableNotifications';
-import Signup from '../Signup';
+import SignupName from '../Signup/SignupName';
+import SignupEmail from '../Signup/SignupEmail';
 
 import CounterViewContainer from '../counter/CounterViewContainer';
 import ColorViewContainer from '../colors/ColorViewContainer';
@@ -45,7 +46,8 @@ Tutorial.navigationOptions = {
 const AppNavigator = StackNavigator({
   Home: {screen: Tutorial},
   EnableNotifications: {screen: EnableNotifications},
-  Signup: {screen: Signup},
+  SignupName: {screen: SignupName},
+  SignupEmail: {screen: SignupEmail},
   InfiniteColorStack: {screen: ColorViewContainer}
 }, {
   initialRouteName: 'Home'
