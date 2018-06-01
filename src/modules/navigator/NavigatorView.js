@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Root} from 'native-base';
 import PropTypes from 'prop-types';
 import {addNavigationHelpers} from 'react-navigation';
 
@@ -20,14 +21,16 @@ class NavigatorView extends Component {
 
   render() {
     return (
-      <AppNavigator
-        navigation={
-          addNavigationHelpers({
-            dispatch: this.props.dispatch,
-            state: this.props.navigatorState
-          })
-        }
-      />
+      <Root>
+        <AppNavigator
+          navigation={
+            addNavigationHelpers({
+              dispatch: this.props.dispatch,
+              state: this.props.navigatorState
+            })
+          }
+        />
+      </Root>
     );
   }
 }

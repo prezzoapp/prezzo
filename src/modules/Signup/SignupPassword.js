@@ -9,6 +9,7 @@ import {
   StyleSheet
 } from 'react-native';
 import PropTypes from 'prop-types';
+import {ActionSheet} from 'native-base';
 import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
 import FacebookButton from '../../components/FacebookButton';
@@ -24,7 +25,7 @@ type State = {
   isSubscribedToPromotions: boolean
 };
 
-class SignupEmail extends React.Component<Props, State> {
+class SignupPassword extends React.Component<Props, State> {
   static navigationOptions = {
     headerStyle: {
       position: 'absolute',
@@ -48,6 +49,19 @@ class SignupEmail extends React.Component<Props, State> {
     return require('../../../assets/images/etc/default-avatar.png');
   }
 
+  showAvatarActionSheet() {
+    const BUTTONS = ['Show Camera Roll', 'Cancel'];
+    const CANCEL_INDEX = 1;
+
+    ActionSheet.show({
+      options: BUTTONS,
+      cancelButtonIndex: CANCEL_INDEX,
+      title: 'Select a picture'
+    }, buttonIndex => {
+      console.log('clicked ActionSheet button index', buttonIndex);
+    });
+  }
+
   render() {
     const {firstName, email, showPassword} = this.state;
 
@@ -61,7 +75,10 @@ class SignupEmail extends React.Component<Props, State> {
         </Text>
 
         <View style={styles.profileContainer}>
-          <TouchableOpacity style={styles.avatarContainer}>
+          <TouchableOpacity
+            style={styles.avatarContainer}
+            onPress={() => this.showAvatarActionSheet()}
+          >
             <Image
               style={styles.avatar}
               source={this.getAvatar()}
@@ -84,7 +101,7 @@ class SignupEmail extends React.Component<Props, State> {
         </View>
 
         {
-          !this.state.showPassword && (
+          !showPassword && (
             <View style={styles.buttonsContainer}>
               <FacebookButton />
 
@@ -99,7 +116,7 @@ class SignupEmail extends React.Component<Props, State> {
         }
 
         {
-          this.state.showPassword && (
+          showPassword && (
             <View style={styles.passwordContainer}>
               <LoginTextInput
                 type='password'
@@ -111,7 +128,7 @@ class SignupEmail extends React.Component<Props, State> {
         }
 
         {
-          this.state.showPassword && (
+          showPassword && (
             <NextButton style={buttonStyles.next} />
           )
         }
@@ -211,4 +228,4 @@ const buttonStyles = {
   }
 };
 
-export default SignupEmail;
+export default SignupPassword;
