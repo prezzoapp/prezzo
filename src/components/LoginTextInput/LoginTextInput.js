@@ -53,7 +53,9 @@ class LoginTextInput extends Component<Props, State> {
         <TextInput
           style={styles.input}
           secureTextEntry={type === 'password' && !isShowingPassword}
+          autoCapitalize={type === 'name' ? 'words' : 'none'}
           onChangeText={text => onChange && onChange(text)}
+          autoCorrect={false}
         />
       </View>
     );
