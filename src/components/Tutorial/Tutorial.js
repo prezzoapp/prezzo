@@ -91,8 +91,15 @@ const styles = StyleSheet.create({
 });
 
 const buttonStyles = {
-  facebookButton: {},
+  facebookButton: {
+    width: '90%',
+    marginLeft: 20,
+    marginRight: 20
+  },
   createAccountButton: {
+    width: '90%',
+    marginLeft: 20,
+    marginRight: 20,
     marginTop: 10,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     borderColor: '#fff'

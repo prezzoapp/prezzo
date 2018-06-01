@@ -37,9 +37,7 @@ const styles = {
     paddingBottom: 10
   },
   button: {
-    width: '90%',
-    marginLeft: 20,
-    marginRight: 20,
+    width: '100%',
     backgroundColor: 'rgba(58,159,249,0.81)',
     borderWidth: 2,
     borderColor: '#2074FF',

@@ -11,6 +11,8 @@ import {
 import PropTypes from 'prop-types';
 import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
+import FacebookButton from '../../components/FacebookButton';
+import Button from '../../components/Button';
 import NextButton from './NextButton';
 
 type Props = {
@@ -38,7 +40,8 @@ class SignupEmail extends React.Component<Props, State> {
   state = {
     firstName: 'Andreas',
     email: 'andreas@yahoo.com',
-    password: ''
+    password: '',
+    showPassword: false
   };
 
   getAvatar() {
@@ -46,7 +49,7 @@ class SignupEmail extends React.Component<Props, State> {
   }
 
   render() {
-    const {firstName, email} = this.state;
+    const {firstName, email, showPassword} = this.state;
 
     return (
       <ImageBackground
@@ -80,13 +83,38 @@ class SignupEmail extends React.Component<Props, State> {
           </View>
         </View>
 
-        <LoginTextInput
-          type='password'
-          label='Password'
-          onChange={password => console.log('updated password', password)}
-        />
+        {
+          !this.state.showPassword && (
+            <View style={styles.buttonsContainer}>
+              <FacebookButton />
 
-        <NextButton style={nextButtonStyle} />
+              <Button
+                style={buttonStyles.password}
+                onPress={() => this.setState({showPassword: true})}
+              >
+                Create Password
+              </Button>
+            </View>
+          )
+        }
+
+        {
+          this.state.showPassword && (
+            <View style={styles.passwordContainer}>
+              <LoginTextInput
+                type='password'
+                label='Password'
+                onChange={password => console.log('updated password', password)}
+              />
+            </View>
+          )
+        }
+
+        {
+          this.state.showPassword && (
+            <NextButton style={buttonStyles.next} />
+          )
+        }
       </ImageBackground>
     );
   }
@@ -160,11 +188,27 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     color: '#959595',
     backgroundColor: 'transparent'
+  },
+  buttonsContainer: {
+    width: '100%',
+    height: 'auto',
+    marginBottom: 20
+  },
+  passwordContainer: {
+    width: '100%',
+    height: 'auto'
   }
 });
 
-const nextButtonStyle = {
-  alignSelf: 'flex-end'
+const buttonStyles = {
+  password: {
+    marginTop: 10,
+    backgroundColor: 'transparent',
+    borderColor: '#fff'
+  },
+  next: {
+    alignSelf: 'flex-end'
+  }
 };
 
 export default SignupEmail;
