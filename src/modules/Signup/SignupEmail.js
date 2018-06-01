@@ -39,7 +39,7 @@ class SignupEmail extends React.Component<Props, State> {
   getCheckboxImage() {
     return this.state.isSubscribedToPromotions
       ? require('../../../assets/images/icons/checkbox-checked.png')
-      : require('../../../assets/images/icons/arrow-right.png');
+      : require('../../../assets/images/icons/checkbox-unchecked.png');
   }
 
   toggleSubscription() {
