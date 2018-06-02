@@ -8,7 +8,9 @@ import {
   Image,
   StyleSheet
 } from 'react-native';
-import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {NavigationActions} from 'react-navigation';
 import {ActionSheet} from 'native-base';
 import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
@@ -17,7 +19,7 @@ import Button from '../../components/Button';
 import NextButton from './NextButton';
 
 type Props = {
-  navigate: PropTypes.func.isRequired
+  navigate: Function
 };
 
 type State = {
@@ -60,6 +62,10 @@ class SignupPassword extends React.Component<Props, State> {
     }, buttonIndex => {
       console.log('clicked ActionSheet button index', buttonIndex);
     });
+  }
+
+  navigateToSignupComplete() {
+    this.props.navigate({routeName: 'SignupComplete'});
   }
 
   render() {
@@ -129,7 +135,10 @@ class SignupPassword extends React.Component<Props, State> {
 
         {
           showPassword && (
-            <NextButton style={buttonStyles.next} />
+            <NextButton
+              style={buttonStyles.next}
+              onPress={() => this.navigateToSignupComplete()}
+            />
           )
         }
       </ImageBackground>
@@ -228,4 +237,11 @@ const buttonStyles = {
   }
 };
 
-export default SignupPassword;
+export default connect(
+  null,
+  dispatch => {
+    return {
+      navigate: bindActionCreators(NavigationActions.navigate, dispatch)
+    };
+  }
+)(SignupPassword);

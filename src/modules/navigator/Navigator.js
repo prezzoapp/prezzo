@@ -7,6 +7,7 @@ import EnableNotifications from '../EnableNotifications';
 import SignupName from '../Signup/SignupName';
 import SignupEmail from '../Signup/SignupEmail';
 import SignupPassword from '../Signup/SignupPassword';
+import SignupComplete from '../Signup/SignupComplete';
 
 import CounterViewContainer from '../counter/CounterViewContainer';
 import ColorViewContainer from '../colors/ColorViewContainer';
@@ -50,6 +51,7 @@ const AppNavigator = StackNavigator({
   SignupName: {screen: SignupName},
   SignupEmail: {screen: SignupEmail},
   SignupPassword: {screen: SignupPassword},
+  SignupComplete: {screen: SignupComplete},
   InfiniteColorStack: {screen: ColorViewContainer}
 }, {
   initialRouteName: 'Home'
