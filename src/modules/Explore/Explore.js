@@ -10,7 +10,7 @@ class Explore extends Component {
   static navigationOptions = {
     title: 'Explore',
     tabBarIcon: props => (
-        <Icon name='color-lens' size={24} color={props.tintColor} />
+        <Icon name='explore' size={24} color={props.tintColor} />
     ),
     headerTintColor: 'white',
     headerStyle: {
