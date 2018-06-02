@@ -7,6 +7,9 @@ import {
   StyleSheet
 } from 'react-native';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {NavigationActions} from 'react-navigation';
 import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../services/constants';
 import Button from '../../components/Button';
 
@@ -14,7 +17,7 @@ type Props = {
   navigate: PropTypes.func.isRequired
 };
 
-class SignupPassword extends React.Component<Props> {
+class SignupComplete extends React.Component<Props> {
   static navigationOptions = {
     headerStyle: {
       position: 'absolute',
@@ -28,7 +31,7 @@ class SignupPassword extends React.Component<Props> {
   };
 
   navigateToHome() {
-    console.log('navigateToHome()');
+    this.props.navigate({routeName: 'Main'});
   }
 
   render() {
@@ -108,4 +111,11 @@ const buttonStyles = {
   }
 };
 
-export default SignupPassword;
+export default connect(
+  null,
+  dispatch => {
+    return {
+      navigate: bindActionCreators(NavigationActions.navigate, dispatch)
+    };
+  }
+)(SignupComplete);

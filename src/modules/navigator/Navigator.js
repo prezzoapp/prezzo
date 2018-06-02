@@ -1,5 +1,4 @@
-// @Flow
-import {Platform} from 'react-native';
+// @flow
 import {TabNavigator, StackNavigator} from 'react-navigation';
 
 import Tutorial from '../../components/Tutorial';
@@ -10,24 +9,24 @@ import SignupPassword from '../Signup/SignupPassword';
 import SignupComplete from '../Signup/SignupComplete';
 
 import CounterViewContainer from '../counter/CounterViewContainer';
-import ColorViewContainer from '../colors/ColorViewContainer';
+import Explore from '../Explore';
 
-const headerColor = '#39babd';
+const headerColor = '#2B2C2C';
 const activeColor = 'white';
 
 // TabNavigator is nested inside StackNavigator
 export const MainScreenNavigator = TabNavigator({
-  Counter: {screen: CounterViewContainer},
-  Color: {screen: ColorViewContainer}
+  Explore: {screen: Explore},
+  Counter: {screen: CounterViewContainer}
 }, {
   tabBarOptions: {
-    ...Platform.select({
-      android: {
-        activeTintColor: activeColor,
-        indicatorStyle: {backgroundColor: activeColor},
-        style: {backgroundColor: headerColor}
-      }
-    })
+    activeTintColor: activeColor,
+    indicatorStyle: {backgroundColor: activeColor},
+    style: {
+      backgroundColor: headerColor,
+      borderTopWidth: 1,
+      borderTopColor: '#e1e1e1'
+    }
   }
 });
 
@@ -40,10 +39,6 @@ MainScreenNavigator.navigationOptions = {
   }
 };
 
-Tutorial.navigationOptions = {
-  header: null
-};
-
 // Root navigator is a StackNavigator
 const AppNavigator = StackNavigator({
   Home: {screen: Tutorial},
@@ -52,7 +47,7 @@ const AppNavigator = StackNavigator({
   SignupEmail: {screen: SignupEmail},
   SignupPassword: {screen: SignupPassword},
   SignupComplete: {screen: SignupComplete},
-  InfiniteColorStack: {screen: ColorViewContainer}
+  Main: {screen: MainScreenNavigator}
 }, {
   initialRouteName: 'Home'
 });

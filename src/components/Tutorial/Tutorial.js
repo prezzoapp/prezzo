@@ -16,6 +16,9 @@ const images = {
 };
 
 class Tutorial extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
 
   static propTypes = {
     navigate: PropTypes.func.isRequired
