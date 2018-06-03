@@ -4,6 +4,7 @@ import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyl
 
 import Tutorial from '../../components/Tutorial';
 import EnableNotifications from '../EnableNotifications';
+import Login from '../Login';
 import SignupName from '../Signup/SignupName';
 import SignupEmail from '../Signup/SignupEmail';
 import SignupPassword from '../Signup/SignupPassword';
@@ -59,6 +60,7 @@ MainScreenNavigator.navigationOptions = {
 const AppNavigator = StackNavigator({
   Home: {screen: Tutorial},
   EnableNotifications: {screen: EnableNotifications},
+  Login: {screen: Login},
   SignupName: {screen: SignupName},
   SignupEmail: {screen: SignupEmail},
   SignupPassword: {screen: SignupPassword},

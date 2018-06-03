@@ -24,6 +24,10 @@ class Tutorial extends React.Component {
     navigate: PropTypes.func.isRequired
   };
 
+  navigateToLogin() {
+    this.props.navigate({routeName: 'Login'});
+  }
+
   navigateToEnableNotifications() {
     this.props.navigate({routeName: 'EnableNotifications'});
   }
@@ -42,7 +46,7 @@ class Tutorial extends React.Component {
           <TutorialScreen image={images.tutorial4} />
         </Swiper>
         <View style={styles.header}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => this.navigateToLogin()}>
             <Text style={styles.login}>
               Log In
             </Text>
@@ -50,6 +54,7 @@ class Tutorial extends React.Component {
         </View>
         <View style={styles.footer}>
           <FacebookButton style={buttonStyles.facebookButton} />
+
           <Button
             style={buttonStyles.createAccountButton}
             onPress={() => this.navigateToEnableNotifications()}
