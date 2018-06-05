@@ -31,7 +31,7 @@ class SignupComplete extends React.Component<Props> {
   };
 
   navigateToHome() {
-    this.props.navigate({routeName: 'Main'});
+    this.props.navigate({routeName: 'Authenticated'});
   }
 
   render() {

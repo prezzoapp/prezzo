@@ -1,6 +1,5 @@
 // @flow
-import {TabNavigator, StackNavigator} from 'react-navigation';
-import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyleInterpolator';
+import {TabNavigator, StackNavigator, SwitchNavigator} from 'react-navigation';
 
 import Tutorial from '../../components/Tutorial';
 import EnableNotifications from '../EnableNotifications';
@@ -29,22 +28,7 @@ export const MainScreenNavigator = TabNavigator({
       borderTopWidth: 1,
       borderTopColor: '#e1e1e1'
     }
-  },
-  transitionConfig: () => ({
-    screenInterpolator: (sceneProps) => {
-      // Disable the transition animation when resetting to the home screen.
-      if (
-        sceneProps.index === 0 &&
-        sceneProps.scene.route.routeName !== 'Home' &&
-        sceneProps.scenes.length > 2
-      ) {
-        return null;
-      }
-
-      // Otherwise, use the usual horizontal animation.
-      return CardStackStyleInterpolator.forHorizontal(sceneProps);
-    }
-  })
+  }
 });
 
 MainScreenNavigator.navigationOptions = {
@@ -57,17 +41,34 @@ MainScreenNavigator.navigationOptions = {
 };
 
 // Root navigator is a StackNavigator
-const AppNavigator = StackNavigator({
+const UnauthenticatedNavigator = StackNavigator({
   Home: {screen: Tutorial},
   EnableNotifications: {screen: EnableNotifications},
   Login: {screen: Login},
   SignupName: {screen: SignupName},
   SignupEmail: {screen: SignupEmail},
   SignupPassword: {screen: SignupPassword},
-  SignupComplete: {screen: SignupComplete},
-  Main: {screen: MainScreenNavigator}
+  SignupComplete: {screen: SignupComplete}
 }, {
   initialRouteName: 'Home'
 });
 
-export default AppNavigator;
+const AuthenticatedNavigator = StackNavigator({
+  Home: {screen: MainScreenNavigator}
+}, {
+  initialRouteName: 'Home'
+});
+
+const Navigator = SwitchNavigator({
+  Unauthenticated: UnauthenticatedNavigator,
+  Authenticated: AuthenticatedNavigator
+},{
+  initialRouteName: 'Unauthenticated'
+});
+
+// export default {
+//   UnauthenticatedNavigator,
+//   AuthenticatedNavigator
+// };
+
+export default Navigator;

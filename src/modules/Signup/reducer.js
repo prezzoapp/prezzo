@@ -1,0 +1,50 @@
+// @flow
+import {Map,fromJS} from 'immutable';
+import {
+  UPDATE_FIRST_NAME,
+  UPDATE_LAST_NAME,
+  UPDATE_EMAIL,
+  UPDATE_PASSWORD,
+  UPDATE_SUBSCRIPTION_TO_PROMOTIONS,
+  CLEAR_ERRORS,
+  RESET
+} from './types';
+import type State from './types';
+
+const INITIAL_STATE: State = Map({
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  isSubscribedToPromotions: true
+});
+
+const reducer = (state: State = INITIAL_STATE, action) => {
+  switch (action.type) {
+    case UPDATE_FIRST_NAME:
+      return state.update('firstName', () => action.payload);
+
+    case UPDATE_LAST_NAME:
+      return state.update('lastName', () => action.payload);
+
+    case UPDATE_EMAIL:
+      return state.update('email', () => action.payload);
+
+    case UPDATE_PASSWORD:
+      return state.update('password', () => action.payload);
+
+    case UPDATE_SUBSCRIPTION_TO_PROMOTIONS:
+      return state.update('isSubscribedToPromotions', () => action.payload);
+
+    case CLEAR_ERRORS:
+      return state.update('error', () => null);
+
+    case RESET:
+      return fromJS(INITIAL_STATE);
+
+    default:
+      return state;
+  }
+};
+
+export default reducer;

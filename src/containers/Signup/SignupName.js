@@ -5,11 +5,14 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
+import {updateFirstName, updateLastName} from '../../modules/signup';
 import {FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
 import NextButton from './NextButton';
 
 type Props = {
+  updateFirstName: PropTypes.func.isRequired,
+  updateLastName: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired
 };
 
@@ -41,6 +44,8 @@ class SignupName extends React.Component<Props, State> {
   }
 
   render() {
+    const {firstName, lastName} = this.props;
+
     return (
       <ImageBackground
         style={styles.container}
@@ -53,13 +58,15 @@ class SignupName extends React.Component<Props, State> {
         <LoginTextInput
           type='name'
           label='First Name'
-          onChange={firstName => console.log('updated firstName', firstName)}
+          value={firstName}
+          onChange={val => this.props.updateFirstName(val)}
         />
 
         <LoginTextInput
           type='name'
           label='Last Name'
-          onChange={lastName => console.log('updated lastName', lastName)}
+          value={lastName}
+          onChange={val => this.props.updateLastName(val)}
         />
 
         <NextButton
@@ -96,11 +103,13 @@ const nextButtonStyle = {
   alignSelf: 'flex-end'
 };
 
-export default connect(
-  null,
-  dispatch => {
-    return {
-      navigate: bindActionCreators(NavigationActions.navigate, dispatch)
-    };
-  }
-)(SignupName);
+export default connect(state => ({
+  firstName: state.get('signup').get('firstName'),
+  lastName: state.get('signup').get('lastName')
+}), dispatch => {
+  return {
+    updateFirstName: bindActionCreators(updateFirstName, dispatch),
+    updateLastName: bindActionCreators(updateLastName, dispatch),
+    navigate: bindActionCreators(NavigationActions.navigate, dispatch)
+  };
+})(SignupName);

@@ -1,24 +1,21 @@
 // @flow
 import React from 'react';
 import {ImageBackground, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
+import {updateEmail, updateSubscriptionToPromotions} from '../../modules/signup';
 import {FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
 import NextButton from './NextButton';
 
 type Props = {
-  navigate: PropTypes.func.isRequired
+  updateEmail: Function,
+  updateSubscriptionToPromotions: Function,
+  navigate: Function
 };
 
-type State = {
-  email: string,
-  isSubscribedToPromotions: boolean
-};
-
-class SignupEmail extends React.Component<Props, State> {
+class SignupEmail extends React.Component<Props> {
   static navigationOptions = {
     headerStyle: {
       position: 'absolute',
@@ -31,20 +28,15 @@ class SignupEmail extends React.Component<Props, State> {
     headerTintColor: '#fff'
   };
 
-  state = {
-    email: '',
-    isSubscribedToPromotions: true
-  };
-
   getCheckboxImage() {
-    return this.state.isSubscribedToPromotions
+    return this.props.isSubscribedToPromotions
       ? require('../../../assets/images/icons/checkbox-checked.png')
       : require('../../../assets/images/icons/checkbox-unchecked.png');
   }
 
   toggleSubscription() {
-    const isSubscribedToPromotions = !this.state.isSubscribedToPromotions;
-    this.setState({isSubscribedToPromotions});
+    const isSubscribedToPromotions = !this.props.isSubscribedToPromotions;
+    this.props.updateSubscriptionToPromotions(isSubscribedToPromotions);
   }
 
   navigateToPassword() {
@@ -52,6 +44,8 @@ class SignupEmail extends React.Component<Props, State> {
   }
 
   render() {
+    const {email} = this.props;
+
     return (
       <ImageBackground
         style={styles.container}
@@ -64,7 +58,8 @@ class SignupEmail extends React.Component<Props, State> {
         <LoginTextInput
           type='email'
           label='Email Address'
-          onChange={email => console.log('updated email', email)}
+          value={email}
+          onChange={value => this.props.updateEmail(value)}
         />
 
         <TouchableOpacity
@@ -135,11 +130,16 @@ const nextButtonStyle = {
   alignSelf: 'flex-end'
 };
 
-export default connect(
-  null,
-  dispatch => {
-    return {
-      navigate: bindActionCreators(NavigationActions.navigate, dispatch)
-    };
-  }
-)(SignupEmail);
+export default connect(state => ({
+  email: state.get('signup').get('email'),
+  isSubscribedToPromotions: state.get('signup').get('isSubscribedToPromotions')
+}), dispatch => {
+  return {
+    updateEmail: bindActionCreators(updateEmail, dispatch),
+    updateSubscriptionToPromotions: bindActionCreators(
+      updateSubscriptionToPromotions,
+      dispatch
+    ),
+    navigate: bindActionCreators(NavigationActions.navigate, dispatch)
+  };
+})(SignupEmail);

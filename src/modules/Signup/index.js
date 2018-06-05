@@ -1,4 +1,25 @@
 // @flow
-import SignupName from './SignupName';
+import {
+  updateFirstName,
+  updateLastName,
+  updateEmail,
+  updatePassword,
+  updateSubscriptionToPromotions,
+  clearErrors,
+  signup,
+  reset
+} from './actions';
+import reducer from './reducer';
 
-export default SignupName;
+export {
+  updateFirstName,
+  updateLastName,
+  updateEmail,
+  updatePassword,
+  updateSubscriptionToPromotions,
+  clearErrors,
+  signup,
+  reset
+};
+
+export default reducer;

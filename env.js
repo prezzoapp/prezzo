@@ -3,4 +3,5 @@
 // 2. Fill in the blanks
 
 module.exports = {
+  API_ROOT: 'https://prezzoapp.herokuapp.com'
 };

@@ -1,20 +1,17 @@
 import {Map, fromJS} from 'immutable';
 import {loop, combineReducers} from 'redux-loop-symbol-ponyfill';
-import NavigatorStateReducer from '../modules/navigator/NavigatorState';
-import CounterStateReducer from '../modules/counter/CounterState';
-import SessionStateReducer, {RESET_STATE} from '../modules/session/SessionState';
-// ## Generator Reducer Imports
+import NavigatorStateReducer from '../containers/navigator/NavigatorState';
+import CounterStateReducer from '../containers/counter/CounterState';
+import AuthReducer from '../modules/auth';
+import SignupReducer from '../modules/signup';
+import SessionStateReducer, {RESET_STATE} from '../containers/session/SessionState';
 
 const reducers = {
-  // Counter sample app state. This can be removed in a live application
   counter: CounterStateReducer,
-  // ## Generator Reducers
-
-  // Navigator states
   navigatorState: NavigatorStateReducer,
-
-  session: SessionStateReducer
-
+  session: SessionStateReducer,
+  auth: AuthReducer,
+  signup: SignupReducer
 };
 
 // initial state, accessor and mutator for supporting root-level

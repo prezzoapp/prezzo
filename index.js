@@ -1,11 +1,17 @@
-import {Provider} from 'react-redux';
-import store from './src/redux/store';
-import AppViewContainer from './src/modules/AppViewContainer';
-
+// @flow
 import React, {Component} from 'react';
 import {AppRegistry} from 'react-native';
+import {Provider} from 'react-redux';
+import store from './src/redux/store';
+import AppViewContainer from './src/containers/AppViewContainer';
+import {API_ROOT} from './env';
+import {setConfiguration} from './src/utils/configuration';
 
 class Prezzo extends Component {
+  componentDidMount() {
+    setConfiguration('API_ROOT', API_ROOT);
+  }
+
   render() {
     return (
       <Provider store={store}>

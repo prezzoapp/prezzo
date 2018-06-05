@@ -5,6 +5,9 @@ import includes from 'lodash/includes';
 import AppNavigator from './Navigator';
 
 export default function NavigatorReducer(state, action) {
+  console.log('state', state);
+  console.log('action', action);
+
   // Initial state
   if (!state) {
     return fromJS(AppNavigator.router.getStateForAction(action, state));

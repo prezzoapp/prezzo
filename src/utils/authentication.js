@@ -1,7 +1,7 @@
 // @flow
 import {AsyncStorage} from 'react-native';
 
-const AUTHENTICATION_STORAGE_KEY: string = 'PepperoniState:Authentication';
+const AUTHENTICATION_STORAGE_KEY: string = 'PrezzoState:Authentication';
 
 export function getAuthenticationToken(): string | null {
   return AsyncStorage.getItem(AUTHENTICATION_STORAGE_KEY);

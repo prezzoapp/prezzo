@@ -7,7 +7,8 @@ import {FONT_FAMILY, FONT_FAMILY_MEDIUM} from '../../services/constants';
 type Props = {
   onChange: Function,
   label: string,
-  type: 'name' | 'email' | 'password'
+  type: 'name' | 'email' | 'password',
+  value: string
 };
 
 type State = {
@@ -18,7 +19,12 @@ class LoginTextInput extends Component<Props, State> {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     label: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    value: ''
   };
 
   state = {
@@ -31,7 +37,7 @@ class LoginTextInput extends Component<Props, State> {
   }
 
   render() {
-    const {onChange, label, type} = this.props;
+    const {onChange, label, type, value} = this.props;
     const {isShowingPassword} = this.state;
 
     return (
@@ -56,6 +62,7 @@ class LoginTextInput extends Component<Props, State> {
           autoCapitalize={type === 'name' ? 'words' : 'none'}
           onChangeText={text => onChange && onChange(text)}
           autoCorrect={false}
+          value={value}
         />
       </View>
     );

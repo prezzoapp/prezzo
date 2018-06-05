@@ -12,6 +12,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
 import {ActionSheet} from 'native-base';
+import {updatePassword, signup} from '../../modules/signup';
 import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
 import FacebookButton from '../../components/FacebookButton';
@@ -19,12 +20,17 @@ import Button from '../../components/Button';
 import NextButton from './NextButton';
 
 type Props = {
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: string,
+  updatePassword: Function,
+  signup: Function,
   navigate: Function
 };
 
 type State = {
-  email: string,
-  isSubscribedToPromotions: boolean
+  showPassword: boolean
 };
 
 class SignupPassword extends React.Component<Props, State> {
@@ -41,9 +47,6 @@ class SignupPassword extends React.Component<Props, State> {
   };
 
   state = {
-    firstName: 'Andreas',
-    email: 'andreas@yahoo.com',
-    password: '',
     showPassword: false
   };
 
@@ -52,7 +55,7 @@ class SignupPassword extends React.Component<Props, State> {
   }
 
   showAvatarActionSheet() {
-    const BUTTONS = ['Show Camera Roll', 'Cancel'];
+    const BUTTONS = ['Select from Camera Roll', 'Cancel'];
     const CANCEL_INDEX = 1;
 
     ActionSheet.show({
@@ -64,12 +67,19 @@ class SignupPassword extends React.Component<Props, State> {
     });
   }
 
+  signup() {
+    const {firstName, lastName, email, password} = this.props;
+    this.props.signup(firstName, lastName, email, password)
+      .then(() => this.navigateToSignupComplete());
+  }
+
   navigateToSignupComplete() {
     this.props.navigate({routeName: 'SignupComplete'});
   }
 
   render() {
-    const {firstName, email, showPassword} = this.state;
+    const {showPassword} = this.state;
+    const {firstName, email, password} = this.props;
 
     return (
       <ImageBackground
@@ -127,7 +137,8 @@ class SignupPassword extends React.Component<Props, State> {
               <LoginTextInput
                 type='password'
                 label='Password'
-                onChange={password => console.log('updated password', password)}
+                value={password}
+                onChange={value => this.props.updatePassword(value)}
               />
             </View>
           )
@@ -137,7 +148,7 @@ class SignupPassword extends React.Component<Props, State> {
           showPassword && (
             <NextButton
               style={buttonStyles.next}
-              onPress={() => this.navigateToSignupComplete()}
+              onPress={() => this.signup()}
             />
           )
         }
@@ -237,11 +248,15 @@ const buttonStyles = {
   }
 };
 
-export default connect(
-  null,
-  dispatch => {
-    return {
-      navigate: bindActionCreators(NavigationActions.navigate, dispatch)
-    };
-  }
-)(SignupPassword);
+export default connect(state => ({
+  firstName: state.get('signup').get('firstName'),
+  lastName: state.get('signup').get('lastName'),
+  email: state.get('signup').get('email'),
+  password: state.get('signup').get('password')
+}), dispatch => {
+  return {
+    signup: bindActionCreators(signup, dispatch),
+    updatePassword: bindActionCreators(updatePassword, dispatch),
+    navigate: bindActionCreators(NavigationActions.navigate, dispatch)
+  };
+})(SignupPassword);

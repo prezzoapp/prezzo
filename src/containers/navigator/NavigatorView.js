@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Root} from 'native-base';
 import PropTypes from 'prop-types';
 import {addNavigationHelpers} from 'react-navigation';
+import {addListener} from '../../utils/redux';
 
 import AppNavigator from './Navigator';
 
@@ -26,7 +27,8 @@ class NavigatorView extends Component {
           navigation={
             addNavigationHelpers({
               dispatch: this.props.dispatch,
-              state: this.props.navigatorState
+              state: this.props.navigatorState,
+              addListener
             })
           }
         />

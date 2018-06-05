@@ -1,7 +1,7 @@
 /*eslint-disable max-nested-callbacks, no-unused-expressions*/
 
 import {initialState, dispatch} from '../../../test/state';
-import * as SessionState from '../../modules/session/SessionState';
+import * as SessionState from '../../containers/session/SessionState';
 
 describe('reducer', () => {
   describe('mainReducer', () => {
