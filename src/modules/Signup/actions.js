@@ -1,4 +1,5 @@
 // @flow
+import {Platform} from 'react-native';
 import {
   UPDATE_FIRST_NAME,
   UPDATE_LAST_NAME,
@@ -61,7 +62,7 @@ export const signup = async (
   });
 
   try {
-    const user = await post('/v1/users', {
+    const user = await post(`/v1/users?login=${Platform.OS}`, {
       firstName,
       lastName,
       email,

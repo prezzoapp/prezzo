@@ -10,6 +10,7 @@ import {
   RESET
 } from './types';
 import type State from './types';
+import {RESET_STATE} from '../../containers/session/SessionState';
 
 const INITIAL_STATE: State = Map({
   firstName: '',
@@ -40,6 +41,7 @@ const reducer = (state: State = INITIAL_STATE, action) => {
       return state.update('error', () => null);
 
     case RESET:
+    case RESET_STATE:
       return fromJS(INITIAL_STATE);
 
     default:
