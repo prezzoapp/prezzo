@@ -43,7 +43,7 @@ export const updatePassword = (password: string) => {
   };
 };
 
-export const updateAvatar = (avatarURL: string) => {
+export const updateAvatarURL = (avatarURL: string) => {
   return {
     type: UPDATE_AVATAR_URL,
     payload: avatarURL
