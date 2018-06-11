@@ -12,6 +12,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
 import {ActionSheet} from 'native-base';
+import ImagePicker from 'react-native-image-picker';
 import {updatePassword, signup} from '../../modules/signup';
 import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
@@ -30,6 +31,7 @@ type Props = {
 };
 
 type State = {
+  avatarSource: mixed,
   showPassword: boolean
 };
 
@@ -47,24 +49,39 @@ class SignupPassword extends React.Component<Props, State> {
   };
 
   state = {
+    avatarSource: require('../../../assets/images/etc/default-avatar.png'),
     showPassword: false
   };
 
-  getAvatar() {
-    return require('../../../assets/images/etc/default-avatar.png');
-  }
+  // getAvatar() {
+  //   return require('../../../assets/images/etc/default-avatar.png');
+  // }
 
   showAvatarActionSheet() {
-    const BUTTONS = ['Select from Camera Roll', 'Cancel'];
-    const CANCEL_INDEX = 1;
-
-    ActionSheet.show({
-      options: BUTTONS,
-      cancelButtonIndex: CANCEL_INDEX,
-      title: 'Select a picture'
-    }, buttonIndex => {
-      console.log('clicked ActionSheet button index', buttonIndex);
+    // const BUTTONS = ['Select from Camera Roll', 'Cancel'];
+    // const CANCEL_INDEX = 1;
+    //
+    // ActionSheet.show({
+    //   options: BUTTONS,
+    //   cancelButtonIndex: CANCEL_INDEX,
+    //   title: 'Select a picture'
+    // }, buttonIndex => {
+    //   if (buttonIndex === 0) {
+    const options = {title: 'Select an avatar'};
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+      if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        const source = {uri: response.uri};
+        console.log('Source: ', source);
+        this.setState({avatarSource: source});
+        // this.setState({avatarSource: require('../../../assets/images/etc/default-avatar.png')});
+      }
     });
+    // console.log('clicked ActionSheet button index', buttonIndex);
+      // }
+    // });
   }
 
   signup() {
@@ -97,7 +114,7 @@ class SignupPassword extends React.Component<Props, State> {
           >
             <Image
               style={styles.avatar}
-              source={this.getAvatar()}
+              source={this.state.avatarSource}
             />
               <Image
                 style={styles.editAvatarIcon}
@@ -185,10 +202,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   avatarContainer: {
-    width: avatarSize * 1.2,
+    alignItems: 'center',
+    flex: 2,
     height: avatarSize * 1.2,
+    justifyContent: 'center',
     position: 'relative',
-    flex: 2
+    width: avatarSize * 1.2
   },
   avatar: {
     width: avatarSize,
@@ -197,7 +216,7 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderColor: '#fff',
     borderRadius: avatarSize / 2,
-    resizeMode: 'contain'
+    resizeMode: 'cover'
   },
   editAvatarIcon: {
     width: avatarSize / 2.5,
