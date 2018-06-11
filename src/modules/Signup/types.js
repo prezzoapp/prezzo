@@ -3,6 +3,7 @@ export const UPDATE_FIRST_NAME = 'Signup/UPDATE_FIRST_NAME';
 export const UPDATE_LAST_NAME = 'Signup/UPDATE_LAST_NAME';
 export const UPDATE_EMAIL = 'Signup/UPDATE_EMAIL';
 export const UPDATE_PASSWORD = 'Signup/UPDATE_PASSWORD';
+export const UPDATE_AVATAR_URL = 'Signup/UPDATE_AVATAR_URL';
 export const UPDATE_SUBSCRIPTION_TO_PROMOTIONS = 'Signup/UPDATE_SUBSCRIPTION_TO_PROMOTIONS';
 export const CLEAR_ERRORS = 'Signup/CLEAR_ERRORS';
 
@@ -17,6 +18,7 @@ export type State = {
   lastName: string,
   email: string,
   password: string,
+  avatarURL: string,
   isSubscribedToPromotions: boolean,
   error: string | null
 };
@@ -37,6 +39,11 @@ export type UpdateEmailNameAction = {
 };
 
 export type UpdatePasswordNameAction = {
+  type: string,
+  payload: string
+};
+
+export type UpdateAvatarURLAction = {
   type: string,
   payload: string
 };
@@ -69,5 +76,5 @@ export type ResetAction = {
 };
 
 export type Action = UpdateFirstNameAction | UpdateLastNameAction
-  | UpdateEmailNameAction | UpdatePasswordNameAction
+  | UpdateEmailNameAction | UpdatePasswordNameAction | UpdateAvatarURLAction
   | UpdateSubscriptionToPromotionsAction | ClearErrorsAction | ResetAction;

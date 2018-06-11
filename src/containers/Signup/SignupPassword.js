@@ -11,9 +11,8 @@ import {
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
-import {ActionSheet} from 'native-base';
 import ImagePicker from 'react-native-image-picker';
-import {updatePassword, signup} from '../../modules/signup';
+import {updateAvatarURL, updatePassword, signup} from '../../modules/signup';
 import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
 import FacebookButton from '../../components/FacebookButton';
@@ -26,12 +25,13 @@ type Props = {
   email: string,
   password: string,
   updatePassword: Function,
+  updateAvatarURL: Function,
   signup: Function,
   navigate: Function
 };
 
 type State = {
-  avatarSource: mixed,
+  avatarURL: mixed,
   showPassword: boolean
 };
 
@@ -49,44 +49,29 @@ class SignupPassword extends React.Component<Props, State> {
   };
 
   state = {
-    avatarSource: require('../../../assets/images/etc/default-avatar.png'),
+    avatarURL: require('../../../assets/images/etc/default-avatar.png'),
     showPassword: false
   };
 
-  // getAvatar() {
-  //   return require('../../../assets/images/etc/default-avatar.png');
-  // }
-
   showAvatarActionSheet() {
-    // const BUTTONS = ['Select from Camera Roll', 'Cancel'];
-    // const CANCEL_INDEX = 1;
-    //
-    // ActionSheet.show({
-    //   options: BUTTONS,
-    //   cancelButtonIndex: CANCEL_INDEX,
-    //   title: 'Select a picture'
-    // }, buttonIndex => {
-    //   if (buttonIndex === 0) {
     const options = {title: 'Select an avatar'};
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
-      if (response.error) {
+      if (response.didCancel) {
+        console.log('User cancelled image upload');
+      } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
+        console.log('Image URI: ', response.uri);
+        this.props.updateAvatarURL(response.uri);
         const source = {uri: response.uri};
-        console.log('Source: ', source);
-        this.setState({avatarSource: source});
-        // this.setState({avatarSource: require('../../../assets/images/etc/default-avatar.png')});
+        this.setState({avatarURL: source});
       }
     });
-    // console.log('clicked ActionSheet button index', buttonIndex);
-      // }
-    // });
   }
 
   signup() {
-    const {firstName, lastName, email, password} = this.props;
-    this.props.signup(firstName, lastName, email, password)
+    const {firstName, lastName, email, password, avatarURL} = this.props;
+    this.props.signup(firstName, lastName, email, password, avatarURL)
       .then(() => this.navigateToSignupComplete());
   }
 
@@ -114,7 +99,7 @@ class SignupPassword extends React.Component<Props, State> {
           >
             <Image
               style={styles.avatar}
-              source={this.state.avatarSource}
+              source={this.state.avatarURL}
             />
               <Image
                 style={styles.editAvatarIcon}
@@ -271,10 +256,12 @@ export default connect(state => ({
   firstName: state.get('signup').get('firstName'),
   lastName: state.get('signup').get('lastName'),
   email: state.get('signup').get('email'),
-  password: state.get('signup').get('password')
+  password: state.get('signup').get('password'),
+  avatarURL: state.get('signup').get('avatarURL')
 }), dispatch => {
   return {
     signup: bindActionCreators(signup, dispatch),
+    updateAvatarURL: bindActionCreators(updateAvatarURL, dispatch),
     updatePassword: bindActionCreators(updatePassword, dispatch),
     navigate: bindActionCreators(NavigationActions.navigate, dispatch)
   };

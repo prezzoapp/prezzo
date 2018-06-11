@@ -5,6 +5,7 @@ import {
   UPDATE_LAST_NAME,
   UPDATE_EMAIL,
   UPDATE_PASSWORD,
+  UPDATE_AVATAR_URL,
   UPDATE_SUBSCRIPTION_TO_PROMOTIONS,
   CLEAR_ERRORS,
   RESET
@@ -17,6 +18,7 @@ const INITIAL_STATE: State = Map({
   lastName: '',
   email: '',
   password: '',
+  avatarURL: '',
   isSubscribedToPromotions: true
 });
 
@@ -33,6 +35,9 @@ const reducer = (state: State = INITIAL_STATE, action) => {
 
     case UPDATE_PASSWORD:
       return state.update('password', () => action.payload);
+
+    case UPDATE_AVATAR_URL:
+      return state.update('avatarURL', () => action.payload);
 
     case UPDATE_SUBSCRIPTION_TO_PROMOTIONS:
       return state.update('isSubscribedToPromotions', () => action.payload);
