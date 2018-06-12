@@ -75,7 +75,7 @@ class Profile extends Component {
                 <Text style={styles.footerText}>Help</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.logout}>
+            <TouchableOpacity onPress={() => this.logout()}>
               <View style={styles.footerRight}>
                 <Text style={styles.footerText}>Log Out</Text>
               </View>
@@ -88,6 +88,18 @@ class Profile extends Component {
 }
 
 const styles = StyleSheet.create({
+  avatar: {
+    alignSelf: 'flex-end',
+    borderColor: 'white',
+    borderRadius: 51,
+    borderWidth: 2,
+    height: 102,
+    resizeMode: 'contain',
+    width: 102
+  },
+  avatarContainer: {
+    flex: 0.68
+  },
   bodyContainer: {
     alignItems: 'center',
     flex: 2,
@@ -122,18 +134,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     justifyContent: 'space-between'
-  },
-  avatar: {
-    alignSelf: 'flex-end',
-    borderColor: 'white',
-    borderRadius: 51,
-    borderWidth: 2,
-    height: 102,
-    resizeMode: 'contain',
-    width: 102
-  },
-  avatarContainer: {
-    flex: 0.68
   },
   parent: {
     alignItems: 'center',
