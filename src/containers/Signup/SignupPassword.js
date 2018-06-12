@@ -11,8 +11,8 @@ import {
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
-import {ActionSheet} from 'native-base';
-import {updatePassword, signup} from '../../modules/signup';
+import ImagePicker from 'react-native-image-picker';
+import {updateAvatarURL, updatePassword, signup} from '../../modules/signup';
 import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
 import FacebookButton from '../../components/FacebookButton';
@@ -25,11 +25,13 @@ type Props = {
   email: string,
   password: string,
   updatePassword: Function,
+  updateAvatarURL: Function,
   signup: Function,
   navigate: Function
 };
 
 type State = {
+  avatarURL: mixed,
   showPassword: boolean
 };
 
@@ -47,30 +49,37 @@ class SignupPassword extends React.Component<Props, State> {
   };
 
   state = {
+    isBusy: false,
     showPassword: false
   };
 
-  getAvatar() {
-    return require('../../../assets/images/etc/default-avatar.png');
-  }
-
   showAvatarActionSheet() {
-    const BUTTONS = ['Select from Camera Roll', 'Cancel'];
-    const CANCEL_INDEX = 1;
-
-    ActionSheet.show({
-      options: BUTTONS,
-      cancelButtonIndex: CANCEL_INDEX,
-      title: 'Select a picture'
-    }, buttonIndex => {
-      console.log('clicked ActionSheet button index', buttonIndex);
+    const options = {title: 'Select an avatar'};
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image upload');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        console.log('Image URI: ', response.uri);
+        this.props.updateAvatarURL(response.uri);
+      }
     });
   }
 
+  isFormValid() {
+    const {password} = this.props;
+    return password ? true : false;
+  }
+
   signup() {
-    const {firstName, lastName, email, password} = this.props;
-    this.props.signup(firstName, lastName, email, password)
-      .then(() => this.navigateToSignupComplete());
+    this.setState({isBusy: true});
+
+    const {firstName, lastName, email, password, avatarURL} = this.props;
+    this.props.signup(firstName, lastName, email, password, avatarURL)
+      .then(() => this.navigateToSignupComplete())
+      .catch(() => {})
+      .finally(() => this.setState({isBusy: false}));
   }
 
   navigateToSignupComplete() {
@@ -78,8 +87,8 @@ class SignupPassword extends React.Component<Props, State> {
   }
 
   render() {
-    const {showPassword} = this.state;
-    const {firstName, email, password} = this.props;
+    const {showPassword, isBusy} = this.state;
+    const {firstName, email, password, avatarURL} = this.props;
 
     return (
       <ImageBackground
@@ -97,7 +106,11 @@ class SignupPassword extends React.Component<Props, State> {
           >
             <Image
               style={styles.avatar}
-              source={this.getAvatar()}
+              source={
+                avatarURL
+                ? {uri: avatarURL}
+                : require('../../../assets/images/etc/default-avatar.png')
+              }
             />
               <Image
                 style={styles.editAvatarIcon}
@@ -145,9 +158,10 @@ class SignupPassword extends React.Component<Props, State> {
         }
 
         {
-          showPassword && (
+          showPassword && !isBusy && (
             <NextButton
               style={buttonStyles.next}
+              disabled={!this.isFormValid()}
               onPress={() => this.signup()}
             />
           )
@@ -185,10 +199,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   avatarContainer: {
-    width: avatarSize * 1.2,
+    alignItems: 'center',
+    flex: 2,
     height: avatarSize * 1.2,
+    justifyContent: 'center',
     position: 'relative',
-    flex: 2
+    width: avatarSize * 1.2
   },
   avatar: {
     width: avatarSize,
@@ -197,7 +213,7 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderColor: '#fff',
     borderRadius: avatarSize / 2,
-    resizeMode: 'contain'
+    resizeMode: 'cover'
   },
   editAvatarIcon: {
     width: avatarSize / 2.5,
@@ -252,10 +268,12 @@ export default connect(state => ({
   firstName: state.get('signup').get('firstName'),
   lastName: state.get('signup').get('lastName'),
   email: state.get('signup').get('email'),
-  password: state.get('signup').get('password')
+  password: state.get('signup').get('password'),
+  avatarURL: state.get('signup').get('avatarURL')
 }), dispatch => {
   return {
     signup: bindActionCreators(signup, dispatch),
+    updateAvatarURL: bindActionCreators(updateAvatarURL, dispatch),
     updatePassword: bindActionCreators(updatePassword, dispatch),
     navigate: bindActionCreators(NavigationActions.navigate, dispatch)
   };

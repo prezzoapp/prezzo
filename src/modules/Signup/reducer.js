@@ -5,17 +5,20 @@ import {
   UPDATE_LAST_NAME,
   UPDATE_EMAIL,
   UPDATE_PASSWORD,
+  UPDATE_AVATAR_URL,
   UPDATE_SUBSCRIPTION_TO_PROMOTIONS,
   CLEAR_ERRORS,
   RESET
 } from './types';
 import type State from './types';
+import {RESET_STATE} from '../../containers/session/SessionState';
 
 const INITIAL_STATE: State = Map({
   firstName: '',
   lastName: '',
   email: '',
   password: '',
+  avatarURL: '',
   isSubscribedToPromotions: true
 });
 
@@ -33,6 +36,9 @@ const reducer = (state: State = INITIAL_STATE, action) => {
     case UPDATE_PASSWORD:
       return state.update('password', () => action.payload);
 
+    case UPDATE_AVATAR_URL:
+      return state.update('avatarURL', () => action.payload);
+
     case UPDATE_SUBSCRIPTION_TO_PROMOTIONS:
       return state.update('isSubscribedToPromotions', () => action.payload);
 
@@ -40,6 +46,9 @@ const reducer = (state: State = INITIAL_STATE, action) => {
       return state.update('error', () => null);
 
     case RESET:
+    // case RESET_STATE:
+    // TODO: reenable signup reset on app launch
+    //       and reset navigator if on unauthenticated screen on app launch
       return fromJS(INITIAL_STATE);
 
     default:

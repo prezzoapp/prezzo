@@ -1,9 +1,11 @@
 // @flow
+import {Platform} from 'react-native';
 import {
   UPDATE_FIRST_NAME,
   UPDATE_LAST_NAME,
   UPDATE_EMAIL,
   UPDATE_PASSWORD,
+  UPDATE_AVATAR_URL,
   UPDATE_SUBSCRIPTION_TO_PROMOTIONS,
   CLEAR_ERRORS,
   SIGNUP_REQUEST,
@@ -41,6 +43,13 @@ export const updatePassword = (password: string) => {
   };
 };
 
+export const updateAvatarURL = (avatarURL: string) => {
+  return {
+    type: UPDATE_AVATAR_URL,
+    payload: avatarURL
+  };
+};
+
 export const updateSubscriptionToPromotions = (
   isSubscribedToPromotions: boolean
 ) => {
@@ -54,18 +63,20 @@ export const signup = async (
   firstName: string,
   lastName: string,
   email: string,
-  password: string
+  password: string,
+  avatarURL: string
 ) => async (dispatch: ReduxDispatch) => {
   dispatch({
     type: SIGNUP_REQUEST
   });
 
   try {
-    const user = await post('/v1/users', {
+    const user = await post(`/v1/users?login=${Platform.OS}`, {
       firstName,
       lastName,
       email,
-      password
+      password,
+      avatarURL
     });
 
     return dispatch({
@@ -73,10 +84,12 @@ export const signup = async (
       payload: user
     });
   } catch (e) {
-    return dispatch({
+    dispatch({
       type: SIGNUP_FAILURE,
       payload: e && e.message ? e.message : e
     });
+
+    throw e;
   }
 };
 

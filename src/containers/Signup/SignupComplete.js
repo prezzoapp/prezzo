@@ -27,7 +27,8 @@ class SignupComplete extends React.Component<Props> {
       left: 0,
       right: 0
     },
-    headerTintColor: '#fff'
+    headerTintColor: '#fff',
+    headerLeft: null
   };
 
   navigateToHome() {

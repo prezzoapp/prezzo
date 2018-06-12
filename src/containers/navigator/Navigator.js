@@ -11,34 +11,10 @@ import SignupComplete from '../Signup/SignupComplete';
 
 import Explore from '../Explore';
 import Profile from '../Profile';
+import VendorAccountMenu from '../VendorAccountMenu';
 
 const headerColor = '#2B2C2C';
 const activeColor = 'white';
-
-// TabNavigator is nested inside StackNavigator
-export const MainScreenNavigator = TabNavigator({
-  Explore: {screen: Explore},
-  Profile: {screen: Profile}
-}, {
-  tabBarOptions: {
-    activeTintColor: activeColor,
-    indicatorStyle: {backgroundColor: activeColor},
-    style: {
-      backgroundColor: headerColor,
-      borderTopWidth: 1,
-      borderTopColor: '#e1e1e1'
-    }
-  }
-});
-
-MainScreenNavigator.navigationOptions = {
-  title: 'Prezzo',
-  headerTitleStyle: {color: 'white'},
-  headerStyle: {
-    backgroundColor: headerColor,
-    elevation: 0 // disable header elevation when TabNavigator visible
-  }
-};
 
 // Root navigator is a StackNavigator
 const UnauthenticatedNavigator = StackNavigator({
@@ -53,11 +29,31 @@ const UnauthenticatedNavigator = StackNavigator({
   initialRouteName: 'Home'
 });
 
-const AuthenticatedNavigator = StackNavigator({
-  Home: {screen: MainScreenNavigator}
+const AuthenticatedNavigator = TabNavigator({
+  Home: {screen: Explore},
+  Profile: {screen: Profile},
+  VendorAccountMenu: {screen: VendorAccountMenu}
 }, {
-  initialRouteName: 'Home'
+  initialRouteName: 'Home',
+  tabBarOptions: {
+    activeTintColor: activeColor,
+    indicatorStyle: {backgroundColor: activeColor},
+    style: {
+      backgroundColor: headerColor,
+      borderTopWidth: 1,
+      borderTopColor: '#e1e1e1'
+    }
+  }
 });
+
+AuthenticatedNavigator.navigationOptions = {
+  title: 'Prezzo',
+  headerTitleStyle: {color: 'white'},
+  headerStyle: {
+    backgroundColor: headerColor,
+    elevation: 0 // disable header elevation when TabNavigator visible
+  }
+};
 
 const Navigator = SwitchNavigator({
   Unauthenticated: UnauthenticatedNavigator,
