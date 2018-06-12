@@ -56,10 +56,10 @@ AuthenticatedNavigator.navigationOptions = {
 };
 
 const Navigator = SwitchNavigator({
-  Unauthenticated: UnauthenticatedNavigator,
+  Home: UnauthenticatedNavigator,
   Authenticated: AuthenticatedNavigator
 },{
-  initialRouteName: 'Unauthenticated'
+  initialRouteName: 'Home'
 });
 
 // export default {

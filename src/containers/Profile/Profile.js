@@ -31,7 +31,7 @@ class Profile extends Component {
 
   async logout() {
     await snapshot.clearSnapshot();
-    this.props.navigate({routeName: 'Unauthenticated'});
+    this.props.navigate({routeName: 'Home'});
   }
 
   render() {
