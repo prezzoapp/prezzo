@@ -762,18 +762,6 @@
 				671F85262C844B49AD62B0AF /* ClearSans-MediumItalic.ttf */,
 				29C0CFDEBCB041798BA47CBE /* ClearSans-Regular.ttf */,
 				2FE20E86FB844A6EBF9827DF /* ClearSans-Thin.ttf */,
-				F2E7D76932984F868AFF163A /* Entypo.ttf */,
-				610D75748DEF41639E7E518E /* EvilIcons.ttf */,
-				5D3CDB9DC57648B9B28F8335 /* FontAwesome.ttf */,
-				CE1F2F5D935047328114CEB8 /* Foundation.ttf */,
-				8B951CEE6A324FA6BFC5F8EF /* Ionicons.ttf */,
-				6344C0CCB54D4A078D189E34 /* MaterialIcons.ttf */,
-				1579EEB2F0954C50BE828DB0 /* Octicons.ttf */,
-				4315212105B34DB899B49EC4 /* Roboto_medium.ttf */,
-				968353ADB50A4844AE64CA7D /* Roboto.ttf */,
-				9161312ADEAF42439E948373 /* rubicon-icon-font.ttf */,
-				D7060C9435354CFB8C1DA485 /* SimpleLineIcons.ttf */,
-				CB00821D9FA842149DA2F4DF /* Zocial.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
