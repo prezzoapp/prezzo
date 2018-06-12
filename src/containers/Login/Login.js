@@ -7,6 +7,7 @@ import LoginTextInput from '../../components/LoginTextInput';
 import Button from '../../components/Button';
 
 type Props = {
+  loginWithEmail: Function,
   navigate: PropTypes.func.isRequired
 };
 
@@ -38,10 +39,19 @@ class Login extends React.Component<Props, State> {
   }
 
   navigateToMain() {
-    this.props.navigate({routeName: 'Main'});
+    this.props.navigate({routeName: 'Authenticated'});
+  }
+
+  login() {
+    const {email, password} = this.state;
+    this.props.loginWithEmail(email, password)
+      .then(() => this.navigateToMain())
+      .catch(e => console.log(e));
   }
 
   render() {
+    const {email, password} = this.state;
+
     return (
       <ImageBackground
         style={styles.container}
@@ -58,13 +68,15 @@ class Login extends React.Component<Props, State> {
         <LoginTextInput
           type='email'
           label='Email Address'
-          onChange={email => console.log('updated email', email)}
+          value={email}
+          onChange={email => this.setState({email})}
         />
 
         <LoginTextInput
           type='password'
           label='Password'
-          onChange={password => console.log('updated password', password)}
+          value={password}
+          onChange={password => this.setState({password})}
         />
 
         <TouchableOpacity
@@ -81,7 +93,11 @@ class Login extends React.Component<Props, State> {
         </TouchableOpacity>
 
         <View style={styles.buttonContainer}>
-          <Button style={buttonStyles.login} textStyle={buttonStyles.loginText}>
+          <Button
+            style={buttonStyles.login}
+            textStyle={buttonStyles.loginText}
+            onPress={() => this.login()}
+          >
             Sign In
           </Button>
         </View>
