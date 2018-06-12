@@ -84,10 +84,12 @@ export const signup = async (
       payload: user
     });
   } catch (e) {
-    return dispatch({
+    dispatch({
       type: SIGNUP_FAILURE,
       payload: e && e.message ? e.message : e
     });
+
+    throw e;
   }
 };
 

@@ -34,10 +34,10 @@ class SignupName extends React.Component<Props, State> {
     headerTintColor: '#fff'
   };
 
-  state = {
-    firstName: '',
-    lastName: ''
-  };
+  isFormValid() {
+    const {firstName, lastName} = this.props;
+    return firstName && lastName ? true : false;
+  }
 
   navigateToSignupEmail() {
     this.props.navigate({routeName: 'SignupEmail'});
@@ -72,6 +72,7 @@ class SignupName extends React.Component<Props, State> {
         <NextButton
           style={nextButtonStyle}
           onPress={() => this.navigateToSignupEmail()}
+          disabled={!this.isFormValid()}
         />
       </ImageBackground>
     );

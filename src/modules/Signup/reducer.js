@@ -46,7 +46,9 @@ const reducer = (state: State = INITIAL_STATE, action) => {
       return state.update('error', () => null);
 
     case RESET:
-    case RESET_STATE:
+    // case RESET_STATE:
+    // TODO: reenable signup reset on app launch
+    //       and reset navigator if on unauthenticated screen on app launch
       return fromJS(INITIAL_STATE);
 
     default:

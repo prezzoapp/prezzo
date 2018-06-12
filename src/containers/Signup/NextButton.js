@@ -4,15 +4,23 @@ import {TouchableOpacity, Image} from 'react-native';
 
 type Props = {
   onPress: Function,
+  disabled: boolean,
   style: object
 };
 
-const Button = ({onPress, style}: Props) => {
-  const containerStyle = {...styles.button, ...style};
+const Button = ({onPress, disabled, style}: Props) => {
+  const containerStyle = {
+    ...styles.button,
+    ...style,
+    ...{
+      display: disabled ? 'none' : 'flex'
+    }
+  };
 
   return (
     <TouchableOpacity
-      onPress={() => onPress && onPress()}
+      onPress={() => !disabled && onPress && onPress()}
+      activeOpacity={disabled ? 0.5 : 0.7}
       style={containerStyle}
     >
       <Image

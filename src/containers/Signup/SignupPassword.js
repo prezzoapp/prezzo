@@ -49,7 +49,7 @@ class SignupPassword extends React.Component<Props, State> {
   };
 
   state = {
-    avatarURL: require('../../../assets/images/etc/default-avatar.png'),
+    isBusy: false,
     showPassword: false
   };
 
@@ -63,16 +63,23 @@ class SignupPassword extends React.Component<Props, State> {
       } else {
         console.log('Image URI: ', response.uri);
         this.props.updateAvatarURL(response.uri);
-        const source = {uri: response.uri};
-        this.setState({avatarURL: source});
       }
     });
   }
 
+  isFormValid() {
+    const {password} = this.props;
+    return password ? true : false;
+  }
+
   signup() {
+    this.setState({isBusy: true});
+
     const {firstName, lastName, email, password, avatarURL} = this.props;
     this.props.signup(firstName, lastName, email, password, avatarURL)
-      .then(() => this.navigateToSignupComplete());
+      .then(() => this.navigateToSignupComplete())
+      .catch(() => {})
+      .finally(() => this.setState({isBusy: false}));
   }
 
   navigateToSignupComplete() {
@@ -80,8 +87,8 @@ class SignupPassword extends React.Component<Props, State> {
   }
 
   render() {
-    const {showPassword} = this.state;
-    const {firstName, email, password} = this.props;
+    const {showPassword, isBusy} = this.state;
+    const {firstName, email, password, avatarURL} = this.props;
 
     return (
       <ImageBackground
@@ -99,7 +106,11 @@ class SignupPassword extends React.Component<Props, State> {
           >
             <Image
               style={styles.avatar}
-              source={this.state.avatarURL}
+              source={
+                avatarURL
+                ? {uri: avatarURL}
+                : require('../../../assets/images/etc/default-avatar.png')
+              }
             />
               <Image
                 style={styles.editAvatarIcon}
@@ -147,9 +158,10 @@ class SignupPassword extends React.Component<Props, State> {
         }
 
         {
-          showPassword && (
+          showPassword && !isBusy && (
             <NextButton
               style={buttonStyles.next}
+              disabled={!this.isFormValid()}
               onPress={() => this.signup()}
             />
           )
