@@ -10,8 +10,10 @@ import SignupPassword from '../Signup/SignupPassword';
 import SignupComplete from '../Signup/SignupComplete';
 
 import Explore from '../Explore';
-import Profile from '../Profile';
 import VendorAccountMenu from '../VendorAccountMenu';
+
+import Profile from '../Profile';
+import EditProfile from '../Profile/EditProfile';
 
 const headerColor = '#2B2C2C';
 const activeColor = 'white';
@@ -29,9 +31,16 @@ const UnauthenticatedNavigator = StackNavigator({
   initialRouteName: 'Home'
 });
 
+const ProfileNavigator = StackNavigator({
+  Home: {screen: Profile},
+  EditProfile: {screen: EditProfile}
+}, {
+  initialRouteName: 'Home'
+});
+
 const AuthenticatedNavigator = TabNavigator({
   Home: {screen: Explore},
-  Profile: {screen: Profile},
+  Profile: {screen: ProfileNavigator},
   VendorAccountMenu: {screen: VendorAccountMenu}
 }, {
   initialRouteName: 'Home',
