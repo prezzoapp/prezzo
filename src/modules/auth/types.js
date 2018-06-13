@@ -7,6 +7,10 @@ export const LOGIN_WITH_FACEBOOK_REQUEST = 'Login/LOGIN_WITH_FACEBOOK_REQUEST';
 export const LOGIN_WITH_FACEBOOK_SUCCESS = 'Login/LOGIN_WITH_FACEBOOK_SUCCESS';
 export const LOGIN_WITH_FACEBOOK_FAILURE = 'Login/LOGIN_WITH_FACEBOOK_FAILURE';
 
+export const UPDATE_USER_REQUEST = 'Profile/UPDATE_USER_REQUEST';
+export const UPDATE_USER_SUCCESS = 'Profile/UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILURE = 'Profile/UPDATE_USER_FAILURE';
+
 export type State = {
   user: UserType,
   error: string | null

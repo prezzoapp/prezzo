@@ -10,20 +10,8 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-picker';
-import {
-  updateAvatarURL,
-  updateFirstName,
-  updateLastName,
-  updatePhone,
-  updateAddress,
-  updateZip,
-  updateCity,
-  updateProfile
-} from '../../modules/signup';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import {FONT_FAMILY, FONT_FAMILY_MEDIUM} from '../../../services/constants';
@@ -32,26 +20,17 @@ const prezzoBlack = '#2B2C2C';
 const prezzoGreen = '#39B86C';
 
 type Props = {
+  updateUser: Function
+};
+
+type State = {
   avatarURL: string,
   firstName: string,
   lastName: string,
   phone: string,
   address: string,
   zip: string,
-  city: string,
-  updateavatarURL: Function,
-  updateFirstName: Function,
-  updateLastName: Function,
-  updatePhone: Function,
-  updateAddress: Function,
-  updateZip: Function,
-  updateCity: Function,
-  updateProfile: Function
-};
-
-type State = {
-  firstName: string,
-  lastName: string
+  city: string
 };
 
 class EditProfile extends Component<Props, State> {
@@ -78,26 +57,27 @@ class EditProfile extends Component<Props, State> {
   };
 
   state = {
-    isEditing: false
+    isEditing: false,
+    avatarURL: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+    address: '',
+    zip: '',
+    city: ''
   };
 
   toggleEditing() {
     if (this.state.isEditing) {
-      // Save all data to server for user and return new user object
       this.setState({isBusy: true});
-
-      const {avatarURL, firstName, lastName, phone, address, zip, city} = this.props;
-      this.props.updateProfile(avatarURL, firstName, lastName, phone, address, zip, city)
-        .then(() => this.navigateToUserProfile())
-        .catch(() => console.log('Something went wrong'))
-        .finally(() => this.setState({isBusy: false}));
+      const {avatarURL, firstName, lastName, phone, address, zip, city} = this.state;
+      this.props.updateUser(avatarURL, firstName, lastName, phone, address, zip, city)
+        .then(() => this.setState({isEditing: false}))
+        .catch(e => console.log(e))
+        .finally(() => this.setState({isBusy: false, isEditing: false}));
     } else {
       this.setState({isEditing: true});
     }
-  }
-
-  navigateToUserProfile() {
-    this.props.navigation.goBack(null);
   }
 
   showAvatarActionSheet() {
@@ -109,12 +89,13 @@ class EditProfile extends Component<Props, State> {
         console.log('ImagePicker Error: ', response.error);
       } else {
         console.log('Image URI: ', response.uri);
-        this.props.updateAvatarURL(response.uri);
+        this.setState({avatarURL: response.uri});
       }
     });
   }
 
   render() {
+    const {avatarURL, firstName, lastName, phone, address, zip, city} = this.state;
     return (
       <KeyboardAvoidingView behavior='padding' style={styles.parent}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -139,47 +120,53 @@ class EditProfile extends Component<Props, State> {
                   <ProfileTextInput
                     type='name'
                     label='First Name'
-                    placeholder='Andreas'
-                    onChange={value => this.props.updateFirstName(value)}
+                    placeholder='John'
+                    onChange={firstName => this.setState({firstName})}
+                    value={firstName}
                   />
                   <ProfileTextInput
                     type='name'
                     label='Last Name'
-                    placeholder='Tamrin'
-                    onChange={value => this.props.updateLastName(value)}
+                    placeholder='Doe'
+                    onChange={lastName => this.setState({lastName})}
+                    value={lastName}
                   />
                   <ProfileTextInput
                     type='number'
                     label='Phone'
-                    placeholder='(477) 722-2796'
-                    onChange={value => this.props.updatePhone(value)}
+                    placeholder='(123) 456-7890'
+                    onChange={phone => this.setState({phone})}
+                    value={phone}
                   />
                   <ProfileTextInput
                     type='name'
                     label='Address'
-                    placeholder='215 Sage Alley'
-                    onChange={value => this.props.updateAddress(value)}
+                    placeholder='123 Main St'
+                    onChange={address => this.setState({address})}
+                    value={address}
                   />
                   <ProfileTextInput
                     type='number'
                     label='Zip'
-                    placeholder='12796'
-                    onChange={value => this.props.updateZip(value)}
+                    placeholder='12345'
+                    onChange={zip => this.setState({zip})}
+                    value={zip}
                   />
                   <ProfileTextInput
                     type='name'
                     label='City'
                     placeholder='New York'
-                    onChange={value => this.props.updateCity(value)}
+                    onChange={city => this.setState({city})}
+                    value={city}
                   />
                 </View>
               : <View style={styles.bodyContainer}>
-                  <ProfileDataField label='First Name' value='Andreas' />
-                  <ProfileDataField label='Last Name' value='Tamrin' />
-                  <ProfileDataField label='Phone' value='(477) 722-2796' />
-                  <ProfileDataField label='Address' value='215 Sage Alley' />
-                  <ProfileDataField label='Zip' value='12796' />
-                  <ProfileDataField label='City' value='New York' />
+                  <ProfileDataField label='First Name' value={firstName} />
+                  <ProfileDataField label='Last Name' value={lastName} />
+                  <ProfileDataField label='Phone' value={phone} />
+                  <ProfileDataField label='Address' value={address} />
+                  <ProfileDataField label='Zip' value={zip} />
+                  <ProfileDataField label='City' value={city} />
                 </View>
               }
           </View>
@@ -236,23 +223,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(state => ({
-  avatarURL: state.get('profile').get('avatarURL'),
-  firstName: state.get('profile').get('firstName'),
-  lastName: state.get('profile').get('lastName'),
-  phone: state.get('profile').get('phone'),
-  address: state.get('profile').get('address'),
-  zip: state.get('profile').get('zip'),
-  city: state.get('profile').get('city')
-}), dispatch => {
-  return {
-    updateAvatarURL: bindActionCreators(updateAvatarURL, dispatch),
-    updateFirstName: bindActionCreators(updateFirstName, dispatch),
-    updateLastName: bindActionCreators(updateLastName, dispatch),
-    updatePhone: bindActionCreators(updatePhone, dispatch),
-    updateAddress: bindActionCreators(updateAddress, dispatch),
-    updateZip: bindActionCreators(updateZip, dispatch),
-    updateCity: bindActionCreators(updateCity, dispatch),
-    updateProfile: bindActionCreators(updateProfile, dispatch)
-  };
-})(EditProfile);
+export default EditProfile;

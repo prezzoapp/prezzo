@@ -1,10 +1,11 @@
 // @flow
-import {loginWithEmail, loginWithFacebook} from './actions';
+import {loginWithEmail, loginWithFacebook, updateUser} from './actions';
 import reducer from './reducer';
 
 export {
   loginWithEmail,
-  loginWithFacebook
+  loginWithFacebook,
+  updateUser
 };
 
 export default reducer;
