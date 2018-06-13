@@ -10,13 +10,14 @@ import {FONT_FAMILY} from '../../services/constants';
 // };
 type Props = {};
 
-const Button = ({onPress, style, textStyle, children}: Props) => {
+const Button = ({disabled, onPress, style, textStyle, children}: Props) => {
   const buttonStyleFinal = {...styles.button, ...style};
   const textStyleFinal = {...styles.text, ...textStyle};
 
   return (
     <TouchableOpacity
-      onPress={() => onPress && onPress()}
+      onPress={() => !disabled && onPress && onPress()}
+      activeOpacity={disabled ? 1 : 0.7}
       style={buttonStyleFinal}
     >
       <Text style={textStyleFinal}>

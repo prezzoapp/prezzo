@@ -24,6 +24,7 @@ type Props = {
   lastName: string,
   email: string,
   password: string,
+  facebookId: string,
   updatePassword: Function,
   updateAvatarURL: Function,
   signup: Function,
@@ -53,6 +54,12 @@ class SignupPassword extends React.Component<Props, State> {
     showPassword: false
   };
 
+  componentDidMount() {
+    if (this.props.facebookId) {
+      this.setState({showPassword: true});
+    }
+  }
+
   showAvatarActionSheet() {
     const options = {title: 'Select an avatar'};
     ImagePicker.showImagePicker(options, (response) => {
@@ -74,9 +81,7 @@ class SignupPassword extends React.Component<Props, State> {
 
   signup() {
     this.setState({isBusy: true});
-
-    const {firstName, lastName, email, password, avatarURL} = this.props;
-    this.props.signup(firstName, lastName, email, password, avatarURL)
+    this.props.signup()
       .then(() => this.navigateToSignupComplete())
       .catch(() => {})
       .finally(() => this.setState({isBusy: false}));
@@ -269,6 +274,7 @@ export default connect(state => ({
   lastName: state.get('signup').get('lastName'),
   email: state.get('signup').get('email'),
   password: state.get('signup').get('password'),
+  facebookId: state.get('signup').get('facebookId'),
   avatarURL: state.get('signup').get('avatarURL')
 }), dispatch => {
   return {
