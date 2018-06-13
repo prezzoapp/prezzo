@@ -1,5 +1,6 @@
 // @flow
 import {Platform} from 'react-native';
+import {Map} from 'immutable';
 import {
   LOGIN_WITH_EMAIL_REQUEST,
   LOGIN_WITH_EMAIL_SUCCESS,

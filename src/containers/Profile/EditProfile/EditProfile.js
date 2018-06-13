@@ -58,7 +58,7 @@ class EditProfile extends Component<Props, State> {
 
   state = {
     isEditing: false,
-    avatarURL: '',
+    avatarURL: this.props.avatarURL,
     firstName: '',
     lastName: '',
     phone: '',
@@ -95,7 +95,8 @@ class EditProfile extends Component<Props, State> {
   }
 
   render() {
-    const {avatarURL, firstName, lastName, phone, address, zip, city} = this.state;
+    const {firstName, lastName, phone, address, zip, city} = this.state;
+    console.log(this.props);
     return (
       <KeyboardAvoidingView behavior='padding' style={styles.parent}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -104,7 +105,10 @@ class EditProfile extends Component<Props, State> {
               <View style={styles.avatarContainer}>
                 {this.state.isEditing
                   ? <TouchableOpacity onPress={() => this.showAvatarActionSheet()}>
-                      <Image style={styles.avatar} source={require('../../../../assets/images/etc/default-avatar.png')} />
+                      {this.state.avatarURL === ''
+                        ? <Image style={styles.avatar} source={require('../../../../assets/images/etc/default-avatar.png')} />
+                        : <Image style={styles.avatar} source={{uri: this.state.avatarURL}} />
+                      }
                     </TouchableOpacity>
                   : <Image style={styles.avatar} source={require('../../../../assets/images/etc/default-avatar.png')} />
                 }
@@ -161,12 +165,12 @@ class EditProfile extends Component<Props, State> {
                   />
                 </View>
               : <View style={styles.bodyContainer}>
-                  <ProfileDataField label='First Name' value={firstName} />
-                  <ProfileDataField label='Last Name' value={lastName} />
-                  <ProfileDataField label='Phone' value={phone} />
-                  <ProfileDataField label='Address' value={address} />
-                  <ProfileDataField label='Zip' value={zip} />
-                  <ProfileDataField label='City' value={city} />
+                  <ProfileDataField label='First Name' value={this.props.firstName} />
+                  <ProfileDataField label='Last Name' value={this.props.lastName} />
+                  <ProfileDataField label='Phone' value={this.props.phone} />
+                  <ProfileDataField label='Address' value={this.props.address} />
+                  <ProfileDataField label='Zip' value={this.props.zip} />
+                  <ProfileDataField label='City' value={this.props.city} />
                 </View>
               }
           </View>
@@ -182,7 +186,7 @@ const styles = StyleSheet.create({
     borderRadius: 51,
     borderWidth: 2,
     height: 102,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     width: 102
   },
   avatarContainer: {
