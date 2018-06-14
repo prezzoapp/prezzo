@@ -63,7 +63,7 @@ export const loginWithFacebook = async (
 
     return dispatch({
       type: LOGIN_WITH_FACEBOOK_SUCCESS,
-      payload: user
+      payload: Map(user)
     });
   } catch (e) {
     dispatch({
