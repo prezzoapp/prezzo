@@ -1,18 +1,18 @@
 // @flow
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {updateUser} from '../../../modules/auth';
+import {updateUser} from '../../../modules/user';
 import EditProfile from './EditProfile';
 
 export default connect(
   state => ({
-    avatarURL: state.get('auth').get('user').get('avatarURL'),
-    firstName: state.get('auth').get('user').get('firstName'),
-    lastName: state.get('auth').get('user').get('lastName'),
-    phone: state.get('auth').get('user').get('phone'),
-    address: state.get('auth').get('user').get('address'),
-    zip: state.get('auth').get('user').get('zip'),
-    city: state.get('auth').get('user').get('city')
+    avatarURL: state.get('user').get('account').get('avatarURL'),
+    firstName: state.get('user').get('account').get('firstName'),
+    lastName: state.get('user').get('account').get('lastName'),
+    phone: state.get('user').get('account').get('phone'),
+    address: state.get('user').get('account').get('address'),
+    zip: state.get('user').get('account').get('zip'),
+    city: state.get('user').get('account').get('city')
   }),
   dispatch => {
     return {

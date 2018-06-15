@@ -20,7 +20,7 @@ const activeColor = 'white';
 
 // Root navigator is a StackNavigator
 const UnauthenticatedNavigator = StackNavigator({
-  Home: {screen: Tutorial},
+  Tutorial: {screen: Tutorial},
   EnableNotifications: {screen: EnableNotifications},
   Login: {screen: Login},
   SignupName: {screen: SignupName},
@@ -28,22 +28,22 @@ const UnauthenticatedNavigator = StackNavigator({
   SignupPassword: {screen: SignupPassword},
   SignupComplete: {screen: SignupComplete}
 }, {
-  initialRouteName: 'Home'
+  initialRouteName: 'Tutorial'
 });
 
 const ProfileNavigator = StackNavigator({
-  Home: {screen: Profile},
-  EditProfile: {screen: EditProfile}
+  Profile: {screen: Profile},
+  EditProfile: {screen: EditProfile},
+  VendorAccountMenu: {screen: VendorAccountMenu}
 }, {
-  initialRouteName: 'Home'
+  initialRouteName: 'Profile'
 });
 
 const AuthenticatedNavigator = TabNavigator({
-  Home: {screen: Explore},
-  Profile: {screen: ProfileNavigator},
-  VendorAccountMenu: {screen: VendorAccountMenu}
+  Explore: {screen: Explore},
+  Profile: {screen: ProfileNavigator}
 }, {
-  initialRouteName: 'Home',
+  initialRouteName: 'Explore',
   tabBarOptions: {
     activeTintColor: activeColor,
     indicatorStyle: {backgroundColor: activeColor},

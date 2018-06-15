@@ -1,34 +1,30 @@
 // @flow
 import {Map} from 'immutable';
 import {loop, Effects} from 'redux-loop-symbol-ponyfill';
-import {setAuthenticationToken} from './actions';
+import {reset} from '../signup';
 import {SIGNUP_SUCCESS} from '../signup/types';
+import {UPDATE_USER_SUCCESS} from './types';
 import {
-  SET_AUTHENTICATION_TOKEN,
   LOGIN_WITH_EMAIL_SUCCESS,
   LOGIN_WITH_FACEBOOK_SUCCESS
-} from './types';
+} from '../auth/types';
 import type State from './types';
 
 const INITIAL_STATE: State = Map({
-  token: '',
+  account: null,
   error: null
 });
 
 const reducer = (state: State = INITIAL_STATE, action) => {
   switch (action.type) {
     case SIGNUP_SUCCESS:
+    case UPDATE_USER_SUCCESS:
     case LOGIN_WITH_EMAIL_SUCCESS:
     case LOGIN_WITH_FACEBOOK_SUCCESS:
       return loop(
-        state,
-        Effects.promise(
-          setAuthenticationToken,
-          action.payload
-        )
+        state.update('account', () => action.payload),
+        Effects.constant(reset)
       );
-    case SET_AUTHENTICATION_TOKEN:
-      return state.update('token', () => action.payload);
     default:
       return state;
   }

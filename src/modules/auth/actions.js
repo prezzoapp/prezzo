@@ -1,6 +1,7 @@
 // @flow
 import {Platform} from 'react-native';
 import {Map} from 'immutable';
+import {Buffer} from 'buffer';
 import {
   LOGIN_WITH_EMAIL_REQUEST,
   LOGIN_WITH_EMAIL_SUCCESS,
@@ -8,11 +9,28 @@ import {
   LOGIN_WITH_FACEBOOK_REQUEST,
   LOGIN_WITH_FACEBOOK_SUCCESS,
   LOGIN_WITH_FACEBOOK_FAILURE,
-  UPDATE_USER_REQUEST,
-  UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE
+  SET_AUTHENTICATION_TOKEN,
+  CLEAR_AUTHENTICATION_TOKEN
 } from './types';
 import {post} from '../../utils/api';
+import {setAuthenticationToken as cacheToken} from '../../utils/authentication';
+
+export const setAuthenticationToken = async user => {
+  const userId = user.get('_id');
+  const sessions = user.get('sessions');
+  const session = sessions[0];
+  const sessionId = session._id;
+  const preCodedToken = `${userId}:${sessionId}`;
+  const encodedToken = Buffer.from(preCodedToken).toString('base64');
+  const finalToken = `Basic ${encodedToken}`;
+
+  await cacheToken(finalToken);
+
+  return {
+    type: SET_AUTHENTICATION_TOKEN,
+    payload: finalToken
+  };
+};
 
 export const loginWithEmail = async (email: string, password: string) => async (
   dispatch: ReduxDispatch
@@ -31,7 +49,7 @@ export const loginWithEmail = async (email: string, password: string) => async (
 
     return dispatch({
       type: LOGIN_WITH_EMAIL_SUCCESS,
-      payload: user
+      payload: Map(user)
     });
   } catch (e) {
     dispatch({
@@ -46,9 +64,7 @@ export const loginWithEmail = async (email: string, password: string) => async (
 export const loginWithFacebook = async (
   facebookId: string,
   facebookToken: string
-) => async (
-  dispatch: ReduxDispatch
-) => {
+) => async (dispatch: ReduxDispatch) => {
   dispatch({
     type: LOGIN_WITH_FACEBOOK_REQUEST
   });
@@ -68,48 +84,6 @@ export const loginWithFacebook = async (
   } catch (e) {
     dispatch({
       type: LOGIN_WITH_FACEBOOK_FAILURE,
-      payload: e && e.message ? e.message : e
-    });
-
-    throw e;
-  }
-};
-
-export const updateUser = async (
-  avatarURL: string,
-  firstName: string,
-  lastName: string,
-  phone: string,
-  address: string,
-  zip: string,
-  city: string
-) => async (
-  dispatch: ReduxDispatch,
-  getState: GetState
-) => {
-  dispatch({
-    type: UPDATE_USER_REQUEST
-  });
-
-  try {
-    const currentUser = getState().get('auth').get('user');
-    const updatedUser = await post(`/v1/users/${currentUser.get('_id')}`, {
-      avatarURL,
-      firstName,
-      lastName,
-      phone,
-      address,
-      zip,
-      city
-    });
-
-    return dispatch({
-      type: UPDATE_USER_SUCCESS,
-      payload: Map(updatedUser)
-    });
-  } catch (e) {
-    dispatch({
-      type: UPDATE_USER_FAILURE,
       payload: e && e.message ? e.message : e
     });
 

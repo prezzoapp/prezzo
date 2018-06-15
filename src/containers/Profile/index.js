@@ -5,7 +5,9 @@ import {NavigationActions} from 'react-navigation';
 import Profile from './Profile';
 
 export default connect(
-  null,
+  state => ({
+    avatarURL: state.get('user').get('account').get('avatarURL')
+  }),
   dispatch => {
     return {
       navigate: bindActionCreators(NavigationActions.navigate, dispatch)

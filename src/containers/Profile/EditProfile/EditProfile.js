@@ -37,7 +37,7 @@ class EditProfile extends Component<Props, State> {
   static displayName = 'Edit Profile';
 
   static navigationOptions = {
-    title: 'My Information',
+    title: 'Profile',
     tabBarIcon: props => (
       <Icon name='person-outline' size={24} color={props.tintColor} />
     ),
@@ -95,7 +95,7 @@ class EditProfile extends Component<Props, State> {
   }
 
   render() {
-    const {firstName, lastName, phone, address, zip, city} = this.state;
+    const {avatarURL, firstName, lastName, phone, address, zip, city} = this.state;
     console.log(this.props);
     return (
       <KeyboardAvoidingView behavior='padding' style={styles.parent}>
@@ -105,12 +105,19 @@ class EditProfile extends Component<Props, State> {
               <View style={styles.avatarContainer}>
                 {this.state.isEditing
                   ? <TouchableOpacity onPress={() => this.showAvatarActionSheet()}>
-                      {this.state.avatarURL === ''
-                        ? <Image style={styles.avatar} source={require('../../../../assets/images/etc/default-avatar.png')} />
-                        : <Image style={styles.avatar} source={{uri: this.state.avatarURL}} />
-                      }
+                      <Image style={styles.avatar}
+                        source={
+                          avatarURL
+                          ? {uri: avatarURL}
+                          : require('../../../../assets/images/etc/default-avatar.png')}
+                      />
                     </TouchableOpacity>
-                  : <Image style={styles.avatar} source={require('../../../../assets/images/etc/default-avatar.png')} />
+                  : <Image style={styles.avatar}
+                      source={
+                        avatarURL
+                        ? {uri: avatarURL}
+                        : require('../../../../assets/images/etc/default-avatar.png')}
+                    />
                 }
               </View>
               <TouchableOpacity onPress={() => this.toggleEditing()}>

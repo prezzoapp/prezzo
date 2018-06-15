@@ -34,6 +34,8 @@ class Profile extends Component {
   }
 
   render() {
+    const {avatarURL} = this.props;
+
     return (
       <View style={styles.parent}>
         <View style={styles.container}>
@@ -42,7 +44,12 @@ class Profile extends Component {
               <Text style={styles.title}>My Profile</Text>
             </View>
             <View style={styles.avatarContainer}>
-              <Image style={styles.avatar} source={require('../../../assets/images/etc/default-avatar.png')}/>
+              <Image style={styles.avatar}
+                source={
+                  avatarURL
+                  ? {uri: avatarURL}
+                  : require('../../../assets/images/etc/default-avatar.png')}
+              />
             </View>
           </View>
           <View style={styles.bodyContainer}>
@@ -64,7 +71,7 @@ class Profile extends Component {
               icon='chevron-right'
             />
             <MenuButton
-              onPress={() => this.props.navigate(null)}
+              onPress={() => this.props.navigate({routeName: 'VendorAccountMenu'})}
               title='Vendor Accounts'
               icon='add'
             />
@@ -98,12 +105,13 @@ const styles = StyleSheet.create({
     width: 102
   },
   avatarContainer: {
-    flex: 0.68
+    flex: 0.68,
+    marginBottom: 20
   },
   bodyContainer: {
     alignItems: 'center',
-    flex: 2,
     flexDirection: 'column',
+    height: 'auto',
     marginTop: 28
   },
   container: {
@@ -117,7 +125,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 0.15,
     flexDirection: 'row',
-    marginTop: 28
+    marginTop: 20
   },
   footerLeft: {
     alignSelf: 'flex-start'
@@ -147,7 +155,8 @@ const styles = StyleSheet.create({
     fontSize: 24
   },
   titleContainer: {
-    flex: 0.15
+    flex: 0.15,
+    marginBottom: 20
   }
 });
 
