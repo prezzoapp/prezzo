@@ -5,9 +5,11 @@ import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MenuButton from '../../components/MenuButton';
 import * as snapshot from '../../utils/snapshot';
-import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../services/constants';
-
-const prezzoBlack = '#2B2C2C';
+import {
+  FONT_FAMILY,
+  FONT_FAMILY_BOLD,
+  COLOR_BLACK
+} from '../../services/constants';
 
 class Profile extends Component {
   static displayName = 'Profile';
@@ -145,7 +147,7 @@ const styles = StyleSheet.create({
   },
   parent: {
     alignItems: 'center',
-    backgroundColor: prezzoBlack,
+    backgroundColor: COLOR_BLACK,
     flex: 1,
     justifyContent: 'center'
   },

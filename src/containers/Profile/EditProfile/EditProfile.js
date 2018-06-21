@@ -14,10 +14,12 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-picker';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
-import {FONT_FAMILY, FONT_FAMILY_MEDIUM} from '../../../services/constants';
-
-const prezzoBlack = '#2B2C2C';
-const prezzoGreen = '#39B86C';
+import {
+  FONT_FAMILY,
+  FONT_FAMILY_MEDIUM,
+  COLOR_BLACK,
+  COLOR_GREEN
+} from '../../../services/constants';
 
 type Props = {
   updateUser: Function
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
     marginTop: 90
   },
   edit: {
-    color: prezzoGreen,
+    color: COLOR_GREEN,
     fontSize: 18,
     fontFamily: FONT_FAMILY
   },
@@ -228,7 +230,7 @@ const styles = StyleSheet.create({
   },
   parent: {
     alignItems: 'center',
-    backgroundColor: prezzoBlack,
+    backgroundColor: COLOR_BLACK,
     flex: 1,
     justifyContent: 'center'
   }
