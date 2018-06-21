@@ -27,7 +27,9 @@ platform :ios do
       git_url: "git@github.com:ishmaelthedestroyer/prezzo-certfificates.git"
     ) # more information: https://codesigning.guide
     gym(scheme: "Prezzo") # Build your app - more options available
-    pilot
+    pilot(
+      skip_waiting_for_build_processing: true
+    )
   end
 
 end

@@ -58,13 +58,23 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to use your camera</string>
+	<string>$(PRODUCT_NAME) would like to use your camera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery</string>
+	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
+	<string>$(PRODUCT_NAME) would like access to your photo gallery.</string>
+  <key>NSCalendarsUsageDescription</key>
+  <string>$(PRODUCT_NAME) would like to save events to your calendar.</string>
+  <key>NSBluetoothPeripheralUsageDescription</key>
+  <string>$(PRODUCT_NAME) uses bluetooth to connect to nearby devices.</string>
+  <key>NSAppleMusicUsageDescription</key>
+  <string>$(PRODUCT_NAME) would like to save music to your library.</string>
+  <key>NSMotionUsageDescription</key>
+  <string>$(PRODUCT_NAME) would like to track your movement to help you navigate.</string>
+  <key>NSSpeechRecognitionUsageDescription</key>
+  <string>$(PRODUCT_NAME) would like to use speech recognition to make it easier for you to search.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
