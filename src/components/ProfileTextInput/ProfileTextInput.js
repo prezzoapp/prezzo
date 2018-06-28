@@ -7,7 +7,7 @@ import {FONT_FAMILY} from '../../services/constants';
 type Props = {
   onChange: Function,
   label: string,
-  type: 'name' | 'number',
+  type: 'name' | 'number' | 'url',
   value: string
 };
 
@@ -21,23 +21,45 @@ class ProfileTextInput extends Component<Props> {
     onChange: PropTypes.func.isRequired,
     label: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
+    showInputBottomBorder: PropTypes.bool.isRequired,
+    style: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired
   };
 
   static defaultProps = {
+    showInputBottomBorder: true,
+    style: {},
     value: ''
   };
 
   render() {
-    const {onChange, label, placeholder, type, value} = this.props;
+    const {
+      onChange,
+      label,
+      placeholder,
+      type,
+      value,
+      showInputBottomBorder,
+      style
+    } = this.props;
+    const containerStyle = {
+      ...styles.container,
+      ...style
+    };
+    const valueContainerStyle = {
+      ...styles.valueContainer,
+      ...{
+        borderBottomColor: showInputBottomBorder ? '#0DD24A' : 'transparent'
+      }
+    };
 
     return (
-      <View style={styles.container}>
+      <View style={containerStyle}>
         <View style={styles.labelContainer}>
           <Text style={styles.label}>{label}</Text>
         </View>
-        <View style={styles.valueContainer}>
+        <View style={valueContainerStyle}>
           <TextInput
             style={styles.value}
             autoCapitalize={type === 'name' ? 'words' : 'none'}
@@ -57,8 +79,8 @@ const styles = {
   container: {
     flexDirection: 'row',
     height: 0.1 * screenWidth,
-    marginBottom: 10,
-    width: 0.83 * screenWidth
+    marginTop: 5,
+    width: 0.85 * screenWidth
   },
   currentValueContainer: {
     flexDirection: 'row',
@@ -70,7 +92,8 @@ const styles = {
     fontSize: 15
   },
   labelContainer: {
-    width: 0.3 * screenWidth
+    flex: 1,
+    paddingTop: 3
   },
   value: {
     color: valueTextColor,
@@ -79,8 +102,7 @@ const styles = {
   },
   valueContainer: {
     borderBottomWidth: 2,
-    borderBottomColor: '#0DD24A',
-    width: 0.44 * screenWidth
+    flex: 1.8
   }
 };
 

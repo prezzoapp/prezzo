@@ -11,6 +11,7 @@ import SignupComplete from '../Signup/SignupComplete';
 
 import Explore from '../Explore';
 import VendorAccountMenu from '../VendorAccountMenu';
+import VendorAccountInfo from '../VendorAccountInfo';
 
 import Profile from '../Profile';
 import EditProfile from '../Profile/EditProfile';
@@ -34,7 +35,8 @@ const UnauthenticatedNavigator = StackNavigator({
 const ProfileNavigator = StackNavigator({
   Profile: {screen: Profile},
   EditProfile: {screen: EditProfile},
-  VendorAccountMenu: {screen: VendorAccountMenu}
+  VendorAccountMenu: {screen: VendorAccountMenu},
+  VendorAccountInfo: {screen: VendorAccountInfo}
 }, {
   initialRouteName: 'Profile'
 });

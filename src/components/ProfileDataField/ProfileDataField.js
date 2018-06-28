@@ -28,6 +28,7 @@ const styles = {
   container: {
     flexDirection: 'row',
     height: 0.1 * screenWidth,
+    marginTop: 5,
     width: 0.83 * screenWidth
   },
   currentValueContainer: {

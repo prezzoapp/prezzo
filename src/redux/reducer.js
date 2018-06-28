@@ -6,6 +6,7 @@ import AuthReducer from '../modules/auth';
 import UserReducer from '../modules/user';
 import SignupReducer from '../modules/signup';
 import SessionStateReducer, {RESET_STATE} from '../containers/session/SessionState';
+import VendorReducer from '../modules/vendor';
 
 const reducers = {
   counter: CounterStateReducer,
@@ -13,7 +14,8 @@ const reducers = {
   session: SessionStateReducer,
   auth: AuthReducer,
   user: UserReducer,
-  signup: SignupReducer
+  signup: SignupReducer,
+  vendor: VendorReducer
 };
 
 // initial state, accessor and mutator for supporting root-level

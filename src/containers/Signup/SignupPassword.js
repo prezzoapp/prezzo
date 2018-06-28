@@ -117,10 +117,10 @@ class SignupPassword extends React.Component<Props, State> {
                 : require('../../../assets/images/etc/default-avatar.png')
               }
             />
-              <Image
-                style={styles.editAvatarIcon}
-                source={require('../../../assets/images/icons/edit.png')}
-              />
+            <Image
+              style={styles.editAvatarIcon}
+              source={require('../../../assets/images/icons/edit.png')}
+            />
           </TouchableOpacity>
 
           <View style={styles.nameAndEmailContainer}>

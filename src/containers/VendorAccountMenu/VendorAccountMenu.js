@@ -36,9 +36,8 @@ export default class VendorAccountMenu extends React.Component {
     this.props.navigate({routeName: 'Unauthenticated'});
   }
 
-  navigateToEditProfile() {
-    console.log('Pressed');
-    this.props.navigate({routeName: 'EditProfile'});
+  navigateToVendorAccountInfo() {
+    this.props.navigate({routeName: 'VendorAccountInfo'});
   }
 
   render() {
@@ -62,7 +61,7 @@ export default class VendorAccountMenu extends React.Component {
           </View>
           <View style={styles.bodyContainer}>
             <MenuButton
-              onPress={() => this.navigateToEditProfile()}
+              onPress={() => this.navigateToVendorAccountInfo()}
               title='Create Vendor Profile'
               icon='add'
             />
