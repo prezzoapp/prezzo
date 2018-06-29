@@ -102,7 +102,9 @@ export default StyleSheet.create({
   },
   sectionHeader: {
     borderBottomColor: '#fff',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   sectionHeaderText: {
     color: '#fff',

@@ -1,6 +1,7 @@
 // @flow
 import {Map} from 'immutable';
 import {
+  CREATE_VENDOR_SUCCESS,
   UPDATE_VENDOR_REQUEST,
   UPDATE_VENDOR_SUCCESS,
   UPDATE_VENDOR_FAILURE
@@ -25,6 +26,7 @@ const reducer = (state: State = INITIAL_STATE, action) => {
       return state.update('isBusy', () => true);
     case UPDATE_VENDOR_FAILURE:
       return state.update('isBusy', () => false);
+    case CREATE_VENDOR_SUCCESS:
     case UPDATE_VENDOR_SUCCESS:
     case UPDATE_USER_SUCCESS:
     case LOGIN_WITH_EMAIL_SUCCESS:

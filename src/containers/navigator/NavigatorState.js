@@ -10,6 +10,10 @@ export default function NavigatorReducer(state, action) {
     return fromJS(AppNavigator.router.getStateForAction(action, state));
   }
 
+  if (action.type === NavigationActions.COMPLETE_TRANSITION) {
+    return state;
+  }
+
   // Is this a navigation action that we should act upon?
   if (includes(NavigationActions, action.type)) {
     return fromJS(AppNavigator.router.getStateForAction(action, state.toJS()));

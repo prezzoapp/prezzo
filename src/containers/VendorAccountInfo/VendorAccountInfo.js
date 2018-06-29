@@ -48,32 +48,29 @@ export default class VendorAccountInfo extends React.Component {
 
   constructor(props) {
     super(props);
-    const {
-      avatarURL = null,
-      categories = [],
-      hoursOfOperation = [],
-      location = {
-        address: '123 Main St',
-        city: 'Los Angeles',
-        country: 'United States',
-        region: 'California',
-        postalCode: '90291'
-      },
-      name = '',
-      website = ''
-    } = props;
+
+    const {avatarURL, vendor} = props;
+    const location = vendor.get('location');
 
     this.state = {
       avatarURL,
-      categories,
-      hoursOfOperation,
-      location,
-      name,
+      categories: vendor.get('categories') || [],
+      hoursOfOperation: vendor.get('hoursOfOperation') || [],
+      location: {
+        address: location.get('address') || '',
+        city: location.get('city') || '',
+        country: location.get('country') || '',
+        region: location.get('region') || '',
+        postalCode: location.get('postalCode') || '',
+        latitude: location.get('latitude') || location.get('coordinates').get(1) || null,
+        longitude: location.get('longitude') || location.get('coordinates').get(0) || null
+      },
+      name: vendor.get('name') || '',
       selectedHoursDay: 0,
       selectedCategory: restaurantCategories[0],
       selectedClosingTime: '18:00',
       selectedOpeningTime: '10:00',
-      website
+      website: vendor.get('website') || ''
     };
   }
 
@@ -164,11 +161,26 @@ export default class VendorAccountInfo extends React.Component {
       console.log('is busy');
     } else if (vendor) {
       console.log('updating vendor');
-      updateVendor(this.state);
+      updateVendor(vendor.get('_id'), this.state);
     } else {
       console.log('create vendor');
       createVendor(this.state);
     }
+  }
+
+  navigateToMapView() {
+    this.props.navigate({
+      routeName: 'LocationSearch',
+      params: {
+        onSelect: location => {
+          console.log('got location', location);
+          this.setState({location});
+        },
+        onError: () => {
+          console.log('error getting location');
+        }
+      }
+    });
   }
 
   render() {
@@ -278,6 +290,10 @@ export default class VendorAccountInfo extends React.Component {
         <View style={styles.addressContainer}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionHeaderText}>Address</Text>
+
+            <TouchableOpacity onPress={() => this.navigateToMapView()}>
+              <Text style={styles.addText}>Edit</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.sectionBody}>
             <ProfileDataField

@@ -13,6 +13,8 @@ import Explore from '../Explore';
 import VendorAccountMenu from '../VendorAccountMenu';
 import VendorAccountInfo from '../VendorAccountInfo';
 
+import LocationSearch from '../LocationSearch';
+
 import Profile from '../Profile';
 import EditProfile from '../Profile/EditProfile';
 
@@ -36,7 +38,8 @@ const ProfileNavigator = StackNavigator({
   Profile: {screen: Profile},
   EditProfile: {screen: EditProfile},
   VendorAccountMenu: {screen: VendorAccountMenu},
-  VendorAccountInfo: {screen: VendorAccountInfo}
+  VendorAccountInfo: {screen: VendorAccountInfo},
+  LocationSearch: {screen: LocationSearch}
 }, {
   initialRouteName: 'Profile'
 });
