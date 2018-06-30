@@ -1,5 +1,5 @@
 // @flow
-import {Map,fromJS} from 'immutable';
+import {Map} from 'immutable';
 import {
   UPDATE_FIRST_NAME,
   UPDATE_LAST_NAME,
@@ -57,7 +57,7 @@ const reducer = (state: State = INITIAL_STATE, action) => {
     // case RESET_STATE:
     // TODO: reenable signup reset on app launch
     //       and reset navigator if on unauthenticated screen on app launch
-      return fromJS(INITIAL_STATE);
+      return Map(INITIAL_STATE);
 
     default:
       return state;

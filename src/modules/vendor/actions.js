@@ -1,5 +1,5 @@
 // @flow
-import {Map} from 'immutable';
+import {fromJS} from 'immutable';
 import {
   CREATE_VENDOR_REQUEST,
   CREATE_VENDOR_SUCCESS,
@@ -20,7 +20,7 @@ export const createVendor = async params => async(dispatch: ReduxDispatch) => {
 
     return dispatch({
       type: CREATE_VENDOR_SUCCESS,
-      payload: Map(vendor)
+      payload: fromJS(vendor)
     });
   } catch (e) {
     dispatch({
@@ -42,7 +42,7 @@ export const updateVendor = async (id: string, params: any) => async(dispatch: R
 
     return dispatch({
       type: UPDATE_VENDOR_SUCCESS,
-      payload: Map(vendor)
+      payload: fromJS(vendor)
     });
   } catch (e) {
     dispatch({

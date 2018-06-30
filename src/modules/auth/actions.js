@@ -1,6 +1,6 @@
 // @flow
 import {Platform} from 'react-native';
-import {Map} from 'immutable';
+import {fromJS} from 'immutable';
 import {Buffer} from 'buffer';
 import {
   LOGIN_WITH_EMAIL_REQUEST,
@@ -18,8 +18,8 @@ import {setAuthenticationToken as cacheToken} from '../../utils/authentication';
 export const setAuthenticationToken = async user => {
   const userId = user.get('_id');
   const sessions = user.get('sessions');
-  const session = sessions[0];
-  const sessionId = session._id;
+  const session = sessions.get(0);
+  const sessionId = session.get('_id');
   const preCodedToken = `${userId}:${sessionId}`;
   const encodedToken = Buffer.from(preCodedToken).toString('base64');
   const finalToken = `Basic ${encodedToken}`;
@@ -49,7 +49,7 @@ export const loginWithEmail = async (email: string, password: string) => async (
 
     return dispatch({
       type: LOGIN_WITH_EMAIL_SUCCESS,
-      payload: Map(user)
+      payload: fromJS(user)
     });
   } catch (e) {
     dispatch({
@@ -79,7 +79,7 @@ export const loginWithFacebook = async (
 
     return dispatch({
       type: LOGIN_WITH_FACEBOOK_SUCCESS,
-      payload: Map(user)
+      payload: fromJS(user)
     });
   } catch (e) {
     dispatch({

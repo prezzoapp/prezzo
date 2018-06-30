@@ -50,12 +50,17 @@ export default class VendorAccountInfo extends React.Component {
     super(props);
 
     const {avatarURL, vendor} = props;
+
+    console.log('vendor');
+
     const location = vendor.get('location');
+
+    console.log('location', location);
 
     this.state = {
       avatarURL,
-      categories: vendor.get('categories') || [],
-      hoursOfOperation: vendor.get('hoursOfOperation') || [],
+      categories: vendor.get('categories').toJS() || [],
+      hours: vendor.get('hours').toJS() || [],
       location: {
         address: location.get('address') || '',
         city: location.get('city') || '',
@@ -72,6 +77,8 @@ export default class VendorAccountInfo extends React.Component {
       selectedOpeningTime: '10:00',
       website: vendor.get('website') || ''
     };
+
+    console.log('got state', this.state);
   }
 
   componentDidMount() {
@@ -119,7 +126,7 @@ export default class VendorAccountInfo extends React.Component {
 
   addSelectedHoursOfOperation() {
     const {
-      hoursOfOperation,
+      hours,
       selectedHoursDay,
       selectedClosingTime,
       selectedOpeningTime
@@ -135,7 +142,7 @@ export default class VendorAccountInfo extends React.Component {
     const openTimeHour = openTimeSplit[0];
     const openTimeMinutes = openTimeSplit[1];
 
-    const newHours = [...hoursOfOperation];
+    const newHours = [...hours];
     newHours.push({
       dayOfWeek,
       closeTimeHour,
@@ -144,27 +151,36 @@ export default class VendorAccountInfo extends React.Component {
       openTimeMinutes
     });
 
-    this.setState({hoursOfOperation: newHours});
+    this.setState({hours: newHours});
   }
 
   removeHoursOfOperationAtIndex(index) {
-    const {hoursOfOperation} = this.state;
-    const newHours = [...hoursOfOperation];
+    const {hours} = this.state;
+    const newHours = [...hours];
     newHours.splice(index, 1);
-    this.setState({hoursOfOperation: newHours});
+    this.setState({hours: newHours});
   }
 
-  save() {
+  async save() {
     const {vendor, isBusy, createVendor, updateVendor} = this.props;
 
     if (isBusy) {
       console.log('is busy');
-    } else if (vendor) {
-      console.log('updating vendor');
-      updateVendor(vendor.get('_id'), this.state);
-    } else {
-      console.log('create vendor');
-      createVendor(this.state);
+      return;
+    }
+
+    try {
+      if (vendor) {
+        console.log('updating vendor');
+        await updateVendor(vendor.get('_id'), this.state);
+      } else {
+        console.log('create vendor');
+        await createVendor(this.state);
+      }
+
+      this.props.navigateBack();
+    } catch (e) {
+      console.warn('error creator or updating vendor', e);
     }
   }
 
@@ -187,7 +203,7 @@ export default class VendorAccountInfo extends React.Component {
     const {
       avatarURL,
       categories,
-      hoursOfOperation,
+      hours,
       location,
       name,
       selectedHoursDay,
@@ -325,14 +341,23 @@ export default class VendorAccountInfo extends React.Component {
           </View>
           <View style={styles.hoursSectionBody}>
             {
-              hoursOfOperation.map((hour, index) => {
-                const {
+              hours.map((hour, index) => {
+                let {
                   dayOfWeek,
                   closeTimeHour,
                   closeTimeMinutes,
                   openTimeHour,
                   openTimeMinutes
                 } = hour;
+
+                if (closeTimeMinutes === 0) {
+                  closeTimeMinutes = '00';
+                }
+
+                if (openTimeMinutes === 0) {
+                  openTimeMinutes = '00';
+                }
+
                 const closeTime = `${closeTimeHour}:${closeTimeMinutes}`;
                 const openTime = `${openTimeHour}:${openTimeMinutes}`;
 

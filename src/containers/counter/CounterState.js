@@ -1,10 +1,10 @@
 // @flow
-import {Map} from 'immutable';
+import {fromJS} from 'immutable';
 import {loop, Effects} from 'redux-loop-symbol-ponyfill';
 import {generateRandomNumber} from '../../services/randomNumberService';
 
 // Initial state
-const initialState = Map({
+const initialState = fromJS({
   value: 0,
   loading: false
 });

@@ -59,7 +59,7 @@ class LocationSearch extends React.Component {
       ) {
         streetName = long_name;
       } else if (
-        !city && long_name && types && types[0] && types[0] === 'locality'
+        long_name && types && types[0] && types[0] === 'locality'
       ) {
         city = long_name;
       } else if (

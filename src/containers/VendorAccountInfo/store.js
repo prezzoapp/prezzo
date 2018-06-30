@@ -4,9 +4,10 @@ import {NavigationActions} from 'react-navigation';
 import {createVendor, updateVendor} from '../../modules/vendor';
 
 export const mapStateToProps = state => {
-  const avatarURL = state.get('user').get('account').get('avatarURL');
   const isBusy = state.get('vendor').get('isBusy');
+  const user = state.get('user').get('account');
   const vendor = state.get('vendor').get('data');
+  const avatarURL = vendor.get('avatarURL') || user.get('avatarURL') || null;
 
   return {
     avatarURL,
@@ -19,6 +20,7 @@ export const mapDispatchToProps = dispatch => {
   return {
     createVendor: bindActionCreators(createVendor, dispatch),
     navigate: bindActionCreators(NavigationActions.navigate, dispatch),
+    navigateBack: bindActionCreators(NavigationActions.back, dispatch),
     updateVendor: bindActionCreators(updateVendor, dispatch)
   };
 };
