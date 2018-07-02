@@ -16,7 +16,7 @@ export default class VendorAccountMenu extends React.Component {
     ),
     headerStyle: {
       position: 'absolute',
-      backgroundColor: 'transparent',
+      backgroundColor: '#2B2C2C',
       zIndex: 100,
       top: 0,
       left: 0,
@@ -24,7 +24,8 @@ export default class VendorAccountMenu extends React.Component {
       shadowColor: 'transparent',
       borderBottomWidth: 0
     },
-    headerTintColor: '#fff'
+    headerTintColor: '#fff',
+    title: 'Vendor Account'
   };
 
   static propTypes = {
@@ -41,15 +42,12 @@ export default class VendorAccountMenu extends React.Component {
   }
 
   render() {
-    const {avatarURL} = this.props;
+    const {avatarURL, vendor} = this.props;
 
     return (
       <View style={styles.parent}>
         <View style={styles.container}>
           <View style={styles.headerContainer}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.title}>Vendor Account</Text>
-            </View>
             <View style={styles.avatarContainer}>
               <Image style={styles.avatar}
                 source={
@@ -62,7 +60,7 @@ export default class VendorAccountMenu extends React.Component {
           <View style={styles.bodyContainer}>
             <MenuButton
               onPress={() => this.navigateToVendorAccountInfo()}
-              title='Create Vendor Profile'
+              title={`${vendor ? 'Update' : 'Create'} Vendor Profile`}
               icon='add'
             />
             <MenuButton

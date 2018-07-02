@@ -31,6 +31,7 @@ export default StyleSheet.create({
     height: '100%',
     marginHorizontal: 25,
     marginVertical: 70,
+    paddingTop: 100,
     width: '100%'
   },
   headerContainer: {
@@ -42,14 +43,5 @@ export default StyleSheet.create({
     backgroundColor: COLOR_BLACK,
     flex: 1,
     justifyContent: 'center'
-  },
-  title: {
-    color: 'white',
-    fontFamily: FONT_FAMILY_BOLD,
-    fontSize: 24
-  },
-  titleContainer: {
-    marginBottom: 20,
-    marginTop: 50
   }
 });
