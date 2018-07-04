@@ -9,6 +9,7 @@ import ProfileTextInput from '../../components/ProfileTextInput';
 import ProfileDataField from '../../components/ProfileDataField';
 import EditableListItem from '../../components/EditableListItem';
 import {restaurantCategories} from '../../services/constants';
+import uploadImage from '../../services/uploader';
 import styles, {stylesRaw} from './styles';
 
 export default class VendorAccountInfo extends React.Component {
@@ -51,11 +52,24 @@ export default class VendorAccountInfo extends React.Component {
 
     const {avatarURL, vendor} = props;
 
-    console.log('vendor');
+    if (!vendor) {
+      this.state = {
+        avatarURL,
+        categories: [],
+        hours: [],
+        location: {},
+        name: '',
+        selectedHoursDay: 0,
+        selectedCategory: restaurantCategories[0],
+        selectedClosingTime: '18:00',
+        selectedOpeningTime: '10:00',
+        upload: null,
+        website: ''
+      };
+      return;
+    }
 
     const location = vendor.get('location');
-
-    console.log('location', location);
 
     this.state = {
       avatarURL,
@@ -75,6 +89,7 @@ export default class VendorAccountInfo extends React.Component {
       selectedCategory: restaurantCategories[0],
       selectedClosingTime: '18:00',
       selectedOpeningTime: '10:00',
+      upload: null,
       website: vendor.get('website') || ''
     };
 
@@ -95,8 +110,11 @@ export default class VendorAccountInfo extends React.Component {
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
-        console.log('Image URI: ', response.uri);
-        this.setState({avatarURL: response.uri});
+        console.log('Image response: ', response);
+        this.setState({
+          avatarURL: response.uri,
+          upload: response
+        });
       }
     });
   }
@@ -161,6 +179,33 @@ export default class VendorAccountInfo extends React.Component {
     this.setState({hours: newHours});
   }
 
+  async uploadPhoto() {
+    const {upload} = this.state;
+    const {fileName, fileSize, uri} = upload;
+
+    if (!upload) {
+      return;
+    }
+
+    await uploadImage(
+      uri,
+      fileSize,
+      'image/jpeg',
+      fileName,
+      'userAvatar',
+      'public-read'
+    ).then(avatarURL => {
+      this.setState({
+        avatarURL
+        // PATCH: don't clear upload on upload successful
+        // makes it easier to do repeat uploads w/o reselecting picture
+        // TODO: uncomment `upload: null`
+        // upload: null
+        // END PATCH
+      });
+    });
+  }
+
   async save() {
     const {vendor, isBusy, createVendor, updateVendor} = this.props;
 
@@ -170,17 +215,22 @@ export default class VendorAccountInfo extends React.Component {
     }
 
     try {
+      const params = {...this.state};
+      delete params.upload;
+
+      // await this.uploadPhoto();
+
       if (vendor) {
         console.log('updating vendor');
-        await updateVendor(vendor.get('_id'), this.state);
+        await updateVendor(vendor.get('_id'), params);
       } else {
         console.log('create vendor');
-        await createVendor(this.state);
+        await createVendor(params);
       }
 
       this.props.navigateBack();
     } catch (e) {
-      console.warn('error creator or updating vendor', e);
+      console.warn('error creating or updating vendor', e);
     }
   }
 

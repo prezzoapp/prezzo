@@ -1,6 +1,6 @@
 // @flow
 import {Platform} from 'react-native';
-import {Map} from 'immutable';
+import {fromJS} from 'immutable';
 import {
   UPDATE_FIRST_NAME,
   UPDATE_LAST_NAME,
@@ -106,7 +106,7 @@ export const signup = async () => async (
 
     return dispatch({
       type: SIGNUP_SUCCESS,
-      payload: Map(user)
+      payload: fromJS(user)
     });
   } catch (e) {
     dispatch({
