@@ -10,15 +10,20 @@ import SignupPassword from '../Signup/SignupPassword';
 import SignupComplete from '../Signup/SignupComplete';
 
 import Explore from '../Explore';
-import Profile from '../Profile';
 import VendorAccountMenu from '../VendorAccountMenu';
+import VendorAccountInfo from '../VendorAccountInfo';
+
+import LocationSearch from '../LocationSearch';
+
+import Profile from '../Profile';
+import EditProfile from '../Profile/EditProfile';
 
 const headerColor = '#2B2C2C';
 const activeColor = 'white';
 
 // Root navigator is a StackNavigator
 const UnauthenticatedNavigator = StackNavigator({
-  Home: {screen: Tutorial},
+  Tutorial: {screen: Tutorial},
   EnableNotifications: {screen: EnableNotifications},
   Login: {screen: Login},
   SignupName: {screen: SignupName},
@@ -26,15 +31,24 @@ const UnauthenticatedNavigator = StackNavigator({
   SignupPassword: {screen: SignupPassword},
   SignupComplete: {screen: SignupComplete}
 }, {
-  initialRouteName: 'Home'
+  initialRouteName: 'Tutorial'
+});
+
+const ProfileNavigator = StackNavigator({
+  Profile: {screen: Profile},
+  EditProfile: {screen: EditProfile},
+  VendorAccountMenu: {screen: VendorAccountMenu},
+  VendorAccountInfo: {screen: VendorAccountInfo},
+  LocationSearch: {screen: LocationSearch}
+}, {
+  initialRouteName: 'Profile'
 });
 
 const AuthenticatedNavigator = TabNavigator({
-  Home: {screen: Explore},
-  Profile: {screen: Profile},
-  VendorAccountMenu: {screen: VendorAccountMenu}
+  Explore: {screen: Explore},
+  Profile: {screen: ProfileNavigator}
 }, {
-  initialRouteName: 'Home',
+  initialRouteName: 'Explore',
   tabBarOptions: {
     activeTintColor: activeColor,
     indicatorStyle: {backgroundColor: activeColor},

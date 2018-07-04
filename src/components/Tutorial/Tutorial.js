@@ -7,6 +7,7 @@ import TutorialScreen from './TutorialScreen';
 import Button from '../Button';
 import FacebookButton from '../FacebookButton';
 import {FONT_FAMILY} from '../../services/constants';
+import {getUserInfo} from '../../services/facebook';
 
 const images = {
   tutorial1: require('../../../assets/images/tutorial/tutorial-1.png'),
@@ -24,8 +25,61 @@ class Tutorial extends React.Component {
     navigate: PropTypes.func.isRequired
   };
 
+  state = {
+    isBusy: false
+  };
+
+  async onFacebookLogin(facebookId, accessToken) {
+    try {
+      await this.props.loginWithFacebook(facebookId, accessToken);
+      this.navigateToHome();
+    } catch (e) {
+      if (e && e.code === 404) {
+        console.log('user not found');
+      }
+
+      try {
+        // update info so signup screens have access to facebook info
+        const {email, firstName, lastName, avatarURL} = await getUserInfo();
+
+        if (email) {
+          this.props.updateEmail(email);
+        }
+
+        if (firstName) {
+          this.props.updateFirstName(firstName);
+        }
+
+        if (lastName) {
+          this.props.updateLastName(lastName);
+        }
+
+        if (avatarURL) {
+          this.props.updateAvatarURL(avatarURL);
+        }
+
+        this.props.updateFacebookId(facebookId);
+        this.props.updateFacebookToken(accessToken);
+
+        this.setState({isBusy: false});
+        this.navigateToSignup();
+      } catch (error) {
+        console.log('error getting facebook data', error);
+        this.setState({isBusy: false});
+      }
+    }
+  }
+
+  navigateToHome() {
+    this.props.navigate({routeName: 'Authenticated'});
+  }
+
   navigateToLogin() {
     this.props.navigate({routeName: 'Login'});
+  }
+
+  navigateToSignup() {
+    this.props.navigate({routeName: 'SignupName'});
   }
 
   navigateToEnableNotifications() {
@@ -33,6 +87,8 @@ class Tutorial extends React.Component {
   }
 
   render() {
+    const {isBusy} = this.state;
+
     return (
       <View style={styles.container}>
         <Swiper
@@ -53,9 +109,19 @@ class Tutorial extends React.Component {
           </TouchableOpacity>
         </View>
         <View style={styles.footer}>
-          <FacebookButton style={buttonStyles.facebookButton} />
+          <FacebookButton
+            disabled={isBusy}
+            style={buttonStyles.facebookButton}
+            onStart={() => this.setState({isBusy: true})}
+            onFailure={() => this.setState({isBusy: false})}
+            onCancel={() => this.setState({isBusy: false})}
+            onSuccess={(facebookId, accessToken) => {
+              this.onFacebookLogin(facebookId, accessToken);
+            }}
+          />
 
           <Button
+            disabled={isBusy}
             style={buttonStyles.createAccountButton}
             onPress={() => this.navigateToEnableNotifications()}
           >

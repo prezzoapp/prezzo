@@ -2,7 +2,9 @@
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
 
-export const mapStateToProps = null;
+export const mapStateToProps = state => ({
+  vendor: state.get('vendor').get('data')
+});
 
 export const mapDispatchToProps = dispatch => {
   return {

@@ -3,15 +3,19 @@ import {loop, combineReducers} from 'redux-loop-symbol-ponyfill';
 import NavigatorStateReducer from '../containers/navigator/NavigatorState';
 import CounterStateReducer from '../containers/counter/CounterState';
 import AuthReducer from '../modules/auth';
+import UserReducer from '../modules/user';
 import SignupReducer from '../modules/signup';
 import SessionStateReducer, {RESET_STATE} from '../containers/session/SessionState';
+import VendorReducer from '../modules/vendor';
 
 const reducers = {
   counter: CounterStateReducer,
   navigatorState: NavigatorStateReducer,
   session: SessionStateReducer,
   auth: AuthReducer,
-  signup: SignupReducer
+  user: UserReducer,
+  signup: SignupReducer,
+  vendor: VendorReducer
 };
 
 // initial state, accessor and mutator for supporting root-level

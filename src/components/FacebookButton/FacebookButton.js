@@ -1,49 +1,67 @@
 // @flow
 import React from 'react';
 import {Text, Image, TouchableOpacity} from 'react-native';
-import {LoginManager} from 'react-native-fbsdk';
+import {LoginManager,AccessToken} from 'react-native-fbsdk';
 import {FONT_FAMILY} from '../../services/constants';
 
 type Props = {
   text: string,
-  style: object
+  style: object,
+  disabled: boolean,
+  onStart: Function,
+  onSuccess: Function,
+  onFailure: Function,
+  onCancel: Function
 };
 
-const login = () => {
-  // Attempt a login using the Facebook login dialog asking for default permissions.
-  LoginManager.logInWithReadPermissions(['public_profile']).then(result => {
-    if (result.isCancelled) {
-      console.log('Login cancelled');
-    } else {
-      const permissions = result.grantedPermissions.toString();
-      console.log(`Login success with permissions: ${permissions}`);
-      console.log('result', result);
-    }
-  }, error => {
-    console.log('Login fail with error: ' + error);
-  });
-};
+class Button extends React.Component<Props> {
+  getAccessToken() {
+    AccessToken.getCurrentAccessToken().then(data => {
+      const {userID, accessToken} = data;
+      this.props.onSuccess(userID, accessToken);
+    });
+  }
 
-const Button = ({style}: Props) => {
-  const buttonStyle = {...styles.button, ...style};
-  const textStyle = {...styles.text};
-  const iconStyle = {...styles.icon};
+  login() {
+    const {onStart, onSuccess, onFailure, onCancel} = this.props;
 
-  return (
-    <TouchableOpacity
-      onPress={() => login()}
-      style={buttonStyle}
-    >
-      <Image
-        style={iconStyle}
-        source={require('../../../assets/images/icons/facebook.png')}
-      />
-      <Text style={textStyle}>
-        Continue With Facebook
-      </Text>
-    </TouchableOpacity>
-  );
-};
+    onStart && onStart();
+
+    // Attempt a login using the Facebook login dialog asking for default permissions.
+    LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(result => {
+      if (result.isCancelled) {
+        return onCancel && onCancel();
+      } else {
+        this.getAccessToken();
+      }
+    }, error => {
+      onFailure && onFailure(error);
+    });
+  }
+
+  render() {
+    const {style, disabled} = this.props;
+    const buttonStyle = {...styles.button, ...style};
+    const textStyle = {...styles.text};
+    const iconStyle = {...styles.icon};
+
+    return (
+      <TouchableOpacity
+        onPress={() => !disabled && this.login()}
+        activeOpacity={disabled ? 1 : 0.7}
+        style={buttonStyle}
+      >
+        <Image
+          style={iconStyle}
+          source={require('../../../assets/images/icons/facebook.png')}
+        />
+        <Text style={textStyle}>
+          Continue With Facebook
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+}
 
 const styles = {
   button: {
