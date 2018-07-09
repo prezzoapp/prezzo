@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Prezzo</string>
+    <string name="facebook_app_id">637885726405635</string>
+    <string name="fb_login_protocol_scheme">fb637885726405635</string>
 </resources>

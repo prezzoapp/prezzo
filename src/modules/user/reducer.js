@@ -1,8 +1,8 @@
 // @flow
 import {Map} from 'immutable';
 import {loop, Effects} from 'redux-loop-symbol-ponyfill';
-import {reset} from '../signup';
-import {SIGNUP_SUCCESS} from '../signup/types';
+import {reset} from '../Signup';
+import {SIGNUP_SUCCESS} from '../Signup/types';
 import {UPDATE_USER_SUCCESS} from './types';
 import {
   LOGIN_WITH_EMAIL_SUCCESS,

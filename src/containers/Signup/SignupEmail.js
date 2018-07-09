@@ -4,7 +4,7 @@ import {ImageBackground, Text, TouchableOpacity, Image, StyleSheet} from 'react-
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
-import {updateEmail, updateSubscriptionToPromotions} from '../../modules/signup';
+import {updateEmail, updateSubscriptionToPromotions} from '../../modules/Signup';
 import {isValidEmail} from '../../utils/validators';
 import {FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';

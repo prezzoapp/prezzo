@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
 import ImagePicker from 'react-native-image-picker';
-import {updateAvatarURL, updatePassword, signup} from '../../modules/signup';
+import {updateAvatarURL, updatePassword, signup} from '../../modules/Signup';
 import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
 import FacebookButton from '../../components/FacebookButton';

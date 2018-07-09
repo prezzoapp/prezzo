@@ -4,7 +4,7 @@ import {GraphRequest, GraphRequestManager} from 'react-native-fbsdk';
 export const getUserInfo = () => new Promise((resolve, reject) => {
   //Create response callback.
   const responseInfoCallback = (error: ?Object, result: ?Object) => {
-    console.log('got result', JSON.stringify(result));
+    // console.log('got result', JSON.stringify(result));
     if (error) {
       return reject(error);
     } else {

@@ -26,7 +26,7 @@ class LocationSearch extends React.Component {
   }
 
   parseResult(result) {
-    console.log('got result data', result);
+    // console.log('got result data', result);
 
     const {address_components, geometry = {}} = result;
     const {location = {}} = geometry;

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
-import {updateFirstName, updateLastName} from '../../modules/signup';
+import {updateFirstName, updateLastName} from '../../modules/Signup';
 import {FONT_FAMILY_BOLD} from '../../services/constants';
 import LoginTextInput from '../../components/LoginTextInput';
 import NextButton from './NextButton';

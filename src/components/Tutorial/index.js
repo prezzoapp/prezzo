@@ -10,7 +10,7 @@ import {
   updateAvatarURL,
   updateFacebookId,
   updateFacebookToken
-} from '../../modules/signup';
+} from '../../modules/Signup';
 import Tutorial from './Tutorial';
 
 export default connect(

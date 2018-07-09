@@ -18,6 +18,8 @@ import LocationSearch from '../LocationSearch';
 import Profile from '../Profile';
 import EditProfile from '../Profile/EditProfile';
 
+import MenuItems from '../CreateMenu/createMenu';
+
 const headerColor = '#2B2C2C';
 const activeColor = 'white';
 
@@ -39,7 +41,8 @@ const ProfileNavigator = StackNavigator({
   EditProfile: {screen: EditProfile},
   VendorAccountMenu: {screen: VendorAccountMenu},
   VendorAccountInfo: {screen: VendorAccountInfo},
-  LocationSearch: {screen: LocationSearch}
+  LocationSearch: {screen: LocationSearch},
+  MenuItems: { screen: MenuItems }
 }, {
   initialRouteName: 'Profile'
 });
@@ -48,6 +51,7 @@ const AuthenticatedNavigator = TabNavigator({
   Explore: {screen: Explore},
   Profile: {screen: ProfileNavigator}
 }, {
+  tabBarPosition: 'top',
   initialRouteName: 'Explore',
   tabBarOptions: {
     activeTintColor: activeColor,
