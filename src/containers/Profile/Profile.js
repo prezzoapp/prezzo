@@ -31,7 +31,7 @@ class Profile extends Component {
   }
 
   navigateToEditProfile() {
-    console.log('Pressed');
+    //console.log('Pressed');
     this.props.navigate({routeName: 'EditProfile'});
   }
 
@@ -62,18 +62,18 @@ class Profile extends Component {
               icon='chevron-right'
             />
             <MenuButton
-              onPress={() => this.props.navigate(null)}
+              onPress={() => this.props.navigate({ routeName: 'VendorAccountMenu' })}
               title='Payment Methods'
               subtitle='Edit my payment methods'
               icon='chevron-right'
             />
             <MenuButton
-              onPress={() => this.props.navigate(null)}
+              onPress={() => this.props.navigate({ routeName: 'VendorAccountMenu' })}
               title='My History'
               icon='chevron-right'
             />
             <MenuButton
-              onPress={() => this.props.navigate({routeName: 'VendorAccountMenu'})}
+              onPress={() => this.props.navigate({ routeName: 'VendorAccountMenu' })}
               title='Vendor Accounts'
               icon='add'
             />

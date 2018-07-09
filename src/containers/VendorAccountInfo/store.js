@@ -7,8 +7,7 @@ export const mapStateToProps = state => {
   const isBusy = state.get('vendor').get('isBusy');
   const user = state.get('user').get('account');
   const vendor = state.get('vendor').get('data');
-  const avatarURL = (vendor && vendor.get('avatarURL')) ||
-    user.get('avatarURL') || null;
+  const avatarURL = user.get('avatarURL') || null;
 
   return {
     avatarURL,

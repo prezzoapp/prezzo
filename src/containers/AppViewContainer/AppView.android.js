@@ -22,6 +22,7 @@ class AppView extends Component {
   }
 
   componentDidMount() {
+    // console.log("AppViewContainer called!");
     snapshotUtil.resetSnapshot()
       .then(snapshot => {
         const {dispatch} = this.props;
@@ -32,9 +33,9 @@ class AppView extends Component {
           dispatch(SessionStateActions.initializeSessionState());
         }
 
-        store.subscribe(() => {
-          snapshotUtil.saveSnapshot(store.getState());
-        });
+        // store.subscribe(() => {
+        //   snapshotUtil.saveSnapshot(store.getState());
+        // });
       });
   }
 

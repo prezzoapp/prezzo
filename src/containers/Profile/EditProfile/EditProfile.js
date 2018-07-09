@@ -98,7 +98,7 @@ class EditProfile extends Component<Props, State> {
 
   render() {
     const {avatarURL, firstName, lastName, phone, address, zip, city} = this.state;
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <KeyboardAvoidingView behavior='padding' style={styles.parent}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

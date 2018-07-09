@@ -27,7 +27,7 @@ class EnableNotificationsView extends React.Component<Props, State> {
 
   componentDidMount() {
     Permissions.check('notification').then(response => {
-      console.log('setting notificationPermission', response);
+      // console.log('setting notificationPermission', response);
       // Response is one of: 'authorized', 'denied',
       // 'restricted', or 'undetermined'
       this.setState({notificationPermission: response});

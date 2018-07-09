@@ -1,7 +1,11 @@
 // @flow
 import React from 'react';
 import {Text, Image, TouchableOpacity} from 'react-native';
-import {LoginManager,AccessToken} from 'react-native-fbsdk';
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginManager,
+  AccessToken
+} = FBSDK;
 import {FONT_FAMILY} from '../../services/constants';
 
 type Props = {

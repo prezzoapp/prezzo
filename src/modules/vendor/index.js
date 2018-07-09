@@ -3,6 +3,7 @@ import {
   createVendor,
   updateVendor
 } from './actions';
+
 import reducer from './reducer';
 
 export {

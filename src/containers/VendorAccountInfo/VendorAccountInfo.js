@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import {Button, Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {Button, Image, ScrollView, Text, TouchableOpacity, View, TextInput} from 'react-native';
 import PropTypes from 'prop-types';
 import {Icon as NativeBaseIcon, Picker} from 'native-base';
 import ImagePicker from 'react-native-image-picker';
@@ -9,14 +9,13 @@ import ProfileTextInput from '../../components/ProfileTextInput';
 import ProfileDataField from '../../components/ProfileDataField';
 import EditableListItem from '../../components/EditableListItem';
 import {restaurantCategories} from '../../services/constants';
-import uploadImage from '../../services/uploader';
 import styles, {stylesRaw} from './styles';
 
 export default class VendorAccountInfo extends React.Component {
   // stupid hack to get static functions to get
   // reference to instance method;
   // to get over this, we need to upgrade `react-navigation`
-  static currentContext = null;
+  // static currentContext = null;
 
   static displayName = 'Profile';
 
@@ -37,7 +36,7 @@ export default class VendorAccountInfo extends React.Component {
     headerRight: (
       <Button
         color='#fff'
-        onPress={() => VendorAccountInfo.currentContext.save()}
+        // onPress={() => VendorAccountInfo.currentContext.save()}
         title='Save'
       />
     )
@@ -52,53 +51,66 @@ export default class VendorAccountInfo extends React.Component {
 
     const {avatarURL, vendor} = props;
 
-    if (!vendor) {
-      this.state = {
-        avatarURL,
-        categories: [],
-        hours: [],
-        location: {},
-        name: '',
-        selectedHoursDay: 0,
-        selectedCategory: restaurantCategories[0],
-        selectedClosingTime: '18:00',
-        selectedOpeningTime: '10:00',
-        upload: null,
-        website: ''
-      };
-      return;
-    }
+    // console.log('vendor');
+    // console.log(vendor);
 
-    const location = vendor.get('location');
+    // const location = vendor.get('location');
+
+    // console.log('location', location);
+
+    // this.currentContext = null;
 
     this.state = {
       avatarURL,
-      categories: vendor.get('categories').toJS() || [],
-      hours: vendor.get('hours').toJS() || [],
+      categories: [],
+
+      hours: [
+      {
+        dayOfWeek: 1,
+        closeTimeHour: 6,
+        closeTimeMinutes: 0,
+        openTimeHour: 9,
+        openTimeMinutes: 0
+      }],
+
       location: {
-        address: location.get('address') || '',
-        city: location.get('city') || '',
-        country: location.get('country') || '',
-        region: location.get('region') || '',
-        postalCode: location.get('postalCode') || '',
-        latitude: location.get('latitude') || location.get('coordinates').get(1) || null,
-        longitude: location.get('longitude') || location.get('coordinates').get(0) || null
+        address: '631 Washington Blvd',
+        city: 'Los Angeles',
+        country: 'United States',
+        region: 'CA',
+        postalCode: 90292,
+        latitude: 0.0,
+        longitude: 0.0
       },
-      name: vendor.get('name') || '',
+  
+      website: 'sagebistro.com',
+      // categories: vendor.get('categories').toJS() || [],
+      // hours: vendor.get('hours').toJS() || [],
+      // location: {
+      //   address: location.get('address') || '',
+      //   city: location.get('city') || '',
+      //   country: location.get('country') || '',
+      //   region: location.get('region') || '',
+      //   postalCode: location.get('postalCode') || '',
+      //   latitude: location.get('latitude') || location.get('coordinates').get(1) || null,
+      //   longitude: location.get('longitude') || location.get('coordinates').get(0) || null
+      // },
+      // name: vendor.get('name') || '',
+      name: 'Sage Bistro',
       selectedHoursDay: 0,
       selectedCategory: restaurantCategories[0],
       selectedClosingTime: '18:00',
       selectedOpeningTime: '10:00',
-      upload: null,
-      website: vendor.get('website') || ''
+      email: 'steven@sagebistro.com'
+      // website: vendor.get('website') || ''
     };
 
     console.log('got state', this.state);
   }
 
   componentDidMount() {
-    this.constructor.currentContext = this;
-    console.log('setting currentContext', this.constructor.currentContext);
+    // this.constructor.currentContext = this;
+    // console.log('setting currentContext', this.constructor.currentContext);
   }
 
   showAvatarActionSheet() {
@@ -110,11 +122,8 @@ export default class VendorAccountInfo extends React.Component {
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
-        console.log('Image response: ', response);
-        this.setState({
-          avatarURL: response.uri,
-          upload: response
-        });
+        console.log('Image URI: ', response.uri);
+        this.setState({avatarURL: response.uri});
       }
     });
   }
@@ -179,33 +188,6 @@ export default class VendorAccountInfo extends React.Component {
     this.setState({hours: newHours});
   }
 
-  async uploadPhoto() {
-    const {upload} = this.state;
-    const {fileName, fileSize, uri} = upload;
-
-    if (!upload) {
-      return;
-    }
-
-    await uploadImage(
-      uri,
-      fileSize,
-      'image/jpeg',
-      fileName,
-      'userAvatar',
-      'public-read'
-    ).then(avatarURL => {
-      this.setState({
-        avatarURL
-        // PATCH: don't clear upload on upload successful
-        // makes it easier to do repeat uploads w/o reselecting picture
-        // TODO: uncomment `upload: null`
-        // upload: null
-        // END PATCH
-      });
-    });
-  }
-
   async save() {
     const {vendor, isBusy, createVendor, updateVendor} = this.props;
 
@@ -215,22 +197,17 @@ export default class VendorAccountInfo extends React.Component {
     }
 
     try {
-      const params = {...this.state};
-      delete params.upload;
-
-      // await this.uploadPhoto();
-
       if (vendor) {
         console.log('updating vendor');
-        await updateVendor(vendor.get('_id'), params);
+        await updateVendor(vendor.get('_id'), this.state);
       } else {
         console.log('create vendor');
-        await createVendor(params);
+        await createVendor(this.state);
       }
 
       this.props.navigateBack();
     } catch (e) {
-      console.warn('error creating or updating vendor', e);
+      console.warn('error creator or updating vendor', e);
     }
   }
 
@@ -260,7 +237,8 @@ export default class VendorAccountInfo extends React.Component {
       selectedCategory,
       selectedClosingTime,
       selectedOpeningTime,
-      website
+      website,
+      email
     } = this.state;
     const {
       address,
@@ -543,7 +521,6 @@ export default class VendorAccountInfo extends React.Component {
                   />
                 }
                 style={styles.hoursPicker}
-                textStyle={styles.hoursPickerText}
                 selectedValue={selectedCategory}
                 onValueChange={val => this.setState({selectedCategory: val})}
               >
@@ -556,6 +533,24 @@ export default class VendorAccountInfo extends React.Component {
                 <Text style={styles.addText}>Add Category</Text>
               </TouchableOpacity>
             </View>
+          </View>
+        </View>
+
+        <View style={styles.categoriesContainer}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionHeaderText}>Submit</Text>
+          </View>
+          <View style = { styles.sectionBody }>
+              <Text style = {{ color: '#A7A7A7' }}>
+                Well send you an email to verify your information
+              </Text>
+
+              <TextInput
+                placeholder = ""
+                value = { email }
+                onChangeText = { (email_value) => this.setState({ email: email_value }) }
+                underlineColorAndroid = "transparent"
+              />
           </View>
         </View>
       </ScrollView>

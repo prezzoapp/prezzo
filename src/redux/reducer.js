@@ -4,9 +4,10 @@ import NavigatorStateReducer from '../containers/navigator/NavigatorState';
 import CounterStateReducer from '../containers/counter/CounterState';
 import AuthReducer from '../modules/auth';
 import UserReducer from '../modules/user';
-import SignupReducer from '../modules/signup';
+import SignupReducer from '../modules/Signup';
 import SessionStateReducer, {RESET_STATE} from '../containers/session/SessionState';
 import VendorReducer from '../modules/vendor';
+import { menusListReducer } from '../containers/CreateMenu/reducers';
 
 const reducers = {
   counter: CounterStateReducer,
@@ -15,7 +16,8 @@ const reducers = {
   auth: AuthReducer,
   user: UserReducer,
   signup: SignupReducer,
-  vendor: VendorReducer
+  vendor: VendorReducer,
+  menusListReducer: menusListReducer
 };
 
 // initial state, accessor and mutator for supporting root-level

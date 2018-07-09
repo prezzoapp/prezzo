@@ -16,6 +16,8 @@ import {post} from '../../utils/api';
 import {setAuthenticationToken as cacheToken} from '../../utils/authentication';
 
 export const setAuthenticationToken = async user => {
+  console.log("User");
+  console.log(user);
   const userId = user.get('_id');
   const sessions = user.get('sessions');
   const session = sessions.get(0);

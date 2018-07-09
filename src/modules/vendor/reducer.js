@@ -1,5 +1,5 @@
 // @flow
-import {Map} from 'immutable';
+import {Map} from 'immutable'
 import {
   CREATE_VENDOR_REQUEST,
   CREATE_VENDOR_SUCCESS,
@@ -17,7 +17,35 @@ import type State from './types';
 
 const INITIAL_STATE: State = Map({
   isBusy: false,
-  data: null,
+  data: {
+    name: 'Sage Bistro',
+
+    categories: [
+    {
+      name: 'Vegan'
+    }],
+
+    hours: [
+    {
+      dayOfWeek: 1,
+      closeTimeHour: 6,
+      closeTimeMinutes: 0,
+      openTimeHour: 9,
+      openTimeMinutes: 0
+    }],
+
+    location: {
+      address: '631 Washington Blvd',
+      city: 'Los Angeles',
+      country: 'United States',
+      region: 'CA',
+      postalCode: 90292,
+      latitude: 0.0,
+      longitude: 0.0
+    },
+
+    website: 'sagebistro.com'
+  },
   error: null
 });
 
@@ -25,6 +53,8 @@ const reducer = (state: State = INITIAL_STATE, action) => {
   const {type, payload} = action;
   switch (type) {
     case CREATE_VENDOR_REQUEST:
+      console.log("Create Vendor request");
+    break;
     case UPDATE_VENDOR_REQUEST:
       return state.update('isBusy', () => true);
     case CREATE_VENDOR_FAILURE:
