@@ -21,16 +21,18 @@ export default class MenuItem extends Component
 
     shouldComponentUpdate( nextProps, nextState )
     { 
-        if( nextProps.item.id === this.props.item.id )
-        {            
-            return false;
-        }
-        else
-        {   
-            console.log("Next Props Item ID: " + nextProps.item.id);
-            console.log("Previous Props Item ID: " + this.props.item.id);         
-            return true;
-        }
+        // if( nextProps.item.id === this.props.item.id )
+        // {            
+        //     return false;
+        // }
+        // else
+        // {   
+        //     console.log("Next Props Item ID: " + nextProps.item.id);
+        //     console.log("Previous Props Item ID: " + this.props.item.id);         
+        //     return true;
+        // }
+
+       return true;
     }
 
     editItem = () =>

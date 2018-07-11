@@ -1,9 +1,8 @@
+import { Map, fromJS, toJS } from 'immutable';
 
 let menuID = 0;
 
-let imageID = 0;
-
-const initialState = {
+const initialState = fromJS({
     categoryName: 'Sample Category',
 
     menuState: [{
@@ -17,8 +16,8 @@ const initialState = {
             id: 0,
             image_path: require("../../../../assets/images/default_image_placeholder.png")
         }]
-    }]
-}
+    }]  
+});
 
 export const menusListReducer = ( state = initialState, action ) =>
 {
@@ -27,31 +26,36 @@ export const menusListReducer = ( state = initialState, action ) =>
         case 'ADD_NEW_ITEM':
             menuID = menuID + 1;
 
-            newMenuItemClone = { ...initialState.menuState[0] };
+            let menuItemClone = initialState.get('menuState').get(0).set('id', menuID);
 
-            newMenuItemClone.id = menuID;
+            let updatedMenuItemsArray = state.get('menuState').push(menuItemClone);
 
-            newState = {
-                ...state,
-                menuState: [ ...state.menuState, newMenuItemClone ]
-            }
+            let newState = state.set('menuState', updatedMenuItemsArray );
 
             return newState;
         break;
 
         case 'ADD_NEW_IMAGE_COMPONENT':
+            let getParentObjID = action.payload;
 
-            // selectedObj = Object.assign({}, state.menuState[ state.menuState.findIndex( x => x.id === action.payload ) ]);
+            let objectID = state.get('menuState').findIndex(( item ) =>
+            {
+                return item.get( 'id' ) === getParentObjID
+            });
 
-            // newImageEle = { ...initialState.menuState[0].itemImages[0] }
+            let parentObj = state.get('menuState').get(objectID);
 
-            // newImageEle.id = selectedObj.itemImages[ selectedObj.itemImages.length - 1 ].id + 1;
+            let updatedIDforImageItemClone = parentObj.get('itemImages').get(-1).get('id') + 1;
 
-            // selectedObj.itemImages = [ ...selectedObj.itemImages, newImageEle ];
+            let imageItemClone = initialState.get('menuState').get(0).get('itemImages').get(0).set('id', updatedIDforImageItemClone);
 
-            // console.log(selectedObj.itemImages.length);
+            let updatedParentItem = parentObj.set('itemImages', parentObj.get('itemImages').push(imageItemClone));
 
-            return state;
+            let newMenuItemsArray = state.get('menuState').set(objectID, updatedParentItem );
+
+            let updatedState = state.set('menuState', newMenuItemsArray );
+            
+            return updatedState;
         break;
 
         case 'CHANGE_IMAGE':

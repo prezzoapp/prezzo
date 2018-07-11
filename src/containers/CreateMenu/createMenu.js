@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
 
 // import Menus from './fakeMenus';
+
 import MenuItem from './menuItem';
 
 import { connect } from 'react-redux';
@@ -15,7 +16,7 @@ import {
     COLOR_GREEN
 } from '../../services/constants';
 
-class MenuItems extends Component
+class MenuItems extends PureComponent 
 {
     static navigationOptions =
     {
@@ -160,10 +161,10 @@ const styles = StyleSheet.create(
     }
 });
 
-const mapStateToProps = ( state ) =>
+const mapStateToProps = ( state, ownProps ) =>
 {
     return {
-        menusListReducer: state.get('menusListReducer')
+        menusListReducer: state.get('menusListReducer').toJS()
     }
 }
 
