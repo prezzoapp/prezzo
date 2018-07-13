@@ -8,6 +8,7 @@ import SignupReducer from '../modules/Signup';
 import SessionStateReducer, {RESET_STATE} from '../containers/session/SessionState';
 import VendorReducer from '../modules/vendor';
 import { menusListReducer } from '../containers/CreateMenu/reducers';
+import { sectionListReducer, selectedListItemIDReducer } from '../containers/Explore/simpleHorizontalList/reducer';
 
 const reducers = {
   counter: CounterStateReducer,
@@ -17,7 +18,9 @@ const reducers = {
   user: UserReducer,
   signup: SignupReducer,
   vendor: VendorReducer,
-  menusListReducer: menusListReducer
+  menusListReducer: menusListReducer,
+  sectionListReducer: sectionListReducer,
+  selectedListItemIDReducer: selectedListItemIDReducer
 };
 
 // initial state, accessor and mutator for supporting root-level
