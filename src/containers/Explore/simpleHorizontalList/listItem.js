@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Dimensions } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -25,20 +25,39 @@ export default class ListItem extends Component {
 
     render() {
         return (
-            <View style={styles.listItem}>
-                <ImageBackground source={this.props.item.imagePath} style={styles.image} imageStyle={{ borderRadius: 5 }}>
-                    <LinearGradient
-                        colors={['transparent', 'black']}
-                        style={styles.linearGradientStyle}>
-                        <TouchableOpacity activeOpacity={0.6}
-                            style={styles.likeBtn}>
-                            <Icon name="heart" size={25} color="rgb(255, 253, 250)" />
-                            <Text style={styles.likesText}>{this.props.item.likes} likes</Text>
-                        </TouchableOpacity>
-                    </LinearGradient>
-                </ImageBackground>
-                <Text style={styles.restaurantName}>{this.props.item.restaurant}</Text>
-                <Text style={styles.cityName}>{this.props.item.city}</Text>
+            <View>
+                {
+                    (this.props.sectionName === 'trending') &&
+                        <View style={styles.listItem}>
+                            <ImageBackground source={this.props.item.imagePath} style={[styles.image, {height: 176}]} imageStyle={{borderRadius: 5}}>
+                                <LinearGradient
+                                    colors={['transparent', 'black']}
+                                    style={styles.linearGradientStyle}>
+                                    <TouchableOpacity activeOpacity={0.6}
+                                        style={styles.likeBtn}>
+                                        <Icon name="heart" size={25} color="rgb(255, 253, 250)" />
+                                        <Text style={styles.likesText}>{this.props.item.likes} likes</Text>
+                                    </TouchableOpacity>
+                                </LinearGradient>
+                            </ImageBackground>
+                            <Text style={styles.restaurantName}>{this.props.item.restaurant}</Text>
+                            <Text style={styles.cityName}>{this.props.item.city}</Text>
+                        </View>
+                }
+
+                {
+                    (this.props.sectionName === 'featured') &&
+                    <View>
+                        <ImageBackground source={this.props.item.imagePath} style={[styles.image, {width: '100%', height: 150}]} imageStyle={{ borderRadius: 5 }}>
+                            <LinearGradient
+                                colors={['transparent', 'black']}
+                                style={styles.linearGradientStyle}>
+                            </LinearGradient>
+                        </ImageBackground>
+                        <Text style={styles.restaurantName}>{this.props.item.restaurant}</Text>
+                        <Text style={styles.cityName}>{this.props.item.city}</Text>
+                    </View>
+                }
             </View>
         )
     }
@@ -55,7 +74,6 @@ const styles = StyleSheet.create(
         {
             flex: 1,
             width: 128,
-            height: 176,
             elevation: 5
         },
 

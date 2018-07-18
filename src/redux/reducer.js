@@ -7,8 +7,12 @@ import UserReducer from '../modules/user';
 import SignupReducer from '../modules/Signup';
 import SessionStateReducer, {RESET_STATE} from '../containers/session/SessionState';
 import VendorReducer from '../modules/vendor';
-import { menusListReducer } from '../containers/CreateMenu/reducers';
-import { sectionListReducer, selectedListItemIDReducer } from '../containers/Explore/simpleHorizontalList/reducer';
+import {menusListReducer} from '../containers/CreateMenu/reducers';
+import {sectionListReducer, selectedListItemIDReducer} from '../containers/Explore/simpleHorizontalList/reducer';
+
+import {restaurantsListReducer} from '../containers/Maps/reducers';
+
+import {filtersReducer} from '../containers/Explore/headerSection/reducers';
 
 const reducers = {
   counter: CounterStateReducer,
@@ -18,9 +22,11 @@ const reducers = {
   user: UserReducer,
   signup: SignupReducer,
   vendor: VendorReducer,
-  menusListReducer: menusListReducer,
-  sectionListReducer: sectionListReducer,
-  selectedListItemIDReducer: selectedListItemIDReducer
+  menusListReducer,
+  sectionListReducer,
+  selectedListItemIDReducer,
+  restaurantsListReducer,
+  filtersReducer
 };
 
 // initial state, accessor and mutator for supporting root-level

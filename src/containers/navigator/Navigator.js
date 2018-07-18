@@ -10,6 +10,7 @@ import SignupPassword from '../Signup/SignupPassword';
 import SignupComplete from '../Signup/SignupComplete';
 
 import Explore from '../Explore';
+import Maps from '../Maps';
 import VendorAccountMenu from '../VendorAccountMenu';
 import VendorAccountInfo from '../VendorAccountInfo';
 
@@ -42,16 +43,23 @@ const ProfileNavigator = StackNavigator({
   VendorAccountMenu: {screen: VendorAccountMenu},
   VendorAccountInfo: {screen: VendorAccountInfo},
   LocationSearch: {screen: LocationSearch},
-  MenuItems: { screen: MenuItems }
+  MenuItems: {screen: MenuItems}
 }, {
   initialRouteName: 'Profile'
 });
 
+// const ExploreNaivgator = StackNavigator({
+//   Explore: {screen: Explore},
+//   Maps: {screen: Maps}
+// },{
+//   mode: 'modal'
+// });
+
 const AuthenticatedNavigator = TabNavigator({
   Explore: {screen: Explore},
   Profile: {screen: ProfileNavigator}
-}, {
-  tabBarPosition: 'top',
+},{
+  tabBarPosition: 'bottom',
   initialRouteName: 'Explore',
   tabBarOptions: {
     activeTintColor: activeColor,
@@ -64,18 +72,30 @@ const AuthenticatedNavigator = TabNavigator({
   }
 });
 
-AuthenticatedNavigator.navigationOptions = {
-  title: 'Prezzo',
-  headerTitleStyle: {color: 'white'},
-  headerStyle: {
-    backgroundColor: headerColor,
-    elevation: 0 // disable header elevation when TabNavigator visible
-  }
-};
+const MainStackNavigator = StackNavigator({
+  AuthenticatedNavigator: {
+    screen: AuthenticatedNavigator,
+    navigationOptions: {
+      header: null
+    }
+  },
+  Maps: {screen: Maps}
+},{
+  mode: 'modal'
+});
+
+// AuthenticatedNavigator.navigationOptions = {
+//   title: 'Prezzo',
+//   headerTitleStyle: {color: 'white'},
+//   headerStyle: {
+//     backgroundColor: headerColor,
+//     elevation: 0 // disable header elevation when TabNavigator visible
+//   }
+// };
 
 const Navigator = SwitchNavigator({
   Unauthenticated: UnauthenticatedNavigator,
-  Authenticated: AuthenticatedNavigator
+  Authenticated: MainStackNavigator
 },{
   initialRouteName: 'Unauthenticated'
 });

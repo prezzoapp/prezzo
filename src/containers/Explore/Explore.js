@@ -1,89 +1,64 @@
 // @flow
-import React, { Component } from 'react';
-import { View, StyleSheet, Text, TextInput, Image, TouchableOpacity, SectionList } from 'react-native';
+import React, {Component} from 'react';
+import {View, StyleSheet, Text, Image, TouchableOpacity, SectionList} from 'react-native';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
-import DropArrowIcon from 'react-native-vector-icons/EvilIcons';
-
-import SearchInput from '../../components/SearchInput';
 
 import SimpleHorizontalList from './simpleHorizontalList';
 
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import * as actions from './simpleHorizontalList/actions';
 
+import HeaderSection from './headerSection';
+
 import {
-  FONT_FAMILY,
-  FONT_FAMILY_BOLD,
-  FONT_FAMILY_MEDIUM
+  FONT_FAMILY_BOLD
 } from '../../services/constants';
 
 class Explore extends Component {
   static displayName = 'Explore';
 
   static navigationOptions = {
-    title: 'Explore',
-    tabBarIcon: props => (
-      <Icon name='explore' size={24} color={props.tintColor} />
-    ),
-    headerTintColor: 'white',
-    headerStyle: {
-      position: 'absolute',
-      backgroundColor: 'transparent',
-      zIndex: 100,
-      top: 0,
-      left: 0,
-      right: 0
-    }
+    header: null
   };
 
   static propTypes = {
-    navigate: PropTypes.func.isRequired
+    navigate: PropTypes.func.isRequired,
+    sectionListReducer: PropTypes.object
   };
 
-  renderSection = (section) => {
+  constructor()
+  {
+    super();
+  }
+
+  renderSection = (sectionTitle) => {
     return (
       <View style={styles.headerStyle}>
-        <Text style={styles.headerTextStyle}>{section.title}</Text>
+        <Text style={styles.headerTextStyle}>{sectionTitle.toUpperCase()}</Text>
         <TouchableOpacity activeOpacity={0.6}>
+          <Image source={require('../../../assets/images/three_dots.png')} style={styles.threeDotsImage} />
         </TouchableOpacity>
       </View>
-    )
+    );
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <SearchInput />
+        <HeaderSection />
 
-          <View style={styles.filterPanel}>
-            <Text style={styles.nearMeText}>Near Me</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderBottomWidth: 2, borderBottomColor: 'rgb(36, 49, 42)' }}>
-              <Text style={{ fontFamily: FONT_FAMILY_BOLD, color: 'white', fontSize: 25 }}>Restaurants</Text>
-              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity activeOpacity={0.6} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                  <Text style={styles.filter}> Filter</Text>
-                  <DropArrowIcon name="chevron-down" size={25} color="#fafafa" />
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.6} style = {{ marginLeft: 10 }}>
-                  <Image source = { require('../../../assets/images/location_icon.png') } style = { styles.threeDotsImage } />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
-
-        {/* <SectionList
+        <SectionList
+          style={{marginTop: 115.333}}
+          initialNumToRender={3}
           keyExtractor={(item, index) => index}
           sections={this.props.sectionListReducer.get('sections').toJS()}
-          renderSectionHeader={(section) => this.renderSection(section)}
-          renderItem={({ item }) =>
-            <SimpleHorizontalList item={item} />
+          renderSectionHeader={(section) => this.renderSection(section.section.title)}
+          stickySectionHeadersEnabled={true}
+          renderItem={({item, section}) =>
+            <SimpleHorizontalList item={item} sectionName={section.title} />
           }
-        /> */}
+        />
       </View>
     );
   }
@@ -98,28 +73,11 @@ const styles = StyleSheet.create(
       paddingTop: 15
     },
 
-    header:
+    threeDotsImage:
     {
-      alignSelf: 'stretch'
-    },
-
-    nearMeText:
-    {
-      fontSize: 15,
-      color: 'rgb(50, 209, 119)',
-      fontFamily: FONT_FAMILY_MEDIUM
-    },
-
-    filterPanel:
-    {
-      paddingHorizontal: 15,
-      paddingTop: 8
-    },
-
-    filter:
-    {
-      color: '#fafafa',
-      fontSize: 13
+      width: 20,
+      height: 20,
+      resizeMode: 'contain'
     },
 
     headerStyle:
@@ -127,7 +85,8 @@ const styles = StyleSheet.create(
       padding: 15,
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
+      backgroundColor: '#2B2C2C'
     },
 
     headerTextStyle:
@@ -135,13 +94,6 @@ const styles = StyleSheet.create(
       color: 'white',
       fontSize: 17,
       fontFamily: FONT_FAMILY_BOLD
-    },
-
-    threeDotsImage:
-    {
-      width: 30,
-      height: 30,
-      resizeMode: 'contain'
     }
   });
 
@@ -149,7 +101,7 @@ const mapStateToProps = (state) => {
   return {
     sectionListReducer: state.get('sectionListReducer'),
     selectedListItemID: state.get('selectedListItemIDReducer')
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, actions)(Explore);
