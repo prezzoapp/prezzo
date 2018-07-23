@@ -5,31 +5,55 @@ const filters = fromJS({
     id: 0,
     filterType: 'realtime',
     name: 'Open Now',
-    image: '../../../../../assets/images/filtes/realtime-protection.png'
+    active: false,
+    image: require('../../../../../assets/images/filters/realtime-protection.png')
   },{
     id: 1,
-    filterType: 'dollar',
+    filterType: 'price',
     name: 'Price',
-    image: '../../../../../assets/images/filtes/dollar-sign-icon.png'
+    active: false,
+    image: require('../../../../../assets/images/filters/dollar-sign-icon.png')
   },{
     id: 2,
     filterType: 'wifi',
     name: 'Wifi',
-    image: '../../../../../assets/images/filtes/wifi-icon.png'
+    active: false,
+    image: require('../../../../../assets/images/filters/wifi-icon.png')
   },{
     id: 3,
     filterType: 'delivery',
     name: 'Delivery',
-    image: '../../../../../assets/images/filtes/delivery.png'
+    active: false,
+    image: require('../../../../../assets/images/filters/delivery.png')
   },{
     id: 4,
     filterType: 'breakfast',
     name: 'Breakfast',
-    image: '../../../../../assets/images/filtes/breakfast.png'
+    active: false,
+    image: require('../../../../../assets/images/filters/breakfast.png')
   }]
-})
+});
 
-export const filtersReducer = (state = filters, action) =>
-{
-  return state;
-}
+export const filtersReducer = (state = filters, action) => {
+  switch (action.type) {
+    case 'TOGGLE_FILTER':
+      console.log(state);
+      return state.set('filters', state.get('filters').update(
+        state.get('filters').findIndex((item) => {
+          return item.get('id') === action.payload;
+        }), (item) => {
+        return item.set('active', !item.get('active'));
+      }));
+    default:
+      return state;
+  }
+};
+
+export const selectedFilterIDReducer = (state = -1, action) => {
+  switch (action) {
+    case 'SELECTED_FILTER_ID':
+      return action.payload;
+    default:
+      return state;
+  }
+};

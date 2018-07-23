@@ -1,0 +1,17 @@
+<FlatList
+              horizontal
+              contentContainerStyle={styles.filtersList}
+              keyExtractor={(item) => item.id}
+              showsHorizontalScrollIndicator={false}
+              data={this.props.filtersReducer.get('filters').toJS()}
+              renderItem={({item}) =>
+                <FilterItems item={item} toggleFilter={() => this.props.toggleFilter(item.id)}/>
+              }
+            />
+
+            <View style={{position: 'relative', backgroundColor: 'red', flexDirection: 'row', height: 30}}>
+                  <Text style={{position: 'absolute', left: '0%', color: 'white', textAlign: 'center'}}>$</Text>
+                  <Text style={{position: 'absolute', color: 'white', textAlign: 'center', left: '33.33%'}}>$$</Text>
+                  <Text style={{position: 'absolute', color: 'white', textAlign: 'center', left: '66.66%'}}>$$$</Text>
+                  <Text style={{position: 'absolute', color: 'white', textAlign: 'center', left: '100%'}}>$$$$</Text>
+                </View>

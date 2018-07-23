@@ -1,135 +1,195 @@
-import { Map, fromJS, toJS } from 'immutable';
+import {fromJS} from 'immutable';
 
-let menuID = 0;
+// let menuID = 0;
+
+let sectionID = 0;
+
+const initialItemImageObj = fromJS({
+  id: 0,
+  image_path: ''
+});
 
 const initialState = fromJS({
-    categoryName: 'Sample Category',
+  categories: [{
+    id: sectionID,
 
-    menuState: [{
-        id: menuID,
-        name: 'Item',
-        price: 'Price',
-        description: 'Description',
-        editable: false,
-        itemImages: [
-            {
-                id: 0,
-                image_path: ''
-            }]
+    createdDate: new Date(),
+
+    title: 'Sample Category',
+
+    data: [{
+      id: 0,
+      createdDate: new Date(),
+      name: 'Item',
+      price: 'Price',
+      description: 'Description',
+      editable: false,
+      itemImages: []
     }]
+  }]
 });
 
 export const menusListReducer = (state = initialState, action) => {
-    switch (action.type) {
-        // MENU ITEM REDUCER(s)
+  var sectionIndex, sectionObj, menuIndex, menuObj, generatedIDForNewElement;
 
-        case 'ADD_NEW_ITEM':
-            menuID = menuID + 1;
+  switch (action.type) {
+    case 'ADD_NEW_CATEGORY':
+      sectionID += 1;
 
-            let menuItemClone = initialState.get('menuState').get(0).set('id', menuID);
+      return state.set('categories', state.get('categories').push(
+          initialState.get('categories').get(0).set('id', sectionID))
+      );
 
-            let updatedMenuItemsArray = state.get('menuState').push(menuItemClone);
+    // MENU ITEM REDUCER(s)
 
-            let newState = state.set('menuState', updatedMenuItemsArray);
+    case 'ADD_NEW_ITEM':
+      sectionIndex = state.get('categories').findIndex((item) => {
+        return item.get('id') === action.payload
+      });
 
-            return newState;
-            break;
+      sectionObj = state.get('categories').get(sectionIndex);
 
-        case 'EDIT_ITEM':
-            return state.set('menuState', state.get('menuState').update(
-                state.get('menuState').findIndex((item) => {
-                    return item.get('id') === action.payload
-                }), (item) => {
-                    return item.set('editable', true);
-                }));
-            break;
+      generatedIDForNewElement = (sectionObj.get('data').size === 0) ? 0 : sectionObj.get('data').last().get('id') + 1;
 
-        case 'SAVE_ITEM':
-            return state.set('menuState', state.get('menuState').update(
-                state.get('menuState').findIndex((item) => {
-                    return item.get('id') === action.payload
-                }), (item) => {
-                    return item.set('editable', false);
-                }));
-            break;
+      return state.set('categories', state.get('categories').update(
+          sectionIndex, (item) => {
+            return item.set('data', item.get('data').push(
+              initialState.get('categories').get(0).get('data').get(0).set('id', generatedIDForNewElement)
+            ));
+          }));
 
-        case 'DELETE_ITEM':
-            return state.set('menuState', state.get('menuState').delete(
-                state.get('menuState').findIndex((item) => {
-                    return item.get('id') === action.payload
-                })));
-            break;
+    case 'EDIT_ITEM':
+      sectionIndex = state.get('categories').findIndex((item) => {
+        return item.get('id') === action.payload.sectionID
+      });
 
+      return state.set('categories', state.get('categories').update(
+          sectionIndex, (sectionItem) => {
+            return sectionItem.set('data', sectionItem.get('data').update(
+              sectionItem.get('data').findIndex((menuItem) => {
+                return menuItem.get('id') === action.payload.itemID
+              }), (item) => {
+              return item.set('editable', true)
+            }
+            ));
+          }));
 
-        // MENU-ITEM IMAGE-COMPONENT REDUCER(s)
+    case 'SAVE_ITEM':
+      return state.set('menuState', state.get('menuState').update(
+          state.get('menuState').findIndex((item) => {
+            return item.get('id') === action.payload
+          }), (item) => {
+        return item.set('editable', false);
+      }));
 
-        case 'ADD_NEW_IMAGE_COMPONENT':
-            let getParentObjID = action.payload;
+    case 'DELETE_ITEM':
+      sectionIndex = state.get('categories').findIndex((item) => {
+        return item.get('id') === action.payload.sectionID
+      });
 
-            let objectID = state.get('menuState').findIndex((item) => {
-                return item.get('id') === getParentObjID
-            });
+      return state.set('categories', state.get('categories').update(
+          sectionIndex, (sectionItem) => {
+            return sectionItem.set('data', sectionItem.get('data').delete(
+              sectionItem.get('data').findIndex((menuItem) => {
+                return menuItem.get('id') === action.payload.itemID
+              })
+            ));
+          }));
 
-            let parentObj = state.get('menuState').get(objectID);
+    // MENU-ITEM IMAGE-COMPONENT REDUCER(s)
 
-            let updatedIDforImageItemClone = (parentObj.get('itemImages').size === 0)
-                ? 0
-                : parentObj.get('itemImages').get(-1).get('id') + 1;
+    case 'ADD_NEW_IMAGE_COMPONENT':
+      sectionIndex = state.get('categories').findIndex((item) => {
+        return item.get('id') === action.payload.sectionID
+      });
 
-            let imageItemClone = initialState.get('menuState').get(0).get('itemImages').get(0).set('id', updatedIDforImageItemClone);
+      sectionObj = state.get('categories').get(sectionIndex);
 
-            let updatedParentItem = parentObj.set('itemImages', parentObj.get('itemImages').push(imageItemClone));
+      menuIndex = state.get('categories').get(sectionIndex).get('data').findIndex((item) => {
+        return item.get('id') === action.payload.itemID
+      });
 
-            let newMenuItemsArray = state.get('menuState').set(objectID, updatedParentItem);
+      menuObj = state.get('categories').get(sectionIndex).get('data').get(menuIndex);
 
-            let updatedState = state.set('menuState', newMenuItemsArray);
+      generatedIDForNewElement = (sectionObj.get('data').get(menuIndex).get('itemImages').size === 0)
+        ? 0
+        : sectionObj.get('data').get(menuIndex).get('itemImages').last().get('id') + 1;
 
-            return updatedState;
-            break;
+      return state.set('categories', state.get('categories').update(
+        sectionIndex, (sectionItem) => {
+          return sectionItem.set('data', sectionItem.get('data').update(
+            menuIndex, (menuItem) => {
+              return menuItem.set('itemImages',
+                menuItem.get('itemImages').push(initialItemImageObj.set('id', generatedIDForNewElement)));
+            }
+          ));
+        }
+      ));
 
-        case 'CHANGE_IMAGE':
-            return state.set('menuState', state.get('menuState').update(
-                state.get('menuState').findIndex((item) => {
-                    return item.get('id') === action.payload.parentID
-                }), (item) => {
-                    return item.set('itemImages', item.get('itemImages').update(
-                        item.get('itemImages').findIndex((item) => {
-                            return item.get('id') === action.payload.imageID
-                        }), (item) => {
-                            return item.set('image_path', action.payload.imagePath)
-                        }
-                    ));
-                }));
-            break;
+      //console.log(sectionObj.get('data').get(menuIndex).get('itemImages').last());
 
-        case 'DELETE_ITEM_IMAGE':
-            return state.set('menuState', state.get('menuState').update(
-                state.get('menuState').findIndex((item) => {
-                    return item.get('id') === action.payload.parentID
-                }), (item) => {
-                    return item.set('itemImages', item.get('itemImages').delete(
-                        item.get('itemImages').findIndex((item) => {
-                            return item.get('id') === action.payload.imageID
-                        })
-                    ));
-                }));
-            break;
+      //return state;
 
-        case 'CHANGE_TEXT':
-            return state.set('menuState', state.get('menuState').update(
-                state.get('menuState').findIndex((item) => {
-                    return item.get('id') === action.payload.parentID
-                }), (item) => {
-                    if (action.payload.inputType === 'ITEM_NAME')
-                        return item.set('name', action.payload.text);
-                    else if (action.payload.inputType === 'ITEM_PRICE')
-                        return item.set('price', action.payload.text);
-                    else
-                        return item.set('description', action.payload.text);
-                }));
-            break;
+      //return state;
 
-        default:
-            return state;
-    }
-}
+      // let parentObj = state.get('menuState').get(objectID);
+      //
+      // let updatedIDforImageItemClone = (parentObj.get('itemImages').size === 0)
+      //     ? 0
+      //     : parentObj.get('itemImages').get(-1).get('id') + 1;
+      //
+      // let imageItemClone = initialState.get('menuState').
+      //   get(0).get('itemImages').get(0).set('id', updatedIDforImageItemClone);
+      //
+      // let updatedParentItem = parentObj.set('itemImages', parentObj.get('itemImages').push(imageItemClone));
+      //
+      // let newMenuItemsArray = state.get('menuState').set(objectID, updatedParentItem);
+      //
+      // let updatedState = state.set('menuState', newMenuItemsArray);
+
+    case 'CHANGE_IMAGE':
+      return state.set('menuState', state.get('menuState').update(
+          state.get('menuState').findIndex((item) => {
+            return item.get('id') === action.payload.parentID
+          }), (item) => {
+        return item.set('itemImages', item.get('itemImages').update(
+                  item.get('itemImages').findIndex((item) => {
+                    return item.get('id') === action.payload.imageID
+                  }), (item) => {
+          return item.set('image_path', action.payload.imagePath)
+        }
+              ));
+      }));
+
+    case 'DELETE_ITEM_IMAGE':
+      return state.set('menuState', state.get('menuState').update(
+          state.get('menuState').findIndex((item) => {
+            return item.get('id') === action.payload.parentID
+          }), (item) => {
+        return item.set('itemImages', item.get('itemImages').delete(
+                  item.get('itemImages').findIndex((item) => {
+                    return item.get('id') === action.payload.imageID
+                  })
+              ));
+      }));
+
+    case 'CHANGE_TEXT':
+      return state.set('menuState', state.get('menuState').update(
+          state.get('menuState').findIndex((item) => {
+            return item.get('id') === action.payload.parentID
+          }), (item) => {
+        if (action.payload.inputType === 'ITEM_NAME') {
+          return item.set('name', action.payload.text);
+        }
+        else if (action.payload.inputType === 'ITEM_PRICE') {
+          return item.set('price', action.payload.text);
+        }
+        else {
+          return item.set('description', action.payload.text);
+        }
+      }));
+
+    default:
+      return state;
+  }
+};

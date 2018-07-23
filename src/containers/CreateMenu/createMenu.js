@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
-import { View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
+import React, {PureComponent} from 'react';
+import {View, StyleSheet, Text, TouchableOpacity, SectionList} from 'react-native';
 
-// import Menus from './fakeMenus';
+import PropTypes from 'prop-types';
 
 import MenuItem from './menuItem';
 
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import * as actions from './actions';
 
@@ -17,157 +17,180 @@ import {
 } from '../../services/constants';
 
 class MenuItems extends PureComponent {
-    static navigationOptions =
-        {
-            title: 'Create Menu',
-            headerStyle: {
-                backgroundColor: '#2B2C2C',
-                elevation: 0
-            },
+  static propTypes = {
+    addNewCategory: PropTypes.func.isRequired,
+    addNewItemInMenuList: PropTypes.func.isRequired,
+    addNewImageComponent: PropTypes.func.isRequired,
+    menusListReducer: PropTypes.array.isRequired,
+    deleteItem: PropTypes.func.isRequired,
+    editItem: PropTypes.func.isRequired
+  }
 
-            headerTitleStyle:
-            {
+  static navigationOptions =
+  {
+    title: 'Create Menu',
+    headerStyle: {
+      backgroundColor: '#2B2C2C',
+      elevation: 0
+    },
 
-                fontWeight: 'bold',
-
-                fontFamily: FONT_FAMILY
-            },
-
-            headerTintColor: '#fff'
-        };
-
-    constructor() {
-        super();
-    }
-
-    renderFooter = () => {
-        return (
-            <View style={styles.footerSection}>
-                <TouchableOpacity style={styles.addAnotherCommonBtn} activeOpacity={0.6}>
-                    <Text style={styles.addAnotherCommonBtnText}>Add Another Category</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.addAnotherCommonBtn} activeOpacity={0.6} onPress={() => this.props.addNewItemInMenuList()}>
-                    <Text style={styles.addAnotherCommonBtnText}>Add Another Item</Text>
-                </TouchableOpacity>
-            </View>
-        )
-    }
-
-    render() {
-        return (
-            <View style={styles.container}>
-                <View style={styles.sectionHeader}>
-                    <Text style={styles.sectionHeaderText}>{this.props.menusListReducer.categoryName}</Text>
-                    <TouchableOpacity activeOpacity={0.6}>
-                        <Text style={styles.addText}>Edit</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <FlatList
-                    keyExtractor={(item, index) => index}
-                    data={this.props.menusListReducer.menuState}
-                    renderItem={({ item }) =>
-                        <MenuItem
-                            item={item}
-                            addNewImageThumbnail={(parentID) => this.props.addNewImageComponent(parentID)}
-                            editItem={(parentID) => this.props.editItem(parentID)}
-                            saveItem={(parentID) => this.props.saveItem(parentID)}
-                            deleteItem={(itemID) => this.props.deleteItem(itemID)}
-                            changeImage={(parentID, imageID, imagePath) => this.props.changeImage(parentID, imageID, imagePath)}
-                            deleteImage={(parentID, imageID) => this.props.deleteItemImage(parentID, imageID)}
-                            changeText={(parentID, inputType, text) => this.props.changeText(parentID, inputType, text)}
-                        />}
-                    ListFooterComponent={this.renderFooter}
-                />
-
-                <View style={styles.footerSection}>
-                    <TouchableOpacity activeOpacity={0.6} style={styles.submitMenuBtn}>
-                        <Text style={styles.submitBtnText}>Submit Menu</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        )
-    }
-}
-
-const styles = StyleSheet.create(
+    headerTitleStyle:
     {
-        container:
-        {
-            flex: 1,
-            backgroundColor: 'red',
-            backgroundColor: COLOR_BLACK,
-            paddingHorizontal: 20
-        },
 
-        sectionHeader:
-        {
-            borderBottomColor: 'rgb(157,157,157)',
-            borderBottomWidth: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'baseline',
-            paddingVertical: 10
-        },
+      fontWeight: 'bold',
+      fontFamily: FONT_FAMILY
+    },
 
-        sectionHeaderText:
-        {
-            color: '#fff',
-            fontFamily: FONT_FAMILY,
-            fontSize: 20
-        },
+    headerTintColor: '#fff'
+  };
 
-        addText:
-        {
-            color: COLOR_GREEN,
-            fontSize: 16,
-            paddingRight: 13,
-            fontFamily: FONT_FAMILY
-        },
+  constructor() {
+    super();
+  }
 
-        addAnotherCommonBtn:
-        {
-            paddingVertical: 8,
-            alignSelf: 'flex-start'
-        },
+  renderListFooter = () =>
+  {
+    return (
+        <View style={styles.listFooterHolder}>
+            <TouchableOpacity style={styles.addAnotherCommonBtn}
+              activeOpacity={0.6}
+              onPress={() => this.props.addNewCategory()}>
+                <Text style={styles.addAnotherCommonBtnText}>Add Another Category</Text>
+            </TouchableOpacity>
+        </View>
+    );
+  }
 
-        addAnotherCommonBtnText:
-        {
-            color: 'rgb(147,147,147)',
-            fontFamily: FONT_FAMILY,
-            fontSize: 18
-        },
+  renderSectionFooter = (sectionID) => {
+    return (
+        <View style={styles.sectionFooterHolder}>
+            <TouchableOpacity
+              style={styles.addAnotherCommonBtn}
+              activeOpacity={0.6}
+              onPress={() => this.props.addNewItemInMenuList(sectionID)}>
+                <Text style={styles.addAnotherCommonBtnText}>Add Another Item</Text>
+            </TouchableOpacity>
+        </View>
+    );
+  }
 
-        footerSection:
-        {
-            padding: 15,
-            justifyContent: 'center'
-        },
+  renderSection = (title) =>
+  {
+    return (
+        <View style={styles.sectionHeader}>
+            <Text style={styles.sectionHeaderText}>{title}</Text>
+            <TouchableOpacity activeOpacity={0.6}>
+                <Text style={styles.addText}>Edit</Text>
+            </TouchableOpacity>
+        </View>
+    );
+  }
 
-        submitMenuBtn:
-        {
-            alignSelf: 'center',
-            paddingHorizontal: 40,
-            paddingVertical: 8,
-            borderRadius: 8,
-            borderWidth: 2,
-            borderColor: 'rgb(15,209,74)',
-            elevation: 2
-        },
+  render() {
+    return (
+        <View style={styles.container}>
+            <SectionList
+                keyExtractor={(item, index) => item + index}
+                sections={this.props.menusListReducer}
+                renderSectionHeader={({section: {title}}) => this.renderSection(title)}
+                renderSectionFooter={({section: {id}}) => this.renderSectionFooter(id)}
+                ListFooterComponent={this.renderListFooter}
+                stickySectionHeadersEnabled={true}
+                renderItem={({item, index, section}) =>
+                    <MenuItem
+                      item={item}
+                      deleteMenuItem={() => this.props.deleteItem(section.id, item.id)}
+                      editMenuItem={() => this.props.editItem(section.id, item.id)}
+                      addNewImageThumbnail={() => this.props.addNewImageComponent(section.id, item.id)} />
+                }
+            />
 
-        submitBtnText:
-        {
-            color: 'white',
-            fontFamily: FONT_FAMILY_BOLD,
-            fontSize: 15
-        }
-    });
-
-const mapStateToProps = (state, ownProps) => {
-    return {
-        menusListReducer: state.get('menusListReducer').toJS()
-    }
+            <View style={styles.footerSection}>
+                <TouchableOpacity activeOpacity={0.6} style={styles.submitMenuBtn}>
+                    <Text style={styles.submitBtnText}>Submit Menu</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+  }
 }
+
+const styles = StyleSheet.create({
+  container:
+  {
+    flex: 1,
+    backgroundColor: COLOR_BLACK,
+    paddingHorizontal: 20
+  },
+
+  sectionHeader:
+  {
+    borderBottomColor: 'rgb(157,157,157)',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+    paddingVertical: 10,
+    backgroundColor: COLOR_BLACK
+  },
+
+  sectionHeaderText:
+  {
+    color: '#fff',
+    fontFamily: FONT_FAMILY,
+    fontSize: 20
+  },
+
+  addText:
+  {
+    color: COLOR_GREEN,
+    fontSize: 16,
+    paddingRight: 13,
+    fontFamily: FONT_FAMILY
+  },
+
+  addAnotherCommonBtn:
+  {
+    paddingVertical: 10,
+    alignSelf: 'flex-start'
+  },
+
+  addAnotherCommonBtnText:
+  {
+    color: 'rgb(147,147,147)',
+    fontFamily: FONT_FAMILY,
+    fontSize: 18
+  },
+
+  footerSection:
+  {
+    padding: 15,
+    justifyContent: 'center'
+  },
+
+  submitMenuBtn:
+  {
+    alignSelf: 'center',
+    paddingHorizontal: 40,
+    paddingVertical: 8,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: 'rgb(15,209,74)',
+    elevation: 2
+  },
+
+  submitBtnText:
+  {
+    color: 'white',
+    fontFamily: FONT_FAMILY_BOLD,
+    fontSize: 15
+  }
+});
+
+const mapStateToProps = (state) => {
+  return {
+    menusListReducer: state.get('menusListReducer').get('categories').toJS()
+  };
+};
 
 export default connect(mapStateToProps, actions)(MenuItems);
