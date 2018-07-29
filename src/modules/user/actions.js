@@ -23,17 +23,25 @@ export const updateUser = async (
     type: UPDATE_USER_REQUEST
   });
 
+  const params = {
+    avatarURL,
+    firstName,
+    lastName,
+    phone,
+    address,
+    zip,
+    city
+  };
+
+  for (let key in params) {
+    if (typeof params[key] === 'undefined') {
+      delete params[key];
+    }
+  }
+
   try {
     const currentUser = getState().get('user').get('account');
-    const updatedUser = await post(`/v1/users/${currentUser.get('_id')}`, {
-      avatarURL,
-      firstName,
-      lastName,
-      phone,
-      address,
-      zip,
-      city
-    });
+    const updatedUser = await post(`/v1/users/${currentUser.get('_id')}`, params);
 
     return dispatch({
       type: UPDATE_USER_SUCCESS,

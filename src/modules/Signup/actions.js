@@ -14,7 +14,7 @@ import {
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
-  RESET
+  SIGNUP_RESET
 } from './types';
 import {post} from '../../utils/api';
 
@@ -123,5 +123,5 @@ export const clearErrors = () => ({
 });
 
 export const reset = {
-  type: RESET
+  type: SIGNUP_RESET
 };

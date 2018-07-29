@@ -5,6 +5,7 @@ export const FONT_FAMILY_BOLD = 'ClearSans-Bold';
 
 export const COLOR_BLACK = '#2B2C2C';
 export const COLOR_GREEN = '#39B86C';
+export const COLOR_DANGER = 'rgb(120,18,31)';
 
 export const restaurantCategories = [
   'Italian',

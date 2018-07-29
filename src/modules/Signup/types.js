@@ -13,7 +13,7 @@ export const SIGNUP_REQUEST = 'Signup/SIGNUP_REQUEST';
 export const SIGNUP_SUCCESS = 'Signup/SIGNUP_SUCCESS';
 export const SIGNUP_FAILURE = 'Signup/SIGNUP_FAILURE';
 
-export const RESET = 'Signup/RESET';
+export const SIGNUP_RESET = 'Signup/RESET';
 
 export type State = {
   firstName: string,

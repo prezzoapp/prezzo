@@ -10,10 +10,10 @@ import {
   UPDATE_FACEBOOK_TOKEN,
   UPDATE_SUBSCRIPTION_TO_PROMOTIONS,
   CLEAR_ERRORS,
-  RESET
+  SIGNUP_RESET
 } from './types';
 import type State from './types';
-import {RESET_STATE} from '../../containers/session/SessionState';
+import {RESET_STATE} from '../../modules/session';
 
 const INITIAL_STATE: State = Map({
   firstName: '',
@@ -53,7 +53,7 @@ const reducer = (state: State = INITIAL_STATE, action) => {
     case CLEAR_ERRORS:
       return state.update('error', () => null);
 
-    case RESET:
+    case SIGNUP_RESET:
     // case RESET_STATE:
     // TODO: reenable signup reset on app launch
     //       and reset navigator if on unauthenticated screen on app launch

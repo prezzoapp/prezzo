@@ -1,18 +1,21 @@
 import {Map, fromJS} from 'immutable';
 import {loop, combineReducers} from 'redux-loop-symbol-ponyfill';
-import NavigatorStateReducer from '../containers/navigator/NavigatorState';
-import CounterStateReducer from '../containers/counter/CounterState';
+import NavigatorStateReducer from '../containers/shared/Navigator/NavigatorState';
 import AuthReducer from '../modules/auth';
+import MenuReducer from '../modules/menu';
+import UploadReducer from '../modules/upload';
 import UserReducer from '../modules/user';
-import SignupReducer from '../modules/signup';
-import SessionStateReducer, {RESET_STATE} from '../containers/session/SessionState';
+import SignupReducer from '../modules/Signup';
+import SessionStateReducer from '../modules/session';
+import {RESET_STATE} from '../modules/session/types';
 import VendorReducer from '../modules/vendor';
 
 const reducers = {
-  counter: CounterStateReducer,
   navigatorState: NavigatorStateReducer,
   session: SessionStateReducer,
   auth: AuthReducer,
+  menu: MenuReducer,
+  upload: UploadReducer,
   user: UserReducer,
   signup: SignupReducer,
   vendor: VendorReducer
