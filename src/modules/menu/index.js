@@ -10,6 +10,7 @@ import {
   updateItem,
   deleteItem,
   addImage,
+  changeImage,
   deleteImage
 } from './actions';
 import reducer from './reducer';
@@ -25,6 +26,7 @@ export {
   updateItem,
   deleteItem,
   addImage,
+  changeImage,
   deleteImage
 };
 

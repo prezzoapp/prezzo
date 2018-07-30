@@ -1,15 +1,26 @@
 // @flow
 import React, { Component } from 'react';
-import { View, SectionList, Text, TouchableOpacity } from 'react-native';
+import { View, SectionList, Text, TouchableOpacity, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MenuItem from '../../../components/MenuItem';
 import { COLOR_BLACK, COLOR_DANGER } from '../../../services/constants';
 import styles from './styles';
+import MenuListCategoriesHeader from '../../../components/MenuListCategoriesHeader';
 
 type Props = {
   addCategory: Function,
   addItem: Function,
-  addNewImageComponent: Function
+  addNewImageComponent: Function,
+  editItem: Function,
+  updateCategory: Function,
+  deleteCategory: Function,
+  editCategory: Function,
+  updateItem: Function,
+  deleteItem: Function,
+  addImage: Function,
+  changeImage: Function,
+  deleteImage: Function,
+  menuCategories: Array
 };
 
 export default class CreateMenu extends Component<Props> {
@@ -49,30 +60,41 @@ export default class CreateMenu extends Component<Props> {
     </View>
   );
 
-  renderSectionHeader = (title, categoryId, edit) => (
+  renderSectionHeader = section => (
     <View style={styles.sectionHeader}>
-      <Text style={styles.sectionHeaderText}>{title}</Text>
-      {edit ?
-        (<View style={styles.controlBtnsPanel}>
+      {section.edit ? (
+        <TextInput style={styles.textInput} value={section.title} />
+      ) : (
+        <Text style={styles.sectionHeaderText}>{section.title}</Text>
+      )}
+      {section.edit ? (
+        <View style={styles.controlBtnsPanel}>
           <TouchableOpacity
             activeOpacity={0.6}
             style={styles.twoLineIconBtn}
-            onPress={() => this.props.updateCategory(0, categoryId, '')}>
-              <Text style={styles.addText}>Save</Text>
+            onPress={() => this.props.updateCategory(0, section.id, '')}
+          >
+            <Text style={styles.addText}>Save</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             activeOpacity={0.6}
             style={styles.twoLineIconBtn}
-            onPress={() => this.props.deleteCategory(0, categoryId)}
+            onPress={() => this.props.deleteCategory(0, section.id)}
           >
-            <Text style={[styles.addText, { color: COLOR_DANGER }]}>Delete</Text>
+            <Text style={[styles.addText, { color: COLOR_DANGER }]}>
+              Delete
+            </Text>
           </TouchableOpacity>
-        </View>) :
-        (<TouchableOpacity activeOpacity={0.6} onPress={() => this.props.editCategory(0, categoryId)}>
+        </View>
+      ) : (
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={() => this.props.editCategory(0, section.id)}
+        >
           <Text style={styles.addText}>Edit</Text>
-        </TouchableOpacity>)
-      }
+        </TouchableOpacity>
+      )}
     </View>
   );
 
@@ -83,20 +105,34 @@ export default class CreateMenu extends Component<Props> {
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => item + index}
           sections={this.props.menuCategories}
-          renderSectionHeader={({ section: { title, id, edit } }) =>
-            this.renderSectionHeader(title, id, edit)
+          renderSectionHeader={({ section }) =>
+            this.renderSectionHeader(section)
           }
           renderSectionFooter={({ section: { id } }) =>
             this.renderSectionFooter(id)
           }
           ListFooterComponent={this.renderListFooter}
           stickySectionHeadersEnabled
-          renderItem={({ item, index, section }) =>
+          renderItem={({ item, section }) =>
             <MenuItem
               item={item}
               editItem={() => this.props.editItem(0, section.id, item.id)}
-              updateItem={() => this.props.updateItem(0, section.id, '', '', 0, item.id)}
+              updateItem={() =>
+                this.props.updateItem(0, section.id, '', '', 0, item.id)}
               deleteItem={() => this.props.deleteItem(0, section.id, item.id)}
+              addNewImageComponent={() =>
+                this.props.addImage(0, section.id, item.id)}
+              changeImage={(imageId, imageObjPath) =>
+                this.props.changeImage(
+                  0,
+                  section.id,
+                  item.id,
+                  imageId,
+                  imageObjPath
+                )
+              }
+              deleteImageComponent={imageId =>
+                this.props.deleteImage(0, section.id, item.id, imageId)}
             />
           }
         />

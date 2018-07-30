@@ -35,6 +35,8 @@ export const MENU_ADD_IMAGE_REQUEST: string = 'menu/MENU_ADD_IMAGE_REQUEST';
 export const MENU_ADD_IMAGE_SUCCESS: string = 'menu/MENU_ADD_IMAGE_SUCCESS';
 export const MENU_ADD_IMAGE_FAILURE: string = 'menu/MENU_ADD_IMAGE_FAILURE';
 
+export const CHANGE_IMAGE: string = 'menu/CHANGE_IMAGE';
+
 export const MENU_DELETE_IMAGE_REQUEST: string = 'menu/DELETE_IMAGE_REQUEST';
 export const MENU_DELETE_IMAGE_SUCCESS: string = 'menu/DELETE_IMAGE_SUCCESS';
 export const MENU_DELETE_IMAGE_FAILURE: string = 'menu/DELETE_IMAGE_FAILURE';

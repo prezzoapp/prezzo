@@ -26,6 +26,7 @@ import {
   MENU_ADD_IMAGE_REQUEST,
   MENU_ADD_IMAGE_SUCCESS,
   MENU_ADD_IMAGE_FAILURE,
+  CHANGE_IMAGE,
   MENU_DELETE_IMAGE_REQUEST,
   MENU_DELETE_IMAGE_SUCCESS,
   MENU_DELETE_IMAGE_FAILURE
@@ -76,13 +77,13 @@ export const updateCategory = async (
 
 export const deleteCategory = async (
   menuId: string,
-  categoryId: string
+  categoryId: number
 ) => async dispatch => {
   dispatch({type: MENU_DELETE_CATEGORY_REQUEST});
   try {
     dispatch({
       type: MENU_DELETE_CATEGORY_SUCCESS,
-      payload: {categoryId}
+      payload: { categoryId }
     });
   } catch (e) {
     dispatch({type: MENU_DELETE_CATEGORY_FAILURE});
@@ -158,15 +159,43 @@ export const addImage = async (
   categoryId: string,
   itemId: string
 ) => async dispatch => {
-  dispatch({type: MENU_ADD_IMAGE_REQUEST});
-  dispatch({type: MENU_ADD_IMAGE_FAILURE});
+  dispatch({ type: MENU_ADD_IMAGE_REQUEST });
+  try {
+    dispatch({
+      type: MENU_ADD_IMAGE_SUCCESS,
+      payload: { categoryId, itemId }
+    });
+  } catch (e) {
+    dispatch({ type: MENU_ADD_IMAGE_FAILURE });
+  }
+};
+
+export const changeImage = async (
+  menuId: string,
+  categoryId: stirng,
+  itemId: string,
+  imageId: string,
+  imageObjPath: any
+) => async dispatch => {
+  dispatch({
+    type: CHANGE_IMAGE,
+    payload: { categoryId, itemId, imageId, imageObjPath }
+  });
 };
 
 export const deleteImage = async (
   menuId: string,
   categoryId: string,
-  itemId: string
+  itemId: string,
+  imageId: string
 ) => async dispatch => {
-  dispatch({type: MENU_DELETE_IMAGE_REQUEST});
-  dispatch({type: MENU_DELETE_IMAGE_FAILURE});
+  dispatch({ type: MENU_DELETE_IMAGE_REQUEST });
+  try {
+    dispatch({
+      type: MENU_DELETE_IMAGE_SUCCESS,
+      payload: { categoryId, itemId, imageId }
+    });
+  } catch (e) {
+    dispatch({ type: MENU_DELETE_IMAGE_FAILURE });
+  }
 };

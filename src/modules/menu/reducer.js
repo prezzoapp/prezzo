@@ -27,6 +27,7 @@ import {
   MENU_ADD_IMAGE_REQUEST,
   MENU_ADD_IMAGE_SUCCESS,
   MENU_ADD_IMAGE_FAILURE,
+  CHANGE_IMAGE,
   MENU_DELETE_IMAGE_REQUEST,
   MENU_DELETE_IMAGE_SUCCESS,
   MENU_DELETE_IMAGE_FAILURE
@@ -98,7 +99,7 @@ export default (state = INITIAL_STATE, action) => {
       return state.set('menus', state.get('menus').update(
         0, (menu) => {
           return menu.set('categories', menu.get('categories').push(
-            initialCategoryObj.set('id', sectionID)
+            initialCategoryObj.set('id', sectionID).set('title', ("Category ID: " + sectionID))
           ));
         }));
 
@@ -115,18 +116,24 @@ export default (state = INITIAL_STATE, action) => {
         }));
 
     case MENU_UPDATE_CATEGORY_SUCCESS:
-      return state.set('menus', state.get('menus').update(
-        0, (menu) => {
-          return menu.set('categories', menu.get('categories').update(
-            menu.get('categories').findIndex((category) => {
-              return category.get('id') === action.payload.categoryId;
-            }), (category) => {
-              return category.set('edit', false);
-            }
-          ));
-        }));
+      // return state.set('menus', state.get('menus').update(
+      //   0, (menu) => {
+      //     return menu.set('categories', menu.get('categories').update(
+      //       menu.get('categories').findIndex((category) => {
+      //         return category.get('id') === action.payload.categoryId;
+      //       }), (category) => {
+      //         return category.set('edit', false);
+      //       }
+      //     ));
+      //   }));
+
+      return state;
 
     case MENU_DELETE_CATEGORY_SUCCESS:
+      console.log(state.get('menus').first().get('categories').findIndex((category) => {
+        return category.get('id') === action.payload.categoryId;
+      }));
+
       return state.set('menus', state.get('menus').update(
         0, (menu) => {
           return menu.set('categories', menu.get('categories').delete(
@@ -215,8 +222,91 @@ export default (state = INITIAL_STATE, action) => {
         }));
 
     case MENU_ADD_IMAGE_SUCCESS:
+      sectionIndex = state.get('menus').first().get('categories').findIndex((item) => {
+        return item.get('id') === action.payload.categoryId;
+      });
+
+      sectionObj = state.get('menus').first().get('categories').get(sectionIndex);
+
+      menuIndex = state.get('menus').first().get('categories')
+        .get(sectionIndex).get('data').findIndex((item) => {
+          return item.get('id') === action.payload.itemId;
+        });
+
+      generatedIDForNewElement = (sectionObj.get('data').get(menuIndex).get('itemImages').size === 0)
+        ? 0
+        : sectionObj.get('data').get(menuIndex).get('itemImages').last().get('id') + 1;
+
+      return state.set('menus', state.get('menus').update(
+        0, (menu) => {
+          return menu.set('categories', menu.get('categories').update(
+            sectionIndex, (sectionItem) => {
+              return sectionItem.set('data', sectionItem.get('data').update(
+                menuIndex, (menuItem) => {
+                  return menuItem.set('itemImages',
+                    menuItem.get('itemImages').push(initialItemImageObj.set('id', generatedIDForNewElement)));
+                }
+              ));
+            }
+          ));
+        }));
+
+    case CHANGE_IMAGE:
+      sectionIndex = state.get('menus').first().get('categories').findIndex((item) => {
+        return item.get('id') === action.payload.categoryId;
+      });
+
+      menuIndex = state.get('menus').first().get('categories')
+        .get(sectionIndex).get('data').findIndex((item) => {
+          return item.get('id') === action.payload.itemId;
+        });
+
+      imageIndex = state.get('menus').first().get('categories')
+        .get(sectionIndex).get('data').get(menuIndex).get('itemImages').findIndex((item) => {
+          return item.get('id') === action.payload.imageId;
+        });
+
+      return state.set('menus', state.get('menus').update(
+        0, (menu) => {
+          return menu.set('categories', menu.get('categories').update(
+            sectionIndex, (sectionItem) => {
+              return sectionItem.set('data', sectionItem.get('data').update(
+                menuIndex, (menuItem) => {
+                  return menuItem.set('itemImages', menuItem.get('itemImages').update(
+                    imageIndex, (imageItem) => {
+                      return imageItem.set('image_path', action.payload.imageObjPath);
+                    }));
+                }));
+            }));
+        }));
+
     case MENU_DELETE_IMAGE_SUCCESS:
-      return state.set('isBusy', true);
+      sectionIndex = state.get('menus').first().get('categories').findIndex((item) => {
+        return item.get('id') === action.payload.categoryId;
+      });
+
+      menuIndex = state.get('menus').first().get('categories')
+        .get(sectionIndex).get('data').findIndex((item) => {
+          return item.get('id') === action.payload.itemId;
+        });
+
+      return state.set('menus', state.get('menus').update(
+        0, (menu) => {
+          return menu.set('categories', menu.get('categories').update(
+            sectionIndex, (sectionItem) => {
+              return sectionItem.set('data', sectionItem.get('data').update(
+                menuIndex, (menuItem) => {
+                  return menuItem.set('itemImages', menuItem.get('itemImages').delete(
+                      menuItem.get('itemImages').findIndex((imageItem) => {
+                        return imageItem.get('id') === action.payload.imageId;
+                      })
+                  ));
+                }
+              ));
+            }
+          ));
+        }));
+      //return state.set('isBusy', true);
     case MENU_CREATE_FAILURE:
     case MENU_ADD_CATEGORY_FAILURE:
     case MENU_UPDATE_CATEGORY_FAILURE:

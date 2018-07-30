@@ -8,7 +8,10 @@ import {
   addItem,
   editItem,
   updateItem,
-  deleteItem
+  deleteItem,
+  addImage,
+  changeImage,
+  deleteImage
 } from '../../../modules/menu';
 
 export const mapStateToProps = state => ({
@@ -29,5 +32,8 @@ export const mapDispatchToProps = dispatch => ({
   addItem: bindActionCreators(addItem, dispatch),
   editItem: bindActionCreators(editItem, dispatch),
   updateItem: bindActionCreators(updateItem, dispatch),
-  deleteItem: bindActionCreators(deleteItem, dispatch)
+  deleteItem: bindActionCreators(deleteItem, dispatch),
+  addImage: bindActionCreators(addImage, dispatch),
+  changeImage: bindActionCreators(changeImage, dispatch),
+  deleteImage: bindActionCreators(deleteImage, dispatch)
 });

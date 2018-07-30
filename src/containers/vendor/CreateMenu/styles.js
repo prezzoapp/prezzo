@@ -19,7 +19,7 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'baseline',
+    alignItems: 'center',
     paddingVertical: 10,
     backgroundColor: COLOR_BLACK
   },
@@ -73,5 +73,16 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center'
+  },
+
+  textInput: {
+    minHeight: 35,
+    padding: 0,
+    flex: 1,
+    fontFamily: FONT_FAMILY,
+    fontSize: 20,
+    color: 'white',
+    marginVertical: 0,
+    textAlignVertical: 'top'
   }
 });
