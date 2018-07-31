@@ -1,9 +1,6 @@
 // @flow
-import {StyleSheet} from 'react-native';
-import {
-  FONT_FAMILY,
-  COLOR_GREEN
-} from '../../services/constants';
+import { StyleSheet } from 'react-native';
+import { FONT_FAMILY, COLOR_GREEN } from '../../services/constants';
 
 export default StyleSheet.create({
   menuItem: {

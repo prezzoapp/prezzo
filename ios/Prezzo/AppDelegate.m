@@ -48,11 +48,15 @@
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-  return true;
-//  return [[FBSDKApplicationDelegate sharedInstance] application:application
+  return TRUE;
+//  BOOL handledFB = [[FBSDKApplicationDelegate sharedInstance] application:application
 //                                                        openURL:url
 //                                              sourceApplication:sourceApplication
 //                                                     annotation:annotation];
+//
+//  BOOL handledRCT = [RCTLinkingManager application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+//
+//  return handledFB || handledRCT;
 }
 
 @end

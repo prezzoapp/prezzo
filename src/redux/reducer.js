@@ -1,5 +1,5 @@
-import {Map, fromJS} from 'immutable';
-import {loop, combineReducers} from 'redux-loop-symbol-ponyfill';
+import { Map, fromJS } from 'immutable';
+import { loop, combineReducers } from 'redux-loop-symbol-ponyfill';
 import NavigatorStateReducer from '../containers/shared/Navigator/NavigatorState';
 import AuthReducer from '../modules/auth';
 import MenuReducer from '../modules/menu';
@@ -7,8 +7,10 @@ import UploadReducer from '../modules/upload';
 import UserReducer from '../modules/user';
 import SignupReducer from '../modules/Signup';
 import SessionStateReducer from '../modules/session';
-import {RESET_STATE} from '../modules/session/types';
+import { RESET_STATE } from '../modules/session/types';
 import VendorReducer from '../modules/vendor';
+import FiltersReducer from '../modules/exploreFilter';
+import ExploreSectionList from '../modules/exploreList';
 
 const reducers = {
   navigatorState: NavigatorStateReducer,
@@ -18,7 +20,9 @@ const reducers = {
   upload: UploadReducer,
   user: UserReducer,
   signup: SignupReducer,
-  vendor: VendorReducer
+  vendor: VendorReducer,
+  filters: FiltersReducer,
+  restaurantsList: ExploreSectionList
 };
 
 // initial state, accessor and mutator for supporting root-level
