@@ -22,14 +22,24 @@ export default class FilterItems extends Component {
   };
 
   render() {
-    console.log('Toggle Rendering Called!');
+    const activeFilterStyle = {
+      backgroundColor: '#2ed573',
+      shadowColor: '#2ED573',
+      shadowOffset: { width: 0, height: 0 },
+      shadowRadius: 3,
+      shadowOpacity: 0.6
+    }
+    const inactiveFilterStyle = {
+      backgroundColor: '#757575'
+    }
+    // console.log('Toggle Rendering Called!');
     return (
       <View style={{ marginRight: 12 }}>
         <TouchableOpacity
           activeOpacity={0.6}
           style={[
             styles.item,
-            { backgroundColor: this.props.item.active ? '#2ed573' : '#757575' }
+            this.props.item.active ? activeFilterStyle : inactiveFilterStyle
           ]}
           onPress={this.getSelectedItemIDAndToggleFilter}
         >

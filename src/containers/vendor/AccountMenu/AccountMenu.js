@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import {Image, View} from 'react-native';
+import { Image, View, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MenuButton from '../../../components/MenuButton';
@@ -34,7 +34,20 @@ export default class AccountMenu extends React.Component {
 
   async logout() {
     await snapshot.clearSnapshot();
-    this.props.navigate({routeName: 'Authentication'});
+    this.props.navigate({ routeName: 'Authentication' });
+  }
+
+  createMenu(vendor) {
+    if(vendor) {
+      this.props.navigate({ routeName: 'CreateMenu' });
+    } else {
+      Alert.alert(
+        '',
+        'You must create a Vendor account before creating a menu.',
+        [{ text: 'OK' }],
+        {cancelable: false}
+      )
+    }
   }
 
   render() {
@@ -60,7 +73,7 @@ export default class AccountMenu extends React.Component {
               icon='add'
             />
             <MenuButton
-              onPress={() => this.props.navigate({routeName: 'CreateMenu'})}
+              onPress={() => this.createMenu(vendor)}
               title='Create Menu'
               icon='add'
             />

@@ -33,7 +33,7 @@ export default class ExploreSectionList extends PureComponent {
 
     return (
       <SectionList
-        style={{ marginTop: 115.333 }}
+        style={{ marginTop: 132.5 }}
         initialNumToRender={3}
         keyExtractor={(item, index) => index}
         sections={sectionList}

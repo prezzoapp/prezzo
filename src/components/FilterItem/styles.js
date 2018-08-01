@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
     width: 60,
     borderRadius: 8,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginVertical: 5
   },
 
   itemImage: {
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     color: 'rgb(255,251,245)',
     fontSize: 11,
     textAlign: 'center',
-    paddingTop: 8
+    paddingTop: 3
   }
 });
 

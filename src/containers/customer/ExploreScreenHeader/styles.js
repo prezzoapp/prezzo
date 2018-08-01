@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   header: {
     alignSelf: 'stretch',
     position: 'absolute',
-    top: 30,
+    top: 0,
     left: 0,
     right: 0,
     zIndex: 999
@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
   nearMeText: {
     fontSize: 15,
     color: 'rgb(50, 209, 119)',
-    fontFamily: FONT_FAMILY_MEDIUM
+    fontFamily: FONT_FAMILY_MEDIUM,
+    backgroundColor: 'transparent'
   },
 
   filterPanel: {
@@ -28,7 +29,12 @@ const styles = StyleSheet.create({
 
   filter: {
     color: '#fafafa',
-    fontSize: 13
+    fontSize: 13,
+    backgroundColor: 'transparent'
+  },
+
+  dropArrowIcon: {
+    backgroundColor: 'transparent'
   },
 
   location_pin: {
@@ -47,7 +53,8 @@ const styles = StyleSheet.create({
   restaurantTitle: {
     fontFamily: FONT_FAMILY_BOLD,
     color: 'white',
-    fontSize: 25
+    fontSize: 25,
+    backgroundColor: 'transparent'
   },
 
   filterButtonAndMapIconHolder: {
@@ -84,6 +91,10 @@ const styles = StyleSheet.create({
   sliderTitleHolder: {
     flexDirection: 'row',
     justifyContent: 'space-between'
+  },
+
+  LinearGradientStyle: {
+    paddingTop: 30
   }
 });
 
