@@ -11,6 +11,7 @@ import { RESET_STATE } from '../modules/session/types';
 import VendorReducer from '../modules/vendor';
 import FiltersReducer from '../modules/exploreFilter';
 import ExploreSectionList from '../modules/exploreList';
+import restaurantsMapFilterListReducer from '../modules/mapScreen';
 
 const reducers = {
   navigatorState: NavigatorStateReducer,
@@ -22,7 +23,8 @@ const reducers = {
   signup: SignupReducer,
   vendor: VendorReducer,
   filters: FiltersReducer,
-  restaurantsList: ExploreSectionList
+  restaurantsList: ExploreSectionList,
+  restaurantsMapFilterListReducer
 };
 
 // initial state, accessor and mutator for supporting root-level

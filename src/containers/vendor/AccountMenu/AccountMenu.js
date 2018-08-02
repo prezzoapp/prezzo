@@ -29,7 +29,8 @@ export default class AccountMenu extends React.Component {
   };
 
   static propTypes = {
-    navigate: PropTypes.func.isRequired
+    navigate: PropTypes.func.isRequired,
+    createMenu: PropTypes.func.isRequired
   };
 
   async logout() {
@@ -37,9 +38,14 @@ export default class AccountMenu extends React.Component {
     this.props.navigate({ routeName: 'Authentication' });
   }
 
-  createMenu(vendor) {
+  createMenu(vendor, menu) {
     if(vendor) {
-      this.props.navigate({ routeName: 'CreateMenu' });
+      if(menu) {
+        this.props.navigate({ routeName: 'CreateMenu' });
+      } else {
+        this.props.createMenu();
+        this.props.navigate({ routeName: 'CreateMenu' });
+      }
     } else {
       Alert.alert(
         '',
@@ -51,7 +57,10 @@ export default class AccountMenu extends React.Component {
   }
 
   render() {
-    const {avatarURL, vendor} = this.props;
+    const { avatarURL, vendor, menu } = this.props;
+
+    console.log("menu");
+    console.log(menu);
 
     return (
       <View style={styles.parent}>
@@ -61,31 +70,36 @@ export default class AccountMenu extends React.Component {
               <Image style={styles.avatar}
                 source={
                   avatarURL
-                  ? {uri: avatarURL}
-                  : require('../../../../assets/images/etc/default-avatar.png')}
+                    ? { uri: avatarURL }
+                    : require('../../../../assets/images/etc/default-avatar.png')
+                }
               />
             </View>
           </View>
           <View style={styles.bodyContainer}>
             <MenuButton
-              onPress={() => this.props.navigate({routeName: 'VendorAccountInfo'})}
+              onPress={() =>
+                this.props.navigate({ routeName: 'VendorAccountInfo' })
+              }
               title={`${vendor ? 'Update' : 'Create'} Vendor Profile`}
-              icon='add'
+              icon="add"
             />
             <MenuButton
-              onPress={() => this.createMenu(vendor)}
-              title='Create Menu'
-              icon='add'
+              onPress={() => this.createMenu(vendor, menu)}
+              title={`${menu ? 'Update' : 'Create'} Menu`}
+              icon="add"
             />
             <MenuButton
               onPress={() => this.props.navigate(null)}
-              title='Accept Payments'
-              icon='add'
+              title="Accept Payments"
+              icon="add"
             />
             <MenuButton
-              onPress={() => this.props.navigate({routeName: 'CustomerProfile'})}
-              title='Switch to User Account'
-              icon='repeat'
+              onPress={() =>
+                this.props.navigate({ routeName: 'CustomerProfile' })
+              }
+              title="Switch to User Account"
+              icon="repeat"
             />
           </View>
         </View>

@@ -35,11 +35,11 @@ class Login extends React.Component<Props, State> {
   };
 
   navigateToSignup() {
-    this.props.navigate({routeName: 'SignupName'});
+    this.props.navigate({ routeName: 'SignupName' });
   }
 
   navigateToMain() {
-    this.props.navigate({routeName: 'Customer'});
+    this.props.navigate({ routeName: 'Customer' });
   }
 
   login() {

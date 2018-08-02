@@ -177,19 +177,19 @@ export default class AccountInfo extends React.Component {
       openTimeMinutes
     });
 
-    this.setState({hours: newHours});
+    this.setState({ hours: newHours });
   }
 
   removeHoursOfOperationAtIndex(index) {
-    const {hours} = this.state;
+    const { hours } = this.state;
     const newHours = [...hours];
     newHours.splice(index, 1);
-    this.setState({hours: newHours});
+    this.setState({ hours: newHours });
   }
 
   async uploadPhoto() {
-    const {upload} = this.state;
-    const {fileName, fileSize, uri} = upload;
+    const { upload } = this.state;
+    const { fileName, fileSize, uri } = upload;
 
     if (!upload) {
       return;
@@ -197,18 +197,18 @@ export default class AccountInfo extends React.Component {
 
     await this.props.uploadImage(
       uri,
-      fileSize,
-      'image/jpeg',
-      fileName,
-      'userAvatar',
-      'public-read'
-    ).then(async avatarURL => {
-      console.log('got avatarURL', avatarURL);
+        fileSize,
+        'image/jpeg',
+        fileName,
+        'userAvatar',
+        'public-read'
+      ).then(async avatarURL => {
+        console.log('got avatarURL', avatarURL);
 
-      this.setState({
-        avatarURL,
-        upload: null
-      });
+        this.setState({
+          avatarURL,
+          upload: null
+        });
     });
   }
 

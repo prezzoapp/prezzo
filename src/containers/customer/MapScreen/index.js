@@ -1,3 +1,9 @@
-import MapScreen from './MapScreen';
 
-export default MapScreen;
+import { connect } from 'react-redux';
+import MapScreen from './MapScreen';
+import { mapStateToProps, mapDispatchToProps } from './store';
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MapScreen);

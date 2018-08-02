@@ -47,8 +47,8 @@ const INITIAL_STATE = fromJS({
       },
       categories: []
     }
-  ]
-  // data: []
+  ],
+  data: null
 });
 
 const initialCategoryObj = fromJS({
@@ -83,6 +83,7 @@ export default (state = INITIAL_STATE, action) => {
 
   switch (action.type) {
     case MENU_CREATE_REQUEST:
+      return state.update('isBusy', () => true);
     case MENU_ADD_CATEGORY_REQUEST:
     case MENU_UPDATE_CATEGORY_REQUEST:
     case MENU_DELETE_CATEGORY_REQUEST:
@@ -93,6 +94,10 @@ export default (state = INITIAL_STATE, action) => {
     case MENU_DELETE_IMAGE_REQUEST:
       return state.set('isBusy', true);
     case MENU_CREATE_SUCCESS:
+      console.log("Action.payload");
+      console.log(action.paylaod);
+      return state.update('data', () => action.payload)
+        .update('isBusy', () => false);
     case MENU_ADD_CATEGORY_SUCCESS:
       sectionID += 1;
 

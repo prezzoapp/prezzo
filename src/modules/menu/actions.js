@@ -1,4 +1,6 @@
 // @flow
+import { fromJS } from 'immutable';
+
 import {
   MENU_CREATE_REQUEST,
   MENU_CREATE_SUCCESS,
@@ -32,9 +34,25 @@ import {
   MENU_DELETE_IMAGE_FAILURE
 } from './types';
 
+import { post } from '../../utils/api';
+
 export const createMenu = async () => async dispatch => {
-  dispatch({type: MENU_CREATE_REQUEST});
-  dispatch({type: MENU_CREATE_FAILURE});
+  dispatch({ type: MENU_CREATE_REQUEST });
+  try {
+    const { menu } = await post('/v1/menus');
+
+    return dispatch({
+      type: MENU_CREATE_SUCCESS,
+      payload: fromJS(menu)
+    });
+  } catch (e) {
+    dispatch({
+      type: MENU_CREATE_FAILURE,
+      payload: e && e.message ? e.message : e
+    });
+
+    throw e;
+  }
 };
 
 export const addCategory = async (

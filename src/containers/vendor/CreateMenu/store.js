@@ -15,7 +15,7 @@ import {
 } from '../../../modules/menu';
 
 export const mapStateToProps = state => ({
-  // menu: state.get('menu')
+  menu: state.get('menu').get('data'),
   menuCategories: state
     .get('menu')
     .get('menus')

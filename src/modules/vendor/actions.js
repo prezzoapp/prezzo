@@ -1,5 +1,5 @@
 // @flow
-import {fromJS} from 'immutable';
+import { fromJS } from 'immutable';
 import {
   CREATE_VENDOR_REQUEST,
   CREATE_VENDOR_SUCCESS,
@@ -16,7 +16,7 @@ export const createVendor = async params => async(dispatch: ReduxDispatch) => {
   });
 
   try {
-    const {vendor} = await post('/v1/vendors', params);
+    const { vendor } = await post('/v1/vendors', params);
 
     return dispatch({
       type: CREATE_VENDOR_SUCCESS,

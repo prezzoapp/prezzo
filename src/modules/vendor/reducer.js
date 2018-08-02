@@ -32,6 +32,7 @@ const reducer = (state: State = INITIAL_STATE, action) => {
       return state.update('isBusy', () => false);
     case CREATE_VENDOR_SUCCESS:
     case UPDATE_VENDOR_SUCCESS:
+      console.log(payload.toJS());
       return state.update('data', () => payload)
         .update('isBusy', () => false);
     case UPDATE_USER_SUCCESS:
