@@ -14,12 +14,11 @@ class MenuListCategoriesHeader extends Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props.section);
-
     this.state = { editMode: false, title: this.props.section.title }
 
     this.onChangeTitle = this.onChangeTitle.bind(this);
     this.enableEditMode = this.enableEditMode.bind(this);
+    this.deleteCategory = this.deleteCategory.bind(this);
     this.saveAndUpdateCategory = this.saveAndUpdateCategory.bind(this);
   }
 
@@ -31,9 +30,15 @@ class MenuListCategoriesHeader extends Component {
     this.setState({ editMode: true });
   }
 
+  deleteCategory() {
+    this.setState({ editMode: false }, () => {
+      this.props.deleteCategory(this.props.section._id);
+    })
+  }
+
   saveAndUpdateCategory() {
     this.setState({ editMode: false }, () => {
-      this.props.updateCategory(this.props.section.id);
+      this.props.updateCategory(this.props.section._id, this.state.title);
     });
   }
 
@@ -64,7 +69,7 @@ class MenuListCategoriesHeader extends Component {
             <TouchableOpacity
               activeOpacity={0.6}
               style={styles.twoLineIconBtn}
-              onPress={() => this.props.deleteCategory(this.props.section.id)}
+              onPress={this.deleteCategory}
             >
               <Text style={[styles.addText, styles.colorDanger]}>Delete</Text>
             </TouchableOpacity>

@@ -1,5 +1,5 @@
 // @flow
-import {fromJS} from 'immutable';
+import { Map, fromJS } from 'immutable';
 import {
   MENU_CREATE_REQUEST,
   MENU_CREATE_SUCCESS,
@@ -7,7 +7,6 @@ import {
   MENU_ADD_CATEGORY_REQUEST,
   MENU_ADD_CATEGORY_SUCCESS,
   MENU_ADD_CATEGORY_FAILURE,
-  EDIT_CATEGORY,
   MENU_UPDATE_CATEGORY_REQUEST,
   MENU_UPDATE_CATEGORY_SUCCESS,
   MENU_UPDATE_CATEGORY_FAILURE,
@@ -33,45 +32,10 @@ import {
   MENU_DELETE_IMAGE_FAILURE
 } from './types';
 
-let sectionID = 0;
-
 const INITIAL_STATE = fromJS({
   isBusy: false,
-  menus: [
-    {
-      id: 0,
-      createdDate: Date.now(),
-      vendor: {
-        id: 0,
-        ref: null
-      },
-      categories: []
-    }
-  ],
-  data: null
-});
 
-const initialCategoryObj = fromJS({
-  id: sectionID,
-  createdDate: Date.now(),
-  title: 'Sample Category',
-  edit: false,
-  data: []
-});
-
-const initialMenuItemObj = fromJS({
-  id: 0,
-  createdDate: Date.now(),
-  name: 'Item',
-  price: 'Price',
-  description: 'Description',
-  editable: false,
-  itemImages: []
-});
-
-const initialItemImageObj = fromJS({
-  id: 0,
-  image_path: ''
+  menu_data: null
 });
 
 export default (state = INITIAL_STATE, action) => {
@@ -81,9 +45,12 @@ export default (state = INITIAL_STATE, action) => {
   let generatedIDForNewElement;
   let imageIndex;
 
+  let newState;
+  let newCategories;
+
   switch (action.type) {
     case MENU_CREATE_REQUEST:
-      return state.update('isBusy', () => true);
+      return state.update('isBusy', () => false);
     case MENU_ADD_CATEGORY_REQUEST:
     case MENU_UPDATE_CATEGORY_REQUEST:
     case MENU_DELETE_CATEGORY_REQUEST:
@@ -93,60 +60,44 @@ export default (state = INITIAL_STATE, action) => {
     case MENU_ADD_IMAGE_REQUEST:
     case MENU_DELETE_IMAGE_REQUEST:
       return state.set('isBusy', true);
+
     case MENU_CREATE_SUCCESS:
-      console.log("Action.payload");
-      console.log(action.paylaod);
-      return state.update('data', () => action.payload)
+      return state
+        .update('menu_data', () => action.payload)
         .update('isBusy', () => false);
+
     case MENU_ADD_CATEGORY_SUCCESS:
-      sectionID += 1;
+      newCategories = action.payload
+        .get('categories')
+        .map(item => item.set('data', item.get('items')).delete('items'));
 
-      return state.set('menus', state.get('menus').update(
-        0, (menu) => {
-          return menu.set('categories', menu.get('categories').push(
-            initialCategoryObj.set('id', sectionID).set('title', ("Category ID: " + sectionID))
-          ));
-        }));
+      newState = state.update('menu_data', () => action.payload);
 
-    case EDIT_CATEGORY:
-      return state.set('menus', state.get('menus').update(
-        0, (menu) => {
-          return menu.set('categories', menu.get('categories').update(
-            menu.get('categories').findIndex((category) => {
-              return category.get('id') === action.payload.categoryId;
-            }), (category) => {
-              return category.set('edit', true);
-            }
-          ));
-        }));
+      return newState
+        .update('menu_data', () => newState.set('categories', newCategories))
+        .update('isBusy', () => false);
 
     case MENU_UPDATE_CATEGORY_SUCCESS:
-      // return state.set('menus', state.get('menus').update(
-      //   0, (menu) => {
-      //     return menu.set('categories', menu.get('categories').update(
-      //       menu.get('categories').findIndex((category) => {
-      //         return category.get('id') === action.payload.categoryId;
-      //       }), (category) => {
-      //         return category.set('edit', false);
-      //       }
-      //     ));
-      //   }));
+      newCategories = action.payload
+        .get('categories')
+        .map(item => item.set('data', item.get('items')).delete('items'));
 
-      return state;
+      newState = state.update('menu_data', () => action.payload);
+
+      return newState
+        .update('menu_data', () => newState.set('categories', newCategories))
+        .update('isBusy', () => false);
 
     case MENU_DELETE_CATEGORY_SUCCESS:
-      console.log(state.get('menus').first().get('categories').findIndex((category) => {
-        return category.get('id') === action.payload.categoryId;
-      }));
+      newCategories = action.payload
+        .get('categories')
+        .map(item => item.set('data', item.get('items')).delete('items'));
 
-      return state.set('menus', state.get('menus').update(
-        0, (menu) => {
-          return menu.set('categories', menu.get('categories').delete(
-            menu.get('categories').findIndex((category) => {
-              return category.get('id') === action.payload.categoryId;
-            })
-          ));
-        }));
+      newState = state.update('menu_data', () => action.payload);
+
+      return state
+        .update('menu_data', () => newState.set('categories', newCategories))
+        .update('isBusy', () => false);
 
     case MENU_ADD_ITEM_SUCCESS:
       sectionIndex = state.get('menus').first().get('categories').findIndex((item) => {

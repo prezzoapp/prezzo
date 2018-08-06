@@ -40,3 +40,7 @@ export const CHANGE_IMAGE: string = 'menu/CHANGE_IMAGE';
 export const MENU_DELETE_IMAGE_REQUEST: string = 'menu/DELETE_IMAGE_REQUEST';
 export const MENU_DELETE_IMAGE_SUCCESS: string = 'menu/DELETE_IMAGE_SUCCESS';
 export const MENU_DELETE_IMAGE_FAILURE: string = 'menu/DELETE_IMAGE_FAILURE';
+
+export const USER_GET_REQUEST: string = 'menu/USER_GET_REQUEST';
+export const USER_GET_SUCCESS: string = 'menu/USER_GET_SUCCESS';
+export const USER_GET_FAILURE: string = 'menu/USER_GET_FAILURE';

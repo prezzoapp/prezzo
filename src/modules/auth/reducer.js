@@ -20,6 +20,9 @@ const reducer = (state: State = INITIAL_STATE, action) => {
     case SIGNUP_SUCCESS:
     case LOGIN_WITH_EMAIL_SUCCESS:
     case LOGIN_WITH_FACEBOOK_SUCCESS:
+      console.log("User Info: ");
+      console.log(action.payload.toJS());
+
       return loop(
         state,
         Effects.promise(

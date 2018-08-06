@@ -15,13 +15,8 @@ import {
 } from '../../../modules/menu';
 
 export const mapStateToProps = state => ({
-  menu: state.get('menu').get('data'),
-  menuCategories: state
-    .get('menu')
-    .get('menus')
-    .first()
-    .get('categories')
-    .toJS()
+  isBusy: state.get('menu').get('isBusy'),
+  menu: state.get('menu').get('menu_data')
 });
 
 export const mapDispatchToProps = dispatch => ({

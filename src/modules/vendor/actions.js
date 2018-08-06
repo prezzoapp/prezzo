@@ -8,7 +8,7 @@ import {
   UPDATE_VENDOR_SUCCESS,
   UPDATE_VENDOR_FAILURE
 } from './types';
-import {post, put} from '../../utils/api';
+import { post, put, get } from '../../utils/api';
 
 export const createVendor = async params => async(dispatch: ReduxDispatch) => {
   dispatch({
@@ -38,7 +38,7 @@ export const updateVendor = async (id: string, params: any) => async(dispatch: R
   });
 
   try {
-    const {vendor} = await put(`/v1/vendors/${id}`, params);
+    const { vendor } = await put(`/v1/vendors/${id}`, params);
 
     return dispatch({
       type: UPDATE_VENDOR_SUCCESS,

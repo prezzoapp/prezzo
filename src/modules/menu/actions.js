@@ -34,17 +34,19 @@ import {
   MENU_DELETE_IMAGE_FAILURE
 } from './types';
 
-import { post } from '../../utils/api';
+import { post, get, del, put } from '../../utils/api';
 
 export const createMenu = async () => async dispatch => {
   dispatch({ type: MENU_CREATE_REQUEST });
   try {
-    const { menu } = await post('/v1/menus');
+    await get('/v1/self');
 
-    return dispatch({
-      type: MENU_CREATE_SUCCESS,
-      payload: fromJS(menu)
-    });
+    // const { menu } = await post('/v1/menus');
+    //
+    // return dispatch({
+    //   type: MENU_CREATE_SUCCESS,
+    //   payload: fromJS(menu)
+    // });
   } catch (e) {
     dispatch({
       type: MENU_CREATE_FAILURE,
@@ -60,8 +62,16 @@ export const addCategory = async (
   title: string
 ) => async dispatch => {
   dispatch({ type: MENU_ADD_CATEGORY_REQUEST });
+
   try {
-    dispatch({ type: MENU_ADD_CATEGORY_SUCCESS });
+    const data = await post(`/v1/menus/${menuId}/categories`, {
+      title
+    });
+
+    return dispatch({
+      type: MENU_ADD_CATEGORY_SUCCESS,
+      payload: fromJS(data)
+    });
   } catch (e) {
     dispatch({ type: MENU_ADD_CATEGORY_FAILURE });
   }
@@ -83,10 +93,15 @@ export const updateCategory = async (
   title: string
 ) => async dispatch => {
   dispatch({ type: MENU_UPDATE_CATEGORY_REQUEST });
+
   try {
-    dispatch({
+    const data = await put(`/v1/menus/${menuId}/categories/${categoryId}`, {
+      title
+    });
+
+    return dispatch({
       type: MENU_UPDATE_CATEGORY_SUCCESS,
-      payload: { categoryId }
+      payload: fromJS(data)
     });
   } catch (e) {
     dispatch({ type: MENU_UPDATE_CATEGORY_FAILURE });
@@ -95,16 +110,19 @@ export const updateCategory = async (
 
 export const deleteCategory = async (
   menuId: string,
-  categoryId: number
+  categoryId: string
 ) => async dispatch => {
-  dispatch({type: MENU_DELETE_CATEGORY_REQUEST});
+  dispatch({ type: MENU_DELETE_CATEGORY_REQUEST });
+
   try {
-    dispatch({
+    const data = await del(`/v1/menus/${menuId}/categories/${categoryId}`);
+
+    return dispatch({
       type: MENU_DELETE_CATEGORY_SUCCESS,
-      payload: { categoryId }
+      payload: fromJS(data)
     });
   } catch (e) {
-    dispatch({type: MENU_DELETE_CATEGORY_FAILURE});
+    dispatch({ type: MENU_DELETE_CATEGORY_FAILURE });
   }
 };
 

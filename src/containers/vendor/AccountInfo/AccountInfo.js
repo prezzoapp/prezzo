@@ -223,7 +223,7 @@ export default class AccountInfo extends React.Component {
     try {
       await this.uploadPhoto();
 
-      const params = {...this.state};
+      const params = { ...this.state };
       delete params.upload;
 
       if (vendor) {

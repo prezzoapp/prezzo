@@ -14,6 +14,17 @@ export default StyleSheet.create({
     paddingHorizontal: 20
   },
 
+  spinnerView: {
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
   sectionHeader: {
     borderBottomColor: 'rgb(157,157,157)',
     borderBottomWidth: 1,
