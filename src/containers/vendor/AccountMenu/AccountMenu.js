@@ -40,12 +40,9 @@ export default class AccountMenu extends React.Component {
 
   createMenu(vendor, menu) {
     if(vendor) {
-      if(menu) {
-        this.props.navigate({ routeName: 'CreateMenu' });
-      } else {
-        this.props.createMenu();
-        this.props.navigate({ routeName: 'CreateMenu' });
-      }
+      if (!menu) this.props.createMenu();
+
+      this.props.navigate({ routeName: 'CreateMenu' });
     } else {
       Alert.alert(
         '',
@@ -58,9 +55,6 @@ export default class AccountMenu extends React.Component {
 
   render() {
     const { avatarURL, vendor, menu } = this.props;
-
-    console.log("menu");
-    console.log(menu);
 
     return (
       <View style={styles.parent}>

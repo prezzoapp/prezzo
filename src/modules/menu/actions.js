@@ -134,10 +134,20 @@ export const addItem = async (
   price: number
 ) => async dispatch => {
   dispatch({ type: MENU_ADD_ITEM_REQUEST });
+
   try {
+    const data = await post(
+      `/v1/menus/${menuId}/categories/${categoryId}/items`,
+      {
+        title,
+        description,
+        price
+      }
+    );
+
     dispatch({
       type: MENU_ADD_ITEM_SUCCESS,
-      payload: categoryId
+      payload: fromJS({ data })
     });
   } catch (e) {
     dispatch({ type: MENU_ADD_ITEM_FAILURE });
@@ -153,21 +163,31 @@ export const editItem = async (
     type: EDIT_ITEM,
     payload: { categoryId, itemId }
   });
-}
+};
 
 export const updateItem = async (
   menuId: string,
   categoryId: string,
+  itemId,
   title: string,
   description: string,
-  price: number,
-  itemId: string
+  price: number
 ) => async dispatch => {
   dispatch({ type: MENU_UPDATE_ITEM_REQUEST });
+
   try {
+    const data = await put(
+      `/v1/menus/${menuId}/categories/${categoryId}/items/${itemId}`,
+      {
+        title,
+        description,
+        price
+      }
+    );
+
     dispatch({
       type: MENU_UPDATE_ITEM_SUCCESS,
-      payload: { categoryId, itemId }
+      payload: fromJS({ data })
     });
   } catch (e) {
     dispatch({ type: MENU_UPDATE_ITEM_FAILURE });
@@ -180,10 +200,15 @@ export const deleteItem = async (
   itemId: string
 ) => async dispatch => {
   dispatch({ type: MENU_DELETE_ITEM_REQUEST });
+
   try {
+    const data = await del(
+      `/v1/menus/${menuId}/categories/${categoryId}/items/${itemId}`
+    );
+
     dispatch({
       type: MENU_DELETE_ITEM_SUCCESS,
-      payload: { categoryId, itemId }
+      payload: fromJS({ data })
     });
   } catch (e) {
     dispatch({ type: MENU_DELETE_ITEM_FAILURE });
@@ -193,13 +218,21 @@ export const deleteItem = async (
 export const addImage = async (
   menuId: string,
   categoryId: string,
-  itemId: string
+  itemId: string,
+  imageURL: string
 ) => async dispatch => {
   dispatch({ type: MENU_ADD_IMAGE_REQUEST });
+
   try {
+    const data = await post(
+      `/v1/menus/${menuId}/categories/${categoryId}/items/${itemId}/photos`, {
+        imageURL
+      }
+    );
+
     dispatch({
       type: MENU_ADD_IMAGE_SUCCESS,
-      payload: { categoryId, itemId }
+      payload: fromJS({ data })
     });
   } catch (e) {
     dispatch({ type: MENU_ADD_IMAGE_FAILURE });

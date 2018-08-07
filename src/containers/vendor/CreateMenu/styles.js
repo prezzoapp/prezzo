@@ -1,5 +1,5 @@
 // @flow
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
   FONT_FAMILY,
   FONT_FAMILY_BOLD,

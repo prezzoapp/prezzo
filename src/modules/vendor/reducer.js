@@ -36,8 +36,8 @@ const reducer = (state: State = INITIAL_STATE, action) => {
     case UPDATE_USER_SUCCESS:
     case LOGIN_WITH_EMAIL_SUCCESS:
     case LOGIN_WITH_FACEBOOK_SUCCESS:
-      console.log('got payload', payload);
-      console.log('payload vendor', payload.get('vendor'));
+      // FILL VENDOR DATA AFTER LOGIN_WITH_EMAIL_SUCCESS
+
       return state.update('data', () => payload.get('vendor'))
         .update('isBusy', () => false);
     default:

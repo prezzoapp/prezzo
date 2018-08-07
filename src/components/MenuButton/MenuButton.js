@@ -10,7 +10,7 @@ const buttonBlack = '#424242';
 const shadowColor = 'black';
 const textColor = 'white';
 
-const MenuButton = ({icon, onPress, title, subtitle}: Props) => {
+const MenuButton = ({ icon, onPress, title, subtitle }: Props) => {
   return (
     <TouchableOpacity onPress={() => onPress && onPress()}>
       <View style={styles.buttonContainer}>

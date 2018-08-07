@@ -5,7 +5,7 @@ import { createMenu } from '../../../modules/menu';
 
 export const mapStateToProps = state => ({
   vendor: state.get('vendor').get('data'),
-  menu: state.get('menu').get('data')
+  menu: state.get('menu').get('menu_data')
 });
 
 export const mapDispatchToProps = dispatch => {

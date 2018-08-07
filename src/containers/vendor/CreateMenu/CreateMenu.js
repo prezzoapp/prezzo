@@ -57,7 +57,15 @@ export default class CreateMenu extends Component<Props> {
       <TouchableOpacity
         style={styles.addAnotherCommonBtn}
         activeOpacity={0.6}
-        onPress={() => this.props.addItem(0, categoryId, '', '', 0)}
+        onPress={() =>
+          this.props.addItem(
+            '5b67e45fb60a83004be0bc38',
+            categoryId,
+            'Item',
+            'Description',
+            0
+          )
+        }
       >
         <Text style={styles.addAnotherCommonBtnText}>Add Another Item</Text>
       </TouchableOpacity>
@@ -96,27 +104,37 @@ export default class CreateMenu extends Component<Props> {
             renderSectionHeader={({ section }) =>
               this.renderSectionHeader(section)
             }
-            renderSectionFooter={({ section: { id } }) =>
-              this.renderSectionFooter(id)
+            renderSectionFooter={({ section: { _id } }) =>
+              this.renderSectionFooter(_id)
             }
             ListFooterComponent={this.renderListFooter}
             stickySectionHeadersEnabled
             renderItem={({ item, section }) =>
               <MenuItem
                 item={item}
-                editItem={() => this.props.editItem(0, section.id, item.id)}
-                updateItem={() =>
-                  this.props.updateItem(0, section.id, '', '', 0, item.id)}
-                deleteItem={() => this.props.deleteItem(0, section.id, item.id)}
-                addNewImageComponent={() =>
-                  this.props.addImage(0, section.id, item.id)}
-                changeImage={(imageId, imageObjPath) =>
-                  this.props.changeImage(
-                    0,
-                    section.id,
-                    item.id,
-                    imageId,
-                    imageObjPath
+                updateItem={(title, price, description) =>
+                  this.props.updateItem(
+                    '5b67e45fb60a83004be0bc38',
+                    section._id,
+                    item._id,
+                    title,
+                    description,
+                    price
+                  )
+                }
+                deleteItem={() =>
+                  this.props.deleteItem(
+                    '5b67e45fb60a83004be0bc38',
+                    section._id,
+                    item._id
+                  )
+                }
+                addNewImageComponent={imageURL =>
+                  this.props.addImage(
+                    '5b67e45fb60a83004be0bc38',
+                    section._id,
+                    item._id,
+                    imageURL
                   )
                 }
                 deleteImageComponent={imageId =>

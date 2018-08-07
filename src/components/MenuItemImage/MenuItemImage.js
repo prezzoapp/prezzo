@@ -1,16 +1,15 @@
 // @flow
-import React, {Component} from 'react';
-import {TouchableOpacity, Image, View} from 'react-native';
+import React, { Component } from 'react';
+import { TouchableOpacity, Image, View } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
-import styles from './styles';
 import PropTypes from 'prop-types';
+import styles from './styles';
 
 export default class ItemImagePicker extends Component {
   static propTypes = {
-    changeImage: PropTypes.func.isRequired,
     editable: PropTypes.bool.isRequired,
-    deleteImageComponent: PropTypes.func.isRequired
+    addNewImageComponent: PropTypes.func.isRequired
   };
 
   itemPickerActionSheet = () => {
@@ -23,10 +22,10 @@ export default class ItemImagePicker extends Component {
         console.log('ImagePicker Error: ', response.error);
       } else {
         console.log('Image URI: ', response.uri);
-        this.props.changeImage({ uri: response.uri });
+        this.props.addNewImageComponent(response.uri);
       }
     });
-  }
+  };
 
   render() {
     return (
@@ -47,8 +46,7 @@ export default class ItemImagePicker extends Component {
           </TouchableOpacity>
         )}
 
-        {this.props.image.image_path === '' ||
-        typeof this.props.image.image_path === 'undefined' ? (
+        {this.props.image === '' ? (
           <TouchableOpacity
             onPress={this.itemPickerActionSheet}
             style={styles.itemImagePickerBtn}
@@ -56,8 +54,8 @@ export default class ItemImagePicker extends Component {
             <Image
               style={styles.itemImage}
               source={
-                this.props.image.image_path
-                  ? this.props.image.image_path
+                this.props.image
+                  ? { uri: this.props.image }
                   : require('../../../assets/images/default_image_placeholder.png')
               }
             />
@@ -67,8 +65,8 @@ export default class ItemImagePicker extends Component {
             <Image
               style={styles.itemImage}
               source={
-                this.props.image.image_path
-                  ? this.props.image.image_path
+                this.props.image
+                  ? { uri: this.props.image }
                   : require('../../../assets/images/default_image_placeholder.png')
               }
             />
