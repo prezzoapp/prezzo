@@ -15,11 +15,19 @@ class Profile extends Component {
   static displayName = 'Profile';
 
   static navigationOptions = {
-    title: 'Profile',
+    title: 'My Profile',
     tabBarIcon: props => (
       <Icon name='person-outline' size={24} color={props.tintColor} />
     ),
-    header: null
+    headerStyle: {
+      position: 'absolute',
+      backgroundColor: '#2B2C2C',
+      zIndex: 100,
+      top: 0,
+      left: 0,
+      right: 0
+    },
+    headerTintColor: '#fff'
   };
 
   static propTypes = {
@@ -43,9 +51,6 @@ class Profile extends Component {
       <View style={styles.parent}>
         <View style={styles.container}>
           <View style={styles.headerContainer}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.title}>My Profile</Text>
-            </View>
             <View style={styles.avatarContainer}>
               <Image style={styles.avatar}
                 source={
@@ -109,7 +114,8 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     flex: 0.68,
-    marginBottom: 20
+    marginBottom: 20,
+    marginTop: 20
   },
   bodyContainer: {
     alignItems: 'center',
@@ -151,15 +157,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR_BLACK,
     flex: 1,
     justifyContent: 'center'
-  },
-  title: {
-    color: 'white',
-    fontFamily: FONT_FAMILY_BOLD,
-    fontSize: 24
-  },
-  titleContainer: {
-    flex: 0.15,
-    marginBottom: 20
   }
 });
 

@@ -17,7 +17,12 @@ const ProfileDataField = ({label, value}: Props) => {
           <Text style={styles.label}>{label}</Text>
         </View>
         <View style={styles.valueContainer}>
-          <Text style={styles.value}>{value}</Text>
+          <Text
+            style={styles.value}
+            numberOfLines={1}
+          >
+            {value}
+          </Text>
         </View>
       </View>
     </View>
