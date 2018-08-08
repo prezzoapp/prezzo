@@ -1,5 +1,5 @@
 // @flow
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Image,
   Keyboard,
@@ -10,7 +10,6 @@ import {
   TouchableWithoutFeedback,
   View
 } from 'react-native';
-import {Spinner} from 'native-base';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-picker';
 import ProfileDataField from '../../../components/ProfileDataField';
@@ -53,7 +52,9 @@ class EditProfile extends Component<Props, State> {
       zIndex: 100,
       top: 0,
       left: 0,
-      right: 0
+      right: 0,
+      shadowColor: 'transparent',
+      borderBottomWidth: 0
     }
   };
 

@@ -35,7 +35,9 @@ export default class AccountInfo extends React.Component {
       zIndex: 100,
       top: 0,
       left: 0,
-      right: 0
+      right: 0,
+      shadowColor: 'transparent',
+      borderBottomWidth: 0
     },
     headerTintColor: '#fff',
     headerRight: (
@@ -191,7 +193,7 @@ export default class AccountInfo extends React.Component {
     if (!this.state.upload) {
       return;
     }
-    
+
     const { upload } = this.state;
     const { fileName, fileSize, uri } = upload;
 
