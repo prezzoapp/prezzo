@@ -23,7 +23,7 @@ const reducers = {
   signup: SignupReducer,
   vendor: VendorReducer,
   filters: FiltersReducer,
-  restaurantsList: ExploreSectionList,
+  restaurants: ExploreSectionList,
   restaurantsMapFilterListReducer
 };
 

@@ -1,29 +1,18 @@
 // @flow
 import React, { Component } from 'react';
-import { View, SectionList, Text, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
+import {
+  View,
+  SectionList,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Header } from 'react-navigation';
-
+import PropTypes from 'prop-types';
 import MenuItem from '../../../components/MenuItem';
-import { COLOR_BLACK, COLOR_DANGER } from '../../../services/constants';
+import { COLOR_BLACK } from '../../../services/constants';
 import styles from './styles';
 import MenuListCategoriesHeader from '../../../components/MenuListCategoriesHeader';
-
-type Props = {
-  addCategory: Function,
-  addItem: Function,
-  addNewImageComponent: Function,
-  editItem: Function,
-  updateCategory: Function,
-  deleteCategory: Function,
-  editCategory: Function,
-  updateItem: Function,
-  deleteItem: Function,
-  addImage: Function,
-  changeImage: Function,
-  deleteImage: Function,
-  menu: any
-};
 
 export default class CreateMenu extends Component<Props> {
   static navigationOptions = {
@@ -31,7 +20,7 @@ export default class CreateMenu extends Component<Props> {
     headerTintColor: 'white',
     headerStyle: {
       backgroundColor: COLOR_BLACK,
-      borderBottomWidth: 0,
+      borderBottomWidth: 0
     },
     tabBarIcon: props => (
       <Icon name="person-outline" size={24} color={props.tintColor} />
@@ -43,9 +32,7 @@ export default class CreateMenu extends Component<Props> {
       <TouchableOpacity
         style={styles.addAnotherCommonBtn}
         activeOpacity={0.6}
-        onPress={() =>
-          this.props.addCategory('5b67e45fb60a83004be0bc38', 'Category #7')
-        }
+        onPress={() => this.props.addCategory(this.props.menuId, 'Category #7')}
       >
         <Text style={styles.addAnotherCommonBtnText}>Add Another Category</Text>
       </TouchableOpacity>
@@ -59,7 +46,7 @@ export default class CreateMenu extends Component<Props> {
         activeOpacity={0.6}
         onPress={() =>
           this.props.addItem(
-            '5b67e45fb60a83004be0bc38',
+            this.props.menuId,
             categoryId,
             'Item',
             'Description',
@@ -76,10 +63,10 @@ export default class CreateMenu extends Component<Props> {
     <MenuListCategoriesHeader
       section={section}
       deleteCategory={categoryId =>
-        this.props.deleteCategory('5b67e45fb60a83004be0bc38', categoryId)
+        this.props.deleteCategory(this.props.menuId, categoryId)
       }
       updateCategory={(categoryId, title) =>
-        this.props.updateCategory('5b67e45fb60a83004be0bc38', categoryId, title)}
+        this.props.updateCategory(this.props.menuId, categoryId, title)}
     />
   );
 
@@ -114,7 +101,7 @@ export default class CreateMenu extends Component<Props> {
                 item={item}
                 updateItem={(title, price, description) =>
                   this.props.updateItem(
-                    '5b67e45fb60a83004be0bc38',
+                    this.props.menuId,
                     section._id,
                     item._id,
                     title,
@@ -124,14 +111,14 @@ export default class CreateMenu extends Component<Props> {
                 }
                 deleteItem={() =>
                   this.props.deleteItem(
-                    '5b67e45fb60a83004be0bc38',
+                    this.props.menuId,
                     section._id,
                     item._id
                   )
                 }
                 addNewImageComponent={imageURL =>
                   this.props.addImage(
-                    '5b67e45fb60a83004be0bc38',
+                    this.props.menuId,
                     section._id,
                     item._id,
                     imageURL
@@ -159,3 +146,22 @@ export default class CreateMenu extends Component<Props> {
     );
   }
 }
+
+CreateMenu.propTypes = {
+  addCategory: PropTypes.func.isRequired,
+  updateCategory: PropTypes.func.isRequired,
+  deleteCategory: PropTypes.func.isRequired,
+
+  addItem: PropTypes.func.isRequired,
+  updateItem: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
+
+  addImage: PropTypes.func.isRequired,
+  deleteImage: PropTypes.func.isRequired,
+
+  menuId: PropTypes.string.isRequired,
+
+  isBusy: PropTypes.bool.isRequired,
+
+  menu: PropTypes.any.isRequired
+};

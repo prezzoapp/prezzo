@@ -7,13 +7,12 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 
 export default class ItemImagePicker extends Component {
-  static propTypes = {
-    editable: PropTypes.bool.isRequired,
-    addNewImageComponent: PropTypes.func.isRequired
-  };
-
   itemPickerActionSheet = () => {
-    const options = { title: "Select an Item's Image" };
+    const options = {
+      title: "Select an Item's Image",
+      maxWidth: 800,
+      quality: 0.3
+    };
 
     ImagePicker.showImagePicker(options, response => {
       if (response.didCancel) {
@@ -31,11 +30,7 @@ export default class ItemImagePicker extends Component {
     return (
       <View>
         {this.props.editable && (
-          <TouchableOpacity
-            style={styles.closeBtn}
-            activeOpacity={0.6}
-            onPress={() => this.props.deleteImageComponent()}
-          >
+          <TouchableOpacity style={styles.closeBtn} activeOpacity={0.6}>
             <Icon
               title="Delete"
               name="md-close"
@@ -76,3 +71,9 @@ export default class ItemImagePicker extends Component {
     );
   }
 }
+
+ItemImagePicker.propTypes = {
+  editable: PropTypes.bool.isRequired,
+  addNewImageComponent: PropTypes.func.isRequired,
+  image: PropTypes.string.isRequired
+};

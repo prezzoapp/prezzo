@@ -1,5 +1,5 @@
 // @flow
-import { Map, fromJS } from 'immutable';
+import { fromJS } from 'immutable';
 import {
   MENU_CREATE_REQUEST,
   MENU_CREATE_SUCCESS,
@@ -16,7 +16,6 @@ import {
   MENU_ADD_ITEM_REQUEST,
   MENU_ADD_ITEM_SUCCESS,
   MENU_ADD_ITEM_FAILURE,
-  EDIT_ITEM,
   MENU_UPDATE_ITEM_REQUEST,
   MENU_UPDATE_ITEM_SUCCESS,
   MENU_UPDATE_ITEM_FAILURE,
@@ -26,7 +25,6 @@ import {
   MENU_ADD_IMAGE_REQUEST,
   MENU_ADD_IMAGE_SUCCESS,
   MENU_ADD_IMAGE_FAILURE,
-  CHANGE_IMAGE,
   MENU_DELETE_IMAGE_REQUEST,
   MENU_DELETE_IMAGE_SUCCESS,
   MENU_DELETE_IMAGE_FAILURE
@@ -40,16 +38,10 @@ import {
 const INITIAL_STATE = fromJS({
   isBusy: false,
 
-  menu_data: null
+  menuData: null
 });
 
 export default (state = INITIAL_STATE, action) => {
-  let sectionIndex;
-  let sectionObj;
-  let menuIndex;
-  let generatedIDForNewElement;
-  let imageIndex;
-
   let newState;
   let newCategories;
 
@@ -68,7 +60,7 @@ export default (state = INITIAL_STATE, action) => {
 
     case MENU_CREATE_SUCCESS:
       return state
-        .update('menu_data', () => action.payload)
+        .update('menuData', () => action.payload)
         .update('isBusy', () => false);
 
     case MENU_ADD_CATEGORY_SUCCESS:
@@ -78,11 +70,11 @@ export default (state = INITIAL_STATE, action) => {
         .get('categories')
         .map(item => item.set('data', item.get('items')).delete('items'));
 
-      newState = state.update('menu_data', () => action.payload);
+      newState = state.update('menuData', () => action.payload);
 
       return newState
-        .update('menu_data', () =>
-          newState.get('menu_data').set('categories', newCategories)
+        .update('menuData', () =>
+          newState.get('menuData').set('categories', newCategories)
         )
         .update('isBusy', () => false);
 
@@ -95,12 +87,12 @@ export default (state = INITIAL_STATE, action) => {
         .get('categories')
         .map(item => item.set('data', item.get('items')).delete('items'));
 
-      newState = state.update('menu_data', () => action.payload);
+      newState = state.update('menuData', () => action.payload);
 
       return newState
-        .update('menu_data', () =>
+        .update('menuData', () =>
           newState
-            .get('menu_data')
+            .get('menuData')
             .get('data')
             .set('categories', newCategories)
         )
@@ -124,17 +116,17 @@ export default (state = INITIAL_STATE, action) => {
     case LOGIN_WITH_FACEBOOK_SUCCESS: {
       // FILL MENU DATA AFTER LOGIN_WITH_EMAIL_SUCCESS
 
-      const menuStateAfterLogin = state.update('menu_data', () =>
+      const menuStateAfterLogin = state.update('menuData', () =>
         action.payload.get('vendor').get('menu')
       );
 
-      newCategories = menuStateAfterLogin.get('menu_data')
+      newCategories = menuStateAfterLogin.get('menuData')
         .get('categories')
         .map(item => item.set('data', item.get('items')).delete('items'));
 
       return menuStateAfterLogin
-        .update('menu_data', () =>
-          menuStateAfterLogin.get('menu_data').set('categories', newCategories)
+        .update('menuData', () =>
+          menuStateAfterLogin.get('menuData').set('categories', newCategories)
         ).update('isBusy', () => false);
     }
 

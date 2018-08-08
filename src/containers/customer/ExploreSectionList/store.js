@@ -3,10 +3,10 @@ import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 
 export const mapStateToProps = state => {
-  const restaurantsList = state.get('restaurantsList').toJS();
+  const restaurants = state.get('restaurants').toJS();
 
   return {
-    restaurantsList
+    restaurants
   };
 };
 

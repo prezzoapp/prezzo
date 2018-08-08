@@ -9,7 +9,7 @@ import styles from './styles';
 
 export default class ExploreSectionList extends PureComponent {
   static propTypes = {
-    restaurantsList: PropTypes.object.isRequired
+    restaurants: PropTypes.object.isRequired
   };
 
   renderSection = sectionTitle => (
@@ -29,7 +29,7 @@ export default class ExploreSectionList extends PureComponent {
       "Section List Rendering Occurred! Don't Know Why. It Shouldn't be Rendered."
     );
 
-    const sectionList = this.props.restaurantsList.sections;
+    const sectionList = this.props.restaurants.sections;
 
     return (
       <SectionList

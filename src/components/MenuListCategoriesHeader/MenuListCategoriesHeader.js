@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
 
 import styles from './styles';
 
-import PropTypes from 'prop-types';
-
-class MenuListCategoriesHeader extends Component {
-  static propTypes = {
-    updateCategory: PropTypes.func.isRequired,
-    deleteCategory: PropTypes.func.isRequired
-  };
-
+export default class MenuListCategoriesHeader extends Component {
   constructor(props) {
     super(props);
 
@@ -20,6 +14,16 @@ class MenuListCategoriesHeader extends Component {
     this.enableEditMode = this.enableEditMode.bind(this);
     this.deleteCategory = this.deleteCategory.bind(this);
     this.saveAndUpdateCategory = this.saveAndUpdateCategory.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props.section.title !== nextProps.section.title) {
+      this.setState(() => {
+        return {
+          title: nextProps.section.title
+        }
+      });
+    }
   }
 
   onChangeTitle(text) {
@@ -84,4 +88,8 @@ class MenuListCategoriesHeader extends Component {
   }
 }
 
-export default MenuListCategoriesHeader;
+MenuListCategoriesHeader.propTypes = {
+  updateCategory: PropTypes.func.isRequired,
+  deleteCategory: PropTypes.func.isRequired,
+  section: PropTypes.any.isRequired
+};

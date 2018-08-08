@@ -8,7 +8,6 @@ import {
   MENU_ADD_CATEGORY_REQUEST,
   MENU_ADD_CATEGORY_SUCCESS,
   MENU_ADD_CATEGORY_FAILURE,
-  EDIT_CATEGORY,
   MENU_UPDATE_CATEGORY_REQUEST,
   MENU_UPDATE_CATEGORY_SUCCESS,
   MENU_UPDATE_CATEGORY_FAILURE,
@@ -18,7 +17,6 @@ import {
   MENU_ADD_ITEM_REQUEST,
   MENU_ADD_ITEM_SUCCESS,
   MENU_ADD_ITEM_FAILURE,
-  EDIT_ITEM,
   MENU_UPDATE_ITEM_REQUEST,
   MENU_UPDATE_ITEM_SUCCESS,
   MENU_UPDATE_ITEM_FAILURE,
@@ -28,25 +26,22 @@ import {
   MENU_ADD_IMAGE_REQUEST,
   MENU_ADD_IMAGE_SUCCESS,
   MENU_ADD_IMAGE_FAILURE,
-  CHANGE_IMAGE,
   MENU_DELETE_IMAGE_REQUEST,
   MENU_DELETE_IMAGE_SUCCESS,
   MENU_DELETE_IMAGE_FAILURE
 } from './types';
 
-import { post, get, del, put } from '../../utils/api';
+import { post, del, put } from '../../utils/api';
 
 export const createMenu = async () => async dispatch => {
   dispatch({ type: MENU_CREATE_REQUEST });
   try {
-    await get('/v1/self');
+    const { menu } = await post('/v1/menus');
 
-    // const { menu } = await post('/v1/menus');
-    //
-    // return dispatch({
-    //   type: MENU_CREATE_SUCCESS,
-    //   payload: fromJS(menu)
-    // });
+    return dispatch({
+      type: MENU_CREATE_SUCCESS,
+      payload: fromJS(menu)
+    });
   } catch (e) {
     dispatch({
       type: MENU_CREATE_FAILURE,
@@ -75,16 +70,6 @@ export const addCategory = async (
   } catch (e) {
     dispatch({ type: MENU_ADD_CATEGORY_FAILURE });
   }
-};
-
-export const editCategory = async (
-  menuId: string,
-  categoryId: string
-) => async dispatch => {
-  dispatch({
-    type: EDIT_CATEGORY,
-    payload: { categoryId }
-  });
 };
 
 export const updateCategory = async (
@@ -152,17 +137,6 @@ export const addItem = async (
   } catch (e) {
     dispatch({ type: MENU_ADD_ITEM_FAILURE });
   }
-};
-
-export const editItem = async (
-  menuId: string,
-  categoryId: string,
-  itemId: string
-) => async dispatch => {
-  dispatch({
-    type: EDIT_ITEM,
-    payload: { categoryId, itemId }
-  });
 };
 
 export const updateItem = async (
@@ -237,19 +211,6 @@ export const addImage = async (
   } catch (e) {
     dispatch({ type: MENU_ADD_IMAGE_FAILURE });
   }
-};
-
-export const changeImage = async (
-  menuId: string,
-  categoryId: stirng,
-  itemId: string,
-  imageId: string,
-  imageObjPath: any
-) => async dispatch => {
-  dispatch({
-    type: CHANGE_IMAGE,
-    payload: { categoryId, itemId, imageId, imageObjPath }
-  });
 };
 
 export const deleteImage = async (

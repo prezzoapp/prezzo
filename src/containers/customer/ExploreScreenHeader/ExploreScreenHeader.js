@@ -54,7 +54,7 @@ export default class ExploreScreenHeader extends PureComponent {
                 >
                   <Image
                     source={require('../../../../assets/images/location_icon.png')}
-                    style={styles.location_pin} />
+                    style={styles.locationPin} />
                 </TouchableOpacity>
               </View>
             </View>

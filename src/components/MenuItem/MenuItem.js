@@ -26,9 +26,13 @@ export default class MenuItem extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps) {
+    if(nextProps !== this.props) {
       this.setState(() => {
         return {
+          title: nextProps.item.title,
+          price: nextProps.item.price,
+          description: nextProps.item.description,
+          editItem: false,
           imageArray: nextProps.item.imageURLs
         }
       });
@@ -144,20 +148,29 @@ export default class MenuItem extends Component {
             }
           </View>
           <View>
-            {this.state.editItem ? (
-              <TextInput
-                underlineColorAndroid="transparent"
-                value={this.state.price.toString()}
-                keyboardType="numeric"
-                style={styles.textInput}
-                onChangeText={text => this.updateEntries('PRICE', text)}
-              />
-            ) : (
-              <Text style={[styles.sectionHeaderText, styles.paddingBottom_10]}>
-                {this.state.price}
-              </Text>
-            )}
-
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: this.state.editItem ? 'center' : 'flex-start'
+              }}
+            >
+              <Text style={[styles.sectionHeaderText, { flex: 0, paddingRight: 2 }]}>$</Text>
+              {this.state.editItem ? (
+                <TextInput
+                  underlineColorAndroid="transparent"
+                  value={this.state.price.toString()}
+                  keyboardType="numeric"
+                  style={styles.textInput}
+                  onChangeText={text => this.updateEntries('PRICE', text)}
+                />
+              ) : (
+                <Text
+                  style={[styles.sectionHeaderText, styles.paddingBottom_10]}
+                >
+                  {this.state.price}
+                </Text>
+              )}
+            </View>
             {this.state.editItem ? (
               <TextInput
                 multiline

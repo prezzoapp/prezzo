@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
 
-  location_pin: {
+  locationPin: {
     width: 30, height: 30
   },
 
