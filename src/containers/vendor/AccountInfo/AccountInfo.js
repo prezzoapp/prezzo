@@ -24,11 +24,9 @@ export default class AccountInfo extends React.Component {
   // to get over this, we need to upgrade `react-navigation`
   static currentContext = null;
 
-  static displayName = 'Profile';
-
   static navigationOptions = {
     tabBarIcon: props => (
-      <Icon name='person-outline' size={24} color={props.tintColor} />
+      <Icon name="person-outline" size={24} color={props.tintColor} />
     ),
     title: 'Vendor Account',
     headerStyle: {
@@ -42,12 +40,14 @@ export default class AccountInfo extends React.Component {
     headerTintColor: '#fff',
     headerRight: (
       <Button
-        color='#fff'
+        color="#fff"
         onPress={() => AccountInfo.currentContext.save()}
-        title='Save'
+        title="Save"
       />
     )
   };
+
+  static displayName = 'Profile';
 
   static propTypes = {
     navigate: PropTypes.func.isRequired
@@ -56,7 +56,7 @@ export default class AccountInfo extends React.Component {
   constructor(props) {
     super(props);
 
-    const {avatarURL, vendor} = props;
+    const { avatarURL, vendor } = props;
 
     if (!vendor) {
       this.state = {
@@ -188,12 +188,12 @@ export default class AccountInfo extends React.Component {
   }
 
   async uploadPhoto() {
-    const { upload } = this.state;
-    const { fileName, fileSize, uri } = upload;
-
-    if (!upload) {
+    if (!this.state.upload) {
       return;
     }
+    
+    const { upload } = this.state;
+    const { fileName, fileSize, uri } = upload;
 
     await this.props.uploadImage(
       uri,

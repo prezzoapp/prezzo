@@ -37,12 +37,10 @@ type State = {
 };
 
 class EditProfile extends Component<Props, State> {
-  static displayName = 'Edit Profile';
-
   static navigationOptions = {
     title: 'Profile',
     tabBarIcon: props => (
-      <Icon name='person-outline' size={24} color={props.tintColor} />
+      <Icon name="person-outline" size={24} color={props.tintColor} />
     ),
     headerTintColor: 'white',
     headerTitleStyle: {
@@ -59,16 +57,24 @@ class EditProfile extends Component<Props, State> {
     }
   };
 
-  state = {
-    isEditing: false,
-    avatarURL: this.props.avatarURL,
-    firstName: '',
-    lastName: '',
-    phone: '',
-    address: '',
-    zip: '',
-    city: ''
-  };
+  static displayName = 'Edit Profile';
+
+  constructor(props) {
+    super(props);
+    const { address, avatarURL, city, firstName, lastName, phone, zip } = props;
+
+    this.state = {
+      isEditing: false,
+      address,
+      avatarURL,
+      city,
+      firstName,
+      lastName,
+      phone,
+      upload: null,
+      zip
+    };
+  }
 
   async save() {
     const {isBusy, updateUser} = this.props;
@@ -109,12 +115,12 @@ class EditProfile extends Component<Props, State> {
   }
 
   async uploadPhoto() {
-    const {upload} = this.state;
-    const {fileName, fileSize, uri} = upload;
-
-    if (!upload) {
+    if (!this.state.upload) {
       return;
     }
+
+    const {upload} = this.state;
+    const {fileName, fileSize, uri} = upload;
 
     await this.props.uploadImage(
       uri,
@@ -155,7 +161,7 @@ class EditProfile extends Component<Props, State> {
 
   render() {
     const {avatarURL, firstName, lastName, phone, address, zip, city} = this.state;
-    console.log(this.props);
+
     return (
       <KeyboardAvoidingView behavior='padding' style={styles.parent}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
