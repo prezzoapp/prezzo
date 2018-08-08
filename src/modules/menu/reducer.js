@@ -120,14 +120,20 @@ export default (state = INITIAL_STATE, action) => {
         action.payload.get('vendor').get('menu')
       );
 
-      newCategories = menuStateAfterLogin.get('menuData')
+      if (!menuStateAfterLogin || !menuStateAfterLogin.get('menuData')) {
+        return menuStateAfterLogin.update('isBusy', () => false);
+      }
+
+      newCategories = menuStateAfterLogin
+        .get('menuData')
         .get('categories')
         .map(item => item.set('data', item.get('items')).delete('items'));
 
       return menuStateAfterLogin
         .update('menuData', () =>
           menuStateAfterLogin.get('menuData').set('categories', newCategories)
-        ).update('isBusy', () => false);
+        )
+        .update('isBusy', () => false);
     }
 
     default:

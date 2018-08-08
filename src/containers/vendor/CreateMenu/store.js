@@ -12,10 +12,12 @@ import {
 } from '../../../modules/menu';
 
 export const mapStateToProps = state => ({
-  menuId: state
-    .get('menu')
-    .get('menuData')
-    .get('_id'),
+  menuId:
+    state.get('menu') &&
+    state
+      .get('menu')
+      .get('menuData')
+      .get('_id'),
   isBusy: state.get('menu').get('isBusy'),
   menu: state.get('menu').get('menuData')
 });
