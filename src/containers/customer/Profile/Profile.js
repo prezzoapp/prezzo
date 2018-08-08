@@ -12,8 +12,6 @@ import {
 } from '../../../services/constants';
 
 class Profile extends Component {
-  static displayName = 'Profile';
-
   static navigationOptions = {
     title: 'My Profile',
     tabBarIcon: props => (
@@ -30,13 +28,15 @@ class Profile extends Component {
     headerTintColor: '#fff'
   };
 
+  static displayName = 'Profile';
+
   static propTypes = {
     navigate: PropTypes.func.isRequired
   };
 
   async logout() {
     await snapshot.clearSnapshot();
-    this.props.navigate({routeName: 'Authentication'});
+    this.props.navigate({ routeName: 'Authentication' });
   }
 
   navigateToEditProfile() {

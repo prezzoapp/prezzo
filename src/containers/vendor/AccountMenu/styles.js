@@ -1,10 +1,6 @@
 // @flow
-import {StyleSheet} from 'react-native';
-import {
-  FONT_FAMILY,
-  FONT_FAMILY_BOLD,
-  COLOR_BLACK
-} from '../../../services/constants';
+import { StyleSheet } from 'react-native';
+import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
 
 export default StyleSheet.create({
   avatar: {
@@ -13,13 +9,10 @@ export default StyleSheet.create({
     borderRadius: 51,
     borderWidth: 2,
     height: 102,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     width: 102
   },
-  avatarContainer: {
-    display: 'none',
-    marginBottom: 20
-  },
+  avatarContainer: {},
   bodyContainer: {
     alignItems: 'center',
     flexDirection: 'column',
@@ -33,6 +26,25 @@ export default StyleSheet.create({
     marginVertical: 70,
     paddingTop: 100,
     width: '100%'
+  },
+  footerContainer: {
+    alignSelf: 'center',
+    justifyContent: 'space-between',
+    flex: 0.15,
+    flexDirection: 'row',
+    marginTop: 20,
+    width: '85%'
+  },
+  footerLeft: {
+    alignSelf: 'flex-start'
+  },
+  footerRight: {
+    alignSelf: 'flex-end'
+  },
+  footerText: {
+    color: 'white',
+    fontFamily: FONT_FAMILY,
+    fontSize: 18
   },
   headerContainer: {
     alignItems: 'center',
