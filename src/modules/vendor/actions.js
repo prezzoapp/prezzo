@@ -8,15 +8,15 @@ import {
   UPDATE_VENDOR_SUCCESS,
   UPDATE_VENDOR_FAILURE
 } from './types';
-import { post, put, get } from '../../utils/api';
+import { post, put } from '../../utils/api';
 
-export const createVendor = async params => async(dispatch: ReduxDispatch) => {
+export const createVendor = async params => async (dispatch: ReduxDispatch) => {
   dispatch({
     type: CREATE_VENDOR_REQUEST
   });
 
   try {
-    const { vendor } = await post('/v1/vendors', params);
+    const vendor = await post('/v1/vendors', params);
 
     return dispatch({
       type: CREATE_VENDOR_SUCCESS,
@@ -32,13 +32,15 @@ export const createVendor = async params => async(dispatch: ReduxDispatch) => {
   }
 };
 
-export const updateVendor = async (id: string, params: any) => async(dispatch: ReduxDispatch) => {
+export const updateVendor = async (id: string, params: any) => async (
+  dispatch: ReduxDispatch
+) => {
   dispatch({
     type: UPDATE_VENDOR_REQUEST
   });
 
   try {
-    const { vendor } = await put(`/v1/vendors/${id}`, params);
+    const vendor = await put(`/v1/vendors/${id}`, params);
 
     return dispatch({
       type: UPDATE_VENDOR_SUCCESS,

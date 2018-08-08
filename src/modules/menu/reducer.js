@@ -37,8 +37,7 @@ import {
 
 const INITIAL_STATE = fromJS({
   isBusy: false,
-
-  menuData: null
+  data: null
 });
 
 export default (state = INITIAL_STATE, action) => {
@@ -60,7 +59,7 @@ export default (state = INITIAL_STATE, action) => {
 
     case MENU_CREATE_SUCCESS:
       return state
-        .update('menuData', () => action.payload)
+        .update('data', () => action.payload)
         .update('isBusy', () => false);
 
     case MENU_ADD_CATEGORY_SUCCESS:
@@ -70,11 +69,11 @@ export default (state = INITIAL_STATE, action) => {
         .get('categories')
         .map(item => item.set('data', item.get('items')).delete('items'));
 
-      newState = state.update('menuData', () => action.payload);
+      newState = state.update('data', () => action.payload);
 
       return newState
-        .update('menuData', () =>
-          newState.get('menuData').set('categories', newCategories)
+        .update('data', () =>
+          newState.get('data').set('categories', newCategories)
         )
         .update('isBusy', () => false);
 
@@ -87,12 +86,12 @@ export default (state = INITIAL_STATE, action) => {
         .get('categories')
         .map(item => item.set('data', item.get('items')).delete('items'));
 
-      newState = state.update('menuData', () => action.payload);
+      newState = state.update('data', () => action.payload);
 
       return newState
-        .update('menuData', () =>
+        .update('data', () =>
           newState
-            .get('menuData')
+            .get('data')
             .get('data')
             .set('categories', newCategories)
         )
@@ -116,22 +115,22 @@ export default (state = INITIAL_STATE, action) => {
     case LOGIN_WITH_FACEBOOK_SUCCESS: {
       // FILL MENU DATA AFTER LOGIN_WITH_EMAIL_SUCCESS
 
-      const menuStateAfterLogin = state.update('menuData', () =>
+      const menuStateAfterLogin = state.update('data', () =>
         action.payload.get('vendor').get('menu')
       );
 
-      if (!menuStateAfterLogin || !menuStateAfterLogin.get('menuData')) {
+      if (!menuStateAfterLogin || !menuStateAfterLogin.get('data')) {
         return menuStateAfterLogin.update('isBusy', () => false);
       }
 
       newCategories = menuStateAfterLogin
-        .get('menuData')
+        .get('data')
         .get('categories')
         .map(item => item.set('data', item.get('items')).delete('items'));
 
       return menuStateAfterLogin
-        .update('menuData', () =>
-          menuStateAfterLogin.get('menuData').set('categories', newCategories)
+        .update('data', () =>
+          menuStateAfterLogin.get('data').set('categories', newCategories)
         )
         .update('isBusy', () => false);
     }

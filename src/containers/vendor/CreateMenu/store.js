@@ -16,10 +16,10 @@ export const mapStateToProps = state => ({
     state.get('menu') &&
     state
       .get('menu')
-      .get('menuData')
+      .get('data')
       .get('_id'),
   isBusy: state.get('menu').get('isBusy'),
-  menu: state.get('menu').get('menuData')
+  menu: state.get('menu').get('data')
 });
 
 export const mapDispatchToProps = dispatch => ({
