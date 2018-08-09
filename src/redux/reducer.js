@@ -9,22 +9,18 @@ import SignupReducer from '../modules/Signup';
 import SessionStateReducer from '../modules/session';
 import { RESET_STATE } from '../modules/session/types';
 import VendorReducer from '../modules/vendor';
-import FiltersReducer from '../modules/exploreFilter';
-import ExploreSectionList from '../modules/exploreList';
-import restaurantsMapFilterListReducer from '../modules/mapScreen';
+import ExploreReducer from '../modules/explore';
 
 const reducers = {
   navigatorState: NavigatorStateReducer,
   session: SessionStateReducer,
   auth: AuthReducer,
+  explore: ExploreReducer,
   menu: MenuReducer,
   upload: UploadReducer,
   user: UserReducer,
   signup: SignupReducer,
-  vendor: VendorReducer,
-  filters: FiltersReducer,
-  restaurants: ExploreSectionList,
-  restaurantsMapFilterListReducer
+  vendor: VendorReducer
 };
 
 // initial state, accessor and mutator for supporting root-level

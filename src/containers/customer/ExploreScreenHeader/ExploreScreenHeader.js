@@ -14,7 +14,7 @@ export default class ExploreScreenHeader extends PureComponent {
   static propTypes = {
     navigate: PropTypes.func.isRequired,
     toggleFilter: PropTypes.func.isRequired,
-    filtersReducer: PropTypes.object.isRequired
+    filters: PropTypes.array.isRequired
   };
 
   constructor() {
@@ -23,7 +23,7 @@ export default class ExploreScreenHeader extends PureComponent {
   }
 
   render() {
-    const filtersList = this.props.filtersReducer.filters;
+    const { filters } = this.props;
 
     return (
       <View style={styles.header}>
@@ -68,7 +68,7 @@ export default class ExploreScreenHeader extends PureComponent {
               contentContainerStyle={styles.filtersList}
               keyExtractor={item => item.id}
               showsHorizontalScrollIndicator={false}
-              data={filtersList}
+              data={filters}
               renderItem={({ item }) =>
                 <FilterItem item={item}
                   toggleFilter={() => this.props.toggleFilter(item.id)}
@@ -77,7 +77,7 @@ export default class ExploreScreenHeader extends PureComponent {
             />
 
             <View>
-              {filtersList.map(item => {
+              {filters.map(item => {
                 if (item.filterType === 'realtime' && item.active === true) {
                   return (
                     <View key={item.id} style={styles.slidersHolder}>

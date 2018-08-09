@@ -1,13 +1,30 @@
+// @flow
 import { fromJS } from 'immutable';
-
 import {
   TOGGLE_FILTER_REQUEST,
   TOGGLE_FILTER_SUCCESS,
   TOGGLE_FILTER_FAILURE
 } from './types';
 
-const filters = fromJS({
-  filters: [{
+const restaurants = [];
+
+for (let i = 0; i < 5; i += 1) {
+  restaurants.push({
+    id: i,
+    imagePath: require('../../../assets/images/card_1.jpg'),
+    likes: 0,
+    name: 'True Food',
+    city: 'Santa Monica',
+    distance: 2,
+    status: 'Open Now',
+    latitude: 28.006447,
+    longitude: 73.3204479
+  });
+}
+
+const INITIAL_STATE = fromJS({
+  filters: [
+    {
       id: 0,
       filterType: 'realtime',
       name: 'Open Now',
@@ -42,29 +59,46 @@ const filters = fromJS({
       active: false,
       image: require('../../../assets/images/filters/breakfast.png')
     }
-  ]
+  ],
+  sections: [
+    {
+      title: 'trending',
+      data: [restaurants]
+    },
+    {
+      title: 'featured',
+      data: [restaurants]
+    },
+    {
+      title: 'near me',
+      data: [restaurants]
+    }
+  ],
+  restaurants
 });
 
-const filtersReducer = (state = filters, action) => {
+export default (state = INITIAL_STATE, action) => {
+  let oldFilters;
+  let newFilters;
+  let immutableFilters;
+
   switch (action.type) {
     case TOGGLE_FILTER_SUCCESS:
-      return state.set(
-        'filters',
-        state.get('filters').update(
-          state.get('filters').findIndex(item => {
-          return item.get('id') === action.payload;
-          }),
-          item => {
-            return item.set('active', !item.get('active'));
-          }
-        )
-      );
+      oldFilters = state.get('filters').toJS();
+      newFilters = oldFilters.map(filter => {
+        const newFilter = { ...filter };
+        if (filter.id === action.payload) {
+          newFilter.active = !filter.active;
+        }
 
+        return newFilter;
+      });
+      immutableFilters = fromJS(newFilters);
+
+      return state.set('filters', immutableFilters);
     case TOGGLE_FILTER_REQUEST:
     case TOGGLE_FILTER_FAILURE:
     default:
       return state;
   }
 };
-
-export default filtersReducer;

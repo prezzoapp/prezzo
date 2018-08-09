@@ -4,8 +4,8 @@ import { NavigationActions } from 'react-navigation';
 
 export const mapStateToProps = state => {
   const data = state
-    .get('restaurantsMapFilterListReducer')
-    .get('data')
+    .get('explore')
+    .get('restaurants')
     .toJS();
 
   return {

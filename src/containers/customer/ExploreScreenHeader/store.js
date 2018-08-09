@@ -1,13 +1,16 @@
 // @flow
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { toggleFilter } from '../../../modules/exploreFilter';
+import { toggleFilter } from '../../../modules/explore';
 
 export const mapStateToProps = state => {
-  const filtersReducer = state.get('filters').toJS();
+  const filters = state
+    .get('explore')
+    .get('filters')
+    .toJS();
 
   return {
-    filtersReducer
+    filters
   };
 };
 

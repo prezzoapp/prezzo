@@ -24,7 +24,7 @@ export default class ExploreSectionListItem extends Component {
             <ImageBackground source={item.imagePath} style={ {width: '100%', height: 150 }} imageStyle={{borderRadius: 5}}>
 
             </ImageBackground>
-            <Text style={styles.restaurantName}>{item.restaurant}</Text>
+            <Text style={styles.restaurantName}>{item.name}</Text>
             <Text style={styles.cityName}>{item.city}</Text>
           </View>
         }

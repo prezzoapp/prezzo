@@ -9,7 +9,8 @@ import styles from './styles';
 
 export default class ExploreSectionList extends PureComponent {
   static propTypes = {
-    restaurants: PropTypes.object.isRequired
+    restaurants: PropTypes.array.isRequired,
+    sections: PropTypes.array.isRequired
   };
 
   renderSection = sectionTitle => (
@@ -29,14 +30,14 @@ export default class ExploreSectionList extends PureComponent {
       "Section List Rendering Occurred! Don't Know Why. It Shouldn't be Rendered."
     );
 
-    const sectionList = this.props.restaurants.sections;
+    const { sections } = this.props;
 
     return (
       <SectionList
         style={{ marginTop: 132.5 }}
         initialNumToRender={3}
         keyExtractor={(item, index) => index}
-        sections={sectionList}
+        sections={sections}
         renderSectionHeader={section =>
           this.renderSection(section.section.title)
         }
