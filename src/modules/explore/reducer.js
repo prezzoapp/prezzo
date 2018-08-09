@@ -11,7 +11,7 @@ const restaurants = [];
 for (let i = 0; i < 5; i += 1) {
   restaurants.push({
     id: i,
-    imagePath: require('../../../assets/images/card_1.jpg'),
+    imagePath: require('../../../assets/images/exploreRestaurantItem.png'),
     likes: 0,
     name: 'True Food',
     city: 'Santa Monica',
@@ -60,20 +60,7 @@ const INITIAL_STATE = fromJS({
       image: require('../../../assets/images/filters/breakfast.png')
     }
   ],
-  sections: [
-    {
-      title: 'trending',
-      data: [restaurants]
-    },
-    {
-      title: 'featured',
-      data: [restaurants]
-    },
-    {
-      title: 'near me',
-      data: [restaurants]
-    }
-  ],
+  exploreRestaurants: restaurants,
   restaurants
 });
 
@@ -96,6 +83,7 @@ export default (state = INITIAL_STATE, action) => {
       immutableFilters = fromJS(newFilters);
 
       return state.set('filters', immutableFilters);
+
     case TOGGLE_FILTER_REQUEST:
     case TOGGLE_FILTER_FAILURE:
     default:

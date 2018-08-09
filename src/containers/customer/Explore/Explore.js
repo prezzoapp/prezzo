@@ -4,11 +4,9 @@ import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ExploreScreenHeader from '../ExploreScreenHeader';
-import ExploreSectionList from '../ExploreSectionList';
+import ExploreList from '../ExploreList';
 
 class Explore extends PureComponent {
-  static displayName = 'Explore';
-
   static navigationOptions = {
     title: 'Explore',
     tabBarIcon: props => (
@@ -25,12 +23,14 @@ class Explore extends PureComponent {
     }
   };
 
+  static displayName = 'Explore';
+
   render() {
     return (
       <View style={styles.container}>
         <ExploreScreenHeader />
 
-        <ExploreSectionList />
+        <ExploreList />
       </View>
     );
   }

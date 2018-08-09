@@ -16,12 +16,15 @@
 
 //#import "FBSDKCoreKit.h"
 
+//@import GoogleMaps;
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+//  [GMSServices provideAPIKey:@"AIzaSyAPHWmpGS03_gRrn1lm5dJP48-be6AI9Ug"];
 //  [[FBSDKApplicationDelegate sharedInstance] application:application
 //                           didFinishLaunchingWithOptions:launchOptions];
+
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
@@ -43,7 +46,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
 //  [FBSDKAppEvents activateApp];
 }
-  
+
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
