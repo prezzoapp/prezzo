@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
+// @flow
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {View, StyleSheet, StatusBar, ActivityIndicator} from 'react-native';
+import { View, StyleSheet, StatusBar, ActivityIndicator } from 'react-native';
 import NavigatorViewContainer from '../../shared/Navigator/NavigatorViewContainer';
 import * as snapshotUtil from '../../../utils/snapshot';
 import * as SessionStateActions from '../../../modules/session';

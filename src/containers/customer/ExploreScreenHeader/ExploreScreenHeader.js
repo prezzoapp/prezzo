@@ -66,12 +66,12 @@ export default class ExploreScreenHeader extends PureComponent {
             <FlatList
               horizontal
               contentContainerStyle={styles.filtersList}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item._id}
               showsHorizontalScrollIndicator={false}
               data={filters}
               renderItem={({ item }) =>
                 <FilterItem item={item}
-                  toggleFilter={() => this.props.toggleFilter(item.id)}
+                  toggleFilter={() => this.props.toggleFilter(item._id)}
                 />
               }
             />
@@ -80,7 +80,7 @@ export default class ExploreScreenHeader extends PureComponent {
               {filters.map(item => {
                 if (item.filterType === 'realtime' && item.active === true) {
                   return (
-                    <View key={item.id} style={styles.slidersHolder}>
+                    <View key={item._id} style={styles.slidersHolder}>
                       <View style={styles.sliderTitleHolder}>
                         <Text style={styles.sliderTitleText}>Distance</Text>
                         <Text style={styles.sliderTitleText}>2mi</Text>
@@ -96,10 +96,12 @@ export default class ExploreScreenHeader extends PureComponent {
                       />
                     </View>
                   );
-                }
-                else if (item.filterType === 'price' && item.active === true) {
+                } else if (
+                  item.filterType === 'price' &&
+                  item.active === true
+                ) {
                   return (
-                    <View key={item.id} style={styles.slidersHolder}>
+                    <View key={item._id} style={styles.slidersHolder}>
                       <Slider
                         minimumValue={0}
                         maximumValue={100}
@@ -114,8 +116,7 @@ export default class ExploreScreenHeader extends PureComponent {
                     </View>
                   );
                 }
-              })
-            }
+              })}
             </View>
           </View>
         }
