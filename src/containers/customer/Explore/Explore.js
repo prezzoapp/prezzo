@@ -1,14 +1,16 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
+import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ExploreScreenHeader from '../ExploreScreenHeader';
-import ExploreSectionList from '../ExploreSectionList';
+import ExploreList from '../ExploreList';
+import styles from './styles';
 
-class Explore extends PureComponent {
-  static displayName = 'Explore';
+type Props = {
+  listVendors: Function
+};
 
+class Explore extends PureComponent<Props> {
   static navigationOptions = {
     title: 'Explore',
     tabBarIcon: props => (
@@ -25,22 +27,19 @@ class Explore extends PureComponent {
     }
   };
 
+  static displayName = 'Explore';
+
+  componentDidMount() {
+    this.props.listVendors();
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <ExploreScreenHeader />
-
-        <ExploreSectionList />
+        <ExploreList />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#2B2C2C'
-  }
-});
-
 export default Explore;

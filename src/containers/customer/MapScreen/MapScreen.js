@@ -36,7 +36,7 @@ export default class MapScreen extends Component {
               paddingVertical: 5,
               paddingHorizontal: 15
             }}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id}
             data={this.props.data}
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={this.renderSeparator}

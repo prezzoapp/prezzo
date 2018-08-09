@@ -1,9 +1,9 @@
 // @flow
 import { connect } from 'react-redux';
-import Explore from './Explore';
+import ExploreList from './ExploreList';
 import { mapStateToProps, mapDispatchToProps } from './store';
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Explore);
+)(ExploreList);

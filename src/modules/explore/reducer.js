@@ -3,15 +3,18 @@ import { fromJS } from 'immutable';
 import {
   TOGGLE_FILTER_REQUEST,
   TOGGLE_FILTER_SUCCESS,
-  TOGGLE_FILTER_FAILURE
+  TOGGLE_FILTER_FAILURE,
+  LIST_VENDORS_REQUEST,
+  LIST_VENDORS_SUCCESS,
+  LIST_VENDORS_FAILURE
 } from './types';
 
 const restaurants = [];
 
 for (let i = 0; i < 5; i += 1) {
   restaurants.push({
-    id: i,
-    imagePath: require('../../../assets/images/card_1.jpg'),
+    _id: i,
+    imagePath: require('../../../assets/images/exploreRestaurantItem.png'),
     likes: 0,
     name: 'True Food',
     city: 'Santa Monica',
@@ -23,71 +26,65 @@ for (let i = 0; i < 5; i += 1) {
 }
 
 const INITIAL_STATE = fromJS({
+  isBusy: false,
   filters: [
     {
-      id: 0,
+      _id: 0,
       filterType: 'realtime',
       name: 'Open Now',
       active: false,
       image: require('../../../assets/images/filters/realtime-protection.png')
     },
     {
-      id: 1,
+      _id: 1,
       filterType: 'price',
       name: 'Price',
       active: false,
       image: require('../../../assets/images/filters/dollar-sign-icon.png')
     },
     {
-      id: 2,
+      _id: 2,
       filterType: 'wifi',
       name: 'Wifi',
       active: false,
       image: require('../../../assets/images/filters/wifi-icon.png')
     },
     {
-      id: 3,
+      _id: 3,
       filterType: 'delivery',
       name: 'Delivery',
       active: false,
       image: require('../../../assets/images/filters/delivery.png')
     },
     {
-      id: 4,
+      _id: 4,
       filterType: 'breakfast',
       name: 'Breakfast',
       active: false,
       image: require('../../../assets/images/filters/breakfast.png')
     }
   ],
-  sections: [
-    {
-      title: 'trending',
-      data: [restaurants]
-    },
-    {
-      title: 'featured',
-      data: [restaurants]
-    },
-    {
-      title: 'near me',
-      data: [restaurants]
-    }
-  ],
   restaurants
 });
 
 export default (state = INITIAL_STATE, action) => {
+  const { type, payload } = action;
   let oldFilters;
   let newFilters;
   let immutableFilters;
 
-  switch (action.type) {
+  switch (type) {
+    case TOGGLE_FILTER_REQUEST:
+    case LIST_VENDORS_REQUEST:
+      return state.set('isBusy', true);
+    case TOGGLE_FILTER_FAILURE:
+    case LIST_VENDORS_FAILURE:
+      return state.set('isBusy', false);
     case TOGGLE_FILTER_SUCCESS:
       oldFilters = state.get('filters').toJS();
       newFilters = oldFilters.map(filter => {
         const newFilter = { ...filter };
-        if (filter.id === action.payload) {
+        if (filter._id === payload) {
           newFilter.active = !filter.active;
         }
 
@@ -96,8 +93,8 @@ export default (state = INITIAL_STATE, action) => {
       immutableFilters = fromJS(newFilters);
 
       return state.set('filters', immutableFilters);
-    case TOGGLE_FILTER_REQUEST:
-    case TOGGLE_FILTER_FAILURE:
+    case LIST_VENDORS_SUCCESS:
+      return state.set('isBusy', false).set('restaurants', payload);
     default:
       return state;
   }

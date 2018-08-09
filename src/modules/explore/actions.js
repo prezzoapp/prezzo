@@ -1,11 +1,16 @@
 // @flow
+import { fromJS } from 'immutable';
 import {
   TOGGLE_FILTER_REQUEST,
   TOGGLE_FILTER_SUCCESS,
-  TOGGLE_FILTER_FAILURE
+  TOGGLE_FILTER_FAILURE,
+  LIST_VENDORS_REQUEST,
+  LIST_VENDORS_SUCCESS,
+  LIST_VENDORS_FAILURE
 } from './types';
+import { get } from '../../utils/api';
 
-const toggleFilter = async (filterId: number) => async dispatch => {
+export const toggleFilter = async (filterId: number) => async dispatch => {
   dispatch({ type: TOGGLE_FILTER_REQUEST });
 
   try {
@@ -19,4 +24,18 @@ const toggleFilter = async (filterId: number) => async dispatch => {
   }
 };
 
-export default toggleFilter;
+export const listVendors = async () => async dispatch => {
+  dispatch({ type: LIST_VENDORS_REQUEST });
+
+  try {
+    const vendors = await get('/v1/vendors');
+
+    dispatch({
+      type: LIST_VENDORS_SUCCESS,
+      payload: fromJS(vendors)
+    });
+  } catch (e) {
+    console.warn('e', e);
+    dispatch({ type: LIST_VENDORS_FAILURE });
+  }
+};
