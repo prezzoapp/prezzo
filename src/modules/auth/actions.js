@@ -12,8 +12,8 @@ import {
   SET_AUTHENTICATION_TOKEN,
   CLEAR_AUTHENTICATION_TOKEN
 } from './types';
-import {post} from '../../utils/api';
-import {setAuthenticationToken as cacheToken} from '../../utils/authentication';
+import { post } from '../../utils/api';
+import { setAuthenticationToken as cacheToken } from '../../utils/authentication';
 
 export const setAuthenticationToken = async user => {
   const userId = user.get('_id');

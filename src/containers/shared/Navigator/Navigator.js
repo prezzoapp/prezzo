@@ -10,6 +10,8 @@ import SignupPassword from '../../authentication/Signup/SignupPassword';
 import SignupComplete from '../../authentication/Signup/SignupComplete';
 
 import Explore from '../../customer/Explore';
+import RestaurantDetails from '../../customer/RestaurantDetails';
+
 import MapScreen from '../../customer/MapScreen';
 import Profile from '../../customer/Profile';
 import EditProfile from '../../customer/EditProfile';
@@ -72,7 +74,8 @@ const CustomerNavigator = StackNavigator({
         header: null
       }
     },
-    MapScreen: { screen: MapScreen }
+    MapScreen: { screen: MapScreen },
+    RestaurantDetails: { screen: RestaurantDetails }
   },{
     mode: 'modal'
 });

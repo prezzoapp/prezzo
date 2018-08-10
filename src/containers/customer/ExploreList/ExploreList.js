@@ -6,7 +6,8 @@ import ExploreListItem from '../../../components/ExploreListItem';
 
 export default class ExploreList extends PureComponent {
   static propTypes = {
-    restaurants: PropTypes.array.isRequired
+    restaurants: PropTypes.array.isRequired,
+    navigate: PropTypes.func.isRequired
   };
 
   render() {
@@ -19,7 +20,9 @@ export default class ExploreList extends PureComponent {
         initialNumToRender={10}
         keyExtractor={(item, index) => index}
         data={restaurants}
-        renderItem={({ item }) => <ExploreListItem item={item} />}
+        renderItem={({ item }) => (
+          <ExploreListItem item={item} navigate={this.props.navigate} />
+        )}
       />
     );
   }

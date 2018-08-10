@@ -1,15 +1,15 @@
 // @flow
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {updateUser} from '../../../modules/user';
-import {uploadImage} from '../../../modules/upload';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateUser } from '../../../modules/user';
+import { uploadImage } from '../../../modules/upload';
 import EditProfile from './EditProfile';
 
 const mapStateToProps = state => {
   const user = state.get('user');
   const account = user.get('account');
-  const isBusy = user.get('isBusy') ||
-    state.get('upload').get('isBusy') || false;
+  const isBusy =
+    user.get('isBusy') || state.get('upload').get('isBusy') || false;
 
   return {
     address: account.get('address'),

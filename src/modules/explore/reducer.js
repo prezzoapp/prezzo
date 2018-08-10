@@ -94,6 +94,7 @@ export default (state = INITIAL_STATE, action) => {
 
       return state.set('filters', immutableFilters);
     case LIST_VENDORS_SUCCESS:
+      console.log(payload.toJS());
       return state.set('isBusy', false).set('restaurants', payload);
     default:
       return state;
