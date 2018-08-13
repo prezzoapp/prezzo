@@ -81,6 +81,7 @@ export default (state = INITIAL_STATE, action) => {
     case MENU_UPDATE_ITEM_SUCCESS:
     case MENU_DELETE_ITEM_SUCCESS:
     case MENU_ADD_IMAGE_SUCCESS:
+    case MENU_DELETE_IMAGE_SUCCESS:
       newCategories = action.payload
         .get('data')
         .get('categories')
@@ -96,9 +97,6 @@ export default (state = INITIAL_STATE, action) => {
             .set('categories', newCategories)
         )
         .update('isBusy', () => false);
-
-    case MENU_DELETE_IMAGE_SUCCESS:
-      return state;
 
     case MENU_CREATE_FAILURE:
     case MENU_ADD_CATEGORY_FAILURE:

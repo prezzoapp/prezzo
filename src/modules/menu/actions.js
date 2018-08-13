@@ -217,13 +217,20 @@ export const deleteImage = async (
   menuId: string,
   categoryId: string,
   itemId: string,
-  imageId: string
+  imageURL: string
 ) => async dispatch => {
   dispatch({ type: MENU_DELETE_IMAGE_REQUEST });
+
   try {
+    const data = await del(
+      `/v1/menus/${menuId}/categories/${categoryId}/items/${itemId}/photos`, {
+        imageURL
+      }
+    );
+
     dispatch({
       type: MENU_DELETE_IMAGE_SUCCESS,
-      payload: { categoryId, itemId, imageId }
+      payload: fromJS({ data })
     });
   } catch (e) {
     dispatch({ type: MENU_DELETE_IMAGE_FAILURE });

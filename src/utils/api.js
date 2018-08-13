@@ -47,10 +47,14 @@ export async function put(path, body, suppressRedBox) {
 /**
  * DELETE a path relative to API root url
  * @param {String} path Relative path to the configured API endpoint
+ * @param {Object} body Anything that you can pass to JSON.stringify
  * @param {Boolean} suppressRedBox If true, no warning is shown on failed request
  * @returns {Promise}  of response body
  */
-export async function del(path, suppressRedBox) {
+export async function del(path, body, suppressRedBox) {
+  if(body) {
+    return bodyOf(request('delete', path, body, suppressRedBox));
+  }
   return bodyOf(request('delete', path, null, suppressRedBox));
 }
 

@@ -30,7 +30,11 @@ export default class ItemImagePicker extends Component {
     return (
       <View>
         {this.props.editable && (
-          <TouchableOpacity style={styles.closeBtn} activeOpacity={0.6}>
+          <TouchableOpacity
+            style={styles.closeBtn}
+            activeOpacity={0.6}
+            onPress={() => this.props.deleteImageComponent(this.props.image)}
+          >
             <Icon
               title="Delete"
               name="md-close"
@@ -75,5 +79,6 @@ export default class ItemImagePicker extends Component {
 ItemImagePicker.propTypes = {
   editable: PropTypes.bool.isRequired,
   addNewImageComponent: PropTypes.func.isRequired,
+  deleteImageComponent: PropTypes.func.isRequired,
   image: PropTypes.string.isRequired
 };

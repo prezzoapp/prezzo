@@ -195,6 +195,9 @@ export default class MenuItem extends Component {
                   addNewImageComponent={imageURL =>
                     this.props.addNewImageComponent(imageURL)
                   }
+                  deleteImageComponent={imageURL =>
+                    this.props.deleteImageComponent(imageURL)
+                  }
                 />
             ))}
 
@@ -221,5 +224,6 @@ MenuItem.propTypes = {
   item: PropTypes.object.isRequired,
   updateItem: PropTypes.func.isRequired,
   deleteItem: PropTypes.func.isRequired,
-  addNewImageComponent: PropTypes.func.isRequired
+  addNewImageComponent: PropTypes.func.isRequired,
+  deleteImageComponent: PropTypes.func.isRequired
 };

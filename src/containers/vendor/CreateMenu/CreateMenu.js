@@ -124,8 +124,14 @@ export default class CreateMenu extends Component<Props> {
                     imageURL
                   )
                 }
-                deleteImageComponent={imageId =>
-                  this.props.deleteImage(0, section.id, item.id, imageId)}
+                deleteImageComponent={imageURL =>
+                  this.props.deleteImage(
+                    this.props.menuId,
+                    section._id,
+                    item._id,
+                    imageURL
+                  )
+                }
               />
             }
           />
