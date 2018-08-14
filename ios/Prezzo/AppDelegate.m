@@ -1,31 +1,29 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 #import "AppDelegate.h"
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-//#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
-//#import "FBSDKCoreKit.h"
+@import GoogleMaps;
 
-//@import GoogleMaps;
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//  [GMSServices provideAPIKey:@"AIzaSyAPHWmpGS03_gRrn1lm5dJP48-be6AI9Ug"];
-//  [[FBSDKApplicationDelegate sharedInstance] application:application
-//                           didFinishLaunchingWithOptions:launchOptions];
-
   NSURL *jsCodeLocation;
+  
+  [GMSServices provideAPIKey:@"AIzaSyAPHWmpGS03_gRrn1lm5dJP48-be6AI9Ug"];
+  
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                           didFinishLaunchingWithOptions:launchOptions];
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 
@@ -43,23 +41,17 @@
   return YES;
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-//  [FBSDKAppEvents activateApp];
-}
-
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-  return TRUE;
-//  BOOL handledFB = [[FBSDKApplicationDelegate sharedInstance] application:application
-//                                                        openURL:url
-//                                              sourceApplication:sourceApplication
-//                                                     annotation:annotation];
-//
-//  BOOL handledRCT = [RCTLinkingManager application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-//
-//  return handledFB || handledRCT;
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  
+  BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
+    openURL:url
+    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+    annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
+];
+  // Add any custom logic here.
+  return handled;
 }
 
 @end
