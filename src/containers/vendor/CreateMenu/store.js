@@ -14,12 +14,13 @@ import {
 export const mapStateToProps = state => ({
   menuId:
     state.get('menu') &&
+    state.get('menu').get('data') &&
     state
       .get('menu')
       .get('data')
       .get('_id'),
-  isBusy: state.get('menu').get('isBusy'),
-  menu: state.get('menu').get('data')
+  isBusy: state.get('menu') && state.get('menu').get('isBusy'),
+  menu: state.get('menu') && state.get('menu').get('data')
 });
 
 export const mapDispatchToProps = dispatch => ({
