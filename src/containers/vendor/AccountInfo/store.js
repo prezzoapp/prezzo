@@ -5,11 +5,10 @@ import { uploadImage } from '../../../modules/upload';
 import { createVendor, updateVendor } from '../../../modules/vendor';
 
 export const mapStateToProps = state => {
+  const vendorState = state.get('vendor');
   const isBusy =
-    state.get('vendor').get('isBusy') ||
-    state.get('upload').get('isBusy') ||
-    false;
-  const vendor = state.get('vendor').get('data');
+    vendorState.get('isBusy') || vendorState.get('isBusy') || false;
+  const vendor = vendorState && vendorState.get('data');
   const avatarURL =
     vendor && vendor.get('avatarURL') ? vendor.get('avatarURL') : null;
 

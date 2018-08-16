@@ -112,6 +112,9 @@ export default (state = INITIAL_STATE, action) => {
     case LOGIN_WITH_EMAIL_SUCCESS:
     case LOGIN_WITH_FACEBOOK_SUCCESS: {
       // FILL MENU DATA AFTER LOGIN_WITH_EMAIL_SUCCESS
+      if (!action.payload.get('vendor')) {
+        return state.set('isBusy', false);
+      }
 
       const menuStateAfterLogin = state.update('data', () =>
         action.payload.get('vendor').get('menu')

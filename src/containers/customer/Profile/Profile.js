@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
   footerContainer: {
     alignSelf: 'stretch',
     justifyContent: 'space-between',
-    flex: 0.15,
     flexDirection: 'row',
+    height: 'auto',
     marginTop: 20
   },
   footerLeft: {

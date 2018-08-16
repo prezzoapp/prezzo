@@ -5,7 +5,7 @@ import { createMenu } from '../../../modules/menu';
 
 export const mapStateToProps = state => {
   const vendor = state.get('vendor') && state.get('vendor').get('data');
-  const avatarURL = vendor.get('avatarURL');
+  const avatarURL = vendor && vendor.get('avatarURL');
 
   return {
     vendor,

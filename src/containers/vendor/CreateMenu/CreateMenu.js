@@ -77,14 +77,14 @@ export default class CreateMenu extends Component<Props> {
           <SectionList
             showsVerticalScrollIndicator={false}
             extraData={this.props.menu
-              ? this.props.menu.get('categories') &&
+              ? this.props.menu && this.props.menu.get('categories') &&
                 this.props.menu.get('categories').toJS()
               : []
             }
             keyExtractor={(item, index) => item + index}
             sections={
               this.props.menu
-                ? this.props.menu.get('categories') &&
+                ? this.props.menu && this.props.menu.get('categories') &&
                   this.props.menu.get('categories').toJS()
                 : []
             }

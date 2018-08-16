@@ -30,8 +30,8 @@ export default StyleSheet.create({
   footerContainer: {
     alignSelf: 'center',
     justifyContent: 'space-between',
-    flex: 0.15,
     flexDirection: 'row',
+    height: 'auto',
     marginTop: 20,
     width: '85%'
   },
@@ -44,7 +44,8 @@ export default StyleSheet.create({
   footerText: {
     color: 'white',
     fontFamily: FONT_FAMILY,
-    fontSize: 18
+    fontSize: 18,
+    height: 'auto'
   },
   headerContainer: {
     alignItems: 'center',

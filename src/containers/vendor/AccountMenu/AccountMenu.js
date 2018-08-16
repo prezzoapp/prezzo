@@ -83,11 +83,7 @@ export default class AccountMenu extends React.Component {
               title={`${menu ? 'Update' : 'Create'} Menu`}
               icon="add"
             />
-            <MenuButton
-              onPress={() => this.props.navigate(null)}
-              title="Accept Payments"
-              icon="add"
-            />
+            <MenuButton onPress={() => {}} title="Accept Payments" icon="add" />
             <MenuButton
               onPress={() =>
                 this.props.navigate({ routeName: 'CustomerProfile' })
