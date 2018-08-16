@@ -21,16 +21,44 @@ type State = {
   lastName: string
 };
 
+const containerPaddingLeftRight: number = 40;
+const containerPaddingTopBottom: number = 80;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#4A4A4A',
+    paddingLeft: containerPaddingLeftRight,
+    paddingRight: containerPaddingLeftRight,
+    paddingTop: containerPaddingTopBottom,
+    paddingBottom: containerPaddingTopBottom
+  },
+  headerText: {
+    fontSize: 30,
+    fontFamily: FONT_FAMILY_BOLD,
+    color: '#fff',
+    marginBottom: 40,
+    backgroundColor: 'transparent'
+  },
+  navigation: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    zIndex: 100,
+    top: 0,
+    left: 0,
+    right: 0,
+    shadowColor: 'transparent',
+    borderBottomWidth: 0
+  }
+});
+
+const nextButtonStyle = {
+  alignSelf: 'flex-end'
+};
+
 class SignupName extends React.Component<Props, State> {
   static navigationOptions = {
-    headerStyle: {
-      position: 'absolute',
-      backgroundColor: 'transparent',
-      zIndex: 100,
-      top: 0,
-      left: 0,
-      right: 0
-    },
+    headerStyle: styles.navigation,
     headerTintColor: '#fff'
   };
 
@@ -78,31 +106,6 @@ class SignupName extends React.Component<Props, State> {
     );
   }
 }
-
-const containerPaddingLeftRight: number = 40;
-const containerPaddingTopBottom: number = 80;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#4A4A4A',
-    paddingLeft: containerPaddingLeftRight,
-    paddingRight: containerPaddingLeftRight,
-    paddingTop: containerPaddingTopBottom,
-    paddingBottom: containerPaddingTopBottom
-  },
-  headerText: {
-    fontSize: 30,
-    fontFamily: FONT_FAMILY_BOLD,
-    color: '#fff',
-    marginBottom: 40,
-    backgroundColor: 'transparent'
-  }
-});
-
-const nextButtonStyle = {
-  alignSelf: 'flex-end'
-};
 
 export default connect(state => ({
   firstName: state.get('signup').get('firstName'),

@@ -16,16 +16,65 @@ type Props = {
   navigate: Function
 };
 
+const containerPaddingLeftRight: number = 40;
+const containerPaddingTopBottom: number = 80;
+const checkboxSize: number = 25;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#4A4A4A',
+    paddingLeft: containerPaddingLeftRight,
+    paddingRight: containerPaddingLeftRight,
+    paddingTop: containerPaddingTopBottom,
+    paddingBottom: containerPaddingTopBottom
+  },
+  headerText: {
+    fontSize: 30,
+    fontFamily: FONT_FAMILY_BOLD,
+    color: '#fff',
+    marginBottom: 40,
+    backgroundColor: 'transparent'
+  },
+  navigation: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    zIndex: 100,
+    top: 0,
+    left: 0,
+    right: 0,
+    shadowColor: 'transparent',
+    borderBottomWidth: 0
+  },
+  promotionsContainer: {
+    width: '100%',
+    height: 'auto',
+    marginBottom: 40,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  checkbox: {
+    width: checkboxSize,
+    height: checkboxSize,
+    marginRight: 20
+  },
+  promotionalText: {
+    fontSize: 18,
+    lineHeight: 30,
+    fontFamily: FONT_FAMILY_MEDIUM,
+    color: '#fff',
+    backgroundColor: 'transparent'
+  }
+});
+
+const nextButtonStyle = {
+  alignSelf: 'flex-end'
+};
+
 class SignupEmail extends React.Component<Props> {
   static navigationOptions = {
-    headerStyle: {
-      position: 'absolute',
-      backgroundColor: 'transparent',
-      zIndex: 100,
-      top: 0,
-      left: 0,
-      right: 0
-    },
+    headerStyle: styles.navigation,
     headerTintColor: '#fff'
   };
 
@@ -90,52 +139,6 @@ class SignupEmail extends React.Component<Props> {
     );
   }
 }
-
-const containerPaddingLeftRight: number = 40;
-const containerPaddingTopBottom: number = 80;
-const checkboxSize: number = 25;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#4A4A4A',
-    paddingLeft: containerPaddingLeftRight,
-    paddingRight: containerPaddingLeftRight,
-    paddingTop: containerPaddingTopBottom,
-    paddingBottom: containerPaddingTopBottom
-  },
-  headerText: {
-    fontSize: 30,
-    fontFamily: FONT_FAMILY_BOLD,
-    color: '#fff',
-    marginBottom: 40,
-    backgroundColor: 'transparent'
-  },
-  promotionsContainer: {
-    width: '100%',
-    height: 'auto',
-    marginBottom: 40,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  checkbox: {
-    width: checkboxSize,
-    height: checkboxSize,
-    marginRight: 20
-  },
-  promotionalText: {
-    fontSize: 18,
-    lineHeight: 30,
-    fontFamily: FONT_FAMILY_MEDIUM,
-    color: '#fff',
-    backgroundColor: 'transparent'
-  }
-});
-
-const nextButtonStyle = {
-  alignSelf: 'flex-end'
-};
 
 export default connect(state => ({
   email: state.get('signup').get('email'),

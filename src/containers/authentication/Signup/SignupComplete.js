@@ -17,16 +17,66 @@ type Props = {
   navigate: PropTypes.func.isRequired
 };
 
+const containerPaddingLeftRight: number = 40;
+const containerPaddingTopBottom: number = 80;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#4A4A4A',
+    paddingLeft: containerPaddingLeftRight,
+    paddingRight: containerPaddingLeftRight,
+    paddingTop: containerPaddingTopBottom,
+    paddingBottom: containerPaddingTopBottom
+  },
+  image: {
+    // width: 200,
+    aspectRatio: 0.8,
+    marginTop: 80,
+    marginBottom: 40,
+    alignSelf: 'center',
+    resizeMode: 'contain'
+  },
+  headerText: {
+    fontSize: 30,
+    fontFamily: FONT_FAMILY_BOLD,
+    textAlign: 'center',
+    color: '#fff',
+    marginBottom: 30,
+    backgroundColor: 'transparent'
+  },
+  bodyText: {
+    fontSize: 24,
+    fontFamily: FONT_FAMILY,
+    textAlign: 'center',
+    color: '#fff',
+    marginBottom: 80,
+    backgroundColor: 'transparent'
+  },
+  navigation: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    zIndex: 100,
+    top: 0,
+    left: 0,
+    right: 0,
+    shadowColor: 'transparent',
+    borderBottomWidth: 0
+  }
+});
+
+const buttonStyles = {
+  explore: {
+    width: '50%',
+    alignSelf: 'center',
+    backgroundColor: '#0DD24A',
+    borderColor: '#0DD24A'
+  }
+};
+
 class SignupComplete extends React.Component<Props> {
   static navigationOptions = {
-    headerStyle: {
-      position: 'absolute',
-      backgroundColor: 'transparent',
-      zIndex: 100,
-      top: 0,
-      left: 0,
-      right: 0
-    },
+    headerStyle: styles.navigation,
     headerTintColor: '#fff',
     headerLeft: null
   };
@@ -64,53 +114,6 @@ class SignupComplete extends React.Component<Props> {
     );
   }
 }
-
-const containerPaddingLeftRight: number = 40;
-const containerPaddingTopBottom: number = 80;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#4A4A4A',
-    paddingLeft: containerPaddingLeftRight,
-    paddingRight: containerPaddingLeftRight,
-    paddingTop: containerPaddingTopBottom,
-    paddingBottom: containerPaddingTopBottom
-  },
-  image: {
-    // width: 200,
-    aspectRatio: 0.8,
-    marginTop: 80,
-    marginBottom: 40,
-    alignSelf: 'center',
-    resizeMode: 'contain'
-  },
-  headerText: {
-    fontSize: 30,
-    fontFamily: FONT_FAMILY_BOLD,
-    textAlign: 'center',
-    color: '#fff',
-    marginBottom: 30,
-    backgroundColor: 'transparent'
-  },
-  bodyText: {
-    fontSize: 24,
-    fontFamily: FONT_FAMILY,
-    textAlign: 'center',
-    color: '#fff',
-    marginBottom: 80,
-    backgroundColor: 'transparent'
-  }
-});
-
-const buttonStyles = {
-  explore: {
-    width: '50%',
-    alignSelf: 'center',
-    backgroundColor: '#0DD24A',
-    borderColor: '#0DD24A'
-  }
-};
 
 export default connect(
   null,

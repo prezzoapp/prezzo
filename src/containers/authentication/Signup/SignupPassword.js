@@ -38,16 +38,112 @@ type State = {
   showPassword: boolean
 };
 
+const containerPaddingLeftRight: number = 40;
+const containerPaddingTopBottom: number = 80;
+const avatarSize: number = 70;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#4A4A4A',
+    paddingLeft: containerPaddingLeftRight,
+    paddingRight: containerPaddingLeftRight,
+    paddingTop: containerPaddingTopBottom,
+    paddingBottom: containerPaddingTopBottom
+  },
+  headerText: {
+    fontSize: 30,
+    fontFamily: FONT_FAMILY_BOLD,
+    color: '#fff',
+    marginBottom: 30,
+    backgroundColor: 'transparent'
+  },
+  profileContainer: {
+    width: '100%',
+    height: 'auto',
+    marginBottom: 40,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  avatarContainer: {
+    alignItems: 'center',
+    flex: 2,
+    height: avatarSize * 1.2,
+    justifyContent: 'center',
+    position: 'relative',
+    width: avatarSize * 1.2
+  },
+  avatar: {
+    width: avatarSize,
+    height: avatarSize,
+    alignSelf: 'center',
+    borderWidth: 4,
+    borderColor: '#fff',
+    borderRadius: avatarSize / 2,
+    resizeMode: 'cover'
+  },
+  editAvatarIcon: {
+    width: avatarSize / 2.5,
+    height: avatarSize / 2.5,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    borderWidth: 2,
+    borderColor: '#fff',
+    borderRadius: avatarSize / 5,
+    backgroundColor: '#484848'
+  },
+  nameAndEmailContainer: {
+    flex: 5,
+    paddingLeft: 20
+  },
+  name: {
+    fontSize: 24,
+    fontFamily: FONT_FAMILY_BOLD,
+    color: '#fff',
+    backgroundColor: 'transparent'
+  },
+  email: {
+    fontSize: 20,
+    fontFamily: FONT_FAMILY,
+    color: '#959595',
+    backgroundColor: 'transparent'
+  },
+  buttonsContainer: {
+    width: '100%',
+    height: 'auto',
+    marginBottom: 20
+  },
+  passwordContainer: {
+    width: '100%',
+    height: 'auto'
+  },
+  navigation: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    zIndex: 100,
+    top: 0,
+    left: 0,
+    right: 0,
+    shadowColor: 'transparent',
+    borderBottomWidth: 0
+  }
+});
+
+const buttonStyles = {
+  password: {
+    marginTop: 10,
+    backgroundColor: 'transparent',
+    borderColor: '#fff'
+  },
+  next: {
+    alignSelf: 'flex-end'
+  }
+};
+
 class SignupPassword extends React.Component<Props, State> {
   static navigationOptions = {
-    headerStyle: {
-      position: 'absolute',
-      backgroundColor: 'transparent',
-      zIndex: 100,
-      top: 0,
-      left: 0,
-      right: 0
-    },
+    headerStyle: styles.navigation,
     headerTintColor: '#fff'
   };
 
@@ -224,99 +320,6 @@ class SignupPassword extends React.Component<Props, State> {
     );
   }
 }
-
-const containerPaddingLeftRight: number = 40;
-const containerPaddingTopBottom: number = 80;
-const avatarSize: number = 70;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#4A4A4A',
-    paddingLeft: containerPaddingLeftRight,
-    paddingRight: containerPaddingLeftRight,
-    paddingTop: containerPaddingTopBottom,
-    paddingBottom: containerPaddingTopBottom
-  },
-  headerText: {
-    fontSize: 30,
-    fontFamily: FONT_FAMILY_BOLD,
-    color: '#fff',
-    marginBottom: 30,
-    backgroundColor: 'transparent'
-  },
-  profileContainer: {
-    width: '100%',
-    height: 'auto',
-    marginBottom: 40,
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  avatarContainer: {
-    alignItems: 'center',
-    flex: 2,
-    height: avatarSize * 1.2,
-    justifyContent: 'center',
-    position: 'relative',
-    width: avatarSize * 1.2
-  },
-  avatar: {
-    width: avatarSize,
-    height: avatarSize,
-    alignSelf: 'center',
-    borderWidth: 4,
-    borderColor: '#fff',
-    borderRadius: avatarSize / 2,
-    resizeMode: 'cover'
-  },
-  editAvatarIcon: {
-    width: avatarSize / 2.5,
-    height: avatarSize / 2.5,
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    borderWidth: 2,
-    borderColor: '#fff',
-    borderRadius: avatarSize / 5,
-    backgroundColor: '#484848'
-  },
-  nameAndEmailContainer: {
-    flex: 5,
-    paddingLeft: 20
-  },
-  name: {
-    fontSize: 24,
-    fontFamily: FONT_FAMILY_BOLD,
-    color: '#fff',
-    backgroundColor: 'transparent'
-  },
-  email: {
-    fontSize: 20,
-    fontFamily: FONT_FAMILY,
-    color: '#959595',
-    backgroundColor: 'transparent'
-  },
-  buttonsContainer: {
-    width: '100%',
-    height: 'auto',
-    marginBottom: 20
-  },
-  passwordContainer: {
-    width: '100%',
-    height: 'auto'
-  }
-});
-
-const buttonStyles = {
-  password: {
-    marginTop: 10,
-    backgroundColor: 'transparent',
-    borderColor: '#fff'
-  },
-  next: {
-    alignSelf: 'flex-end'
-  }
-};
 
 export default connect(state => ({
   avatarURL: state.get('signup').get('avatarURL'),
