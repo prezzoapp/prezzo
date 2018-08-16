@@ -1,20 +1,29 @@
-import React, { Component } from "react";
-import { View, FlatList, Text, Image, TouchableOpacity } from "react-native";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import { View, FlatList, Text, Image, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
+import Icon from 'react-native-vector-icons/Feather';
+import Button from '../Button';
 
-import styles from "./styles";
+import styles from './styles';
 
 class FilteredVendorBottomCard extends Component {
   constructor() {
     super();
 
-    this.state = { showVendorInfo: false };
+    this.state = { showVendorInfo: false, item: {} };
 
     this.callMethod = this.callMethod.bind(this);
   }
 
-  callMethod(id) {
-    console.log(id);
+  callMethod(item) {
+    if(!this.state.showVendorInfo) {
+      this.setState(() => {
+        return {
+          item,
+          showVendorInfo: true
+        }
+      });
+    }
   }
 
   renderSeparator = () => <View style={styles.separator} />;
@@ -33,7 +42,11 @@ class FilteredVendorBottomCard extends Component {
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={this.renderSeparator}
             renderItem={({ item }) =>
-              <TouchableOpacity activeOpacity={0.6} style={styles.listItemBtn}>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                style={styles.listItemBtn}
+                onPress={() => this.callMethod(item)}
+              >
                 <View style={styles.titleHolder}>
                   <Text style={styles.name}>{item.name}</Text>
                   <Text style={styles.distance}>{item.distance} miles</Text>
@@ -50,7 +63,43 @@ class FilteredVendorBottomCard extends Component {
             }
           />
         ) : (
-          <View style={{ flex: 1, backgroundColor: "red" }} />
+          <View style={styles.vendorInfoHolder}>
+            <View style={styles.contentHolder}>
+              <View style={styles.vendorIconHolder}>
+                <Image
+                  source={{ uri: this.state.item.avatarURL }}
+                  style={styles.vendorIcon}
+                />
+              </View>
+              <View style={styles.vendorContentHolder}>
+                <Text style={styles.vendorName}>{this.state.item.name}</Text>
+                <Text style={styles.vendorAddress}>
+                  {this.state.item.location.city}, {this.state.item.location.region}
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.vendorInfoSectionSeparator} />
+
+            <View
+              style={[
+                styles.contentHolder,
+                { justifyContent: 'space-between' }
+              ]}>
+              <View style={styles.iconTextHolder}>
+                <Icon name="corner-up-right" size={20} color="white" />
+                <Text style={styles.milesText}>0.32 miles away</Text>
+              </View>
+
+              <Button
+                style={buttonStyles.goBtn}
+                textStyle={buttonStyles.goBtnText}
+                onPress={() => this.callMethod(this.state.item)}
+              >
+                Go
+              </Button>
+            </View>
+          </View>
         )}
       </View>
     );
@@ -59,6 +108,18 @@ class FilteredVendorBottomCard extends Component {
 
 FilteredVendorBottomCard.propTypes = {
   data: PropTypes.array.isRequired
+};
+
+const buttonStyles = {
+  goBtn: {
+    backgroundColor: '#0DD24A',
+    borderColor: '#0DD24A',
+    width: 112,
+    borderRadius: 8
+  },
+  goBtnText: {
+    fontSize: 15
+  }
 };
 
 export default FilteredVendorBottomCard;

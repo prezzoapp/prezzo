@@ -1,24 +1,24 @@
-import React, { Component } from "react";
-import { View, FlatList, Text, TouchableOpacity, Image } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import PropTypes from "prop-types";
-import Slider from "react-native-slider";
-import styles from "./styles";
-import MapStyle from "../../../services/mapStyle.json";
-import FilteredVendorBottomCard from "../../../components/FilteredVendorBottomCard";
+import React, { Component } from 'react';
+import { View, Text, Image } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import PropTypes from 'prop-types';
+import Slider from 'react-native-slider';
+import styles from './styles';
+import MapStyle from '../../../services/mapStyle.json';
+import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
 
 export default class MapScreen extends Component {
   static navigationOptions = {
-    title: "Local Search",
-    headerTintColor: "white",
+    title: 'Local Search',
+    headerTintColor: 'white',
     headerStyle: {
-      position: "absolute",
+      position: 'absolute',
       top: 0,
       right: 0,
       left: 0,
-      backgroundColor: "transparent",
+      backgroundColor: 'transparent',
       borderBottomWidth: 0
     }
   };
@@ -72,7 +72,7 @@ export default class MapScreen extends Component {
           customMapStyle={MapStyle}
           showsCompass={false}
           loadingEnabled
-          followUserLocation
+          followUserLocation={false}
           style={styles.map}
         >
           {this.state.customRegion.latitude !== null &&
@@ -128,19 +128,19 @@ export default class MapScreen extends Component {
             returnKeyType="search"
             listViewDisplayed="auto"
             fetchDetails
-            getDefaultValue={() => ""}
+            getDefaultValue={() => ''}
             currentLocation={false}
             currentLocationLabel="Current Location"
             nearbyPlacesAPI="GooglePlacesSearch"
             query={{
-              key: "AIzaSyBhuq8RXrtTXm7e0TewsesDWW9e9CGJNYw",
-              language: "en"
+              key: 'AIzaSyBhuq8RXrtTXm7e0TewsesDWW9e9CGJNYw',
+              language: 'en'
             }}
             debounce={200}
             styles={{
               textInputContainer: {
                 paddingHorizontal: 12,
-                backgroundColor: "transparent",
+                backgroundColor: 'transparent',
                 borderTopWidth: 0,
                 borderBottomWidth: 0
               },
@@ -151,12 +151,13 @@ export default class MapScreen extends Component {
                 fontSize: 16
               },
               listView: {
-                paddingHorizontal: -12,
-                backgroundColor: "white"
+                zIndex: 999,
+                backgroundColor: 'white'
               }
             }}
           />
-          <View style={styles.slidersHolder}>
+
+        <View style={styles.sliderHolder}>
             <View style={styles.sliderTitleHolder}>
               <Text style={styles.sliderTitleText}>Distance</Text>
               <Text style={styles.sliderTitleText}>2mi</Text>
