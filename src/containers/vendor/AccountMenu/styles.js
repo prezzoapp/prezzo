@@ -1,5 +1,6 @@
 // @flow
 import { StyleSheet } from 'react-native';
+import { Header } from 'react-navigation';
 import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
 
 export default StyleSheet.create({
@@ -12,28 +13,27 @@ export default StyleSheet.create({
     resizeMode: 'cover',
     width: 102
   },
-  avatarContainer: {},
+  avatarContainer: {
+    height: 102,
+    width: 102
+  },
   bodyContainer: {
     alignItems: 'center',
     flexDirection: 'column',
-    height: 'auto',
-    marginTop: 28
+    height: 'auto'
   },
   container: {
     alignItems: 'center',
-    height: '100%',
+    flex: 1,
     marginHorizontal: 25,
-    marginVertical: 70,
-    paddingTop: 100,
-    width: '100%'
+    marginBottom: 10
   },
   footerContainer: {
-    alignSelf: 'center',
+    alignSelf: 'stretch',
     justifyContent: 'space-between',
     flexDirection: 'row',
     height: 'auto',
-    marginTop: 20,
-    width: '85%'
+    marginTop: 20
   },
   footerLeft: {
     alignSelf: 'flex-start'
@@ -44,12 +44,13 @@ export default StyleSheet.create({
   footerText: {
     color: 'white',
     fontFamily: FONT_FAMILY,
-    fontSize: 18,
-    height: 'auto'
+    fontSize: 18
   },
   headerContainer: {
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginTop: Header.HEIGHT + 10,
+    marginBottom: 20
   },
   parent: {
     alignItems: 'center',

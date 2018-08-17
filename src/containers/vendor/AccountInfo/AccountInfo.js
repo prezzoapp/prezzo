@@ -15,8 +15,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import ProfileDataField from '../../../components/ProfileDataField';
 import EditableListItem from '../../../components/EditableListItem';
-import {restaurantCategories} from '../../../services/constants';
-import styles, {stylesRaw} from './styles';
+import { restaurantCategories } from '../../../services/constants';
+import styles, { stylesRaw } from './styles';
 
 export default class AccountInfo extends React.Component {
   // stupid hack to get static functions to get
@@ -106,7 +106,6 @@ export default class AccountInfo extends React.Component {
 
   componentDidMount() {
     this.constructor.currentContext = this;
-    console.log('setting currentContext', this.constructor.currentContext);
   }
 
   showAvatarActionSheet() {

@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
+import { Header } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
@@ -111,21 +112,19 @@ const styles = StyleSheet.create({
     width: 102
   },
   avatarContainer: {
-    flex: 0.68,
-    marginBottom: 20,
-    marginTop: 20
+    height: 102,
+    width: 102
   },
   bodyContainer: {
     alignItems: 'center',
     flexDirection: 'column',
-    height: 'auto',
-    marginTop: 28
+    height: 'auto'
   },
   container: {
     alignItems: 'center',
     flex: 1,
     marginHorizontal: 25,
-    marginVertical: 70
+    marginBottom: 10
   },
   footerContainer: {
     alignSelf: 'stretch',
@@ -147,8 +146,9 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
-    flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginTop: Header.HEIGHT + 10,
+    marginBottom: 20
   },
   parent: {
     alignItems: 'center',

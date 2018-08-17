@@ -28,9 +28,9 @@ const RestaurantItem = props => (
         <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
           <TouchableOpacity
             activeOpacity={0.6}
-            onPress={() => props.changeQuantity(props.item.id, 'add')}
+            onPress={() => props.changeQuantity(props.item.id, 'remove')}
           >
-            <Icon name="plus" size={22} color="green" />
+            <Icon name="minus" size={22} color="green" />
           </TouchableOpacity>
 
           <Text style={[styles.itemTitle, { top: -3 }]}>
@@ -39,9 +39,9 @@ const RestaurantItem = props => (
 
           <TouchableOpacity
             activeOpacity={0.6}
-            onPress={() => props.changeQuantity(props.item.id, 'remove')}
+            onPress={() => props.changeQuantity(props.item.id, 'add')}
           >
-            <Icon name="minus" size={22} color="green" />
+            <Icon name="plus" size={22} color="green" />
           </TouchableOpacity>
         </View>
       )}

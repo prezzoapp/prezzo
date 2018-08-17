@@ -4,7 +4,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
-import Slider from 'react-native-slider';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle.json';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
@@ -156,23 +155,6 @@ export default class MapScreen extends Component {
               }
             }}
           />
-
-        <View style={styles.sliderHolder}>
-            <View style={styles.sliderTitleHolder}>
-              <Text style={styles.sliderTitleText}>Distance</Text>
-              <Text style={styles.sliderTitleText}>2mi</Text>
-            </View>
-            <Slider
-              minimumValue={0}
-              maximumValue={2}
-              minimumTrackTintColor="rgb(47,212,117)"
-              maximumTrackTintColor="rgb(230,230,230)"
-              thumbTintColor="rgb(255,254,255)"
-              thumbStyle={{ height: 18, width: 18 }}
-              trackStyle={{ height: 3 }}
-              style={{ top: -5 }}
-            />
-          </View>
         </View>
 
         <FilteredVendorBottomCard
