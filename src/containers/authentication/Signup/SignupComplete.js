@@ -93,7 +93,7 @@ class SignupComplete extends React.Component<Props> {
         />
 
         <Text style={styles.headerText}>
-          Youre all set!
+          You're all set!
         </Text>
 
         <Text style={styles.bodyText}>

@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { Header } from 'react-navigation';
+
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 
 const styles = StyleSheet.create({
@@ -72,7 +74,74 @@ const styles = StyleSheet.create({
     borderColor: '#0DD24A'
   },
 
-  buttonText: {}
+  buttonText: {},
+
+  toggleBtnsSection: {
+    alignItems: 'center',
+    paddingBottom: 20
+  },
+
+  buttonHolder: {
+    borderRadius: 15,
+    backgroundColor: 'rgba(0,0,0,0.31)',
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+
+  headerBtns: {
+    paddingVertical: 3,
+    alignItems: 'center',
+    width: 80,
+    borderRadius: 15,
+    justifyContent: 'center'
+  },
+
+  headerBtnText: {
+    color: 'white',
+    fontFamily: FONT_FAMILY,
+    fontSize: 14
+  },
+
+  toggleView: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    width: 80,
+    borderRadius: 15
+  },
+
+  linearGradientBtn: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  selectedBtnText: {
+    color: '#0DD24A',
+    fontSize: 14,
+    fontFamily: FONT_FAMILY
+  },
+
+  bottomViewHolder: {
+    paddingHorizontal: 15,
+    height: 65,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: '#2ED573'
+  },
+
+  totalPrice: {
+    fontSize: 14,
+    fontFamily: FONT_FAMILY,
+    color: COLOR_WHITE,
+    marginRight: 40
+  }
 });
 
 export default styles;
