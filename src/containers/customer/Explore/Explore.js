@@ -29,14 +29,60 @@ class Explore extends PureComponent<Props> {
 
   static displayName = 'Explore';
 
+  constructor() {
+    super();
+
+    this.state = {
+      customRegion: {
+        latitude: 0,
+        longitude: 0,
+        latitudeDelta: 0,
+        longitudeDelta: 0
+      }
+    };
+  }
+
   componentDidMount() {
-    this.props.listVendors();
+    this.watchID = navigator.geolocation.watchPosition(
+      position => {
+        this.setState(() => {
+          return {
+              customRegion: {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                latitudeDelta: 0.00922,
+                longitudeDelta: 0.00422
+              }
+            };
+          }, () => {
+            this.props.listVendors(
+              this.state.customRegion.latitude,
+              this.state.customRegion.longitude,
+              '200000000'
+            );
+          }
+        );
+      },
+      error => console.log(error.message),
+      {
+        enableHighAccuracy: false,
+        timeout: 200000,
+        maximumAge: 1000
+      }
+    );
+  }
+
+  componentWillUnmount() {
+		navigator.geolocation.clearWatch(this.watchID);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <ExploreScreenHeader />
+        <ExploreScreenHeader
+          currentLatitude={this.state.customRegion.latitude}
+          currentLongitude={this.state.customRegion.latitude}
+        />
         <ExploreList />
       </View>
     );

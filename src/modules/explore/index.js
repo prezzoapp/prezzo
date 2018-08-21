@@ -1,7 +1,7 @@
 // @flow
-import { toggleFilter, listVendors } from './actions';
+import { toggleFilter, listVendors, updateDistance } from './actions';
 import reducer from './reducer';
 
-export { toggleFilter, listVendors };
+export { toggleFilter, listVendors, updateDistance };
 
 export default reducer;

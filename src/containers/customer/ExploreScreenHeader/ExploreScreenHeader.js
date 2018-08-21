@@ -14,12 +14,17 @@ export default class ExploreScreenHeader extends PureComponent {
   static propTypes = {
     navigate: PropTypes.func.isRequired,
     toggleFilter: PropTypes.func.isRequired,
-    filters: PropTypes.array.isRequired
+    filters: PropTypes.array.isRequired,
+    updateDistance: PropTypes.func.isRequired
   };
 
-  constructor() {
-    super();
-    this.state = { showFilters: false };
+  constructor(props) {
+    super(props);
+    this.state = { showFilters: false, sliderValue: this.props.distance };
+  }
+
+  changeDistance(value) {
+    this.props.updateDistance(this.props.currentLatitude, this.props.currentLongitude, value);
   }
 
   render() {
@@ -66,7 +71,7 @@ export default class ExploreScreenHeader extends PureComponent {
             <FlatList
               horizontal
               contentContainerStyle={styles.filtersList}
-              keyExtractor={item => item._id}
+              keyExtractor={item => item._id.toString()}
               showsHorizontalScrollIndicator={false}
               data={filters}
               renderItem={({ item }) =>
@@ -83,16 +88,19 @@ export default class ExploreScreenHeader extends PureComponent {
                     <View key={item._id} style={styles.slidersHolder}>
                       <View style={styles.sliderTitleHolder}>
                         <Text style={styles.sliderTitleText}>Distance</Text>
-                        <Text style={styles.sliderTitleText}>2mi</Text>
+                        <Text style={styles.sliderTitleText}>{this.props.maxDistance}mi</Text>
                       </View>
                       <Slider
-                        minimumValue={0}
-                        maximumValue={2}
+                        minimumValue={this.props.minDistance}
+                        maximumValue={this.props.maxDistance}
                         minimumTrackTintColor="rgb(47,212,117)"
                         maximumTrackTintColor="rgb(230,230,230)"
+                        step={1}
                         thumbTintColor="rgb(255,254,255)"
                         thumbStyle={{ height: 18, width: 18 }}
+                        value={this.state.sliderValue}
                         trackStyle={{ height: 3 }}
+                        onSlidingComplete={value => this.changeDistance(value)}
                       />
                     </View>
                   );

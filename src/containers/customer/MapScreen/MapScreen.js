@@ -61,6 +61,10 @@ export default class MapScreen extends Component {
 		navigator.geolocation.clearWatch(this.watchID);
   }
 
+  onRegionChangeComplete(region) {
+    this.props.listVendors(region.latitude, region.longitude, '23000');
+  }
+
   render() {
     console.log(this.props.data);
     return (
@@ -68,6 +72,7 @@ export default class MapScreen extends Component {
         <MapView
           provider={PROVIDER_GOOGLE}
           region={this.state.customRegion}
+          onRegionChangeComplete={region => this.onRegionChangeComplete(region)}
           customMapStyle={MapStyle}
           showsCompass={false}
           loadingEnabled
@@ -99,7 +104,7 @@ export default class MapScreen extends Component {
                   longitude: item.location.coordinates[1]
                 }}
                 onPress={() => {
-                  this.filteredListRef.callMethod(item._id);
+                  this.filteredListRef.callMethod(item);
                 }}
               >
                 <Image
@@ -169,5 +174,6 @@ export default class MapScreen extends Component {
 }
 
 MapScreen.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  listVendors: PropTypes.func.isRequired
 };
