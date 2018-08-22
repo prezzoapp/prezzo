@@ -96,9 +96,7 @@ class SignupComplete extends React.Component<Props> {
           source={require('../../../../assets/images/etc/chef.png')}
         />
 
-        <Text style={styles.headerText}>
-          You're all set!
-        </Text>
+        <Text style={styles.headerText}>You're all set!</Text>
 
         <Text style={styles.bodyText}>
           Thanks for helping us keep your account secure.

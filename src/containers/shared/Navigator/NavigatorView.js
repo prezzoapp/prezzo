@@ -1,9 +1,7 @@
-import React, {Component} from 'react';
-import {Root} from 'native-base';
+import React, { Component } from 'react';
+import { Root } from 'native-base';
 import PropTypes from 'prop-types';
-import {addNavigationHelpers} from 'react-navigation';
-import {addListener} from '../../../utils/redux';
-
+import { addListener } from '../../../utils/redux';
 import AppNavigator from './Navigator';
 
 class NavigatorView extends Component {
@@ -13,10 +11,12 @@ class NavigatorView extends Component {
     dispatch: PropTypes.func.isRequired,
     navigatorState: PropTypes.shape({
       index: PropTypes.number.isRequired,
-      routes: PropTypes.arrayOf(PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        routeName: PropTypes.string.isRequired
-      }))
+      routes: PropTypes.arrayOf(
+        PropTypes.shape({
+          key: PropTypes.string.isRequired,
+          routeName: PropTypes.string.isRequired
+        })
+      )
     }).isRequired
   };
 
@@ -24,13 +24,11 @@ class NavigatorView extends Component {
     return (
       <Root>
         <AppNavigator
-          navigation={
-            addNavigationHelpers({
-              dispatch: this.props.dispatch,
-              state: this.props.navigatorState,
-              addListener
-            })
-          }
+          navigation={{
+            dispatch: this.props.dispatch,
+            state: this.props.navigatorState,
+            addListener
+          }}
         />
       </Root>
     );
