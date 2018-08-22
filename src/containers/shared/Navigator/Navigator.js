@@ -1,5 +1,9 @@
 // @flow
-import {TabNavigator, StackNavigator, SwitchNavigator} from 'react-navigation';
+import {
+  createTabNavigator,
+  createStackNavigator,
+  createSwitchNavigator
+} from 'react-navigation';
 
 import Tutorial from '../../authentication/Tutorial';
 import EnableNotifications from '../../authentication/EnableNotifications';
@@ -28,7 +32,7 @@ const activeColor = 'white';
 
 const tabBarOptions = {
   activeTintColor: activeColor,
-  indicatorStyle: {backgroundColor: activeColor},
+  indicatorStyle: { backgroundColor: activeColor },
   style: {
     backgroundColor: headerColor,
     borderTopWidth: 1,
@@ -37,7 +41,8 @@ const tabBarOptions = {
 };
 
 // Root navigator is a StackNavigator
-const AuthenticationNavigator = StackNavigator({
+const AuthenticationNavigator = createStackNavigator(
+  {
     Tutorial: { screen: Tutorial },
     EnableNotifications: { screen: EnableNotifications },
     Login: { screen: Login },
@@ -45,29 +50,38 @@ const AuthenticationNavigator = StackNavigator({
     SignupEmail: { screen: SignupEmail },
     SignupPassword: { screen: SignupPassword },
     SignupComplete: { screen: SignupComplete }
-  }, {
+  },
+  {
     initialRouteName: 'Tutorial'
-});
+  }
+);
 
-const CustomerProfileNavigator = StackNavigator({
+const CustomerProfileNavigator = createStackNavigator(
+  {
     Profile: { screen: Profile },
     EditProfile: { screen: EditProfile },
     VendorAccountMenu: { screen: VendorAccountMenu },
     VendorAccountInfo: { screen: VendorAccountInfo },
     LocationSearch: { screen: LocationSearch }
-  }, {
+  },
+  {
     initialRouteName: 'Profile'
-});
+  }
+);
 
-const ExploreScreenNavigator = TabNavigator({
+const ExploreScreenNavigator = createTabNavigator(
+  {
     Explore: { screen: Explore },
     CustomerProfile: { screen: CustomerProfileNavigator }
-  }, {
+  },
+  {
     initialRouteName: 'Explore',
     tabBarOptions
-});
+  }
+);
 
-const CustomerNavigator = StackNavigator({
+const CustomerNavigator = createStackNavigator(
+  {
     ExploreScreenNavigator: {
       screen: ExploreScreenNavigator,
       navigationOptions: {
@@ -76,43 +90,53 @@ const CustomerNavigator = StackNavigator({
     },
     MapScreen: { screen: MapScreen },
     RestaurantDetails: { screen: RestaurantDetails }
-  },{
+  },
+  {
     mode: 'modal'
-});
+  }
+);
 
-const VendorProfileNavigator = StackNavigator({
+const VendorProfileNavigator = createStackNavigator(
+  {
     VendorAccountMenu: { screen: VendorAccountMenu },
     VendorAccountInfo: { screen: VendorAccountInfo },
     CreateMenu: { screen: CreateMenu },
     LocationSearch: { screen: LocationSearch }
-  }, {
+  },
+  {
     initialRouteName: 'VendorAccountMenu'
-});
+  }
+);
 
-const VendorNavigator = TabNavigator({
+const VendorNavigator = createTabNavigator(
+  {
     Tables: { screen: Tables },
     VendorProfile: { screen: VendorProfileNavigator }
-  }, {
+  },
+  {
     initialRouteName: 'VendorProfile',
     tabBarOptions
-});
+  }
+);
 
 CustomerNavigator.navigationOptions = VendorNavigator.navigationOptions = {
   title: 'Prezzo',
-  headerTitleStyle: {color: 'white'},
+  headerTitleStyle: { color: 'white' },
   headerStyle: {
     backgroundColor: headerColor,
     elevation: 0 // disable header elevation when TabNavigator visible
   }
 };
 
-const Navigator = SwitchNavigator({
+const Navigator = createSwitchNavigator(
+  {
     Authentication: AuthenticationNavigator,
     Customer: CustomerNavigator,
     Vendor: VendorNavigator
   },
   {
     initialRouteName: 'Authentication'
-});
+  }
+);
 
 export default Navigator;
