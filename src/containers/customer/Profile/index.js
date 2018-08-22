@@ -1,8 +1,9 @@
 // @flow
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {NavigationActions} from 'react-navigation';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { NavigationActions } from 'react-navigation';
 import Profile from './Profile';
+import { userLogout } from '../../../modules/auth';
 
 const mapStateToProps = state => {
   const account = state.get('user').get('account');
@@ -15,7 +16,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    navigate: bindActionCreators(NavigationActions.navigate, dispatch)
+    navigate: bindActionCreators(NavigationActions.navigate, dispatch),
+    userLogout: bindActionCreators(userLogout, dispatch)
   };
 };
 

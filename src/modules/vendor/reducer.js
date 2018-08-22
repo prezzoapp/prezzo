@@ -14,6 +14,8 @@ import {
 } from '../auth/types';
 import type State from './types';
 
+import showGenericAlert from '../../components/GenericAlert';
+
 const INITIAL_STATE: State = Map({
   isBusy: false,
   data: null,
@@ -27,7 +29,9 @@ const reducer = (state: State = INITIAL_STATE, action) => {
     case UPDATE_VENDOR_REQUEST:
       return state.update('isBusy', () => true);
     case CREATE_VENDOR_FAILURE:
+      showGenericAlert(null, 'Error in Vendor Creation!');
     case UPDATE_VENDOR_FAILURE:
+      showGenericAlert(null, 'Error in Vendor Updation!');
       return state.update('isBusy', () => false);
     case CREATE_VENDOR_SUCCESS:
     case UPDATE_VENDOR_SUCCESS:

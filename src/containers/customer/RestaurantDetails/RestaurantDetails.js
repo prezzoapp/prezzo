@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/dist/Feather';
 
 import LinearGradient from 'react-native-linear-gradient';
 
-import {BlurView} from 'react-native-blur';
+import { BlurView } from 'react-native-blur';
 
 import styles from './styles';
 
@@ -26,8 +26,8 @@ import Button from '../../../components/Button';
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 
 export default class RestaurantDetails extends Component {
-  static navigationOptions = {
-    title: 'Restaurant',
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.state.params.item.name,
     headerStyle: {
       position: 'absolute',
       backgroundColor: 'transparent',
@@ -39,10 +39,12 @@ export default class RestaurantDetails extends Component {
       borderBottomWidth: 0
     },
     headerTintColor: '#fff'
-  };
+  });
 
   constructor(props) {
     super(props);
+
+    console.log(props.navigation.state.params);
 
     this.state = {
       items: [],
@@ -154,12 +156,14 @@ export default class RestaurantDetails extends Component {
 
         <View style={styles.contentContainer}>
           <Image
-            source={require('../../../../assets/images/Logo.png')}
+            source={{ uri: this.props.navigation.state.params.item.avatarURL }}
             style={styles.logo}
           />
           <View style={[styles.headerTextContainer, styles.transparent]}>
             <Text style={styles.headerTitleText}>
-              1412 Abbot Kinney Venice, CA, 90292
+              {this.props.navigation.state.params.item.location.address},{' '}
+              {this.props.navigation.state.params.item.location.regionShort},{' '}
+              {this.props.navigation.state.params.item.location.postalCode}
             </Text>
             <View style={styles.headerContentTextContainer}>
               <Icon name="package" size={22} color="white" />

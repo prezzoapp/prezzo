@@ -3,7 +3,8 @@ import {
   loginWithEmail,
   loginWithFacebook,
   setAuthenticationToken,
-  updateUser
+  updateUser,
+  userLogout
 } from './actions';
 import reducer from './reducer';
 
@@ -11,7 +12,8 @@ export {
   loginWithEmail,
   loginWithFacebook,
   setAuthenticationToken,
-  updateUser
+  updateUser,
+  userLogout
 };
 
 export default reducer;

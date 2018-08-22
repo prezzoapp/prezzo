@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
 
   logo: {
     height: 110,
-    width: 110
+    width: 110,
+    borderRadius: 15
   },
 
   buttonStyle: {

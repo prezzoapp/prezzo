@@ -17,7 +17,9 @@ export default (props: Props) => {
     <View style={{ marginBottom: 16 }}>
       <TouchableOpacity
         activeOpacity={0.6}
-        onPress={() => props.navigate({ routeName: 'RestaurantDetails' })}
+        onPress={() =>
+          props.navigate({ routeName: 'RestaurantDetails', params: { item } })
+        }
       >
         <ImageBackground
           source={{ uri: avatarURL }}
