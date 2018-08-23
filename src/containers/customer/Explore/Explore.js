@@ -43,7 +43,7 @@ class Explore extends PureComponent<Props> {
   }
 
   componentDidMount() {
-    this.watchID = navigator.geolocation.watchPosition(
+    this.watchID = navigator.geolocation.getCurrentPosition(
       position => {
         this.setState(() => {
           return {
@@ -72,9 +72,9 @@ class Explore extends PureComponent<Props> {
     );
   }
 
-  componentWillUnmount() {
-		navigator.geolocation.clearWatch(this.watchID);
-  }
+  // componentWillUnmount() {
+	// 	navigator.geolocation.clearWatch(this.watchID);
+  // }
 
   render() {
     return (

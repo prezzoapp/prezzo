@@ -36,7 +36,7 @@ export default class MapScreen extends Component {
   }
 
   componentDidMount() {
-    this.watchID = navigator.geolocation.watchPosition(
+    this.watchID = navigator.geolocation.getCurrentPosition(
       position => {
         this.setState(() => {
           return {
@@ -57,12 +57,12 @@ export default class MapScreen extends Component {
       });
   }
 
-  componentWillUnmount() {
-		navigator.geolocation.clearWatch(this.watchID);
-  }
+  // componentWillUnmount() {
+	// 	navigator.geolocation.clearWatch(this.watchID);
+  // }
 
   onRegionChangeComplete(region) {
-    this.props.listVendors(region.latitude, region.longitude, '23000');
+    this.props.listVendors(region.latitude, region.longitude, '200000000');
   }
 
   render() {

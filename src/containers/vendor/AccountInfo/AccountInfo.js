@@ -9,14 +9,16 @@ import {
   View
 } from 'react-native';
 import PropTypes from 'prop-types';
-import {Icon as NativeBaseIcon, Picker, Spinner} from 'native-base';
+import { Icon as NativeBaseIcon, Picker, Spinner } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Slider from 'react-native-slider';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import ProfileDataField from '../../../components/ProfileDataField';
 import EditableListItem from '../../../components/EditableListItem';
 import { restaurantCategories } from '../../../services/constants';
 import styles, { stylesRaw } from './styles';
+import FilterItem from '../../../components/FilterItem';
 
 export default class AccountInfo extends React.Component {
   // stupid hack to get static functions to get
@@ -60,23 +62,6 @@ export default class AccountInfo extends React.Component {
 
     const { avatarURL, vendor } = props;
 
-    if (!vendor) {
-      this.state = {
-        avatarURL,
-        categories: [],
-        hours: [],
-        location: {},
-        name: '',
-        selectedHoursDay: 0,
-        selectedCategory: restaurantCategories[0],
-        selectedClosingTime: '18:00',
-        selectedOpeningTime: '10:00',
-        upload: null,
-        website: ''
-      };
-      return;
-    }
-
     const location = vendor.get('location');
 
     this.state = {
@@ -89,8 +74,14 @@ export default class AccountInfo extends React.Component {
         country: location.get('country') || '',
         region: location.get('region') || '',
         postalCode: location.get('postalCode') || '',
-        latitude: location.get('latitude') || location.get('coordinates').get(1) || null,
-        longitude: location.get('longitude') || location.get('coordinates').get(0) || null
+        latitude:
+          location.get('latitude') ||
+          location.get('coordinates').get(1) ||
+          null,
+        longitude:
+          location.get('longitude') ||
+          location.get('coordinates').get(0) ||
+          null
       },
       name: vendor.get('name') || '',
       selectedHoursDay: 0,
@@ -98,10 +89,12 @@ export default class AccountInfo extends React.Component {
       selectedClosingTime: '18:00',
       selectedOpeningTime: '10:00',
       upload: null,
-      website: vendor.get('website') || ''
+      website: vendor.get('website') || '',
+      filters: [],
+      email: 'steven@sagebistro.com'
     };
 
-    console.log('got state', this.state);
+    this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
@@ -129,7 +122,7 @@ export default class AccountInfo extends React.Component {
   }
 
   addSelectedCategory() {
-    console.log('addSelectedCategory()');
+    //console.log('addSelectedCategory()');
     const {categories, selectedCategory} = this.state;
 
     if (categories.indexOf(selectedCategory) > 0) {
@@ -260,8 +253,34 @@ export default class AccountInfo extends React.Component {
     });
   }
 
+  toggle(id, name) {
+    // const filterIndex = this.filters[this.filters.findIndex(x => x.id === id)];
+
+    if (this.state.filters.length === 0) {
+      this.state.filters.push({
+        id,
+        name
+      });
+    } else if (this.state.filters.findIndex(x => x.id === id) !== -1) {
+      this.state.filters.splice(this.state.filters.findIndex(x => x.id === id), 1);
+    } else {
+      this.state.filters.push({
+        id,
+        name
+      });
+    }
+
+    this.setState(() => {
+      return {
+        filters: this.state.filters
+      };
+    });
+
+    console.log(this.state.filters);
+  }
+
   render() {
-    const {isBusy} = this.props;
+    const { isBusy } = this.props;
     const {
       avatarURL,
       categories,
@@ -272,15 +291,10 @@ export default class AccountInfo extends React.Component {
       selectedCategory,
       selectedClosingTime,
       selectedOpeningTime,
-      website
+      website,
+      email
     } = this.state;
-    const {
-      address,
-      city,
-      country,
-      region,
-      postalCode
-    } = location;
+    const { address, city, country, region, postalCode } = location;
     const pickerOptionsForDay = [
       'Sun',
       'Mon',
@@ -291,30 +305,30 @@ export default class AccountInfo extends React.Component {
       'Sat'
     ];
     const pickerOptionsForTime = [
-      {label: '12 AM', value: '0:00'},
-      {label: '1 AM', value: '1:00'},
-      {label: '2 AM', value: '2:00'},
-      {label: '3 AM', value: '3:00'},
-      {label: '4 AM', value: '4:00'},
-      {label: '5 AM', value: '5:00'},
-      {label: '6 AM', value: '6:00'},
-      {label: '7 AM', value: '7:00'},
-      {label: '8 AM', value: '8:00'},
-      {label: '9 AM', value: '9:00'},
-      {label: '10 AM', value: '10:00'},
-      {label: '11 AM', value: '11:00'},
-      {label: '12 PM', value: '12:00'},
-      {label: '1 PM', value: '13:00'},
-      {label: '2 PM', value: '14:00'},
-      {label: '3 PM', value: '15:00'},
-      {label: '4 PM', value: '16:00'},
-      {label: '5 PM', value: '17:00'},
-      {label: '6 PM', value: '18:00'},
-      {label: '7 PM', value: '19:00'},
-      {label: '8 PM', value: '20:00'},
-      {label: '9 PM', value: '11:00'},
-      {label: '10 PM', value: '12:00'},
-      {label: '11 PM', value: '23:00'}
+      { label: '12 AM', value: '0:00' },
+      { label: '1 AM', value: '1:00' },
+      { label: '2 AM', value: '2:00' },
+      { label: '3 AM', value: '3:00' },
+      { label: '4 AM', value: '4:00' },
+      { label: '5 AM', value: '5:00' },
+      { label: '6 AM', value: '6:00' },
+      { label: '7 AM', value: '7:00' },
+      { label: '8 AM', value: '8:00' },
+      { label: '9 AM', value: '9:00' },
+      { label: '10 AM', value: '10:00' },
+      { label: '11 AM', value: '11:00' },
+      { label: '12 PM', value: '12:00' },
+      { label: '1 PM', value: '13:00' },
+      { label: '2 PM', value: '14:00' },
+      { label: '3 PM', value: '15:00' },
+      { label: '4 PM', value: '16:00' },
+      { label: '5 PM', value: '17:00' },
+      { label: '6 PM', value: '18:00' },
+      { label: '7 PM', value: '19:00' },
+      { label: '8 PM', value: '20:00' },
+      { label: '9 PM', value: '11:00' },
+      { label: '10 PM', value: '12:00' },
+      { label: '11 PM', value: '23:00' }
     ];
 
     return (
@@ -324,10 +338,10 @@ export default class AccountInfo extends React.Component {
       >
         <View
           style={{...stylesRaw.spinnerContainer,
-            ...(isBusy ? {} : {display: 'none'})
+            ...(isBusy ? {} : { display: 'none' })
           }}
         >
-          <Spinner color='red' />
+          <Spinner color="red" />
         </View>
 
         <View style={styles.avatarContainer}>
@@ -338,8 +352,8 @@ export default class AccountInfo extends React.Component {
             <Image style={styles.avatar}
               source={
                 avatarURL
-                ? {uri: avatarURL}
-                : require('../../../../assets/images/etc/default-avatar.png')
+                  ? { uri: avatarURL }
+                  : require('../../../../assets/images/etc/default-avatar.png')
               }
             />
             <Image
@@ -382,26 +396,11 @@ export default class AccountInfo extends React.Component {
             </TouchableOpacity>
           </View>
           <View style={styles.sectionBody}>
-            <ProfileDataField
-              label='Address'
-              value={address}
-            />
-            <ProfileDataField
-              label='City'
-              value={city}
-            />
-            <ProfileDataField
-              label='State'
-              value={region}
-            />
-            <ProfileDataField
-              label='Zip'
-              value={postalCode}
-            />
-            <ProfileDataField
-              label='Country'
-              value={country}
-            />
+            <ProfileDataField label="Address" value={address} />
+            <ProfileDataField label="City" value={city} />
+            <ProfileDataField label="State" value={region} />
+            <ProfileDataField label="Zip" value={postalCode} />
+            <ProfileDataField label="Country" value={country} />
           </View>
         </View>
 
@@ -410,56 +409,54 @@ export default class AccountInfo extends React.Component {
             <Text style={styles.sectionHeaderText}>Hours</Text>
           </View>
           <View style={styles.hoursSectionBody}>
-            {
-              hours.map((hour, index) => {
-                let {
-                  dayOfWeek,
-                  closeTimeHour,
-                  closeTimeMinutes,
-                  openTimeHour,
-                  openTimeMinutes
-                } = hour;
+            {hours.map((hour, index) => {
+              let {
+                dayOfWeek,
+                closeTimeHour,
+                closeTimeMinutes,
+                openTimeHour,
+                openTimeMinutes
+              } = hour;
 
-                if (closeTimeMinutes === 0) {
-                  closeTimeMinutes = '00';
-                }
+              if (closeTimeMinutes === 0) {
+                closeTimeMinutes = '00';
+              }
 
-                if (openTimeMinutes === 0) {
-                  openTimeMinutes = '00';
-                }
+              if (openTimeMinutes === 0) {
+                openTimeMinutes = '00';
+              }
 
-                const closeTime = `${closeTimeHour}:${closeTimeMinutes}`;
-                const openTime = `${openTimeHour}:${openTimeMinutes}`;
+              const closeTime = `${closeTimeHour}:${closeTimeMinutes}`;
+              const openTime = `${openTimeHour}:${openTimeMinutes}`;
 
-                let readableDayOfWeek = '';
+              let readableDayOfWeek = '';
 
-                if (dayOfWeek === 0) {
-                  readableDayOfWeek = 'Sun';
-                } else if (dayOfWeek === 1) {
-                  readableDayOfWeek = 'Mon';
-                } else if (dayOfWeek === 2) {
-                  readableDayOfWeek = 'Tue';
-                } else if (dayOfWeek === 3) {
-                  readableDayOfWeek = 'Wed';
-                } else if (dayOfWeek === 4) {
-                  readableDayOfWeek = 'Thu';
-                } else if (dayOfWeek === 5) {
-                  readableDayOfWeek = 'Fri';
-                } else if (dayOfWeek === 6) {
-                  readableDayOfWeek = 'Sat';
-                }
+              if (dayOfWeek === 0) {
+                readableDayOfWeek = 'Sun';
+              } else if (dayOfWeek === 1) {
+                readableDayOfWeek = 'Mon';
+              } else if (dayOfWeek === 2) {
+                readableDayOfWeek = 'Tue';
+              } else if (dayOfWeek === 3) {
+                readableDayOfWeek = 'Wed';
+              } else if (dayOfWeek === 4) {
+                readableDayOfWeek = 'Thu';
+              } else if (dayOfWeek === 5) {
+                readableDayOfWeek = 'Fri';
+              } else if (dayOfWeek === 6) {
+                readableDayOfWeek = 'Sat';
+              }
 
-                const text = `${readableDayOfWeek} ${openTime} - ${closeTime}`;
+              const text = `${readableDayOfWeek} ${openTime} - ${closeTime}`;
 
-                return (
-                  <EditableListItem
-                    key={index}
-                    text={text}
-                    onRemove={() => this.removeHoursOfOperationAtIndex(index)}
-                  />
-                );
-              })
-            }
+              return (
+                <EditableListItem
+                  key={index}
+                  text={text}
+                  onRemove={() => this.removeHoursOfOperationAtIndex(index)}
+                />
+              );
+            })}
 
             <View style={styles.pickerContainer}>
               <Picker
@@ -542,15 +539,13 @@ export default class AccountInfo extends React.Component {
             <Text style={styles.sectionHeaderText}>Categories</Text>
           </View>
           <View style={styles.categoriesSectionBody}>
-            {
-              categories.map((category, index) =>
-                <EditableListItem
-                  key={index}
-                  text={category}
-                  onRemove={() => this.removeCategoryAtIndex(index)}
-                />
-              )
-            }
+            {categories.map((category, index) =>
+              <EditableListItem
+                key={index}
+                text={category}
+                onRemove={() => this.removeCategoryAtIndex(index)}
+              />
+            )}
 
             <View style={styles.pickerContainer}>
               <Picker
@@ -577,6 +572,99 @@ export default class AccountInfo extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
+        </View>
+
+        <View style={styles.filtersContainer}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionHeaderText}>Search Filters</Text>
+          </View>
+          <Text style={styles.sectionSubHeaderText}>
+            Select the options your location offers
+          </Text>
+
+          <View style={styles.filtersHolder}>
+            <View style={styles.commonFilterPanel}>
+              <FilterItem
+                name="Price"
+                image={require('../../../../assets/images/filters/dollar-sign-icon.png')}
+                style={{ marginBottom: 8 }}
+                toggleFilter={() => this.toggle(1, 'Price')}
+              />
+
+              <FilterItem
+                name="Wifi"
+                image={require('../../../../assets/images/filters/wifi-icon.png')}
+                style={{ marginBottom: 8 }}
+                toggleFilter={() => this.toggle(2, 'Wifi')}
+              />
+
+              <FilterItem
+                name="Delivery"
+                image={require('../../../../assets/images/filters/delivery.png')}
+                style={{ marginBottom: 8 }}
+                toggleFilter={() => this.toggle(3, 'Delivery')}
+              />
+            </View>
+
+            {this.state.filters.map(item => {
+                if(item.id === 1) {
+                  return (
+                    <Slider
+                      key={item.id}
+                      minimumValue={0}
+                      maximumValue={100}
+                      step={parseFloat((100 / 3).toFixed(2))}
+                      minimumTrackTintColor="rgb(47,212,117)"
+                      maximumTrackTintColor="rgb(230,230,230)"
+                      thumbTintColor="rgb(255,254,255)"
+                      thumbStyle={{ height: 18, width: 18 }}
+                      onValueChange={value => console.log(value)}
+                      trackStyle={{ height: 3 }}
+                    />
+                  );
+                }
+              })
+            }
+
+            <View style={styles.commonFilterPanel}>
+              <FilterItem
+                name="Breakfast"
+                image={require('../../../../assets/images/filters/breakfast.png')}
+                style={{ marginTop: 8 }}
+                toggleFilter={() => this.toggle(4, 'Breakfast')}
+              />
+
+              <FilterItem
+                name="Lunch"
+                image={require('../../../../assets/images/filters/lunch_filter.png')}
+                style={{ marginTop: 8 }}
+                toggleFilter={() => this.toggle(5, 'Lunch')}
+              />
+
+              <FilterItem
+                name="Dinner"
+                image={require('../../../../assets/images/filters/dinner_filter.png')}
+                style={{ marginTop: 8 }}
+                toggleFilter={() => this.toggle(6, 'Dinner')}
+              />
+
+              <FilterItem
+                name="Coffee"
+                image={require('../../../../assets/images/filters/coffee_filter.png')}
+                style={{ marginTop: 8 }}
+                toggleFilter={() => this.toggle(7, 'Coffee')}
+              />
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.filtersContainer}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionHeaderText}>Submit</Text>
+          </View>
+          <Text style={styles.sectionSubHeaderText}>
+            We will send you an email to verify your information
+          </Text>
         </View>
       </ScrollView>
     );

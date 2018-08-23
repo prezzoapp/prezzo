@@ -104,13 +104,57 @@ export default StyleSheet.create({
     borderBottomColor: '#fff',
     borderBottomWidth: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   sectionHeaderText: {
     color: '#fff',
     fontFamily: FONT_FAMILY,
     fontSize: 20,
     marginBottom: 5
+  },
+
+  filtersContainer: {
+    paddingTop: 30,
+    width: SECTION_WIDTH
+  },
+
+  sectionSubHeaderText: {
+    color: 'rgba(255,255,255,0.5)',
+    fontFamily: FONT_FAMILY,
+    fontSize: 17,
+    marginTop: 10
+  },
+
+  commonFilterPanel: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: SECTION_WIDTH
+  },
+
+  filtersHolder: {
+    paddingTop: 20
+  },
+
+  filter: {
+    height: 60,
+    width: 60,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 5
+  },
+
+  filterImage: {
+    height: 28,
+    width: 28,
+    resizeMode: 'cover'
+  },
+
+  filterName: {
+    color: 'rgb(255,251,245)',
+    fontSize: 11,
+    textAlign: 'center',
+    paddingTop: 3
   }
 });
 
