@@ -24,7 +24,7 @@ export default class AccountInfo extends React.Component {
   // to get over this, we need to upgrade `react-navigation`
   static currentContext = null;
 
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     tabBarIcon: props => (
       <Icon name="person-outline" size={24} color={props.tintColor} />
     ),
@@ -41,13 +41,9 @@ export default class AccountInfo extends React.Component {
     },
     headerTintColor: '#fff',
     headerRight: (
-      <Button
-        color="#fff"
-        onPress={() => AccountInfo.currentContext.save()}
-        title="Save"
-      />
+      <Button color="#fff" onPress={navigation.getParam('save')} title="Save" />
     )
-  };
+  });
 
   static displayName = 'Profile';
 
@@ -105,7 +101,7 @@ export default class AccountInfo extends React.Component {
   }
 
   componentDidMount() {
-    this.constructor.currentContext = this;
+    this.props.navigation.setParams({ save: this.save.bind(this) });
   }
 
   showAvatarActionSheet() {
