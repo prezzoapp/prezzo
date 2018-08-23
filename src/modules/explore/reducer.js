@@ -35,35 +35,35 @@ const INITIAL_STATE = fromJS({
       _id: 0,
       filterType: 'realtime',
       name: 'Open Now',
-      active: true,
+      on: true,
       image: require('../../../assets/images/filters/realtime-protection.png')
     },
     {
       _id: 1,
       filterType: 'price',
       name: 'Price',
-      active: false,
+      on: false,
       image: require('../../../assets/images/filters/dollar-sign-icon.png')
     },
     {
       _id: 2,
       filterType: 'wifi',
       name: 'Wifi',
-      active: false,
+      on: false,
       image: require('../../../assets/images/filters/wifi-icon.png')
     },
     {
       _id: 3,
       filterType: 'delivery',
       name: 'Delivery',
-      active: false,
+      on: false,
       image: require('../../../assets/images/filters/delivery.png')
     },
     {
       _id: 4,
       filterType: 'breakfast',
       name: 'Breakfast',
-      active: false,
+      on: false,
       image: require('../../../assets/images/filters/breakfast.png')
     }
   ],
@@ -93,7 +93,7 @@ export default (state = INITIAL_STATE, action) => {
       newFilters = oldFilters.map(filter => {
         const newFilter = { ...filter };
         if (filter._id === payload) {
-          newFilter.active = !filter.active;
+          newFilter.on = !filter.on;
         }
 
         return newFilter;
