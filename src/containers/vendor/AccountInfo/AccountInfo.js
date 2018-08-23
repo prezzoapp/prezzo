@@ -19,11 +19,6 @@ import { restaurantCategories } from '../../../services/constants';
 import styles, { stylesRaw } from './styles';
 
 export default class AccountInfo extends React.Component {
-  // stupid hack to get static functions to get
-  // reference to instance method;
-  // to get over this, we need to upgrade `react-navigation`
-  static currentContext = null;
-
   static navigationOptions = ({ navigation }) => ({
     tabBarIcon: props => (
       <Icon name="person-outline" size={24} color={props.tintColor} />
