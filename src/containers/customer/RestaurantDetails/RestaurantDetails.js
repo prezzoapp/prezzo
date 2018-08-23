@@ -6,7 +6,8 @@ import {
   SectionList,
   ImageBackground,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Animated
 } from 'react-native';
 
 import { Header } from 'react-navigation';
@@ -24,6 +25,8 @@ import RestaurantItem from '../../../components/RestaurantItem';
 import Button from '../../../components/Button';
 
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
+
+const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
 export default class RestaurantDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -54,6 +57,8 @@ export default class RestaurantDetails extends Component {
 
     this.changeQuantity = this.changeQuantity.bind(this);
     this.toggleViewFun = this.toggleViewFun.bind(this);
+
+    this.scrollAnimatedValue = new Animated.Value(0);
   }
 
   componentWillMount() {
@@ -133,7 +138,8 @@ export default class RestaurantDetails extends Component {
       style={{
         borderBottomWidth: 1,
         borderBottomColor: 'white',
-        backgroundColor: 'black'
+        backgroundColor: 'black',
+        bottom: 0
       }}
     >
       <Text style={[styles.transparent, styles.listHeaderText]}>
@@ -143,8 +149,19 @@ export default class RestaurantDetails extends Component {
   )
 
   render() {
+    const animatedHeader = this.scrollAnimatedValue.interpolate({
+      inputRange: [0, 170],
+      outputRange: [170, 0],
+      extrapolate: 'clamp'
+    });
+
+    const animatedOpacity = this.scrollAnimatedValue.interpolate({
+      inputRange: [0, 170],
+      outputRange: [1, 0]
+    });
+
     return (
-      <View style={[styles.container, { paddingTop: Header.HEIGHT + 13 }]}>
+      <View style={[styles.container, { paddingTop: Header.HEIGHT + 5 }]}>
         <ImageBackground
           source={require('../../../../assets/images/photo_back.png')}
           style={styles.photo_back}>
@@ -154,66 +171,79 @@ export default class RestaurantDetails extends Component {
           />
         </ImageBackground>
 
-        <View style={styles.contentContainer}>
-          <Image
-            source={{ uri: this.props.navigation.state.params.item.avatarURL }}
-            style={styles.logo}
-          />
-          <View style={[styles.headerTextContainer, styles.transparent]}>
-            <Text style={styles.headerTitleText}>
-              {this.props.navigation.state.params.item.location.address},{' '}
-              {this.props.navigation.state.params.item.location.regionShort},{' '}
-              {this.props.navigation.state.params.item.location.postalCode}
-            </Text>
-            <View style={styles.headerContentTextContainer}>
-              <Icon name="package" size={22} color="white" />
-              <Text style={[styles.transparent, styles.headerContentText]}>
-                Delivery
+        <Animated.View
+          style={{
+            height: animatedHeader,
+            overflow: 'hidden',
+            opacity: animatedOpacity
+          }}
+        >
+          <View style={styles.contentContainer}>
+            <Image
+              source={{ uri: this.props.navigation.state.params.item.avatarURL }}
+              style={styles.logo}
+            />
+            <View style={[styles.headerTextContainer, styles.transparent]}>
+              <Text style={styles.headerTitleText}>
+                {this.props.navigation.state.params.item.location.address},{' '}
+                {this.props.navigation.state.params.item.location.regionShort},{' '}
+                {this.props.navigation.state.params.item.location.postalCode}
               </Text>
-            </View>
-            <View style={styles.headerContentTextContainer}>
-              <Icon name="clock" size={22} color="white" />
-              <Text style={[styles.transparent, styles.headerContentText]}>
-                8 Mins Wait Time
-              </Text>
+              <View style={styles.headerContentTextContainer}>
+                <Icon name="package" size={22} color="white" />
+                <Text style={[styles.transparent, styles.headerContentText]}>
+                  Delivery
+                </Text>
+              </View>
+              <View style={styles.headerContentTextContainer}>
+                <Icon name="clock" size={22} color="white" />
+                <Text style={[styles.transparent, styles.headerContentText]}>
+                  8 Mins Wait Time
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
 
-        <View style={styles.toggleBtnsSection}>
-          <View style={styles.buttonHolder}>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={styles.headerBtns}
-              onPress={this.toggleViewFun}
-            >
-              <Text style={styles.headerBtnText}>Photo</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={styles.headerBtns}
-              onPress={this.toggleViewFun}
-            >
-              <Text style={styles.headerBtnText}>Text</Text>
-            </TouchableOpacity>
-            <View
-              style={[
-                styles.toggleView,
-                { left: this.state.showText ? 80 : 0 }
-              ]}
-            >
-              <LinearGradient
-                colors={['#707070', '#1E1E1E']}
-                style={[styles.headerBtns, styles.linearGradientBtn]}
+          <View style={styles.toggleBtnsSection}>
+            <View style={styles.buttonHolder}>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={styles.headerBtns}
+                onPress={this.toggleViewFun}
               >
-                <Text style={styles.selectedBtnText}>{this.state.showText ? 'Text' : 'Photo'}</Text>
-              </LinearGradient>
+                <Text style={styles.headerBtnText}>Photo</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={styles.headerBtns}
+                onPress={this.toggleViewFun}
+              >
+                <Text style={styles.headerBtnText}>Text</Text>
+              </TouchableOpacity>
+              <View
+                style={[
+                  styles.toggleView,
+                  { left: this.state.showText ? 80 : 0 }
+                ]}
+              >
+                <LinearGradient
+                  colors={['#707070', '#1E1E1E']}
+                  style={[styles.headerBtns, styles.linearGradientBtn]}
+                >
+                  <Text style={styles.selectedBtnText}>{this.state.showText ? 'Text' : 'Photo'}</Text>
+                </LinearGradient>
+              </View>
             </View>
           </View>
-        </View>
+        </Animated.View>
 
-        <SectionList
+        <AnimatedSectionList
           keyExtractor={item => item.id}
+          onScroll={Animated.event([
+            {
+              nativeEvent: { contentOffset: { y: this.scrollAnimatedValue } }
+            }]
+          )}
           contentContainerStyle={{ paddingBottom: 85 }}
           sections={this.state.sections}
           renderSectionHeader={({ section }) =>
