@@ -75,7 +75,11 @@ export default class ExploreScreenHeader extends PureComponent {
               showsHorizontalScrollIndicator={false}
               data={filters}
               renderItem={({ item }) =>
-                <FilterItem item={item}
+                <FilterItem
+                  image={item.image}
+                  name={item.name}
+                  on={item.on}
+                  style={{ marginRight: 12 }}
                   toggleFilter={() => this.props.toggleFilter(item._id)}
                 />
               }
@@ -83,7 +87,7 @@ export default class ExploreScreenHeader extends PureComponent {
 
             <View>
               {filters.map(item => {
-                if (item.filterType === 'realtime' && item.active === true) {
+                if (item.filterType === 'realtime' && item.on === true) {
                   return (
                     <View key={item._id} style={styles.slidersHolder}>
                       <View style={styles.sliderTitleHolder}>
@@ -104,10 +108,7 @@ export default class ExploreScreenHeader extends PureComponent {
                       />
                     </View>
                   );
-                } else if (
-                  item.filterType === 'price' &&
-                  item.active === true
-                ) {
+                } else if (item.filterType === 'price' && item.on === true) {
                   return (
                     <View key={item._id} style={styles.slidersHolder}>
                       <Slider

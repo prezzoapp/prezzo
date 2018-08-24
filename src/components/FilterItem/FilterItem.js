@@ -6,19 +6,34 @@ import styles from './styles';
 
 export default class FilterItems extends Component {
   static propTypes = {
-    item: PropTypes.object.isRequired,
-    toggleFilter: PropTypes.func.isRequired
+    // item: PropTypes.object.isRequired,
+    toggleFilter: PropTypes.func.isRequired,
+    on: PropTypes.bool,
+    image: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    style: PropTypes.object.isRequired
   };
 
-  shouldComponentUpdate(nextProps) {
-    if (nextProps.item.active !== this.props.item.active) {
-      return true;
-    }
-    return false;
+  constructor(props) {
+    super(props);
+    this.state = { active: props.on };
   }
 
-  getSelectedItemIDAndToggleFilter = () => {
-    this.props.toggleFilter();
+  // shouldComponentUpdate(nextProps) {
+  //   if (nextProps.item.active !== this.props.item.active) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
+  toggleFilter = () => {
+    this.setState(() => {
+      return {
+        active: !this.state.active
+      }
+    }, () => {
+      this.props.toggleFilter();
+    });
   };
 
   render() {
@@ -34,18 +49,18 @@ export default class FilterItems extends Component {
     }
     // console.log('Toggle Rendering Called!');
     return (
-      <View style={{ marginRight: 12 }}>
+      <View style={this.props.style}>
         <TouchableOpacity
           activeOpacity={0.6}
           style={[
             styles.item,
-            this.props.item.active ? activeFilterStyle : inactiveFilterStyle
+            this.state.active ? activeFilterStyle : inactiveFilterStyle
           ]}
-          onPress={this.getSelectedItemIDAndToggleFilter}
+          onPress={this.toggleFilter}
         >
-          <Image source={this.props.item.image} style={styles.itemImage} />
+          <Image source={this.props.image} style={styles.itemImage} />
         </TouchableOpacity>
-        <Text style={styles.itemName}>{this.props.item.name}</Text>
+        <Text style={styles.itemName}>{this.props.name}</Text>
       </View>
     );
   }

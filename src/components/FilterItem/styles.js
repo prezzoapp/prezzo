@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   itemImage: {
     height: 28,
     width: 28,
-    resizeMode: 'cover'
+    resizeMode: 'contain'
   },
 
   itemName: {
