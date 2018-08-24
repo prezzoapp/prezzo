@@ -27,18 +27,18 @@ export default class AccountInfo extends React.Component {
     ),
     title: 'Vendor Account',
     headerStyle: {
-      position: 'absolute',
+      position: 'relative',
       backgroundColor: '#2B2C2C',
-      zIndex: 100,
-      top: 0,
-      left: 0,
-      right: 0,
       shadowColor: 'transparent',
       borderBottomWidth: 0
     },
     headerTintColor: '#fff',
     headerRight: (
-      <Button color="#fff" onPress={navigation.getParam('save')} title="Save" />
+      <Button
+        color="#fff"
+        onPress={() => AccountInfo.currentContext.save()}
+        title="Save"
+      />
     )
   });
 
@@ -89,7 +89,8 @@ export default class AccountInfo extends React.Component {
   }
 
   componentDidMount() {
-    this.props.navigation.setParams({ save: this.save.bind(this) });
+    // this.props.navigation.setParams({ save: this.save.bind(this) });
+    this.constructor.currentContext = this;
   }
 
   showAvatarActionSheet() {
@@ -335,8 +336,9 @@ export default class AccountInfo extends React.Component {
           <Spinner color="red" />
         </View>
 
-        <View style={styles.avatarContainer}>
+        <View style={styles.header}>
           <TouchableOpacity
+            activeOpacity={0.8}
             style={styles.avatarWrap}
             onPress={() => this.showAvatarActionSheet()}
           >
@@ -352,6 +354,15 @@ export default class AccountInfo extends React.Component {
               source={require('../../../../assets/images/icons/edit.png')}
             />
           </TouchableOpacity>
+
+          <View style={styles.editInfoHolder}>
+            <Text style={[styles.editText, { color: 'white' }]}>
+              Add / Change Logo
+            </Text>
+            <TouchableOpacity activeOpacity={0.8} onPress={() => alert()} style={styles.editBtn}>
+              <Text style={styles.editText}>Edit Info</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.contactContainer}>
@@ -598,24 +609,23 @@ export default class AccountInfo extends React.Component {
             </View>
 
             {this.state.filters.map(item => {
-                if(item.id === 1) {
-                  return (
-                    <Slider
-                      key={item.id}
-                      minimumValue={0}
-                      maximumValue={100}
-                      step={parseFloat((100 / 3).toFixed(2))}
-                      minimumTrackTintColor="rgb(47,212,117)"
-                      maximumTrackTintColor="rgb(230,230,230)"
-                      thumbTintColor="rgb(255,254,255)"
-                      thumbStyle={{ height: 18, width: 18 }}
-                      onValueChange={value => console.log(value)}
-                      trackStyle={{ height: 3 }}
-                    />
-                  );
-                }
-              })
-            }
+              if(item.id === 1) {
+                return (
+                  <Slider
+                    key={item.id}
+                    minimumValue={0}
+                    maximumValue={100}
+                    step={parseFloat((100 / 3).toFixed(2))}
+                    minimumTrackTintColor="rgb(47,212,117)"
+                    maximumTrackTintColor="rgb(230,230,230)"
+                    thumbTintColor="rgb(255,254,255)"
+                    thumbStyle={{ height: 18, width: 18 }}
+                    onValueChange={value => console.log(value)}
+                    trackStyle={{ height: 3 }}
+                  />
+                );
+              }
+            })}
 
             <View style={styles.commonFilterPanel}>
               <FilterItem
@@ -656,6 +666,19 @@ export default class AccountInfo extends React.Component {
           <Text style={styles.sectionSubHeaderText}>
             We will send you an email to verify your information
           </Text>
+
+          <ProfileTextInput
+            showLabel={false}
+            label=""
+            style={{ marginTop: 20 }}
+            onChange={val => this.setState({ email: val })}
+            placeholder=""
+            keyboardType="email-address"
+            type="name"
+            showInputBottomBorder
+            borderBottomColor="rgba(255,255,255,0.53)"
+            value={email}
+          />
         </View>
       </ScrollView>
     );

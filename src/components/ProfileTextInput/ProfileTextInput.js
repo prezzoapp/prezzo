@@ -24,13 +24,19 @@ class ProfileTextInput extends Component<Props> {
     showInputBottomBorder: PropTypes.bool.isRequired,
     style: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
+    value: PropTypes.string.isRequired,
+    showLabel: PropTypes.bool,
+    borderBottomColor: PropTypes.string,
+    keyboardType: PropTypes.string
   };
 
   static defaultProps = {
     showInputBottomBorder: true,
     style: {},
-    value: ''
+    value: '',
+    showLabel: true,
+    borderBottomColor: 'transparent',
+    keyboardType: 'default'
   };
 
   render() {
@@ -41,7 +47,8 @@ class ProfileTextInput extends Component<Props> {
       type,
       value,
       showInputBottomBorder,
-      style
+      style,
+      keyboardType
     } = this.props;
     const containerStyle = {
       ...styles.container,
@@ -50,15 +57,17 @@ class ProfileTextInput extends Component<Props> {
     const valueContainerStyle = {
       ...styles.valueContainer,
       ...{
-        borderBottomColor: showInputBottomBorder ? '#0DD24A' : 'transparent'
+        borderBottomColor: this.props.borderBottomColor
       }
     };
 
     return (
       <View style={containerStyle}>
-        <View style={styles.labelContainer}>
-          <Text style={styles.label}>{label}</Text>
-        </View>
+        {(this.props.showLabel) ? (
+          <View style={styles.labelContainer}>
+            <Text style={styles.label}>{label}</Text>
+          </View>
+        ) : ( null )}
         <View style={valueContainerStyle}>
           <TextInput
             style={styles.value}
@@ -68,6 +77,7 @@ class ProfileTextInput extends Component<Props> {
             placeholder={placeholder}
             placeholderTextColor={placeholderTextColor}
             value={value}
+            keyboardType={keyboardType}
           />
         </View>
       </View>

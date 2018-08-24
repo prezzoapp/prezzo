@@ -1,10 +1,10 @@
 // @flow
-import {Dimensions, StyleSheet} from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import {
   FONT_FAMILY,
-  FONT_FAMILY_BOLD,
   COLOR_BLACK,
-  COLOR_GREEN
+  COLOR_GREEN,
+  COLOR_WHITE
 } from '../../../services/constants';
 
 const AVATAR_SIZE: number = 80;
@@ -22,7 +22,7 @@ export default StyleSheet.create({
     alignSelf: 'flex-end'
   },
   avatar: {
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-start',
     borderColor: 'white',
     borderRadius: 10,
     borderWidth: 2,
@@ -30,14 +30,18 @@ export default StyleSheet.create({
     resizeMode: 'cover',
     width: AVATAR_SIZE
   },
-  avatarContainer: {
-    marginBottom: 20
+  header: {
+    marginTop: 20,
+    marginVertical: 30,
+    width: SECTION_WIDTH,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   avatarWrap: {
     alignItems: 'center',
-    height: AVATAR_SIZE * 1.2,
+    height: AVATAR_SIZE,
     position: 'relative',
-    width: AVATAR_SIZE * 1.2
+    width: AVATAR_SIZE
   },
   categoriesContainer: {
     width: SECTION_WIDTH
@@ -55,19 +59,20 @@ export default StyleSheet.create({
   },
   containerContentStyle: {
     alignItems: 'center',
-    paddingTop: 100,
     paddingBottom: 50
   },
   editAvatarIcon: {
     width: AVATAR_SIZE / 3,
     height: AVATAR_SIZE / 3,
     position: 'absolute',
-    top: -1 * (AVATAR_SIZE / 3.2 / 2),
-    right: -1 * (AVATAR_SIZE / 3.2 / 2),
-    borderWidth: 2,
-    borderColor: '#fff',
-    borderRadius: AVATAR_SIZE / 5,
-    backgroundColor: '#484848'
+    top: -1 * (AVATAR_SIZE / 4.5 / 2),
+    right: -1 * (AVATAR_SIZE / 4.5 / 2),
+    borderWidth: 1,
+    borderColor: '#6A696A',
+    borderRadius: AVATAR_SIZE / 6,
+    backgroundColor: '#E1E1E1',
+    tintColor: '#6A696A',
+    resizeMode: 'contain'
   },
   hoursContainer: {
     marginBottom: 25,
@@ -155,6 +160,20 @@ export default StyleSheet.create({
     fontSize: 11,
     textAlign: 'center',
     paddingTop: 3
+  },
+
+  editInfoHolder: {
+    marginLeft: 30
+  },
+
+  editBtn: {
+    marginTop: 5
+  },
+
+  editText: {
+    fontFamily: FONT_FAMILY,
+    fontSize: 16,
+    color: COLOR_GREEN
   }
 });
 
