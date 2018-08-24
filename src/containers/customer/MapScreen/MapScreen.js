@@ -4,7 +4,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
-import Slider from 'react-native-slider';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle.json';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
@@ -62,6 +61,10 @@ export default class MapScreen extends Component {
 		navigator.geolocation.clearWatch(this.watchID);
   }
 
+  onRegionChangeComplete(region) {
+    this.props.listVendors(region.latitude, region.longitude, '23000');
+  }
+
   render() {
     console.log(this.props.data);
     return (
@@ -69,6 +72,7 @@ export default class MapScreen extends Component {
         <MapView
           provider={PROVIDER_GOOGLE}
           region={this.state.customRegion}
+          onRegionChangeComplete={region => this.onRegionChangeComplete(region)}
           customMapStyle={MapStyle}
           showsCompass={false}
           loadingEnabled
@@ -100,7 +104,7 @@ export default class MapScreen extends Component {
                   longitude: item.location.coordinates[1]
                 }}
                 onPress={() => {
-                  this.filteredListRef.callMethod(item._id);
+                  this.filteredListRef.callMethod(item);
                 }}
               >
                 <Image
@@ -156,23 +160,6 @@ export default class MapScreen extends Component {
               }
             }}
           />
-
-        <View style={styles.sliderHolder}>
-            <View style={styles.sliderTitleHolder}>
-              <Text style={styles.sliderTitleText}>Distance</Text>
-              <Text style={styles.sliderTitleText}>2mi</Text>
-            </View>
-            <Slider
-              minimumValue={0}
-              maximumValue={2}
-              minimumTrackTintColor="rgb(47,212,117)"
-              maximumTrackTintColor="rgb(230,230,230)"
-              thumbTintColor="rgb(255,254,255)"
-              thumbStyle={{ height: 18, width: 18 }}
-              trackStyle={{ height: 3 }}
-              style={{ top: -5 }}
-            />
-          </View>
         </View>
 
         <FilteredVendorBottomCard
@@ -187,5 +174,6 @@ export default class MapScreen extends Component {
 }
 
 MapScreen.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  listVendors: PropTypes.func.isRequired
 };

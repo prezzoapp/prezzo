@@ -3,8 +3,10 @@ import { StyleSheet } from 'react-native';
 import {
   COLOR_WHITE,
   COLOR_GREEN,
-  FONT_FAMILY_MEDIUM
+  FONT_FAMILY_MEDIUM,
+  FONT_FAMILY
 } from '../../services/constants';
+
 
 const styles = StyleSheet.create({
   item: {
@@ -32,6 +34,59 @@ const styles = StyleSheet.create({
 
   rightSideContainer: {
     paddingRight: 10
+  },
+
+  itemTitleInPhotoMode: {
+    color: COLOR_WHITE,
+    fontFamily: FONT_FAMILY_MEDIUM,
+    fontSize: 18,
+    paddingTop: 15,
+    paddingBottom: 10,
+    paddingHorizontal: 20
+  },
+
+  itemImage: {
+    flex: 1,
+    height: 250,
+    marginHorizontal: 10,
+    borderRadius: 13,
+    overflow: 'hidden',
+    justifyContent: 'flex-end'
+  },
+
+  itemContainer: {
+    height: 250
+  },
+
+  itemImageLinearGradient: {
+    flex: 0.4
+  },
+
+  bottomContentHolder: {
+    justifyContent: 'space-between',
+    position: 'absolute',
+    bottom: 15,
+    left: 30,
+    right: 30,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+
+  controlButtons: {
+    paddingVertical: 5,
+    paddingHorizontal: 13,
+    backgroundColor: 'rgba(46,213,115, 0.7)',
+    borderRadius: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+
+  quantityTextStyleInPhotoMode: {
+    fontSize: 16,
+    color: COLOR_WHITE,
+    fontFamily: FONT_FAMILY,
+    paddingHorizontal: 7
   }
 });
 

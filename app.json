@@ -1,4 +1,9 @@
 {
-  "name": "Prezzo",
-  "displayName": "Prezzo"
+  "expo": {
+    "name": "Prezzo",
+    "slug": "Prezzo",
+    "appKey": "Prezzo",
+    "sdkVersion": "29.0.0",
+    "privacy": "unlisted"
+  }
 }

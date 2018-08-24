@@ -6,6 +6,7 @@ import store from './src/redux/store';
 import AppViewContainer from './src/containers/shared/AppViewContainer';
 import {API_ROOT} from './env';
 import {setConfiguration} from './src/utils/configuration';
+import 'expo';
 require('react-native-browser-polyfill');
 
 global.self = global;

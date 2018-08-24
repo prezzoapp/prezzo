@@ -15,16 +15,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import ProfileDataField from '../../../components/ProfileDataField';
 import EditableListItem from '../../../components/EditableListItem';
-import {restaurantCategories} from '../../../services/constants';
-import styles, {stylesRaw} from './styles';
+import { restaurantCategories } from '../../../services/constants';
+import styles, { stylesRaw } from './styles';
 
 export default class AccountInfo extends React.Component {
-  // stupid hack to get static functions to get
-  // reference to instance method;
-  // to get over this, we need to upgrade `react-navigation`
-  static currentContext = null;
-
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     tabBarIcon: props => (
       <Icon name="person-outline" size={24} color={props.tintColor} />
     ),
@@ -41,13 +36,9 @@ export default class AccountInfo extends React.Component {
     },
     headerTintColor: '#fff',
     headerRight: (
-      <Button
-        color="#fff"
-        onPress={() => AccountInfo.currentContext.save()}
-        title="Save"
-      />
+      <Button color="#fff" onPress={navigation.getParam('save')} title="Save" />
     )
-  };
+  });
 
   static displayName = 'Profile';
 
@@ -105,8 +96,7 @@ export default class AccountInfo extends React.Component {
   }
 
   componentDidMount() {
-    this.constructor.currentContext = this;
-    console.log('setting currentContext', this.constructor.currentContext);
+    this.props.navigation.setParams({ save: this.save.bind(this) });
   }
 
   showAvatarActionSheet() {

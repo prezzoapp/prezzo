@@ -1,16 +1,11 @@
 // @flow
 import React from 'react';
-import {
-  ImageBackground,
-  Text,
-  Image,
-  StyleSheet
-} from 'react-native';
+import { ImageBackground, Text, Image, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {NavigationActions} from 'react-navigation';
-import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../../services/constants';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { NavigationActions } from 'react-navigation';
+import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
 import Button from '../../../components/Button';
 
 type Props = {
@@ -24,16 +19,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4A4A4A',
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
     paddingTop: containerPaddingTopBottom,
     paddingBottom: containerPaddingTopBottom
   },
   image: {
-    // width: 200,
     aspectRatio: 0.8,
     marginTop: 80,
-    marginBottom: 40,
+    marginBottom: 26,
     alignSelf: 'center',
     resizeMode: 'contain'
   },
@@ -42,7 +38,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_BOLD,
     textAlign: 'center',
     color: '#fff',
-    marginBottom: 30,
+    marginBottom: 10,
     backgroundColor: 'transparent'
   },
   bodyText: {

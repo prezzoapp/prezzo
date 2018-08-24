@@ -10,6 +10,7 @@ import SessionStateReducer from '../modules/session';
 import { RESET_STATE } from '../modules/session/types';
 import VendorReducer from '../modules/vendor';
 import ExploreReducer from '../modules/explore';
+import RestaurantDetails from '../modules/restaurant';
 
 const reducers = {
   navigatorState: NavigatorStateReducer,
@@ -20,7 +21,8 @@ const reducers = {
   upload: UploadReducer,
   user: UserReducer,
   signup: SignupReducer,
-  vendor: VendorReducer
+  vendor: VendorReducer,
+  restaurant: RestaurantDetails
 };
 
 // initial state, accessor and mutator for supporting root-level

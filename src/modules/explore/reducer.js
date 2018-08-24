@@ -6,24 +6,27 @@ import {
   TOGGLE_FILTER_FAILURE,
   LIST_VENDORS_REQUEST,
   LIST_VENDORS_SUCCESS,
-  LIST_VENDORS_FAILURE
+  LIST_VENDORS_FAILURE,
+  UPDATE_DISTANCE_REQUEST,
+  UPDATE_DISTANCE_SUCCESS,
+  UPDATE_DISTANCE_FAILURE
 } from './types';
 
 const restaurants = [];
 
-for (let i = 0; i < 5; i += 1) {
-  restaurants.push({
-    _id: i,
-    imagePath: require('../../../assets/images/exploreRestaurantItem.png'),
-    likes: 0,
-    name: 'True Food',
-    city: 'Santa Monica',
-    distance: 2,
-    status: 'Open Now',
-    latitude: 28.006447,
-    longitude: 73.3204479
-  });
-}
+// for (let i = 0; i < 5; i += 1) {
+//   restaurants.push({
+//     _id: i,
+//     imagePath: require('../../../assets/images/exploreRestaurantItem.png'),
+//     likes: 0,
+//     name: 'True Food',
+//     city: 'Santa Monica',
+//     distance: 2,
+//     status: 'Open Now',
+//     latitude: 28.006447,
+//     longitude: 73.3204479
+//   });
+// }
 
 const INITIAL_STATE = fromJS({
   isBusy: false,
@@ -32,7 +35,7 @@ const INITIAL_STATE = fromJS({
       _id: 0,
       filterType: 'realtime',
       name: 'Open Now',
-      active: false,
+      active: true,
       image: require('../../../assets/images/filters/realtime-protection.png')
     },
     {
@@ -64,7 +67,10 @@ const INITIAL_STATE = fromJS({
       image: require('../../../assets/images/filters/breakfast.png')
     }
   ],
-  restaurants
+  restaurants,
+  minDistance: 1,
+  maxDistance: 10,
+  distance: 2
 });
 
 export default (state = INITIAL_STATE, action) => {
@@ -76,9 +82,11 @@ export default (state = INITIAL_STATE, action) => {
   switch (type) {
     case TOGGLE_FILTER_REQUEST:
     case LIST_VENDORS_REQUEST:
+    case UPDATE_DISTANCE_REQUEST:
       return state.set('isBusy', true);
     case TOGGLE_FILTER_FAILURE:
     case LIST_VENDORS_FAILURE:
+    case UPDATE_DISTANCE_FAILURE:
       return state.set('isBusy', false);
     case TOGGLE_FILTER_SUCCESS:
       oldFilters = state.get('filters').toJS();
@@ -94,8 +102,13 @@ export default (state = INITIAL_STATE, action) => {
 
       return state.set('filters', immutableFilters);
     case LIST_VENDORS_SUCCESS:
-      console.log(payload.toJS());
       return state.set('isBusy', false).set('restaurants', payload);
+    case UPDATE_DISTANCE_SUCCESS:
+      //console.log(payload.vendorsData.toJS());
+      return state
+        .set('isBusy', false)
+        .set('restaurants', payload.vendorsData)
+        .set('distance', payload.updatedDistance);
     default:
       return state;
   }
