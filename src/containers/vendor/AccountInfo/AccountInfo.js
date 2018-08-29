@@ -85,6 +85,8 @@ export default class AccountInfo extends React.Component {
       email: 'steven@sagebistro.com'
     };
 
+    console.log(this.state.hours); //GOT CORRECT VALUE
+
     this.toggle = this.toggle.bind(this);
   }
 
@@ -144,26 +146,82 @@ export default class AccountInfo extends React.Component {
       selectedOpeningTime
     } = this.state;
 
-    const dayOfWeek = selectedHoursDay;
+    const dayOfWeek = parseInt(selectedHoursDay);
+
+    console.log("Day of week: ", dayOfWeek);
 
     const closeTimeSplit = selectedClosingTime.split(':');
-    const closeTimeHour = closeTimeSplit[0];
-    const closeTimeMinutes = closeTimeSplit[1];
+    const closeTimeHour = parseInt(closeTimeSplit[0]);
+    const closeTimeMinutes = parseInt(closeTimeSplit[1]);
 
     const openTimeSplit = selectedOpeningTime.split(':');
-    const openTimeHour = openTimeSplit[0];
-    const openTimeMinutes = openTimeSplit[1];
+    const openTimeHour = parseInt(openTimeSplit[0]);
+    const openTimeMinutes = parseInt(openTimeSplit[1]);
 
     const newHours = [...hours];
-    newHours.push({
-      dayOfWeek,
-      closeTimeHour,
-      closeTimeMinutes,
-      openTimeHour,
-      openTimeMinutes
-    });
 
-    this.setState({ hours: newHours });
+    //console.log(newHours.length);
+
+    if(newHours.length === 0) {
+      newHours.push({
+        dayOfWeek,
+        closeTimeHour,
+        closeTimeMinutes,
+        openTimeHour,
+        openTimeMinutes
+      });
+
+      console.log(newHours);
+
+      this.setState(() => {
+        return {
+          hours: newHours
+        }
+      });
+    } else {
+      for (let i = 0; i < newHours.length; i++) {
+        if (
+          dayOfWeek === newHours[i].dayOfWeek &&
+          ((openTimeHour >= newHours[i].openTimeHour &&
+            openTimeHour <= newHours[i].closeTimeHour) ||
+          (closeTimeHour >= newHours[i].openTimeHour &&
+            closeTimeHour <= newHours[i].closeTimeHour) ||
+          (openTimeHour <= newHours[i].openTimeHour &&
+              closeTimeHour >= newHours[i].closeTimeHour &&
+              newHours[i].closeTimeHour !== 0) ||
+            openTimeHour >= closeTimeHour ||
+            (openTimeHour < 12 && closeTimeHour >= 12))
+        ) {
+          console.log('Invalid day.');
+          console.log("I: ", i);
+          break;
+        } else if (dayOfWeek !== newHours[i].dayOfWeek &&
+          (openTimeHour >= closeTimeHour)) {
+            console.log('Invalid day.');
+            console.log("I: ", i);
+            break;
+        } else if (i === newHours.length - 1) {
+          console.log("I: ", i);
+          newHours.push({
+            dayOfWeek,
+            closeTimeHour,
+            closeTimeMinutes,
+            openTimeHour,
+            openTimeMinutes
+          });
+
+          console.log(newHours);
+
+          this.setState(() => {
+            return {
+              hours: newHours
+            }
+          });
+
+          break;
+        }
+      }
+    }
   }
 
   removeHoursOfOperationAtIndex(index) {
@@ -286,6 +344,7 @@ export default class AccountInfo extends React.Component {
       website,
       email
     } = this.state;
+
     const { address, city, country, region, postalCode } = location;
     const pickerOptionsForDay = [
       'Sun',
@@ -318,8 +377,8 @@ export default class AccountInfo extends React.Component {
       { label: '6 PM', value: '18:00' },
       { label: '7 PM', value: '19:00' },
       { label: '8 PM', value: '20:00' },
-      { label: '9 PM', value: '11:00' },
-      { label: '10 PM', value: '12:00' },
+      { label: '9 PM', value: '21:00' },
+      { label: '10 PM', value: '22:00' },
       { label: '11 PM', value: '23:00' }
     ];
 
@@ -473,7 +532,7 @@ export default class AccountInfo extends React.Component {
                 style={styles.hoursPicker}
                 textStyle={styles.hoursPickerText}
                 selectedValue={selectedHoursDay}
-                onValueChange={val => this.setState({selectedHoursDay: val})}
+                onValueChange={val => this.setState({ selectedHoursDay: val })}
               >
                 {pickerOptionsForDay.map((value, index) =>
                   <Picker.Item label={value} value={index} key={index} />
@@ -492,7 +551,9 @@ export default class AccountInfo extends React.Component {
                 style={styles.hoursPicker}
                 textStyle={styles.hoursPickerText}
                 selectedValue={selectedOpeningTime}
-                onValueChange={val => this.setState({selectedOpeningTime: val})}
+                onValueChange={val =>
+                  this.setState({ selectedOpeningTime: val })
+                }
               >
                 {pickerOptionsForTime.map((option, index) =>
                   <Picker.Item
@@ -515,7 +576,9 @@ export default class AccountInfo extends React.Component {
                 style={styles.hoursPicker}
                 textStyle={styles.hoursPickerText}
                 selectedValue={selectedClosingTime}
-                onValueChange={val => this.setState({selectedClosingTime: val})}
+                onValueChange={val =>
+                  this.setState({ selectedClosingTime: val })
+                }
               >
                 {pickerOptionsForTime.map((option, index) =>
                   <Picker.Item

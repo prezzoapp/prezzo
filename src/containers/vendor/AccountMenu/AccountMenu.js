@@ -34,6 +34,7 @@ export default class AccountMenu extends React.Component {
   };
 
   async logout() {
+    //await snapshot.resetSnapshot();
     await snapshot.clearSnapshot();
     this.props.userLogout();
     this.props.navigate({ routeName: 'Authentication' });

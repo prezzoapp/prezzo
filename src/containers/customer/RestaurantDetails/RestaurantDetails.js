@@ -28,6 +28,8 @@ import Button from '../../../components/Button';
 
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 
+import Checkout from '../Checkout';
+
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
 export default class RestaurantDetails extends Component {
@@ -67,7 +69,8 @@ export default class RestaurantDetails extends Component {
 
     this.state = {
       showText: false,
-      categories: modifiedCategories
+      categories: modifiedCategories,
+      modalVisible: false
     }
     this.toggleViewFun = this.toggleViewFun.bind(this);
 
@@ -226,13 +229,15 @@ export default class RestaurantDetails extends Component {
                   <Button
                     style={buttonStyles.placeOrderBtn}
                     textStyle={buttonStyles.btnText}
-                    onPress={() => alert()}
+                    onPress={() => { this.setState({ modalVisible: true })}}
                   >
                     Place Order
                   </Button>
 
                   <Text style={styles.totalPrice}>Total $35.42</Text>
                 </View>
+
+                <Checkout modalVisible={this.state.modalVisible} />
               </View>
             )
           )}
