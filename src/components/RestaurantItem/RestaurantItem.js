@@ -139,6 +139,5 @@ export default class RestaurantItem extends Component {
 
 RestaurantItem.propTypes = {
   item: PropTypes.object.isRequired,
-  changeQuantity: PropTypes.func.isRequired,
   showText: PropTypes.bool.isRequired
 };

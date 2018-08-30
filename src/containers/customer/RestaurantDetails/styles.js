@@ -2,6 +2,11 @@ import { StyleSheet } from 'react-native';
 
 import { Header } from 'react-navigation';
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 
 const styles = StyleSheet.create({
@@ -124,7 +129,7 @@ const styles = StyleSheet.create({
 
   bottomViewHolder: {
     paddingHorizontal: 15,
-    height: 65,
+    height: hp('8.62%'),
     position: 'absolute',
     left: 0,
     right: 0,
@@ -138,10 +143,10 @@ const styles = StyleSheet.create({
   },
 
   totalPrice: {
-    fontSize: 14,
+    fontSize: wp('4.8%'),
     fontFamily: FONT_FAMILY,
     color: COLOR_WHITE,
-    marginRight: 40
+    marginRight: wp('10.53%')
   },
 
   messageHolder: {

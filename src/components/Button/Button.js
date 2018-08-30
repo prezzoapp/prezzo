@@ -10,9 +10,12 @@ import {FONT_FAMILY} from '../../services/constants';
 // };
 type Props = {};
 
-const Button = ({disabled, onPress, style, textStyle, children}: Props) => {
+const Button = ({ disabled, onPress, style, textStyle, children }: Props) => {
   const buttonStyleFinal = {...styles.button, ...style};
   const textStyleFinal = {...styles.text, ...textStyle};
+
+  // if(children.type !== undefined)
+  // console.log(children.type.name)
 
   return (
     <TouchableOpacity
@@ -20,9 +23,11 @@ const Button = ({disabled, onPress, style, textStyle, children}: Props) => {
       activeOpacity={disabled ? 1 : 0.7}
       style={buttonStyleFinal}
     >
-      <Text style={textStyleFinal}>
-        {children}
-      </Text>
+      {children.type !== undefined && children.type.name === 'View' ? (
+        children
+      ) : (
+        <Text style={textStyleFinal}>{children}</Text>
+      )}
     </TouchableOpacity>
   );
 };

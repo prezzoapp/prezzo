@@ -20,6 +20,11 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { BlurView } from 'react-native-blur';
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+
 import styles from './styles';
 
 import RestaurantItem from '../../../components/RestaurantItem';
@@ -29,6 +34,8 @@ import Button from '../../../components/Button';
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 
 import Checkout from '../Checkout';
+
+import CustomPopup from '../../../components/CustomPopup';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -70,7 +77,7 @@ export default class RestaurantDetails extends Component {
     this.state = {
       showText: false,
       categories: modifiedCategories,
-      modalVisible: false
+      modalVisible: false,
     }
     this.toggleViewFun = this.toggleViewFun.bind(this);
 
@@ -219,28 +226,34 @@ export default class RestaurantDetails extends Component {
                     <RestaurantItem item={item} showText={this.state.showText} />
                   }
                 />
-
-                <View style={styles.bottomViewHolder}>
-                  <BlurView
-                    style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0}}
-                    blurType="dark"
-                    blurAmount={10}
-                  />
-                  <Button
-                    style={buttonStyles.placeOrderBtn}
-                    textStyle={buttonStyles.btnText}
-                    onPress={() => { this.setState({ modalVisible: true })}}
-                  >
-                    Place Order
-                  </Button>
-
-                  <Text style={styles.totalPrice}>Total $35.42</Text>
-                </View>
-
-                <Checkout modalVisible={this.state.modalVisible} />
+                {/*}<CustomPopup modalVisible={this.state.modalVisible}/>*/}
               </View>
             )
           )}
+
+          <View style={styles.bottomViewHolder}>
+            <BlurView
+              style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0}}
+              blurType="dark"
+              blurAmount={10}
+            />
+            <Button
+              style={buttonStyles.placeOrderBtn}
+              textStyle={buttonStyles.btnText}
+              onPress={() => {
+                if(this.modal) {
+                  this.modal.showModal()
+                }
+              }}
+            >
+              Place Order
+            </Button>
+
+            <Text style={styles.totalPrice}>Total $35.42</Text>
+          </View>
+
+          <Checkout ref={modal => this.modal = modal}
+            restaurantName={this.props.navigation.state.params.item.name}/>
       </View>
     );
   }
@@ -251,12 +264,12 @@ const buttonStyles = {
     backgroundColor: '#2ED573',
     borderColor: '#0DD24A',
     width: 100,
-    height: 37,
+    height: hp('4.55%'),
     justifyContent: 'center',
     borderRadius: 8
   },
   btnText: {
-    fontSize: 14,
+    fontSize: wp('3.73%'),
     fontFamily: FONT_FAMILY,
     color: COLOR_WHITE,
     paddingTop: 0,

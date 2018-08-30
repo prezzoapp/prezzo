@@ -12,9 +12,14 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
     justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0,0,0,0.6)'
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    zIndex: 999
   },
 
   modalView: {
@@ -41,7 +46,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
     textAlign: 'center',
-    paddingTop: hp('1%')
+    paddingTop: wp('2%')
   },
 
   reviewOrderText: {
@@ -49,7 +54,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     color: COLOR_WHITE,
     textAlign: 'center',
-    paddingTop: hp('1%')
+    paddingTop: wp('1%')
   },
 
   blurView: {
@@ -63,7 +68,7 @@ const styles = StyleSheet.create({
   },
 
   flatList: {
-    marginVertical: hp('5%'),
+    marginVertical: wp('10%'),
     maxHeight: hp('20%')
   },
 
@@ -93,7 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingHorizontal: wp('2.36%'),
-    paddingVertical: hp('2%')
+    paddingTop: wp('4%')
   },
 
   reviewOrderFooterText: {
@@ -125,7 +130,7 @@ const styles = StyleSheet.create({
   tabBarIconsHolder: {
     width: wp('33.33%'),
     alignItems: 'center',
-    paddingVertical: hp('2.4%')
+    paddingVertical: wp('5%')
   },
 
   icon: {
@@ -142,14 +147,16 @@ const styles = StyleSheet.create({
 
   bottomArrowIconContainer: {
     alignItems: 'center',
-    paddingTop: hp('2%')
+    paddingTop: wp('2.5%')
   },
 
   whereToScreenBtnsHolder: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingTop: hp('5.29%'),
-    paddingBottom: hp('3.6')
+    // paddingTop: hp('5.29%'),
+    // paddingBottom: hp('3.6%')
+    paddingTop: wp('7%'),
+    paddingBottom: wp('6%')
   },
 
   whereToScreenText: {
@@ -157,9 +164,9 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     color: COLOR_WHITE,
     textAlign: 'center',
-    paddingVertical: hp('2.6'),
+    paddingBottom: wp('3%'),
     paddingHorizontal: wp('19.73%'),
-    lineHeight: hp('3.6%')
+    lineHeight: wp('8%')
   },
 
   tableCode: {
@@ -167,6 +174,53 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     color: COLOR_WHITE,
     textAlign: 'center'
+  },
+
+  paymentIcons: {
+    resizeMode: 'contain',
+    width: wp('14.93%')
+  },
+
+  paymentScreenBtnsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: wp('7%'),
+    paddingBottom: wp('6%')
+  },
+
+  paymentBtnHolder: {
+    padding: wp('2%'),
+    marginHorizontal: wp('4%'),
+    width: wp('26.79%'),
+    position: 'relative'
+  },
+
+  checkMarkIconHolder: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: wp('5.33%'),
+    height: wp('5.33%'),
+    borderRadius: wp('2.66%'),
+    backgroundColor: '#2ED573',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  checkMarkIcon: {
+    resizeMode: 'contain',
+    width: wp('4%'),
+    height: wp('4%')
+  },
+
+  paymentInfoContainer: {
+    marginHorizontal: wp('6.66%')
+  },
+
+  paymentInfoTitle: {
+    fontSize: wp('4.8%'),
+    color: COLOR_WHITE
   }
 });
 
