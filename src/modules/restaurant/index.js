@@ -1,7 +1,7 @@
 // @flow
-import addRestaurantItem from './actions';
+import { addRestaurantDetail, addSelectedItem } from './actions';
 import reducer from './reducer';
 
-export { addRestaurantItem };
+export { addRestaurantDetail, addSelectedItem };
 
 export default reducer;

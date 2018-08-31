@@ -78,10 +78,62 @@ export default class RestaurantDetails extends Component {
       showText: false,
       categories: modifiedCategories,
       modalVisible: false,
+      currentSlideIndex: null
     }
     this.toggleViewFun = this.toggleViewFun.bind(this);
+    this.onOrderBtnClick = this.onOrderBtnClick.bind(this);
+    this.callbackFunction = this.callbackFunction.bind(this);
 
     this.scrollAnimatedValue = new Animated.Value(0);
+
+    //console.log(this.props.data);
+  }
+
+  componentDidMount() {
+    // PASS RESTAURANT DETAIL TO redux
+    this.props.addRestaurantDetail(this.props.navigation.state.params.item);
+  }
+
+  onOrderBtnClick() {
+    if(this.state.currentSlideIndex === null) {
+      if(this.modal) {
+        this.modal.showModal();
+        this.getIndex(0);
+      }
+    } else if (
+      this.state.currentSlideIndex < 2 &&
+      this.state.currentSlideIndex >= 0
+    ) {
+      this.getIndex(this.state.currentSlideIndex + 1, this.callbackFunction);
+    } else if (
+      this.state.currentSlideIndex === 2 &&
+      this.modal &&
+      this.state.modalVisible === false
+    ) {
+      this.modal.hideModal();
+      this.setState(() => {
+        return {
+          modalVisible: true
+        }
+      });
+    }
+  }
+
+  getIndex(index, callback = null) {
+    this.setState(() => {
+      return {
+        currentSlideIndex: index
+      }
+    }, () => {
+        if (callback !== null && typeof callback === 'function') {
+          callback();
+        }
+      }
+    );
+  }
+
+  callbackFunction() {
+    this.modal.scrollForward();
   }
 
   toggleViewFun() {
@@ -226,7 +278,6 @@ export default class RestaurantDetails extends Component {
                     <RestaurantItem item={item} showText={this.state.showText} />
                   }
                 />
-                {/*}<CustomPopup modalVisible={this.state.modalVisible}/>*/}
               </View>
             )
           )}
@@ -240,19 +291,26 @@ export default class RestaurantDetails extends Component {
             <Button
               style={buttonStyles.placeOrderBtn}
               textStyle={buttonStyles.btnText}
-              onPress={() => {
-                if(this.modal) {
-                  this.modal.showModal()
-                }
-              }}
+              onPress={this.onOrderBtnClick}
             >
-              Place Order
+            {this.state.currentSlideIndex === null
+              ? 'Place Order'
+              : this.state.currentSlideIndex < 2
+                ? 'Next'
+                : 'Complete Order'}
             </Button>
 
             <Text style={styles.totalPrice}>Total $35.42</Text>
           </View>
 
+          {(this.state.modalVisible) ? (
+            <CustomPopup modalVisible={this.state.modalVisible}/>
+          ) : (
+            null
+          )}
+
           <Checkout ref={modal => this.modal = modal}
+            getCurrentIndex={(index) => this.getIndex(index)}
             restaurantName={this.props.navigation.state.params.item.name}/>
       </View>
     );
@@ -263,7 +321,7 @@ const buttonStyles = {
   placeOrderBtn: {
     backgroundColor: '#2ED573',
     borderColor: '#0DD24A',
-    width: 100,
+    width: wp('40%'),
     height: hp('4.55%'),
     justifyContent: 'center',
     borderRadius: 8
