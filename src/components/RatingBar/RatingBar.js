@@ -10,17 +10,13 @@ export default class RatingBar extends Component {
   constructor() {
     super();
 
-    this.state = { givenRating: 2 }
+    //this.state = { givenRating: 2 }
 
     this.changeRating = this.changeRating.bind(this);
   }
 
-  changeRating(key) {
-    this.setState(() => {
-      return {
-        givenRating: key
-      }
-    });
+  changeRating(rating) {
+    this.props.changeItemRating(rating);
   }
 
   render() {
@@ -37,7 +33,7 @@ export default class RatingBar extends Component {
           <Image
             style={styles.starImage}
             source={
-              i <= this.state.givenRating
+              i <= this.props.itemRating
                 ? require('../../../assets/images/star_fill.png')
                 : require('../../../assets/images/star_border.png')
             }

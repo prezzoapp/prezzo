@@ -3,7 +3,8 @@ import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import {
   addRestaurantDetail,
-  addSelectedItem
+  addRemoveItemQuantity,
+  changeItemRating
 } from '../../../modules/restaurant';
 
 export const mapStateToProps = state => {
@@ -17,5 +18,6 @@ export const mapStateToProps = state => {
 export const mapDispatchToProps = dispatch => ({
   navigate: bindActionCreators(NavigationActions.navigate, dispatch),
   addRestaurantDetail: bindActionCreators(addRestaurantDetail, dispatch),
-  addSelectedItem: bindActionCreators(addSelectedItem, dispatch)
+  addRemoveItemQuantity: bindActionCreators(addRemoveItemQuantity, dispatch),
+  changeItemRating: bindActionCreators(changeItemRating, dispatch)
 });

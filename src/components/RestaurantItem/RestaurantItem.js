@@ -18,8 +18,6 @@ export default class RestaurantItem extends Component {
   constructor(props) {
     super(props);
     this.state = { quantity: 1 };
-
-    this.changeQuantity = this.changeQuantity.bind(this);
   }
 
   changeQuantity(op) {
@@ -52,7 +50,7 @@ export default class RestaurantItem extends Component {
             {this.state.quantity === 0 ? (
               <TouchableOpacity
                 activeOpacity={0.6}
-                onPress={() => this.changeQuantity('add')}
+                onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'add')}
               >
                 <Icon name="plus" size={22} color="white" />
               </TouchableOpacity>
@@ -60,18 +58,18 @@ export default class RestaurantItem extends Component {
               <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
                 <TouchableOpacity
                   activeOpacity={0.6}
-                  onPress={() => this.changeQuantity('remove')}
+                  onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'remove')}
                 >
                   <Icon name="minus" size={22} color="green" />
                 </TouchableOpacity>
 
                 <Text style={[styles.itemTitle, { top: -3 }]}>
-                  {this.state.quantity}
+                  {this.props.item.quantity}
                 </Text>
 
                 <TouchableOpacity
                   activeOpacity={0.6}
-                  onPress={() => this.changeQuantity('add')}
+                  onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'add')}
                 >
                   <Icon name="plus" size={22} color="green" />
                 </TouchableOpacity>
@@ -100,7 +98,7 @@ export default class RestaurantItem extends Component {
             >
               <LinearGradient
                 colors={['transparent', '#1E1E1E']}
-                locations={[0,0.95]}
+                locations={[0, 0.95]}
                 style={styles.itemImageLinearGradient}
               />
             </ImageBackground>
@@ -111,25 +109,28 @@ export default class RestaurantItem extends Component {
           <View style={styles.controlButtons}>
             <TouchableOpacity
               activeOpacity={0.6}
-              onPress={() => this.changeQuantity('remove')}
+              onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'remove')}
             >
               <Icon name="minus" size={16} color="white" />
             </TouchableOpacity>
 
             <Text style={styles.quantityTextStyleInPhotoMode}>
-              {this.state.quantity}
+              {this.props.item.quantity}
             </Text>
 
             <TouchableOpacity
               activeOpacity={0.6}
-              onPress={() => this.changeQuantity('add')}
+              onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'add')}
             >
               <Icon name="plus" size={16} color="white" />
             </TouchableOpacity>
           </View>
 
           <View>
-            <RatingBar />
+            <RatingBar
+              itemRating={this.props.item.rating}
+              changeItemRating={rating => this.props.changeItemRating(this.props.item._id, rating)}
+            />
           </View>
         </View>
       </View>

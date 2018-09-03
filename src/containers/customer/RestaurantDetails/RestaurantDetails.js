@@ -85,12 +85,11 @@ export default class RestaurantDetails extends Component {
     this.callbackFunction = this.callbackFunction.bind(this);
 
     this.scrollAnimatedValue = new Animated.Value(0);
-
-    //console.log(this.props.data);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // PASS RESTAURANT DETAIL TO redux
+    console.log("Did Mount Called!");
     this.props.addRestaurantDetail(this.props.navigation.state.params.item);
   }
 
@@ -192,14 +191,14 @@ export default class RestaurantDetails extends Component {
         >
           <View style={styles.contentContainer}>
             <Image
-              source={{ uri: this.props.navigation.state.params.item.avatarURL }}
+              source={{ uri: this.props.data.data.avatarURL }}
               style={styles.logo}
             />
             <View style={[styles.headerTextContainer, styles.transparent]}>
               <Text style={styles.headerTitleText}>
-                {this.props.navigation.state.params.item.location.address},{' '}
-                {this.props.navigation.state.params.item.location.regionShort},{' '}
-                {this.props.navigation.state.params.item.location.postalCode}
+                {this.props.data.data.location.address},{' '}
+                {this.props.data.data.location.regionShort},{' '}
+                {this.props.data.data.location.postalCode}
               </Text>
               <View style={styles.headerContentTextContainer}>
                 <Icon name="package" size={22} color="white" />
@@ -249,13 +248,13 @@ export default class RestaurantDetails extends Component {
           </View>
         </Animated.View>
 
-        {(this.props.navigation.state.params.item.menu &&
-          this.props.navigation.state.params.item.menu.categories.length === 0) ? (
+        {(this.props.data.data.menu &&
+          this.props.data.data.menu.categories.length === 0) ? (
             <View style={styles.messageHolder}>
               <Text style={styles.message}>Does not have Items.</Text>
             </View>
           ) : (
-            (this.props.navigation.state.params.item["menu"] === undefined) ? (
+            (this.props.data.data["menu"] === undefined) ? (
               <View style={styles.messageHolder}>
                 <Text style={styles.message}>Does not have Menu.</Text>
               </View>
@@ -263,19 +262,25 @@ export default class RestaurantDetails extends Component {
               <View style={{flex: 1}}>
                 <AnimatedSectionList
                   bounces={false}
-                  keyExtractor={item => item._id}
+                  keyExtractor={item => item._id.toString()}
                   onScroll={Animated.event([
                     {
                       nativeEvent: { contentOffset: { y: this.scrollAnimatedValue } }
                     }]
                   )}
                   contentContainerStyle={{ paddingBottom: 85, paddingHorizontal: 15 }}
-                  sections={this.state.categories}
+                  sections={this.props.data.data.menu.categories}
                   renderSectionHeader={({ section }) =>
                     this.renderSectionHeader(section)
                   }
-                  renderItem={({ item }) =>
-                    <RestaurantItem item={item} showText={this.state.showText} />
+                  renderItem={({ item, section }) =>
+                    <RestaurantItem
+                      item={item}
+                      section={section}
+                      showText={this.state.showText}
+                      addRemoveItemQuantity={(itemId, op) => this.props.addRemoveItemQuantity(section._id, itemId, op)}
+                      changeItemRating={(itemId, rating) => this.props.changeItemRating(section._id, itemId, rating)}
+                    />
                   }
                 />
               </View>
@@ -311,7 +316,7 @@ export default class RestaurantDetails extends Component {
 
           <Checkout ref={modal => this.modal = modal}
             getCurrentIndex={(index) => this.getIndex(index)}
-            restaurantName={this.props.navigation.state.params.item.name}/>
+            restaurantName={this.props.data.data.name}/>
       </View>
     );
   }

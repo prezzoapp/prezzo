@@ -184,22 +184,14 @@ export default class AccountInfo extends React.Component {
           dayOfWeek === newHours[i].dayOfWeek &&
           ((openTimeHour >= newHours[i].openTimeHour &&
             openTimeHour <= newHours[i].closeTimeHour) ||
-          (closeTimeHour >= newHours[i].openTimeHour &&
-            closeTimeHour <= newHours[i].closeTimeHour) ||
-          (openTimeHour <= newHours[i].openTimeHour &&
-              closeTimeHour >= newHours[i].closeTimeHour &&
-              newHours[i].closeTimeHour !== 0) ||
-            openTimeHour >= closeTimeHour ||
-            (openTimeHour < 12 && closeTimeHour >= 12))
+            (closeTimeHour >= newHours[i].openTimeHour &&
+              closeTimeHour <= newHours[i].closeTimeHour) ||
+            (openTimeHour <= newHours[i].openTimeHour &&
+              closeTimeHour >= newHours[i].closeTimeHour && newHours[i].closeTimeHour !== 0))
         ) {
           console.log('Invalid day.');
           console.log("I: ", i);
           break;
-        } else if (dayOfWeek !== newHours[i].dayOfWeek &&
-          (openTimeHour >= closeTimeHour)) {
-            console.log('Invalid day.');
-            console.log("I: ", i);
-            break;
         } else if (i === newHours.length - 1) {
           console.log("I: ", i);
           newHours.push({
