@@ -13,12 +13,21 @@ import {
 
 const INITIAL_STATE = fromJS({
   isBusy: false,
-  data: {}
+  data: {},
+  totalPrice: 0,
+  tax: 2.43
 });
+
+calculatePrice = (categories) => {
+  categories.map(category => {
+    console.log(category.get('data').toJS());
+  })
+};
 
 export default (state = INITIAL_STATE, action) => {
   let restaurant = null;
   let updatedMenuCategories = null;
+  let updatedPrice = 0.00;
 
   switch(action.type) {
     case ADD_RESTAURANT_DETAIL_REQUEST:
@@ -70,6 +79,8 @@ export default (state = INITIAL_STATE, action) => {
           ))
         }
       );
+
+      updatedPrice = calculatePrice(updatedMenuCategories);
 
       return state.updateIn(
         ['data', 'menu', 'categories'],

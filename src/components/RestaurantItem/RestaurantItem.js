@@ -10,9 +10,18 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import Swiper from 'react-native-swiper';
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+
 import styles from './styles';
 
 import RatingBar from '../RatingBar';
+
+import Button from '../Button';
+
+import { FONT_FAMILY, COLOR_WHITE } from '../../services/constants';
 
 export default class RestaurantItem extends Component {
   constructor(props) {
@@ -47,7 +56,7 @@ export default class RestaurantItem extends Component {
             <Text style={styles.itemIngradients}>{this.props.item.description}</Text>
           </View>
           <View style={styles.rightSideContainer}>
-            {this.state.quantity === 0 ? (
+            {this.props.item.quantity === 0 ? (
               <TouchableOpacity
                 activeOpacity={0.6}
                 onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'add')}
@@ -106,24 +115,36 @@ export default class RestaurantItem extends Component {
         </Swiper>
 
         <View style={styles.bottomContentHolder}>
-          <View style={styles.controlButtons}>
-            <TouchableOpacity
-              activeOpacity={0.6}
-              onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'remove')}
-            >
-              <Icon name="minus" size={16} color="white" />
-            </TouchableOpacity>
-
-            <Text style={styles.quantityTextStyleInPhotoMode}>
-              {this.props.item.quantity}
-            </Text>
-
-            <TouchableOpacity
-              activeOpacity={0.6}
+          <View>
+          {(this.props.item.quantity === 0) ? (
+            <Button
+              style={itemOrderBtnStyles.commonBtn}
+              textStyle={itemOrderBtnStyles.commonBtnText}
               onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'add')}
             >
-              <Icon name="plus" size={16} color="white" />
-            </TouchableOpacity>
+              Order
+            </Button>
+          ) : (
+            <View style={styles.controlButtons}>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'remove')}
+              >
+                <Icon name="minus" size={16} color="white" />
+              </TouchableOpacity>
+
+              <Text style={styles.quantityTextStyleInPhotoMode}>
+                {this.props.item.quantity}
+              </Text>
+
+              <TouchableOpacity
+                activeOpacity={0.6}
+                onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'add')}
+              >
+                <Icon name="plus" size={16} color="white" />
+              </TouchableOpacity>
+            </View>
+          )}
           </View>
 
           <View>
@@ -137,6 +158,28 @@ export default class RestaurantItem extends Component {
     );
   }
 }
+
+const itemOrderBtnStyles = {
+  commonBtn: {
+    backgroundColor: 'transparent',
+    borderColor: '#0DD24A',
+    borderWidth: 2,
+    width: wp('19.2%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    padding: 0,
+    height: hp('4.55%')
+  },
+  commonBtnText: {
+    fontSize: wp('3.73%'),
+    fontFamily: FONT_FAMILY,
+    color: COLOR_WHITE,
+    paddingTop: 0,
+    paddingBottom: 0,
+    justifyContent: 'center'
+  }
+};
 
 RestaurantItem.propTypes = {
   item: PropTypes.object.isRequired,

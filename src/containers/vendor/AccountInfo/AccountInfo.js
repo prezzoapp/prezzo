@@ -138,6 +138,54 @@ export default class AccountInfo extends React.Component {
     this.setState({categories: newCategories});
   }
 
+  checkCloseBeforeOpen(openTimeHour, closeTimeHour) {
+    if(closeTimeHour <= openTimeHour) {
+      return true;
+    }
+
+    return false;
+  }
+
+  checkSameDay(existingHours, dayOfWeek) {
+    return existingHours.filter(item => item.dayOfWeek === dayOfWeek);
+  }
+
+  checkOpenHours(hours, openTimeHour) {
+    for(let i = 0; i < hours.length; i++) {
+      if (
+        openTimeHour >= hours[i].openTimeHour &&
+        openTimeHour <= hours[i].closeTimeHour
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  checkCloseHours(hours, closeTimeHour) {
+    for(let i = 0; i < hours.length; i++) {
+      if (
+        closeTimeHour >= hours[i].openTimeHour &&
+        closeTimeHour <= hours[i].closeTimeHour
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  checkIntervalHours(hours, openTimeHour, closeTimeHour) {
+    let selectedSlot = new Set(Array.from({length: closeTimeHour - openTimeHour + 1}, (v, i) => openTimeHour + i));
+    for(let i = 0; i < hours.length; i++) {
+      let slot = new Set(Array.from({length: hours[i].closeTimeHour - hours[i].openTimeHour + 1}, (v, j) => hours[i].openTimeHour + j));
+      const intersection = new Set([...selectedSlot].filter(x => slot.has(x)));
+      if (intersection.size >= 2) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   addSelectedHoursOfOperation() {
     const {
       hours,
@@ -147,8 +195,6 @@ export default class AccountInfo extends React.Component {
     } = this.state;
 
     const dayOfWeek = parseInt(selectedHoursDay);
-
-    console.log("Day of week: ", dayOfWeek);
 
     const closeTimeSplit = selectedClosingTime.split(':');
     const closeTimeHour = parseInt(closeTimeSplit[0]);
@@ -160,60 +206,61 @@ export default class AccountInfo extends React.Component {
 
     const newHours = [...hours];
 
-    //console.log(newHours.length);
+    const latestSelectedHour = [];
+    latestSelectedHour.push({
+      dayOfWeek,
+      closeTimeHour,
+      closeTimeMinutes,
+      openTimeHour,
+      openTimeMinutes
+    });
+
+    console.log('close before open',this.checkCloseBeforeOpen(openTimeHour, closeTimeHour));
+    console.log('check open hour',this.checkOpenHours(this.checkSameDay(newHours, dayOfWeek), openTimeHour));
+    console.log('check close hour',this.checkCloseHours(this.checkSameDay(newHours, dayOfWeek), closeTimeHour));
+    console.log('check interval',this.checkIntervalHours(this.checkSameDay(newHours, dayOfWeek), openTimeHour, closeTimeHour));
+
 
     if(newHours.length === 0) {
+      if(this.checkCloseBeforeOpen(openTimeHour, closeTimeHour) === false) {
+        newHours.push({
+          dayOfWeek,
+          closeTimeHour,
+          closeTimeMinutes,
+          openTimeHour,
+          openTimeMinutes
+        });
+
+        this.setState(() => {
+          return {
+            hours: newHours
+          }
+        });
+      }
+    } else if (
+      this.checkCloseBeforeOpen(openTimeHour, closeTimeHour) ||
+      this.checkOpenHours(this.checkSameDay(newHours, dayOfWeek), openTimeHour) ||
+      this.checkCloseHours(this.checkSameDay(newHours, dayOfWeek), closeTimeHour) ||
+      this.checkIntervalHours(this.checkSameDay(newHours, dayOfWeek), openTimeHour, closeTimeHour) !== false
+    ) {
+      return false;
+    } else {
       newHours.push({
-        dayOfWeek,
+      dayOfWeek,
         closeTimeHour,
         closeTimeMinutes,
         openTimeHour,
         openTimeMinutes
       });
 
-      console.log(newHours);
-
       this.setState(() => {
         return {
           hours: newHours
         }
       });
-    } else {
-      for (let i = 0; i < newHours.length; i++) {
-        if (
-          dayOfWeek === newHours[i].dayOfWeek &&
-          ((openTimeHour >= newHours[i].openTimeHour &&
-            openTimeHour <= newHours[i].closeTimeHour) ||
-            (closeTimeHour >= newHours[i].openTimeHour &&
-              closeTimeHour <= newHours[i].closeTimeHour) ||
-            (openTimeHour <= newHours[i].openTimeHour &&
-              closeTimeHour >= newHours[i].closeTimeHour && newHours[i].closeTimeHour !== 0))
-        ) {
-          console.log('Invalid day.');
-          console.log("I: ", i);
-          break;
-        } else if (i === newHours.length - 1) {
-          console.log("I: ", i);
-          newHours.push({
-            dayOfWeek,
-            closeTimeHour,
-            closeTimeMinutes,
-            openTimeHour,
-            openTimeMinutes
-          });
-
-          console.log(newHours);
-
-          this.setState(() => {
-            return {
-              hours: newHours
-            }
-          });
-
-          break;
-        }
-      }
     }
+
+    this.checkIntervalHours(newHours, openTimeHour, closeTimeHour);
   }
 
   removeHoursOfOperationAtIndex(index) {

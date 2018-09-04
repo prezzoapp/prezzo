@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, SectionList, Image, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 import {
   widthPercentageToDP as wp,
@@ -21,53 +21,6 @@ export default class CheckoutSwiper extends Component {
     super(props);
 
     this.state = {
-      data: [
-        {
-          id: 1,
-          name: 'Cucumber Salad',
-          quantity: 1
-        },
-        {
-          id: 2,
-          name: 'Sushi Sampler',
-          quantity: 1
-        },
-        {
-          id: 3,
-          name: 'Original Poke',
-          quantity: 1
-        },
-        {
-          id: 4,
-          name: 'Cucumber Salad',
-          quantity: 1
-        },
-        {
-          id: 5,
-          name: 'Sushi Sampler',
-          quantity: 1
-        },
-        {
-          id: 6,
-          name: 'Original Poke',
-          quantity: 1
-        },
-        {
-          id: 7,
-          name: 'Cucumber Salad',
-          quantity: 1
-        },
-        {
-          id: 8,
-          name: 'Sushi Sampler',
-          quantity: 1
-        },
-        {
-          id: 9,
-          name: 'Original Poke',
-          quantity: 1
-        }
-      ],
       cardNumber: '1234345345533345',
 
       showBackButton: false
@@ -82,6 +35,14 @@ export default class CheckoutSwiper extends Component {
   scrollForward() {
     this.swiper.scrollBy(1);
   }
+
+  // goToHome(currentSlideIndex) {
+  //   const currentIndex = currentSlideIndex;
+  //
+  //   if(currentIndex > 0) {
+  //     this.swiper.scrollBy(currentIndex * (-1), true);
+  //   }
+  // }
 
   backBtnVisibility(index) {
     if(index === 0) {
@@ -103,6 +64,53 @@ export default class CheckoutSwiper extends Component {
     }
   }
 
+  renderItem(item, section) {
+    if(item.quantity > 0) {
+      return (
+        <View style={styles.item}>
+          <Text style={styles.itemName}>{item.title}</Text>
+          <View style={styles.actionBtnsHolder}>
+            <TouchableOpacity
+              activeOpacity={0.6}
+              style={styles.quantityBtn}
+              onPress={() =>
+                this.props.addRemoveItemQuantity(
+                  section._id,
+                  item._id,
+                  'remove'
+                )
+              }
+            >
+              <Icon
+                name="minus"
+                size={wp('4.9%')}
+                color="#2ED573"
+              />
+            </TouchableOpacity>
+
+            <Text style={styles.quantity}>{item.quantity}</Text>
+
+            <TouchableOpacity
+              activeOpacity={0.6}
+              style={styles.quantityBtn}
+              onPress={() =>
+                this.props.addRemoveItemQuantity(
+                  section._id,
+                  item._id,
+                  'add'
+                )
+              }
+            >
+              <Icon name="plus" size={wp('4.9%')} color="#2ED573" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    } else {
+      return null;
+    }
+  };
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -116,6 +124,7 @@ export default class CheckoutSwiper extends Component {
         )}
 
         <Swiper
+          showsPagination={false}
           ref={swiper => {
             this.swiper = swiper;
           }}
@@ -134,37 +143,12 @@ export default class CheckoutSwiper extends Component {
 
                 <Text style={styles.reviewOrderText}>Review Order</Text>
 
-                <FlatList
-                  data={this.state.data}
+                <SectionList
+                  sections={this.props.data}
                   showsVerticalScrollIndicator={false}
                   style={styles.flatList}
-                  keyExtractor={item => item.id}
-                  renderItem={({item}) =>
-                    <View style={styles.item}>
-                      <Text style={styles.itemName}>{item.name}</Text>
-                      <View style={styles.actionBtnsHolder}>
-                        <TouchableOpacity
-                          activeOpacity={0.6}
-                          style={styles.quantityBtn}
-                        >
-                          <Icon
-                            name="minus"
-                            size={wp('4.9%')}
-                            color="#2ED573"
-                          />
-                        </TouchableOpacity>
-
-                        <Text style={styles.quantity}>{item.quantity}</Text>
-
-                        <TouchableOpacity
-                          activeOpacity={0.6}
-                          style={styles.quantityBtn}
-                        >
-                          <Icon name="plus" size={wp('4.9%')} color="#2ED573" />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  }
+                  keyExtractor={item => item._id}
+                  renderItem={({ item, section }) => this.renderItem(item, section)}
                 />
               </View>
 

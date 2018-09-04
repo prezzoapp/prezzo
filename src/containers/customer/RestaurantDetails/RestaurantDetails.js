@@ -45,7 +45,7 @@ export default class RestaurantDetails extends Component {
     headerStyle: {
       position: 'absolute',
       backgroundColor: 'transparent',
-      zIndex: 100,
+      zIndex: -1,
       top: 0,
       left: 0,
       right: 0,
@@ -58,27 +58,10 @@ export default class RestaurantDetails extends Component {
   constructor(props) {
     super(props);
 
-    const item = fromJS({ vendor: props.navigation.state.params.item });
-
-    let modifiedCategories;
-
-    if(item.get('vendor').has('menu')) {
-      modifiedCategories = item
-        .get('vendor')
-        .get('menu')
-        .get('categories')
-        .map(singleItem =>
-          singleItem.set('data', singleItem.get('items')).delete('items')
-        ).toJS();
-    } else {
-      modifiedCategories = null;
-    }
-
     this.state = {
       showText: false,
-      categories: modifiedCategories,
       modalVisible: false,
-      currentSlideIndex: null
+      currentSlideIndex: -1
     }
     this.toggleViewFun = this.toggleViewFun.bind(this);
     this.onOrderBtnClick = this.onOrderBtnClick.bind(this);
@@ -88,28 +71,20 @@ export default class RestaurantDetails extends Component {
   }
 
   componentWillMount() {
-    // PASS RESTAURANT DETAIL TO redux
-    console.log("Did Mount Called!");
     this.props.addRestaurantDetail(this.props.navigation.state.params.item);
   }
 
   onOrderBtnClick() {
-    if(this.state.currentSlideIndex === null) {
-      if(this.modal) {
-        this.modal.showModal();
-        this.getIndex(0);
-      }
+    if(this.state.currentSlideIndex === -1 && this.modal) {
+      this.modal.getWrappedInstance().showModal();
+      this.setIndex(0);
     } else if (
       this.state.currentSlideIndex < 2 &&
       this.state.currentSlideIndex >= 0
     ) {
-      this.getIndex(this.state.currentSlideIndex + 1, this.callbackFunction);
-    } else if (
-      this.state.currentSlideIndex === 2 &&
-      this.modal &&
-      this.state.modalVisible === false
-    ) {
-      this.modal.hideModal();
+      this.setIndex(this.state.currentSlideIndex + 1, this.callbackFunction);
+    } else if (this.state.currentSlideIndex === 2 && this.modal) {
+      this.modal.getWrappedInstance().hideModal();
       this.setState(() => {
         return {
           modalVisible: true
@@ -118,7 +93,7 @@ export default class RestaurantDetails extends Component {
     }
   }
 
-  getIndex(index, callback = null) {
+  setIndex(index, callback = null) {
     this.setState(() => {
       return {
         currentSlideIndex: index
@@ -131,8 +106,12 @@ export default class RestaurantDetails extends Component {
     );
   }
 
+  resetCurrentIndex() {
+    this.setIndex(-1);
+  }
+
   callbackFunction() {
-    this.modal.scrollForward();
+    this.modal.getWrappedInstance().scrollForward();
   }
 
   toggleViewFun() {
@@ -298,7 +277,7 @@ export default class RestaurantDetails extends Component {
               textStyle={buttonStyles.btnText}
               onPress={this.onOrderBtnClick}
             >
-            {this.state.currentSlideIndex === null
+            {this.state.currentSlideIndex === -1
               ? 'Place Order'
               : this.state.currentSlideIndex < 2
                 ? 'Next'
@@ -315,7 +294,8 @@ export default class RestaurantDetails extends Component {
           )}
 
           <Checkout ref={modal => this.modal = modal}
-            getCurrentIndex={(index) => this.getIndex(index)}
+            setCurrentIndex={(index) => this.setIndex(index)}
+            resetCurrentIndex={() => this.resetCurrentIndex()}
             restaurantName={this.props.data.data.name}/>
       </View>
     );

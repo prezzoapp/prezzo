@@ -22,8 +22,8 @@ import CheckoutSwiper from '../../../components/CheckoutSwiper';
 const height = Dimensions.get('window').height;
 
 export default class Checkout extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = { cardNumber: '1234345345533345' }
 
@@ -34,6 +34,8 @@ export default class Checkout extends Component {
     this.onScrollEnd = this.onScrollEnd.bind(this);
 
     this.showModalAnimatedValue = new Animated.Value(0);
+
+    this.panResponder = null;
   }
 
   onScrollEnd(xValue, index) {
@@ -42,7 +44,7 @@ export default class Checkout extends Component {
       y: 0,
       animated: false });
 
-    this.props.getCurrentIndex(index);
+    this.props.setCurrentIndex(index);
   }
 
   scrollForward() {
@@ -61,6 +63,7 @@ export default class Checkout extends Component {
 
   hideModal() {
     this.showModalAnimatedValue.setValue(1);
+    this.props.resetCurrentIndex();
 
     Animated.timing(this.showModalAnimatedValue, {
       toValue: 0,
@@ -70,6 +73,7 @@ export default class Checkout extends Component {
   }
 
   render() {
+
     const modalAnimation = this.showModalAnimatedValue.interpolate({
       inputRange: [0, 1],
       outputRange: [height, 0]
@@ -77,12 +81,16 @@ export default class Checkout extends Component {
 
     return (
       <Animated.View
-        onPress={() => this.hideModal()}
         style={[
           styles.container,
           { transform: [{ translateY: modalAnimation }] }
         ]}
       >
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => this.hideModal(this.state.currentSlideIndex)}
+          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+        />
         <View style={styles.modalView}>
           <BlurView style={styles.blurView} blurType="dark" blurAmount={5} />
           <View style={{ flex: 1 }}>
@@ -104,26 +112,26 @@ export default class Checkout extends Component {
               >
                 <View style={styles.tabBarIconsHolder} />
 
-                <TouchableOpacity style={styles.tabBarIconsHolder}>
+                <View style={styles.tabBarIconsHolder}>
                   <Image
                     source={require('../../../../assets/images/checkout_icons/review_icon.png')}
                     style={{ height: 30, width: 30, resizeMode: 'contain' }}
                   />
-                </TouchableOpacity>
+                </View>
 
-                <TouchableOpacity style={styles.tabBarIconsHolder}>
+                <View style={styles.tabBarIconsHolder}>
                   <Image
                     source={require('../../../../assets/images/filters/dinner_filter.png')}
                     style={{ height: 30, width: 30, resizeMode: 'contain' }}
                   />
-                </TouchableOpacity>
+                </View>
 
-                <TouchableOpacity style={styles.tabBarIconsHolder}>
+                <View style={styles.tabBarIconsHolder}>
                   <Image
                     source={require('../../../../assets/images/checkout_icons/payment_icon.png')}
                     style={{ height: 30, width: 30, resizeMode: 'contain' }}
                   />
-                </TouchableOpacity>
+                </View>
 
                 <View style={styles.tabBarIconsHolder} />
               </ScrollView>
@@ -136,6 +144,10 @@ export default class Checkout extends Component {
               restaurantName={this.props.restaurantName}
               onScrollingEnd={(xValue, index) =>
                 this.onScrollEnd(xValue, index)
+              }
+              data={this.props.data}
+              addRemoveItemQuantity={(categoryId, itemId, op) =>
+                this.props.addRemoveItemQuantity(categoryId, itemId, op)
               }
             />
           </View>
