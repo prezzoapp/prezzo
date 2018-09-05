@@ -13,21 +13,25 @@ import {
 
 const INITIAL_STATE = fromJS({
   isBusy: false,
-  data: {},
-  totalPrice: 0,
-  tax: 2.43
+  data: null,
+  totalPrice: 0.0
 });
 
-calculatePrice = (categories) => {
+calculateFinalPrice = (categories) => {
+  let price = 0;
+
   categories.map(category => {
-    console.log(category.get('data').toJS());
-  })
-};
+    category.get('data').map(item => {
+      price += item.get('quantity') * item.get('price')
+    });
+  });
+
+  return parseFloat(price);
+}
 
 export default (state = INITIAL_STATE, action) => {
   let restaurant = null;
   let updatedMenuCategories = null;
-  let updatedPrice = 0.00;
 
   switch(action.type) {
     case ADD_RESTAURANT_DETAIL_REQUEST:
@@ -38,24 +42,26 @@ export default (state = INITIAL_STATE, action) => {
     case CHANGE_ITEM_RATING_FAILURE:
       return state.update('isBusy', () => true);
     case ADD_RESTAURANT_DETAIL_SUCCESS:
-      restaurant = state.update('data', () => action.payload);
+      restaurant = state.set('data', action.payload);
 
-      if(restaurant.get('data').has('menu')) {
-        updatedMenuCategories = restaurant.get('data').get('menu').get('categories').map((category) => {
-          return category.set('data', category.get('items').map((item) => {
-            return item.set('quantity', 0).set('rating', 1);
-          })).delete('items');
-        });
+      if(restaurant.get('data').hasIn(['menu'])) {
+        if(restaurant.get('data').hasIn(['menu', 'categories'])) {
+          if(restaurant.get('data').get('menu').get('categories').size !== 0) {
+            updatedMenuCategories = restaurant.get('data').get('menu').get('categories').map((category) => {
+              return category.set('data', category.get('items').map((item) => {
+                return item.set('quantity', 0).set('rating', 1);
+              })).delete('items');
+            });
 
-        return restaurant.updateIn(
-          ['data', 'menu', 'categories'],
-          categories => updatedMenuCategories
-        ).update('isBusy', () => false);
+            return restaurant.updateIn(
+              ['data', 'menu', 'categories'],
+              categories => updatedMenuCategories
+            ).update('isBusy', () => false);
+          }
+        }
       }
 
-      return state
-        .update('isBusy', () => false)
-        .update('data', () => action.payload);
+      return restaurant.set('isBusy', false);
 
     case ADD_REMOVE_ITEM_QUANTITY_SUCCESS:
       updatedMenuCategories = state.get('data').get('menu').get('categories').update(
@@ -80,12 +86,15 @@ export default (state = INITIAL_STATE, action) => {
         }
       );
 
-      updatedPrice = calculatePrice(updatedMenuCategories);
-
       return state.updateIn(
         ['data', 'menu', 'categories'],
         categories => updatedMenuCategories
-      ).update('isBusy', () => false);
+        )
+        .update(
+          'totalPrice', () =>
+          this.calculateFinalPrice(updatedMenuCategories)
+        )
+        .update('isBusy', () => false);
 
       case CHANGE_ITEM_RATING_SUCCESS:
         updatedMenuCategories = state.get('data').get('menu').get('categories').update(

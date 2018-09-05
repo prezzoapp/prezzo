@@ -70,10 +70,6 @@ export default class RestaurantDetails extends Component {
     this.scrollAnimatedValue = new Animated.Value(0);
   }
 
-  componentWillMount() {
-    this.props.addRestaurantDetail(this.props.navigation.state.params.item);
-  }
-
   onOrderBtnClick() {
     if(this.state.currentSlideIndex === -1 && this.modal) {
       this.modal.getWrappedInstance().showModal();
@@ -149,105 +145,128 @@ export default class RestaurantDetails extends Component {
       outputRange: [1, 0]
     });
 
-    return (
-      <View style={[styles.container, { paddingTop: Header.HEIGHT + 5 }]}>
-        <ImageBackground
-          source={require('../../../../assets/images/photo_back.png')}
-          style={styles.photo_back}>
-          <LinearGradient
-            colors={['transparent', 'black']}
-            style={styles.LinearGradientStyle}
-          />
-        </ImageBackground>
-
-        <Animated.View
-          style={{
-            height: animatedHeader,
-            overflow: 'hidden',
-            opacity: animatedOpacity,
-            paddingHorizontal: 15
-          }}
-        >
-          <View style={styles.contentContainer}>
-            <Image
-              source={{ uri: this.props.data.data.avatarURL }}
-              style={styles.logo}
+    if(this.props.data.data) {
+      return (
+        <View style={[styles.container, { paddingTop: Header.HEIGHT + 5 }]}>
+          <ImageBackground
+            source={require('../../../../assets/images/photo_back.png')}
+            style={styles.photo_back}>
+            <LinearGradient
+              colors={['transparent', 'black']}
+              style={styles.LinearGradientStyle}
             />
-            <View style={[styles.headerTextContainer, styles.transparent]}>
-              <Text style={styles.headerTitleText}>
-                {this.props.data.data.location.address},{' '}
-                {this.props.data.data.location.regionShort},{' '}
-                {this.props.data.data.location.postalCode}
-              </Text>
-              <View style={styles.headerContentTextContainer}>
-                <Icon name="package" size={22} color="white" />
-                <Text style={[styles.transparent, styles.headerContentText]}>
-                  Delivery
-                </Text>
-              </View>
-              <View style={styles.headerContentTextContainer}>
-                <Icon name="clock" size={22} color="white" />
-                <Text style={[styles.transparent, styles.headerContentText]}>
-                  8 Mins Wait Time
-                </Text>
-              </View>
-            </View>
-          </View>
+          </ImageBackground>
 
-          <View style={styles.toggleBtnsSection}>
-            <View style={styles.buttonHolder}>
-              <TouchableOpacity
-                activeOpacity={1}
-                style={styles.headerBtns}
-                onPress={this.toggleViewFun}
-              >
-                <Text style={styles.headerBtnText}>Photo</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={1}
-                style={styles.headerBtns}
-                onPress={this.toggleViewFun}
-              >
-                <Text style={styles.headerBtnText}>Text</Text>
-              </TouchableOpacity>
-              <View
-                style={[
-                  styles.toggleView,
-                  { left: this.state.showText ? 80 : 0 }
-                ]}
-              >
-                <LinearGradient
-                  colors={['#707070', '#1E1E1E']}
-                  style={[styles.headerBtns, styles.linearGradientBtn]}
-                >
-                  <Text style={styles.selectedBtnText}>{this.state.showText ? 'Text' : 'Photo'}</Text>
-                </LinearGradient>
+          <Animated.View
+            style={{
+              height: animatedHeader,
+              overflow: 'hidden',
+              opacity: animatedOpacity,
+              paddingHorizontal: 15
+            }}
+          >
+            <View style={styles.contentContainer}>
+              <Image
+                source={{ uri: this.props.navigation.state.params.item.avatarURL }}
+                style={styles.logo}
+              />
+              <View style={[styles.headerTextContainer, styles.transparent]}>
+                <Text style={styles.headerTitleText}>
+                  {this.props.navigation.state.params.item.location.address},{' '}
+                  {this.props.navigation.state.params.item.location.regionShort},{' '}
+                  {this.props.navigation.state.params.item.location.postalCode}
+                </Text>
+                <View style={styles.headerContentTextContainer}>
+                  <Icon name="package" size={22} color="white" />
+                  <Text style={[styles.transparent, styles.headerContentText]}>
+                    Delivery
+                  </Text>
+                </View>
+                <View style={styles.headerContentTextContainer}>
+                  <Icon name="clock" size={22} color="white" />
+                  <Text style={[styles.transparent, styles.headerContentText]}>
+                    8 Mins Wait Time
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-        </Animated.View>
 
-        {(this.props.data.data.menu &&
-          this.props.data.data.menu.categories.length === 0) ? (
-            <View style={styles.messageHolder}>
-              <Text style={styles.message}>Does not have Items.</Text>
-            </View>
-          ) : (
-            (this.props.data.data["menu"] === undefined) ? (
-              <View style={styles.messageHolder}>
-                <Text style={styles.message}>Does not have Menu.</Text>
-              </View>
-            ) : (
-              <View style={{flex: 1}}>
+            {(() => {
+              if (
+                this.props.navigation.state.params.item['menu'] !== undefined &&
+                this.props.navigation.state.params.item.menu.categories !== undefined &&
+                this.props.navigation.state.params.item.menu.categories.length > 0
+              ) {
+                return (
+                  <View style={styles.toggleBtnsSection}>
+                    <View style={styles.buttonHolder}>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        style={styles.headerBtns}
+                        onPress={this.toggleViewFun}
+                      >
+                        <Text style={styles.headerBtnText}>Photo</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        style={styles.headerBtns}
+                        onPress={this.toggleViewFun}
+                      >
+                        <Text style={styles.headerBtnText}>Text</Text>
+                      </TouchableOpacity>
+                      <View
+                        style={[
+                          styles.toggleView,
+                          { left: this.state.showText ? 80 : 0 }
+                        ]}
+                      >
+                        <LinearGradient
+                          colors={['#707070', '#1E1E1E']}
+                          style={[styles.headerBtns, styles.linearGradientBtn]}
+                        >
+                          <Text style={styles.selectedBtnText}>{this.state.showText ? 'Text' : 'Photo'}</Text>
+                        </LinearGradient>
+                      </View>
+                    </View>
+                  </View>
+                );
+              }
+            })()}
+          </Animated.View>
+
+          <View style={{ flex: 1 }}>
+            {(() => {
+              if (
+                this.props.navigation.state.params.item.menu &&
+                this.props.navigation.state.params.item.menu.categories.length === 0
+              ) {
+                return(
+                  <View style={styles.messageHolder}>
+                    <Text style={styles.message}>Does not have Items.</Text>
+                  </View>
+                );
+              } else if (!this.props.navigation.state.params.item.menu) {
+                return (
+                  <View style={styles.messageHolder}>
+                    <Text style={styles.message}>Does not have Menu.</Text>
+                  </View>
+                );
+              }
+              return (
                 <AnimatedSectionList
                   bounces={false}
                   keyExtractor={item => item._id.toString()}
                   onScroll={Animated.event([
                     {
-                      nativeEvent: { contentOffset: { y: this.scrollAnimatedValue } }
+                      nativeEvent: {
+                        contentOffset: { y: this.scrollAnimatedValue }
+                      }
                     }]
                   )}
-                  contentContainerStyle={{ paddingBottom: 85, paddingHorizontal: 15 }}
+                  contentContainerStyle={{
+                    paddingBottom: 85,
+                    paddingHorizontal: 15
+                  }}
                   sections={this.props.data.data.menu.categories}
                   renderSectionHeader={({ section }) =>
                     this.renderSectionHeader(section)
@@ -262,42 +281,64 @@ export default class RestaurantDetails extends Component {
                     />
                   }
                 />
-              </View>
-            )
-          )}
-
-          <View style={styles.bottomViewHolder}>
-            <BlurView
-              style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0}}
-              blurType="dark"
-              blurAmount={10}
-            />
-            <Button
-              style={buttonStyles.placeOrderBtn}
-              textStyle={buttonStyles.btnText}
-              onPress={this.onOrderBtnClick}
-            >
-            {this.state.currentSlideIndex === -1
-              ? 'Place Order'
-              : this.state.currentSlideIndex < 2
-                ? 'Next'
-                : 'Complete Order'}
-            </Button>
-
-            <Text style={styles.totalPrice}>Total $35.42</Text>
+              );
+            })()}
           </View>
 
-          {(this.state.modalVisible) ? (
+          {(() => {
+            if (
+              (this.props.data.data.menu &&
+                this.props.data.data.menu.categories.length === 0) ||
+              this.props.data.data.menu === undefined
+            ) {
+              return null;
+            }
+            return (
+              <View style={styles.bottomViewHolder}>
+                <BlurView
+                  style={styles.bottomViewBlurContainer}
+                  blurType="dark"
+                  blurAmount={10}
+                />
+                <Button
+                  style={buttonStyles.placeOrderBtn}
+                  textStyle={buttonStyles.btnText}
+                  onPress={this.onOrderBtnClick}
+                >
+                  {(() => {
+                    if (this.state.currentSlideIndex === -1) {
+                      return 'Place Order';
+                    } else if (this.state.currentSlideIndex < 2) {
+                      return 'Next';
+                    }
+                    return 'Complete Order';
+                  })()}
+                </Button>
+
+                <Text style={styles.totalPrice}>
+                  Total $
+                  {parseFloat(
+                    this.props.data.totalPrice +
+                      (this.props.data.totalPrice * 2.43) / 100
+                  ).toFixed(2)}
+                </Text>
+              </View>
+            );
+          })()}
+
+          {this.state.modalVisible ? (
             <CustomPopup modalVisible={this.state.modalVisible}/>
-          ) : (
-            null
-          )}
+          ) : null}
 
           <Checkout ref={modal => this.modal = modal}
             setCurrentIndex={(index) => this.setIndex(index)}
             resetCurrentIndex={() => this.resetCurrentIndex()}
             restaurantName={this.props.data.data.name}/>
-      </View>
+        </View>
+      );
+    }
+    return (
+      <View style={{flex: 1, backgroundColor: 'red'}} />
     );
   }
 }

@@ -12,9 +12,7 @@ import {
   CHANGE_ITEM_RATING_FAILURE
 } from './types';
 
-export const addRestaurantDetail = async (
-  restaurant: object
-) => async dispatch => {
+export const addRestaurantDetail = (restaurant: object) => dispatch => {
   dispatch({ type: ADD_RESTAURANT_DETAIL_REQUEST });
 
   try {
@@ -27,11 +25,11 @@ export const addRestaurantDetail = async (
   }
 };
 
-export const addRemoveItemQuantity = async (
+export const addRemoveItemQuantity = (
   sectionId: string,
   itemId: string,
   op: string
-) => async dispatch => {
+) => dispatch => {
   dispatch({ type: ADD_REMOVE_ITEM_QUANTITY_REQUEST });
 
   try {

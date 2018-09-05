@@ -21,7 +21,11 @@ export default class ExploreList extends PureComponent {
         keyExtractor={(item, index) => index.toString()}
         data={restaurants}
         renderItem={({ item }) => (
-          <ExploreListItem item={item} navigate={this.props.navigate} />
+          <ExploreListItem
+            item={item}
+            navigate={this.props.navigate}
+            addRestaurantDetail={this.props.addRestaurantDetail}
+          />
         )}
       />
     );

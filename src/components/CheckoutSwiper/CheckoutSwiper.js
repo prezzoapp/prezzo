@@ -25,9 +25,12 @@ export default class CheckoutSwiper extends Component {
 
       showBackButton: false
     };
+
+    this.index = 0;
   }
 
   onMomentumScrollEnd(e, state, context, props) {
+    this.index = state.index;
     this.backBtnVisibility(state.index);
     props.onScrollingEnd(state.offset.x, state.index);
   }
@@ -45,23 +48,23 @@ export default class CheckoutSwiper extends Component {
   // }
 
   backBtnVisibility(index) {
-    if(index === 0) {
-      if(this.state.showBackButton) {
-        this.setState(() => {
-          return {
-            showBackButton: false
-          }
-        });
-      }
-    } else {
-      if(!this.state.showBackButton) {
-        this.setState(() => {
-          return {
-            showBackButton: true
-          }
-        });
-      }
-    }
+    // if(index === 0) {
+    //   if(this.state.showBackButton) {
+    //     this.setState(() => {
+    //       return {
+    //         showBackButton: false
+    //       }
+    //     });
+    //   }
+    // } else {
+    //   if(!this.state.showBackButton) {
+    //     this.setState(() => {
+    //       return {
+    //         showBackButton: true
+    //       }
+    //     });
+    //   }
+    // }
   }
 
   renderItem(item, section) {
@@ -106,22 +109,25 @@ export default class CheckoutSwiper extends Component {
           </View>
         </View>
       );
-    } else {
-      return null;
     }
+    return null;
   };
 
   render() {
     return (
       <View style={{ flex: 1 }}>
-        {this.state.showBackButton && (
-          <TouchableOpacity
-            style={{ position: 'absolute', zIndex: 99999, left: 20, top: wp('1%'), padding: 5 }}
-            onPress={() => this.swiper.scrollBy(-1)}
-          >
-            <Icon name="chevron-left" size={wp('8%')} color="white" />
-          </TouchableOpacity>
-        )}
+        {(() => {
+          if(this.index > 0) {
+            return (
+              <TouchableOpacity
+                style={styles.backBtn}
+                onPress={() => this.swiper.scrollBy(-1)}
+              >
+                <Icon name="chevron-left" size={wp('8%')} color="white" />
+              </TouchableOpacity>
+            );
+          }
+        })()}
 
         <Swiper
           showsPagination={false}
@@ -142,14 +148,19 @@ export default class CheckoutSwiper extends Component {
                 </Text>
 
                 <Text style={styles.reviewOrderText}>Review Order</Text>
-
-                <SectionList
-                  sections={this.props.data}
-                  showsVerticalScrollIndicator={false}
-                  style={styles.flatList}
-                  keyExtractor={item => item._id}
-                  renderItem={({ item, section }) => this.renderItem(item, section)}
-                />
+                {(() => {
+                  if(this.props.data.data.menu) {
+                    return (
+                      <SectionList
+                        sections={this.props.data.data.menu.categories}
+                        showsVerticalScrollIndicator={false}
+                        style={styles.flatList}
+                        keyExtractor={item => item._id}
+                        renderItem={({ item, section }) => this.renderItem(item, section)}
+                      />
+                    );
+                  }
+                })()}
               </View>
 
               <View style={styles.reviewOrderFooter}>
@@ -157,7 +168,7 @@ export default class CheckoutSwiper extends Component {
                   <Text style={styles.reviewOrderFooterText}>
                     SUBTOTAL
                   </Text>
-                  <Text style={[styles.reviewOrderFooterText, {textAlign: 'right'}]}>$33</Text>
+                  <Text style={[styles.reviewOrderFooterText, {textAlign: 'right'}]}>${this.props.data.totalPrice}</Text>
                 </View>
 
                 <View style={styles.reviewOrderFooterContainer}>

@@ -48,6 +48,12 @@ const styles = StyleSheet.create({
   bottomArrowIconContainer: {
     alignItems: 'center',
     paddingTop: wp('2.5%')
+  },
+
+  icon: {
+    height: 30,
+    width: 30,
+    resizeMode: 'contain'
   }
 });
 

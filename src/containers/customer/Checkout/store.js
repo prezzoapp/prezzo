@@ -5,12 +5,7 @@ import { NavigationActions } from 'react-navigation';
 import { addRemoveItemQuantity } from '../../../modules/restaurant';
 
 export const mapStateToProps = state => {
-  const data = state
-    .get('restaurant')
-    .get('data')
-    .get('menu')
-    .get('categories')
-    .toJS();
+  const data = state.get('restaurant').toJS();
 
   return {
     data

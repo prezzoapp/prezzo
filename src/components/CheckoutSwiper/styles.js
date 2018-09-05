@@ -169,6 +169,14 @@ const styles = StyleSheet.create({
   paymentInfoTitle: {
     fontSize: wp('4.8%'),
     color: COLOR_WHITE
+  },
+
+  backBtn: {
+    position: 'absolute',
+    zIndex: 99999,
+    left: wp('5%'),
+    top: wp('1%'),
+    padding: 5
   }
 });
 

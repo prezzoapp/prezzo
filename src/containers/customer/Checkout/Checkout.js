@@ -25,8 +25,6 @@ export default class Checkout extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { cardNumber: '1234345345533345' }
-
     this.value = 0;
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -35,14 +33,16 @@ export default class Checkout extends Component {
 
     this.showModalAnimatedValue = new Animated.Value(0);
 
-    this.panResponder = null;
+    this.index = 0;
   }
 
   onScrollEnd(xValue, index) {
     this.scrollView.scrollTo({
       x: parseFloat(xValue / 3),
       y: 0,
-      animated: false });
+      animated: true });
+
+    this.index = index;
 
     this.props.setCurrentIndex(index);
   }
@@ -88,7 +88,7 @@ export default class Checkout extends Component {
       >
         <TouchableOpacity
           activeOpacity={1}
-          onPress={() => this.hideModal(this.state.currentSlideIndex)}
+          onPress={() => this.hideModal()}
           style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
         />
         <View style={styles.modalView}>
@@ -115,21 +115,21 @@ export default class Checkout extends Component {
                 <View style={styles.tabBarIconsHolder}>
                   <Image
                     source={require('../../../../assets/images/checkout_icons/review_icon.png')}
-                    style={{ height: 30, width: 30, resizeMode: 'contain' }}
+                    style={[styles.icon, {tintColor: (this.index === 0) ? '#2ED573' : null}]}
                   />
                 </View>
 
                 <View style={styles.tabBarIconsHolder}>
                   <Image
                     source={require('../../../../assets/images/filters/dinner_filter.png')}
-                    style={{ height: 30, width: 30, resizeMode: 'contain' }}
+                    style={[styles.icon, {tintColor: (this.index === 1) ? '#2ED573' : null}]}
                   />
                 </View>
 
                 <View style={styles.tabBarIconsHolder}>
                   <Image
                     source={require('../../../../assets/images/checkout_icons/payment_icon.png')}
-                    style={{ height: 30, width: 30, resizeMode: 'contain' }}
+                    style={[styles.icon, {tintColor: (this.index === 2) ? '#2ED573' : null}]}
                   />
                 </View>
 
