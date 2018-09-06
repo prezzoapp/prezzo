@@ -6,20 +6,22 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  StyleSheet
+  StyleSheet,
+  ActionSheetIOS
 } from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {NavigationActions} from 'react-navigation';
-import ImagePicker from 'react-native-image-picker';
-import {uploadImage} from '../../../modules/upload';
-import {updateUser} from '../../../modules/user';
-import {updateAvatarURL, updatePassword, signup} from '../../../modules/Signup';
-import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../../services/constants';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { NavigationActions } from 'react-navigation';
+import { uploadImage } from '../../../modules/upload';
+import { updateUser } from '../../../modules/user';
+import { updateAvatarURL, updatePassword, signup } from '../../../modules/Signup';
+import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import FacebookButton from '../../../components/FacebookButton';
 import Button from '../../../components/Button';
 import NextButton from './NextButton';
+import { ImagePicker, Permissions } from 'expo';
+import { getTimeStampString } from '../../../services/commonFunctions';
 
 type Props = {
   firstName: string,
@@ -160,30 +162,70 @@ class SignupPassword extends React.Component<Props, State> {
 
   componentDidMount() {
     if (this.props.facebookId) {
-      this.setState({showPassword: true});
+      this.setState({ showPassword: true });
     }
   }
 
   showAvatarActionSheet() {
-    ImagePicker.showImagePicker({
-      maxWidth: 800,
-      title: 'Select an avatar',
-      quality: 0.3
-    }, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image upload');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        console.log('Image URI: ', response.uri);
-        this.props.updateAvatarURL(response.uri);
-        this.setState({upload: response});
-      }
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: ['Take Photo', 'Choose from Library', 'Cancel'],
+      cancelButtonIndex: 2,
+      title: 'Select an avatar'
+    },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+
+        } else if (buttonIndex === 1) {
+          this.requestPhotoLibraryPermission()
+
+        } else if (buttonIndex === 2) {
+
+        }
+      });
+  }
+
+  requestPhotoLibraryPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      this.openImageGallery()
+    }
+  }
+
+  requestCameraPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status === 'granted') {
+      this.openCamera()
+    }
+  }
+
+  openImageGallery = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: false,
+      quality: 0.3,
     });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ upload: result }, () => this.uploadPhoto());
+    }
+  }
+
+  openCamera = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: false,
+      quality: 0.3,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ upload: result }, () => this.uploadPhoto());
+    }
   }
 
   isFormValid() {
-    const {password} = this.props;
+    const { password } = this.props;
     return password ? true : false;
   }
 
@@ -191,14 +233,14 @@ class SignupPassword extends React.Component<Props, State> {
     if (!this.state.upload) {
       return;
     }
-
-    const {upload} = this.state;
-    const {fileName, fileSize, uri} = upload;
-    const {updateUser, uploadImage} = this.props;
+    
+    const { uri } = this.state.upload;
+    const { updateUser, uploadImage } = this.props;
+    const fileName = getTimeStampString() + '.jpg'
 
     const avatarURL = await uploadImage(
       uri,
-      fileSize,
+      0,
       'image/jpeg',
       fileName,
       'userAvatar',
@@ -216,21 +258,21 @@ class SignupPassword extends React.Component<Props, State> {
   }
 
   signup() {
-    this.setState({isBusy: true});
+    this.setState({ isBusy: true });
     this.props.signup()
       .then(() => this.uploadPhoto())
       .then(() => this.navigateToSignupComplete())
       .catch(e => console.log('error signing up', e))
-      .finally(() => this.setState({isBusy: false}));
+      .finally(() => this.setState({ isBusy: false }));
   }
 
   navigateToSignupComplete() {
-    this.props.navigate({routeName: 'SignupComplete'});
+    this.props.navigate({ routeName: 'SignupComplete' });
   }
 
   render() {
-    const {showPassword, isBusy} = this.state;
-    const {firstName, email, password, avatarURL} = this.props;
+    const { showPassword, isBusy } = this.state;
+    const { firstName, email, password, avatarURL } = this.props;
 
     return (
       <ImageBackground
@@ -250,8 +292,8 @@ class SignupPassword extends React.Component<Props, State> {
               style={styles.avatar}
               source={
                 avatarURL
-                ? {uri: avatarURL}
-                : require('../../../../assets/images/etc/default-avatar.png')
+                  ? { uri: avatarURL }
+                  : require('../../../../assets/images/etc/default-avatar.png')
               }
             />
             <Image
@@ -276,9 +318,9 @@ class SignupPassword extends React.Component<Props, State> {
             <View style={styles.buttonsContainer}>
               <FacebookButton
                 disabled={isBusy}
-                onStart={() => this.setState({isBusy: true})}
-                onFailure={() => this.setState({isBusy: false})}
-                onCancel={() => this.setState({isBusy: false})}
+                onStart={() => this.setState({ isBusy: true })}
+                onFailure={() => this.setState({ isBusy: false })}
+                onCancel={() => this.setState({ isBusy: false })}
                 onSuccess={(facebookId, accessToken) => {
                   console.log('facebook info', facebookId, accessToken);
                 }}
@@ -286,7 +328,7 @@ class SignupPassword extends React.Component<Props, State> {
 
               <Button
                 style={buttonStyles.password}
-                onPress={() => this.setState({showPassword: true})}
+                onPress={() => this.setState({ showPassword: true })}
               >
                 Create Password
               </Button>

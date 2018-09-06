@@ -18,12 +18,8 @@ class AppView extends Component {
     dispatch: PropTypes.func.isRequired
   };
 
-  componentWillMount(){
-
-    this.loadFonts()
-  }
-
   componentDidMount() {
+    this.loadFonts()
     snapshotUtil.resetSnapshot().then(snapshot => {
       const { dispatch } = this.props;
 
@@ -45,9 +41,7 @@ class AppView extends Component {
       'ClearSans-Medium': require('./../../../../assets/fonts/clear-sans/ClearSans-Medium.ttf'),
       'ClearSans-Bold': require('./../../../../assets/fonts/clear-sans/ClearSans-Bold.ttf'),
     });
-    setTimeout(() => {
-      this.props.dispatch(SessionStateActions.resetStateAfterFontLoaded(true));
-    }, 10000);
+    this.props.dispatch(SessionStateActions.resetStateAfterFontLoaded(true));
    }
 
   render() {
