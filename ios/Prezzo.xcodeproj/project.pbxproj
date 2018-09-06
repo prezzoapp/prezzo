@@ -1156,7 +1156,6 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 3DV26K7BE7;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -1864,7 +1863,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 3DV26K7BE7;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1891,8 +1890,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.prezzo.Prezzo;
 				PRODUCT_NAME = Prezzo;
-				PROVISIONING_PROFILE = "19ffb9b2-84e4-48b2-8f38-a62a6795ec8e";
-				PROVISIONING_PROFILE_SPECIFIER = "Prezzo - Ishmael MacOS";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1903,10 +1902,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Prezzo/Prezzo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Automatic For The People (3DV26K7BE7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = 3DV26K7BE7;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1933,8 +1932,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.prezzo.Prezzo;
 				PRODUCT_NAME = Prezzo;
-				PROVISIONING_PROFILE = "0d24989e-a200-432c-8e18-725c13fb0bf5";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore io.prezzo.Prezzo";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

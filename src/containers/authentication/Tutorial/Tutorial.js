@@ -119,7 +119,6 @@ class Tutorial extends React.Component {
               this.onFacebookLogin(facebookId, accessToken);
             }}
           />
-
           <Button
             disabled={isBusy}
             style={buttonStyles.createAccountButton}
@@ -157,10 +156,6 @@ const styles = StyleSheet.create({
   login: {
     fontSize: 18,
     fontFamily: FONT_FAMILY,
-    letterSpacing: 0,
-    marginRight: 20,
-    color: '#fff',
-    alignSelf: 'flex-end'
   }
 });
 

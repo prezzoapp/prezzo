@@ -7,7 +7,6 @@ import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 15,
     backgroundColor: 'black'
   },
 
@@ -142,6 +141,17 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     color: COLOR_WHITE,
     marginRight: 40
+  },
+
+  messageHolder: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  message: {
+    color: COLOR_WHITE,
+    fontSize: 20
   }
 });
 

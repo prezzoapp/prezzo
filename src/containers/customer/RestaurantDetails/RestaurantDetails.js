@@ -10,9 +10,11 @@ import {
   Animated
 } from 'react-native';
 
+import { fromJS } from 'immutable';
+
 import { Header } from 'react-navigation';
 
-import Icon from 'react-native-vector-icons/dist/Feather';
+// import Icon from 'react-native-vector-icons/dist/Feather';
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -47,82 +49,29 @@ export default class RestaurantDetails extends Component {
   constructor(props) {
     super(props);
 
-    console.log(props.navigation.state.params);
+    const item = fromJS({ vendor: props.navigation.state.params.item });
 
-    this.state = {
-      items: [],
-      sections: [],
-      showText: false
+    let modifiedCategories;
+
+    if(item.get('vendor').has('menu')) {
+      modifiedCategories = item
+        .get('vendor')
+        .get('menu')
+        .get('categories')
+        .map(singleItem =>
+          singleItem.set('data', singleItem.get('items')).delete('items')
+        ).toJS();
+    } else {
+      modifiedCategories = null;
     }
 
-    this.changeQuantity = this.changeQuantity.bind(this);
+    this.state = {
+      showText: false,
+      categories: modifiedCategories
+    }
     this.toggleViewFun = this.toggleViewFun.bind(this);
 
     this.scrollAnimatedValue = new Animated.Value(0);
-  }
-
-  componentWillMount() {
-    for (let i = 0; i < 5; i++) {
-      this.state.items.push({
-        id: i,
-        name: 'Cucumber Salad',
-        price: 15,
-        quantity: 1,
-        ingradients: 'tuna, yellowtail, salmon, spring mix, avocado',
-        images: [
-          {
-            imagePath: require('../../../../assets/images/exploreRestaurantItem.png')
-          },
-          {
-            imagePath: require('../../../../assets/images/exploreRestaurantItem.png')
-          },
-          {
-            imagePath: require('../../../../assets/images/exploreRestaurantItem.png')
-          }
-        ]
-      });
-    }
-
-    this.setState(() => {
-        return {
-          items: this.state.items
-        };
-      },
-      () => {
-        this.state.sections.push({
-          title: 'Chef Plates',
-          data: [...this.state.items]
-        });
-
-      this.state.sections.push({
-        title: 'Poke',
-          data: [...this.state.items]
-        });
-
-      this.setState(() => {
-          return {
-            sections: this.state.sections
-          };
-        });
-      }
-    );
-  }
-
-  changeQuantity(id, op) {
-    const newItems = [...this.state.items];
-    if(op === 'add') {
-      newItems[newItems.findIndex(x => x.id === id)].quantity++;
-    } else {
-      if(!newItems[newItems.findIndex(x => x.id === id)].quantity <= 0 ) {
-        newItems[newItems.findIndex(x => x.id === id)].quantity--;
-      }
-    }
-
-    this.setState(() => {
-      return {
-        items: newItems
-      }
-    });
   }
 
   toggleViewFun() {
@@ -175,7 +124,8 @@ export default class RestaurantDetails extends Component {
           style={{
             height: animatedHeader,
             overflow: 'hidden',
-            opacity: animatedOpacity
+            opacity: animatedOpacity,
+            paddingHorizontal: 15
           }}
         >
           <View style={styles.contentContainer}>
@@ -190,13 +140,13 @@ export default class RestaurantDetails extends Component {
                 {this.props.navigation.state.params.item.location.postalCode}
               </Text>
               <View style={styles.headerContentTextContainer}>
-                <Icon name="package" size={22} color="white" />
+                {/* <Icon name="package" size={22} color="white" /> */}
                 <Text style={[styles.transparent, styles.headerContentText]}>
                   Delivery
                 </Text>
               </View>
               <View style={styles.headerContentTextContainer}>
-                <Icon name="clock" size={22} color="white" />
+                {/* <Icon name="clock" size={22} color="white" /> */}
                 <Text style={[styles.transparent, styles.headerContentText]}>
                   8 Mins Wait Time
                 </Text>
@@ -237,43 +187,55 @@ export default class RestaurantDetails extends Component {
           </View>
         </Animated.View>
 
-        <AnimatedSectionList
-          keyExtractor={item => item.id}
-          onScroll={Animated.event([
-            {
-              nativeEvent: { contentOffset: { y: this.scrollAnimatedValue } }
-            }]
+        {(this.props.navigation.state.params.item.menu &&
+          this.props.navigation.state.params.item.menu.categories.length === 0) ? (
+            <View style={styles.messageHolder}>
+              <Text style={styles.message}>Does not have Items.</Text>
+            </View>
+          ) : (
+            (this.props.navigation.state.params.item["menu"] === undefined) ? (
+              <View style={styles.messageHolder}>
+                <Text style={styles.message}>Does not have Menu.</Text>
+              </View>
+            ) : (
+              <View style={{flex: 1}}>
+                <AnimatedSectionList
+                  bounces={false}
+                  keyExtractor={item => item._id}
+                  onScroll={Animated.event([
+                    {
+                      nativeEvent: { contentOffset: { y: this.scrollAnimatedValue } }
+                    }]
+                  )}
+                  contentContainerStyle={{ paddingBottom: 85, paddingHorizontal: 15 }}
+                  sections={this.state.categories}
+                  renderSectionHeader={({ section }) =>
+                    this.renderSectionHeader(section)
+                  }
+                  renderItem={({ item }) =>
+                    <RestaurantItem item={item} showText={this.state.showText} />
+                  }
+                />
+
+                <View style={styles.bottomViewHolder}>
+                  <BlurView
+                    style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0}}
+                    blurType="dark"
+                    blurAmount={10}
+                  />
+                  <Button
+                    style={buttonStyles.placeOrderBtn}
+                    textStyle={buttonStyles.btnText}
+                    onPress={() => alert()}
+                  >
+                    Place Order
+                  </Button>
+
+                  <Text style={styles.totalPrice}>Total $35.42</Text>
+                </View>
+              </View>
+            )
           )}
-          contentContainerStyle={{ paddingBottom: 85 }}
-          sections={this.state.sections}
-          renderSectionHeader={({ section }) =>
-            this.renderSectionHeader(section)
-          }
-          renderItem={({ item }) =>
-            <RestaurantItem
-              item={item}
-              showText={this.state.showText}
-              changeQuantity={(id, op) => this.changeQuantity(id, op)}
-            />
-          }
-        />
-
-        <View style={styles.bottomViewHolder}>
-          <BlurView
-            style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0}}
-            blurType="dark"
-            blurAmount={10}
-          />
-          <Button
-            style={buttonStyles.placeOrderBtn}
-            textStyle={buttonStyles.btnText}
-            onPress={() => alert()}
-          >
-            Place Order
-          </Button>
-
-          <Text style={styles.totalPrice}>Total $35.42</Text>
-        </View>
       </View>
     );
   }
