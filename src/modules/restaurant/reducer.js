@@ -8,7 +8,10 @@ import {
   ADD_REMOVE_ITEM_QUANTITY_FAILURE,
   CHANGE_ITEM_RATING_REQUEST,
   CHANGE_ITEM_RATING_SUCCESS,
-  CHANGE_ITEM_RATING_FAILURE
+  CHANGE_ITEM_RATING_FAILURE,
+  REMOVE_RESTAURANT_DETAIL_REQUEST,
+  REMOVE_RESTAURANT_DETAIL_SUCCESS,
+  REMOVE_RESTAURANT_DETAIL_FAILURE
 } from './types';
 
 const INITIAL_STATE = fromJS({
@@ -17,7 +20,7 @@ const INITIAL_STATE = fromJS({
   totalPrice: 0.0
 });
 
-calculateFinalPrice = (categories) => {
+calculateFinalPrice = categories => {
   let price = 0;
 
   categories.map(category => {
@@ -56,12 +59,17 @@ export default (state = INITIAL_STATE, action) => {
             return restaurant.updateIn(
               ['data', 'menu', 'categories'],
               categories => updatedMenuCategories
-            ).update('isBusy', () => false);
+              )
+              .update('isBusy', () => false)
+              .update('totalPrice', () => 0.0);
           }
         }
       }
 
-      return restaurant.set('isBusy', false);
+      return restaurant.set('isBusy', false).update('totalPrice', () => 0.0);
+
+    case REMOVE_RESTAURANT_DETAIL_SUCCESS:
+      return state.set('data', null);
 
     case ADD_REMOVE_ITEM_QUANTITY_SUCCESS:
       updatedMenuCategories = state.get('data').get('menu').get('categories').update(

@@ -24,7 +24,6 @@ export default class ExploreList extends PureComponent {
           <ExploreListItem
             item={item}
             navigate={this.props.navigate}
-            addRestaurantDetail={this.props.addRestaurantDetail}
           />
         )}
       />

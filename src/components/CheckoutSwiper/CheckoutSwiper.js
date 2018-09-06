@@ -21,50 +21,32 @@ export default class CheckoutSwiper extends Component {
     super(props);
 
     this.state = {
-      cardNumber: '1234345345533345',
-
-      showBackButton: false
+      cardNumber: '1234345345533345'
     };
 
     this.index = 0;
   }
 
-  onMomentumScrollEnd(e, state, context, props) {
-    this.index = state.index;
-    this.backBtnVisibility(state.index);
-    props.onScrollingEnd(state.offset.x, state.index);
+  onIndexChanged(index, props) {
+    this.index = index;
+    props.onScrollingEnd(index);
+    this.props.setCurrentIndex(index);
+  }
+
+  moveToIndex(index = null) {
+    if (index !== null || index !== undefined || typeof index !== 'string') {
+      this.swiper.scrollBy(index - this.index, false);
+    }
   }
 
   scrollForward() {
-    this.swiper.scrollBy(1);
+    this.swiper.scrollBy(1, false);
   }
 
-  // goToHome(currentSlideIndex) {
-  //   const currentIndex = currentSlideIndex;
-  //
-  //   if(currentIndex > 0) {
-  //     this.swiper.scrollBy(currentIndex * (-1), true);
-  //   }
-  // }
-
-  backBtnVisibility(index) {
-    // if(index === 0) {
-    //   if(this.state.showBackButton) {
-    //     this.setState(() => {
-    //       return {
-    //         showBackButton: false
-    //       }
-    //     });
-    //   }
-    // } else {
-    //   if(!this.state.showBackButton) {
-    //     this.setState(() => {
-    //       return {
-    //         showBackButton: true
-    //       }
-    //     });
-    //   }
-    // }
+  scrollReset() {
+    if(this.index > 0) {
+      this.swiper.scrollBy(this.index * -1, false);
+    }
   }
 
   renderItem(item, section) {
@@ -121,7 +103,7 @@ export default class CheckoutSwiper extends Component {
             return (
               <TouchableOpacity
                 style={styles.backBtn}
-                onPress={() => this.swiper.scrollBy(-1)}
+                onPress={() => this.swiper.scrollBy(-1, false)}
               >
                 <Icon name="chevron-left" size={wp('8%')} color="white" />
               </TouchableOpacity>
@@ -134,9 +116,7 @@ export default class CheckoutSwiper extends Component {
           ref={swiper => {
             this.swiper = swiper;
           }}
-          onMomentumScrollEnd={(event, state, context) =>
-            this.onMomentumScrollEnd(event, state, context, this.props)
-          }
+          onIndexChanged={index => this.onIndexChanged(index, this.props)}
           loop={false}
           index={0}
         >

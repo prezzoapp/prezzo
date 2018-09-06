@@ -19,7 +19,7 @@ import styles from './styles';
 
 import CheckoutSwiper from '../../../components/CheckoutSwiper';
 
-const height = Dimensions.get('window').height;
+const { width, height } = Dimensions.get('window');
 
 export default class Checkout extends Component {
   constructor(props) {
@@ -29,47 +29,55 @@ export default class Checkout extends Component {
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
 
-    this.onScrollEnd = this.onScrollEnd.bind(this);
-
     this.showModalAnimatedValue = new Animated.Value(0);
 
     this.index = 0;
+
+    this.animationRunning = false;
   }
 
-  onScrollEnd(xValue, index) {
+  onScrollEnd(index) {
     this.scrollView.scrollTo({
-      x: parseFloat(xValue / 3),
+      x: parseFloat((width * index) / 3),
       y: 0,
-      animated: true });
+      animated: false });
 
     this.index = index;
-
-    this.props.setCurrentIndex(index);
   }
 
   scrollForward() {
     this.checkoutSwiper.scrollForward();
   }
 
-  showModal() {
-    this.showModalAnimatedValue.setValue(0);
+  scrollReset() {
+    this.checkoutSwiper.scrollReset();
+  }
 
-    Animated.timing(this.showModalAnimatedValue, {
-      toValue: 1,
-      duration: 250,
-      useNativeDriver: true
-    }).start();
+  showModal() {
+    if(this.animationRunning === false) {
+      this.showModalAnimatedValue.setValue(0);
+      this.animationRunning = true;
+      Animated.timing(this.showModalAnimatedValue, {
+        toValue: 1,
+        duration: 250,
+        useNativeDriver: true
+      }).start(() => {
+        this.props.showNextOrderBtn();
+        this.animationRunning = false;
+      });
+    }
   }
 
   hideModal() {
     this.showModalAnimatedValue.setValue(1);
-    this.props.resetCurrentIndex();
 
     Animated.timing(this.showModalAnimatedValue, {
       toValue: 0,
       duration: 250,
       useNativeDriver: true
-    }).start();
+    }).start(() => {
+      this.props.hideNextOrderBtn();
+    });
   }
 
   render() {
@@ -112,26 +120,26 @@ export default class Checkout extends Component {
               >
                 <View style={styles.tabBarIconsHolder} />
 
-                <View style={styles.tabBarIconsHolder}>
+                <TouchableOpacity activeOpacity={0.6} onPress={() => this.checkoutSwiper.moveToIndex(0)} style={styles.tabBarIconsHolder}>
                   <Image
                     source={require('../../../../assets/images/checkout_icons/review_icon.png')}
                     style={[styles.icon, {tintColor: (this.index === 0) ? '#2ED573' : null}]}
                   />
-                </View>
+                </TouchableOpacity>
 
-                <View style={styles.tabBarIconsHolder}>
+                <TouchableOpacity activeOpacity={0.6} onPress={() => this.checkoutSwiper.moveToIndex(1)} style={styles.tabBarIconsHolder}>
                   <Image
                     source={require('../../../../assets/images/filters/dinner_filter.png')}
                     style={[styles.icon, {tintColor: (this.index === 1) ? '#2ED573' : null}]}
                   />
-                </View>
+                </TouchableOpacity>
 
-                <View style={styles.tabBarIconsHolder}>
+                <TouchableOpacity activeOpacity={0.6} onPress={() => this.checkoutSwiper.moveToIndex(2)} style={styles.tabBarIconsHolder}>
                   <Image
                     source={require('../../../../assets/images/checkout_icons/payment_icon.png')}
                     style={[styles.icon, {tintColor: (this.index === 2) ? '#2ED573' : null}]}
                   />
-                </View>
+                </TouchableOpacity>
 
                 <View style={styles.tabBarIconsHolder} />
               </ScrollView>
@@ -149,6 +157,7 @@ export default class Checkout extends Component {
               addRemoveItemQuantity={(categoryId, itemId, op) =>
                 this.props.addRemoveItemQuantity(categoryId, itemId, op)
               }
+              setCurrentIndex={index => this.props.setCurrentIndex(index)}
             />
           </View>
         </View>

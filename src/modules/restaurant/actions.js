@@ -9,7 +9,10 @@ import {
   ADD_REMOVE_ITEM_QUANTITY_FAILURE,
   CHANGE_ITEM_RATING_REQUEST,
   CHANGE_ITEM_RATING_SUCCESS,
-  CHANGE_ITEM_RATING_FAILURE
+  CHANGE_ITEM_RATING_FAILURE,
+  REMOVE_RESTAURANT_DETAIL_REQUEST,
+  REMOVE_RESTAURANT_DETAIL_SUCCESS,
+  REMOVE_RESTAURANT_DETAIL_FAILURE
 } from './types';
 
 export const addRestaurantDetail = (restaurant: object) => dispatch => {
@@ -22,6 +25,18 @@ export const addRestaurantDetail = (restaurant: object) => dispatch => {
     });
   } catch (e) {
     dispatch({ type: ADD_RESTAURANT_DETAIL_FAILURE });
+  }
+};
+
+export const removeRestaurantDetail = () => dispatch => {
+  dispatch({ type: REMOVE_RESTAURANT_DETAIL_REQUEST });
+
+  try {
+    return dispatch({
+      type: REMOVE_RESTAURANT_DETAIL_SUCCESS
+    });
+  } catch (e) {
+    dispatch({ type: REMOVE_RESTAURANT_DETAIL_FAILURE });
   }
 };
 

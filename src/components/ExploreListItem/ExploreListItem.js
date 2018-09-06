@@ -12,7 +12,6 @@ export default class ExploreListItem extends Component {
   }
 
   moveToDetails(item) {
-    this.props.addRestaurantDetail(item);
     this.props.navigate({ routeName: 'RestaurantDetails', params: { item } });
   }
 

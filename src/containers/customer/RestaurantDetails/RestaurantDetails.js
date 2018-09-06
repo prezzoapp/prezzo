@@ -7,10 +7,10 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
-  Animated
+  Animated,
+  InteractionManager,
+  ActivityIndicator
 } from 'react-native';
-
-import { fromJS } from 'immutable';
 
 import { Header } from 'react-navigation';
 
@@ -61,54 +61,116 @@ export default class RestaurantDetails extends Component {
     this.state = {
       showText: false,
       modalVisible: false,
-      currentSlideIndex: -1
+      currentSlideIndex: 0,
+      showNextBtn: false
     }
     this.toggleViewFun = this.toggleViewFun.bind(this);
     this.onOrderBtnClick = this.onOrderBtnClick.bind(this);
-    this.callbackFunction = this.callbackFunction.bind(this);
+    this.onPlaceOrderBtnClick = this.onPlaceOrderBtnClick.bind(this);
+    this.showNextOrderBtn = this.showNextOrderBtn.bind(this);
+    this.hideNextOrderBtn = this.hideNextOrderBtn.bind(this);
 
     this.scrollAnimatedValue = new Animated.Value(0);
   }
 
-  onOrderBtnClick() {
-    if(this.state.currentSlideIndex === -1 && this.modal) {
-      this.modal.getWrappedInstance().showModal();
-      this.setIndex(0);
-    } else if (
-      this.state.currentSlideIndex < 2 &&
-      this.state.currentSlideIndex >= 0
-    ) {
-      this.setIndex(this.state.currentSlideIndex + 1, this.callbackFunction);
-    } else if (this.state.currentSlideIndex === 2 && this.modal) {
-      this.modal.getWrappedInstance().hideModal();
-      this.setState(() => {
-        return {
-          modalVisible: true
-        }
-      });
-    }
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.props.addRestaurantDetail(this.props.navigation.state.params.item);
+    })
   }
 
-  setIndex(index, callback = null) {
+  componentWillUnmount() {
+    this.props.removeRestaurantDetail();
+  }
+
+  onPlaceOrderBtnClick() {
+    this.modal.getWrappedInstance().scrollReset();
+    this.modal.getWrappedInstance().showModal();
+  }
+
+  onOrderBtnClick() {
+    if (
+      this.modal &&
+      this.state.currentSlideIndex >= 0 &&
+      this.state.currentSlideIndex < 2
+    ) {
+      this.modal.getWrappedInstance().scrollForward();
+    } else if (this.modal && this.state.currentSlideIndex === 2) {
+      this.setState(() => {
+        return {
+            modalVisible: true
+        };
+      }, () => {
+        this.modal.getWrappedInstance().hideModal();
+      });
+    }
+
+    //DON'T REMOVE BELOW COMMENTED CODE. IT'S FOR TESTING PURPOSE.
+
+    // if(this.modal && this.state.currentSlideIndex === 0) {
+    //   // this.modal.getWrappedInstance().showModal();
+    //   // this.setIndex(0);
+    // } else if (this.state.currentSlideIndex < 2 && this.modal) {
+    //   this.modal.getWrappedInstance().scrollForward();
+    // } else if (this.state.currentSlideIndex === 2 && this.modal) {
+    //   this.setState(() => {
+    //     return {
+    //       modalVisible: true
+    //     }
+    //   }, () => {
+    //     this.modal.getWrappedInstance().hideModal()
+    //   });
+    // }
+    // if(this.state.currentSlideIndex === -1 && this.modal) {
+    //   this.modal.getWrappedInstance().showModal();
+    //   this.setIndex(0);
+    // } else if (
+    //   this.state.currentSlideIndex < 2 &&
+    //   this.state.currentSlideIndex >= 0
+    // ) {
+    //   this.setIndex(this.state.currentSlideIndex + 1, this.callbackFunction);
+    // } else if (this.state.currentSlideIndex === 2 && this.modal) {
+    //   this.modal.getWrappedInstance().hideModal();
+    //   this.setState(() => {
+    //     return {
+    //       modalVisible: true
+    //     }
+    //   });
+    // }
+  }
+
+  setIndex(index) {
+    // console.log("Index: " + index);
     this.setState(() => {
       return {
         currentSlideIndex: index
       }
-    }, () => {
-        if (callback !== null && typeof callback === 'function') {
-          callback();
-        }
+    });
+  }
+
+  showNextOrderBtn() {
+    this.setState(() => {
+      return {
+        showNextBtn: true
       }
-    );
+    })
   }
 
-  resetCurrentIndex() {
-    this.setIndex(-1);
+  hideNextOrderBtn() {
+    this.setState(() => {
+      return {
+        showNextBtn: false
+      }
+    });
   }
 
-  callbackFunction() {
-    this.modal.getWrappedInstance().scrollForward();
-  }
+  // resetCurrentIndex() {
+  //   this.setIndex(-1);
+  // }
+
+  // callbackFunction() {
+  //   this.modal.getWrappedInstance().scrollForward();
+  // }
 
   toggleViewFun() {
     this.setState(() => {
@@ -267,7 +329,12 @@ export default class RestaurantDetails extends Component {
                     paddingBottom: 85,
                     paddingHorizontal: 15
                   }}
-                  sections={this.props.data.data.menu.categories}
+                  sections={
+                    this.props.data.data.menu &&
+                    this.props.data.data.menu.categories
+                      ? this.props.data.data.menu.categories
+                      : []
+                  }
                   renderSectionHeader={({ section }) =>
                     this.renderSectionHeader(section)
                   }
@@ -292,6 +359,8 @@ export default class RestaurantDetails extends Component {
               this.props.data.data.menu === undefined
             ) {
               return null;
+            } else if(this.state.modalVisible) {
+              return null;
             }
             return (
               <View style={styles.bottomViewHolder}>
@@ -300,20 +369,34 @@ export default class RestaurantDetails extends Component {
                   blurType="dark"
                   blurAmount={10}
                 />
-                <Button
-                  style={buttonStyles.placeOrderBtn}
-                  textStyle={buttonStyles.btnText}
-                  onPress={this.onOrderBtnClick}
-                >
-                  {(() => {
-                    if (this.state.currentSlideIndex === -1) {
-                      return 'Place Order';
-                    } else if (this.state.currentSlideIndex < 2) {
-                      return 'Next';
-                    }
-                    return 'Complete Order';
-                  })()}
-                </Button>
+
+                {(() => {
+                  if(this.state.showNextBtn) {
+                    return (
+                      <Button
+                        style={buttonStyles.placeOrderBtn}
+                        textStyle={buttonStyles.btnText}
+                        onPress={this.onOrderBtnClick}
+                      >
+                        {(() => {
+                          if (this.state.currentSlideIndex < 2) {
+                            return 'Next';
+                          }
+                          return 'Complete Order';
+                        })()}
+                      </Button>
+                    );
+                  }
+                  return (
+                    <Button
+                      style={buttonStyles.placeOrderBtn}
+                      textStyle={buttonStyles.btnText}
+                      onPress={this.onPlaceOrderBtnClick}
+                    >
+                      Place Order
+                    </Button>
+                  );
+                })()}
 
                 <Text style={styles.totalPrice}>
                   Total $
@@ -327,18 +410,29 @@ export default class RestaurantDetails extends Component {
           })()}
 
           {this.state.modalVisible ? (
-            <CustomPopup modalVisible={this.state.modalVisible}/>
+            <CustomPopup modalVisible={this.state.modalVisible} />
           ) : null}
 
           <Checkout ref={modal => this.modal = modal}
             setCurrentIndex={(index) => this.setIndex(index)}
             resetCurrentIndex={() => this.resetCurrentIndex()}
-            restaurantName={this.props.data.data.name}/>
+            restaurantName={this.props.data.data.name}
+            showNextOrderBtn={() => this.showNextOrderBtn()}
+            hideNextOrderBtn={() => this.hideNextOrderBtn()}
+          />
         </View>
       );
     }
     return (
-      <View style={{flex: 1, backgroundColor: 'red'}} />
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        <ActivityIndicator size="large" />
+      </View>
     );
   }
 }
