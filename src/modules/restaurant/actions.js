@@ -12,7 +12,10 @@ import {
   CHANGE_ITEM_RATING_FAILURE,
   REMOVE_RESTAURANT_DETAIL_REQUEST,
   REMOVE_RESTAURANT_DETAIL_SUCCESS,
-  REMOVE_RESTAURANT_DETAIL_FAILURE
+  REMOVE_RESTAURANT_DETAIL_FAILURE,
+  CLEAR_CART_DATA_REQUEST,
+  CLEAR_CART_DATA_SUCCESS,
+  CLEAR_CART_DATA_FAILURE
 } from './types';
 
 export const addRestaurantDetail = (restaurant: object) => dispatch => {
@@ -71,5 +74,17 @@ export const changeItemRating = async (
     });
   } catch (e) {
     dispatch({ type: CHANGE_ITEM_RATING_FAILURE });
+  }
+};
+
+export const clearCartData = () => dispatch => {
+  dispatch({ type: CLEAR_CART_DATA_REQUEST });
+
+  try {
+    return dispatch({
+      type: CLEAR_CART_DATA_SUCCESS
+    })
+  } catch (e) {
+    return dispatch({ type: CLEAR_CART_DATA_FAILURE })
   }
 };

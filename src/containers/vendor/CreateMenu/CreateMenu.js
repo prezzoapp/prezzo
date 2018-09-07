@@ -77,7 +77,8 @@ export default class CreateMenu extends Component<Props> {
           <SectionList
             showsVerticalScrollIndicator={false}
             extraData={this.props.menu
-              ? this.props.menu && this.props.menu.get('categories') &&
+                ? this.props.menu &&
+                  this.props.menu.get('categories') &&
                 this.props.menu.get('categories').toJS()
               : []
             }
@@ -132,6 +133,9 @@ export default class CreateMenu extends Component<Props> {
                     imageURL
                   )
                 }
+                uploadImage={(uri, size, mime, name, type, acl) =>
+                  this.props.uploadImage(uri, size, mime, name, type, acl)
+                }
               />
             }
           />
@@ -143,7 +147,7 @@ export default class CreateMenu extends Component<Props> {
           </View>
         </View>
 
-        {this.props.isBusy ? (
+        {this.props.isBusy || this.props.uploadIsBusy ? (
           <View style={styles.spinnerView}>
             <ActivityIndicator size="large" color="white"/>
           </View>
@@ -168,6 +172,8 @@ CreateMenu.propTypes = {
   menuId: PropTypes.string.isRequired,
 
   isBusy: PropTypes.bool.isRequired,
+
+  uploadIsBusy: PropTypes.bool.isRequired,
 
   menu: PropTypes.any.isRequired
 };

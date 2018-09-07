@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native';
 
-import { Header } from 'react-navigation';
-
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp

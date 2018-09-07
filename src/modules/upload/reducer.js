@@ -1,10 +1,6 @@
 // @flow
-import {Map} from 'immutable';
-import {
-  UPLOAD_REQUEST,
-  UPLOAD_SUCCESS,
-  UPLOAD_FAILURE
-} from './types';
+import { Map } from 'immutable';
+import { UPLOAD_REQUEST, UPLOAD_SUCCESS, UPLOAD_FAILURE } from './types';
 import type State from './types';
 
 const INITIAL_STATE: State = Map({
@@ -13,7 +9,7 @@ const INITIAL_STATE: State = Map({
 });
 
 const reducer = (state: State = INITIAL_STATE, action) => {
-  const {type} = action;
+  const { type } = action;
   switch (type) {
     case UPLOAD_REQUEST:
       return state.update('isBusy', () => true);

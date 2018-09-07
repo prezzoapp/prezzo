@@ -198,6 +198,9 @@ export default class MenuItem extends Component {
                   deleteImageComponent={imageURL =>
                     this.props.deleteImageComponent(imageURL)
                   }
+                  uploadImage={(uri, size, mime, name, type, acl) =>
+                    this.props.uploadImage(uri, size, mime, name, type, acl)
+                  }
                 />
             ))}
 
