@@ -8,6 +8,8 @@ import * as SessionStateActions from '../../../modules/session';
 import store from '../../../redux/store';
 import DeveloperMenu from '../../../components/DeveloperMenu';
 import { Font } from 'expo';
+import MaterialIcons from '../../../../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
+import EvilIcons from '../../../../node_modules/@expo/vector-icons/fonts/EvilIcons.ttf';
 
 class AppView extends Component {
   static displayName = 'AppView';
@@ -36,12 +38,18 @@ class AppView extends Component {
   }
 
   async loadFonts(){
-    await Font.loadAsync({
-      'ClearSans-Light': require('./../../../../assets/fonts/clear-sans/ClearSans-Light.ttf'),
-      'ClearSans-Medium': require('./../../../../assets/fonts/clear-sans/ClearSans-Medium.ttf'),
-      'ClearSans-Bold': require('./../../../../assets/fonts/clear-sans/ClearSans-Bold.ttf'),
-    });
-    this.props.dispatch(SessionStateActions.resetStateAfterFontLoaded(true));
+    try {
+      await Font.loadAsync({
+        'ClearSans-Light': require('../../../../assets/fonts/clear-sans/ClearSans-Light.ttf'),
+        'ClearSans-Medium': require('../../../../assets/fonts/clear-sans/ClearSans-Medium.ttf'),
+        'ClearSans-Bold': require('../../../../assets/fonts/clear-sans/ClearSans-Bold.ttf'),
+        EvilIcons,
+        MaterialIcons
+      });
+      this.props.dispatch(SessionStateActions.resetStateAfterFontLoaded(true));
+    } catch (error) {
+      alert(error.message)
+    }
    }
 
   render() {

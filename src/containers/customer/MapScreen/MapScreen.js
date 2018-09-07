@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { LinearGradient } from 'expo';
+import { MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
 import styles from './styles';
@@ -70,7 +70,7 @@ export default class MapScreen extends Component {
     return (
       <View style={styles.container}>
         <MapView
-          provider={PROVIDER_GOOGLE}
+          provider={"google"}
           region={this.state.customRegion}
           onRegionChangeComplete={region => this.onRegionChangeComplete(region)}
           customMapStyle={MapStyle}

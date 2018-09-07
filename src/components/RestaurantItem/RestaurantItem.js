@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 // import Icon from 'react-native-vector-icons/dist/Feather';
 
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo';
 
 import Swiper from 'react-native-swiper';
 

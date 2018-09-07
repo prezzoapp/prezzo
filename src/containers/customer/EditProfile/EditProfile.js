@@ -8,12 +8,14 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View
+  View,
+  ActionSheetIOS
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import ImagePicker from 'react-native-image-picker';
+import { ImagePicker } from 'expo';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
+import { getTimeStampString } from '../../../services/commonFunctions';
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
@@ -121,11 +123,11 @@ class EditProfile extends Component<Props, State> {
     }
 
     const {upload} = this.state;
-    const {fileName, fileSize, uri} = upload;
-
+    const {uri} = upload;
+    const fileName = getTimeStampString() + '.jpg'
     await this.props.uploadImage(
       uri,
-      fileSize,
+      10,
       'image/jpeg',
       fileName,
       'userAvatar',
@@ -141,23 +143,39 @@ class EditProfile extends Component<Props, State> {
   }
 
   showAvatarActionSheet() {
-    ImagePicker.showImagePicker({
-      maxWidth: 800,
-      title: 'Select an avatar',
-      quality: 0.3
-    }, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image upload');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        console.log('Image URI: ', response.uri);
-        this.setState({
-          avatarURL: response.uri,
-          upload: response
-        });
-      }
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: ['Take Photo', 'Choose from Library', 'Cancel'],
+      cancelButtonIndex: 2,
+      title: 'Select an avatar'
+    },
+      (buttonIndex) => {
+        if (buttonIndex === 0) {
+          this.openCamera();
+        } else if (buttonIndex === 1) {
+          this.openImageGallery();
+        } 
+      });
+  }
+
+  openImageGallery = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: false,
+      quality: 0.3,
     });
+    if (!result.cancelled) {
+      this.setState({ upload: result, avatarURL: result.uri });
+    }
+  }
+
+  openCamera = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      allowsEditing: false,
+      quality: 0.3,
+    });
+
+    if (!result.cancelled) {
+      this.setState({ upload: result, avatarURL: result.uri });
+    }
   }
 
   render() {

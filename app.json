@@ -4,7 +4,10 @@
     "slug": "Prezzo",
     "appKey": "Prezzo",
     "entryPoint": "App",
-    "sdkVersion": "27.0.0",
-    "privacy": "unlisted"
+    "sdkVersion": "29.0.0",
+    "privacy": "unlisted",
+    "packagerOpts": {
+      "assetExts": ["ttf"] 
+    }
   }
 }

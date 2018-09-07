@@ -16,9 +16,8 @@ import { Header } from 'react-navigation';
 
 // import Icon from 'react-native-vector-icons/dist/Feather';
 
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient, BlurView } from 'expo';
 
-import { BlurView } from 'react-native-blur';
 
 import styles from './styles';
 

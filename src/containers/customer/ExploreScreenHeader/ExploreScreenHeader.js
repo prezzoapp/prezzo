@@ -3,9 +3,9 @@ import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import Slider from 'react-native-slider';
-import LinearGradient from 'react-native-linear-gradient';
-
-import DropArrowIcon from 'react-native-vector-icons/EvilIcons';
+import { LinearGradient } from 'expo';
+import { EvilIcons } from '@expo/vector-icons'
+// import DropArrowIcon from 'react-native-vector-icons/EvilIcons';
 import ExploreSearchInput from '../../../components/ExploreSearchInput';
 import FilterItem from '../../../components/FilterItem';
 import styles from './styles';
@@ -50,7 +50,7 @@ export default class ExploreScreenHeader extends PureComponent {
                   }
                 >
                   <Text style={styles.filter}> Filter</Text>
-                  <DropArrowIcon name="chevron-down" size={25} color="#fafafa" style={styles.dropArrowIcon}/>
+                  <EvilIcons name="chevron-down" size={25} color="#fafafa" style={styles.dropArrowIcon}/>
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.6}

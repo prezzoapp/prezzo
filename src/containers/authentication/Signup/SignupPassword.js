@@ -174,13 +174,11 @@ class SignupPassword extends React.Component<Props, State> {
     },
       (buttonIndex) => {
         if (buttonIndex === 0) {
-
+          this.requestCameraPermission();
         } else if (buttonIndex === 1) {
-          this.requestPhotoLibraryPermission()
+          this.requestPhotoLibraryPermission();
 
-        } else if (buttonIndex === 2) {
-
-        }
+        } 
       });
   }
 
@@ -204,10 +202,9 @@ class SignupPassword extends React.Component<Props, State> {
       quality: 0.3,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
-      this.setState({ upload: result }, () => this.uploadPhoto());
+      this.setState({ upload: result });
+      this.props.updateAvatarURL(result.uri);
     }
   }
 
@@ -217,10 +214,9 @@ class SignupPassword extends React.Component<Props, State> {
       quality: 0.3,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
-      this.setState({ upload: result }, () => this.uploadPhoto());
+      this.setState({ upload: result });
+      this.props.updateAvatarURL(result.uri);
     }
   }
 
