@@ -57,10 +57,6 @@ export default class MapScreen extends Component {
       });
   }
 
-  // componentWillUnmount() {
-	// 	navigator.geolocation.clearWatch(this.watchID);
-  // }
-
   onRegionChangeComplete(region) {
     this.props.listVendors(region.latitude, region.longitude, '200000000');
   }
@@ -117,7 +113,7 @@ export default class MapScreen extends Component {
         </MapView>
 
         <LinearGradient
-          colors={["rgb(43,44,44)", "transparent"]}
+          colors={['rgb(43,44,44)', 'transparent']}
           locations={[0, 0.6]}
           style={styles.map}
           pointerEvents="none"

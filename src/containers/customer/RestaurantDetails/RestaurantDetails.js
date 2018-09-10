@@ -172,14 +172,6 @@ export default class RestaurantDetails extends Component {
     });
   }
 
-  // resetCurrentIndex() {
-  //   this.setIndex(-1);
-  // }
-
-  // callbackFunction() {
-  //   this.modal.getWrappedInstance().scrollForward();
-  // }
-
   toggleViewFun() {
     this.setState(() => {
       return {
@@ -188,20 +180,12 @@ export default class RestaurantDetails extends Component {
     });
   }
 
-  renderSectionHeader = section => (
-    <View
-      style={{
-        borderBottomWidth: 1,
-        borderBottomColor: 'white',
-        backgroundColor: 'black',
-        bottom: 0
-      }}
-    >
-      <Text style={[styles.transparent, styles.listHeaderText]}>
-        {section.title}
-      </Text>
-    </View>
-  )
+  listFooterComponent() {
+    if(this.flag === 1) {
+      return <View style={{ height: hp('8.62%') }} />;
+    }
+    return null;
+  }
 
   renderFooter() {
     this.flag = 0;
@@ -279,12 +263,20 @@ export default class RestaurantDetails extends Component {
     }
   }
 
-  listFooterComponent() {
-    if(this.flag === 1) {
-      return <View style={{ height: hp('8.62%') }} />;
-    }
-    return null;
-  }
+  renderSectionHeader = section => (
+    <View
+      style={{
+        borderBottomWidth: 1,
+        borderBottomColor: 'white',
+        backgroundColor: 'black',
+        bottom: 0
+      }}
+    >
+      <Text style={[styles.transparent, styles.listHeaderText]}>
+        {section.title}
+      </Text>
+    </View>
+  )
 
   render() {
     const animatedHeader = this.scrollAnimatedValue.interpolate({
@@ -348,7 +340,7 @@ export default class RestaurantDetails extends Component {
           {(() => {
             if (this.props.data.data) {
               if(
-                this.props.navigation.state.params.item['menu'] !== undefined &&
+                this.props.navigation.state.params.item.menu !== undefined &&
                 this.props.navigation.state.params.item.menu.categories !== undefined &&
                 this.props.navigation.state.params.item.menu.categories.length > 0) {
                 return (

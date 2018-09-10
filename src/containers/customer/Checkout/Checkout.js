@@ -10,10 +10,7 @@ import {
 
 import { BlurView } from 'react-native-blur';
 
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import PropTypes from 'prop-types';
 
 import styles from './styles';
 
@@ -120,24 +117,45 @@ export default class Checkout extends Component {
               >
                 <View style={styles.tabBarIconsHolder} />
 
-                <TouchableOpacity activeOpacity={0.6} onPress={() => this.checkoutSwiper.moveToIndex(0)} style={styles.tabBarIconsHolder}>
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  onPress={() => this.checkoutSwiper.moveToIndex(0)}
+                  style={styles.tabBarIconsHolder}
+                >
                   <Image
                     source={require('../../../../assets/images/checkout_icons/review_icon.png')}
-                    style={[styles.icon, {tintColor: (this.index === 0) ? '#2ED573' : null}]}
+                    style={[
+                      styles.icon,
+                      { tintColor: this.index === 0 ? '#2ED573' : null }
+                    ]}
                   />
                 </TouchableOpacity>
 
-                <TouchableOpacity activeOpacity={0.6} onPress={() => this.checkoutSwiper.moveToIndex(1)} style={styles.tabBarIconsHolder}>
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  onPress={() => this.checkoutSwiper.moveToIndex(1)}
+                  style={styles.tabBarIconsHolder}
+                >
                   <Image
                     source={require('../../../../assets/images/filters/dinner_filter.png')}
-                    style={[styles.icon, {tintColor: (this.index === 1) ? '#2ED573' : null}]}
+                    style={[
+                      styles.icon,
+                      { tintColor: this.index === 1 ? '#2ED573' : null }
+                    ]}
                   />
                 </TouchableOpacity>
 
-                <TouchableOpacity activeOpacity={0.6} onPress={() => this.checkoutSwiper.moveToIndex(2)} style={styles.tabBarIconsHolder}>
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  onPress={() => this.checkoutSwiper.moveToIndex(2)}
+                  style={styles.tabBarIconsHolder}
+                >
                   <Image
                     source={require('../../../../assets/images/checkout_icons/payment_icon.png')}
-                    style={[styles.icon, {tintColor: (this.index === 2) ? '#2ED573' : null}]}
+                    style={[
+                      styles.icon,
+                      { tintColor: this.index === 2 ? '#2ED573' : null }
+                    ]}
                   />
                 </TouchableOpacity>
 
@@ -165,3 +183,11 @@ export default class Checkout extends Component {
     );
   }
 }
+
+Checkout.propTypes = {
+  restaurantName: PropTypes.string.isRequired,
+  addRemoveItemQuantity: PropTypes.func.isRequired,
+  setCurrentIndex: PropTypes.func.isRequired,
+  showNextOrderBtn: PropTypes.func.isRequired,
+  hideNextOrderBtn: PropTypes.func.isRequired
+};

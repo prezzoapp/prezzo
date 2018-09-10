@@ -1,10 +1,9 @@
 // @flow
 import React from 'react';
-import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
+import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {FONT_FAMILY} from '../../services/constants';
-
-type Props = {};
+import PropTypes from 'prop-types'
+import { FONT_FAMILY } from '../../services/constants';
 
 const buttonBlack = '#424242';
 const shadowColor = 'black';
@@ -64,6 +63,17 @@ const styles = {
     fontFamily: FONT_FAMILY,
     fontSize: 18
   }
+};
+
+MenuButton.propTypes = {
+  icon: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string
+};
+
+MenuButton.defaultProps = {
+  subtitle: ''
 };
 
 export default MenuButton;

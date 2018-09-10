@@ -13,5 +13,4 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => ({
   navigate: bindActionCreators(NavigationActions.navigate, dispatch)
-  //addRestaurantDetail: bindActionCreators(addRestaurantDetail, dispatch)
 });

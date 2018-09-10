@@ -63,7 +63,7 @@ export default class ExploreSearchInput extends Component {
   cancelAction = () => {
     this.onBlur();
     this.searchInput.blur();
-  }
+  };
 
   render() {
     const textInputWidthAnimation = this.animatedValue.interpolate({

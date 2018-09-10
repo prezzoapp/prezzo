@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Modal, Image, Text, View } from 'react-native';
 import { BlurView } from 'react-native-blur';
 
@@ -7,45 +7,45 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
+import PropTypes from 'prop-types';
+
 import Button from '../Button';
 
 import { COLOR_WHITE, FONT_FAMILY } from '../../services/constants';
 
 import styles from './styles';
 
-const CustomPopup = (props) => {
-  return(
-    <Modal
-      animationType="slide"
-      transparent
-      visible={props.modalVisible}
-      onRequestClose={() => {
-        alert('Modal has been closed.');
-      }}>
-      <View style={styles.container}>
-        <View style={styles.modalView}>
-          <BlurView style={styles.blurView} blurType="dark" blurAmount={5} />
-          <Image
-            source={require('../../../assets/images/custom_modal_icons/thumbs_up_icon.png')}
-            style={styles.imageIcon}
-          />
-          <Text style={styles.title}>Congratulations!</Text>
-          <Text style={styles.message}>
-            Please show the table code to your server.!
-          </Text>
-          <Text style={styles.tableCode}>9192</Text>
-          <Button
-            style={customPopupBtnStyles.commonBtn}
-            textStyle={customPopupBtnStyles.commonBtnText}
-            onPress={() => alert()}
-          >
-            CONTINUE
-          </Button>
-        </View>
+const CustomPopup = props => (
+  <Modal
+    animationType="slide"
+    transparent
+    visible={props.modalVisible}
+    onRequestClose={() => {
+      alert('Modal has been closed.');
+    }}>
+    <View style={styles.container}>
+      <View style={styles.modalView}>
+        <BlurView style={styles.blurView} blurType="dark" blurAmount={5} />
+        <Image
+          source={require('../../../assets/images/custom_modal_icons/thumbs_up_icon.png')}
+          style={styles.imageIcon}
+        />
+        <Text style={styles.title}>Congratulations!</Text>
+        <Text style={styles.message}>
+          Please show the table code to your server.!
+        </Text>
+        <Text style={styles.tableCode}>9192</Text>
+        <Button
+          style={customPopupBtnStyles.commonBtn}
+          textStyle={customPopupBtnStyles.commonBtnText}
+          onPress={() => alert()}
+        >
+          CONTINUE
+        </Button>
       </View>
-    </Modal>
-  );
-}
+    </View>
+  </Modal>
+);
 
 const customPopupBtnStyles = {
   commonBtn: {
@@ -66,6 +66,10 @@ const customPopupBtnStyles = {
     paddingVertical: wp('4.8%'),
     justifyContent: 'center'
   }
+};
+
+CustomPopup.propTypes = {
+  modalVisible: PropTypes.bool.isRequired
 };
 
 export default CustomPopup;

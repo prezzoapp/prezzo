@@ -1,4 +1,4 @@
-// @flow
+// // @flow
 import * as React from 'react';
 import {
   Button,
@@ -21,7 +21,7 @@ import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
 
 export default class AccountInfo extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = {
     tabBarIcon: props => (
       <Icon name="person-outline" size={24} color={props.tintColor} />
     ),
@@ -40,12 +40,16 @@ export default class AccountInfo extends React.Component {
         title="Save"
       />
     )
-  });
+  };
 
   static displayName = 'Profile';
 
   static propTypes = {
-    navigate: PropTypes.func.isRequired
+    navigate: PropTypes.func.isRequired,
+    avatarURL: PropTypes.string.isRequired,
+    vendor: PropTypes.object.isRequired,
+    uploadImage: PropTypes.func.isRequired,
+    isBusy: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -85,13 +89,10 @@ export default class AccountInfo extends React.Component {
       email: 'steven@sagebistro.com'
     };
 
-    console.log(this.state.hours); //GOT CORRECT VALUE
-
     this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
-    // this.props.navigation.setParams({ save: this.save.bind(this) });
     this.constructor.currentContext = this;
   }
 
@@ -116,8 +117,7 @@ export default class AccountInfo extends React.Component {
   }
 
   addSelectedCategory() {
-    //console.log('addSelectedCategory()');
-    const {categories, selectedCategory} = this.state;
+    const { categories, selectedCategory } = this.state;
 
     if (categories.indexOf(selectedCategory) > 0) {
       return;
@@ -128,14 +128,14 @@ export default class AccountInfo extends React.Component {
 
     console.log('newCategories', newCategories);
 
-    this.setState({categories: newCategories});
+    this.setState({ categories: newCategories });
   }
 
   removeCategoryAtIndex(index) {
-    const {categories} = this.state;
+    const { categories } = this.state;
     const newCategories = [...categories];
     newCategories.splice(index, 1);
-    this.setState({categories: newCategories});
+    this.setState({ categories: newCategories });
   }
 
   checkCloseBeforeOpen(openTimeHour, closeTimeHour) {
@@ -175,9 +175,19 @@ export default class AccountInfo extends React.Component {
   }
 
   checkIntervalHours(hours, openTimeHour, closeTimeHour) {
-    let selectedSlot = new Set(Array.from({length: closeTimeHour - openTimeHour + 1}, (v, i) => openTimeHour + i));
+    const selectedSlot = new Set(
+      Array.from(
+        { length: closeTimeHour - openTimeHour + 1 },
+        (v, i) => openTimeHour + i
+      )
+    );
     for(let i = 0; i < hours.length; i++) {
-      let slot = new Set(Array.from({length: hours[i].closeTimeHour - hours[i].openTimeHour + 1}, (v, j) => hours[i].openTimeHour + j));
+      const slot = new Set(
+        Array.from(
+          { length: hours[i].closeTimeHour - hours[i].openTimeHour + 1 },
+          (v, j) => hours[i].openTimeHour + j
+        )
+      );
       const intersection = new Set([...selectedSlot].filter(x => slot.has(x)));
       if (intersection.size >= 2) {
         return true;
@@ -206,21 +216,6 @@ export default class AccountInfo extends React.Component {
 
     const newHours = [...hours];
 
-    const latestSelectedHour = [];
-    latestSelectedHour.push({
-      dayOfWeek,
-      closeTimeHour,
-      closeTimeMinutes,
-      openTimeHour,
-      openTimeMinutes
-    });
-
-    console.log('close before open',this.checkCloseBeforeOpen(openTimeHour, closeTimeHour));
-    console.log('check open hour',this.checkOpenHours(this.checkSameDay(newHours, dayOfWeek), openTimeHour));
-    console.log('check close hour',this.checkCloseHours(this.checkSameDay(newHours, dayOfWeek), closeTimeHour));
-    console.log('check interval',this.checkIntervalHours(this.checkSameDay(newHours, dayOfWeek), openTimeHour, closeTimeHour));
-
-
     if(newHours.length === 0) {
       if(this.checkCloseBeforeOpen(openTimeHour, closeTimeHour) === false) {
         newHours.push({
@@ -239,9 +234,19 @@ export default class AccountInfo extends React.Component {
       }
     } else if (
       this.checkCloseBeforeOpen(openTimeHour, closeTimeHour) ||
-      this.checkOpenHours(this.checkSameDay(newHours, dayOfWeek), openTimeHour) ||
-      this.checkCloseHours(this.checkSameDay(newHours, dayOfWeek), closeTimeHour) ||
-      this.checkIntervalHours(this.checkSameDay(newHours, dayOfWeek), openTimeHour, closeTimeHour) !== false
+      this.checkOpenHours(
+        this.checkSameDay(newHours, dayOfWeek),
+        openTimeHour
+      ) ||
+      this.checkCloseHours(
+        this.checkSameDay(newHours, dayOfWeek),
+        closeTimeHour
+      ) ||
+      this.checkIntervalHours(
+        this.checkSameDay(newHours, dayOfWeek),
+        openTimeHour,
+        closeTimeHour
+      ) !== false
     ) {
       return false;
     } else {
@@ -270,6 +275,26 @@ export default class AccountInfo extends React.Component {
     this.setState({ hours: newHours });
   }
 
+  openTimeFormat(hour, minutes) {
+    if(hour < 12 && hour !== 0) {
+      return `${hour}:${minutes} AM`;
+    } else if(hour === 0) {
+      return `12:${minutes} AM`;
+    } else if(hour === 12) {
+      return `12:${minutes} PM`;
+    }
+    return `${hour - 12}:${minutes} PM`;
+  }
+
+  closeTimeFormat(hour, minutes) {
+    if(hour < 12) {
+      return `${hour}:${minutes} AM`;
+    } else if(hour === 12) {
+      return `12:${minutes} PM`;
+    }
+    return `${hour - 12}:${minutes} PM`;
+  }
+
   async uploadPhoto() {
     if (!this.state.upload) {
       return;
@@ -296,7 +321,7 @@ export default class AccountInfo extends React.Component {
   }
 
   async save() {
-    const {vendor, isBusy, createVendor, updateVendor} = this.props;
+    const { vendor, isBusy, createVendor, updateVendor } = this.props;
 
     if (isBusy) {
       console.log('is busy');
@@ -526,8 +551,15 @@ export default class AccountInfo extends React.Component {
                 openTimeMinutes = '00';
               }
 
-              const closeTime = `${closeTimeHour}:${closeTimeMinutes}`;
-              const openTime = `${openTimeHour}:${openTimeMinutes}`;
+              const openTime = this.openTimeFormat(
+                openTimeHour,
+                openTimeMinutes
+              );
+
+              const closeTime = this.closeTimeFormat(
+                closeTimeHour,
+                closeTimeMinutes
+              );
 
               let readableDayOfWeek = '';
 

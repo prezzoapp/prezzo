@@ -1,88 +1,56 @@
 // @flow
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Dimensions, Text, TextInput, View} from 'react-native';
-import {FONT_FAMILY} from '../../services/constants';
-
-type Props = {
-  onChange: Function,
-  label: string,
-  type: 'name' | 'number' | 'url',
-  value: string
-};
+import { Dimensions, Text, TextInput, View } from 'react-native';
+import { FONT_FAMILY } from '../../services/constants';
 
 const labelTextColor = '#A7A7A7';
 const screenWidth = Dimensions.get('window').width;
 const placeholderTextColor = '#A5A5A5';
 const valueTextColor = 'white';
 
-class ProfileTextInput extends Component<Props> {
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-    label: PropTypes.string.isRequired,
-    placeholder: PropTypes.string.isRequired,
-    showInputBottomBorder: PropTypes.bool.isRequired,
-    style: PropTypes.object.isRequired,
-    type: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-    showLabel: PropTypes.bool,
-    borderBottomColor: PropTypes.string,
-    keyboardType: PropTypes.string
+const ProfileTextInput = props => {
+  const {
+    onChange,
+    label,
+    placeholder,
+    type,
+    value,
+    style,
+    keyboardType
+  } = props;
+  const containerStyle = {
+    ...styles.container,
+    ...style
+  };
+  const valueContainerStyle = {
+    ...styles.valueContainer,
+    ...{
+      borderBottomColor: props.borderBottomColor
+    }
   };
 
-  static defaultProps = {
-    showInputBottomBorder: true,
-    style: {},
-    value: '',
-    showLabel: true,
-    borderBottomColor: 'transparent',
-    keyboardType: 'default'
-  };
-
-  render() {
-    const {
-      onChange,
-      label,
-      placeholder,
-      type,
-      value,
-      showInputBottomBorder,
-      style,
-      keyboardType
-    } = this.props;
-    const containerStyle = {
-      ...styles.container,
-      ...style
-    };
-    const valueContainerStyle = {
-      ...styles.valueContainer,
-      ...{
-        borderBottomColor: this.props.borderBottomColor
-      }
-    };
-
-    return (
-      <View style={containerStyle}>
-        {(this.props.showLabel) ? (
-          <View style={styles.labelContainer}>
-            <Text style={styles.label}>{label}</Text>
-          </View>
-        ) : ( null )}
-        <View style={valueContainerStyle}>
-          <TextInput
-            style={styles.value}
-            autoCapitalize={type === 'name' ? 'words' : 'none'}
-            onChangeText={text => onChange && onChange(text)}
-            autoCorrect={false}
-            placeholder={placeholder}
-            placeholderTextColor={placeholderTextColor}
-            value={value}
-            keyboardType={keyboardType}
-          />
+  return (
+    <View style={containerStyle}>
+      {props.showLabel ? (
+        <View style={styles.labelContainer}>
+          <Text style={styles.label}>{label}</Text>
         </View>
+      ) : null}
+      <View style={valueContainerStyle}>
+        <TextInput
+          style={styles.value}
+          autoCapitalize={type === 'name' ? 'words' : 'none'}
+          onChangeText={text => onChange && onChange(text)}
+          autoCorrect={false}
+          placeholder={placeholder}
+          placeholderTextColor={placeholderTextColor}
+          value={value}
+          keyboardType={keyboardType}
+        />
       </View>
-    );
-  }
+    </View>
+  );
 }
 
 const styles = {
@@ -114,6 +82,28 @@ const styles = {
     borderBottomWidth: 2,
     flex: 1.8
   }
+};
+
+ProfileTextInput.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  showInputBottomBorder: PropTypes.bool,
+  style: PropTypes.object,
+  type: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  showLabel: PropTypes.bool,
+  borderBottomColor: PropTypes.string,
+  keyboardType: PropTypes.string
+};
+
+ProfileTextInput.defaultProps = {
+  showInputBottomBorder: true,
+  style: {},
+  value: '',
+  showLabel: true,
+  borderBottomColor: 'transparent',
+  keyboardType: 'default'
 };
 
 export default ProfileTextInput;

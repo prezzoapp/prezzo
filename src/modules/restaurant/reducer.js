@@ -56,16 +56,30 @@ export default (state = INITIAL_STATE, action) => {
 
       if(restaurant.get('data').hasIn(['menu'])) {
         if(restaurant.get('data').hasIn(['menu', 'categories'])) {
-          if(restaurant.get('data').get('menu').get('categories').size !== 0) {
-            updatedMenuCategories = restaurant.get('data').get('menu').get('categories').map((category) => {
-              return category.set('data', category.get('items').map((item) => {
-                return item.set('quantity', 0).set('rating', 1);
-              })).delete('items');
-            });
+          if (
+            restaurant
+              .get('data')
+              .get('menu')
+              .get('categories').size !== 0
+          ) {
+            updatedMenuCategories = restaurant
+              .get('data')
+              .get('menu')
+              .get('categories')
+              .map(category => {
+                return category
+                  .set(
+                    'data',
+                    category.get('items').map(item => {
+                      return item.set('quantity', 0).set('rating', 1);
+                    })
+                  )
+                  .delete('items');
+              });
 
             return restaurant.updateIn(
-              ['data', 'menu', 'categories'],
-              categories => updatedMenuCategories
+                ['data', 'menu', 'categories'],
+                categories => updatedMenuCategories
               )
               .update('isBusy', () => false)
               .update('totalPrice', () => 0.0);
@@ -79,57 +93,86 @@ export default (state = INITIAL_STATE, action) => {
       return state.set('data', null);
 
     case ADD_REMOVE_ITEM_QUANTITY_SUCCESS:
-      updatedMenuCategories = state.get('data').get('menu').get('categories').update(
-        state.get('data').get('menu').get('categories').findIndex(category => {
-          return category.get('_id') === action.payload.sectionId
-        }), (categoryItem) => {
-          return categoryItem.set('data', categoryItem.get('data').update(
+      updatedMenuCategories = state
+        .get('data')
+        .get('menu')
+        .get('categories')
+        .update(
+          state
+            .get('data')
+            .get('menu')
+            .get('categories')
+            .findIndex(category => {
+              return category.get('_id') === action.payload.sectionId;
+            }),
+          categoryItem => {
+            return categoryItem.set(
+              'data',
+              categoryItem.get('data').update(
             categoryItem.get('data').findIndex(item => {
               return item.get('_id') === action.payload.itemId;
-            }), (menuItem) => {
-              if(action.payload.op === 'add') {
-                return menuItem.set('quantity', menuItem.get('quantity') + 1);
-              }
-              return menuItem.set(
-                'quantity',
-                menuItem.get('quantity') > 0
-                  ? menuItem.get('quantity') - 1
-                  : menuItem.get('quantity')
-              );
-            }
-          ))
-        }
-      );
+                }),
+                menuItem => {
+                  if (action.payload.op === 'add') {
+                    return menuItem.set(
+                      'quantity',
+                      menuItem.get('quantity') + 1
+                    );
+                  }
+                  return menuItem.set(
+                    'quantity',
+                    menuItem.get('quantity') > 0
+                      ? menuItem.get('quantity') - 1
+                      : menuItem.get('quantity')
+                  );
+                }
+              )
+            );
+          }
+        );
 
       return state.updateIn(
         ['data', 'menu', 'categories'],
         categories => updatedMenuCategories
         )
-        .update(
-          'totalPrice', () =>
+        .update('totalPrice', () =>
           this.calculateFinalPrice(updatedMenuCategories)
         )
         .update('isBusy', () => false);
 
     case CHANGE_ITEM_RATING_SUCCESS:
-      updatedMenuCategories = state.get('data').get('menu').get('categories').update(
-        state.get('data').get('menu').get('categories').findIndex(category => {
-          return category.get('_id') === action.payload.sectionId
-        }), (categoryItem) => {
-          return categoryItem.set('data', categoryItem.get('data').update(
-            categoryItem.get('data').findIndex(item => {
-              return item.get('_id') === action.payload.itemId;
-            }), (menuItem) => {
-              return menuItem.set('rating', action.payload.rating);
-            }
-          ))
-        }
-      );
+      updatedMenuCategories = state
+        .get('data')
+        .get('menu')
+        .get('categories')
+        .update(
+          state
+            .get('data')
+            .get('menu')
+            .get('categories')
+            .findIndex(category => {
+              return category.get('_id') === action.payload.sectionId;
+            }),
+          categoryItem => {
+            return categoryItem.set(
+              'data',
+              categoryItem.get('data').update(
+                categoryItem.get('data').findIndex(item => {
+                  return item.get('_id') === action.payload.itemId;
+                }),
+                menuItem => {
+                  return menuItem.set('rating', action.payload.rating);
+                }
+              )
+            );
+          }
+        );
 
       return state.updateIn(
-        ['data', 'menu', 'categories'],
-        categories => updatedMenuCategories
-      ).update('isBusy', () => false);
+          ['data', 'menu', 'categories'],
+          categories => updatedMenuCategories
+        )
+        .update('isBusy', () => false);
 
     default:
       return state;
@@ -137,11 +180,23 @@ export default (state = INITIAL_STATE, action) => {
     case CLEAR_CART_DATA_SUCCESS:
       if(state.get('data').hasIn(['menu'])) {
         if(state.get('data').hasIn(['menu', 'categories'])) {
-          if(state.get('data').get('menu').get('categories').size !== 0) {
-            updatedMenuCategories = state.get('data').get('menu').get('categories').map((category) => {
-              return category.set('data', category.get('data').map((item) => {
+          if (
+            state
+              .get('data')
+              .get('menu')
+              .get('categories').size !== 0
+          ) {
+            updatedMenuCategories = state
+              .get('data')
+              .get('menu')
+              .get('categories')
+              .map(category => {
+                return category.set(
+                  'data',
+                  category.get('data').map(item => {
                 return item.set('quantity', 0).set('rating', 1);
-              }));
+                  })
+                );
             });
 
             return state.updateIn(

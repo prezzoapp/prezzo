@@ -6,7 +6,6 @@ import styles from './styles';
 
 export default class FilterItems extends Component {
   static propTypes = {
-    // item: PropTypes.object.isRequired,
     toggleFilter: PropTypes.func.isRequired,
     on: PropTypes.bool,
     image: PropTypes.number.isRequired,
@@ -18,13 +17,6 @@ export default class FilterItems extends Component {
     super(props);
     this.state = { active: props.on };
   }
-
-  // shouldComponentUpdate(nextProps) {
-  //   if (nextProps.item.active !== this.props.item.active) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
 
   toggleFilter = () => {
     this.setState(() => {
@@ -65,3 +57,7 @@ export default class FilterItems extends Component {
     );
   }
 }
+
+FilterItems.defaultProps = {
+  on: false
+};

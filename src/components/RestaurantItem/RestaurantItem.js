@@ -56,34 +56,57 @@ export default class RestaurantItem extends Component {
             <Text style={styles.itemIngradients}>{this.props.item.description}</Text>
           </View>
           <View style={styles.rightSideContainer}>
-            {this.props.item.quantity === 0 ? (
-              <TouchableOpacity
-                activeOpacity={0.6}
-                onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'add')}
-              >
-                <Icon name="plus" size={22} color="white" />
-              </TouchableOpacity>
-            ) : (
-              <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'remove')}
-                >
-                  <Icon name="minus" size={22} color="green" />
-                </TouchableOpacity>
+            {(() => {
+              if(this.props.item.quantity === 0) {
+                return (
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() =>
+                      this.props.addRemoveItemQuantity(
+                        this.props.item._id,
+                        'add'
+                      )
+                    }
+                  >
+                    <Icon name="plus" size={22} color="white" />
+                  </TouchableOpacity>
+                );
+              }
+              return (
+                <View style={{
+                    flexDirection: 'row',
+                    alignItems: 'flex-start'
+                }}>
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() =>
+                      this.props.addRemoveItemQuantity(
+                        this.props.item._id,
+                        'remove'
+                      )
+                    }
+                  >
+                    <Icon name="minus" size={22} color="green" />
+                  </TouchableOpacity>
 
-                <Text style={[styles.itemTitle, { top: -3 }]}>
-                  {this.props.item.quantity}
-                </Text>
+                  <Text style={[styles.itemTitle, { top: -3 }]}>
+                    {this.props.item.quantity}
+                  </Text>
 
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'add')}
-                >
-                  <Icon name="plus" size={22} color="green" />
-                </TouchableOpacity>
-              </View>
-            )}
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() =>
+                      this.props.addRemoveItemQuantity(
+                        this.props.item._id,
+                        'add'
+                      )
+                    }
+                  >
+                    <Icon name="plus" size={22} color="green" />
+                  </TouchableOpacity>
+                </View>
+              );
+            })()}
           </View>
         </View>
       )
@@ -116,41 +139,63 @@ export default class RestaurantItem extends Component {
 
         <View style={styles.bottomContentHolder}>
           <View>
-          {(this.props.item.quantity === 0) ? (
-            <Button
-              style={itemOrderBtnStyles.commonBtn}
-              textStyle={itemOrderBtnStyles.commonBtnText}
-              onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'add')}
-            >
-              Order
-            </Button>
-          ) : (
-            <View style={styles.controlButtons}>
-              <TouchableOpacity
-                activeOpacity={0.6}
-                onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'remove')}
-              >
-                <Icon name="minus" size={16} color="white" />
-              </TouchableOpacity>
+            {(() => {
+              if(this.props.item.quantity === 0) {
+                return (
+                  <Button
+                    style={itemOrderBtnStyles.commonBtn}
+                    textStyle={itemOrderBtnStyles.commonBtnText}
+                    onPress={() =>
+                      this.props.addRemoveItemQuantity(
+                        this.props.item._id,
+                        'add'
+                      )
+                    }
+                  >
+                    Order
+                  </Button>
+                );
+              }
+              return (
+                <View style={styles.controlButtons}>
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() =>
+                      this.props.addRemoveItemQuantity(
+                        this.props.item._id,
+                        'remove'
+                      )
+                    }
+                  >
+                    <Icon name="minus" size={16} color="white" />
+                  </TouchableOpacity>
 
-              <Text style={styles.quantityTextStyleInPhotoMode}>
-                {this.props.item.quantity}
-              </Text>
+                  <Text style={styles.quantityTextStyleInPhotoMode}>
+                    {this.props.item.quantity}
+                  </Text>
 
-              <TouchableOpacity
-                activeOpacity={0.6}
-                onPress={() => this.props.addRemoveItemQuantity(this.props.item._id, 'add')}
-              >
-                <Icon name="plus" size={16} color="white" />
-              </TouchableOpacity>
-            </View>
-          )}
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() =>
+                      this.props.addRemoveItemQuantity(
+                        this.props.item._id,
+                        'add'
+                      )
+                    }
+                  >
+                    <Icon name="plus" size={16} color="white" />
+                  </TouchableOpacity>
+                </View>
+              );
+            })()}
           </View>
 
           <View>
             <RatingBar
               itemRating={this.props.item.rating}
-              changeItemRating={rating => this.props.changeItemRating(this.props.item._id, rating)}
+              changeItemRating={rating =>
+                this.props.changeItemRating(this.props.item._id, rating)
+              }
             />
           </View>
         </View>
@@ -183,5 +228,7 @@ const itemOrderBtnStyles = {
 
 RestaurantItem.propTypes = {
   item: PropTypes.object.isRequired,
-  showText: PropTypes.bool.isRequired
+  showText: PropTypes.bool.isRequired,
+  addRemoveItemQuantity: PropTypes.func.isRequired,
+  changeItemRating: PropTypes.func.isRequired
 };

@@ -1,11 +1,8 @@
 // @flow
-import {Map} from 'immutable';
-import {
-  INITIALIZE_STATE,
-  RESET_STATE
-} from './types';
+import { Map } from 'immutable';
+import { INITIALIZE_STATE, RESET_STATE } from './types';
 
-const INITIAL_STATE = Map({isReady: false});
+const INITIAL_STATE = Map({ isReady: false });
 
 export default (state = INITIAL_STATE, action = {}) => {
   switch (action.type) {

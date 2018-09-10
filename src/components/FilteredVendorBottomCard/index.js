@@ -1,3 +1,3 @@
-import FilteredVendorBottomCard from "./FilteredVendorBottomCard";
+import FilteredVendorBottomCard from './FilteredVendorBottomCard';
 
 export default FilteredVendorBottomCard;

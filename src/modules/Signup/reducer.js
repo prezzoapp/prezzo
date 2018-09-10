@@ -13,7 +13,6 @@ import {
   SIGNUP_RESET
 } from './types';
 import type State from './types';
-import {RESET_STATE} from '../../modules/session';
 
 const INITIAL_STATE: State = Map({
   firstName: '',

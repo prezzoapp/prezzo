@@ -30,13 +30,16 @@ export default class AccountMenu extends React.Component {
 
   static propTypes = {
     navigate: PropTypes.func.isRequired,
-    createMenu: PropTypes.func.isRequired
+    createMenu: PropTypes.func.isRequired,
+    avatarURL: PropTypes.string.isRequired,
+    vendor: PropTypes.object.isRequired,
+    menu: PropTypes.object.isRequired,
+    userLogout: PropTypes.func.isRequired
   };
 
   async logout() {
-    //await snapshot.resetSnapshot();
+    await this.props.userLogout();
     await snapshot.clearSnapshot();
-    this.props.userLogout();
     this.props.navigate({ routeName: 'Authentication' });
   }
 
@@ -50,7 +53,7 @@ export default class AccountMenu extends React.Component {
         '',
         'You must create a Vendor account before creating a menu.',
         [{ text: 'OK' }],
-        {cancelable: false}
+        { cancelable: false }
       )
     }
   }

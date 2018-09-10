@@ -1,8 +1,14 @@
 // @flow
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
-import {FONT_FAMILY, FONT_FAMILY_MEDIUM} from '../../services/constants';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet
+} from 'react-native';
+import { FONT_FAMILY, FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 type Props = {
   onChange: Function,
@@ -20,7 +26,7 @@ class LoginTextInput extends Component<Props, State> {
     onChange: PropTypes.func.isRequired,
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
+    value: PropTypes.string
   };
 
   static defaultProps = {
@@ -33,27 +39,24 @@ class LoginTextInput extends Component<Props, State> {
 
   togglePasswordVisibility() {
     const isShowingPassword = !this.state.isShowingPassword;
-    this.setState({isShowingPassword});
+    this.setState({ isShowingPassword });
   }
 
   render() {
-    const {onChange, label, type, value} = this.props;
-    const {isShowingPassword} = this.state;
+    const { onChange, label, type, value } = this.props;
+    const { isShowingPassword } = this.state;
 
     return (
       <View style={styles.container}>
         <View style={styles.labelContainer}>
           <Text style={styles.label}>{label}</Text>
-
-          {
-            type === 'password' && (
-              <TouchableOpacity onPress={() => this.togglePasswordVisibility()}>
-                <Text style={styles.togglePasswordVisibility}>
-                  {isShowingPassword ? 'Hide' : 'Show'}
-                </Text>
-              </TouchableOpacity>
-            )
-          }
+          {type === 'password' && (
+            <TouchableOpacity onPress={() => this.togglePasswordVisibility()}>
+              <Text style={styles.togglePasswordVisibility}>
+                {isShowingPassword ? 'Hide' : 'Show'}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
 
         <TextInput

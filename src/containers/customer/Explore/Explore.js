@@ -72,10 +72,6 @@ class Explore extends PureComponent<Props> {
     );
   }
 
-  // componentWillUnmount() {
-	// 	navigator.geolocation.clearWatch(this.watchID);
-  // }
-
   render() {
     return (
       <View style={styles.container}>

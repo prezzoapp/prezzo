@@ -166,6 +166,7 @@ CreateMenu.propTypes = {
   updateItem: PropTypes.func.isRequired,
   deleteItem: PropTypes.func.isRequired,
 
+  uploadImage: PropTypes.func.isRequired,
   addImage: PropTypes.func.isRequired,
   deleteImage: PropTypes.func.isRequired,
 

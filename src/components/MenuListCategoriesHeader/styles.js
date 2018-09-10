@@ -1,5 +1,10 @@
-import {StyleSheet} from 'react-native';
-import { FONT_FAMILY, COLOR_BLACK, COLOR_GREEN, COLOR_DANGER } from '../../services/constants';
+import { StyleSheet } from 'react-native';
+import {
+  FONT_FAMILY,
+  COLOR_BLACK,
+  COLOR_GREEN,
+  COLOR_DANGER
+} from '../../services/constants';
 
 export default StyleSheet.create({
   sectionHeader: {

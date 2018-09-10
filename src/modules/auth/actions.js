@@ -1,7 +1,7 @@
 // @flow
-import {Platform} from 'react-native';
-import {fromJS} from 'immutable';
-import {Buffer} from 'buffer';
+import { Platform } from 'react-native';
+import { fromJS } from 'immutable';
+import { Buffer } from 'buffer';
 import {
   LOGIN_WITH_EMAIL_REQUEST,
   LOGIN_WITH_EMAIL_SUCCESS,
@@ -12,8 +12,7 @@ import {
   USER_LOGOUT_REQUEST,
   USER_LOGOUT_SUCCESS,
   USER_LOGOUT_FAILURE,
-  SET_AUTHENTICATION_TOKEN,
-  CLEAR_AUTHENTICATION_TOKEN
+  SET_AUTHENTICATION_TOKEN
 } from './types';
 import { post, get } from '../../utils/api';
 import { setAuthenticationToken as cacheToken } from '../../utils/authentication';

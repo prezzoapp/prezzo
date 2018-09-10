@@ -30,12 +30,14 @@ class Profile extends Component {
   static displayName = 'Profile';
 
   static propTypes = {
-    navigate: PropTypes.func.isRequired
+    navigate: PropTypes.func.isRequired,
+    avatarURL: PropTypes.string.isRequired,
+    userLogout: PropTypes.func.isRequired
   };
 
   async logout() {
+    await this.props.userLogout();
     await snapshot.clearSnapshot();
-    this.props.userLogout();
     this.props.navigate({ routeName: 'Authentication' });
   }
 
@@ -45,7 +47,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { avatarURL, vendor } = this.props;
+    const { avatarURL } = this.props;
 
     return (
       <View style={styles.parent}>
@@ -55,7 +57,7 @@ class Profile extends Component {
               <Image style={styles.avatar}
                 source={
                   avatarURL
-                  ? {uri: avatarURL}
+                  ? { uri: avatarURL }
                   : require('../../../../assets/images/etc/default-avatar.png')}
               />
             </View>
@@ -63,25 +65,25 @@ class Profile extends Component {
           <View style={styles.bodyContainer}>
             <MenuButton
               onPress={() => this.navigateToEditProfile()}
-              title='My Information'
-              subtitle='Edit my personal information'
-              icon='chevron-right'
+              title="My Information"
+              subtitle="Edit my personal information"
+              icon="chevron-right"
             />
             <MenuButton
               onPress={() => this.props.navigate(null)}
-              title='Payment Methods'
-              subtitle='Edit my payment methods'
-              icon='chevron-right'
+              title="Payment Methods"
+              subtitle="Edit my payment methods"
+              icon="chevron-right"
             />
             <MenuButton
               onPress={() => this.props.navigate(null)}
-              title='My History'
-              icon='chevron-right'
+              title="My History"
+              icon="chevron-right"
             />
             <MenuButton
               onPress={() => this.props.navigate({routeName: 'Vendor'})}
-              title='Switch to Vendor Account'
-              icon='repeat'
+              title="Switch to Vendor Account"
+              icon="repeat"
             />
           </View>
           <View style={styles.footerContainer}>

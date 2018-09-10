@@ -15,7 +15,12 @@ export default class ExploreScreenHeader extends PureComponent {
     navigate: PropTypes.func.isRequired,
     toggleFilter: PropTypes.func.isRequired,
     filters: PropTypes.array.isRequired,
-    updateDistance: PropTypes.func.isRequired
+    updateDistance: PropTypes.func.isRequired,
+    currentLatitude: PropTypes.number.isRequired,
+    currentLongitude: PropTypes.number.isRequired,
+    maxDistance: PropTypes.number.isRequired,
+    minDistance: PropTypes.number.isRequired,
+    distance: PropTypes.number.isRequired
   };
 
   constructor(props) {
@@ -24,7 +29,11 @@ export default class ExploreScreenHeader extends PureComponent {
   }
 
   changeDistance(value) {
-    this.props.updateDistance(this.props.currentLatitude, this.props.currentLongitude, value);
+    this.props.updateDistance(
+      this.props.currentLatitude,
+      this.props.currentLongitude,
+      value
+    );
   }
 
   render() {
@@ -50,12 +59,19 @@ export default class ExploreScreenHeader extends PureComponent {
                   }
                 >
                   <Text style={styles.filter}> Filter</Text>
-                  <DropArrowIcon name="chevron-down" size={25} color="#fafafa" style={styles.dropArrowIcon}/>
+                  <DropArrowIcon
+                    name="chevron-down"
+                    size={25}
+                    color="#fafafa"
+                    style={styles.dropArrowIcon}
+                  />
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.6}
                   style={{ marginLeft: 10 }}
-                  onPress={() => this.props.navigate({ routeName: 'MapScreen' })}
+                  onPress={() =>
+                    this.props.navigate({ routeName: 'MapScreen' })
+                  }
                 >
                   <Image
                     source={require('../../../../assets/images/location_icon.png')}
@@ -92,7 +108,9 @@ export default class ExploreScreenHeader extends PureComponent {
                     <View key={item._id} style={styles.slidersHolder}>
                       <View style={styles.sliderTitleHolder}>
                         <Text style={styles.sliderTitleText}>Distance</Text>
-                        <Text style={styles.sliderTitleText}>{this.props.maxDistance}mi</Text>
+                        <Text style={styles.sliderTitleText}>
+                          {this.props.maxDistance}mi
+                        </Text>
                       </View>
                       <Slider
                         minimumValue={this.props.minDistance}

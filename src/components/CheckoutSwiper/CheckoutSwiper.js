@@ -8,6 +8,8 @@ import {
 
 import Icon from 'react-native-vector-icons/dist/Feather';
 
+import PropTypes from 'prop-types';
+
 import ProfileTextInput from '../ProfileTextInput';
 
 import Button from '../Button';
@@ -66,11 +68,7 @@ export default class CheckoutSwiper extends Component {
                 )
               }
             >
-              <Icon
-                name="minus"
-                size={wp('4.9%')}
-                color="#2ED573"
-              />
+              <Icon name="minus" size={wp('4.9%')} color="#2ED573" />
             </TouchableOpacity>
 
             <Text style={styles.quantity}>{item.quantity}</Text>
@@ -79,11 +77,7 @@ export default class CheckoutSwiper extends Component {
               activeOpacity={0.6}
               style={styles.quantityBtn}
               onPress={() =>
-                this.props.addRemoveItemQuantity(
-                  section._id,
-                  item._id,
-                  'add'
-                )
+                this.props.addRemoveItemQuantity(section._id, item._id, 'add')
               }
             >
               <Icon name="plus" size={wp('4.9%')} color="#2ED573" />
@@ -136,7 +130,9 @@ export default class CheckoutSwiper extends Component {
                         showsVerticalScrollIndicator={false}
                         style={styles.flatList}
                         keyExtractor={item => item._id}
-                        renderItem={({ item, section }) => this.renderItem(item, section)}
+                        renderItem={({ item, section }) =>
+                          this.renderItem(item, section)
+                        }
                       />
                     );
                   }
@@ -145,17 +141,27 @@ export default class CheckoutSwiper extends Component {
 
               <View style={styles.reviewOrderFooter}>
                 <View style={styles.reviewOrderFooterContainer}>
-                  <Text style={styles.reviewOrderFooterText}>
-                    SUBTOTAL
+                  <Text style={styles.reviewOrderFooterText}>SUBTOTAL</Text>
+                  <Text
+                    style={[
+                      styles.reviewOrderFooterText,
+                      { textAlign: 'right' }
+                    ]}
+                  >
+                    ${this.props.data.totalPrice}
                   </Text>
-                  <Text style={[styles.reviewOrderFooterText, {textAlign: 'right'}]}>${this.props.data.totalPrice}</Text>
                 </View>
 
                 <View style={styles.reviewOrderFooterContainer}>
-                  <Text style={styles.reviewOrderFooterText}>
-                    TAX
+                  <Text style={styles.reviewOrderFooterText}>TAX</Text>
+                  <Text
+                    style={[
+                      styles.reviewOrderFooterText,
+                      { textAlign: 'right' }
+                    ]}
+                  >
+                    + $2.43
                   </Text>
-                  <Text style={[styles.reviewOrderFooterText, {textAlign: 'right'}]}>+ $2.43</Text>
                 </View>
               </View>
             </View>
@@ -164,9 +170,7 @@ export default class CheckoutSwiper extends Component {
           <View style={styles.slide}>
             <View>
               <View style={styles.orderDetails}>
-                <Text style={styles.restaurantName}>
-                  WHERE TO?
-                </Text>
+                <Text style={styles.restaurantName}>WHERE TO?</Text>
               </View>
 
               <View style={styles.whereToScreenContainer}>
@@ -191,9 +195,7 @@ export default class CheckoutSwiper extends Component {
                   Please show this code to your server, or give it to your
                   friend to join a table.
                 </Text>
-                <Text style={styles.tableCode}>
-                  9192
-                </Text>
+                <Text style={styles.tableCode}>9192</Text>
               </View>
             </View>
           </View>
@@ -212,7 +214,10 @@ export default class CheckoutSwiper extends Component {
                       onPress={() => alert()}
                     >
                       <View>
-                        <Image source={require('../../../assets/images/etc/visa_icon.png')} style={styles.paymentIcons}/>
+                        <Image
+                          source={require('../../../assets/images/etc/visa_icon.png')}
+                          style={styles.paymentIcons}
+                        />
                       </View>
                     </Button>
                     <View style={styles.checkMarkIconHolder}>
@@ -226,7 +231,10 @@ export default class CheckoutSwiper extends Component {
                       onPress={() => alert()}
                     >
                       <View>
-                        <Image source={require('../../../assets/images/etc/cash_icon.png')} style={styles.paymentIcons}/>
+                        <Image
+                          source={require('../../../assets/images/etc/cash_icon.png')}
+                          style={styles.paymentIcons}
+                        />
                       </View>
                     </Button>
                     <View style={styles.checkMarkIconHolder}>
@@ -237,46 +245,46 @@ export default class CheckoutSwiper extends Component {
                 <View style={styles.paymentInfoContainer}>
                   <Text style={styles.paymentInfoTitle}>PAYMENT DETAILS</Text>
                   <ProfileTextInput
-                    label='Card Number'
+                    label="Card Number"
                     style={{ marginTop: wp('4%') }}
                     onChange={val => this.setState({ cardNumber: val })}
-                    placeholder=''
+                    placeholder=""
                     showInputBottomBorder={false}
-                    type='cardNumber'
+                    type="cardNumber"
                     keyboardType="numeric"
                     value={this.state.cardNumber}
                   />
 
                   <View style={{ flexDirection: 'row' }}>
                     <ProfileTextInput
-                      label='Exp Date'
+                      label="Exp Date"
                       style={{ marginTop: wp('3%'), width: '70%' }}
                       onChange={val => this.setState({ cardNumber: val })}
-                      placeholder=''
+                      placeholder=""
                       showInputBottomBorder={false}
-                      type='expDate'
+                      type="expDate"
                       value="09/18"
                     />
 
                     <ProfileTextInput
-                      label='CVV'
+                      label="CVV"
                       style={{ marginTop: wp('3%'), width: '30%' }}
                       onChange={val => this.setState({ cardNumber: val })}
-                      placeholder=''
+                      placeholder=""
                       showInputBottomBorder={false}
-                      type='cvv'
+                      type="cvv"
                       keyboardType="numeric"
                       value="344"
                     />
                   </View>
 
                   <ProfileTextInput
-                    label='Card Holder'
+                    label="Card Holder"
                     style={{ marginTop: wp('4%'), marginBottom: wp('4%') }}
                     onChange={val => this.setState({ cardNumber: val })}
-                    placeholder=''
+                    placeholder=""
                     showInputBottomBorder={false}
-                    type='cardHolder'
+                    type="cardHolder"
                     value={this.state.cardNumber}
                   />
 
@@ -332,4 +340,11 @@ const paymentBtnStyles = {
     borderRadius: 5,
     paddingHorizontal: wp('3.46%')
   }
+};
+
+CheckoutSwiper.propTypes = {
+  setCurrentIndex: PropTypes.func.isRequired,
+  addRemoveItemQuantity: PropTypes.func.isRequired,
+  restaurantName: PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired
 };
