@@ -1,6 +1,6 @@
 // @flow
 import {
-  createTabNavigator,
+  createBottomTabNavigator,
   createStackNavigator,
   createSwitchNavigator
 } from 'react-navigation';
@@ -69,7 +69,7 @@ const CustomerProfileNavigator = createStackNavigator(
   }
 );
 
-const ExploreScreenNavigator = createTabNavigator(
+const ExploreScreenNavigator = createBottomTabNavigator(
   {
     Explore: { screen: Explore },
     CustomerProfile: { screen: CustomerProfileNavigator }
@@ -108,7 +108,7 @@ const VendorProfileNavigator = createStackNavigator(
   }
 );
 
-const VendorNavigator = createTabNavigator(
+const VendorNavigator = createBottomTabNavigator(
   {
     Tables: { screen: Tables },
     VendorProfile: { screen: VendorProfileNavigator }

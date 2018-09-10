@@ -12,7 +12,7 @@ import {
 
 import { LinearGradient } from 'expo';
 
-import Icon from 'react-native-vector-icons/EvilIcons';
+import { EvilIcons } from '@expo/vector-icons';
 
 import styles from './styles';
 
@@ -80,7 +80,7 @@ export default class ExploreSearchInput extends Component {
           >
             {this.state.showPlaceholder &&
               <View style={styles.placeholder}>
-                <Icon name="search" size={21} color="rgb(151, 151, 151)" />
+                <EvilIcons name="search" size={21} color="rgb(151, 151, 151)" />
                 <Text style={styles.searchText}>Search</Text>
               </View>
             }

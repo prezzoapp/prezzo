@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-// import Icon from 'react-native-vector-icons/dist/Feather';
+import { Feather } from '@expo/vector-icons';
 
 import { LinearGradient } from 'expo';
 
@@ -54,7 +54,7 @@ export default class RestaurantItem extends Component {
                 activeOpacity={0.6}
                 onPress={() => this.changeQuantity('add')}
               >
-                {/* <Icon name="plus" size={22} color="white" /> */}
+                <Feather name="plus" size={22} color="white" />
               </TouchableOpacity>
             ) : (
               <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
@@ -62,7 +62,7 @@ export default class RestaurantItem extends Component {
                   activeOpacity={0.6}
                   onPress={() => this.changeQuantity('remove')}
                 >
-                  {/* <Icon name="minus" size={22} color="green" /> */}
+                  <Feather name="minus" size={22} color="green" />
                 </TouchableOpacity>
 
                 <Text style={[styles.itemTitle, { top: -3 }]}>
@@ -73,7 +73,7 @@ export default class RestaurantItem extends Component {
                   activeOpacity={0.6}
                   onPress={() => this.changeQuantity('add')}
                 >
-                  {/* <Icon name="plus" size={22} color="green" /> */}
+                  <Feather name="plus" size={22} color="green" />
                 </TouchableOpacity>
               </View>
             )}
@@ -113,7 +113,7 @@ export default class RestaurantItem extends Component {
               activeOpacity={0.6}
               onPress={() => this.changeQuantity('remove')}
             >
-              {/* <Icon name="minus" size={16} color="white" /> */}
+              <Feather name="minus" size={16} color="white" />
             </TouchableOpacity>
 
             <Text style={styles.quantityTextStyleInPhotoMode}>
@@ -124,7 +124,7 @@ export default class RestaurantItem extends Component {
               activeOpacity={0.6}
               onPress={() => this.changeQuantity('add')}
             >
-              {/* <Icon name="plus" size={16} color="white" /> */}
+              <Feather name="plus" size={16} color="white" />
             </TouchableOpacity>
           </View>
 

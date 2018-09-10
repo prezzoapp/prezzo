@@ -6,7 +6,7 @@ import {
   StyleSheet
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const color = () => Math.floor(255 * Math.random());
 
@@ -20,7 +20,7 @@ class ColorView extends Component {
   static navigationOptions = {
     title: 'Colors!',
     tabBarIcon: (props) => (
-        <Icon name='color-lens' size={24} color={props.tintColor} />
+        <MaterialIcons name='color-lens' size={24} color={props.tintColor} />
       ),
     // TODO: move this into global config?
     headerTintColor: 'white',

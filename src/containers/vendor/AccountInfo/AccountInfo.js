@@ -11,7 +11,7 @@ import {
 import PropTypes from 'prop-types';
 import { Icon as NativeBaseIcon, Picker, Spinner } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from '@expo/vector-icons';
 import Slider from 'react-native-slider';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import ProfileDataField from '../../../components/ProfileDataField';
@@ -23,7 +23,7 @@ import FilterItem from '../../../components/FilterItem';
 export default class AccountInfo extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     tabBarIcon: props => (
-      <Icon name="person-outline" size={24} color={props.tintColor} />
+      <MaterialIcons name="person-outline" size={24} color={props.tintColor} />
     ),
     title: 'Vendor Account',
     headerStyle: {

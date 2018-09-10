@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Image, View } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
@@ -35,7 +35,7 @@ export default class ItemImagePicker extends Component {
             activeOpacity={0.6}
             onPress={() => this.props.deleteImageComponent(this.props.image)}
           >
-            <Icon
+            <Ionicons
               title="Delete"
               name="md-close"
               color="black"

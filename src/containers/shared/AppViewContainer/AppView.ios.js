@@ -8,8 +8,6 @@ import * as SessionStateActions from '../../../modules/session';
 import store from '../../../redux/store';
 import DeveloperMenu from '../../../components/DeveloperMenu';
 import { Font } from 'expo';
-import MaterialIcons from '../../../../node_modules/@expo/vector-icons/fonts/MaterialIcons.ttf';
-import EvilIcons from '../../../../node_modules/@expo/vector-icons/fonts/EvilIcons.ttf';
 
 class AppView extends Component {
   static displayName = 'AppView';
@@ -43,10 +41,15 @@ class AppView extends Component {
         'ClearSans-Light': require('../../../../assets/fonts/clear-sans/ClearSans-Light.ttf'),
         'ClearSans-Medium': require('../../../../assets/fonts/clear-sans/ClearSans-Medium.ttf'),
         'ClearSans-Bold': require('../../../../assets/fonts/clear-sans/ClearSans-Bold.ttf'),
-        EvilIcons,
-        MaterialIcons
+        'EvilIcons': require('@expo/vector-icons/fonts/EvilIcons.ttf'),
+        'Material Icons': require('@expo/vector-icons/fonts/MaterialIcons.ttf'),
+        'material': require('@expo/vector-icons/fonts/MaterialIcons.ttf'),
+        'Ionicons': require('@expo/vector-icons/fonts/Ionicons.ttf'),
+        'Feather': require('@expo/vector-icons/fonts/Feather.ttf'),         
       });
       this.props.dispatch(SessionStateActions.resetStateAfterFontLoaded(true));
+      console.log(Font);
+      
     } catch (error) {
       alert(error.message)
     }

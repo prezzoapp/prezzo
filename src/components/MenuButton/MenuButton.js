@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
-// import Icon from 'react-native-vector-icons/MaterialIcons';
 import { MaterialIcons } from '@expo/vector-icons'
 import {FONT_FAMILY} from '../../services/constants';
 
@@ -57,12 +56,12 @@ const styles = {
   },
   buttonSubtitle: {
     color: textColor,
-    fontFamily: FONT_FAMILY,
+    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
     fontSize: 12
   },
   buttonTitle: {
     color: textColor,
-    fontFamily: FONT_FAMILY,
+    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
     fontSize: 18
   }
 };

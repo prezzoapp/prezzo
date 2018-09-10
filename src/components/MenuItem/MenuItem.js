@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import { Feather } from '@expo/vector-icons'
 import PropTypes from 'prop-types';
 import MenuItemImage from '../MenuItemImage';
 import styles from './styles';
@@ -205,7 +205,7 @@ export default class MenuItem extends Component {
               style={styles.itemImagePickerBtn}
               onPress={this.addImageComponent}
             >
-              <Icon
+              <Feather
                 title="Add More"
                 name="plus"
                 color="rgb(161,161,161)"

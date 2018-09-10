@@ -15,6 +15,7 @@ import { fromJS } from 'immutable';
 import { Header } from 'react-navigation';
 
 // import Icon from 'react-native-vector-icons/dist/Feather';
+import { Feather } from '@expo/vector-icons';
 
 import { LinearGradient, BlurView } from 'expo';
 
@@ -139,13 +140,13 @@ export default class RestaurantDetails extends Component {
                 {this.props.navigation.state.params.item.location.postalCode}
               </Text>
               <View style={styles.headerContentTextContainer}>
-                {/* <Icon name="package" size={22} color="white" /> */}
+                <Feather name="package" size={22} color="white" />
                 <Text style={[styles.transparent, styles.headerContentText]}>
                   Delivery
                 </Text>
               </View>
               <View style={styles.headerContentTextContainer}>
-                {/* <Icon name="clock" size={22} color="white" /> */}
+                <Feather name="clock" size={22} color="white" />
                 <Text style={[styles.transparent, styles.headerContentText]}>
                   8 Mins Wait Time
                 </Text>
@@ -251,7 +252,7 @@ const buttonStyles = {
   },
   btnText: {
     fontSize: 14,
-    fontFamily: FONT_FAMILY,
+    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
     color: COLOR_WHITE,
     paddingTop: 0,
     paddingBottom: 0,

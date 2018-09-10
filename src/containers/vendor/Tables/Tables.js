@@ -1,8 +1,10 @@
 // @flow
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
+import styles from './styles';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import TableScreenHeader from '../TableScreenHeader'; 
+import { MaterialIcons } from '@expo/vector-icons';
 
 class Tables extends Component {
   static displayName = 'Tables';
@@ -10,7 +12,7 @@ class Tables extends Component {
   static navigationOptions = {
     title: 'Tables',
     tabBarIcon: props => (
-      <Icon name='book' size={24} color={props.tintColor} />
+      <MaterialIcons name='book' size={24} color={props.tintColor} />
     ),
     headerTintColor: 'white',
     headerStyle: {
@@ -29,18 +31,11 @@ class Tables extends Component {
 
   render() {
     return (
-      <View style={styles.container} />
+      <View style={styles.container}>
+      <TableScreenHeader />
+      </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2B2C2C'
-  }
-});
 
 export default Tables;

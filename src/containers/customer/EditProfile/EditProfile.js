@@ -11,7 +11,7 @@ import {
   View,
   ActionSheetIOS
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { ImagePicker } from 'expo';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
@@ -41,11 +41,11 @@ class EditProfile extends Component<Props, State> {
   static navigationOptions = {
     title: 'Profile',
     tabBarIcon: props => (
-      <Icon name="person-outline" size={24} color={props.tintColor} />
+      <MaterialIcons name="person-outline" size={24} color={props.tintColor} />
     ),
     headerTintColor: 'white',
     headerTitleStyle: {
-      fontFamily: FONT_FAMILY_MEDIUM,
+      fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
       fontSize: 18
     },
     headerStyle: {
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   edit: {
     color: COLOR_GREEN,
     fontSize: 18,
-    fontFamily: FONT_FAMILY
+    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY)
   },
   editAvatar: {
     height: 28

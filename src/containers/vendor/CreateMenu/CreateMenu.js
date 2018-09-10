@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 import MenuItem from '../../../components/MenuItem';
 import { COLOR_BLACK } from '../../../services/constants';
@@ -23,7 +23,7 @@ export default class CreateMenu extends Component<Props> {
       borderBottomWidth: 0
     },
     tabBarIcon: props => (
-      <Icon name="person-outline" size={24} color={props.tintColor} />
+      <MaterialIcons name="person-outline" size={24} color={props.tintColor} />
     )
   };
 

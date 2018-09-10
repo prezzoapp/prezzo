@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from '@expo/vector-icons';
 import ExploreScreenHeader from '../ExploreScreenHeader';
 import ExploreList from '../ExploreList';
 import styles from './styles';
@@ -14,7 +14,7 @@ class Explore extends PureComponent<Props> {
   static navigationOptions = {
     title: 'Explore',
     tabBarIcon: props => (
-      <Icon name="explore" size={24} color={props.tintColor} />
+      <MaterialIcons name="explore" size={24} color={props.tintColor} />
     ),
     headerTintColor: 'white',
     headerStyle: {
