@@ -5,6 +5,10 @@ import {
   createSwitchNavigator
 } from 'react-navigation';
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import Tutorial from '../../authentication/Tutorial';
 import EnableNotifications from '../../authentication/EnableNotifications';
 import Login from '../../authentication/Login';
@@ -29,6 +33,7 @@ import LocationSearch from '../../shared/LocationSearch';
 
 const headerColor = '#2B2C2C';
 const activeColor = 'white';
+const inactiveColor = '#919191';
 
 const tabBarOptions = {
   activeTintColor: activeColor,
@@ -72,7 +77,19 @@ const CustomerProfileNavigator = createStackNavigator(
 const ExploreScreenNavigator = createTabNavigator(
   {
     Explore: { screen: Explore },
-    CustomerProfile: { screen: CustomerProfileNavigator }
+    CustomerProfile: {
+      screen: CustomerProfileNavigator,
+      navigationOptions: {
+        title:'Profile',
+        tabBarIcon: ({ focused }) => (
+          <Icon
+            name="person"
+            size={24}
+            color={focused ? activeColor : inactiveColor}
+          />
+        )
+      }
+    }
   },
   {
     initialRouteName: 'Explore',
@@ -138,5 +155,9 @@ const Navigator = createSwitchNavigator(
     initialRouteName: 'Authentication'
   }
 );
+
+Navigator.propTypes = {
+  focused: PropTypes.bool
+};
 
 export default Navigator;

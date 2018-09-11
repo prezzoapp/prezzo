@@ -1,0 +1,25 @@
+import React, { Component } from 'react';
+import { Image, View, Text, TouchableOpacity } from 'react-native';
+import RatingBar from '../RatingBar';
+import styles from './styles';
+
+const SearchVendorListItem = (props) => {
+  console.log(props.item.avatarURL);
+  return (
+    <TouchableOpacity activeOpacity={0.7} style={styles.listItem}>
+      <Image
+        source={{ uri: props.item.avatarURL }}
+        style={styles.vendorImage}
+      />
+      <View style={styles.infoHolder}>
+        <Text style={styles.name}>{props.item.name}</Text>
+        <Text style={styles.address} numberOfLines={2}>
+          {props.item.location.address}, {props.item.location.regionShort},{' '}
+          {props.item.location.postalCode}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+export default SearchVendorListItem;

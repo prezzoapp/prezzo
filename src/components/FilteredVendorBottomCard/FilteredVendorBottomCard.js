@@ -45,7 +45,9 @@ class FilteredVendorBottomCard extends Component {
               <TouchableOpacity
                 activeOpacity={0.6}
                 style={styles.listItemBtn}
-                onPress={() => this.callMethod(item)}
+                onPress={() =>
+                  this.props.moveToPosition([...item.location.coordinates])
+                }
               >
                 <View style={styles.titleHolder}>
                   <Text style={styles.name}>{item.name}</Text>

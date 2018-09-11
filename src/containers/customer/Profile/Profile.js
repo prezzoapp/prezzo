@@ -3,17 +3,13 @@ import React, { Component } from 'react';
 import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { Header } from 'react-navigation';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
 import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
 
 class Profile extends Component {
   static navigationOptions = {
-    title: 'My Profile',
-    tabBarIcon: props => (
-      <Icon name="person-outline" size={24} color={props.tintColor} />
-    ),
+    title: 'Profile',
     headerStyle: {
       position: 'absolute',
       backgroundColor: '#2B2C2C',
@@ -42,7 +38,6 @@ class Profile extends Component {
   }
 
   navigateToEditProfile() {
-    console.log('Pressed');
     this.props.navigate({ routeName: 'EditProfile' });
   }
 

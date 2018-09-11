@@ -16,7 +16,7 @@ export default class ExploreList extends PureComponent {
     return (
       <FlatList
         contentContainerStyle={{ marginHorizontal: 15, paddingTop: 10 }}
-        style={{ marginTop: 132.5 }}
+        style={{ marginTop: 140 }}
         initialNumToRender={10}
         keyExtractor={(item, index) => index.toString()}
         data={restaurants}

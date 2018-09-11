@@ -61,11 +61,24 @@ export default class MapScreen extends Component {
     this.props.listVendors(region.latitude, region.longitude, '200000000');
   }
 
+  moveToPosition(coordinates) {
+    console.log(coordinates);
+    this.mapView.animateToRegion({
+      latitude: coordinates[1],
+      longitude: coordinates[0],
+      latitudeDelta: 0.00922,
+      longitudeDelta: 0.00422
+    });
+  }
+
   render() {
     console.log(this.props.data);
     return (
       <View style={styles.container}>
         <MapView
+          ref={ref => {
+            this.mapView = ref;
+          }}
           provider={PROVIDER_GOOGLE}
           region={this.state.customRegion}
           onRegionChangeComplete={region => this.onRegionChangeComplete(region)}
@@ -80,28 +93,26 @@ export default class MapScreen extends Component {
             (this.state.customRegion.longitude !== null &&
               this.state.customRegion.longitude !== 0) && (
               <MapView.Marker
-                ref={currentLocation => {
-                  this.currentLocation = currentLocation;
-                }}
                 coordinate={{
                   latitude: this.state.customRegion.latitude,
                   longitude: this.state.customRegion.longitude
                 }}
                 image={require('../../../../assets/images/location.png')}
               />
-          )}
+            )}
 
           {this.props.data.map(item => {
             return (
               <MapView.Marker
                 key={item._id}
                 coordinate={{
-                  latitude: item.location.coordinates[0],
-                  longitude: item.location.coordinates[1]
+                  latitude: item.location.coordinates[1],
+                  longitude: item.location.coordinates[0]
                 }}
                 onPress={() => {
                   this.filteredListRef.callMethod(item);
                 }}
+
               >
                 <Image
                   source={require("../../../../assets/images/map-pin.png")}
@@ -163,6 +174,7 @@ export default class MapScreen extends Component {
           ref={filteredListRef => {
             this.filteredListRef = filteredListRef;
           }}
+          moveToPosition={coordinates => this.moveToPosition(coordinates)}
         />
       </View>
     );

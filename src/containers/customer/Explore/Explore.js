@@ -2,6 +2,8 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import LinearGradient from 'react-native-linear-gradient';
+import ExploreSearch from '../ExploreSearch';
 import ExploreScreenHeader from '../ExploreScreenHeader';
 import ExploreList from '../ExploreList';
 import styles from './styles';
@@ -74,13 +76,18 @@ class Explore extends PureComponent<Props> {
 
   render() {
     return (
-      <View style={styles.container}>
+      <LinearGradient
+        colors={['rgb(0,0,0)', 'transparent', 'transparent']}
+        style={styles.container}
+        locations={[0, 0.5, 0.5]}
+      >
+        <ExploreList />
         <ExploreScreenHeader
           currentLatitude={this.state.customRegion.latitude}
           currentLongitude={this.state.customRegion.latitude}
         />
-        <ExploreList />
-      </View>
+        <ExploreSearch />
+      </LinearGradient>
     );
   }
 }

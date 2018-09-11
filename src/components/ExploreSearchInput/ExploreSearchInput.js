@@ -23,11 +23,12 @@ export default class ExploreSearchInput extends Component {
     super();
 
     this.state = {
-      showPlaceholder: true,
       searchInputValue: ''
    };
 
    this.animatedValue = new Animated.Value(0);
+
+   this.showPlaceholder = true;
   }
 
   onFocus = () => {
@@ -37,13 +38,9 @@ export default class ExploreSearchInput extends Component {
       toValue: 1,
       duration: 200,
       easing: Easing.linear
-    }).start();
-
-    if (this.state.showPlaceholder && this.state.searchInputValue === '') {
-      this.setState({ showPlaceholder: false });
-    } else if (this.this.state.searchInputValue !== '') {
-      this.setState({ showPlaceholder: true });
-    }
+    }).start(() => {
+      this.props.showList(true);
+    });
   };
 
   onBlur = () => {
@@ -54,16 +51,12 @@ export default class ExploreSearchInput extends Component {
       duration: 200,
       easing: Easing.linear
     }).start();
-
-    if (!this.state.showPlaceholder) {
-      this.setState({ showPlaceholder: true });
-    }
   };
 
-  cancelAction = () => {
-    this.onBlur();
-    this.searchInput.blur();
-  };
+  // cancelAction = () => {
+  //   this.onBlur();
+  //   this.searchInput.blur();
+  // };
 
   render() {
     const textInputWidthAnimation = this.animatedValue.interpolate({
@@ -78,7 +71,7 @@ export default class ExploreSearchInput extends Component {
             colors={['rgb(44,44,44)', 'rgb(52,52,52)']}
             style={styles.LinearGradientStyle}
           >
-            {this.state.showPlaceholder &&
+            {this.showPlaceholder &&
               <View style={styles.placeholder}>
                 <Icon name="search" size={21} color="rgb(151, 151, 151)" />
                 <Text style={styles.searchText}>Search</Text>
@@ -94,6 +87,7 @@ export default class ExploreSearchInput extends Component {
               onFocus={this.onFocus}
               onBlur={this.onBlur}
               onChangeText={text => this.setState({ searchInputValue: text })}
+              value={this.state.searchInputValue}
             />
           </LinearGradient>
         </Animated.View>
@@ -101,7 +95,7 @@ export default class ExploreSearchInput extends Component {
         <TouchableOpacity
           activeOpacity={0.6}
           style={styles.cancelBtn}
-          onPress={this.cancelAction}
+          onPress={() => this.props.showList(false)}
         >
           <Text style={styles.cancelBtnText}>Cancel</Text>
         </TouchableOpacity>

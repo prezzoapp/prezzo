@@ -70,7 +70,7 @@ const INITIAL_STATE = fromJS({
   restaurants,
   minDistance: 1,
   maxDistance: 10,
-  distance: 2
+  distance: 10
 });
 
 export default (state = INITIAL_STATE, action) => {
