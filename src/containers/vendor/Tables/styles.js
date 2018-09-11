@@ -6,6 +6,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#2B2C2C'
+    },
+    tabBarUnderLineStyle: {
+        backgroundColor:'#2ED573'
+    },
+    tabBarTextStyle: {
+        fontSize:15
     }
 });
 

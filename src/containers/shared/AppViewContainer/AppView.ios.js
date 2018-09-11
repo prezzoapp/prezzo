@@ -42,7 +42,7 @@ class AppView extends Component {
         'ClearSans-Medium': require('../../../../assets/fonts/clear-sans/ClearSans-Medium.ttf'),
         'ClearSans-Bold': require('../../../../assets/fonts/clear-sans/ClearSans-Bold.ttf'),
         'EvilIcons': require('@expo/vector-icons/fonts/EvilIcons.ttf'),
-        'Material Icons': require('@expo/vector-icons/fonts/MaterialIcons.ttf'),
+        'MaterialIcons': require('@expo/vector-icons/fonts/MaterialIcons.ttf'),
         'material': require('@expo/vector-icons/fonts/MaterialIcons.ttf'),
         'Ionicons': require('@expo/vector-icons/fonts/Ionicons.ttf'),
         'Feather': require('@expo/vector-icons/fonts/Feather.ttf'),         
