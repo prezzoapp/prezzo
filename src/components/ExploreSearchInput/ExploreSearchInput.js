@@ -12,6 +12,8 @@ import {
 
 import LinearGradient from 'react-native-linear-gradient';
 
+import PropTypes from 'prop-types';
+
 import Icon from 'react-native-vector-icons/EvilIcons';
 
 import styles from './styles';
@@ -24,39 +26,72 @@ export default class ExploreSearchInput extends Component {
 
     this.state = {
       searchInputValue: ''
-   };
+    };
 
-   this.animatedValue = new Animated.Value(0);
+    this.animatedValue = new Animated.Value(0);
 
-   this.showPlaceholder = true;
+    this.showPlaceholder = true;
   }
 
   onFocus = () => {
-    this.animatedValue.setValue(0);
+    if(this.state.searchInputValue === '') {
+      this.animatedValue.setValue(0);
 
-    Animated.timing(this.animatedValue, {
-      toValue: 1,
-      duration: 200,
-      easing: Easing.linear
-    }).start(() => {
-      this.props.showList(true);
-    });
+      Animated.timing(this.animatedValue, {
+        toValue: 1,
+        duration: 200,
+        easing: Easing.linear
+      }).start();
+    }
   };
+
+  onChangeText(text) {
+    this.setState(() => {
+      return {
+        searchInputValue: text
+      }
+    }, () => {
+        this.props.onTextChange(text);
+        if (
+          this.state.searchInputValue !== '' &&
+          this.props.showListValue === false
+        ) {
+        this.props.showList(true);
+        } else if (
+          this.state.searchInputValue === '' &&
+          this.props.showListValue === true
+        ) {
+        this.props.showList(false);
+      }
+    });
+  }
 
   onBlur = () => {
-    this.animatedValue.setValue(1);
+    if(this.state.searchInputValue === '') {
+      this.animatedValue.setValue(1);
 
-    Animated.timing(this.animatedValue, {
-      toValue: 0,
-      duration: 200,
-      easing: Easing.linear
-    }).start();
+      Animated.timing(this.animatedValue, {
+        toValue: 0,
+        duration: 200,
+        easing: Easing.linear
+      }).start();
+    }
   };
 
-  // cancelAction = () => {
-  //   this.onBlur();
-  //   this.searchInput.blur();
-  // };
+  cancelAction() {
+    this.setState(() => {
+        return {
+          searchInputValue: '',
+          hidePlaceholder: false
+        };
+      }, () => {
+        this.props.clearTimer();
+        this.onBlur();
+        this.searchInput.blur();
+        this.props.showList(false);
+      }
+    );
+  }
 
   render() {
     const textInputWidthAnimation = this.animatedValue.interpolate({
@@ -71,7 +106,7 @@ export default class ExploreSearchInput extends Component {
             colors={['rgb(44,44,44)', 'rgb(52,52,52)']}
             style={styles.LinearGradientStyle}
           >
-            {this.showPlaceholder &&
+            {!this.props.showListValue &&
               <View style={styles.placeholder}>
                 <Icon name="search" size={21} color="rgb(151, 151, 151)" />
                 <Text style={styles.searchText}>Search</Text>
@@ -79,6 +114,7 @@ export default class ExploreSearchInput extends Component {
             }
 
             <TextInput
+              returnKeyType="search"
               style={styles.searchTextInput}
               ref={input => {
                 this.searchInput = input;
@@ -86,7 +122,7 @@ export default class ExploreSearchInput extends Component {
               underlineColorAndroid="transparent"
               onFocus={this.onFocus}
               onBlur={this.onBlur}
-              onChangeText={text => this.setState({ searchInputValue: text })}
+              onChangeText={text => this.onChangeText(text)}
               value={this.state.searchInputValue}
             />
           </LinearGradient>
@@ -95,7 +131,7 @@ export default class ExploreSearchInput extends Component {
         <TouchableOpacity
           activeOpacity={0.6}
           style={styles.cancelBtn}
-          onPress={() => this.props.showList(false)}
+          onPress={() => this.cancelAction()}
         >
           <Text style={styles.cancelBtnText}>Cancel</Text>
         </TouchableOpacity>
@@ -103,3 +139,10 @@ export default class ExploreSearchInput extends Component {
     );
   }
 }
+
+ExploreSearchInput.propTypes = {
+  clearTimer: PropTypes.func.isRequired,
+  onTextChange: PropTypes.func.isRequired,
+  showList: PropTypes.func.isRequired,
+  showListValue: PropTypes.bool.isRequired
+};

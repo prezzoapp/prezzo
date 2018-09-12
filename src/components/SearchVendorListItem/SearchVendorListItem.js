@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import { Image, View, Text, TouchableOpacity } from 'react-native';
-import RatingBar from '../RatingBar';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
-const SearchVendorListItem = (props) => {
-  console.log(props.item.avatarURL);
+const SearchVendorListItem = props => {
   return (
-    <TouchableOpacity activeOpacity={0.7} style={styles.listItem}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      style={styles.listItem}
+      onPress={() =>
+        props.navigate({
+          routeName: 'RestaurantDetails',
+          params: { item: props.item }
+        })
+      }
+    >
       <Image
         source={{ uri: props.item.avatarURL }}
         style={styles.vendorImage}
@@ -20,6 +28,11 @@ const SearchVendorListItem = (props) => {
       </View>
     </TouchableOpacity>
   );
+};
+
+SearchVendorListItem.propTypes = {
+  navigate: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired
 };
 
 export default SearchVendorListItem;

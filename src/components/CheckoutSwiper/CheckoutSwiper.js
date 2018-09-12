@@ -23,7 +23,9 @@ export default class CheckoutSwiper extends Component {
     super(props);
 
     this.state = {
-      cardNumber: '1234345345533345'
+      cardNumber: '1234345345533345',
+      dineInBtnSelect: true,
+      deliveryBtnSelect: false
     };
 
     this.index = 0;
@@ -88,6 +90,24 @@ export default class CheckoutSwiper extends Component {
     }
     return null;
   };
+
+  dineInBtnSelect() {
+    this.setState(() => {
+      return {
+        dineInBtnSelect: true,
+        deliveryBtnSelect: false
+      };
+    })
+  }
+
+  deliveryBtnSelect() {
+    this.setState(() => {
+      return {
+        dineInBtnSelect: false,
+        deliveryBtnSelect: true
+      };
+    })
+  }
 
   render() {
     return (
@@ -178,7 +198,7 @@ export default class CheckoutSwiper extends Component {
                   <Button
                     style={dineInDileveryBtnStyles.commonBtn}
                     textStyle={dineInDileveryBtnStyles.commonBtnText}
-                    onPress={() => alert()}
+                    onPress={() => this.dineInBtnSelect()}
                   >
                     Dine In
                   </Button>
@@ -186,16 +206,16 @@ export default class CheckoutSwiper extends Component {
                   <Button
                     style={dineInDileveryBtnStyles.commonBtn}
                     textStyle={dineInDileveryBtnStyles.commonBtnText}
-                    onPress={() => alert()}
+                    onPress={() => alert("This feature isn't available yet")}
                   >
                     Delivery
                   </Button>
                 </View>
-                <Text style={styles.whereToScreenText}>
+                {/*}<Text style={styles.whereToScreenText}>
                   Please show this code to your server, or give it to your
                   friend to join a table.
                 </Text>
-                <Text style={styles.tableCode}>9192</Text>
+                <Text style={styles.tableCode}>9192</Text>*/}
               </View>
             </View>
           </View>

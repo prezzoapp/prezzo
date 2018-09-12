@@ -9,7 +9,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: hp('5.17%')
+    marginTop: hp('5.17%'),
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0
   },
 
   searchTextInput: {

@@ -1,14 +1,52 @@
+// @flow
 import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text, ActivityIndicator } from 'react-native';
 import { BlurView } from 'react-native-blur';
+import PropTypes from 'prop-types';
 import SearchVendorListItem from '../../../components/SearchVendorListItem';
 import ExploreSearchInput from '../../../components/ExploreSearchInput';
 import styles from './styles';
+import { get } from '../../../utils/api';
 
 class ExploreSearch extends Component {
   constructor() {
     super();
-    this.state = { showList: false };
+    this.state = { showList: false, filteredData: [], showLoader: false };
+    this.timeOutVar = -1;
+  }
+
+  onTextChange(text) {
+    if(this.state.showLoader === false) {
+      this.setState(() => {
+        return {
+          showLoader: true
+        }
+      });
+    }
+    this.clearTimer();
+    this.timeOutVar = setTimeout(() => {
+      this.callWebService(text);
+    }, 2000);
+  }
+
+  clearTimer() {
+    clearTimeout(this.timeOutVar);
+    this.timeOutVar = -1;
+  }
+
+  async callWebService(text) {
+    try {
+      await get(`/v1/vendors?name=${text}`).then(response => {
+        this.setState(() => {
+          return {
+            filteredData: response,
+            showLoader: false
+          }
+        });
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
   }
 
   showList(value) {
@@ -36,19 +74,50 @@ class ExploreSearch extends Component {
           <View style={styles.container}>
             <BlurView style={styles.container} blurType="dark" blurAmount={6} />
             <View style={styles.listHolder}>
-              <FlatList
-                keyExtractor={item => item._id}
-                data={this.props.restaurants}
-                ItemSeparatorComponent={() => this.renderSeparator()}
-                renderItem={({ item }) => <SearchVendorListItem item={item} />}
-              />
+              {(() => {
+                if(this.state.showLoader) {
+                  return (
+                    <View style={styles.loaderView}>
+                      <ActivityIndicator size="large" color="white" />
+                    </View>
+                  );
+                } else if(this.state.filteredData.length !== 0) {
+                  return (
+                    <FlatList
+                      keyExtractor={item => item._id}
+                      data={this.state.filteredData}
+                      ItemSeparatorComponent={() => this.renderSeparator()}
+                      renderItem={({ item }) => (
+                        <SearchVendorListItem
+                          item={item}
+                          navigate={this.props.navigate}
+                        />
+                      )}
+                    />
+                  );
+                }
+                return (
+                  <View style={styles.loaderView}>
+                    <Text style={styles.message}>No restaurant found.</Text>
+                  </View>
+                );
+              })()}
             </View>
           </View>
         }
-        <ExploreSearchInput showList={(value) => this.showList(value)} />
+        <ExploreSearchInput
+          showList={value => this.showList(value)}
+          showListValue={this.state.showList}
+          onTextChange={text => this.onTextChange(text)}
+          clearTimer={() => this.clearTimer()}
+        />
       </View>
     );
   }
 }
+
+ExploreSearch.propTypes = {
+  navigate: PropTypes.func.isRequired
+};
 
 export default ExploreSearch;

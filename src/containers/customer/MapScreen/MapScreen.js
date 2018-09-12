@@ -35,6 +35,10 @@ export default class MapScreen extends Component {
     };
   }
 
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return false;
+  // }
+
   componentDidMount() {
     this.watchID = navigator.geolocation.getCurrentPosition(
       position => {
