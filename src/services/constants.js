@@ -1,7 +1,7 @@
 // @flow
-export const FONT_FAMILY = 'ClearSans-Light';
-export const FONT_FAMILY_MEDIUM = 'ClearSans-Medium';
-export const FONT_FAMILY_BOLD = 'ClearSans-Bold';
+export const FONT_FAMILY = Expo.Font.processFontFamily('ClearSans-Light');
+export const FONT_FAMILY_MEDIUM = Expo.Font.processFontFamily('ClearSans-Medium');
+export const FONT_FAMILY_BOLD = Expo.Font.processFontFamily('ClearSans-Bold');
 
 // export const FONT_FAMILY = null;
 // export const FONT_FAMILY_MEDIUM = null;

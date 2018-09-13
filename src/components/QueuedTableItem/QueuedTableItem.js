@@ -16,7 +16,7 @@ export default class QueuedTableItem extends Component {
                         <Text style={styles.tableId}>Table 21323</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.delete}>
+                <TouchableOpacity style={styles.delete} onPress={()=>this.props.acceptQueuedRequest()}>
                     <FontAwesome name="trash-o" size={30} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.add}>

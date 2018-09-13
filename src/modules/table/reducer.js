@@ -12,7 +12,7 @@ const INITIAL_STATE = Map({
 });
 
 function getDummyData() {
-    setTimeout(() => {
+   
         return [
             {
                 id: "1",
@@ -29,7 +29,7 @@ function getDummyData() {
                 status: true
             }
         ]
-    }, 2000);
+    
 }
 
 
@@ -37,24 +37,34 @@ const reducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case LIST_OPEN_TABLE_REQUEST:
             return state.update('openTableList', () => getDummyData());
-            break;
+           
         case LIST_QUEUED_TABLE_REQUEST:
             return state.update('queuedTableList', () => getDummyData());
-            break;
+           
         case ACCEPT_QUEUED_REQUEST:
+            return state.update('queuedTableList', (state) => {
+                console.warn(state.queuedTableList);
+                if(state.queuedTableList != undefined){
+                    let queuedTableList = state.queuedTableList.filter((element) => {
+                        return element.id != action.payload
+                    })
+                    console.warn(queuedTableList);
+                    return queuedTableList;
+
+                }
+                else
+                {
+                    return state;
+                }
+            });
+        case DELETE_QUEUED_REQUEST:
             return state.update('queuedTableList', () => {
                 state.queuedTableList.filter((element) => {
                     return element.id != action.payload
                 })
             });
-            break;
-        case ACCEPT_QUEUED_REQUEST:
-            return state.update('queuedTableList', () => {
-                state.queuedTableList.filter((element) => {
-                    return element.id != action.payload
-                })
-            });
-            break;
+        default:
+            return state;
 
     }
 }

@@ -6,6 +6,7 @@ import {
 } from './types';
 
 export const listOpenTable = () => {
+  
     return {
       type: LIST_OPEN_TABLE_REQUEST,
       payload: null
@@ -20,6 +21,7 @@ export const listOpenTable = () => {
   };
 
   export const acceptQueuedRequest = (requestId: string) => {
+   
     return {
       type: ACCEPT_QUEUED_REQUEST,
       payload: requestId

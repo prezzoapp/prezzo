@@ -40,6 +40,17 @@ class Tables extends Component {
       }
     }
   }
+  componentDidMount(){
+      this.props.listOpenTable();
+      
+  }
+  changeTabHandler = (index)=>{
+    if(index==1)
+    {
+      this.props.listQueuedTable();
+    }
+  }
+  
 
   render() {
     return (
@@ -53,10 +64,11 @@ class Tables extends Component {
           tabBarInactiveTextColor={'#D8D8D8'}
           tabBarTextStyle={styles.tabBarTextStyle}
           renderTabBar={() => <DefaultTabBar />}
+          onChangeTab={({ i, ref }) =>this.changeTabHandler(i)}
         >
           <View tabLabel="Open">
             <FlatList
-              data={[1, 2]}
+              data={this.props.openTableList}
               renderItem={() => {
                 return (
                   <OpenTableItem />
@@ -66,10 +78,12 @@ class Tables extends Component {
           </View>
           <View tabLabel="Queue">
             <FlatList
-              data={[1, 2]}
+              data={this.props.queuedTableList}
               renderItem={() => {
                 return (
-                  <QueuedTableItem />
+                  <QueuedTableItem 
+                  acceptQueuedRequest={this.props.acceptQueuedRequest('1')}
+                  />
                 );
               }}
             />

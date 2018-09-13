@@ -3,11 +3,13 @@
     "name": "Prezzo",
     "slug": "Prezzo",
     "appKey": "Prezzo",
-    "entryPoint": "App",
-    "sdkVersion": "29.0.0",
+    "sdkVersion": "30.0.0",
     "privacy": "unlisted",
     "packagerOpts": {
       "assetExts": ["ttf", "json"] 
-    }
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
   }
 }

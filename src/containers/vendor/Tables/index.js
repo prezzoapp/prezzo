@@ -1,14 +1,10 @@
 // @flow
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {mapStateToProps,mapDispatchToProps} from './store';
 import {NavigationActions} from 'react-navigation';
 import Tables from './Tables';
 
 export default connect(
-  null,
-  dispatch => {
-    return {
-      navigate: bindActionCreators(NavigationActions.navigate, dispatch)
-    };
-  }
+  mapStateToProps,
+  mapDispatchToProps
 )(Tables);

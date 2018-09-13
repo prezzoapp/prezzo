@@ -1,15 +1,13 @@
 // @flow
 import {
   initializeSessionState,
-  resetSessionStateFromSnapshot,
-  resetStateAfterFontLoaded
+  resetSessionStateFromSnapshot
 } from './actions';
 import reducer from './reducer';
 
 export {
   initializeSessionState,
-  resetSessionStateFromSnapshot,
-  resetStateAfterFontLoaded
+  resetSessionStateFromSnapshot
 };
 
 export default reducer;

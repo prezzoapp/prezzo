@@ -1,8 +1,8 @@
 {
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 565,
-  "expoServerNgrokUrl": "https://h9-b4q.ayush-appinventiv.prezzo.exp.direct",
-  "packagerNgrokUrl": "https://packager.h9-b4q.ayush-appinventiv.prezzo.exp.direct",
-  "ngrokPid": 586
+  "expoServerPort": 19001,
+  "packagerPort": 19002,
+  "packagerPid": 24781,
+  "expoServerNgrokUrl": "https://f9-u5q.ayush-appinventiv.prezzo.exp.direct",
+  "packagerNgrokUrl": "https://packager.f9-u5q.ayush-appinventiv.prezzo.exp.direct",
+  "ngrokPid": 24805
 }

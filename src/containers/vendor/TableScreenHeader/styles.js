@@ -29,20 +29,14 @@ const styles = StyleSheet.create({
     vendorName: {
         fontSize: 15,
         color: 'rgb(50, 209, 119)',
-        fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
+        fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM).fontFamily,
         backgroundColor: 'transparent'
     },
     category: {
-        fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_BOLD),
+        fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_BOLD).fontFamily,
         color: 'white',
         fontSize: 25,
         backgroundColor: 'transparent'
-    },
-    tabBarUnderLineStyle: {
-        backgroundColor:'#2ED573'
-    },
-    tabBarTextStyle: {
-        fontSize:13
     }
 });
 
