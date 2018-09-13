@@ -29,15 +29,13 @@ export default class MapScreen extends Component {
       customRegion: {
         latitude: 0,
         longitude: 0,
-        latitudeDelta: 0,
-        longitudeDelta: 0
+        latitudeDelta: 0.00922,
+        longitudeDelta: 0.00922
       }
     };
-  }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return false;
-  // }
+    this.btnClicked = false;
+  }
 
   componentDidMount() {
     this.watchID = navigator.geolocation.getCurrentPosition(
@@ -62,11 +60,38 @@ export default class MapScreen extends Component {
   }
 
   onRegionChangeComplete(region) {
-    this.props.listVendors(region.latitude, region.longitude, '200000000');
+    if(this.btnClicked === false) {
+      this.setState(() => {
+          return {
+          customRegion: {
+              ...region,
+              latitudeDelta: 0.00922,
+              longitudeDelta: 0.00422
+            }
+          };
+        },
+        () => {
+          this.props.listVendors(
+            this.state.customRegion.latitude,
+            this.state.customRegion.longitude,
+            '200000000'
+          );
+
+          console.log("API called !");
+        }
+      );
+    }
+  }
+
+  onMapReady() {
+    this.mapView.animateToRegion(this.state.customRegion);
   }
 
   moveToPosition(coordinates) {
-    console.log(coordinates);
+    console.log('Move To Position Method Called!');
+
+    this.btnClicked = true;
+
     this.mapView.animateToRegion({
       latitude: coordinates[1],
       longitude: coordinates[0],
@@ -76,7 +101,7 @@ export default class MapScreen extends Component {
   }
 
   render() {
-    console.log(this.props.data);
+    // console.log(this.props.data);
     return (
       <View style={styles.container}>
         <MapView
@@ -84,12 +109,16 @@ export default class MapScreen extends Component {
             this.mapView = ref;
           }}
           provider={PROVIDER_GOOGLE}
-          region={this.state.customRegion}
+          initialRegion={this.state.customRegion}
           onRegionChangeComplete={region => this.onRegionChangeComplete(region)}
           customMapStyle={MapStyle}
           showsCompass={false}
           loadingEnabled
           followUserLocation={false}
+          onMapReady={() => this.onMapReady()}
+          onPress={() => {
+            this.btnClicked = false;
+          }}
           style={styles.map}
         >
           {this.state.customRegion.latitude !== null &&

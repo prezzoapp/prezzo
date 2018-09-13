@@ -24,6 +24,7 @@ export default class RatingBar extends Component {
     for (let i = 1; i <= MAX_RATING; i++) {
       ratingBar.push(
         <TouchableOpacity
+          disabled={this.props.disable}
           activeOpacity={0.8}
           key={i}
           style={styles.btn}
@@ -47,5 +48,11 @@ export default class RatingBar extends Component {
 
 RatingBar.propTypes = {
   itemRating: PropTypes.number.isRequired,
-  changeItemRating: PropTypes.func.isRequired
+  changeItemRating: PropTypes.func,
+  disable: PropTypes.bool
+};
+
+RatingBar.defaultProps = {
+  changeItemRating: null,
+  disable: false
 };

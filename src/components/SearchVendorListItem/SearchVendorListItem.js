@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image, View, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import RatingBar from '../RatingBar';
 import styles from './styles';
 
 const SearchVendorListItem = props => {
@@ -25,6 +26,10 @@ const SearchVendorListItem = props => {
           {props.item.location.address}, {props.item.location.regionShort},{' '}
           {props.item.location.postalCode}
         </Text>
+        <View style={styles.ratingHolder}>
+          <RatingBar disable={true} itemRating={3}/>
+          <Text style={styles.ratingText}>47 Ratings</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );

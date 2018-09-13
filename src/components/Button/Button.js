@@ -12,7 +12,17 @@ import { FONT_FAMILY } from '../../services/constants';
 type Props = {};
 
 const Button = ({ disabled, onPress, style, textStyle, children }: Props) => {
-  const buttonStyleFinal = { ...styles.button, ...style };
+  let newStyle = {};
+
+  if(style instanceof Array) {
+    newStyle = style.reduce((result, current) => {
+      return Object.assign(result, current);
+    }, {});
+  } else {
+    newStyle = { ...style };
+  }
+
+  const buttonStyleFinal = { ...styles.button, ...newStyle };
   const textStyleFinal = { ...styles.text, ...textStyle };
 
   return (
@@ -52,7 +62,7 @@ const styles = {
 Button.propTypes = {
   disabled: PropTypes.bool,
   onPress: PropTypes.func.isRequired,
-  style: PropTypes.object,
+  style: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   textStyle: PropTypes.object,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
 };

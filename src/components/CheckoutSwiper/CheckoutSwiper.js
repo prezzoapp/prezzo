@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, SectionList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 import {
   widthPercentageToDP as wp,
@@ -18,23 +18,40 @@ import { FONT_FAMILY, COLOR_WHITE } from '../../services/constants';
 
 import styles from './styles';
 
+import showGenericAlert from '../GenericAlert';
+
 export default class CheckoutSwiper extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      cardNumber: '1234345345533345',
-      dineInBtnSelect: true,
-      deliveryBtnSelect: false
+      cardNumber: '',
+      expDate: '',
+      cvv: '',
+      cardHolder: '',
+      dineInBtnSelectState: true,
+      selectedPaymentType: ''
     };
 
     this.index = 0;
+
+    this.count = 0;
   }
 
   onIndexChanged(index, props) {
     this.index = index;
     props.onScrollingEnd(index);
     this.props.setCurrentIndex(index);
+  }
+
+  setPaymentType(paymentType) {
+    if(this.state.setPaymentType !== paymentType) {
+      this.setState(() => {
+        return {
+          selectedPaymentType: paymentType
+        }
+      })
+    }
   }
 
   moveToIndex(index = null) {
@@ -53,7 +70,33 @@ export default class CheckoutSwiper extends Component {
     }
   }
 
-  renderItem(item, section) {
+  dineInBtnSelect() {
+    if(this.state.dineInBtnSelectState === false) {
+      this.setState(() => {
+        return {
+          dineInBtnSelectState: true
+        };
+      })
+    }
+  }
+
+  deliveryBtnSelect() {
+    if(this.state.dineInBtnSelectState) {
+      this.setState(() => {
+        return {
+          dineInBtnSelectState: false
+        };
+      });
+    }
+
+    showGenericAlert(null, "This feature isn't available yet");
+  }
+
+  removeItemFromCart(cartItems, item) {
+    this.props.addRemoveItemQuantity(item.sectionId, item._id, 'remove');
+  }
+
+  renderItem(cartItems, item) {
     if(item.quantity > 0) {
       return (
         <View style={styles.item}>
@@ -62,13 +105,7 @@ export default class CheckoutSwiper extends Component {
             <TouchableOpacity
               activeOpacity={0.6}
               style={styles.quantityBtn}
-              onPress={() =>
-                this.props.addRemoveItemQuantity(
-                  section._id,
-                  item._id,
-                  'remove'
-                )
-              }
+              onPress={() => this.removeItemFromCart(cartItems, item)}
             >
               <Icon name="minus" size={wp('4.9%')} color="#2ED573" />
             </TouchableOpacity>
@@ -79,7 +116,11 @@ export default class CheckoutSwiper extends Component {
               activeOpacity={0.6}
               style={styles.quantityBtn}
               onPress={() =>
-                this.props.addRemoveItemQuantity(section._id, item._id, 'add')
+                this.props.addRemoveItemQuantity(
+                  item.sectionId,
+                  item._id,
+                  'add'
+                )
               }
             >
               <Icon name="plus" size={wp('4.9%')} color="#2ED573" />
@@ -91,25 +132,17 @@ export default class CheckoutSwiper extends Component {
     return null;
   };
 
-  dineInBtnSelect() {
-    this.setState(() => {
-      return {
-        dineInBtnSelect: true,
-        deliveryBtnSelect: false
-      };
-    })
-  }
-
-  deliveryBtnSelect() {
-    this.setState(() => {
-      return {
-        dineInBtnSelect: false,
-        deliveryBtnSelect: true
-      };
-    })
-  }
-
   render() {
+    const cartItems =
+      this.props.data.data.menu &&
+      this.props.data.data.menu.categories
+      .map(category =>
+        category.data.map(d => {
+            return { ...d, sectionId: category._id };
+          })
+        )
+      .reduce((a, v) => [...a, ...v], []);
+
     return (
       <View style={{ flex: 1 }}>
         {(() => {
@@ -145,14 +178,12 @@ export default class CheckoutSwiper extends Component {
                 {(() => {
                   if(this.props.data.data.menu) {
                     return (
-                      <SectionList
-                        sections={this.props.data.data.menu.categories}
+                      <FlatList
+                        data={cartItems}
                         showsVerticalScrollIndicator={false}
                         style={styles.flatList}
                         keyExtractor={item => item._id}
-                        renderItem={({ item, section }) =>
-                          this.renderItem(item, section)
-                        }
+                        renderItem={({ item }) => this.renderItem(cartItems, item)}
                       />
                     );
                   }
@@ -196,7 +227,14 @@ export default class CheckoutSwiper extends Component {
               <View style={styles.whereToScreenContainer}>
                 <View style={styles.whereToScreenBtnsHolder}>
                   <Button
-                    style={dineInDileveryBtnStyles.commonBtn}
+                    style={[
+                      dineInDileveryBtnStyles.commonBtn,
+                      {
+                        borderColor: this.state.dineInBtnSelectState
+                          ? '#0DD24A'
+                          : 'white'
+                      }
+                    ]}
                     textStyle={dineInDileveryBtnStyles.commonBtnText}
                     onPress={() => this.dineInBtnSelect()}
                   >
@@ -204,9 +242,16 @@ export default class CheckoutSwiper extends Component {
                   </Button>
 
                   <Button
-                    style={dineInDileveryBtnStyles.commonBtn}
+                    style={[
+                      dineInDileveryBtnStyles.commonBtn,
+                      {
+                        borderColor: this.state.dineInBtnSelectState
+                          ? 'white'
+                          : '#0DD24A'
+                      }
+                    ]}
                     textStyle={dineInDileveryBtnStyles.commonBtnText}
-                    onPress={() => alert("This feature isn't available yet")}
+                    onPress={() => this.deliveryBtnSelect()}
                   >
                     Delivery
                   </Button>
@@ -231,7 +276,7 @@ export default class CheckoutSwiper extends Component {
                   <View style={styles.paymentBtnHolder}>
                     <Button
                       style={paymentBtnStyles.commonBtn}
-                      onPress={() => alert()}
+                      onPress={() => this.setPaymentType('visa')}
                     >
                       <View>
                         <Image
@@ -240,15 +285,21 @@ export default class CheckoutSwiper extends Component {
                         />
                       </View>
                     </Button>
-                    <View style={styles.checkMarkIconHolder}>
-                      <Icon name="check" size={wp('4%')} color="white" />
-                    </View>
+                    {(() => {
+                      if (this.state.selectedPaymentType === 'visa') {
+                        return (
+                          <View style={styles.checkMarkIconHolder}>
+                            <Icon name="check" size={wp('4%')} color="white" />
+                          </View>
+                        );
+                      }
+                    })()}
                   </View>
 
                   <View style={styles.paymentBtnHolder}>
                     <Button
                       style={paymentBtnStyles.commonBtn}
-                      onPress={() => alert()}
+                      onPress={() => this.setPaymentType('cash')}
                     >
                       <View>
                         <Image
@@ -257,67 +308,82 @@ export default class CheckoutSwiper extends Component {
                         />
                       </View>
                     </Button>
-                    <View style={styles.checkMarkIconHolder}>
-                      <Icon name="check" size={wp('4%')} color="white" />
-                    </View>
+                    {(() => {
+                      if (this.state.selectedPaymentType === 'cash') {
+                        return (
+                          <View style={styles.checkMarkIconHolder}>
+                            <Icon name="check" size={wp('4%')} color="white" />
+                          </View>
+                        );
+                      }
+                    })()}
                   </View>
                 </View>
-                <View style={styles.paymentInfoContainer}>
-                  <Text style={styles.paymentInfoTitle}>PAYMENT DETAILS</Text>
-                  <ProfileTextInput
-                    label="Card Number"
-                    style={{ marginTop: wp('4%') }}
-                    onChange={val => this.setState({ cardNumber: val })}
-                    placeholder=""
-                    showInputBottomBorder={false}
-                    type="cardNumber"
-                    keyboardType="numeric"
-                    value={this.state.cardNumber}
-                  />
+                {(() => {
+                  if (this.state.selectedPaymentType === 'visa') {
+                    return (
+                      <View style={styles.paymentInfoContainer}>
+                        <Text style={styles.paymentInfoTitle}>PAYMENT DETAILS</Text>
+                        <ProfileTextInput
+                          label="Card Number"
+                          style={{ marginTop: wp('4%') }}
+                          onChange={val => this.setState({ cardNumber: val })}
+                          placeholder=""
+                          showInputBottomBorder={false}
+                          type="cardNumber"
+                          keyboardType="numeric"
+                          value={this.state.cardNumber}
+                        />
 
-                  <View style={{ flexDirection: 'row' }}>
-                    <ProfileTextInput
-                      label="Exp Date"
-                      style={{ marginTop: wp('3%'), width: '70%' }}
-                      onChange={val => this.setState({ cardNumber: val })}
-                      placeholder=""
-                      showInputBottomBorder={false}
-                      type="expDate"
-                      value="09/18"
-                    />
+                        <View style={{ flexDirection: 'row' }}>
+                          <ProfileTextInput
+                            label="Exp Date"
+                            style={{ marginTop: wp('3%'), width: '70%' }}
+                            onChange={val => this.setState({ expDate: val })}
+                            placeholder=""
+                            showInputBottomBorder={false}
+                            type="expDate"
+                            value={this.state.expDate}
+                          />
 
-                    <ProfileTextInput
-                      label="CVV"
-                      style={{ marginTop: wp('3%'), width: '30%' }}
-                      onChange={val => this.setState({ cardNumber: val })}
-                      placeholder=""
-                      showInputBottomBorder={false}
-                      type="cvv"
-                      keyboardType="numeric"
-                      value="344"
-                    />
-                  </View>
+                          <ProfileTextInput
+                            label="CVV"
+                            style={{ marginTop: wp('3%'), width: '30%' }}
+                            onChange={val => this.setState({ cvv: val })}
+                            placeholder=""
+                            showInputBottomBorder={false}
+                            type="cvv"
+                            keyboardType="numeric"
+                            value={this.state.cvv}
+                          />
+                        </View>
 
-                  <ProfileTextInput
-                    label="Card Holder"
-                    style={{ marginTop: wp('4%'), marginBottom: wp('4%') }}
-                    onChange={val => this.setState({ cardNumber: val })}
-                    placeholder=""
-                    showInputBottomBorder={false}
-                    type="cardHolder"
-                    value={this.state.cardNumber}
-                  />
+                        <ProfileTextInput
+                          label="Card Holder"
+                          style={{
+                            marginTop: wp('4%'),
+                            marginBottom: wp('4%')
+                          }}
+                          onChange={val => this.setState({ cardHolder: val })}
+                          placeholder=""
+                          showInputBottomBorder={false}
+                          type="cardHolder"
+                          value={this.state.cardHolder}
+                        />
 
-                  <View style={{ alignItems: 'center' }}>
-                    <Button
-                      style={dineInDileveryBtnStyles.commonBtn}
-                      textStyle={dineInDileveryBtnStyles.commonBtnText}
-                      onPress={() => alert()}
-                    >
-                      Split
-                    </Button>
-                  </View>
-                </View>
+                        {/*<View style={{ alignItems: 'center' }}>
+                          <Button
+                            style={dineInDileveryBtnStyles.commonBtn}
+                            textStyle={dineInDileveryBtnStyles.commonBtnText}
+                            onPress={() => alert()}
+                          >
+                            Split
+                          </Button>
+                        </View>*/}
+                      </View>
+                    );
+                  }
+                })()}
               </View>
             </View>
           </View>
@@ -330,7 +396,6 @@ export default class CheckoutSwiper extends Component {
 const dineInDileveryBtnStyles = {
   commonBtn: {
     backgroundColor: 'transparent',
-    borderColor: '#0DD24A',
     borderWidth: 2,
     width: wp('33%'),
     justifyContent: 'center',

@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
+import { View, ActivityIndicator, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import ExploreSearch from '../ExploreSearch';
@@ -40,7 +40,8 @@ class Explore extends PureComponent<Props> {
         longitude: 0,
         latitudeDelta: 0,
         longitudeDelta: 0
-      }
+      },
+      isFetching: true
     };
   }
 
@@ -54,9 +55,12 @@ class Explore extends PureComponent<Props> {
                 longitude: position.coords.longitude,
                 latitudeDelta: 0.00922,
                 longitudeDelta: 0.00422
-              }
+              },
+              isFetching: false
             };
           }, () => {
+            console.log('Current Coordinates: ');
+            console.log(this.state.customRegion);
             this.props.listVendors(
               this.state.customRegion.latitude,
               this.state.customRegion.longitude,
@@ -81,12 +85,28 @@ class Explore extends PureComponent<Props> {
         style={styles.container}
         locations={[0, 0.5, 0.5]}
       >
-        <ExploreList />
-        <ExploreScreenHeader
-          currentLatitude={this.state.customRegion.latitude}
-          currentLongitude={this.state.customRegion.latitude}
-        />
-        <ExploreSearch />
+      {(() => {
+          if (this.state.isFetching) {
+            return (
+              <View style={styles.loaderContainer}>
+                <ActivityIndicator size="large" color="white" />
+                <Text style={styles.message}>
+                  Please wait, While fetching restaurants.
+                </Text>
+              </View>
+            );
+        }
+        return (
+            <View style={{ flex: 1 }}>
+              <ExploreList />
+              <ExploreScreenHeader
+                currentLatitude={this.state.customRegion.latitude}
+                currentLongitude={this.state.customRegion.longitude}
+              />
+              <ExploreSearch />
+            </View>
+        );
+      })()}
       </LinearGradient>
     );
   }

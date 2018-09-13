@@ -172,10 +172,11 @@ export default class Checkout extends Component {
                 this.onScrollEnd(xValue, index)
               }
               data={this.props.data}
-              addRemoveItemQuantity={(categoryId, itemId, op) =>
-                this.props.addRemoveItemQuantity(categoryId, itemId, op)
+              addRemoveItemQuantity={(sectionId, itemId, op) =>
+                this.props.addRemoveItemQuantity(sectionId, itemId, op)
               }
               setCurrentIndex={index => this.props.setCurrentIndex(index)}
+              hideModal={() => this.hideModal()}
             />
           </View>
         </View>
@@ -185,6 +186,7 @@ export default class Checkout extends Component {
 }
 
 Checkout.propTypes = {
+  data: PropTypes.object.isRequired,
   restaurantName: PropTypes.string.isRequired,
   addRemoveItemQuantity: PropTypes.func.isRequired,
   setCurrentIndex: PropTypes.func.isRequired,

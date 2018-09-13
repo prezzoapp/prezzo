@@ -37,6 +37,17 @@ const styles = StyleSheet.create({
     color: 'rgba(255,255,255,0.7)',
     fontFamily: FONT_FAMILY,
     paddingVertical: hp('1.23%')
+  },
+
+  ratingHolder: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+
+  ratingText: {
+    fontSize: wp('3.73%'),
+    paddingLeft: 10,
+    color: 'rgba(255,255,255,0.8)'
   }
 });
 
