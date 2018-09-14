@@ -1,8 +1,9 @@
 // @flow
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {NavigationActions} from 'react-navigation';
-import {loginWithFacebook} from '../../../modules/auth';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { NavigationActions } from 'react-navigation';
+import { loginWithFacebook } from '../../../modules/auth';
+import { findUser } from '../../../modules/user';
 import {
   updateEmail,
   updateFirstName,
@@ -17,6 +18,7 @@ export default connect(
   null,
   dispatch => {
     return {
+      findUser: bindActionCreators(findUser, dispatch),
       updateEmail: bindActionCreators(updateEmail, dispatch),
       updateFirstName: bindActionCreators(updateFirstName, dispatch),
       updateLastName: bindActionCreators(updateLastName, dispatch),

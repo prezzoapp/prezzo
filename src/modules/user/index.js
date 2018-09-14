@@ -1,6 +1,6 @@
 // @flow
-import { findUser, updateUser } from './actions';
+import { findUser, updateUser, updateFacebookAccount } from './actions';
 import reducer from './reducer';
 
-export { findUser, updateUser };
+export { findUser, updateUser, updateFacebookAccount };
 export default reducer;

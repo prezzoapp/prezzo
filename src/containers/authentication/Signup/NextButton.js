@@ -46,10 +46,6 @@ class Button extends Component<State, Props> {
     };
   }
 
-  state = {
-    isBusy: false
-  };
-
   async _onPress() {
     const { onPress, onError, validate } = this.props;
     this.setState({ isBusy: true });
@@ -69,7 +65,7 @@ class Button extends Component<State, Props> {
   }
 
   render() {
-    const { isBusy } = this.state;
+    const isBusy = this.props.isBusy || this.state.isBusy;
     const { onPress, disabled, style } = this.props;
     const containerStyle = {
       ...styles.button,
