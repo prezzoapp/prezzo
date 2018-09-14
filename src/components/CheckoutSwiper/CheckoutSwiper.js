@@ -36,6 +36,8 @@ export default class CheckoutSwiper extends Component {
     this.index = 0;
 
     this.count = 0;
+
+    this.cartItems = [];
   }
 
   onIndexChanged(index, props) {
@@ -92,11 +94,18 @@ export default class CheckoutSwiper extends Component {
     showGenericAlert(null, "This feature isn't available yet");
   }
 
-  removeItemFromCart(cartItems, item) {
-    this.props.addRemoveItemQuantity(item.sectionId, item._id, 'remove');
+  removeItemFromCart(item) {
+    this.props
+      .addRemoveItemQuantity(item.sectionId, item._id, 'remove')
+      .then(() => {
+        const isAllZero = !this.cartItems.some(el => el.quantity !== 0);
+        if(isAllZero) {
+          this.props.hideModal();
+        }
+    });
   }
 
-  renderItem(cartItems, item) {
+  renderItem(item) {
     if(item.quantity > 0) {
       return (
         <View style={styles.item}>
@@ -105,7 +114,7 @@ export default class CheckoutSwiper extends Component {
             <TouchableOpacity
               activeOpacity={0.6}
               style={styles.quantityBtn}
-              onPress={() => this.removeItemFromCart(cartItems, item)}
+              onPress={() => this.removeItemFromCart(item)}
             >
               <Icon name="minus" size={wp('4.9%')} color="#2ED573" />
             </TouchableOpacity>
@@ -133,11 +142,15 @@ export default class CheckoutSwiper extends Component {
   };
 
   render() {
-    const cartItems =
+    this.count = 0;
+    this.cartItems =
       this.props.data.data.menu &&
       this.props.data.data.menu.categories
       .map(category =>
-        category.data.map(d => {
+          category.data.map(d => {
+            if(d.quantity > 0) {
+              this.count += 1;
+            }
             return { ...d, sectionId: category._id };
           })
         )
@@ -179,11 +192,11 @@ export default class CheckoutSwiper extends Component {
                   if(this.props.data.data.menu) {
                     return (
                       <FlatList
-                        data={cartItems}
+                        data={this.cartItems}
                         showsVerticalScrollIndicator={false}
                         style={styles.flatList}
                         keyExtractor={item => item._id}
-                        renderItem={({ item }) => this.renderItem(cartItems, item)}
+                        renderItem={({ item }) => this.renderItem(item)}
                       />
                     );
                   }
@@ -431,5 +444,6 @@ CheckoutSwiper.propTypes = {
   setCurrentIndex: PropTypes.func.isRequired,
   addRemoveItemQuantity: PropTypes.func.isRequired,
   restaurantName: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  hideModal: PropTypes.func.isRequired
 };

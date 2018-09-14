@@ -43,15 +43,15 @@ export const removeRestaurantDetail = () => dispatch => {
   }
 };
 
-export const addRemoveItemQuantity = (
+export const addRemoveItemQuantity = async (
   sectionId: string,
   itemId: string,
   op: string
-) => dispatch => {
+) => async dispatch => {
   dispatch({ type: ADD_REMOVE_ITEM_QUANTITY_REQUEST });
 
   try {
-    return dispatch({
+    return await dispatch({
       type: ADD_REMOVE_ITEM_QUANTITY_SUCCESS,
       payload: { sectionId, itemId, op }
     });

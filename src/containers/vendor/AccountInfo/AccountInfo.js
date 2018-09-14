@@ -13,12 +13,24 @@ import { Icon as NativeBaseIcon, Picker, Spinner } from 'native-base';
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Slider from 'react-native-slider';
+
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import ProfileDataField from '../../../components/ProfileDataField';
 import EditableListItem from '../../../components/EditableListItem';
-import { restaurantCategories } from '../../../services/constants';
+import { restaurantCategories, COLOR_GREEN } from '../../../services/constants';
 import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
+import {
+  FONT_FAMILY
+} from '../../../services/constants';
+
+const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
+
+const price3Indicator = wp('85%') * 0.66 - wp('9.5%');
+
+const price4Indicator = wp('85%') * 0.99 - wp('9.5%');
 
 export default class AccountInfo extends React.Component {
   static navigationOptions = {
@@ -58,11 +70,14 @@ export default class AccountInfo extends React.Component {
     const { avatarURL, vendor } = props;
 
     const location = vendor.get('location');
+    // temp_restaurantCategories = [...restaurantCategories];
 
     this.state = {
+      temp_restaurantCategories: [...restaurantCategories],
       avatarURL,
       categories: vendor.get('categories').toJS() || [],
       hours: vendor.get('hours').toJS() || [],
+      slidervalue: 0.0,
       location: {
         address: location.get('address') || '',
         city: location.get('city') || '',
@@ -97,23 +112,26 @@ export default class AccountInfo extends React.Component {
   }
 
   showAvatarActionSheet() {
-    ImagePicker.showImagePicker({
-      maxWidth: 800,
-      title: 'Select an avatar',
-      quality: 0.3
-    }, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image upload');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        console.log('Image response: ', response);
-        this.setState({
-          avatarURL: response.uri,
-          upload: response
-        });
+    ImagePicker.showImagePicker(
+      {
+        maxWidth: 800,
+        title: 'Select an avatar',
+        quality: 0.3
+      },
+      response => {
+        if (response.didCancel) {
+          console.log('User cancelled image upload');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else {
+          console.log('Image response: ', response);
+          this.setState({
+            avatarURL: response.uri,
+            upload: response
+          });
+        }
       }
-    });
+    );
   }
 
   addSelectedCategory() {
@@ -126,20 +144,42 @@ export default class AccountInfo extends React.Component {
     const newCategories = [...categories];
     newCategories.push(selectedCategory);
 
-    console.log('newCategories', newCategories);
-
     this.setState({ categories: newCategories });
+
+    const array = this.state.temp_restaurantCategories;
+    const index = array.indexOf(selectedCategory);
+    array.splice(index, 1);
+    this.setState(() => ({
+      temp_restaurantCategories: array,
+      selectedCategory: array[0]
+    }));
   }
 
   removeCategoryAtIndex(index) {
     const { categories } = this.state;
     const newCategories = [...categories];
+
     newCategories.splice(index, 1);
-    this.setState({ categories: newCategories });
+    this.setState(() => ({
+      categories: newCategories
+    }));
+
+    const array = [...restaurantCategories]; // make a separate copy of the array
+
+    for (let i = 0; i < newCategories.length; i++) {
+      const selCategoryValue = newCategories[i];
+      const selectedIndex = array.indexOf(selCategoryValue);
+      array.splice(selectedIndex, 1);
+    }
+
+    this.setState(() => ({
+      temp_restaurantCategories: array,
+      selectedCategory: array[0]
+    }));
   }
 
   checkCloseBeforeOpen(openTimeHour, closeTimeHour) {
-    if(closeTimeHour <= openTimeHour) {
+    if (closeTimeHour <= openTimeHour) {
       return true;
     }
 
@@ -151,7 +191,7 @@ export default class AccountInfo extends React.Component {
   }
 
   checkOpenHours(hours, openTimeHour) {
-    for(let i = 0; i < hours.length; i++) {
+    for (let i = 0; i < hours.length; i++) {
       if (
         openTimeHour >= hours[i].openTimeHour &&
         openTimeHour <= hours[i].closeTimeHour
@@ -163,7 +203,7 @@ export default class AccountInfo extends React.Component {
   }
 
   checkCloseHours(hours, closeTimeHour) {
-    for(let i = 0; i < hours.length; i++) {
+    for (let i = 0; i < hours.length; i++) {
       if (
         closeTimeHour >= hours[i].openTimeHour &&
         closeTimeHour <= hours[i].closeTimeHour
@@ -181,7 +221,7 @@ export default class AccountInfo extends React.Component {
         (v, i) => openTimeHour + i
       )
     );
-    for(let i = 0; i < hours.length; i++) {
+    for (let i = 0; i < hours.length; i++) {
       const slot = new Set(
         Array.from(
           { length: hours[i].closeTimeHour - hours[i].openTimeHour + 1 },
@@ -216,8 +256,8 @@ export default class AccountInfo extends React.Component {
 
     const newHours = [...hours];
 
-    if(newHours.length === 0) {
-      if(this.checkCloseBeforeOpen(openTimeHour, closeTimeHour) === false) {
+    if (newHours.length === 0) {
+      if (this.checkCloseBeforeOpen(openTimeHour, closeTimeHour) === false) {
         newHours.push({
           dayOfWeek,
           closeTimeHour,
@@ -226,11 +266,9 @@ export default class AccountInfo extends React.Component {
           openTimeMinutes
         });
 
-        this.setState(() => {
-          return {
-            hours: newHours
-          }
-        });
+        this.setState(() => ({
+          hours: newHours
+        }));
       }
     } else if (
       this.checkCloseBeforeOpen(openTimeHour, closeTimeHour) ||
@@ -251,18 +289,16 @@ export default class AccountInfo extends React.Component {
       return false;
     } else {
       newHours.push({
-      dayOfWeek,
+        dayOfWeek,
         closeTimeHour,
         closeTimeMinutes,
         openTimeHour,
         openTimeMinutes
       });
 
-      this.setState(() => {
-        return {
-          hours: newHours
-        }
-      });
+      this.setState(() => ({
+        hours: newHours
+      }));
     }
 
     this.checkIntervalHours(newHours, openTimeHour, closeTimeHour);
@@ -276,20 +312,20 @@ export default class AccountInfo extends React.Component {
   }
 
   openTimeFormat(hour, minutes) {
-    if(hour < 12 && hour !== 0) {
+    if (hour < 12 && hour !== 0) {
       return `${hour}:${minutes} AM`;
-    } else if(hour === 0) {
+    } else if (hour === 0) {
       return `12:${minutes} AM`;
-    } else if(hour === 12) {
+    } else if (hour === 12) {
       return `12:${minutes} PM`;
     }
     return `${hour - 12}:${minutes} PM`;
   }
 
   closeTimeFormat(hour, minutes) {
-    if(hour < 12) {
+    if (hour < 12) {
       return `${hour}:${minutes} AM`;
-    } else if(hour === 12) {
+    } else if (hour === 12) {
       return `12:${minutes} PM`;
     }
     return `${hour - 12}:${minutes} PM`;
@@ -303,21 +339,23 @@ export default class AccountInfo extends React.Component {
     const { upload } = this.state;
     const { fileName, fileSize, uri } = upload;
 
-    await this.props.uploadImage(
-      uri,
+    await this.props
+      .uploadImage(
+        uri,
         fileSize,
         'image/jpeg',
         fileName,
         'userAvatar',
         'public-read'
-      ).then(async avatarURL => {
+      )
+      .then(async avatarURL => {
         console.log('got avatarURL', avatarURL);
 
         this.setState({
           avatarURL,
           upload: null
         });
-    });
+      });
   }
 
   async save() {
@@ -358,7 +396,7 @@ export default class AccountInfo extends React.Component {
       params: {
         onSelect: location => {
           console.log('got location', location);
-          this.setState({location});
+          this.setState({ location });
         },
         onError: () => {
           console.log('error getting location');
@@ -376,7 +414,10 @@ export default class AccountInfo extends React.Component {
         name
       });
     } else if (this.state.filters.findIndex(x => x.id === id) !== -1) {
-      this.state.filters.splice(this.state.filters.findIndex(x => x.id === id), 1);
+      this.state.filters.splice(
+        this.state.filters.findIndex(x => x.id === id),
+        1
+      );
     } else {
       this.state.filters.push({
         id,
@@ -384,11 +425,9 @@ export default class AccountInfo extends React.Component {
       });
     }
 
-    this.setState(() => {
-      return {
-        filters: this.state.filters
-      };
-    });
+    this.setState(() => ({
+      filters: this.state.filters
+    }));
 
     console.log(this.state.filters);
   }
@@ -452,7 +491,8 @@ export default class AccountInfo extends React.Component {
         style={styles.container}
       >
         <View
-          style={{...stylesRaw.spinnerContainer,
+          style={{
+            ...stylesRaw.spinnerContainer,
             ...(isBusy ? {} : { display: 'none' })
           }}
         >
@@ -465,7 +505,8 @@ export default class AccountInfo extends React.Component {
             style={styles.avatarWrap}
             onPress={() => this.showAvatarActionSheet()}
           >
-            <Image style={styles.avatar}
+            <Image
+              style={styles.avatar}
               source={
                 avatarURL
                   ? { uri: avatarURL }
@@ -482,7 +523,11 @@ export default class AccountInfo extends React.Component {
             <Text style={[styles.editText, { color: 'white' }]}>
               Add / Change Logo
             </Text>
-            <TouchableOpacity activeOpacity={0.8} onPress={() => alert()} style={styles.editBtn}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => alert()}
+              style={styles.editBtn}
+            >
               <Text style={styles.editText}>Edit Info</Text>
             </TouchableOpacity>
           </View>
@@ -494,19 +539,19 @@ export default class AccountInfo extends React.Component {
           </View>
           <View style={styles.sectionBody}>
             <ProfileTextInput
-              label='Business Name'
-              onChange={val => this.setState({name: val})}
-              placeholder=''
+              label="Business Name"
+              onChange={val => this.setState({ name: val })}
+              placeholder=""
               showInputBottomBorder={false}
-              type='name'
+              type="name"
               value={name}
             />
             <ProfileTextInput
-              label='Web Address'
-              onChange={val => this.setState({website: val})}
-              placeholder=''
+              label="Web Address"
+              onChange={val => this.setState({ website: val })}
+              placeholder=""
               showInputBottomBorder={false}
-              type='url'
+              type="url"
               value={website}
             />
           </View>
@@ -592,11 +637,11 @@ export default class AccountInfo extends React.Component {
 
             <View style={styles.pickerContainer}>
               <Picker
-                mode='dropdown'
-                iosHeader='Select a day'
+                mode="dropdown"
+                iosHeader="Select a day"
                 iosIcon={
                   <NativeBaseIcon
-                    name='ios-arrow-down-outline'
+                    name="ios-arrow-down-outline"
                     style={stylesRaw.pickerIcon}
                   />
                 }
@@ -605,17 +650,17 @@ export default class AccountInfo extends React.Component {
                 selectedValue={selectedHoursDay}
                 onValueChange={val => this.setState({ selectedHoursDay: val })}
               >
-                {pickerOptionsForDay.map((value, index) =>
+                {pickerOptionsForDay.map((value, index) => (
                   <Picker.Item label={value} value={index} key={index} />
-                )}
+                ))}
               </Picker>
 
               <Picker
-                mode='dropdown'
-                iosHeader='Select an opening time'
+                mode="dropdown"
+                iosHeader="Select an opening time"
                 iosIcon={
                   <NativeBaseIcon
-                    name='ios-arrow-down-outline'
+                    name="ios-arrow-down-outline"
                     style={stylesRaw.pickerIcon}
                   />
                 }
@@ -626,21 +671,21 @@ export default class AccountInfo extends React.Component {
                   this.setState({ selectedOpeningTime: val })
                 }
               >
-                {pickerOptionsForTime.map((option, index) =>
+                {pickerOptionsForTime.map((option, index) => (
                   <Picker.Item
                     label={option.label}
                     value={option.value}
                     key={index}
                   />
-                )}
+                ))}
               </Picker>
 
               <Picker
-                mode='dropdown'
-                iosHeader='Select a closing time'
+                mode="dropdown"
+                iosHeader="Select a closing time"
                 iosIcon={
                   <NativeBaseIcon
-                    name='ios-arrow-down-outline'
+                    name="ios-arrow-down-outline"
                     style={stylesRaw.pickerIcon}
                   />
                 }
@@ -651,13 +696,13 @@ export default class AccountInfo extends React.Component {
                   this.setState({ selectedClosingTime: val })
                 }
               >
-                {pickerOptionsForTime.map((option, index) =>
+                {pickerOptionsForTime.map((option, index) => (
                   <Picker.Item
                     label={option.label}
                     value={option.value}
                     key={index}
                   />
-                )}
+                ))}
               </Picker>
             </View>
 
@@ -675,38 +720,54 @@ export default class AccountInfo extends React.Component {
             <Text style={styles.sectionHeaderText}>Categories</Text>
           </View>
           <View style={styles.categoriesSectionBody}>
-            {categories.map((category, index) =>
+            {categories.map((category, index) => (
               <EditableListItem
                 key={index}
                 text={category}
                 onRemove={() => this.removeCategoryAtIndex(index)}
               />
-            )}
+            ))}
+            {(() => {
+              if (this.state.temp_restaurantCategories.length != 0) {
+                return (
+                  <View style={styles.pickerContainer}>
+                    <Picker
+                      mode="dropdown"
+                      iosHeader="Select a category"
+                      iosIcon={
+                        <NativeBaseIcon
+                          name="ios-arrow-down-outline"
+                          style={stylesRaw.pickerIcon}
+                        />
+                      }
+                      style={styles.hoursPicker}
+                      textStyle={styles.hoursPickerText}
+                      selectedValue={selectedCategory}
+                      onValueChange={val =>
+                        this.setState({ selectedCategory: val })
+                      }
+                    >
+                      {this.state.temp_restaurantCategories.map(
+                        (value, index) => (
+                          <Picker.Item
+                            label={value}
+                            value={value}
+                            key={index}
+                          />
+                        )
+                      )}
+                    </Picker>
 
-            <View style={styles.pickerContainer}>
-              <Picker
-                mode='dropdown'
-                iosHeader='Select a category'
-                iosIcon={
-                  <NativeBaseIcon
-                    name='ios-arrow-down-outline'
-                    style={stylesRaw.pickerIcon}
-                  />
-                }
-                style={styles.hoursPicker}
-                textStyle={styles.hoursPickerText}
-                selectedValue={selectedCategory}
-                onValueChange={val => this.setState({selectedCategory: val})}
-              >
-                {restaurantCategories.map((value, index) =>
-                  <Picker.Item label={value} value={value} key={index} />
-                )}
-              </Picker>
-
-              <TouchableOpacity onPress={() => this.addSelectedCategory()}>
-                <Text style={styles.addText}>Add Category</Text>
-              </TouchableOpacity>
-            </View>
+                    <TouchableOpacity
+                      onPress={() => this.addSelectedCategory()}
+                    >
+                      <Text style={styles.addText}>Add Category</Text>
+                    </TouchableOpacity>
+                  </View>
+                );
+              }
+              return null;
+            })()}
           </View>
         </View>
 
@@ -743,20 +804,219 @@ export default class AccountInfo extends React.Component {
             </View>
 
             {this.state.filters.map(item => {
-              if(item.id === 1) {
+              if (item.id === 1) {
                 return (
-                  <Slider
+                  <View
                     key={item.id}
-                    minimumValue={0}
-                    maximumValue={100}
-                    step={parseFloat((100 / 3).toFixed(2))}
-                    minimumTrackTintColor="rgb(47,212,117)"
-                    maximumTrackTintColor="rgb(230,230,230)"
-                    thumbTintColor="rgb(255,254,255)"
-                    thumbStyle={{ height: 18, width: 18 }}
-                    onValueChange={value => console.log(value)}
-                    trackStyle={{ height: 3 }}
-                  />
+                    style={{
+                      flex: 1,
+                      height: 50,
+                      marginRight: 15,
+                      marginTop: 10,
+                      marginBottom: 15,
+                      position: 'relative',
+                      flexDirection: 'row'
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: wp('13.33%'),
+                        height: 50,
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        zIndex: 1
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: COLOR_GREEN,
+                          fontSize: 17,
+                          width: wp('13.33%'),
+                          height: 20
+                        }}
+                      >
+                        $
+                      </Text>
+
+                      <View
+                        style={[
+                          styles.priceBarIndicator,
+                          {
+                            backgroundColor:
+                              this.state.slidervalue > 0.0
+                                ? 'rgba(255,255,255,1.0)'
+                                : null
+                          }
+                        ]}
+                      />
+                    </View>
+
+                    <View
+                      style={{
+                        width: wp('13.33%'),
+                        left: price2Indicator,
+                        position: 'absolute',
+                        height: 50,
+                        flexDirection: 'column',
+                        zIndex: 1,
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Text
+                        style={[
+                          {
+                            fontSize: 17,
+                            height: 20,
+                            textAlign: 'center',
+                            width: wp('13.33%')
+                          },
+                          {
+                            color:
+                              this.state.slidervalue >= 33.3
+                                ? COLOR_GREEN
+                                : 'rgba(255,255,255,1.0)'
+                          }
+                        ]}
+                      >
+                        $$
+                      </Text>
+
+                      <View
+                        style={[
+                          styles.priceBarIndicator,
+                          {
+                            backgroundColor:
+                              this.state.slidervalue === 33.33
+                                ? null
+                                : 'rgba(255,255,255,1.0)'
+                          }
+                        ]}
+                      />
+                    </View>
+
+                    <View
+                      style={{
+                        width: wp('13.33%'),
+                        position: 'absolute',
+                        left: price3Indicator,
+                        height: 50,
+                        flexDirection: 'column',
+                        zIndex: 1,
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Text
+                        style={[
+                          {
+                            fontSize: 17,
+                            height: 20,
+                            marginLeft: 2,
+                            textAlign: 'center',
+                            width: wp('13.33%')
+                          },
+                          {
+                            color:
+                              this.state.slidervalue >= 66.6
+                                ? COLOR_GREEN
+                                : 'rgba(255,255,255,1.0)'
+                          }
+                        ]}
+                      >
+                        $$$
+                      </Text>
+
+                      <View
+                        style={[
+                          styles.priceBarIndicator,
+                          {
+                            backgroundColor:
+                              this.state.slidervalue === 66.66
+                                ? null
+                                : 'rgba(255,255,255,1.0)'
+                          }
+                        ]}
+                      />
+                    </View>
+
+                    <View
+                      style={{
+                        width: wp('13.33%'),
+                        height: 50,
+                        position: 'absolute',
+                        left: price4Indicator,
+                        flexDirection: 'column',
+                        zIndex: 1,
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Text
+                        style={[
+                          {
+                            fontSize: 17,
+                            height: 20,
+                            textAlign: 'center',
+                            width: wp('13.33%')
+                          },
+                          {
+                            color:
+                              this.state.slidervalue >= 99
+                                ? COLOR_GREEN
+                                : 'rgba(255,255,255,1.0)'
+                          }
+                        ]}
+                      >
+                        $$$$
+                      </Text>
+
+                      <View
+                        style={[
+                          styles.priceBarIndicator,
+                          {
+                            backgroundColor:
+                              this.state.slidervalue >= 99.9
+                                ? null
+                                : 'rgba(255,255,255,1.0)'
+                          }
+                        ]}
+                      />
+                    </View>
+
+                    <View
+                      style={{
+                        flex: 1,
+                        zIndex: 10,
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        bottom: -12
+                      }}
+                    >
+                      <Slider
+                        minimumValue={0}
+                        maximumValue={100}
+                        step={parseFloat((100 / 3).toFixed(2))}
+                        minimumTrackTintColor="rgb(47,212,117)"
+                        maximumTrackTintColor="rgb(230,230,230)"
+                        thumbTintColor="rgb(255,254,255)"
+                        thumbStyle={{ height: 18, width: 18 }}
+                        onValueChange={value => console.log('slider running')}
+                        onSlidingComplete={value =>
+                          this.setState({ slidervalue: value }, () => {
+                            console.log(value);
+                          })
+                        }
+                        onSlidingStart={value =>
+                          this.state.slidervalue >= 99.9
+                            ? this.setState({ slidervalue: value - 0.1 })
+                            : this.setState({ slidervalue: value + 0.1 })
+                        }
+                        trackStyle={{ height: 3 }}
+                      />
+                    </View>
+                  </View>
                 );
               }
             })}

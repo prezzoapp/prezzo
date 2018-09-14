@@ -16,7 +16,7 @@ export default class ExploreListItem extends Component {
   }
 
   render() {
-    const { avatarURL, name } = this.props.item;
+    const { avatarURL, name, location } = this.props.item;
 
     return (
       <View style={{ marginBottom: 16 }}>
@@ -32,7 +32,9 @@ export default class ExploreListItem extends Component {
         </TouchableOpacity>
 
         <Text style={styles.restaurantName}>{name}</Text>
-        <Text style={styles.cityName}>{this.props.item.city}</Text>
+        <Text style={styles.cityName}>
+          {`${location.address} ${location.city} ${location.regionShort}`}
+        </Text>
       </View>
     );
   }

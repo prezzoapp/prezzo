@@ -80,6 +80,8 @@ export default class MapScreen extends Component {
           console.log("API called !");
         }
       );
+    } else {
+      this.btnClicked = false;
     }
   }
 
