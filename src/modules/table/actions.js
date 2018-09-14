@@ -5,6 +5,8 @@ import {
     DELETE_QUEUED_REQUEST
 } from './types';
 
+//import store from '../../redux/store';
+
 export const listOpenTable = () => {
   
     return {
@@ -20,17 +22,25 @@ export const listOpenTable = () => {
     };
   };
 
-  export const acceptQueuedRequest = (requestId: string) => {
-   
+  export const acceptQueuedRequest = (queueList: any, requestId: string) => {
+    
+    let queuedList = queueList.filter((element) => {
+      return element.id != requestId
+    })
     return {
       type: ACCEPT_QUEUED_REQUEST,
-      payload: requestId
+      payload: queuedList
     };
+   
+    
   };
 
-  export const deleteQueuedRequest = (requestId: string) => {
+  export const deleteQueuedRequest = (queueList: any, requestId: string) => {
+    let queuedList = queueList.filter((element) => {
+      return element.id != requestId
+    })
     return {
       type: ACCEPT_QUEUED_REQUEST,
-      payload: requestId
+      payload: queuedList
     };
   };

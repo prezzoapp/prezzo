@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, Alert } from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
 import TableScreenHeader from '../TableScreenHeader';
@@ -8,6 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import OpenTableItem from '../../../components/OpenTableItem';
 import QueuedTableItem from '../../../components/QueuedTableItem';
+import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
 
 class Tables extends Component {
   static displayName = 'Tables';
@@ -50,6 +51,29 @@ class Tables extends Component {
       this.props.listQueuedTable();
     }
   }
+  handleQueuedTableItem = (tableId,index,actioType)=>{
+    
+    Alert.alert(
+      actioType ===  ACCEPT_ORDER ? 'Accept' : 'Delete',
+      `${this.props.queuedTableList[index].userName} \n ${this.props.queuedTableList[index].tableId}`,
+      [
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'OK', onPress: () => this.handleConfirm(tableId,actioType)},
+      ],
+      { cancelable: false }
+    );
+
+  }
+  handleConfirm = (tableId,actioType)=>{
+    if(actioType === ACCEPT_ORDER)
+    { 
+      this.props.acceptQueuedRequest(this.props.queuedTableList,tableId);
+    }
+    else if(actioType === DELETE_ORDER){
+      this.props.deleteQueuedRequest(this.props.queuedTableList,tableId);
+    }
+  }
+
   
 
   render() {
@@ -69,9 +93,11 @@ class Tables extends Component {
           <View tabLabel="Open">
             <FlatList
               data={this.props.openTableList}
-              renderItem={() => {
+              renderItem={(rowData) => {
                 return (
-                  <OpenTableItem />
+                  <OpenTableItem 
+                   user = {rowData}
+                  />
                 );
               }}
             />
@@ -79,10 +105,12 @@ class Tables extends Component {
           <View tabLabel="Queue">
             <FlatList
               data={this.props.queuedTableList}
-              renderItem={() => {
+              renderItem={(rowData) => {
+               
                 return (
                   <QueuedTableItem 
-                  acceptQueuedRequest={this.props.acceptQueuedRequest('1')}
+                    handleQueuedTableItem={this.handleQueuedTableItem}
+                    user = {rowData}
                   />
                 );
               }}

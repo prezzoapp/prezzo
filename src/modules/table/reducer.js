@@ -42,27 +42,10 @@ const reducer = (state = INITIAL_STATE, action) => {
             return state.update('queuedTableList', () => getDummyData());
            
         case ACCEPT_QUEUED_REQUEST:
-            return state.update('queuedTableList', (state) => {
-                console.warn(state.queuedTableList);
-                if(state.queuedTableList != undefined){
-                    let queuedTableList = state.queuedTableList.filter((element) => {
-                        return element.id != action.payload
-                    })
-                    console.warn(queuedTableList);
-                    return queuedTableList;
-
-                }
-                else
-                {
-                    return state;
-                }
-            });
+            
+            return state.update('queuedTableList',()=> action.payload);
         case DELETE_QUEUED_REQUEST:
-            return state.update('queuedTableList', () => {
-                state.queuedTableList.filter((element) => {
-                    return element.id != action.payload
-                })
-            });
+            return state.update('queuedTableList', () => action.payload);
         default:
             return state;
 

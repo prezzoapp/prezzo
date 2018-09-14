@@ -8,9 +8,10 @@ export const mapStateToProps = state => ({
     queuedTableList: state.get('table').get('queuedTableList'),
 });
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
     navigate: bindActionCreators(NavigationActions.navigate, dispatch),
     listOpenTable: bindActionCreators(listOpenTable, dispatch),
     listQueuedTable: bindActionCreators(listQueuedTable, dispatch),
-    acceptQueuedRequest: bindActionCreators(acceptQueuedRequest, dispatch)
+    acceptQueuedRequest: bindActionCreators(acceptQueuedRequest, dispatch),
+    deleteQueuedRequest: bindActionCreators(deleteQueuedRequest, dispatch),
 });

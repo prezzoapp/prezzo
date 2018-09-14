@@ -43,6 +43,7 @@
   "dependencies": {
     "@expo/vector-icons": "^6.3.1",
     "babel-eslint": "^8.2.6",
+    "babel-preset-expo": "^4.0.0",
     "babel-runtime": "^6.26.0",
     "bluebird": "^3.3.5",
     "buffer": "^5.1.0",
