@@ -32,9 +32,9 @@ class Profile extends Component {
   };
 
   async logout() {
+    this.props.navigate({ routeName: 'Authentication' });
     await this.props.userLogout();
     await snapshot.clearSnapshot();
-    this.props.navigate({ routeName: 'Authentication' });
   }
 
   navigateToEditProfile() {

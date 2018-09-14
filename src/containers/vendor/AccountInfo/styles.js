@@ -1,10 +1,13 @@
 // @flow
 import { Dimensions, StyleSheet } from 'react-native';
 import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp
+} from 'react-native-responsive-screen';
+import {
   FONT_FAMILY,
   COLOR_BLACK,
-  COLOR_GREEN,
-  COLOR_WHITE
+  COLOR_GREEN
 } from '../../../services/constants';
 
 const AVATAR_SIZE: number = 80;
@@ -109,8 +112,9 @@ export default StyleSheet.create({
     borderBottomColor: '#fff',
     borderBottomWidth: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
+
   sectionHeaderText: {
     color: '#fff',
     fontFamily: FONT_FAMILY,
@@ -174,6 +178,20 @@ export default StyleSheet.create({
     fontFamily: FONT_FAMILY,
     fontSize: 16,
     color: COLOR_GREEN
+  },
+
+  priceBarIndicator: {
+    width: 2,
+    height: hp('1.97%'),
+    zIndex: 1,
+    backgroundColor: 'white'
+  },
+
+  dollarTextStyle: {
+    fontSize: 17,
+    width: wp('13.33%'),
+    height: 20,
+    fontFamily: FONT_FAMILY
   }
 });
 
