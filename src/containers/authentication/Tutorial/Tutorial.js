@@ -1,13 +1,13 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
 import TutorialScreen from './TutorialScreen';
 import Button from '../../../components/Button';
 import FacebookButton from '../../../components/FacebookButton';
-import {FONT_FAMILY} from '../../../services/constants';
-import {getUserInfo} from '../../../services/facebook';
+import { FONT_FAMILY } from '../../../services/constants';
+import { getUserInfo } from '../../../services/facebook';
 
 const images = {
   tutorial1: require('../../../../assets/images/tutorial/tutorial-1.png'),
@@ -31,7 +31,8 @@ class Tutorial extends React.Component {
 
   async onFacebookLogin(facebookId, accessToken) {
     try {
-      await this.props.loginWithFacebook(facebookId, accessToken);
+      const { email } = await getUserInfo();
+      await this.props.loginWithFacebook(email, facebookId, accessToken);
       this.navigateToHome();
     } catch (e) {
       if (e && e.code === 404) {

@@ -64,6 +64,7 @@ export const loginWithEmail = async (email: string, password: string) => async (
 };
 
 export const loginWithFacebook = async (
+  email: string,
   facebookId: string,
   facebookToken: string
 ) => async (dispatch: ReduxDispatch) => {
@@ -74,6 +75,7 @@ export const loginWithFacebook = async (
   try {
     const type = Platform.OS;
     const user = await post('/v1/auth/facebook', {
+      email,
       facebookId,
       facebookToken,
       type
