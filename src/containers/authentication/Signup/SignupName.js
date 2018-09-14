@@ -99,13 +99,7 @@ class SignupName extends React.Component<Props, State> {
 
         <NextButton
           style={nextButtonStyle}
-          validate={() =>
-            new Promise(resolve => {
-              setTimeout(resolve, 1000);
-            })
-          }
           onPress={() => this.navigateToSignupEmail()}
-          onError={e => console.log('error validating next', e)}
           disabled={!this.isFormValid()}
         />
       </ImageBackground>
