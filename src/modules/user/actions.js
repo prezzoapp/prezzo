@@ -1,11 +1,38 @@
 // @flow
-import {Map} from 'immutable';
+import { Map, fromJS } from 'immutable';
 import {
+  FIND_USER_REQUEST,
+  FIND_USER_SUCCESS,
+  FIND_USER_FAILURE,
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE
 } from './types';
-import {post} from '../../utils/api';
+import { get, post } from '../../utils/api';
+
+export const findUser = async (id: string) => async (
+  dispatch: ReduxDispatch
+) => {
+  dispatch({
+    type: FIND_USER_REQUEST
+  });
+
+  try {
+    const user = await get(`/v1/users/${id}`);
+
+    dispatch({
+      type: FIND_USER_SUCCESS,
+      payload: fromJS(user)
+    });
+
+    return user;
+  } catch (e) {
+    dispatch({
+      type: FIND_USER_FAILURE,
+      payload: e
+    });
+  }
+};
 
 export const updateUser = async (
   avatarURL: string,

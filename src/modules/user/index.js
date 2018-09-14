@@ -1,11 +1,6 @@
 // @flow
-import {
-  updateUser
-} from './actions';
+import { findUser, updateUser } from './actions';
 import reducer from './reducer';
 
-export {
-  updateUser
-};
-
+export { findUser, updateUser };
 export default reducer;
