@@ -19,6 +19,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import ProfileDataField from '../../../components/ProfileDataField';
 import EditableListItem from '../../../components/EditableListItem';
+import showGenericAlert from '../../../components/GenericAlert';
 import { restaurantCategories, COLOR_GREEN } from '../../../services/constants';
 import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
@@ -68,9 +69,31 @@ export default class AccountInfo extends React.Component {
     super(props);
 
     const { avatarURL, vendor } = props;
+    // temp_restaurantCategories = [...restaurantCategories];
+
+    if (!vendor) {
+      this.state = {
+        temp_restaurantCategories: [...restaurantCategories],
+        avatarURL,
+        categories: [],
+        hours: [],
+        location: {},
+        name: '',
+        slidervalue: 0.0,
+        selectedHoursDay: 0,
+        selectedCategory: restaurantCategories[0],
+        selectedClosingTime: '18:00',
+        selectedOpeningTime: '10:00',
+        upload: null,
+        website: '',
+        filters: [],
+        email: ''
+      };
+
+      return;
+    }
 
     const location = vendor.get('location');
-    // temp_restaurantCategories = [...restaurantCategories];
 
     this.state = {
       temp_restaurantCategories: [...restaurantCategories],
@@ -101,7 +124,7 @@ export default class AccountInfo extends React.Component {
       upload: null,
       website: vendor.get('website') || '',
       filters: [],
-      email: 'steven@sagebistro.com'
+      email: ''
     };
 
     this.toggle = this.toggle.bind(this);
@@ -372,6 +395,10 @@ export default class AccountInfo extends React.Component {
       const params = { ...this.state };
       delete params.upload;
 
+      if (!params.avatarURL) {
+        delete params.avatarURL;
+      }
+
       if (vendor) {
         console.log('updating vendor');
         await updateVendor(vendor.get('_id'), params);
@@ -386,7 +413,7 @@ export default class AccountInfo extends React.Component {
       // this.props.navigateBack();
       // END PATCH
     } catch (e) {
-      console.warn('error creating or updating vendor', e);
+      showGenericAlert('Uh-oh!', e.message || e);
     }
   }
 
@@ -525,7 +552,7 @@ export default class AccountInfo extends React.Component {
             </Text>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => alert()}
+              onPress={() => {}}
               style={styles.editBtn}
             >
               <Text style={styles.editText}>Edit Info</Text>

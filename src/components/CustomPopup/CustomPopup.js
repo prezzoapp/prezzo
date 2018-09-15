@@ -38,7 +38,7 @@ const CustomPopup = props => (
         <Button
           style={customPopupBtnStyles.commonBtn}
           textStyle={customPopupBtnStyles.commonBtnText}
-          onPress={() => alert()}
+          onPress={() => props.onDismiss()}
         >
           CONTINUE
         </Button>
