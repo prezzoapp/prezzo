@@ -2,7 +2,8 @@ import {
     LIST_OPEN_TABLE_REQUEST,
     LIST_QUEUED_TABLE_REQUEST,
     ACCEPT_QUEUED_REQUEST,
-    DELETE_QUEUED_REQUEST
+    DELETE_QUEUED_REQUEST,
+    SECTION_CHANGE
 } from './types';
 
 //import store from '../../redux/store';
@@ -42,5 +43,12 @@ export const listOpenTable = () => {
     return {
       type: ACCEPT_QUEUED_REQUEST,
       payload: queuedList
+    };
+  };
+
+  export const changeSection = (section: number) => {
+    return {
+      type: SECTION_CHANGE,
+      payload: section
     };
   };

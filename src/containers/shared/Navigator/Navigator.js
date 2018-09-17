@@ -5,6 +5,10 @@ import {
   createSwitchNavigator
 } from 'react-navigation';
 
+import { MaterialIcons } from '../../../components/VectorIcons';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import Tutorial from '../../authentication/Tutorial';
 import EnableNotifications from '../../authentication/EnableNotifications';
 import Login from '../../authentication/Login';
@@ -12,7 +16,7 @@ import SignupName from '../../authentication/Signup/SignupName';
 import SignupEmail from '../../authentication/Signup/SignupEmail';
 import SignupPassword from '../../authentication/Signup/SignupPassword';
 import SignupComplete from '../../authentication/Signup/SignupComplete';
-
+import SignupMergeFacebook from '../../authentication/Signup/SignupMergeFacebook';
 import Explore from '../../customer/Explore';
 import RestaurantDetails from '../../customer/RestaurantDetails';
 
@@ -29,6 +33,7 @@ import LocationSearch from '../../shared/LocationSearch';
 
 const headerColor = '#2B2C2C';
 const activeColor = 'white';
+const inactiveColor = '#919191';
 
 const tabBarOptions = {
   activeTintColor: activeColor,
@@ -49,6 +54,7 @@ const AuthenticationNavigator = createStackNavigator(
     SignupName: { screen: SignupName },
     SignupEmail: { screen: SignupEmail },
     SignupPassword: { screen: SignupPassword },
+    SignupMergeFacebook: { screen: SignupMergeFacebook },
     SignupComplete: { screen: SignupComplete }
   },
   {
@@ -72,7 +78,19 @@ const CustomerProfileNavigator = createStackNavigator(
 const ExploreScreenNavigator = createBottomTabNavigator(
   {
     Explore: { screen: Explore },
-    CustomerProfile: { screen: CustomerProfileNavigator }
+    CustomerProfile: {
+      screen: CustomerProfileNavigator,
+      navigationOptions: {
+        title:'Profile',
+        tabBarIcon: ({ focused }) => (
+          <MaterialIcons
+            name="person"
+            size={24}
+            color={focused ? activeColor : inactiveColor}
+          />
+        )
+      }
+    }
   },
   {
     initialRouteName: 'Explore',
@@ -138,5 +156,9 @@ const Navigator = createSwitchNavigator(
     initialRouteName: 'Authentication'
   }
 );
+
+Navigator.propTypes = {
+  focused: PropTypes.bool
+};
 
 export default Navigator;

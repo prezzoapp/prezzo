@@ -29,10 +29,12 @@ export default class MapScreen extends Component {
       customRegion: {
         latitude: 0,
         longitude: 0,
-        latitudeDelta: 0,
-        longitudeDelta: 0
+        latitudeDelta: 0.00922,
+        longitudeDelta: 0.00922
       }
     };
+
+    this.btnClicked = false;
   }
 
   componentDidMount() {
@@ -57,26 +59,68 @@ export default class MapScreen extends Component {
       });
   }
 
-  // componentWillUnmount() {
-	// 	navigator.geolocation.clearWatch(this.watchID);
-  // }
-
   onRegionChangeComplete(region) {
-    this.props.listVendors(region.latitude, region.longitude, '200000000');
+    if(this.btnClicked === false) {
+      this.setState(() => {
+          return {
+          customRegion: {
+              ...region,
+              latitudeDelta: 0.00922,
+              longitudeDelta: 0.00422
+            }
+          };
+        },
+        () => {
+          this.props.listVendors(
+            this.state.customRegion.latitude,
+            this.state.customRegion.longitude,
+            '200000000'
+          );
+
+          console.log("API called !");
+        }
+      );
+    } else {
+      this.btnClicked = false;
+    }
+  }
+
+  onMapReady() {
+    this.mapView.animateToRegion(this.state.customRegion);
+  }
+
+  moveToPosition(coordinates) {
+    console.log('Move To Position Method Called!');
+
+    this.btnClicked = true;
+
+    this.mapView.animateToRegion({
+      latitude: coordinates[1],
+      longitude: coordinates[0],
+      latitudeDelta: 0.00922,
+      longitudeDelta: 0.00422
+    });
   }
 
   render() {
-    console.log(this.props.data);
+    // console.log(this.props.data);
     return (
       <View style={styles.container}>
         <MapView
-          provider={"google"}
-          region={this.state.customRegion}
+          ref={ref => {
+            this.mapView = ref;
+          }}
+          provider={'google'}
+          initialRegion={this.state.customRegion}
           onRegionChangeComplete={region => this.onRegionChangeComplete(region)}
           customMapStyle={MapStyle}
           showsCompass={false}
           loadingEnabled
           followUserLocation={false}
+          onMapReady={() => this.onMapReady()}
+          onPress={() => {
+            this.btnClicked = false;
+          }}
           style={styles.map}
         >
           {this.state.customRegion.latitude !== null &&
@@ -84,28 +128,26 @@ export default class MapScreen extends Component {
             (this.state.customRegion.longitude !== null &&
               this.state.customRegion.longitude !== 0) && (
               <MapView.Marker
-                ref={currentLocation => {
-                  this.currentLocation = currentLocation;
-                }}
                 coordinate={{
                   latitude: this.state.customRegion.latitude,
                   longitude: this.state.customRegion.longitude
                 }}
                 image={require('../../../../assets/images/location.png')}
               />
-          )}
+            )}
 
           {this.props.data.map(item => {
             return (
               <MapView.Marker
                 key={item._id}
                 coordinate={{
-                  latitude: item.location.coordinates[0],
-                  longitude: item.location.coordinates[1]
+                  latitude: item.location.coordinates[1],
+                  longitude: item.location.coordinates[0]
                 }}
                 onPress={() => {
                   this.filteredListRef.callMethod(item);
                 }}
+
               >
                 <Image
                   source={require("../../../../assets/images/map-pin.png")}
@@ -117,7 +159,7 @@ export default class MapScreen extends Component {
         </MapView>
 
         <LinearGradient
-          colors={["rgb(43,44,44)", "transparent"]}
+          colors={['rgb(43,44,44)', 'transparent']}
           locations={[0, 0.6]}
           style={styles.map}
           pointerEvents="none"
@@ -167,6 +209,7 @@ export default class MapScreen extends Component {
           ref={filteredListRef => {
             this.filteredListRef = filteredListRef;
           }}
+          moveToPosition={coordinates => this.moveToPosition(coordinates)}
         />
       </View>
     );

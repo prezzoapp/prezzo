@@ -1,8 +1,8 @@
 // @flow
-import {Map} from 'immutable';
-import {loop, Effects} from 'redux-loop-symbol-ponyfill';
-import {setAuthenticationToken} from './actions';
-import {SIGNUP_SUCCESS} from '../Signup/types';
+import { Map } from 'immutable';
+import { loop, Effects } from 'redux-loop-symbol-ponyfill';
+import { setAuthenticationToken } from './actions';
+import { SIGNUP_SUCCESS } from '../Signup/types';
 import {
   SET_AUTHENTICATION_TOKEN,
   LOGIN_WITH_EMAIL_SUCCESS,
@@ -32,11 +32,6 @@ const reducer = (state: State = INITIAL_STATE, action) => {
     case SET_AUTHENTICATION_TOKEN:
       return state.update('token', () => action.payload);
     case USER_LOGOUT_SUCCESS:
-      return state
-        .set('token', '')
-        .set('error', null)
-        .set('isBusy', false);
-
     case USER_LOGOUT_FAILURE:
       return state.update('isBusy', () => false);
     default:

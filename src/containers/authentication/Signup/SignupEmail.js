@@ -1,13 +1,27 @@
 // @flow
 import React from 'react';
-import {ImageBackground, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {NavigationActions} from 'react-navigation';
-import {updateEmail, updateSubscriptionToPromotions} from '../../../modules/Signup';
-import {isValidEmail} from '../../../utils/validators';
-import {FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD} from '../../../services/constants';
+import {
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet
+} from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { NavigationActions } from 'react-navigation';
+import { findUser } from '../../../modules/user';
+import {
+  updateEmail,
+  updateSubscriptionToPromotions
+} from '../../../modules/Signup';
+import { isValidEmail } from '../../../utils/validators';
+import {
+  FONT_FAMILY_MEDIUM,
+  FONT_FAMILY_BOLD
+} from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
+import alert from '../../../components/GenericAlert';
 import NextButton from './NextButton';
 
 type Props = {
@@ -79,7 +93,7 @@ class SignupEmail extends React.Component<Props> {
   };
 
   isFormValid() {
-    const {email} = this.props;
+    const { email } = this.props;
     return email && isValidEmail(email) ? true : false;
   }
 
@@ -95,24 +109,22 @@ class SignupEmail extends React.Component<Props> {
   }
 
   navigateToPassword() {
-    this.props.navigate({routeName: 'SignupPassword'});
+    this.props.navigate({ routeName: 'SignupPassword' });
   }
 
   render() {
-    const {email} = this.props;
+    const { email, findUser } = this.props;
 
     return (
       <ImageBackground
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.png')}
       >
-        <Text style={styles.headerText}>
-          And your email?
-        </Text>
+        <Text style={styles.headerText}>And your email?</Text>
 
         <LoginTextInput
-          type='email'
-          label='Email Address'
+          type="email"
+          label="Email Address"
           value={email}
           onChange={value => this.props.updateEmail(value)}
         />
@@ -121,10 +133,7 @@ class SignupEmail extends React.Component<Props> {
           style={styles.promotionsContainer}
           onPress={() => this.toggleSubscription()}
         >
-          <Image
-            style={styles.checkbox}
-            source={this.getCheckboxImage()}
-          />
+          <Image style={styles.checkbox} source={this.getCheckboxImage()} />
           <Text style={styles.promotionalText}>
             I'd like to receive promotional communications.
           </Text>
@@ -133,7 +142,14 @@ class SignupEmail extends React.Component<Props> {
         <NextButton
           style={nextButtonStyle}
           disabled={!this.isFormValid()}
+          validate={async () => {
+            const user = await findUser(email);
+            if (user) {
+              throw Error('This email is taken.');
+            }
+          }}
           onPress={() => this.navigateToPassword()}
+          onError={e => alert('Uh-oh!', e.message || e)}
         />
       </ImageBackground>
     );
@@ -145,6 +161,7 @@ export default connect(state => ({
   isSubscribedToPromotions: state.get('signup').get('isSubscribedToPromotions')
 }), dispatch => {
   return {
+    findUser: bindActionCreators(findUser, dispatch),
     updateEmail: bindActionCreators(updateEmail, dispatch),
     updateSubscriptionToPromotions: bindActionCreators(
       updateSubscriptionToPromotions,

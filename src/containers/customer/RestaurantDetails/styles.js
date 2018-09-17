@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-import { Header } from 'react-navigation';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 
@@ -124,11 +127,12 @@ const styles = StyleSheet.create({
 
   bottomViewHolder: {
     paddingHorizontal: 15,
-    height: 65,
+    height: hp('8.62%'),
     position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
+    zIndex: 9999,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -137,10 +141,10 @@ const styles = StyleSheet.create({
   },
 
   totalPrice: {
-    fontSize: 14,
+    fontSize: wp('4.8%'),
     fontFamily: FONT_FAMILY,
     color: COLOR_WHITE,
-    marginRight: 40
+    marginRight: wp('10.53%')
   },
 
   messageHolder: {
@@ -152,6 +156,14 @@ const styles = StyleSheet.create({
   message: {
     color: COLOR_WHITE,
     fontSize: 20
+  },
+
+  bottomViewBlurContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
   }
 });
 

@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
         width: 59
     },
     detailContainer: {
+        marginTop:20,
         flexDirection: 'row',
         padding: 15,
         alignItems: 'center'

@@ -1,10 +1,9 @@
 // @flow
 import React from 'react';
-import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons'
-import {FONT_FAMILY} from '../../services/constants';
-
-type Props = {};
+import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
+import { MaterialIcons } from '../VectorIcons';
+import PropTypes from 'prop-types'
+import { FONT_FAMILY } from '../../services/constants';
 
 const buttonBlack = '#424242';
 const shadowColor = 'black';
@@ -64,6 +63,17 @@ const styles = {
     fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
     fontSize: 18
   }
+};
+
+MenuButton.propTypes = {
+  icon: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string
+};
+
+MenuButton.defaultProps = {
+  subtitle: ''
 };
 
 export default MenuButton;

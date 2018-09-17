@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Image, View } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '../VectorIcons';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
@@ -20,8 +20,18 @@ export default class ItemImagePicker extends Component {
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
-        console.log('Image URI: ', response.uri);
-        this.props.addNewImageComponent(response.uri);
+        this.props
+          .uploadImage(
+            response.uri,
+            response.fileSize,
+            'image/jpeg',
+            response.fileName,
+            'userAvatar',
+            'public-read'
+          )
+          .then(async itemImage => {
+            this.props.addNewImageComponent(itemImage);
+        });
       }
     });
   };

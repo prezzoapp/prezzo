@@ -7,10 +7,12 @@ import { userLogout } from '../../../modules/auth';
 
 const mapStateToProps = state => {
   const account = state.get('user').get('account');
+  const logoutIsBusy = state.get('auth').get('isBusy');
 
   return {
     avatarURL: account.get('avatarURL'),
-    vendor: account.get('vendor') || null
+    vendor: account.get('vendor') || null,
+    logoutIsBusy
   };
 };
 

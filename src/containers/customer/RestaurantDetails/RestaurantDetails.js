@@ -7,18 +7,24 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
-  Animated
+  Animated,
+  InteractionManager,
+  ActivityIndicator
 } from 'react-native';
-
-import { fromJS } from 'immutable';
 
 import { Header } from 'react-navigation';
 
-// import Icon from 'react-native-vector-icons/dist/Feather';
-import { Feather } from '@expo/vector-icons';
+import { Feather } from '../../../components/VectorIcons';
 
 import { LinearGradient, BlurView } from 'expo';
 
+
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+
+import PropTypes from 'prop-types';
 
 import styles from './styles';
 
@@ -28,7 +34,11 @@ import Button from '../../../components/Button';
 
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 
-const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
+import Checkout from '../Checkout';
+
+import CustomPopup from '../../../components/CustomPopup';
+
+const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 
 export default class RestaurantDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -36,7 +46,7 @@ export default class RestaurantDetails extends Component {
     headerStyle: {
       position: 'absolute',
       backgroundColor: 'transparent',
-      zIndex: 100,
+      zIndex: -1,
       top: 0,
       left: 0,
       right: 0,
@@ -49,29 +59,116 @@ export default class RestaurantDetails extends Component {
   constructor(props) {
     super(props);
 
-    const item = fromJS({ vendor: props.navigation.state.params.item });
-
-    let modifiedCategories;
-
-    if(item.get('vendor').has('menu')) {
-      modifiedCategories = item
-        .get('vendor')
-        .get('menu')
-        .get('categories')
-        .map(singleItem =>
-          singleItem.set('data', singleItem.get('items')).delete('items')
-        ).toJS();
-    } else {
-      modifiedCategories = null;
-    }
-
     this.state = {
       showText: false,
-      categories: modifiedCategories
-    }
+      modalVisible: false,
+      currentSlideIndex: 0,
+      showNextBtn: false
+    };
+
     this.toggleViewFun = this.toggleViewFun.bind(this);
+    this.onOrderBtnClick = this.onOrderBtnClick.bind(this);
+    this.onPlaceOrderBtnClick = this.onPlaceOrderBtnClick.bind(this);
+    this.showNextOrderBtn = this.showNextOrderBtn.bind(this);
+    this.hideNextOrderBtn = this.hideNextOrderBtn.bind(this);
 
     this.scrollAnimatedValue = new Animated.Value(0);
+
+    this.flag = 0;
+  }
+
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.props.addRestaurantDetail(this.props.navigation.state.params.item);
+    })
+  }
+
+  componentWillUnmount() {
+    this.props.removeRestaurantDetail();
+  }
+
+  onPlaceOrderBtnClick() {
+    this.modal.getWrappedInstance().scrollReset();
+    this.modal.getWrappedInstance().showModal();
+  }
+
+  onOrderBtnClick() {
+    if (
+      this.modal &&
+      this.state.currentSlideIndex >= 0 &&
+      this.state.currentSlideIndex < 2
+    ) {
+      this.modal.getWrappedInstance().scrollForward();
+    } else if (this.modal && this.state.currentSlideIndex === 2) {
+      this.setState(() => {
+        return {
+            modalVisible: true
+          };
+        },
+        () => {
+          this.modal.getWrappedInstance().hideModal();
+          this.props.clearCartData();
+        }
+      );
+    }
+
+    //DON'T REMOVE BELOW COMMENTED CODE. IT'S FOR TESTING PURPOSE.
+
+    // if(this.modal && this.state.currentSlideIndex === 0) {
+    //   // this.modal.getWrappedInstance().showModal();
+    //   // this.setIndex(0);
+    // } else if (this.state.currentSlideIndex < 2 && this.modal) {
+    //   this.modal.getWrappedInstance().scrollForward();
+    // } else if (this.state.currentSlideIndex === 2 && this.modal) {
+    //   this.setState(() => {
+    //     return {
+    //       modalVisible: true
+    //     }
+    //   }, () => {
+    //     this.modal.getWrappedInstance().hideModal()
+    //   });
+    // }
+    // if(this.state.currentSlideIndex === -1 && this.modal) {
+    //   this.modal.getWrappedInstance().showModal();
+    //   this.setIndex(0);
+    // } else if (
+    //   this.state.currentSlideIndex < 2 &&
+    //   this.state.currentSlideIndex >= 0
+    // ) {
+    //   this.setIndex(this.state.currentSlideIndex + 1, this.callbackFunction);
+    // } else if (this.state.currentSlideIndex === 2 && this.modal) {
+    //   this.modal.getWrappedInstance().hideModal();
+    //   this.setState(() => {
+    //     return {
+    //       modalVisible: true
+    //     }
+    //   });
+    // }
+  }
+
+  setIndex(index) {
+    // console.log("Index: " + index);
+    this.setState(() => {
+      return {
+        currentSlideIndex: index
+      }
+    });
+  }
+
+  showNextOrderBtn() {
+    this.setState(() => {
+      return {
+        showNextBtn: true
+      }
+    })
+  }
+
+  hideNextOrderBtn() {
+    this.setState(() => {
+      return {
+        showNextBtn: false
+      }
+    });
   }
 
   toggleViewFun() {
@@ -80,6 +177,89 @@ export default class RestaurantDetails extends Component {
         showText: !this.state.showText
       }
     });
+  }
+
+  listFooterComponent() {
+    if(this.flag === 1) {
+      return <View style={{ height: hp('8.62%') }} />;
+    }
+    return null;
+  }
+
+  renderFooter() {
+    this.flag = 0;
+
+    if(this.props.data.data) {
+      if (
+        this.props.data.data.menu &&
+        this.props.data.data.menu.categories &&
+        this.props.data.data.menu.categories.length > 0
+      ) {
+        for (let i = 0; i < this.props.data.data.menu.categories.length; i++) {
+          if (
+            this.props.data.data.menu.categories[i].data &&
+            this.props.data.data.menu.categories[i].data.length > 0
+          ) {
+            for (let j = 0; j < this.props.data.data.menu.categories[i].data.length; j++) {
+              if(this.props.data.data.menu.categories[i].data[j].quantity > 0) {
+                this.flag = 1;
+                break;
+              }
+            }
+          }
+        }
+
+        if(this.state.modalVisible) {
+          return null;
+        } else if(this.flag === 1) {
+          return (
+            <View style={styles.bottomViewHolder}>
+              <BlurView
+                style={styles.bottomViewBlurContainer}
+                blurType="dark"
+                blurAmount={10}
+              />
+
+              {(() => {
+                if(this.state.showNextBtn) {
+                  return (
+                    <Button
+                      style={buttonStyles.placeOrderBtn}
+                      textStyle={buttonStyles.btnText}
+                      onPress={this.onOrderBtnClick}
+                    >
+                      {(() => {
+                        if (this.state.currentSlideIndex < 2) {
+                          return 'Next';
+                        }
+                        return 'Complete Order';
+                      })()}
+                    </Button>
+                  );
+                }
+                return (
+                  <Button
+                    style={buttonStyles.placeOrderBtn}
+                    textStyle={buttonStyles.btnText}
+                    onPress={this.onPlaceOrderBtnClick}
+                  >
+                    Place Order
+                  </Button>
+                );
+              })()}
+
+              <Text style={styles.totalPrice}>
+                Total $
+                {parseFloat(
+                  this.props.data.totalPrice +
+                    (this.props.data.totalPrice * 2.43) / 100
+                ).toFixed(2)}
+              </Text>
+            </View>
+          );
+        }
+      }
+    }
   }
 
   renderSectionHeader = section => (
@@ -130,7 +310,9 @@ export default class RestaurantDetails extends Component {
         >
           <View style={styles.contentContainer}>
             <Image
-              source={{ uri: this.props.navigation.state.params.item.avatarURL }}
+              source={{
+                uri: this.props.navigation.state.params.item.avatarURL
+              }}
               style={styles.logo}
             />
             <View style={[styles.headerTextContainer, styles.transparent]}>
@@ -154,88 +336,155 @@ export default class RestaurantDetails extends Component {
             </View>
           </View>
 
-          <View style={styles.toggleBtnsSection}>
-            <View style={styles.buttonHolder}>
-              <TouchableOpacity
-                activeOpacity={1}
-                style={styles.headerBtns}
-                onPress={this.toggleViewFun}
-              >
-                <Text style={styles.headerBtnText}>Photo</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={1}
-                style={styles.headerBtns}
-                onPress={this.toggleViewFun}
-              >
-                <Text style={styles.headerBtnText}>Text</Text>
-              </TouchableOpacity>
-              <View
-                style={[
-                  styles.toggleView,
-                  { left: this.state.showText ? 80 : 0 }
-                ]}
-              >
-                <LinearGradient
-                  colors={['#707070', '#1E1E1E']}
-                  style={[styles.headerBtns, styles.linearGradientBtn]}
-                >
-                  <Text style={styles.selectedBtnText}>{this.state.showText ? 'Text' : 'Photo'}</Text>
-                </LinearGradient>
-              </View>
-            </View>
-          </View>
+          {(() => {
+            if (this.props.data.data) {
+              if(
+                this.props.navigation.state.params.item.menu !== undefined &&
+                this.props.navigation.state.params.item.menu.categories !== undefined &&
+                this.props.navigation.state.params.item.menu.categories.length > 0) {
+                return (
+                  <View style={styles.toggleBtnsSection}>
+                    <View style={styles.buttonHolder}>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        style={styles.headerBtns}
+                        onPress={this.toggleViewFun}
+                      >
+                        <Text style={styles.headerBtnText}>Photo</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        style={styles.headerBtns}
+                        onPress={this.toggleViewFun}
+                      >
+                        <Text style={styles.headerBtnText}>Text</Text>
+                      </TouchableOpacity>
+                      <View
+                        style={[
+                          styles.toggleView,
+                          { left: this.state.showText ? 80 : 0 }
+                        ]}
+                      >
+                        <LinearGradient
+                          colors={['#707070', '#1E1E1E']}
+                          style={[styles.headerBtns, styles.linearGradientBtn]}
+                        >
+                          <Text style={styles.selectedBtnText}>
+                            {this.state.showText ? 'Text' : 'Photo'}
+                          </Text>
+                        </LinearGradient>
+                      </View>
+                    </View>
+                  </View>
+                );
+              }
+            }
+          })()}
         </Animated.View>
 
-        {(this.props.navigation.state.params.item.menu &&
-          this.props.navigation.state.params.item.menu.categories.length === 0) ? (
-            <View style={styles.messageHolder}>
-              <Text style={styles.message}>Does not have Items.</Text>
-            </View>
-          ) : (
-            (this.props.navigation.state.params.item["menu"] === undefined) ? (
-              <View style={styles.messageHolder}>
-                <Text style={styles.message}>Does not have Menu.</Text>
-              </View>
-            ) : (
-              <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
+          {(() => {
+            if(this.props.data.data) {
+              if (
+                this.props.navigation.state.params.item.menu &&
+                this.props.navigation.state.params.item.menu.categories.length === 0
+              ) {
+                return(
+                  <View style={styles.messageHolder}>
+                    <Text style={styles.message}>Does not have Items.</Text>
+                  </View>
+                );
+              } else if (!this.props.navigation.state.params.item.menu) {
+                return (
+                  <View style={styles.messageHolder}>
+                    <Text style={styles.message}>Does not have Menu.</Text>
+                  </View>
+                );
+              }
+              return (
                 <AnimatedSectionList
                   bounces={false}
-                  keyExtractor={item => item._id}
+                  keyExtractor={item => item._id.toString()}
                   onScroll={Animated.event([
                     {
-                      nativeEvent: { contentOffset: { y: this.scrollAnimatedValue } }
+                      nativeEvent: {
+                        contentOffset: { y: this.scrollAnimatedValue }
+                      }
                     }]
                   )}
-                  contentContainerStyle={{ paddingBottom: 85, paddingHorizontal: 15 }}
-                  sections={this.state.categories}
+                  contentContainerStyle={{
+                    paddingBottom: 15,
+                    paddingHorizontal: 15
+                  }}
+                  ListFooterComponent={() => this.listFooterComponent()}
+                  sections={
+                    this.props.data.data.menu &&
+                    this.props.data.data.menu.categories
+                      ? this.props.data.data.menu.categories
+                      : []
+                  }
                   renderSectionHeader={({ section }) =>
                     this.renderSectionHeader(section)
                   }
-                  renderItem={({ item }) =>
-                    <RestaurantItem item={item} showText={this.state.showText} />
+                  renderItem={({ item, section }) =>
+                    <RestaurantItem
+                      item={item}
+                      section={section}
+                      showText={this.state.showText}
+                      addRemoveItemQuantity={(itemId, op) =>
+                        this.props.addRemoveItemQuantity(
+                          section._id,
+                          itemId,
+                          op
+                        )
+                      }
+                      changeItemRating={(itemId, rating) =>
+                        this.props.changeItemRating(section._id, itemId, rating)
+                      }
+                    />
                   }
                 />
-
-                <View style={styles.bottomViewHolder}>
-                  <BlurView
-                    style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0}}
-                    blurType="dark"
-                    blurAmount={10}
-                  />
-                  <Button
-                    style={buttonStyles.placeOrderBtn}
-                    textStyle={buttonStyles.btnText}
-                    onPress={() => alert()}
-                  >
-                    Place Order
-                  </Button>
-
-                  <Text style={styles.totalPrice}>Total $35.42</Text>
-                </View>
+              );
+            }
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <ActivityIndicator size="large" />
               </View>
-            )
-          )}
+            );
+          })()}
+        </View>
+
+        {this.renderFooter()}
+
+        {this.state.modalVisible ? (
+          <CustomPopup
+            modalVisible={this.state.modalVisible}
+            onDismiss={() => {
+              this.setState({ modalVisible: false });
+            }}
+          />
+        ) : null}
+
+        {(() => {
+          if(this.props.data.data) {
+            return (
+              <Checkout
+                ref={modal => this.modal = modal}
+                setCurrentIndex={(index) => this.setIndex(index)}
+                resetCurrentIndex={() => this.resetCurrentIndex()}
+                restaurantName={this.props.navigation.state.params.item.name}
+                showNextOrderBtn={() => this.showNextOrderBtn()}
+                hideNextOrderBtn={() => this.hideNextOrderBtn()}
+              />
+            );
+          }
+        })()}
       </View>
     );
   }
@@ -245,17 +494,27 @@ const buttonStyles = {
   placeOrderBtn: {
     backgroundColor: '#2ED573',
     borderColor: '#0DD24A',
-    width: 100,
-    height: 37,
+    width: wp('40%'),
+    height: hp('4.55%'),
     justifyContent: 'center',
     borderRadius: 8
   },
   btnText: {
-    fontSize: 14,
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
+    fontSize: wp('3.73%'),
+    fontFamily: FONT_FAMILY,
     color: COLOR_WHITE,
     paddingTop: 0,
     paddingBottom: 0,
     justifyContent: 'center'
   }
+};
+
+RestaurantDetails.propTypes = {
+  navigation: PropTypes.object.isRequired,
+  addRestaurantDetail: PropTypes.func.isRequired,
+  removeRestaurantDetail: PropTypes.func.isRequired,
+  clearCartData: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  addRemoveItemQuantity: PropTypes.func.isRequired,
+  changeItemRating: PropTypes.func.isRequired
 };

@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
-import { Feather } from '@expo/vector-icons'
+import { Feather } from '../VectorIcons';
 import PropTypes from 'prop-types';
 import MenuItemImage from '../MenuItemImage';
 import styles from './styles';
@@ -197,6 +197,9 @@ export default class MenuItem extends Component {
                   }
                   deleteImageComponent={imageURL =>
                     this.props.deleteImageComponent(imageURL)
+                  }
+                  uploadImage={(uri, size, mime, name, type, acl) =>
+                    this.props.uploadImage(uri, size, mime, name, type, acl)
                   }
                 />
             ))}

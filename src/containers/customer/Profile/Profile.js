@@ -3,17 +3,13 @@ import React, { Component } from 'react';
 import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { Header } from 'react-navigation';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
 import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
 
 class Profile extends Component {
   static navigationOptions = {
-    title: 'My Profile',
-    tabBarIcon: props => (
-      <Icon name="person-outline" size={24} color={props.tintColor} />
-    ),
+    title: 'Profile',
     headerStyle: {
       position: 'absolute',
       backgroundColor: '#2B2C2C',
@@ -30,22 +26,23 @@ class Profile extends Component {
   static displayName = 'Profile';
 
   static propTypes = {
-    navigate: PropTypes.func.isRequired
+    navigate: PropTypes.func.isRequired,
+    avatarURL: PropTypes.string.isRequired,
+    userLogout: PropTypes.func.isRequired
   };
 
   async logout() {
-    await snapshot.clearSnapshot();
-    this.props.userLogout();
     this.props.navigate({ routeName: 'Authentication' });
+    await this.props.userLogout();
+    await snapshot.clearSnapshot();
   }
 
   navigateToEditProfile() {
-    console.log('Pressed');
     this.props.navigate({ routeName: 'EditProfile' });
   }
 
   render() {
-    const { avatarURL, vendor } = this.props;
+    const { avatarURL } = this.props;
 
     return (
       <View style={styles.parent}>
@@ -55,7 +52,7 @@ class Profile extends Component {
               <Image style={styles.avatar}
                 source={
                   avatarURL
-                  ? {uri: avatarURL}
+                  ? { uri: avatarURL }
                   : require('../../../../assets/images/etc/default-avatar.png')}
               />
             </View>
@@ -63,29 +60,29 @@ class Profile extends Component {
           <View style={styles.bodyContainer}>
             <MenuButton
               onPress={() => this.navigateToEditProfile()}
-              title='My Information'
-              subtitle='Edit my personal information'
-              icon='chevron-right'
+              title="My Information"
+              subtitle="Edit my personal information"
+              icon="chevron-right"
             />
             <MenuButton
-              onPress={() => this.props.navigate(null)}
-              title='Payment Methods'
-              subtitle='Edit my payment methods'
-              icon='chevron-right'
+              onPress={() => {}}
+              title="Payment Methods"
+              subtitle="Edit my payment methods"
+              icon="chevron-right"
             />
             <MenuButton
-              onPress={() => this.props.navigate(null)}
-              title='My History'
-              icon='chevron-right'
+              onPress={() => {}}
+              title="My History"
+              icon="chevron-right"
             />
             <MenuButton
               onPress={() => this.props.navigate({routeName: 'Vendor'})}
-              title='Switch to Vendor Account'
-              icon='repeat'
+              title="Switch to Vendor Account"
+              icon="repeat"
             />
           </View>
           <View style={styles.footerContainer}>
-            <TouchableOpacity onPress={() => this.props.navigate('')}>
+            <TouchableOpacity onPress={() => {}}>
               <View style={styles.footerLeft}>
                 <Text style={styles.footerText}>Help</Text>
               </View>

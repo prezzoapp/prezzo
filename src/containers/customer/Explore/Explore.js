@@ -1,7 +1,9 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { View, ActivityIndicator, Text } from 'react-native';
+import { MaterialIcons } from '../../../components/VectorIcons';
+import { LinearGradient } from 'expo';
+import ExploreSearch from '../ExploreSearch';
 import ExploreScreenHeader from '../ExploreScreenHeader';
 import ExploreList from '../ExploreList';
 import styles from './styles';
@@ -38,7 +40,8 @@ class Explore extends PureComponent<Props> {
         longitude: 0,
         latitudeDelta: 0,
         longitudeDelta: 0
-      }
+      },
+      isFetching: true
     };
   }
 
@@ -52,9 +55,12 @@ class Explore extends PureComponent<Props> {
                 longitude: position.coords.longitude,
                 latitudeDelta: 0.00922,
                 longitudeDelta: 0.00422
-              }
+              },
+              isFetching: false
             };
           }, () => {
+            console.log('Current Coordinates: ');
+            console.log(this.state.customRegion);
             this.props.listVendors(
               this.state.customRegion.latitude,
               this.state.customRegion.longitude,
@@ -72,19 +78,36 @@ class Explore extends PureComponent<Props> {
     );
   }
 
-  // componentWillUnmount() {
-	// 	navigator.geolocation.clearWatch(this.watchID);
-  // }
-
   render() {
     return (
-      <View style={styles.container}>
-        <ExploreScreenHeader
-          currentLatitude={this.state.customRegion.latitude}
-          currentLongitude={this.state.customRegion.latitude}
-        />
-        <ExploreList />
-      </View>
+      <LinearGradient
+        colors={['rgb(0,0,0)', 'transparent', 'transparent']}
+        style={styles.container}
+        locations={[0, 0.5, 0.5]}
+      >
+      {(() => {
+          if (this.state.isFetching) {
+            return (
+              <View style={styles.loaderContainer}>
+                <ActivityIndicator size="large" color="white" />
+                <Text style={styles.message}>
+                  Please wait, While fetching restaurants.
+                </Text>
+              </View>
+            );
+        }
+        return (
+            <View style={{ flex: 1 }}>
+              <ExploreList />
+              <ExploreScreenHeader
+                currentLatitude={this.state.customRegion.latitude}
+                currentLongitude={this.state.customRegion.longitude}
+              />
+              <ExploreSearch />
+            </View>
+        );
+      })()}
+      </LinearGradient>
     );
   }
 }

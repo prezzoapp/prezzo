@@ -1,12 +1,19 @@
 import { StyleSheet } from 'react-native';
 
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 import { FONT_FAMILY } from '../../services/constants';
 
 const styles = StyleSheet.create({
   searchInputHolder: {
     marginHorizontal: 15,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: hp('5.17%'),
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0
   },
 
   searchTextInput: {
@@ -21,7 +28,7 @@ const styles = StyleSheet.create({
   },
 
   LinearGradientStyle: {
-    height: 28,
+    height: hp('3.69%'),
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

@@ -3,6 +3,7 @@ listOpenTable,
 listQueuedTable,
 acceptQueuedRequest,
 deleteQueuedRequest,
+changeSection
 } from './actions';
 
 import reducer from './reducer';
@@ -12,6 +13,7 @@ export {
     listQueuedTable,
     acceptQueuedRequest,
     deleteQueuedRequest,
+    changeSection
 };
 
 export default reducer;

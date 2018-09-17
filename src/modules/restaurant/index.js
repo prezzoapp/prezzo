@@ -1,7 +1,19 @@
 // @flow
-import addRestaurantItem from './actions';
+import {
+  addRestaurantDetail,
+  removeRestaurantDetail,
+  addRemoveItemQuantity,
+  clearCartData,
+  changeItemRating
+} from './actions';
 import reducer from './reducer';
 
-export { addRestaurantItem };
+export {
+  addRestaurantDetail,
+  removeRestaurantDetail,
+  addRemoveItemQuantity,
+  clearCartData,
+  changeItemRating
+};
 
 export default reducer;

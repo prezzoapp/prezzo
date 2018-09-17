@@ -4,10 +4,11 @@ import { View, Text, FlatList, Alert } from 'react-native';
 import styles from './styles';
 import PropTypes from 'prop-types';
 import TableScreenHeader from '../TableScreenHeader';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '../../../components/VectorIcons';
 import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
 import OpenTableItem from '../../../components/OpenTableItem';
 import QueuedTableItem from '../../../components/QueuedTableItem';
+import TableListHeader from '../../../components/TableListHeader';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
 
 class Tables extends Component {
@@ -41,83 +42,88 @@ class Tables extends Component {
       }
     }
   }
-  componentDidMount(){
-      this.props.listOpenTable();
-      
+  componentDidMount() {
+    this.props.listOpenTable();
+
   }
-  changeTabHandler = (index)=>{
-    if(index==1)
-    {
+  changeTabHandler = (index) => {
+    if (index == 1) {
       this.props.listQueuedTable();
     }
   }
-  handleQueuedTableItem = (tableId,index,actioType)=>{
-    
+  handleQueuedTableItem = (tableId, index, actionType) => {
+
     Alert.alert(
-      actioType ===  ACCEPT_ORDER ? 'Accept' : 'Delete',
-      `${this.props.queuedTableList[index].userName} \n ${this.props.queuedTableList[index].tableId}`,
+      actionType === ACCEPT_ORDER ? 'Accept' : 'Delete',
+      `${this.props.queuedTableList[index].userName} \n Table ${this.props.queuedTableList[index].tableId}`,
       [
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'OK', onPress: () => this.handleConfirm(tableId,actioType)},
+        { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+        { text: 'OK', onPress: () => this.handleConfirm(tableId, actionType) },
       ],
       { cancelable: false }
     );
 
   }
-  handleConfirm = (tableId,actioType)=>{
-    if(actioType === ACCEPT_ORDER)
-    { 
-      this.props.acceptQueuedRequest(this.props.queuedTableList,tableId);
+  handleConfirm = (tableId, actioType) => {
+    if (actioType === ACCEPT_ORDER) {
+      this.props.acceptQueuedRequest(this.props.queuedTableList, tableId);
     }
-    else if(actioType === DELETE_ORDER){
-      this.props.deleteQueuedRequest(this.props.queuedTableList,tableId);
+    else if (actioType === DELETE_ORDER) {
+      this.props.deleteQueuedRequest(this.props.queuedTableList, tableId);
     }
   }
 
-  
+  renderSection = () => {
+    console.log(JSON.stringify(this.props));
+    
+    if (this.props.section === 0) {
+      return (
+        <FlatList
+          data={this.props.openTableList}
+          renderItem={(rowData) => {
+            return (
+              <OpenTableItem
+                user={rowData}
+              />
+            );
+          }}
+        />
+      );
+    } else if (this.props.section === 1) {
+      return (
+        <FlatList
+              data={this.props.queuedTableList}
+              renderItem={(rowData) => {
+                return (
+                  <QueuedTableItem
+                    handleQueuedTableItem={this.handleQueuedTableItem}
+                    user={rowData}
+                  />
+                );
+              }}
+            />
+      );
+    }else{
+      return null
+    }
+  }
+
+  onSectionChange = (index) => {
+    if(index === 1) {
+      this.props.listQueuedTable()
+    }
+
+    this.props.changeSection(index);
+  }
 
   render() {
     return (
       <View style={styles.container}>
         <TableScreenHeader />
-        <ScrollableTabView
-          style={{ marginTop: 145, marginHorizontal: 16 }}
-          initialPage={0}
-          tabBarUnderlineStyle={styles.tabBarUnderLineStyle}
-          tabBarActiveTextColor={'#fff'}
-          tabBarInactiveTextColor={'#D8D8D8'}
-          tabBarTextStyle={styles.tabBarTextStyle}
-          renderTabBar={() => <DefaultTabBar />}
-          onChangeTab={({ i, ref }) =>this.changeTabHandler(i)}
-        >
-          <View tabLabel="Open">
-            <FlatList
-              data={this.props.openTableList}
-              renderItem={(rowData) => {
-                return (
-                  <OpenTableItem 
-                   user = {rowData}
-                  />
-                );
-              }}
-            />
-          </View>
-          <View tabLabel="Queue">
-            <FlatList
-              data={this.props.queuedTableList}
-              renderItem={(rowData) => {
-               
-                return (
-                  <QueuedTableItem 
-                    handleQueuedTableItem={this.handleQueuedTableItem}
-                    user = {rowData}
-                  />
-                );
-              }}
-            />
-          </View>
-          <View tabLabel="Delivered"></View>
-        </ScrollableTabView>
+        <View style={{ marginTop: 145, marginHorizontal: 16 }}>
+        <TableListHeader onListTypeSelection={(index) => this.onSectionChange(index)} />
+        {this.renderSection()}
+        </View>
       </View>
     );
   }

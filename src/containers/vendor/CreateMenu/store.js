@@ -11,6 +11,8 @@ import {
   deleteImage
 } from '../../../modules/menu';
 
+import { uploadImage } from '../../../modules/upload';
+
 export const mapStateToProps = state => ({
   menuId:
     state.get('menu') &&
@@ -20,7 +22,8 @@ export const mapStateToProps = state => ({
       .get('data')
       .get('_id'),
   isBusy: state.get('menu') && state.get('menu').get('isBusy'),
-  menu: state.get('menu') && state.get('menu').get('data')
+  menu: state.get('menu') && state.get('menu').get('data'),
+  uploadIsBusy: state.get('upload') && state.get('upload').get('isBusy')
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -31,5 +34,6 @@ export const mapDispatchToProps = dispatch => ({
   updateItem: bindActionCreators(updateItem, dispatch),
   deleteItem: bindActionCreators(deleteItem, dispatch),
   addImage: bindActionCreators(addImage, dispatch),
-  deleteImage: bindActionCreators(deleteImage, dispatch)
+  deleteImage: bindActionCreators(deleteImage, dispatch),
+  uploadImage: bindActionCreators(uploadImage, dispatch)
 });

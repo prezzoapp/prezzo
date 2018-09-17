@@ -1,15 +1,18 @@
 // @flow
 import React from 'react';
-import {Dimensions, Text, View} from 'react-native';
-import {FONT_FAMILY} from '../../services/constants';
+import { Dimensions, Text, View } from 'react-native';
+import { FONT_FAMILY } from '../../services/constants';
 
-type Props = {};
+type Props = {
+  label: String,
+  value: String
+};
 
 const labelTextColor = '#A7A7A7';
 const valueTextColor = 'white';
 const screenWidth = Dimensions.get('window').width;
 
-const ProfileDataField = ({label, value}: Props) => {
+const ProfileDataField = ({ label, value }: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.currentValueContainer}>
@@ -17,10 +20,7 @@ const ProfileDataField = ({label, value}: Props) => {
           <Text style={styles.label}>{label}</Text>
         </View>
         <View style={styles.valueContainer}>
-          <Text
-            style={styles.value}
-            numberOfLines={1}
-          >
+          <Text style={styles.value} numberOfLines={1}>
             {value}
           </Text>
         </View>

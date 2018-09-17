@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native';
 
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '../../components/VectorIcons';
 
 class CounterView extends Component {
   static displayName = 'CounterView';

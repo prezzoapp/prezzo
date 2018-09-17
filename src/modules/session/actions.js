@@ -1,8 +1,5 @@
 // @flow
-import {
-  INITIALIZE_STATE,
-  RESET_STATE
-} from './types';
+import { INITIALIZE_STATE, RESET_STATE } from './types';
 
 export function initializeSessionState() {
   return {

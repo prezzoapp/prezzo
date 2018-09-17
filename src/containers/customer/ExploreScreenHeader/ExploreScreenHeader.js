@@ -3,9 +3,8 @@ import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import Slider from 'react-native-slider';
-import { LinearGradient } from 'expo';
-import { EvilIcons } from '@expo/vector-icons'
-// import DropArrowIcon from 'react-native-vector-icons/EvilIcons';
+import { LinearGradient, BlurView } from 'expo';
+import { EvilIcons } from '../../../components/VectorIcons';
 import ExploreSearchInput from '../../../components/ExploreSearchInput';
 import FilterItem from '../../../components/FilterItem';
 import styles from './styles';
@@ -15,16 +14,30 @@ export default class ExploreScreenHeader extends PureComponent {
     navigate: PropTypes.func.isRequired,
     toggleFilter: PropTypes.func.isRequired,
     filters: PropTypes.array.isRequired,
-    updateDistance: PropTypes.func.isRequired
+    updateDistance: PropTypes.func.isRequired,
+    currentLatitude: PropTypes.number.isRequired,
+    currentLongitude: PropTypes.number.isRequired,
+    maxDistance: PropTypes.number.isRequired,
+    minDistance: PropTypes.number.isRequired,
+    distance: PropTypes.number.isRequired
   };
 
   constructor(props) {
     super(props);
     this.state = { showFilters: false, sliderValue: this.props.distance };
+    // console.log(
+    //   'Coordinates: ',
+    //   this.props.currentLatitude,
+    //   this.props.currentLongitude
+    // );
   }
 
   changeDistance(value) {
-    this.props.updateDistance(this.props.currentLatitude, this.props.currentLongitude, value);
+    this.props.updateDistance(
+      this.props.currentLatitude,
+      this.props.currentLongitude,
+      value
+    );
   }
 
   render() {
@@ -68,6 +81,7 @@ export default class ExploreScreenHeader extends PureComponent {
 
         {this.state.showFilters &&
           <View style={styles.filtersHolder}>
+            <BlurView style={styles.blurView} blurType="dark" blurAmount={6} />
             <FlatList
               horizontal
               contentContainerStyle={styles.filtersList}
@@ -92,7 +106,9 @@ export default class ExploreScreenHeader extends PureComponent {
                     <View key={item._id} style={styles.slidersHolder}>
                       <View style={styles.sliderTitleHolder}>
                         <Text style={styles.sliderTitleText}>Distance</Text>
-                        <Text style={styles.sliderTitleText}>{this.props.maxDistance}mi</Text>
+                        <Text style={styles.sliderTitleText}>
+                          {this.props.maxDistance}mi
+                        </Text>
                       </View>
                       <Slider
                         minimumValue={this.props.minDistance}

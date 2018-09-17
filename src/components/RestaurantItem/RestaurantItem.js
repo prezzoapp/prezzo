@@ -4,22 +4,29 @@ import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-import { Feather } from '@expo/vector-icons';
+import { Feather } from '../VectorIcons';
 
 import { LinearGradient } from 'expo';
 
 import Swiper from 'react-native-swiper';
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+
 import styles from './styles';
 
 import RatingBar from '../RatingBar';
+
+import Button from '../Button';
+
+import { FONT_FAMILY, COLOR_WHITE } from '../../services/constants';
 
 export default class RestaurantItem extends Component {
   constructor(props) {
     super(props);
     this.state = { quantity: 1 };
-
-    this.changeQuantity = this.changeQuantity.bind(this);
   }
 
   changeQuantity(op) {
@@ -100,7 +107,7 @@ export default class RestaurantItem extends Component {
             >
               <LinearGradient
                 colors={['transparent', '#1E1E1E']}
-                locations={[0,0.95]}
+                locations={[0, 0.95]}
                 style={styles.itemImageLinearGradient}
               />
             </ImageBackground>
@@ -129,7 +136,12 @@ export default class RestaurantItem extends Component {
           </View>
 
           <View>
-            <RatingBar />
+            <RatingBar
+              itemRating={this.props.item.rating}
+              changeItemRating={rating =>
+                this.props.changeItemRating(this.props.item._id, rating)
+              }
+            />
           </View>
         </View>
       </View>
@@ -137,8 +149,31 @@ export default class RestaurantItem extends Component {
   }
 }
 
+const itemOrderBtnStyles = {
+  commonBtn: {
+    backgroundColor: 'transparent',
+    borderColor: '#0DD24A',
+    borderWidth: 2,
+    width: wp('19.2%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    padding: 0,
+    height: hp('4.55%')
+  },
+  commonBtnText: {
+    fontSize: wp('3.73%'),
+    fontFamily: FONT_FAMILY,
+    color: COLOR_WHITE,
+    paddingTop: 0,
+    paddingBottom: 0,
+    justifyContent: 'center'
+  }
+};
+
 RestaurantItem.propTypes = {
   item: PropTypes.object.isRequired,
-  changeQuantity: PropTypes.func.isRequired,
-  showText: PropTypes.bool.isRequired
+  showText: PropTypes.bool.isRequired,
+  addRemoveItemQuantity: PropTypes.func.isRequired,
+  changeItemRating: PropTypes.func.isRequired
 };

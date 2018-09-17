@@ -1,7 +1,8 @@
 // @flow
 import React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
-import {FONT_FAMILY} from '../../services/constants';
+import { Text, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
+import { FONT_FAMILY } from '../../services/constants';
 
 // type Props = {
 //   text: string,
@@ -10,9 +11,19 @@ import {FONT_FAMILY} from '../../services/constants';
 // };
 type Props = {};
 
-const Button = ({disabled, onPress, style, textStyle, children}: Props) => {
-  const buttonStyleFinal = {...styles.button, ...style};
-  const textStyleFinal = {...styles.text, ...textStyle};
+const Button = ({ disabled, onPress, style, textStyle, children }: Props) => {
+  let newStyle = {};
+
+  if(style instanceof Array) {
+    newStyle = style.reduce((result, current) => {
+      return Object.assign(result, current);
+    }, {});
+  } else {
+    newStyle = { ...style };
+  }
+
+  const buttonStyleFinal = { ...styles.button, ...newStyle };
+  const textStyleFinal = { ...styles.text, ...textStyle };
 
   return (
     <TouchableOpacity
@@ -20,9 +31,11 @@ const Button = ({disabled, onPress, style, textStyle, children}: Props) => {
       activeOpacity={disabled ? 1 : 0.7}
       style={buttonStyleFinal}
     >
-      <Text style={textStyleFinal}>
-        {children}
-      </Text>
+      {children.type !== undefined && children.type.name === 'View' ? (
+        children
+      ) : (
+        <Text style={textStyleFinal}>{children}</Text>
+      )}
     </TouchableOpacity>
   );
 };
@@ -44,6 +57,20 @@ const styles = {
     borderColor: '#2074FF',
     borderRadius: 10
   }
+};
+
+Button.propTypes = {
+  disabled: PropTypes.bool,
+  onPress: PropTypes.func.isRequired,
+  style: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  textStyle: PropTypes.object,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
+};
+
+Button.defaultProps = {
+  disabled: false,
+  style: {},
+  textStyle: {}
 };
 
 export default Button;

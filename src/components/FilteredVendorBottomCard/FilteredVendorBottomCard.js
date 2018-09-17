@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, FlatList, Text, Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import { Feather } from '@expo/vector-icons';
+import { Feather } from '../VectorIcons';
 import Button from '../Button';
 
 import styles from './styles';
@@ -45,7 +45,9 @@ class FilteredVendorBottomCard extends Component {
               <TouchableOpacity
                 activeOpacity={0.6}
                 style={styles.listItemBtn}
-                onPress={() => this.callMethod(item)}
+                onPress={() =>
+                  this.props.moveToPosition([...item.location.coordinates])
+                }
               >
                 <View style={styles.titleHolder}>
                   <Text style={styles.name}>{item.name}</Text>
@@ -72,7 +74,9 @@ class FilteredVendorBottomCard extends Component {
                 />
               </View>
               <View style={styles.vendorContentHolder}>
-                <Text numberOfLines={1} style={styles.vendorName}>{this.state.item.name}</Text>
+                <Text numberOfLines={1} style={styles.vendorName}>
+                  {this.state.item.name}
+                </Text>
                 <Text style={styles.vendorAddress}>
                   {this.state.item.location.city}, {this.state.item.location.region}
                 </Text>

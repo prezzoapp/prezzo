@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Image, View, Alert, TouchableOpacity, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '../../../components/VectorIcons';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
 import styles from './styles';
@@ -30,12 +30,16 @@ export default class AccountMenu extends React.Component {
 
   static propTypes = {
     navigate: PropTypes.func.isRequired,
-    createMenu: PropTypes.func.isRequired
+    createMenu: PropTypes.func.isRequired,
+    avatarURL: PropTypes.string.isRequired,
+    vendor: PropTypes.object.isRequired,
+    menu: PropTypes.object.isRequired,
+    userLogout: PropTypes.func.isRequired
   };
 
   async logout() {
+    await this.props.userLogout();
     await snapshot.clearSnapshot();
-    this.props.userLogout();
     this.props.navigate({ routeName: 'Authentication' });
   }
 
@@ -49,7 +53,7 @@ export default class AccountMenu extends React.Component {
         '',
         'You must create a Vendor account before creating a menu.',
         [{ text: 'OK' }],
-        {cancelable: false}
+        { cancelable: false }
       )
     }
   }

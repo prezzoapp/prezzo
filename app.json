@@ -3,13 +3,13 @@
     "name": "Prezzo",
     "slug": "Prezzo",
     "appKey": "Prezzo",
-    "sdkVersion": "30.0.0",
+    "sdkVersion": "28.0.0",
     "privacy": "unlisted",
+    "facebookAppId": "2029030444036230",
+    "facebookDisplayName": "Prezzo",
+    "facebookScheme": "fb2029030444036230",
     "packagerOpts": {
-      "assetExts": ["ttf", "json"] 
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+      "assetExts": ["json", "ttf"]
+    }
   }
 }

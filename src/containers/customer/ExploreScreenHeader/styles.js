@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import {
   FONT_FAMILY_BOLD,
@@ -9,10 +10,9 @@ const styles = StyleSheet.create({
   header: {
     alignSelf: 'stretch',
     position: 'absolute',
-    top: 0,
+    top: hp('8.86%'),
     left: 0,
-    right: 0,
-    zIndex: 999
+    right: 0
   },
 
   nearMeText: {
@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
   },
 
   locationPin: {
-    width: 30, height: 30
+    width: 30,
+    height: 30
   },
 
   mainTitleFilterAndMapIconHolder: {
@@ -70,8 +71,7 @@ const styles = StyleSheet.create({
   },
 
   filtersHolder: {
-    paddingVertical: 15,
-    backgroundColor: '#2B2C2C'
+    paddingVertical: 15
   },
 
   filtersList: {
@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
 
-  LinearGradientStyle: {
-    paddingTop: 30
+  blurView: {
+    ...StyleSheet.absoluteFillObject
   }
 });
 

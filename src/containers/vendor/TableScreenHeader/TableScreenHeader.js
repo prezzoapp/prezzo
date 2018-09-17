@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { LinearGradient } from 'expo';
-import { EvilIcons } from '@expo/vector-icons';
+import { EvilIcons } from '../../../components/VectorIcons';
 import styles from './styles';
 import ExploreSearchInput from '../../../components/ExploreSearchInput';
 

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '../../../components/VectorIcons';
 import PropTypes from 'prop-types';
 import MenuItem from '../../../components/MenuItem';
 import { COLOR_BLACK } from '../../../services/constants';
@@ -77,7 +77,8 @@ export default class CreateMenu extends Component<Props> {
           <SectionList
             showsVerticalScrollIndicator={false}
             extraData={this.props.menu
-              ? this.props.menu && this.props.menu.get('categories') &&
+                ? this.props.menu &&
+                  this.props.menu.get('categories') &&
                 this.props.menu.get('categories').toJS()
               : []
             }
@@ -132,6 +133,9 @@ export default class CreateMenu extends Component<Props> {
                     imageURL
                   )
                 }
+                uploadImage={(uri, size, mime, name, type, acl) =>
+                  this.props.uploadImage(uri, size, mime, name, type, acl)
+                }
               />
             }
           />
@@ -143,7 +147,7 @@ export default class CreateMenu extends Component<Props> {
           </View>
         </View>
 
-        {this.props.isBusy ? (
+        {this.props.isBusy || this.props.uploadIsBusy ? (
           <View style={styles.spinnerView}>
             <ActivityIndicator size="large" color="white"/>
           </View>
@@ -162,12 +166,15 @@ CreateMenu.propTypes = {
   updateItem: PropTypes.func.isRequired,
   deleteItem: PropTypes.func.isRequired,
 
+  uploadImage: PropTypes.func.isRequired,
   addImage: PropTypes.func.isRequired,
   deleteImage: PropTypes.func.isRequired,
 
   menuId: PropTypes.string.isRequired,
 
   isBusy: PropTypes.bool.isRequired,
+
+  uploadIsBusy: PropTypes.bool.isRequired,
 
   menu: PropTypes.any.isRequired
 };

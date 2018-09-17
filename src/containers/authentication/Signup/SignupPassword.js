@@ -276,7 +276,7 @@ class SignupPassword extends React.Component<Props, State> {
         source={require('../../../../assets/images/bg/authentication.png')}
       >
         <Text style={styles.headerText}>
-          You're already here!
+          Awesome, you're almost done!
         </Text>
 
         <View style={styles.profileContainer}>

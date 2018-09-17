@@ -1,9 +1,6 @@
 // @flow
 import { Map } from 'immutable';
-import {
-  INITIALIZE_STATE,
-  RESET_STATE
-} from './types';
+import { INITIALIZE_STATE, RESET_STATE } from './types';
 
 const INITIAL_STATE = Map({ isReady: false });
 

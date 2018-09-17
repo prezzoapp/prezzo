@@ -1,9 +1,5 @@
 // @flow
-import {
-  UPLOAD_REQUEST,
-  UPLOAD_SUCCESS,
-  UPLOAD_FAILURE
-} from './types';
+import { UPLOAD_REQUEST, UPLOAD_SUCCESS, UPLOAD_FAILURE } from './types';
 import {post} from '../../utils/api';
 
 export const uploadImage = async(

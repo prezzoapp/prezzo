@@ -1,12 +1,13 @@
 import { StyleSheet } from 'react-native';
 
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 import {
   COLOR_WHITE,
   COLOR_GREEN,
   FONT_FAMILY_MEDIUM,
   FONT_FAMILY
 } from '../../services/constants';
-
 
 const styles = StyleSheet.create({
   item: {
@@ -73,8 +74,8 @@ const styles = StyleSheet.create({
   },
 
   controlButtons: {
-    paddingVertical: 5,
     paddingHorizontal: 13,
+    height: hp('4.55%'),
     backgroundColor: 'rgba(46,213,115, 0.7)',
     borderRadius: 8,
     flexDirection: 'row',

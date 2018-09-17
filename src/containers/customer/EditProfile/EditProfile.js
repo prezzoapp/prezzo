@@ -11,8 +11,9 @@ import {
   View,
   ActionSheetIOS
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '../../../components/VectorIcons';
 import { ImagePicker } from 'expo';
+import PropTypes from 'prop-types';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import { getTimeStampString } from '../../../services/commonFunctions';
@@ -22,10 +23,6 @@ import {
   COLOR_BLACK,
   COLOR_GREEN
 } from '../../../services/constants';
-
-type Props = {
-  updateUser: Function
-};
 
 type State = {
   avatarURL: string,
@@ -80,7 +77,7 @@ class EditProfile extends Component<Props, State> {
   }
 
   async save() {
-    const {isBusy, updateUser} = this.props;
+    const { isBusy, updateUser } = this.props;
 
     if (isBusy) {
       console.log('is busy');
@@ -104,16 +101,16 @@ class EditProfile extends Component<Props, State> {
     } = this.state;
 
     updateUser(avatarURL, firstName, lastName, phone, address, zip, city)
-      .then(() => this.setState({isEditing: false}))
+      .then(() => this.setState({ isEditing: false }))
       .catch(e => console.log(e))
-      .finally(() => this.setState({isEditing: false}));
+      .finally(() => this.setState({ isEditing: false }));
   }
 
   toggleEditing() {
     if (this.state.isEditing) {
       this.save();
     } else {
-      this.setState({isEditing: true});
+      this.setState({ isEditing: true });
     }
   }
 
@@ -136,8 +133,8 @@ class EditProfile extends Component<Props, State> {
       console.log('got avatarURL', avatarURL);
 
       this.setState({
-        avatarURL,
-        upload: null
+          avatarURL,
+          upload: null
       });
     });
   }
@@ -179,91 +176,124 @@ class EditProfile extends Component<Props, State> {
   }
 
   render() {
-    const {avatarURL, firstName, lastName, phone, address, zip, city} = this.state;
+    const {
+      avatarURL,
+      firstName,
+      lastName,
+      phone,
+      address,
+      zip,
+      city
+    } = this.state;
 
     return (
-      <KeyboardAvoidingView behavior='padding' style={styles.parent}>
+      <KeyboardAvoidingView behavior="padding" style={styles.parent}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={styles.container}>
             <View style={styles.headerContainer}>
               <View style={styles.avatarContainer}>
-                {this.state.isEditing
-                  ? <TouchableOpacity onPress={() => this.showAvatarActionSheet()}>
-                      <Image style={styles.avatar}
-                        source={
-                          avatarURL
-                          ? {uri: avatarURL}
-                          : require('../../../../assets/images/etc/default-avatar.png')}
-                      />
-                    </TouchableOpacity>
-                  : <Image style={styles.avatar}
+                {(() => {
+                  if(this.state.isEditing) {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => this.showAvatarActionSheet()}
+                      >
+                        <Image style={styles.avatar}
+                          source={
+                            avatarURL
+                            ? { uri: avatarURL }
+                            : require('../../../../assets/images/etc/default-avatar.png')}
+                        />
+                      </TouchableOpacity>
+                    );
+                  }
+                  return (
+                    <Image style={styles.avatar}
                       source={
                         avatarURL
-                        ? {uri: avatarURL}
+                        ? { uri: avatarURL }
                         : require('../../../../assets/images/etc/default-avatar.png')}
                     />
-                }
+                  );
+                })()}
               </View>
               <TouchableOpacity onPress={() => this.toggleEditing()}>
                 <View>
-                  <Text style={styles.edit}>{this.state.isEditing ? 'Save' : 'Edit'}</Text>
+                  <Text style={styles.edit}>
+                    {this.state.isEditing ? 'Save' : 'Edit'}
+                  </Text>
                 </View>
               </TouchableOpacity>
             </View>
-            {this.state.isEditing
-              ? <View style={styles.bodyContainer}>
-                  <ProfileTextInput
-                    type='name'
-                    label='First Name'
-                    placeholder='John'
-                    onChange={firstName => this.setState({firstName})}
-                    value={firstName}
-                  />
-                  <ProfileTextInput
-                    type='name'
-                    label='Last Name'
-                    placeholder='Doe'
-                    onChange={lastName => this.setState({lastName})}
-                    value={lastName}
-                  />
-                  <ProfileTextInput
-                    type='number'
-                    label='Phone'
-                    placeholder='(123) 456-7890'
-                    onChange={phone => this.setState({phone})}
-                    value={phone}
-                  />
-                  <ProfileTextInput
-                    type='name'
-                    label='Address'
-                    placeholder='123 Main St'
-                    onChange={address => this.setState({address})}
-                    value={address}
-                  />
-                  <ProfileTextInput
-                    type='number'
-                    label='Zip'
-                    placeholder='12345'
-                    onChange={zip => this.setState({zip})}
-                    value={zip}
-                  />
-                  <ProfileTextInput
-                    type='name'
-                    label='City'
-                    placeholder='New York'
-                    onChange={city => this.setState({city})}
-                    value={city}
-                  />
-                </View>
-              : <View style={styles.bodyContainer}>
-                  <ProfileDataField label='First Name' value={this.props.firstName} />
-                  <ProfileDataField label='Last Name' value={this.props.lastName} />
-                  <ProfileDataField label='Phone' value={this.props.phone} />
-                  <ProfileDataField label='Address' value={this.props.address} />
-                  <ProfileDataField label='Zip' value={this.props.zip} />
-                  <ProfileDataField label='City' value={this.props.city} />
-                </View>
+            {(() => {
+              if(this.state.isEditing) {
+                return (
+                  <View style={styles.bodyContainer}>
+                    <ProfileTextInput
+                      type="name"
+                      label="First Name"
+                      placeholder="John"
+                      onChange={firstName => this.setState({ firstName })}
+                      value={firstName}
+                    />
+                    <ProfileTextInput
+                      type="name"
+                      label="Last Name"
+                      placeholder="Doe"
+                      onChange={lastName => this.setState({ lastName })}
+                      value={lastName}
+                    />
+                    <ProfileTextInput
+                      type="number"
+                      label="Phone"
+                      placeholder="(123) 456-7890"
+                      onChange={phone => this.setState({ phone })}
+                      value={phone}
+                    />
+                    <ProfileTextInput
+                      type="name"
+                      label="Address"
+                      placeholder="123 Main St"
+                      onChange={address => this.setState({ address })}
+                      value={address}
+                    />
+                    <ProfileTextInput
+                      type="number"
+                      label="Zip"
+                      placeholder="12345"
+                      onChange={zip => this.setState({ zip })}
+                      value={zip}
+                    />
+                    <ProfileTextInput
+                      type="name"
+                      label="City"
+                      placeholder="New York"
+                      onChange={city => this.setState({ city })}
+                      value={city}
+                    />
+                  </View>
+                );
               }
+              return (
+                <View style={styles.bodyContainer}>
+                  <ProfileDataField
+                    label="First Name"
+                    value={this.props.firstName}
+                  />
+                  <ProfileDataField
+                    label="Last Name"
+                    value={this.props.lastName}
+                  />
+                  <ProfileDataField label="Phone" value={this.props.phone} />
+                  <ProfileDataField
+                    label="Address"
+                    value={this.props.address}
+                  />
+                  <ProfileDataField label="Zip" value={this.props.zip} />
+                  <ProfileDataField label="City" value={this.props.city} />
+                </View>
+              );
+            })()}
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -317,5 +347,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 });
+
+EditProfile.propTypes = {
+  address: PropTypes.string.isRequired,
+  avatarURL: PropTypes.string.isRequired,
+  city: PropTypes.string.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
+  zip: PropTypes.string.isRequired,
+  uploadImage: PropTypes.func.isRequired
+};
 
 export default EditProfile;

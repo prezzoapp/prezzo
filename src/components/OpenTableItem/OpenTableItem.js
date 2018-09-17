@@ -2,18 +2,19 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import styles from './styles';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo } from '../VectorIcons';
 
 export default class OpenTableItem extends Component {
 
     render() {
+        const { item, index } = this.props.user;
         return (
             <TouchableOpacity style={styles.container}>
-                <Image style={styles.userImage} source={require('../../../assets/images/item4.png')} />
+                <Image style={styles.userImage} source={this.props.user.item.userName!="" ? {uri: item.userImg} :require('../../../assets/images/item4.png')} />
                 <View style={styles.textContainer}>
-                    <Text style={styles.userName}>UserName</Text>
+                    <Text style={styles.userName}>{item.userName}</Text>
                     <View style={styles.statusContainer}>
-                        <Text style={styles.tableId}>Table 21323</Text>
+                        <Text style={styles.tableId}>Table {this.props.user.item.tableId}</Text>
                         <Text style={styles.statusText}>• Waiter Reqested</Text>
                     </View>
                 </View>
