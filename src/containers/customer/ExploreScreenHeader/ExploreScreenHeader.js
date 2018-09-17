@@ -25,18 +25,15 @@ export default class ExploreScreenHeader extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { showFilters: false, sliderValue: this.props.distance };
-    // console.log(
-    //   'Coordinates: ',
-    //   this.props.currentLatitude,
-    //   this.props.currentLongitude
-    // );
   }
 
   changeDistance(value) {
+    const distance = parseFloat(value.toFixed(1));
+    console.log(distance);
     this.props.updateDistance(
       this.props.currentLatitude,
       this.props.currentLongitude,
-      value
+      distance
     );
   }
 
@@ -113,7 +110,6 @@ export default class ExploreScreenHeader extends PureComponent {
                         maximumValue={this.props.maxDistance}
                         minimumTrackTintColor="rgb(47,212,117)"
                         maximumTrackTintColor="rgb(230,230,230)"
-                        step={1}
                         thumbTintColor="rgb(255,254,255)"
                         thumbStyle={{ height: 18, width: 18 }}
                         value={this.state.sliderValue}

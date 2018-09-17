@@ -1,6 +1,6 @@
 // @flow
 import { StyleSheet } from 'react-native';
-import { Header } from 'react-navigation';
+// import { Header } from 'react-navigation';
 import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
 
 export default StyleSheet.create({
@@ -49,7 +49,8 @@ export default StyleSheet.create({
   headerContainer: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: Header.HEIGHT + 10,
+    // marginTop: Header.HEIGHT + 10,
+    marginTop: 10,
     marginBottom: 20
   },
   parent: {

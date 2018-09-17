@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { Header } from 'react-navigation';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
 import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
@@ -11,12 +12,13 @@ class Profile extends Component {
   static navigationOptions = {
     title: 'Profile',
     headerStyle: {
-      position: 'absolute',
+      //position: 'absolute',
       backgroundColor: '#2B2C2C',
-      zIndex: 100,
-      top: 0,
-      left: 0,
-      right: 0,
+      // backgroundColor: 'orange',
+      //zIndex: 100,
+      //top: 0,
+      //left: 0,
+      //right: 0,
       shadowColor: 'transparent',
       borderBottomWidth: 0
     },
@@ -145,7 +147,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: Header.HEIGHT + 10,
+    marginTop: 10,
     marginBottom: 20
   },
   parent: {

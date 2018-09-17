@@ -1,8 +1,18 @@
 // @flow
 import React from 'react';
-import {ImageBackground, View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  ImageBackground,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet
+} from 'react-native';
+import { Header } from 'react-navigation';
 import PropTypes from 'prop-types';
-import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../../services/constants';
+import {
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
 
@@ -115,7 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4A4A4A',
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingTop: containerPaddingTopBottom,
+    paddingTop: hp('13.42%'),
     paddingBottom: containerPaddingTopBottom
   },
   headerText: {

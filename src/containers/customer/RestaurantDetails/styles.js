@@ -5,12 +5,15 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
+// import { Header } from 'react-navigation';
+
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black'
+    backgroundColor: 'black',
+    paddingTop: hp('11.48%')
   },
 
   transparent: {
@@ -80,8 +83,7 @@ const styles = StyleSheet.create({
   buttonText: {},
 
   toggleBtnsSection: {
-    alignItems: 'center',
-    paddingBottom: 20
+    alignItems: 'center'
   },
 
   buttonHolder: {

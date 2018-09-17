@@ -12,8 +12,6 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-import { Header } from 'react-navigation';
-
 import Icon from 'react-native-vector-icons/dist/Feather';
 
 import LinearGradient from 'react-native-linear-gradient';
@@ -280,18 +278,18 @@ export default class RestaurantDetails extends Component {
 
   render() {
     const animatedHeader = this.scrollAnimatedValue.interpolate({
-      inputRange: [0, 170],
-      outputRange: [170, 0],
+      inputRange: [0, 190],
+      outputRange: [190, 0],
       extrapolate: 'clamp'
     });
 
     const animatedOpacity = this.scrollAnimatedValue.interpolate({
-      inputRange: [0, 170],
+      inputRange: [0, 190],
       outputRange: [1, 0]
     });
 
     return (
-      <View style={[styles.container, { paddingTop: Header.HEIGHT + 5 }]}>
+      <View style={styles.container}>
         <ImageBackground
           source={require('../../../../assets/images/photo_back.png')}
           style={styles.photo_back}>

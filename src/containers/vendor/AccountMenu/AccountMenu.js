@@ -13,13 +13,13 @@ export default class AccountMenu extends React.Component {
       <Icon name="person-outline" size={24} color={props.tintColor} />
     ),
     headerStyle: {
-      position: 'absolute',
+      //position: 'absolute',
       backgroundColor: '#2B2C2C',
-      zIndex: 100,
-      top: 0,
-      left: 0,
-      right: 0,
-      shadowColor: 'transparent',
+      // zIndex: 100,
+      // top: 0,
+      // left: 0,
+      // right: 0,
+      // shadowColor: 'transparent',
       borderBottomWidth: 0
     },
     headerTintColor: '#fff',

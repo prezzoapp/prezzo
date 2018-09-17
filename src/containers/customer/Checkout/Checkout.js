@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import {
+import ReactNative, {
   Animated,
   View,
   TouchableOpacity,
   ScrollView,
   Image,
-  Dimensions
+  Dimensions,
+  PanResponder,
+  findNodeHandle
 } from 'react-native';
 
 import { BlurView } from 'react-native-blur';
@@ -27,8 +29,68 @@ export default class Checkout extends Component {
     this.hideModal = this.hideModal.bind(this);
 
     this.showModalAnimatedValue = new Animated.Value(0);
+    this.dragAnimation = new Animated.Value(0);
 
     this.index = 0;
+
+    this.viewPosition = { x: 0, y: 0, width: 0, height: 0 };
+
+    this.state = { animationType: 'click' };
+
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (evt, gestureState) => {
+        if (
+          evt.nativeEvent.pageX >= 0 &&
+          evt.nativeEvent.pageY >= 172 &&
+          evt.nativeEvent.pageY <= 190
+        ) {
+          this.setState(() => {
+            return {
+                animationType: 'drag'
+              }
+            },
+            () => {
+              return true;
+            }
+          );
+        }
+
+        return false;
+      },
+
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        if (
+          evt.nativeEvent.pageX >= 0 &&
+          evt.nativeEvent.pageY >= 172 &&
+          evt.nativeEvent.pageY <= 190
+        ) {
+          return true;
+        }
+
+        return false;
+      },
+
+      onPanResponderGrant: (evt, gestureState) => {
+        //console.log(event);
+      },
+
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
+
+      onPanResponderMove: (evt, gestureState) => {
+        if (gestureState.dy >= this.viewPosition.y) {
+          this.dragAnimation.setValue(gestureState.dy);
+        }
+      },
+
+      onPanResponderRelease: (evt, gestureState) => {
+        Animated.timing(this.dragAnimation, {
+          toValue: 0,
+          duration: 5000
+        }).start();
+      }
+    });
 
     this.animationRunning = false;
   }
@@ -40,6 +102,20 @@ export default class Checkout extends Component {
       animated: false });
 
     this.index = index;
+  }
+
+  calculateLayout() {
+    this.child.measureLayout(
+      ReactNative.findNodeHandle(this.parent),
+      (xPos, yPos, Width, Height) => {
+        this.viewPosition.x = xPos;
+        this.viewPosition.y = yPos;
+        this.viewPosition.width = Width;
+        this.viewPosition.height = Height;
+
+        console.log(this.viewPosition);
+      }
+    );
   }
 
   scrollForward() {
@@ -78,7 +154,7 @@ export default class Checkout extends Component {
   }
 
   render() {
-
+    console.log('Render called!');
     const modalAnimation = this.showModalAnimatedValue.interpolate({
       inputRange: [0, 1],
       outputRange: [height, 0]
@@ -86,20 +162,45 @@ export default class Checkout extends Component {
 
     return (
       <Animated.View
+        {...this.panResponder.panHandlers}
+        ref={parent => {
+          this.parent = parent;
+        }}
         style={[
           styles.container,
-          { transform: [{ translateY: modalAnimation }] }
+          {
+            transform: [
+              {
+                translateY:
+                  this.state.animationType !== 'drag'
+                    ? modalAnimation
+                    : this.dragAnimation
+              }
+            ]
+          }
         ]}
       >
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => this.hideModal()}
-          style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+          }}
         />
         <View style={styles.modalView}>
           <BlurView style={styles.blurView} blurType="dark" blurAmount={5} />
           <View style={{ flex: 1 }}>
-            <View style={styles.bottomArrowIconContainer}>
+            <View
+              ref={child => {
+                this.child = child;
+              }}
+              style={styles.bottomArrowIconContainer}
+              onLayout={() => this.calculateLayout()}
+            >
               <Image
                 source={require('../../../../assets/images/icons/bottom_arrow.png')}
                 style={styles.bottom_arrow}
