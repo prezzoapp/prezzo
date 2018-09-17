@@ -16,7 +16,7 @@ import SignupName from '../../authentication/Signup/SignupName';
 import SignupEmail from '../../authentication/Signup/SignupEmail';
 import SignupPassword from '../../authentication/Signup/SignupPassword';
 import SignupComplete from '../../authentication/Signup/SignupComplete';
-
+import SignupMergeFacebook from '../../authentication/Signup/SignupMergeFacebook';
 import Explore from '../../customer/Explore';
 import RestaurantDetails from '../../customer/RestaurantDetails';
 
@@ -54,6 +54,7 @@ const AuthenticationNavigator = createStackNavigator(
     SignupName: { screen: SignupName },
     SignupEmail: { screen: SignupEmail },
     SignupPassword: { screen: SignupPassword },
+    SignupMergeFacebook: { screen: SignupMergeFacebook },
     SignupComplete: { screen: SignupComplete }
   },
   {

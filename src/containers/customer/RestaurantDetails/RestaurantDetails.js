@@ -464,7 +464,12 @@ export default class RestaurantDetails extends Component {
         {this.renderFooter()}
 
         {this.state.modalVisible ? (
-          <CustomPopup modalVisible={this.state.modalVisible} />
+          <CustomPopup
+            modalVisible={this.state.modalVisible}
+            onDismiss={() => {
+              this.setState({ modalVisible: false });
+            }}
+          />
         ) : null}
 
         {(() => {

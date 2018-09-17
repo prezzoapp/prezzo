@@ -1,13 +1,13 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
 import TutorialScreen from './TutorialScreen';
 import Button from '../../../components/Button';
 import FacebookButton from '../../../components/FacebookButton';
-import {FONT_FAMILY} from '../../../services/constants';
-import {getUserInfo} from '../../../services/facebook';
+import { FONT_FAMILY } from '../../../services/constants';
+import { getUserInfo } from '../../../services/facebook';
 
 const images = {
   tutorial1: require('../../../../assets/images/tutorial/tutorial-1.png'),
@@ -40,7 +40,7 @@ class Tutorial extends React.Component {
 
       try {
         // update info so signup screens have access to facebook info
-        const {email, firstName, lastName, avatarURL} = await getUserInfo();
+        const { email, firstName, lastName, avatarURL } = await getUserInfo();
 
         if (email) {
           this.props.updateEmail(email);
@@ -61,29 +61,41 @@ class Tutorial extends React.Component {
         this.props.updateFacebookId(facebookId);
         this.props.updateFacebookToken(accessToken);
 
+        // check if user exists with email
+        const user = await this.props.findUser(email);
         this.setState({isBusy: false});
-        this.navigateToSignup();
+
+        if (user) {
+          this.navigateToSignupMergeFacebook();
+        } else {
+          this.navigateToSignup();
+        }
       } catch (error) {
         console.log('error getting facebook data', error);
-        this.setState({isBusy: false});
+        this.setState({ isBusy: false });
+        this.navigateToSignup();
       }
     }
   }
 
+  navigateToSignupMergeFacebook() {
+    this.props.navigate({ routeName: 'SignupMergeFacebook' });
+  }
+
   navigateToHome() {
-    this.props.navigate({routeName: 'Customer'});
+    this.props.navigate({ routeName: 'Customer' });
   }
 
   navigateToLogin() {
-    this.props.navigate({routeName: 'Login'});
+    this.props.navigate({ routeName: 'Login' });
   }
 
   navigateToSignup() {
-    this.props.navigate({routeName: 'SignupName'});
+    this.props.navigate({ routeName: 'SignupName' });
   }
 
   navigateToEnableNotifications() {
-    this.props.navigate({routeName: 'EnableNotifications'});
+    this.props.navigate({ routeName: 'EnableNotifications' });
   }
 
   render() {

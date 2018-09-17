@@ -65,24 +65,24 @@ class Profile extends Component {
               icon="chevron-right"
             />
             <MenuButton
-              onPress={() => this.props.navigate(null)}
+              onPress={() => {}}
               title="Payment Methods"
               subtitle="Edit my payment methods"
               icon="chevron-right"
             />
             <MenuButton
-              onPress={() => this.props.navigate(null)}
+              onPress={() => {}}
               title="My History"
               icon="chevron-right"
             />
             <MenuButton
-              onPress={() => this.props.navigate({routeName: 'Vendor'})}
+              onPress={() => this.props.navigate({ routeName: 'Vendor' })}
               title="Switch to Vendor Account"
               icon="repeat"
             />
           </View>
           <View style={styles.footerContainer}>
-            <TouchableOpacity onPress={() => this.props.navigate('')}>
+            <TouchableOpacity onPress={() => {}}>
               <View style={styles.footerLeft}>
                 <Text style={styles.footerText}>Help</Text>
               </View>

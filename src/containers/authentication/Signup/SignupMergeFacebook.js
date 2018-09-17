@@ -1,24 +1,18 @@
 // @flow
 import React from 'react';
-import {
-  ImageBackground,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  StyleSheet
-} from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {NavigationActions} from 'react-navigation';
-import ImagePicker from 'react-native-image-picker';
-import {uploadImage} from '../../../modules/upload';
-import {updateUser} from '../../../modules/user';
-import {updateAvatarURL, updatePassword, signup} from '../../../modules/Signup';
-import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../../services/constants';
+import { ImageBackground, View, Text, Image, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { NavigationActions } from 'react-navigation';
+import { uploadImage } from '../../../modules/upload';
+import { updateFacebookAccount } from '../../../modules/user';
+import { loginWithEmail } from '../../../modules/auth';
+import { updateAvatarURL, updatePassword } from '../../../modules/Signup';
+import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import FacebookButton from '../../../components/FacebookButton';
 import Button from '../../../components/Button';
+import alert from '../../../components/GenericAlert';
 import NextButton from './NextButton';
 
 type Props = {
@@ -141,7 +135,7 @@ const buttonStyles = {
   }
 };
 
-class SignupPassword extends React.Component<Props, State> {
+class SignupMergeFacebook extends React.Component<Props, State> {
   static navigationOptions = {
     headerStyle: styles.navigation,
     headerTintColor: '#fff'
@@ -164,73 +158,39 @@ class SignupPassword extends React.Component<Props, State> {
     }
   }
 
-  showAvatarActionSheet() {
-    ImagePicker.showImagePicker({
-      maxWidth: 800,
-      title: 'Select an avatar',
-      quality: 0.3
-    }, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image upload');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        console.log('Image URI: ', response.uri);
-        this.props.updateAvatarURL(response.uri);
-        this.setState({upload: response});
-      }
-    });
-  }
-
   isFormValid() {
-    const {password} = this.props;
+    const { password } = this.props;
     return password ? true : false;
   }
 
-  async uploadPhoto() {
-    if (!this.state.upload) {
-      return;
-    }
-
-    const {upload} = this.state;
-    const {fileName, fileSize, uri} = upload;
-    const {updateUser, uploadImage} = this.props;
-
-    const avatarURL = await uploadImage(
-      uri,
-      fileSize,
-      'image/jpeg',
-      fileName,
-      'userAvatar',
-      'public-read'
-    );
-
-    console.log('got avatarURL', avatarURL);
-
-    this.setState({
-      avatarURL,
-      upload: null
-    });
-
-    await updateUser(avatarURL);
+  loginAndUpdateFacebook() {
+    const {
+      email,
+      password,
+      loginWithEmail,
+      facebookId,
+      facebookToken
+    } = this.props;
+    this.setState({ isBusy: true });
+    this.props.loginWithEmail(email, password)
+      .then(() => this.props.updateFacebookAccount(facebookId, facebookToken))
+      .then(() => this.navigateToMain())
+      .catch(error => alert('Uh-oh!', error.message || error))
+      .finally(() => this.setState({ isBusy: false }));
+    // this.props.signup()
+    //   .then(() => this.uploadPhoto())
+    //   .then(() => this.navigateToSignupComplete())
+    //   .catch(e => console.log('error signing up', e))
+    //   .finally(() => this.setState({isBusy: false}));
   }
 
-  signup() {
-    this.setState({isBusy: true});
-    this.props.signup()
-      .then(() => this.uploadPhoto())
-      .then(() => this.navigateToSignupComplete())
-      .catch(e => console.log('error signing up', e))
-      .finally(() => this.setState({isBusy: false}));
-  }
-
-  navigateToSignupComplete() {
-    this.props.navigate({routeName: 'SignupComplete'});
+  navigateToMain() {
+    this.props.navigate({ routeName: 'Customer' });
   }
 
   render() {
-    const {showPassword, isBusy} = this.state;
-    const {firstName, email, password, avatarURL} = this.props;
+    const { showPassword, isBusy } = this.state;
+    const { firstName, email, password, avatarURL } = this.props;
 
     return (
       <ImageBackground
@@ -238,27 +198,18 @@ class SignupPassword extends React.Component<Props, State> {
         source={require('../../../../assets/images/bg/authentication.png')}
       >
         <Text style={styles.headerText}>
-          Awesome, you're almost done!
+          You're already here!
         </Text>
 
         <View style={styles.profileContainer}>
-          <TouchableOpacity
-            style={styles.avatarContainer}
-            onPress={() => this.showAvatarActionSheet()}
-          >
-            <Image
-              style={styles.avatar}
-              source={
-                avatarURL
-                ? {uri: avatarURL}
-                : require('../../../../assets/images/etc/default-avatar.png')
-              }
-            />
-            <Image
-              style={styles.editAvatarIcon}
-              source={require('../../../../assets/images/icons/edit.png')}
-            />
-          </TouchableOpacity>
+          <Image
+            style={styles.avatar}
+            source={
+              avatarURL
+              ? {uri: avatarURL}
+              : require('../../../../assets/images/etc/default-avatar.png')
+            }
+          />
 
           <View style={styles.nameAndEmailContainer}>
             <Text style={styles.name}>
@@ -308,11 +259,12 @@ class SignupPassword extends React.Component<Props, State> {
         }
 
         {
-          showPassword && !isBusy && (
+          showPassword && (
             <NextButton
               style={buttonStyles.next}
               disabled={!this.isFormValid()}
-              onPress={() => this.signup()}
+              isBusy={isBusy}
+              onPress={() => this.loginAndUpdateFacebook()}
             />
           )
         }
@@ -321,20 +273,21 @@ class SignupPassword extends React.Component<Props, State> {
   }
 }
 
-export default connect(state => ({
-  avatarURL: state.get('signup').get('avatarURL'),
-  firstName: state.get('signup').get('firstName'),
-  lastName: state.get('signup').get('lastName'),
-  email: state.get('signup').get('email'),
-  password: state.get('signup').get('password'),
-  facebookId: state.get('signup').get('facebookId')
-}), dispatch => {
-  return {
-    signup: bindActionCreators(signup, dispatch),
+export default connect(
+  state => ({
+    avatarURL: state.get('signup').get('avatarURL'),
+    firstName: state.get('signup').get('firstName'),
+    email: state.get('signup').get('email'),
+    password: state.get('signup').get('password'),
+    facebookId: state.get('signup').get('facebookId'),
+    facebookToken: state.get('signup').get('facebookToken')
+  }),
+  dispatch => ({
+    loginWithEmail: bindActionCreators(loginWithEmail, dispatch),
     updateAvatarURL: bindActionCreators(updateAvatarURL, dispatch),
     updatePassword: bindActionCreators(updatePassword, dispatch),
-    updateUser: bindActionCreators(updateUser, dispatch),
+    updateFacebookAccount: bindActionCreators(updateFacebookAccount, dispatch),
     uploadImage: bindActionCreators(uploadImage, dispatch),
     navigate: bindActionCreators(NavigationActions.navigate, dispatch)
-  };
-})(SignupPassword);
+  })
+)(SignupMergeFacebook);

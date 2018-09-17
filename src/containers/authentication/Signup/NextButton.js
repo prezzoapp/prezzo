@@ -1,34 +1,18 @@
 // @flow
-import React from 'react';
-import {TouchableOpacity, Image} from 'react-native';
+import React, { Component } from 'react';
+import { TouchableOpacity, Image } from 'react-native';
 
-type Props = {
-  onPress: Function,
-  disabled: boolean,
-  style: object
+type State = {
+  isBusy: boolean
 };
 
-const Button = ({onPress, disabled, style}: Props) => {
-  const containerStyle = {
-    ...styles.button,
-    ...style,
-    ...{
-      display: disabled ? 'none' : 'flex'
-    }
-  };
-
-  return (
-    <TouchableOpacity
-      onPress={() => !disabled && onPress && onPress()}
-      activeOpacity={disabled ? 0.5 : 0.7}
-      style={containerStyle}
-    >
-      <Image
-        style={styles.icon}
-        source={require('../../../../assets/images/icons/arrow-right.png')}
-      />
-    </TouchableOpacity>
-  );
+type Props = {
+  isBusy: boolean,
+  onPress: Function,
+  validate: Function,
+  onError: Function,
+  disabled: boolean,
+  style: object
 };
 
 const buttonSize: number = 40;
@@ -52,5 +36,59 @@ const styles = {
     resizeMode: 'contain'
   }
 };
+
+class Button extends Component<State, Props> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isBusy: props.isBusy || false
+    };
+  }
+
+  async _onPress() {
+    const { onPress, onError, validate } = this.props;
+    this.setState({ isBusy: true });
+    try {
+      if (validate) {
+        await validate();
+      }
+
+      this.setState({ isBusy: false });
+      onPress();
+    } catch (e) {
+      this.setState({ isBusy: false });
+      if (onError) {
+        onError(e);
+      }
+    }
+  }
+
+  render() {
+    const isBusy = this.props.isBusy || this.state.isBusy;
+    const { onPress, disabled, style } = this.props;
+    const containerStyle = {
+      ...styles.button,
+      ...style,
+      ...{
+        display: disabled ? 'none' : 'flex',
+        backgroundColor: !isBusy ? styles.button.backgroundColor : '#DFE2E5'
+      }
+    };
+
+    return (
+      <TouchableOpacity
+        onPress={() => !disabled && !isBusy && this._onPress()}
+        activeOpacity={disabled ? 0.5 : 0.7}
+        style={containerStyle}
+      >
+        <Image
+          style={styles.icon}
+          source={require('../../../../assets/images/icons/arrow-right.png')}
+        />
+      </TouchableOpacity>
+    );
+  }
+}
 
 export default Button;
