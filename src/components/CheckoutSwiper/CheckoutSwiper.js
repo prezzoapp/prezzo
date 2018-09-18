@@ -35,8 +35,6 @@ export default class CheckoutSwiper extends Component {
 
     this.index = 0;
 
-    this.count = 0;
-
     this.cartItems = [];
   }
 
@@ -142,19 +140,13 @@ export default class CheckoutSwiper extends Component {
   };
 
   render() {
-    this.count = 0;
     this.cartItems =
       this.props.data.data.menu &&
       this.props.data.data.menu.categories
       .map(category =>
-          category.data.map(d => {
-            if(d.quantity > 0) {
-              this.count += 1;
-            }
-            return { ...d, sectionId: category._id };
-          })
+          category.data.map(d => ({ ...d, sectionId: category._id }))
         )
-      .reduce((a, v) => [...a, ...v], []);
+        .reduce((a, v) => [...a, ...v], []);
 
     return (
       <View style={{ flex: 1 }}>

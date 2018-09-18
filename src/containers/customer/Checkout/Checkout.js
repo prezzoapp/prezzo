@@ -28,43 +28,28 @@ export default class Checkout extends Component {
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
 
-    this.showModalAnimatedValue = new Animated.Value(0);
-    this.dragAnimation = new Animated.Value(0);
+    this.showModalAnimatedValue = new Animated.Value(height);
 
     this.index = 0;
 
     this.viewPosition = { x: 0, y: 0, width: 0, height: 0 };
 
-    this.state = { animationType: 'click' };
+    this.panResponder = null;
 
+    this.animationRunning = false;
+  }
+
+  componentWillMount() {
     this.panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => {
-        if (
-          evt.nativeEvent.pageX >= 0 &&
-          evt.nativeEvent.pageY >= 172 &&
-          evt.nativeEvent.pageY <= 190
-        ) {
-          this.setState(() => {
-            return {
-                animationType: 'drag'
-              }
-            },
-            () => {
-              return true;
-            }
-          );
-        }
-
-        return false;
-      },
+      onStartShouldSetPanResponder: (evt, gestureState) => false,
 
       onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
 
       onMoveShouldSetPanResponder: (evt, gestureState) => {
         if (
-          evt.nativeEvent.pageX >= 0 &&
-          evt.nativeEvent.pageY >= 172 &&
-          evt.nativeEvent.pageY <= 190
+          evt.nativeEvent.pageY >= this.viewPosition.y &&
+          evt.nativeEvent.pageY <=
+            this.viewPosition.y + this.viewPosition.height
         ) {
           return true;
         }
@@ -72,27 +57,30 @@ export default class Checkout extends Component {
         return false;
       },
 
-      onPanResponderGrant: (evt, gestureState) => {
-        //console.log(event);
-      },
-
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
       onPanResponderMove: (evt, gestureState) => {
-        if (gestureState.dy >= this.viewPosition.y) {
-          this.dragAnimation.setValue(gestureState.dy);
+        // console.log("Move Gesture Called!");
+        if(gestureState.dy > 0) {
+          this.showModalAnimatedValue.setValue(gestureState.dy);
         }
       },
 
       onPanResponderRelease: (evt, gestureState) => {
-        Animated.timing(this.dragAnimation, {
-          toValue: 0,
-          duration: 5000
-        }).start();
+        // console.log(parseInt(height / 5));
+        // console.log(gestureState.dy);
+
+        if(gestureState.dy <= parseInt(height / 5)) {
+          Animated.timing(this.showModalAnimatedValue, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true
+          }).start();
+        } else {
+          this.hideModal();
+        }
       }
     });
-
-    this.animationRunning = false;
   }
 
   onScrollEnd(index) {
@@ -128,10 +116,10 @@ export default class Checkout extends Component {
 
   showModal() {
     if(this.animationRunning === false) {
-      this.showModalAnimatedValue.setValue(0);
+      //this.showModalAnimatedValue.setValue(0);
       this.animationRunning = true;
       Animated.timing(this.showModalAnimatedValue, {
-        toValue: 1,
+        toValue: 0,
         duration: 250,
         useNativeDriver: true
       }).start(() => {
@@ -142,10 +130,10 @@ export default class Checkout extends Component {
   }
 
   hideModal() {
-    this.showModalAnimatedValue.setValue(1);
+    //this.showModalAnimatedValue.setValue(1);
 
     Animated.timing(this.showModalAnimatedValue, {
-      toValue: 0,
+      toValue: height,
       duration: 250,
       useNativeDriver: true
     }).start(() => {
@@ -155,10 +143,6 @@ export default class Checkout extends Component {
 
   render() {
     console.log('Render called!');
-    const modalAnimation = this.showModalAnimatedValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [height, 0]
-    });
 
     return (
       <Animated.View
@@ -169,14 +153,7 @@ export default class Checkout extends Component {
         style={[
           styles.container,
           {
-            transform: [
-              {
-                translateY:
-                  this.state.animationType !== 'drag'
-                    ? modalAnimation
-                    : this.dragAnimation
-              }
-            ]
+            transform: [{ translateY: this.showModalAnimatedValue }]
           }
         ]}
       >

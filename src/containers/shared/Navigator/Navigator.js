@@ -6,6 +6,7 @@ import {
 } from 'react-navigation';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -23,6 +24,8 @@ import RestaurantDetails from '../../customer/RestaurantDetails';
 import MapScreen from '../../customer/MapScreen';
 import Profile from '../../customer/Profile';
 import EditProfile from '../../customer/EditProfile';
+
+import Activity from '../../customer/Activity';
 
 import Tables from '../../vendor/Tables';
 import VendorAccountMenu from '../../vendor/AccountMenu';
@@ -62,8 +65,7 @@ const AuthenticationNavigator = createStackNavigator(
   }
 );
 
-const CustomerProfileNavigator = createStackNavigator(
-  {
+const CustomerProfileNavigator = createStackNavigator({
     Profile: { screen: Profile },
     EditProfile: { screen: EditProfile },
     VendorAccountMenu: { screen: VendorAccountMenu },
@@ -75,9 +77,29 @@ const CustomerProfileNavigator = createStackNavigator(
   }
 );
 
+const ActivityNavigator = createStackNavigator({
+    Activity: { screen: Activity }
+  },
+  {
+    initialRouteName: 'Activity'
+  }
+);
+
 const ExploreScreenNavigator = createTabNavigator(
   {
     Explore: { screen: Explore },
+    ActivityNavigator: { screen: ActivityNavigator,
+      navigationOptions: {
+        title:'Activity',
+        tabBarIcon: ({ focused }) => (
+          <FeatherIcon
+            name="activity"
+            size={24}
+            color={focused ? activeColor : inactiveColor}
+          />
+        )
+      }
+    },
     CustomerProfile: {
       screen: CustomerProfileNavigator,
       navigationOptions: {

@@ -110,39 +110,6 @@ export default class RestaurantDetails extends Component {
         }
       );
     }
-
-    //DON'T REMOVE BELOW COMMENTED CODE. IT'S FOR TESTING PURPOSE.
-
-    // if(this.modal && this.state.currentSlideIndex === 0) {
-    //   // this.modal.getWrappedInstance().showModal();
-    //   // this.setIndex(0);
-    // } else if (this.state.currentSlideIndex < 2 && this.modal) {
-    //   this.modal.getWrappedInstance().scrollForward();
-    // } else if (this.state.currentSlideIndex === 2 && this.modal) {
-    //   this.setState(() => {
-    //     return {
-    //       modalVisible: true
-    //     }
-    //   }, () => {
-    //     this.modal.getWrappedInstance().hideModal()
-    //   });
-    // }
-    // if(this.state.currentSlideIndex === -1 && this.modal) {
-    //   this.modal.getWrappedInstance().showModal();
-    //   this.setIndex(0);
-    // } else if (
-    //   this.state.currentSlideIndex < 2 &&
-    //   this.state.currentSlideIndex >= 0
-    // ) {
-    //   this.setIndex(this.state.currentSlideIndex + 1, this.callbackFunction);
-    // } else if (this.state.currentSlideIndex === 2 && this.modal) {
-    //   this.modal.getWrappedInstance().hideModal();
-    //   this.setState(() => {
-    //     return {
-    //       modalVisible: true
-    //     }
-    //   });
-    // }
   }
 
   setIndex(index) {
