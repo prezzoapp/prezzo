@@ -104,7 +104,7 @@ class Tables extends Component {
             />
       );
     }else{
-      return null
+      return <View style={{flex:1}}/>
     }
   }
 
