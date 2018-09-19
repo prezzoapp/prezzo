@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
 const ActivityListItem = props => (
@@ -25,7 +26,9 @@ const ActivityListItem = props => (
     >
       <Text style={styles.status}>{props.item.status}</Text>
       <Text style={styles.name}>{props.item.name}</Text>
-      {props.item.info !== '' && props.item.info !== undefined && props.item.info !== null ? (
+      {props.item.info !== '' &&
+      props.item.info !== undefined &&
+      props.item.info !== null ? (
         <Text style={styles.info}>{props.item.info}</Text>
       ) : null}
       {props.item.status === 'In Progress' ? (
@@ -39,5 +42,9 @@ const ActivityListItem = props => (
     </View>
   </View>
 );
+
+ActivityListItem.propTypes = {
+  item: PropTypes.object.isRequired
+};
 
 export default ActivityListItem;

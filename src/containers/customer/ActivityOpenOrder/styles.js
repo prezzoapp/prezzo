@@ -9,7 +9,11 @@ import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: wp('6.66')
+    paddingHorizontal: wp('6.66'),
+    backgroundColor: '#2B2C2C',
+    borderTopColor: '#2ED573',
+    borderTopWidth: 1,
+    marginTop: hp('2.58%')
   },
 
   tableCode: {
