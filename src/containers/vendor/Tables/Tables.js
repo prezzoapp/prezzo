@@ -35,7 +35,11 @@ class Tables extends Component {
   };
 
   componentDidMount() {
-    this.props.listOpenTable();
+    if (this.props.section === 0){
+      this.props.listOpenTable();
+    } else if (this.props.section === 1) {
+      this.props.listQueuedTable();
+    }
   }
 
   onSectionChange = index => {
@@ -50,7 +54,7 @@ class Tables extends Component {
     Alert.alert(
       actionType === ACCEPT_ORDER ? 'Accept' : 'Delete',
       `${this.props.queuedTableList[index].userName} \n Table ${
-        this.props.queuedTableList[index].tableId
+      this.props.queuedTableList[index].tableId
       }`,
       [
         {
@@ -83,21 +87,27 @@ class Tables extends Component {
       if (this.props.layout === 'list') {
         return (
           <FlatList
-            data={Array.from(this.props.openTableList)}
+            data={
+              this.props.openTableList.constructor.name === 'Array'
+                ? Array.from(this.props.openTableList)
+                : []
+            }
             renderItem={rowData => <OpenTableItem user={rowData} />}
           />
         );
       }
       return (
         <FlatList
-          data={Array.from(this.props.openTableList)}
+          data={
+            this.props.openTableList.constructor.name === 'Array' ? Array.from(this.props.openTableList) : []
+          }
           renderItem={rowData => <OpenTableGridItem data={rowData} />}
         />
       );
     } else if (this.props.section === 1) {
       return (
         <FlatList
-          data={this.props.queuedTableList}
+          data={this.props.queuedTableList.constructor.name === 'Array' ? this.props.queuedTableList : []}
           renderItem={rowData => (
             <QueuedTableItem
               handleQueuedTableItem={this.handleQueuedTableItem}
@@ -116,6 +126,8 @@ class Tables extends Component {
         <TableScreenHeader />
         <View style={{ marginTop: 145, marginHorizontal: 16 }}>
           <TableListHeader
+            currentTab={this.props.section}
+            currentLayout={this.props.layout}
             onChangeLayout={layout => this.props.changeLayout(layout)}
             onListTypeSelection={index => this.onSectionChange(index)}
           />

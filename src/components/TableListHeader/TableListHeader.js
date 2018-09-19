@@ -4,28 +4,23 @@ import styles from './styles';
 import { Feather, Ionicons } from '../VectorIcons';
 
 export default class TableListHeader extends Component {
-  state = {
-    selectedIndex: 0,
-    selectedCategory: 'list'
-  };
-
   onListTypeSelection = index => {
-    this.setState({
-      selectedIndex: index
-    });
+    // this.setState({
+    //   selectedIndex: index
+    // });
     this.props.onListTypeSelection(index);
   };
 
   onChangeLayout = layout => {
-    this.setState({
-      selectedCategory: layout
-    });
+    // this.setState({
+    //   selectedCategory: layout
+    // });
     this.props.onChangeLayout(layout);
   };
 
   render() {
-    const { selectedIndex } = this.state;
-    const isList = this.state.selectedCategory === 'list';
+    const selectedIndex = this.props.currentTab;
+    const isList = this.props.currentLayout === 'list';
     return (
       <View style={styles.container}>
         <View style={styles.listSection}>
