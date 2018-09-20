@@ -104,6 +104,7 @@ class Tutorial extends React.Component {
     return (
       <View style={styles.container}>
         <Swiper
+          testID={'swiper'}
           loop={false}
           dotColor='rgba(255, 255, 255, 0.5)'
           activeDotColor='#0DD24A'
@@ -114,14 +115,16 @@ class Tutorial extends React.Component {
           <TutorialScreen image={images.tutorial4} />
         </Swiper>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => this.navigateToLogin()}>
-            <Text style={styles.login}>
-              Log In
-            </Text>
+          <TouchableOpacity
+            testID="loginButton"
+            onPress={() => this.navigateToLogin()}
+          >
+            <Text style={styles.login}>Log In</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.footer}>
           <FacebookButton
+            testID={'facebookButton'}
             disabled={isBusy}
             style={buttonStyles.facebookButton}
             onStart={() => this.setState({isBusy: true})}
@@ -132,6 +135,7 @@ class Tutorial extends React.Component {
             }}
           />
           <Button
+            testID={'signupButton'}
             disabled={isBusy}
             style={buttonStyles.createAccountButton}
             onPress={() => this.navigateToEnableNotifications()}

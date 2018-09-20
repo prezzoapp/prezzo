@@ -1,0 +1,480 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tourial Screen renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "flex": 1,
+      "position": "relative",
+    }
+  }
+>
+  <View
+    onLayout={[Function]}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "transparent",
+          "flex": 1,
+          "position": "relative",
+        },
+        undefined,
+      ]
+    }
+  >
+    <RCTScrollView
+      activeDotColor="#0DD24A"
+      automaticallyAdjustContentInsets={false}
+      autoplay={false}
+      autoplayDirection={true}
+      autoplayTimeout={2.5}
+      bounces={false}
+      contentContainerStyle={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          undefined,
+        ]
+      }
+      contentOffset={
+        Object {
+          "x": 0,
+        }
+      }
+      disableNextButton={false}
+      dotColor="rgba(255, 255, 255, 0.5)"
+      horizontal={true}
+      index={0}
+      loadMinimal={false}
+      loadMinimalSize={1}
+      loop={false}
+      onIndexChanged={[Function]}
+      onMomentumScrollEnd={[Function]}
+      onScrollBeginDrag={[Function]}
+      onScrollEndDrag={[Function]}
+      pagingEnabled={true}
+      removeClippedSubviews={true}
+      scrollsToTop={false}
+      showsButtons={false}
+      showsHorizontalScrollIndicator={false}
+      showsPagination={true}
+      showsVerticalScrollIndicator={false}
+      style={undefined}
+      testID="swiper"
+    >
+      <View>
+        <View
+          style={
+            Array [
+              Object {
+                "height": 1334,
+                "width": 750,
+              },
+              Object {
+                "backgroundColor": "transparent",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#fff",
+                "flex": 1,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <Image
+              source={1}
+              style={
+                Object {
+                  "backgroundColor": "#fff",
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </View>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "height": 1334,
+                "width": 750,
+              },
+              Object {
+                "backgroundColor": "transparent",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#fff",
+                "flex": 1,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <Image
+              source={1}
+              style={
+                Object {
+                  "backgroundColor": "#fff",
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </View>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "height": 1334,
+                "width": 750,
+              },
+              Object {
+                "backgroundColor": "transparent",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#fff",
+                "flex": 1,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <Image
+              source={1}
+              style={
+                Object {
+                  "backgroundColor": "#fff",
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </View>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "height": 1334,
+                "width": 750,
+              },
+              Object {
+                "backgroundColor": "transparent",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#fff",
+                "flex": 1,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <Image
+              source={1}
+              style={
+                Object {
+                  "backgroundColor": "#fff",
+                  "height": "100%",
+                  "width": "100%",
+                }
+              }
+            />
+          </View>
+        </View>
+      </View>
+    </RCTScrollView>
+    <View
+      pointerEvents="none"
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "transparent",
+            "bottom": 25,
+            "flex": 1,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "#0DD24A",
+              "borderRadius": 4,
+              "height": 8,
+              "marginBottom": 3,
+              "marginLeft": 3,
+              "marginRight": 3,
+              "marginTop": 3,
+              "width": 8,
+            },
+            undefined,
+          ]
+        }
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0.5)",
+              "borderRadius": 4,
+              "height": 8,
+              "marginBottom": 3,
+              "marginLeft": 3,
+              "marginRight": 3,
+              "marginTop": 3,
+              "width": 8,
+            },
+            undefined,
+          ]
+        }
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0.5)",
+              "borderRadius": 4,
+              "height": 8,
+              "marginBottom": 3,
+              "marginLeft": 3,
+              "marginRight": 3,
+              "marginTop": 3,
+              "width": 8,
+            },
+            undefined,
+          ]
+        }
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0.5)",
+              "borderRadius": 4,
+              "height": 8,
+              "marginBottom": 3,
+              "marginLeft": 3,
+              "marginRight": 3,
+              "marginTop": 3,
+              "width": 8,
+            },
+            undefined,
+          ]
+        }
+      />
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "height": "20%",
+        "position": "absolute",
+        "right": 0,
+        "top": "5%",
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      collapsable={undefined}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+      testID="loginButton"
+      tvParallaxProperties={undefined}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontFamily": "System",
+            "fontSize": 18,
+          }
+        }
+      >
+        Log In
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "bottom": "5%",
+        "height": "20%",
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      collapsable={undefined}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "rgba(58,159,249,0.81)",
+          "borderColor": "#2074FF",
+          "borderRadius": 10,
+          "borderWidth": 2,
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "marginLeft": 20,
+          "marginRight": 20,
+          "opacity": 1,
+          "width": "90%",
+        }
+      }
+      testID={undefined}
+      tvParallaxProperties={undefined}
+    >
+      <Image
+        source={1}
+        style={
+          Object {
+            "height": 25,
+            "marginRight": 15,
+            "resizeMode": "contain",
+            "width": 25,
+          }
+        }
+      />
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "white",
+            "fontFamily": "System",
+            "fontSize": 20,
+            "fontWeight": "600",
+            "paddingBottom": 10,
+            "paddingTop": 10,
+          }
+        }
+      >
+        Continue With Facebook
+      </Text>
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      collapsable={undefined}
+      hasTVPreferredFocus={undefined}
+      hitSlop={undefined}
+      isTVSelectable={true}
+      nativeID={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(0, 0, 0, 0.5)",
+          "borderColor": "#fff",
+          "borderRadius": 10,
+          "borderWidth": 2,
+          "marginLeft": 20,
+          "marginRight": 20,
+          "marginTop": 10,
+          "opacity": 1,
+          "width": "90%",
+        }
+      }
+      testID={undefined}
+      tvParallaxProperties={undefined}
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "alignSelf": "center",
+            "color": "white",
+            "fontFamily": "System",
+            "fontSize": 20,
+            "fontWeight": "600",
+            "paddingBottom": 10,
+            "paddingTop": 10,
+          }
+        }
+      >
+        Create Account
+      </Text>
+    </View>
+  </View>
+</View>
+`;

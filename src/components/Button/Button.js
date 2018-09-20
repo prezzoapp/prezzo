@@ -14,7 +14,7 @@ type Props = {};
 const Button = ({ disabled, onPress, style, textStyle, children }: Props) => {
   let newStyle = {};
 
-  if(style instanceof Array) {
+  if (style instanceof Array) {
     newStyle = style.reduce((result, current) => {
       return Object.assign(result, current);
     }, {});
@@ -27,6 +27,7 @@ const Button = ({ disabled, onPress, style, textStyle, children }: Props) => {
 
   return (
     <TouchableOpacity
+      testID={props.testID}
       onPress={() => !disabled && onPress && onPress()}
       activeOpacity={disabled ? 1 : 0.7}
       style={buttonStyleFinal}
@@ -34,8 +35,8 @@ const Button = ({ disabled, onPress, style, textStyle, children }: Props) => {
       {children.type !== undefined && children.type.name === 'View' ? (
         children
       ) : (
-        <Text style={textStyleFinal}>{children}</Text>
-      )}
+          <Text style={textStyleFinal}>{children}</Text>
+        )}
     </TouchableOpacity>
   );
 };

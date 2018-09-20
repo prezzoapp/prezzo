@@ -1,4 +1,6 @@
 // @flow
+import Expo from 'expo';
+
 export const FONT_FAMILY = Expo.Font.processFontFamily('ClearSans-Light');
 export const FONT_FAMILY_MEDIUM = Expo.Font.processFontFamily('ClearSans-Medium');
 export const FONT_FAMILY_BOLD = Expo.Font.processFontFamily('ClearSans-Bold');

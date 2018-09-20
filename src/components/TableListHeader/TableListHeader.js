@@ -4,17 +4,12 @@ import styles from './styles';
 import { Feather, Ionicons } from '../VectorIcons';
 
 export default class TableListHeader extends Component {
+  
   onListTypeSelection = index => {
-    // this.setState({
-    //   selectedIndex: index
-    // });
     this.props.onListTypeSelection(index);
   };
 
   onChangeLayout = layout => {
-    // this.setState({
-    //   selectedCategory: layout
-    // });
     this.props.onChangeLayout(layout);
   };
 
