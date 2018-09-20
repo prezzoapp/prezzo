@@ -228,5 +228,6 @@ MenuItem.propTypes = {
   updateItem: PropTypes.func.isRequired,
   deleteItem: PropTypes.func.isRequired,
   addNewImageComponent: PropTypes.func.isRequired,
-  deleteImageComponent: PropTypes.func.isRequired
+  deleteImageComponent: PropTypes.func.isRequired,
+  uploadImage: PropTypes.func.isRequired
 };

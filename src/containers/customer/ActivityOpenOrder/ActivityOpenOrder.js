@@ -52,6 +52,7 @@ class ActivityOpenOrder extends Component {
         <Text style={styles.tableCode}>Table 9192</Text>
         <FlatList
           keyExtractor={item => item.id.toString()}
+          showsVerticalScrollIndicator={false}
           data={this.data}
           renderItem={({ item }) => <ActivityListItem item={item} />}
         />

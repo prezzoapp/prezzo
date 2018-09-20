@@ -1,48 +1,10 @@
-// import React, { Component } from 'react';
-// import { View } from 'react-native';
-// import ActivityOpenOrder from '../ActivityOpenOrder';
-// import ActivityHistory from '../ActivityHistory';
-//
-// import styles from './styles';
-//
-// class Activity extends Component {
-//   static navigationOptions = {
-//     title: 'Activity',
-//     headerTintColor: 'white',
-//     headerStyle: {
-//       position: 'absolute',
-//       backgroundColor: 'transparent',
-//       zIndex: 100,
-//       top: 0,
-//       left: 0,
-//       right: 0
-//     }
-//   };
-//
-//   static displayName = 'Activity';
-//
-//   constructor() {
-//     super();
-//   }
-//
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         {/*<ActivityOpenOrder />*/}
-//         <ActivityHistory />
-//       </View>
-//     );
-//   }
-// }
-//
-// export default Activity;
+// @flow
 
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 import ActivityOpenOrder from '../ActivityOpenOrder';
 import ActivityHistory from '../ActivityHistory';
-import { COLOR_GREEN } from '../../../services/constants';
 
 import styles from './styles';
 
@@ -68,7 +30,7 @@ class Activity extends Component {
       <Container style={styles.container}>
         <View style={styles.absoluteView} />
         <Tabs
-          tabBarUnderlineStyle={{ backgroundColor: COLOR_GREEN }}
+          tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
           renderTabBar={() => (
             <ScrollableTab
               style={styles.scrollableTabStyle}

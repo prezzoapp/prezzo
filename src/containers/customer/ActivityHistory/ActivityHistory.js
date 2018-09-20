@@ -8,6 +8,7 @@ import {
 
 import ActivityHistoryTab from '../../../components/ActivityHistoryTab';
 import Button from '../../../components/Button';
+import ReviewItems from '../../../components/ReviewItems';
 import styles from './styles';
 
 import { FONT_FAMILY } from '../../../services/constants';
@@ -15,6 +16,8 @@ import { FONT_FAMILY } from '../../../services/constants';
 class ActivityHistory extends Component {
   constructor() {
     super();
+
+    this.selectedIndex = 0;
 
     this.state = {
       historyData: [
@@ -25,25 +28,21 @@ class ActivityHistory extends Component {
               id: 1,
               status: 'Delivered',
               name: 'Buffalo Cauliflower x2',
-              info: 'Extra buffalo sauce, hold the carrots'
+              info: 'Extra buffalo sauce, hold the carrots',
+              images: [
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg",
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg"
+              ]
             },
             {
               id: 2,
               status: 'Delivered',
               name: 'Mac n’ Cheese x1',
-              info: 'Split in two bowls'
-            },
-            {
-              id: 3,
-              status: 'Delivered',
-              name: 'BBQ Pinapple x2',
-              info: ''
-            },
-            {
-              id: 4,
-              status: 'Delivered',
-              name: 'Mole Bowl x1',
-              info: ''
+              info: 'Split in two bowls',
+              images: [
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg",
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg"
+              ]
             }
           ],
 
@@ -58,25 +57,21 @@ class ActivityHistory extends Component {
               id: 1,
               status: 'Delivered',
               name: 'Buffalo Cauliflower x2',
-              info: 'Extra buffalo sauce, hold the carrots'
+              info: 'Extra buffalo sauce, hold the carrots',
+              images: [
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg",
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg"
+              ]
             },
             {
               id: 2,
               status: 'Delivered',
               name: 'Mac n’ Cheese x1',
-              info: 'Split in two bowls'
-            },
-            {
-              id: 3,
-              status: 'Delivered',
-              name: 'BBQ Pinapple x2',
-              info: ''
-            },
-            {
-              id: 4,
-              status: 'Delivered',
-              name: 'Mole Bowl x1',
-              info: ''
+              info: 'Split in two bowls',
+              images: [
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg",
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg"
+              ]
             }
           ],
 
@@ -90,25 +85,21 @@ class ActivityHistory extends Component {
               id: 1,
               status: 'Delivered',
               name: 'Buffalo Cauliflower x2',
-              info: 'Extra buffalo sauce, hold the carrots'
+              info: 'Extra buffalo sauce, hold the carrots',
+              images: [
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg",
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg"
+              ]
             },
             {
               id: 2,
               status: 'Delivered',
               name: 'Mac n’ Cheese x1',
-              info: 'Split in two bowls'
-            },
-            {
-              id: 3,
-              status: 'Delivered',
-              name: 'BBQ Pinapple x2',
-              info: ''
-            },
-            {
-              id: 4,
-              status: 'Delivered',
-              name: 'Mole Bowl x1',
-              info: ''
+              info: 'Split in two bowls',
+              images: [
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg",
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg"
+              ]
             }
           ],
 
@@ -122,33 +113,47 @@ class ActivityHistory extends Component {
               id: 1,
               status: 'Delivered',
               name: 'Buffalo Cauliflower x2',
-              info: 'Extra buffalo sauce, hold the carrots'
+              info: 'Extra buffalo sauce, hold the carrots',
+              images: [
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg",
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg"
+              ]
             },
             {
               id: 2,
               status: 'Delivered',
               name: 'Mac n’ Cheese x1',
-              info: 'Split in two bowls'
-            },
-            {
-              id: 3,
-              status: 'Delivered',
-              name: 'BBQ Pinapple x2',
-              info: ''
-            },
-            {
-              id: 4,
-              status: 'Delivered',
-              name: 'Mole Bowl x1',
-              info: ''
+              info: 'Split in two bowls',
+              images: [
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg",
+                "https://prezzoapp2.s3.amazonaws.com/production/a49ae6e0-b26b-11e8-a875-1dcc7aece8fe.jpeg"
+              ]
             }
           ],
 
           subTotal: 33,
           tax: 2.43
         }
-      ]
+      ],
+
+      modalVisible: false
     }
+  }
+
+  showModal() {
+    this.setState(() => {
+      return {
+        modalVisible: true
+      }
+    })
+  }
+
+  dismissModal() {
+    this.setState(() => {
+      return {
+        modalVisible: false
+      }
+    })
   }
 
   render() {
@@ -161,6 +166,9 @@ class ActivityHistory extends Component {
             />
           )}
           tabBarUnderlineStyle={{ backgroundColor: 'transparent' }}
+          onChangeTab={obj => {
+            this.selectedIndex = obj.i;
+          }}
         >
           {(() => {
             return (
@@ -176,7 +184,7 @@ class ActivityHistory extends Component {
                     style={styles.tabViewStyle}
                     heading={item.day}
                   >
-                    <ActivityHistoryTab item={item}/>
+                    <ActivityHistoryTab item={item} />
                   </Tab>
                 );
               }
@@ -188,11 +196,20 @@ class ActivityHistory extends Component {
           <Button
             style={buttonStyles.submitReviewBtnStyle}
             textStyle={buttonStyles.submitReviewBtnTextStyle}
-            onPress={() => null}
+            onPress={() => this.showModal()}
           >
             Submit Review
           </Button>
         </View>
+
+        {this.state.modalVisible &&
+          <ReviewItems
+            modalVisible={this.state.modalVisible}
+            selectedIndex={this.selectedIndex}
+            selectedItem={this.state.historyData[this.selectedIndex]}
+            dismissModal={() => this.dismissModal()}
+          />
+        }
       </Container>
     );
   }

@@ -87,8 +87,14 @@ export default class ItemImagePicker extends Component {
 }
 
 ItemImagePicker.propTypes = {
-  editable: PropTypes.bool.isRequired,
-  addNewImageComponent: PropTypes.func.isRequired,
-  deleteImageComponent: PropTypes.func.isRequired,
-  image: PropTypes.string.isRequired
+  editable: PropTypes.bool,
+  addNewImageComponent: PropTypes.func,
+  deleteImageComponent: PropTypes.func,
+  image: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+};
+
+ItemImagePicker.defaultProps = {
+  editable: false,
+  addNewImageComponent: null,
+  deleteImageComponent: null
 };

@@ -192,10 +192,12 @@ export default class RestaurantItem extends Component {
 
           <View>
             <RatingBar
-              itemRating={this.props.item.rating}
-              changeItemRating={rating =>
-                this.props.changeItemRating(this.props.item._id, rating)
-              }
+              disable={true}
+              // itemRating={this.props.item.rating}
+              itemRating={3}
+              // changeItemRating={rating =>
+              //   this.props.changeItemRating(this.props.item._id, rating)
+              // }
             />
           </View>
         </View>

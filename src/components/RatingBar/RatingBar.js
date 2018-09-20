@@ -8,14 +8,20 @@ import styles from './styles';
 const MAX_RATING = 5;
 
 export default class RatingBar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
-    this.changeRating = this.changeRating.bind(this);
+    this.state = { itemRating: props.itemRating };
+
+    //this.changeRating = this.changeRating.bind(this);
   }
 
   changeRating(rating) {
-    this.props.changeItemRating(rating);
+    this.setState(() => {
+      return {
+        itemRating: rating
+      }
+    });
   }
 
   render() {
@@ -33,7 +39,7 @@ export default class RatingBar extends Component {
           <Image
             style={styles.starImage}
             source={
-              i <= this.props.itemRating
+              i <= this.state.itemRating
                 ? require('../../../assets/images/star_fill.png')
                 : require('../../../assets/images/star_border.png')
             }
@@ -48,11 +54,11 @@ export default class RatingBar extends Component {
 
 RatingBar.propTypes = {
   itemRating: PropTypes.number.isRequired,
-  changeItemRating: PropTypes.func,
+  //changeItemRating: PropTypes.func,
   disable: PropTypes.bool
 };
 
 RatingBar.defaultProps = {
-  changeItemRating: null,
+  //changeItemRating: null,
   disable: false
 };

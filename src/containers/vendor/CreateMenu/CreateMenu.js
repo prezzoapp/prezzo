@@ -71,24 +71,28 @@ export default class CreateMenu extends Component<Props> {
   );
 
   render() {
+    const array = this.props.menu
+      ? this.props.menu.get('categories') &&
+        this.props.menu.get('categories').toJS()
+      : [];
+
+    if(array.length !== 0) {
+      array.sort((a, b) => {
+       const nameA = a.title.toLowerCase();
+       const nameB = b.title.toLowerCase();
+        if (nameA > nameB) return 1;
+        return 0;
+      });
+    }
+
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
           <SectionList
             showsVerticalScrollIndicator={false}
-            extraData={this.props.menu
-                ? this.props.menu &&
-                  this.props.menu.get('categories') &&
-                this.props.menu.get('categories').toJS()
-              : []
-            }
+            extraData={array}
             keyExtractor={(item, index) => item + index}
-            sections={
-              this.props.menu
-                ? this.props.menu && this.props.menu.get('categories') &&
-                  this.props.menu.get('categories').toJS()
-                : []
-            }
+            sections={array}
             renderSectionHeader={({ section }) =>
               this.renderSectionHeader(section)
             }

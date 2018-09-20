@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('9.33%'),
     textAlign: 'center',
+    paddingTop: hp('1%'),
     paddingBottom: hp('2%')
   },
 

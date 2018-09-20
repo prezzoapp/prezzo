@@ -23,6 +23,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#1f1f1f'
   },
 
+  tabBarUnderlineStyle: {
+    backgroundColor: '#2ED573',
+    borderRadius: 5,
+    height: 2
+  },
+
   scrollableTabStyle: {
     width: wp('49.86%'),
     marginHorizontal: wp('100%') / 4,
