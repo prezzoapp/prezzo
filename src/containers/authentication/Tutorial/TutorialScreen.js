@@ -10,7 +10,9 @@ class TutorialScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View 
+       testID={'tutorialScreen'}
+       style={styles.container}>
         <Image
           style={styles.image}
           source={this.props.image}

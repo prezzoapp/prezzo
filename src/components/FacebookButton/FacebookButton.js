@@ -48,7 +48,7 @@ class Button extends React.Component<Props> {
 
     return (
       <TouchableOpacity
-        testID={props.testID}
+        testID={'facebookButton'}
         onPress={() => !disabled && this.login()}
         activeOpacity={disabled ? 1 : 0.7}
         style={buttonStyle}

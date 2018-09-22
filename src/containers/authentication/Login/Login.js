@@ -57,11 +57,11 @@ class Login extends React.Component<Props, State> {
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.png')}
       >
-        <Text style={styles.headerText}>
+        <Text testID={'welcomeText'} style={styles.headerText}>
           Welcome back!
         </Text>
 
-        <Text style={styles.subHeaderText}>
+        <Text testID={'signinText'}  style={styles.subHeaderText}>
           Sign In To Continue
         </Text>
 
@@ -80,6 +80,7 @@ class Login extends React.Component<Props, State> {
         />
 
         <TouchableOpacity
+          testId={'signupButton'}
           style={styles.signupLabelContainer}
           onPress={() => this.navigateToSignup()}
         >

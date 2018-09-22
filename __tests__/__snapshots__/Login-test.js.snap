@@ -44,6 +44,7 @@ exports[`Tourial Screen renders correctly 1`] = `
         "fontSize": 30,
       }
     }
+    testID="welcomeText"
   >
     Welcome back!
   </Text>
@@ -60,6 +61,7 @@ exports[`Tourial Screen renders correctly 1`] = `
         "marginBottom": 40,
       }
     }
+    testID="signinText"
   >
     Sign In To Continue
   </Text>
@@ -317,7 +319,7 @@ exports[`Tourial Screen renders correctly 1`] = `
           "width": "100%",
         }
       }
-      testID={undefined}
+      testID="buttonComponent"
       tvParallaxProperties={undefined}
     >
       <Text

@@ -87,6 +87,7 @@ exports[`Tourial Screen renders correctly 1`] = `
                 "justifyContent": "center",
               }
             }
+            testID="tutorialScreen"
           >
             <Image
               source={1}
@@ -122,6 +123,7 @@ exports[`Tourial Screen renders correctly 1`] = `
                 "justifyContent": "center",
               }
             }
+            testID="tutorialScreen"
           >
             <Image
               source={1}
@@ -157,6 +159,7 @@ exports[`Tourial Screen renders correctly 1`] = `
                 "justifyContent": "center",
               }
             }
+            testID="tutorialScreen"
           >
             <Image
               source={1}
@@ -192,6 +195,7 @@ exports[`Tourial Screen renders correctly 1`] = `
                 "justifyContent": "center",
               }
             }
+            testID="tutorialScreen"
           >
             <Image
               source={1}
@@ -391,7 +395,7 @@ exports[`Tourial Screen renders correctly 1`] = `
           "width": "90%",
         }
       }
-      testID={undefined}
+      testID="facebookButton"
       tvParallaxProperties={undefined}
     >
       <Image
@@ -453,7 +457,7 @@ exports[`Tourial Screen renders correctly 1`] = `
           "width": "90%",
         }
       }
-      testID={undefined}
+      testID="buttonComponent"
       tvParallaxProperties={undefined}
     >
       <Text

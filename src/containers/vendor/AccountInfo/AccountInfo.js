@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon as NativeBaseIcon, Picker, Spinner } from 'native-base';
-import ImagePicker from 'react-native-image-picker';
+// import ImagePicker from 'react-native-image-picker';
 import { MaterialIcons } from '../../../components/VectorIcons';
 import Slider from 'react-native-slider';
 
@@ -135,26 +135,26 @@ export default class AccountInfo extends React.Component {
   }
 
   showAvatarActionSheet() {
-    ImagePicker.showImagePicker(
-      {
-        maxWidth: 800,
-        title: 'Select an avatar',
-        quality: 0.3
-      },
-      response => {
-        if (response.didCancel) {
-          console.log('User cancelled image upload');
-        } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-        } else {
-          console.log('Image response: ', response);
-          this.setState({
-            avatarURL: response.uri,
-            upload: response
-          });
-        }
-      }
-    );
+    // ImagePicker.showImagePicker(
+    //   {
+    //     maxWidth: 800,
+    //     title: 'Select an avatar',
+    //     quality: 0.3
+    //   },
+    //   response => {
+    //     if (response.didCancel) {
+    //       console.log('User cancelled image upload');
+    //     } else if (response.error) {
+    //       console.log('ImagePicker Error: ', response.error);
+    //     } else {
+    //       console.log('Image response: ', response);
+    //       this.setState({
+    //         avatarURL: response.uri,
+    //         upload: response
+    //       });
+    //     }
+    //   }
+    // );
   }
 
   addSelectedCategory() {

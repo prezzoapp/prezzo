@@ -47,8 +47,9 @@ it('it should render a signup button', () => {
       </Provider>
     )
     .toJSON();
-  expect(findById(tutorial, 'signupButton')).toBeDefined();
+  expect(findById(tutorial, 'buttonComponent')).toBeDefined();
 });
+
 
 it('it should render a login button', () => {
   const tutorial = renderer
@@ -60,3 +61,29 @@ it('it should render a login button', () => {
     .toJSON();
   expect(findById(tutorial, 'loginButton')).toBeDefined();
 });
+
+it('it should render a tutorialScreen', () => {
+  const tutorial = renderer
+    .create(
+      <Provider store={store}>
+        <Tutorial />
+      </Provider>
+    )
+    .toJSON();
+  expect(findById(tutorial, 'tutorialScreen')).toBeDefined();
+});
+
+// it(' navigateToLogin should navigate to Login Screen', () => {
+//   const navigation = jest.fn();
+//   const spy = jest.spyOn(navigation, 'navigate');
+//   const tutorialComponent = shallow(
+//     <Provider store={store}>
+//       <Tutorial navigate={navigation} />
+//     </Provider>
+//   ).getInstance();
+
+//   const loginButton = tutorialComponent.find('loginButton');
+//   loginButton.props().onPress();
+
+//   expect(spy).toBeCalledWith('loginButton');
+// });
