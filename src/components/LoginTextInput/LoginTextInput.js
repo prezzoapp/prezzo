@@ -60,6 +60,7 @@ class LoginTextInput extends Component<Props, State> {
         </View>
 
         <TextInput
+          testID={'loginTextInput'}
           style={styles.input}
           secureTextEntry={type === 'password' && !isShowingPassword}
           autoCapitalize={type === 'name' ? 'words' : 'none'}

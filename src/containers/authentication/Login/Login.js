@@ -1,8 +1,14 @@
 // @flow
 import React from 'react';
-import {ImageBackground, View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  ImageBackground,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet
+} from 'react-native';
 import PropTypes from 'prop-types';
-import {FONT_FAMILY, FONT_FAMILY_BOLD} from '../../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
 
@@ -43,54 +49,51 @@ class Login extends React.Component<Props, State> {
   }
 
   login() {
-    const {email, password} = this.state;
-    this.props.loginWithEmail(email, password)
+    const { email, password } = this.state;
+    this.props
+      .loginWithEmail(email, password)
       .then(() => this.navigateToMain())
       .catch(e => console.log(e));
   }
 
   render() {
-    const {email, password} = this.state;
+    const { email, password } = this.state;
 
     return (
       <ImageBackground
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.png')}
       >
-        <Text testID={'welcomeText'} style={styles.headerText}>
+        <Text testID="welcomeText" style={styles.headerText}>
           Welcome back!
         </Text>
 
-        <Text testID={'signinText'}  style={styles.subHeaderText}>
+        <Text testID="signinText" style={styles.subHeaderText}>
           Sign In To Continue
         </Text>
 
         <LoginTextInput
-          type='email'
-          label='Email Address'
+          type="email"
+          label="Email Address"
           value={email}
-          onChange={email => this.setState({email})}
+          onChange={email => this.setState({ email })}
         />
 
         <LoginTextInput
-          type='password'
-          label='Password'
+          type="password"
+          label="Password"
           value={password}
-          onChange={password => this.setState({password})}
+          onChange={password => this.setState({ password })}
         />
 
         <TouchableOpacity
-          testId={'signupButton'}
+          testID="signupButton"
           style={styles.signupLabelContainer}
           onPress={() => this.navigateToSignup()}
         >
-          <Text style={styles.signupLabel}>
-            Don't have an account?
-          </Text>
+          <Text style={styles.signupLabel}>Don't have an account?</Text>
 
-          <Text style={styles.signupLink}>
-            Sign Up
-          </Text>
+          <Text style={styles.signupLink}>Sign Up</Text>
         </TouchableOpacity>
 
         <View style={styles.buttonContainer}>
@@ -162,9 +165,7 @@ const buttonStyles = {
     backgroundColor: '#0DD24A',
     borderColor: '#0DD24A'
   },
-  loginText: {
-
-  }
+  loginText: {}
 };
 
 export default Login;

@@ -120,6 +120,7 @@ exports[`Tourial Screen renders correctly 1`] = `
           "paddingBottom": 10,
         }
       }
+      testID="loginTextInput"
       value=""
     />
   </View>
@@ -220,6 +221,7 @@ exports[`Tourial Screen renders correctly 1`] = `
           "paddingBottom": 10,
         }
       }
+      testID="loginTextInput"
       value=""
     />
   </View>
@@ -251,7 +253,7 @@ exports[`Tourial Screen renders correctly 1`] = `
         "width": "100%",
       }
     }
-    testID={undefined}
+    testID="signupButton"
     tvParallaxProperties={undefined}
   >
     <Text

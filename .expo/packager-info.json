@@ -1,8 +1,8 @@
 {
-  "expoServerPort": 19001,
-  "packagerPort": 19002,
-  "packagerPid": 24781,
-  "expoServerNgrokUrl": "https://f9-u5q.ayush-appinventiv.prezzo.exp.direct",
-  "packagerNgrokUrl": "https://packager.f9-u5q.ayush-appinventiv.prezzo.exp.direct",
-  "ngrokPid": 24805
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
