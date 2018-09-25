@@ -9,10 +9,20 @@ const buttonBlack = '#424242';
 const shadowColor = 'black';
 const textColor = 'white';
 
-const MenuButton = ({ icon, onPress, title, subtitle }: Props) => {
+const MenuButton = ({ leftIcon, icon, onPress, title, subtitle }: Props) => {
   return (
     <TouchableOpacity onPress={() => onPress && onPress()}>
       <View style={styles.buttonContainer}>
+        {(() => {
+          if(leftIcon) {
+            return (
+              <View style={[styles.buttonActionContainer,{ marginLeft: 10 }]}>
+                {leftIcon}
+              </View>
+            );
+          }
+          return null;
+        })()}
         <View style={styles.buttonTextContainer}>
           <Text style={styles.buttonTitle}>{title}</Text>
           {subtitle && <Text style={styles.buttonSubtitle}>{subtitle}</Text>}
@@ -66,6 +76,7 @@ const styles = {
 };
 
 MenuButton.propTypes = {
+  leftIcon: PropTypes.object,
   icon: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
@@ -73,6 +84,7 @@ MenuButton.propTypes = {
 };
 
 MenuButton.defaultProps = {
+  leftIcon: null,
   subtitle: ''
 };
 
