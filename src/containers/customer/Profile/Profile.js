@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { Header } from 'react-navigation';
+// import { Header } from 'react-navigation';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
@@ -67,7 +67,7 @@ class Profile extends Component {
               icon="chevron-right"
             />
             <MenuButton
-              onPress={() => {}}
+              onPress={() => this.props.navigate({ routeName: 'PaymentMenu' })}
               title="Payment Methods"
               subtitle="Edit my payment methods"
               icon="chevron-right"

@@ -1,6 +1,15 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  TextInput
+  // Animated,
+  // Easing,
+  // Platform
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import PropTypes from 'prop-types';
 import MenuItemImage from '../MenuItemImage';
@@ -23,6 +32,38 @@ export default class MenuItem extends Component {
     this.updateItem = this.updateItem.bind(this);
     this.updateEntries = this.updateEntries.bind(this);
     this.addImageComponent = this.addImageComponent.bind(this);
+
+    // this._active = new Animated.Value(0);
+
+    // this._style = {
+    //   ...Platform.select({
+    //     ios: {
+    //       transform: [{
+    //         scale: this._active.interpolate({
+    //           inputRange: [0, 1],
+    //           outputRange: [1, 1.1],
+    //         }),
+    //       }],
+    //       shadowRadius: this._active.interpolate({
+    //         inputRange: [0, 1],
+    //         outputRange: [2, 10],
+    //       }),
+    //     },
+    //
+    //     android: {
+    //       transform: [{
+    //         scale: this._active.interpolate({
+    //           inputRange: [0, 1],
+    //           outputRange: [1, 1.07],
+    //         }),
+    //       }],
+    //       elevation: this._active.interpolate({
+    //         inputRange: [0, 1],
+    //         outputRange: [2, 6],
+    //       }),
+    //     },
+    //   })
+    // };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,6 +78,14 @@ export default class MenuItem extends Component {
         }
       });
     }
+
+    // if (this.props.active !== nextProps.active) {
+    //   Animated.timing(this._active, {
+    //     duration: 300,
+    //     easing: Easing.bounce,
+    //     toValue: Number(nextProps.active)
+    //   }).start();
+    // }
   }
 
   editItem() {
@@ -82,6 +131,9 @@ export default class MenuItem extends Component {
 
   render() {
     const itemImages = this.state.imageArray;
+    // const { active } = this.props;
+    //
+    // console.log(this.state);
 
     return (
       <View style={styles.menuItem}>
@@ -154,7 +206,11 @@ export default class MenuItem extends Component {
                 alignItems: this.state.editItem ? 'center' : 'flex-start'
               }}
             >
-              <Text style={[styles.sectionHeaderText, { flex: 0, paddingRight: 2 }]}>$</Text>
+              <Text
+                style={[styles.sectionHeaderText, { flex: 0, paddingRight: 2 }]}
+              >
+                $
+              </Text>
               {this.state.editItem ? (
                 <TextInput
                   underlineColorAndroid="transparent"
