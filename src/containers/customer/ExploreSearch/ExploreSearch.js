@@ -72,7 +72,7 @@ class ExploreSearch extends Component {
       >
         {this.state.showList &&
           <View style={styles.container}>
-            <BlurView style={styles.container} blurType="dark" blurAmount={6} />
+            <BlurView style={styles.container} tint="dark" intensity={100} />
             <View style={styles.listHolder}>
               {(() => {
                 if(this.state.showLoader) {

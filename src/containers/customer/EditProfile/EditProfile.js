@@ -12,7 +12,7 @@ import {
   ActionSheetIOS
 } from 'react-native';
 import { MaterialIcons } from '../../../components/VectorIcons';
-import { ImagePicker } from 'expo';
+import { ImagePicker, Permissions } from 'expo';
 import PropTypes from 'prop-types';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
@@ -119,61 +119,72 @@ class EditProfile extends Component<Props, State> {
       return;
     }
 
-    const {upload} = this.state;
-    const {uri} = upload;
-    const fileName = getTimeStampString() + '.jpg'
-    await this.props.uploadImage(
-      uri,
-      10,
-      'image/jpeg',
-      fileName,
-      'userAvatar',
-      'public-read'
-    ).then(async avatarURL => {
-      console.log('got avatarURL', avatarURL);
+    const { upload } = this.state;
+    const { uri } = upload;
+    const fileName = `${getTimeStampString()}.jpg`;
+    await this.props
+      .uploadImage(uri, 10, 'image/jpeg', fileName, 'userAvatar', 'public-read')
+      .then(async avatarURL => {
+        console.log('got avatarURL', avatarURL);
 
-      this.setState({
+        this.setState({
           avatarURL,
           upload: null
+        });
       });
-    });
   }
 
   showAvatarActionSheet() {
-    ActionSheetIOS.showActionSheetWithOptions({
-      options: ['Take Photo', 'Choose from Library', 'Cancel'],
-      cancelButtonIndex: 2,
-      title: 'Select an avatar'
-    },
-      (buttonIndex) => {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['Take Photo', 'Choose from Library', 'Cancel'],
+        cancelButtonIndex: 2,
+        title: 'Select an avatar'
+      },
+      buttonIndex => {
         if (buttonIndex === 0) {
-          this.openCamera();
+          this.requestCameraPermission();
         } else if (buttonIndex === 1) {
-          this.openImageGallery();
-        } 
-      });
+          this.requestPhotoLibraryPermission();
+        }
+      }
+    );
+  }
+
+  requestPhotoLibraryPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      this.openImageGallery()
+    }
+  }
+
+  requestCameraPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status === 'granted') {
+      this.openCamera()
+    }
   }
 
   openImageGallery = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: false,
-      quality: 0.3,
+      quality: 0.3
     });
     if (!result.cancelled) {
       this.setState({ upload: result, avatarURL: result.uri });
     }
-  }
+  };
 
   openCamera = async () => {
-    let result = await ImagePicker.launchCameraAsync({
+    const result = await ImagePicker.launchCameraAsync({
       allowsEditing: false,
-      quality: 0.3,
+      quality: 0.3
     });
 
     if (!result.cancelled) {
       this.setState({ upload: result, avatarURL: result.uri });
     }
-  }
+  };
 
   render() {
     const {
@@ -193,26 +204,30 @@ class EditProfile extends Component<Props, State> {
             <View style={styles.headerContainer}>
               <View style={styles.avatarContainer}>
                 {(() => {
-                  if(this.state.isEditing) {
+                  if (this.state.isEditing) {
                     return (
                       <TouchableOpacity
                         onPress={() => this.showAvatarActionSheet()}
                       >
-                        <Image style={styles.avatar}
+                        <Image
+                          style={styles.avatar}
                           source={
                             avatarURL
-                            ? { uri: avatarURL }
-                            : require('../../../../assets/images/etc/default-avatar.png')}
+                              ? { uri: avatarURL }
+                              : require('../../../../assets/images/etc/default-avatar.png')
+                          }
                         />
                       </TouchableOpacity>
                     );
                   }
                   return (
-                    <Image style={styles.avatar}
+                    <Image
+                      style={styles.avatar}
                       source={
                         avatarURL
-                        ? { uri: avatarURL }
-                        : require('../../../../assets/images/etc/default-avatar.png')}
+                          ? { uri: avatarURL }
+                          : require('../../../../assets/images/etc/default-avatar.png')
+                      }
                     />
                   );
                 })()}
@@ -226,7 +241,7 @@ class EditProfile extends Component<Props, State> {
               </TouchableOpacity>
             </View>
             {(() => {
-              if(this.state.isEditing) {
+              if (this.state.isEditing) {
                 return (
                   <View style={styles.bodyContainer}>
                     <ProfileTextInput

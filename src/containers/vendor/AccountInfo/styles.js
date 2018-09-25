@@ -203,7 +203,7 @@ export const stylesRaw = {
   },
   spinnerContainer: {
     position: 'absolute',
-    right: 10,
+    right: 14,
     top: 60
   }
 };

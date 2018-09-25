@@ -56,34 +56,57 @@ export default class RestaurantItem extends Component {
             <Text style={styles.itemIngradients}>{this.props.item.description}</Text>
           </View>
           <View style={styles.rightSideContainer}>
-            {this.state.quantity === 0 ? (
-              <TouchableOpacity
-                activeOpacity={0.6}
-                onPress={() => this.changeQuantity('add')}
-              >
-                <Feather name="plus" size={22} color="white" />
-              </TouchableOpacity>
-            ) : (
-              <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  onPress={() => this.changeQuantity('remove')}
-                >
-                  <Feather name="minus" size={22} color="green" />
-                </TouchableOpacity>
+            {(() => {
+              if(this.props.item.quantity === 0) {
+                return (
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() =>
+                      this.props.addRemoveItemQuantity(
+                        this.props.item._id,
+                        'add'
+                      )
+                    }
+                  >
+                    <Feather name="plus" size={22} color="white" />
+                  </TouchableOpacity>
+                );
+              }
+              return (
+                <View style={{
+                    flexDirection: 'row',
+                    alignItems: 'flex-start'
+                }}>
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() =>
+                      this.props.addRemoveItemQuantity(
+                        this.props.item._id,
+                        'remove'
+                      )
+                    }
+                  >
+                    <Feather name="minus" size={22} color="green" />
+                  </TouchableOpacity>
 
-                <Text style={[styles.itemTitle, { top: -3 }]}>
-                  {this.state.quantity}
-                </Text>
+                  <Text style={[styles.itemTitle, { top: -3 }]}>
+                    {this.props.item.quantity}
+                  </Text>
 
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  onPress={() => this.changeQuantity('add')}
-                >
-                  <Feather name="plus" size={22} color="green" />
-                </TouchableOpacity>
-              </View>
-            )}
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() =>
+                      this.props.addRemoveItemQuantity(
+                        this.props.item._id,
+                        'add'
+                      )
+                    }
+                  >
+                    <Feather name="plus" size={22} color="green" />
+                  </TouchableOpacity>
+                </View>
+              );
+            })()}
           </View>
         </View>
       )
@@ -115,24 +138,56 @@ export default class RestaurantItem extends Component {
         </Swiper>
 
         <View style={styles.bottomContentHolder}>
-          <View style={styles.controlButtons}>
-            <TouchableOpacity
-              activeOpacity={0.6}
-              onPress={() => this.changeQuantity('remove')}
-            >
-              <Feather name="minus" size={16} color="white" />
-            </TouchableOpacity>
+          <View>
+            {(() => {
+              if(this.props.item.quantity === 0) {
+                return (
+                  <Button
+                    style={itemOrderBtnStyles.commonBtn}
+                    textStyle={itemOrderBtnStyles.commonBtnText}
+                    onPress={() =>
+                      this.props.addRemoveItemQuantity(
+                        this.props.item._id,
+                        'add'
+                      )
+                    }
+                  >
+                    Order
+                  </Button>
+                );
+              }
+              return (
+                <View style={styles.controlButtons}>
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() =>
+                      this.props.addRemoveItemQuantity(
+                        this.props.item._id,
+                        'remove'
+                      )
+                    }
+                  >
+                    <Feather name="minus" size={16} color="white" />
+                  </TouchableOpacity>
 
-            <Text style={styles.quantityTextStyleInPhotoMode}>
-              {this.state.quantity}
-            </Text>
+                  <Text style={styles.quantityTextStyleInPhotoMode}>
+                    {this.props.item.quantity}
+                  </Text>
 
-            <TouchableOpacity
-              activeOpacity={0.6}
-              onPress={() => this.changeQuantity('add')}
-            >
-              <Feather name="plus" size={16} color="white" />
-            </TouchableOpacity>
+                  <TouchableOpacity
+                    activeOpacity={0.6}
+                    onPress={() =>
+                      this.props.addRemoveItemQuantity(
+                        this.props.item._id,
+                        'add'
+                      )
+                    }
+                  >
+                    <Feather name="plus" size={16} color="white" />
+                  </TouchableOpacity>
+                </View>
+              );
+            })()}
           </View>
 
           <View>

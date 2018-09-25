@@ -97,7 +97,7 @@ export default class Checkout extends Component {
           style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
         />
         <View style={styles.modalView}>
-          <BlurView style={styles.blurView} blurType="dark" blurAmount={5} />
+          <BlurView style={styles.blurView} tint="dark" intensity={100} />
           <View style={{ flex: 1 }}>
             <View style={styles.bottomArrowIconContainer}>
               <Image

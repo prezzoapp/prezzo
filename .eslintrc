@@ -11,7 +11,7 @@
     "spread": true,
     "experimentalObjectRestSpread": true
   },
-  "extends": ["airbnb", "prettier", "prettier/react", "plugin:import/warnings", "expo/native"],
+  "extends": ["airbnb", "prettier", "prettier/react", "plugin:import/warnings"],
   "plugins": [
     "flowtype",
     "prettier",

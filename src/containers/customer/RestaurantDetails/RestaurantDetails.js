@@ -216,8 +216,8 @@ export default class RestaurantDetails extends Component {
             <View style={styles.bottomViewHolder}>
               <BlurView
                 style={styles.bottomViewBlurContainer}
-                blurType="dark"
-                blurAmount={10}
+                tint="dark"
+                intensity={10}
               />
 
               {(() => {

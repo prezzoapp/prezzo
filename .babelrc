@@ -3,8 +3,20 @@
   "env": {
     "development": {
       "plugins": [
-        "transform-react-jsx-source"
+        "transform-react-jsx-source",
+        ["module-resolver", {
+          "alias": {
+            "react-native-vector-icons": "../../../../src/components/VectorIcons"
+          }
+        }]
       ]
     }
-  }
+  },
+  "plugins": [
+    ["module-resolver", {
+      "alias": {
+        "react-native-vector-icons": "../../../../src/components/VectorIcons"
+      }
+    }]
+  ]
 }

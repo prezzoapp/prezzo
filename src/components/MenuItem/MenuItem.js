@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import MenuItemImage from '../MenuItemImage';
 import styles from './styles';
 import { COLOR_DANGER } from '../../services/constants';
+import { getTimeStampString } from '../../services/commonFunctions';
 
 export default class MenuItem extends Component {
   constructor(props) {

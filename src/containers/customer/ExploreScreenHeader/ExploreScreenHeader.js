@@ -49,8 +49,6 @@ export default class ExploreScreenHeader extends PureComponent {
           colors={['rgb(0,0,0)', 'transparent']}
           style={styles.LinearGradientStyle}
         >
-          <ExploreSearchInput />
-
           <View style={styles.filterPanel}>
             <Text style={styles.nearMeText}>Near Me</Text>
             <View style={styles.mainTitleFilterAndMapIconHolder}>
@@ -63,7 +61,7 @@ export default class ExploreScreenHeader extends PureComponent {
                   }
                 >
                   <Text style={styles.filter}> Filter</Text>
-                  <EvilIcons name="chevron-down" size={25} color="#fafafa" style={styles.dropArrowIcon}/>
+                  <EvilIcons name="chevron-down" size={25} color="#fafafa" style={styles.dropArrowIcon} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.6}
@@ -81,7 +79,7 @@ export default class ExploreScreenHeader extends PureComponent {
 
         {this.state.showFilters &&
           <View style={styles.filtersHolder}>
-            <BlurView style={styles.blurView} blurType="dark" blurAmount={6} />
+            <BlurView style={styles.blurView} tint="dark" intensity={100} />
             <FlatList
               horizontal
               contentContainerStyle={styles.filtersList}
