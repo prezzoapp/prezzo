@@ -3,6 +3,7 @@ package com.prezzo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.pw.droplet.braintree.BraintreePackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new BraintreePackage(),
             new MapsPackage(),
             new FBSDKPackage(),
             new VectorIconsPackage(),
