@@ -5,7 +5,7 @@
       "plugins": [
         "transform-react-jsx-source",
         ["module-resolver", {
-          "root": ["./src"],
+          "root": ["../"],
           "alias": {
             "react-native-vector-icons/Ionicons": "./src/components/VectorIcons/Ionicons",
             "react-native-vector-icons/Entypo": "./src/components/VectorIcons/Entypo",
@@ -24,7 +24,7 @@
   },
   "plugins": [
     ["module-resolver", {
-      "root": ["./src"],
+      "root": ["../"],
       "alias": {
         "react-native-vector-icons/Ionicons": "./src/components/VectorIcons/Ionicons",
         "react-native-vector-icons/Entypo": "./src/components/VectorIcons/Entypo",
