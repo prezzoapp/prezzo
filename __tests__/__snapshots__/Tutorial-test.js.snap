@@ -342,8 +342,12 @@ exports[`Tourial Screen renders correctly 1`] = `
         ellipsizeMode="tail"
         style={
           Object {
+            "alignSelf": "flex-end",
+            "color": "#fff",
             "fontFamily": "System",
             "fontSize": 18,
+            "letterSpacing": 0,
+            "marginRight": 20,
           }
         }
       >

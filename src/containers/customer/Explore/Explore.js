@@ -81,6 +81,7 @@ class Explore extends PureComponent<Props> {
   render() {
     return (
       <LinearGradient
+        testID="linearGradient"
         colors={['rgb(0,0,0)', 'transparent', 'transparent']}
         style={styles.container}
         locations={[0, 0.5, 0.5]}
@@ -89,8 +90,8 @@ class Explore extends PureComponent<Props> {
           if (this.state.isFetching) {
             return (
               <View style={styles.loaderContainer}>
-                <ActivityIndicator size="large" color="white" />
-                <Text style={styles.message}>
+                <ActivityIndicator testID="activityIndicator" size="large" color="white" />
+                <Text testID="loadingText" style={styles.message}>
                   Please wait, While fetching restaurants.
                 </Text>
               </View>
@@ -98,12 +99,13 @@ class Explore extends PureComponent<Props> {
         }
         return (
             <View style={{ flex: 1 }}>
-              <ExploreList />
+              <ExploreList testID="exploreList" />
               <ExploreScreenHeader
+                testID="exploreHeader"
                 currentLatitude={this.state.customRegion.latitude}
                 currentLongitude={this.state.customRegion.longitude}
               />
-              <ExploreSearch />
+              <ExploreSearch testID="exploreSearch"/>
             </View>
         );
       })()}

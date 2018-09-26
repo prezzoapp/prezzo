@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tourial Screen renders correctly 1`] = `
+<ExponentLinearGradient
+  colors={
+    Array [
+      4278190080,
+      0,
+      0,
+    ]
+  }
+  endPoint={undefined}
+  locations={
+    Array [
+      0,
+      0.5,
+      0.5,
+    ]
+  }
+  startPoint={undefined}
+  style={
+    Object {
+      "backgroundColor": "#2B2C2C",
+      "flex": 1,
+    }
+  }
+  testID="linearGradient"
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <ActivityIndicator
+      animating={true}
+      color="white"
+      hidesWhenStopped={true}
+      size="large"
+      testID="activityIndicator"
+    />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "white",
+          "fontFamily": "System",
+          "fontSize": 15,
+          "marginTop": 20,
+        }
+      }
+      testID="loadingText"
+    >
+      Please wait, While fetching restaurants.
+    </Text>
+  </View>
+</ExponentLinearGradient>
+`;
