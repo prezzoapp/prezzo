@@ -199,7 +199,8 @@ export const stylesRaw = {
   pickerIcon: {
     color: '#fff',
     fontSize: 16,
-    marginLeft: 0
+    marginLeft: 0,
+    marginRight:5,
   },
   spinnerContainer: {
     position: 'absolute',
