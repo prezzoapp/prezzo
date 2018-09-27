@@ -42,7 +42,6 @@ export default class ExploreScreenHeader extends PureComponent {
 
   render() {
     const { filters } = this.props;
-
     return (
       <View style={styles.header}>
         <LinearGradient

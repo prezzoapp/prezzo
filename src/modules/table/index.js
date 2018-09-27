@@ -4,7 +4,9 @@ import {
   acceptQueuedRequest,
   deleteQueuedRequest,
   changeSection,
-  changeLayout
+  changeLayout,
+  changeClosedSection,
+  listClosedTable
 } from './actions';
 
 import reducer from './reducer';
@@ -15,7 +17,9 @@ export {
   acceptQueuedRequest,
   deleteQueuedRequest,
   changeSection,
-  changeLayout
+  changeLayout,
+  changeClosedSection,
+  listClosedTable
 };
 
 export default reducer;

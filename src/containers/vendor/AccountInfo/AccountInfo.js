@@ -34,10 +34,7 @@ const price4Indicator = wp('85%') * 0.99 - wp('9.5%');
 
 export default class AccountInfo extends React.Component {
   static navigationOptions = {
-    tabBarIcon: props => (
-      <MaterialIcons name="person-outline" size={24} color={props.tintColor} />
-    ),
-    title: 'Vendor Account',
+    title: 'Profile',
     headerStyle: {
       position: 'relative',
       backgroundColor: '#2B2C2C',

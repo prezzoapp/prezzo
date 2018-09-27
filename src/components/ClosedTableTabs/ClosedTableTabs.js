@@ -3,19 +3,13 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import styles from './styles';
 import { Feather, Ionicons } from '../VectorIcons';
 
-export default class TableListHeader extends Component {
-  
-  onListTypeSelection = index => {
-    this.props.onListTypeSelection(index);
-  };
-
-  onChangeLayout = layout => {
-    this.props.onChangeLayout(layout);
+export default class ClosedTableTabs extends Component {
+  onListTypeSelection = section => {
+    this.props.onListTypeSelection(section);
   };
 
   render() {
     const selectedIndex = this.props.currentTab;
-    const isList = this.props.currentLayout === 'list';
     return (
       <View style={styles.container}>
         <View style={styles.listSection}>
@@ -30,7 +24,7 @@ export default class TableListHeader extends Component {
                   : styles.unselectedText
               }
             >
-              Open
+              24 Hours
             </Text>
             {selectedIndex === 0 && (
               <View
@@ -49,7 +43,7 @@ export default class TableListHeader extends Component {
                   : styles.unselectedText
               }
             >
-              Queue
+              3 days
             </Text>
             {selectedIndex === 1 && (
               <View
@@ -68,7 +62,7 @@ export default class TableListHeader extends Component {
                   : styles.unselectedText
               }
             >
-              Closed
+              1 Week
             </Text>
             {selectedIndex === 2 && (
               <View
@@ -76,28 +70,7 @@ export default class TableListHeader extends Component {
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.onChangeLayout('list')}
-            style={styles.icons}
-          >
-            <Feather
-              name="list"
-              size={30}
-              style={{ color: isList ? '#2ED573' : 'white' }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.onChangeLayout('grid')}
-            style={styles.icons}
-          >
-            <Ionicons
-              name="ios-keypad"
-              size={26}
-              style={{ color: !isList ? '#2ED573' : 'white' }}
-            />
-          </TouchableOpacity>
         </View>
-        <View style={styles.seperator} />
       </View>
     );
   }

@@ -1,14 +1,14 @@
 // @flow
 import React, { Component } from 'react';
-import { View, FlatList, Alert } from 'react-native';
+import { View, FlatList, Alert, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import TableScreenHeader from '../TableScreenHeader';
-import { MaterialIcons } from '../../../components/VectorIcons';
 import OpenTableItem from '../../../components/OpenTableItem';
 import QueuedTableItem from '../../../components/QueuedTableItem';
 import TableListHeader from '../../../components/TableListHeader';
-import OpenTableGridItem from '../../../components/OpenTableGridItem';
+import TableGridItem from '../../../components/TableGridItem';
+import ClosedTableTabs from '../../../components/ClosedTableTabs';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
 
 class Tables extends Component {
@@ -17,7 +17,10 @@ class Tables extends Component {
   static navigationOptions = {
     title: 'Tables',
     tabBarIcon: props => (
-      <MaterialIcons name="book" size={24} color={props.tintColor} />
+      <Image
+        style={{ height: 24, width: 24, tintColor: props.tintColor }}
+        source={require('../../../../assets/images/icons/TableIcon.png')}
+      />
     ),
     headerTintColor: 'white',
     headerStyle: {
@@ -35,16 +38,22 @@ class Tables extends Component {
   };
 
   componentDidMount() {
-    if (this.props.section === 0){
+    if (this.props.section === 0) {
       this.props.listOpenTable();
     } else if (this.props.section === 1) {
       this.props.listQueuedTable();
+    } else {
+      this.props.listClosedTable();
     }
   }
 
   onSectionChange = index => {
-    if (index === 1) {
+    if (index === 0) {
+      this.props.listOpenTable();
+    } else if (index === 1) {
       this.props.listQueuedTable();
+    } else {
+      this.props.listClosedTable();
     }
 
     this.props.changeSection(index);
@@ -54,7 +63,7 @@ class Tables extends Component {
     Alert.alert(
       actionType === ACCEPT_ORDER ? 'Accept' : 'Delete',
       `${this.props.queuedTableList[index].userName} \n Table ${
-      this.props.queuedTableList[index].tableId
+        this.props.queuedTableList[index].tableId
       }`,
       [
         {
@@ -84,46 +93,98 @@ class Tables extends Component {
 
   renderSection = () => {
     if (this.props.section === 0) {
-      if (this.props.layout === 'list') {
-        return (
-          <FlatList
-            data={
-              this.props.openTableList.constructor.name === 'Array'
-                ? Array.from(this.props.openTableList)
-                : []
-            }
-            renderItem={rowData => <OpenTableItem user={rowData} />}
-          />
-        );
-      }
-      return (
-        <FlatList
-          data={
-            this.props.openTableList.constructor.name === 'Array' ? Array.from(this.props.openTableList) : []
-          }
-          renderItem={rowData => <OpenTableGridItem data={rowData} />}
-        />
-      );
+      return this.renderOpenTable();
     } else if (this.props.section === 1) {
-      return (
-        <FlatList
-          data={this.props.queuedTableList.constructor.name === 'Array' ? this.props.queuedTableList : []}
-          renderItem={rowData => (
-            <QueuedTableItem
-              handleQueuedTableItem={this.handleQueuedTableItem}
-              user={rowData}
-            />
-          )}
-        />
-      );
+      return this.renderQueueTable();
     }
-    return <View style={{ flex: 1 }} />;
+    return this.renderClosedTable();
   };
+
+  renderOpenTable() {
+    return (
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={
+          this.props.openTableList.constructor.name === 'Array'
+            ? Array.from(this.props.openTableList)
+            : []
+        }
+        renderItem={rowData => {
+          if (this.props.layout === 'list') {
+            return <OpenTableItem data={rowData} />;
+          }
+          return (
+            <TableGridItem tableType={this.props.section} data={rowData} />
+          );
+        }}
+      />
+    );
+  }
+
+  renderQueueTable() {
+    return (
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={
+          this.props.queuedTableList.constructor.name === 'Array'
+            ? Array.from(this.props.queuedTableList)
+            : []
+        }
+        renderItem={rowData => {
+          if (this.props.layout === 'list') {
+            return (
+              <QueuedTableItem
+                handleQueuedTableItem={this.handleQueuedTableItem}
+                user={rowData}
+              />
+            );
+          }
+          return (
+            <TableGridItem
+              tableType={this.props.section}
+              handleQueuedTableItem={this.handleQueuedTableItem}
+              data={rowData}
+            />
+          );
+        }}
+      />
+    );
+  }
+
+  renderClosedTable() {
+    return (
+      <View style={{ flex: 1 }}>
+        <ClosedTableTabs
+          currentTab={this.props.closedTableSection}
+          onListTypeSelection={index => this.props.changeClosedSection(index)}
+        />
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={
+            this.props.openTableList.constructor.name === 'Array'
+              ? Array.from(this.props.closedTableList)
+              : []
+          }
+          renderItem={rowData => {
+            if (this.props.layout === 'list') {
+              return <OpenTableItem data={rowData} />;
+            }
+            return (
+              <TableGridItem tableType={this.props.section} data={rowData} />
+            );
+          }}
+        />
+      </View>
+    );
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <TableScreenHeader />
+        <TableScreenHeader
+          vendorData={this.props.vendorData}
+          tableSection={this.props.section}
+        />
         <View style={{ marginTop: 145, marginHorizontal: 16 }}>
           <TableListHeader
             currentTab={this.props.section}

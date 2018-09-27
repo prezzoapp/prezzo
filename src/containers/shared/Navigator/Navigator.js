@@ -8,7 +8,7 @@ import {
 import { MaterialIcons } from '../../../components/VectorIcons';
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { Image } from 'react-native';
 import Tutorial from '../../authentication/Tutorial';
 import EnableNotifications from '../../authentication/EnableNotifications';
 import Login from '../../authentication/Login';
@@ -28,11 +28,13 @@ import Tables from '../../vendor/Tables';
 import VendorAccountMenu from '../../vendor/AccountMenu';
 import VendorAccountInfo from '../../vendor/AccountInfo';
 import CreateMenu from '../../vendor/CreateMenu';
-
+import Activity from '../../vendor/Activity';
+import Delivery from '../../vendor/Delivery';
+import { COLOR_GREEN } from '../../../services/constants';
 import LocationSearch from '../../shared/LocationSearch';
 
 const headerColor = '#2B2C2C';
-const activeColor = 'white';
+const activeColor = COLOR_GREEN;
 const inactiveColor = '#919191';
 
 const tabBarOptions = {
@@ -129,7 +131,25 @@ const VendorProfileNavigator = createStackNavigator(
 const VendorNavigator = createBottomTabNavigator(
   {
     Tables: { screen: Tables },
-    VendorProfile: { screen: VendorProfileNavigator }
+    Delivery: { screen: Delivery },
+    Activity: { screen: Activity },
+    VendorProfile: {
+      screen: VendorProfileNavigator,
+      navigationOptions: {
+        title: 'Profile',
+        tabBarIcon: ({ focused }) => (
+          <Image
+            style={{
+              height: 22,
+              width: 22,
+              resizeMode: 'contain',
+              tintColor: focused ? activeColor : inactiveColor
+            }}
+            source={require('../../../../assets/images/icons/VendorProfile.png')}
+          />
+        )
+      }
+    }
   },
   {
     initialRouteName: 'VendorProfile',

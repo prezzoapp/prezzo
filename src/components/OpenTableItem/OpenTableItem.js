@@ -5,7 +5,7 @@ import styles from './styles';
 import { Entypo } from '../VectorIcons';
 
 const OpenTableItem = props => {
-  const { item, index } = props.user;
+  const { item, index } = props.data;
   return (
     <TouchableOpacity style={styles.container}>
       <Image
