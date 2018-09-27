@@ -6,11 +6,11 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
+import { Icon as NativeBaseIcon, Picker } from 'native-base';
+
 import Icon from 'react-native-vector-icons/dist/Feather';
 
 import PropTypes from 'prop-types';
-
-import ProfileTextInput from '../ProfileTextInput';
 
 import Button from '../Button';
 
@@ -25,12 +25,9 @@ export default class CheckoutSwiper extends Component {
     super(props);
 
     this.state = {
-      cardNumber: '',
-      expDate: '',
-      cvv: '',
-      cardHolder: '',
       dineInBtnSelectState: true,
-      selectedPaymentType: ''
+      selectedPaymentType: '',
+      selectedPaymentMethod: ''
     };
 
     this.index = 0;
@@ -47,10 +44,18 @@ export default class CheckoutSwiper extends Component {
   setPaymentType(paymentType) {
     if(this.state.setPaymentType !== paymentType) {
       this.setState(() => {
-        return {
-          selectedPaymentType: paymentType
+          return {
+            selectedPaymentType: paymentType
+          }
+        },
+        () => {
+          if (this.state.selectedPaymentType === 'visa') {
+            this.selectPaymentMethod('');
+          } else {
+            this.selectPaymentMethod('cash');
+          }
         }
-      })
+      );
     }
   }
 
@@ -103,6 +108,26 @@ export default class CheckoutSwiper extends Component {
     });
   }
 
+  selectPaymentMethod(val) {
+    console.log(val);
+    this.setState(() => {
+        return {
+          selectedPaymentMethod: val
+        }
+      },
+      () => {
+        if (this.state.selectedPaymentMethod === 'add_new_card') {
+          this.props.navigate({
+            routeName: 'PaymentDetails',
+            params: { title: 'Add New Card' }
+          });
+        } else {
+          this.props.isSelectedPaymentMethod(val);
+        }
+      }
+    );
+  }
+
   renderItem(item) {
     if(item.quantity > 0) {
       return (
@@ -137,7 +162,7 @@ export default class CheckoutSwiper extends Component {
       );
     }
     return null;
-  };
+  }
 
   render() {
     this.cartItems =
@@ -328,63 +353,27 @@ export default class CheckoutSwiper extends Component {
                   if (this.state.selectedPaymentType === 'visa') {
                     return (
                       <View style={styles.paymentInfoContainer}>
-                        <Text style={styles.paymentInfoTitle}>PAYMENT DETAILS</Text>
-                        <ProfileTextInput
-                          label="Card Number"
-                          style={{ marginTop: wp('4%') }}
-                          onChange={val => this.setState({ cardNumber: val })}
-                          placeholder=""
-                          showInputBottomBorder={false}
-                          type="cardNumber"
-                          keyboardType="numeric"
-                          value={this.state.cardNumber}
-                        />
-
-                        <View style={{ flexDirection: 'row' }}>
-                          <ProfileTextInput
-                            label="Exp Date"
-                            style={{ marginTop: wp('3%'), width: '70%' }}
-                            onChange={val => this.setState({ expDate: val })}
-                            placeholder=""
-                            showInputBottomBorder={false}
-                            type="expDate"
-                            value={this.state.expDate}
+                        <Text style={styles.paymentInfoTitle}>
+                          PAYMENT DETAILS
+                        </Text>
+                        <Picker
+                          mode="dropdown"
+                          iosIcon={
+                            <NativeBaseIcon name="ios-arrow-down-outline" />
+                          }
+                          selectedValue={this.state.selectedPaymentMethod}
+                          onValueChange={val => this.selectPaymentMethod(val)}
+                        >
+                          <Picker.Item
+                            label="Select a payment method"
+                            value=""
                           />
-
-                          <ProfileTextInput
-                            label="CVV"
-                            style={{ marginTop: wp('3%'), width: '30%' }}
-                            onChange={val => this.setState({ cvv: val })}
-                            placeholder=""
-                            showInputBottomBorder={false}
-                            type="cvv"
-                            keyboardType="numeric"
-                            value={this.state.cvv}
+                          <Picker.Item label="Visa - 0335" value="visa" />
+                          <Picker.Item
+                            label="Add new card"
+                            value="add_new_card"
                           />
-                        </View>
-
-                        <ProfileTextInput
-                          label="Card Holder"
-                          style={{
-                            marginTop: wp('4%'),
-                            marginBottom: wp('4%')
-                          }}
-                          onChange={val => this.setState({ cardHolder: val })}
-                          placeholder=""
-                          showInputBottomBorder={false}
-                          type="cardHolder"
-                          value={this.state.cardHolder}
-                        />
-
-                        {/*<View style={{ alignItems: 'center' }}>
-                          <Button
-                            style={dineInDileveryBtnStyles.commonBtn}
-                            textStyle={dineInDileveryBtnStyles.commonBtnText}
-                            onPress={() => alert()}
-                          >
-                            Split
-                          </Button>
-                        </View>*/}
+                        </Picker>
                       </View>
                     );
                   }

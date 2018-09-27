@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, Alert } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import BTClient from 'react-native-braintree-xplat';
 import MenuButton from '../../../components/MenuButton';
+import EditableListItem from '../../../components/EditableListItem';
 import styles from './styles';
-import { get, post } from '../../../utils/api';
 
 class PaymentMenu extends Component {
   static navigationOptions = {
@@ -20,31 +19,32 @@ class PaymentMenu extends Component {
 
   static displayName = 'Payment Methods';
 
-  addCreditCard() {
-    try {
-      get(`/v1/self/payment-token`).then(response => {
-        BTClient.setup(response.token);
-
-        BTClient.showPaymentViewController().then(nonce => {
-          console.log(nonce);
-          post(`/v1/payment-methods`, {
-            nonce
-          }).then(res => {
-            console.log(res);
-          });
-        });
-      });
-    } catch (e) {
-      console.log(e.message);
-    }
+  removeCategoryAtIndex(index) {
+    Alert.alert(index);
   }
 
   render() {
+    const Data = [ {
+        image: 'https://placekitten.com/200/240',
+        text: '8234',
+        expDate: '03/19'
+      }, {
+        image: 'https://placekitten.com/200/240',
+        text: '1234',
+        expDate: '04/20'
+      }
+    ];
+
     return (
       <View style={styles.parent}>
         <View style={[styles.container, { marginTop: hp('7.389%') }]}>
           <MenuButton
-            onPress={() => this.addCreditCard()}
+            onPress={() =>
+              this.props.navigate({
+                routeName: 'PaymentDetails',
+                params: { title: 'Add Credit Card' }
+              })
+            }
             title="Add Credit Card"
             icon="add"
             leftIcon={
@@ -57,6 +57,31 @@ class PaymentMenu extends Component {
               />
             }
           />
+
+          { Data.map((item, key)=>(
+            <View key={key} style={{ flexDirection: 'row', marginTop: 10 }}>
+              <EditableListItem
+                text={item.text}
+                expDate={item.expDate}
+                onRemove={() =>
+                  this.removeCategoryAtIndex(
+                    'Are you sure you want to delete this payment method?'
+                  )
+                }
+                leftIcon={
+                  <Image
+                    source={require('../../../../assets/images/Credit-Card.png')}
+                    style={{
+                      width: 28,
+                      resizeMode: 'contain',
+                      marginLeft: 10,
+                      marginRight: 15
+                    }}
+                  />
+                }
+              />
+           </View>
+          ))}
 
           <MenuButton
             onPress={() => {}}

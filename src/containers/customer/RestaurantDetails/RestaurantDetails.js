@@ -62,7 +62,8 @@ export default class RestaurantDetails extends Component {
       showText: false,
       modalVisible: false,
       currentSlideIndex: 0,
-      showNextBtn: false
+      showNextBtn: false,
+      isSelectedPaymentType: false
     };
 
     this.toggleViewFun = this.toggleViewFun.bind(this);
@@ -119,6 +120,22 @@ export default class RestaurantDetails extends Component {
         currentSlideIndex: index
       }
     });
+  }
+
+  isSelectedPaymentMethod(val) {
+    if(val === '') {
+      this.setState(() => {
+        return {
+          isSelectedPaymentType: false
+        }
+      })
+    } else {
+      this.setState(() => {
+        return {
+          isSelectedPaymentType: true
+        }
+      })
+    }
   }
 
   showNextOrderBtn() {
@@ -190,8 +207,28 @@ export default class RestaurantDetails extends Component {
                 if(this.state.showNextBtn) {
                   return (
                     <Button
-                      style={buttonStyles.placeOrderBtn}
+                      style={[
+                        buttonStyles.placeOrderBtn,
+                        {
+                          backgroundColor:
+                            this.state.currentSlideIndex === 2 &&
+                            !this.state.isSelectedPaymentType
+                              ? 'grey'
+                              : '#2ED573',
+                          borderColor:
+                            this.state.currentSlideIndex === 2 &&
+                            !this.state.isSelectedPaymentType
+                              ? 'grey'
+                              : '#2ED573'
+                        }
+                      ]}
                       textStyle={buttonStyles.btnText}
+                      disabled={
+                        this.state.currentSlideIndex === 2 &&
+                        !this.state.isSelectedPaymentType
+                          ? true
+                          : false
+                      }
                       onPress={this.onOrderBtnClick}
                     >
                       {(() => {
@@ -447,6 +484,9 @@ export default class RestaurantDetails extends Component {
                 restaurantName={this.props.navigation.state.params.item.name}
                 showNextOrderBtn={() => this.showNextOrderBtn()}
                 hideNextOrderBtn={() => this.hideNextOrderBtn()}
+                isSelectedPaymentMethod={val =>
+                  this.isSelectedPaymentMethod(val)
+                }
               />
             );
           }

@@ -1,9 +1,63 @@
 import { StyleSheet } from 'react-native';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { FONT_FAMILY } from '../../services/constants';
+
+const checkboxSize: number = 25;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2B2C2C'
+    backgroundColor: '#2B2C2C',
+    paddingTop: hp('3.69%')
+  },
+
+  textStyle: {
+    fontFamily: FONT_FAMILY,
+    color: 'white'
+  },
+
+  containerStyle: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'white'
+  },
+
+  promotionsContainer: {
+    width: '100%',
+    height: 'auto',
+    marginVertical: 30,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  checkbox: {
+    width: checkboxSize,
+    height: checkboxSize,
+    marginRight: 15
+  },
+
+  promotionalText: {
+    fontSize: 18,
+    lineHeight: 30,
+    fontFamily: FONT_FAMILY,
+    color: '#fff',
+    backgroundColor: 'transparent'
+  },
+
+  btnHolder: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  loaderView: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: 'rgba(0,0,0,0.85)',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 

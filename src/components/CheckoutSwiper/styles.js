@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 import {
   widthPercentageToDP as wp,
@@ -177,6 +177,38 @@ const styles = StyleSheet.create({
     left: wp('5%'),
     top: wp('1%'),
     padding: 5
+  },
+
+  pickerIcon: {
+    color: '#fff',
+    fontSize: 16,
+    marginLeft: 0
+  },
+
+  cardPicker: {
+    borderColor: '#fff',
+    borderRadius: 8,
+    borderWidth: 1,
+    height: 35,
+    marginTop: 5
+  },
+
+  cardPickerText: {
+    color: '#fff',
+    fontSize: 16
+  },
+
+  hoursPicker: {
+    borderColor: '#fff',
+    borderRadius: 8,
+    borderWidth: 1,
+    height: 35,
+    marginTop: 5
+  },
+
+  hoursPickerText: {
+    color: '#fff',
+    fontSize: 16
   }
 });
 

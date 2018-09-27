@@ -42,7 +42,8 @@ const styles = {
     justifyContent: 'center'
   },
   buttonContainer: {
-    width: 0.85 * Dimensions.get('window').width,
+    // width: 0.85 * Dimensions.get('window').width,
+    width: '100%',
     backgroundColor: buttonBlack,
     borderRadius: 6,
     height: 0.20 * 0.85 * Dimensions.get('window').width,

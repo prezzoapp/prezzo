@@ -245,6 +245,7 @@ export default class Checkout extends Component {
               ref={checkoutSwiper => {
                 this.checkoutSwiper = checkoutSwiper;
               }}
+              navigate={this.props.navigate}
               restaurantName={this.props.restaurantName}
               onScrollingEnd={(xValue, index) =>
                 this.onScrollEnd(xValue, index)
@@ -255,6 +256,9 @@ export default class Checkout extends Component {
               }
               setCurrentIndex={index => this.props.setCurrentIndex(index)}
               hideModal={() => this.hideModal()}
+              isSelectedPaymentMethod={val =>
+                this.props.isSelectedPaymentMethod(val)
+              }
             />
           </View>
         </View>

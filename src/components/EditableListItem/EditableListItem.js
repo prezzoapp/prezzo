@@ -5,11 +5,26 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 
 const EditableListItem = props => {
-  const { onRemove, text } = props;
+  const { onRemove, text, leftIcon, expDate } = props;
 
   return (
     <View style={styles.container}>
+      {(() => {
+        if(leftIcon) {
+          return leftIcon;
+        }
+        return null;
+      })()}
       <Text style={styles.text}>{text}</Text>
+
+      {(() => {
+        if(expDate) {
+          return (
+            <Text style={[styles.expDate, { marginLeft: 0 }]}>{expDate}</Text>
+          );
+        }
+        return null;
+      })()}
 
       <TouchableOpacity
         style={styles.iconContainer}
@@ -26,7 +41,14 @@ const EditableListItem = props => {
 
 EditableListItem.propTypes = {
   onRemove: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  leftIcon: PropTypes.object,
+  expDate: PropTypes.string
+};
+
+EditableListItem.defaultProps = {
+  leftIcon: null,
+  expDate: null
 };
 
 export default EditableListItem;

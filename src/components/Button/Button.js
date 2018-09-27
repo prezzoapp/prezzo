@@ -13,6 +13,7 @@ type Props = {};
 
 const Button = ({ disabled, onPress, style, textStyle, children }: Props) => {
   let newStyle = {};
+  let newTextStyle = {};
 
   if(style instanceof Array) {
     newStyle = style.reduce((result, current) => {
@@ -22,8 +23,16 @@ const Button = ({ disabled, onPress, style, textStyle, children }: Props) => {
     newStyle = { ...style };
   }
 
+  if(textStyle instanceof Array) {
+    newTextStyle = textStyle.reduce((result, current) => {
+      return Object.assign(result, current);
+    }, {});
+  } else {
+    newTextStyle = { ...textStyle };
+  }
+
   const buttonStyleFinal = { ...styles.button, ...newStyle };
-  const textStyleFinal = { ...styles.text, ...textStyle };
+  const textStyleFinal = { ...styles.text, ...newTextStyle };
 
   return (
     <TouchableOpacity
@@ -63,7 +72,7 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   onPress: PropTypes.func.isRequired,
   style: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  textStyle: PropTypes.object,
+  textStyle: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
 };
 

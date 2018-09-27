@@ -23,9 +23,6 @@ import showGenericAlert from '../../../components/GenericAlert';
 import { restaurantCategories, COLOR_GREEN } from '../../../services/constants';
 import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
-import {
-  FONT_FAMILY
-} from '../../../services/constants';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 

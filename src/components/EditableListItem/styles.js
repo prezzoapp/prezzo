@@ -1,6 +1,6 @@
 // @flow
-import {StyleSheet} from 'react-native';
-import {FONT_FAMILY} from '../../services/constants';
+import { StyleSheet } from 'react-native';
+import { FONT_FAMILY } from '../../services/constants';
 
 export default StyleSheet.create({
   container: {
@@ -22,6 +22,15 @@ export default StyleSheet.create({
   },
   text: {
     alignItems: 'center',
+    color: '#fff',
+    flex: 1,
+    fontFamily: FONT_FAMILY,
+    fontSize: 16,
+    marginBottom: 5,
+    marginTop: 5
+  },
+
+  expDate: {
     color: '#fff',
     flex: 1,
     fontFamily: FONT_FAMILY,
