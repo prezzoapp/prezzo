@@ -47,9 +47,8 @@ export default class Checkout extends Component {
 
       onMoveShouldSetPanResponder: (evt, gestureState) => {
         if (
-          evt.nativeEvent.pageY >= this.viewPosition.y &&
-          evt.nativeEvent.pageY <=
-            this.viewPosition.y + this.viewPosition.height
+          gestureState.moveY >= this.viewPosition.y &&
+          gestureState.moveY <= this.viewPosition.y + this.viewPosition.height
         ) {
           return true;
         }

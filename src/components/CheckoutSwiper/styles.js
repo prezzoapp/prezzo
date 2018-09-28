@@ -179,37 +179,25 @@ const styles = StyleSheet.create({
     padding: 5
   },
 
-  pickerIcon: {
-    color: '#fff',
-    fontSize: 16,
-    marginLeft: 0
-  },
-
   cardPicker: {
     borderColor: '#fff',
     borderRadius: 8,
     borderWidth: 1,
     height: 35,
-    marginTop: 5
+    marginTop: 15
   },
 
   cardPickerText: {
     color: '#fff',
     fontSize: 16
-  },
+  }
+});
 
-  hoursPicker: {
-    borderColor: '#fff',
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 35,
-    marginTop: 5
-  },
-
-  hoursPickerText: {
+export const stylesRaw = {
+  pickerIcon: {
     color: '#fff',
     fontSize: 16
   }
-});
+};
 
 export default styles;

@@ -8,7 +8,14 @@ const EditableListItem = props => {
   const { onRemove, text, leftIcon, expDate } = props;
 
   return (
-    <View style={styles.container}>
+    <View
+    style={[
+        styles.container,
+        {
+          paddingHorizontal: leftIcon != null ? 10 : 0
+        }
+      ]}
+    >
       {(() => {
         if(leftIcon) {
           return leftIcon;

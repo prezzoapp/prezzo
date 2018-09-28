@@ -1,7 +1,7 @@
 // @flow
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { removeCreditCard } from '../../../modules/paymentMethods';
+import { addCreditCardInfo } from '../../../modules/paymentMethods';
 
 export const mapStateToProps = state => {
   const data = state
@@ -17,6 +17,6 @@ export const mapStateToProps = state => {
 export const mapDispatchToProps = dispatch => {
   return {
     navigate: bindActionCreators(NavigationActions.navigate, dispatch),
-    removeCreditCard: bindActionCreators(removeCreditCard, dispatch)
+    addCreditCardInfo: bindActionCreators(addCreditCardInfo, dispatch)
   };
 };

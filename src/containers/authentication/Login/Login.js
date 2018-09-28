@@ -7,11 +7,8 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
-import { Header } from 'react-navigation';
 import PropTypes from 'prop-types';
-import {
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
@@ -52,10 +49,15 @@ class Login extends React.Component<Props, State> {
     this.props.navigate({ routeName: 'Customer' });
   }
 
+  afterLogin() {
+    this.props.listCreditCards();
+    this.navigateToMain();
+  }
+
   login() {
     const {email, password} = this.state;
     this.props.loginWithEmail(email, password)
-      .then(() => this.navigateToMain())
+      .then(() => this.afterLogin())
       .catch(e => console.log(e));
   }
 

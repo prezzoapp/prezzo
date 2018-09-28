@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Alert } from 'react-native';
+import { View, Image, Alert, ScrollView, Dimensions } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import MenuButton from '../../../components/MenuButton';
@@ -19,101 +19,130 @@ class PaymentMenu extends Component {
 
   static displayName = 'Payment Methods';
 
-  removeCategoryAtIndex(index) {
-    Alert.alert(index);
+  removeCardAtIndex(id) {
+    Alert.alert(
+    null,
+      'Are you sure you want to delete this payment method?',
+      [
+        {
+          text: 'Yes', onPress: () => this.props.removeCreditCard(id)
+        },
+        {
+          text: 'No',
+          onPress: () => null,
+          style: 'cancel'
+        }
+      ],
+      { cancelable: false }
+    )
   }
 
+  // removeCard(id) {
+  //   console.log('delete Pressed', id);
+  //   const newcards = [...this.state.cards];
+  //
+  //   newcards.splice(index, 1);
+  //   this.setState(() => {
+  //     return {
+  //       cards: newcards
+  //     };
+  //   });
+  // }
+
   render() {
-    const Data = [ {
-        image: 'https://placekitten.com/200/240',
-        text: '8234',
-        expDate: '03/19'
-      }, {
-        image: 'https://placekitten.com/200/240',
-        text: '1234',
-        expDate: '04/20'
-      }
-    ];
-
     return (
-      <View style={styles.parent}>
-        <View style={[styles.container, { marginTop: hp('7.389%') }]}>
-          <MenuButton
-            onPress={() =>
-              this.props.navigate({
-                routeName: 'PaymentDetails',
-                params: { title: 'Add Credit Card' }
-              })
-            }
-            title="Add Credit Card"
-            icon="add"
-            leftIcon={
-              <Image
-                source={require('../../../../assets/images/Credit-Card.png')}
-                style={{
-                  width: 28,
-                  resizeMode: 'contain'
-                }}
-              />
-            }
-          />
+      <ScrollView style={styles.scrollViewStyle} bounces={false}>
+        <View style={styles.parent}>
+          <View style={[styles.container, { paddingVertical: hp('7%') }]}>
+            <MenuButton
+              onPress={() =>
+                this.props.navigate({
+                  routeName: 'PaymentDetails',
+                  params: { title: 'Add Credit Card' }
+                })
+              }
+              title="Add Credit Card"
+              icon="add"
+              leftIcon={
+                <Image
+                  source={require('../../../../assets/images/Credit-Card.png')}
+                  style={{
+                    width: 28,
+                    resizeMode: 'contain'
+                  }}
+                />
+              }
+            />
 
-          { Data.map((item, key)=>(
-            <View key={key} style={{ flexDirection: 'row', marginTop: 10 }}>
-              <EditableListItem
-                text={item.text}
-                expDate={item.expDate}
-                onRemove={() =>
-                  this.removeCategoryAtIndex(
-                    'Are you sure you want to delete this payment method?'
-                  )
-                }
-                leftIcon={
-                  <Image
-                    source={require('../../../../assets/images/Credit-Card.png')}
-                    style={{
-                      width: 28,
-                      resizeMode: 'contain',
-                      marginLeft: 10,
-                      marginRight: 15
-                    }}
+            {this.props.data&& this.props.data.map((item, key) => (
+                <View key={key} style={{ flexDirection: 'row', height: 0.2 * 0.85 * Dimensions.get('window').width }}>
+                  <EditableListItem
+                    text={item.readableIdentifier}
+                    expDate={item.expDate}
+                    onRemove={() => this.removeCardAtIndex(item._id)}
+                    leftIcon={(() => {
+                      if (item.type === 'braintree-visa') {
+                        return (
+                          <Image
+                            source={require('../../../../assets/images/icons/stp_card_visa.png')}
+                            style={{
+                              width: 35,
+                              resizeMode: 'contain',
+                              marginLeft: 10,
+                              marginRight: 15
+                            }}
+                          />
+                        )
+                      } else if (item.type === 'braintree-mastercard') {
+                        return (
+                          <Image
+                            source={require('../../../../assets/images/icons/stp_card_mastercard.png')}
+                            style={{
+                              width: 35,
+                              resizeMode: 'contain',
+                              marginLeft: 10,
+                              marginRight: 15
+                            }}
+                          />
+                        )
+                      }
+                    })()}
                   />
-                }
-              />
-           </View>
-          ))}
+               </View>
+            ))}
 
-          <MenuButton
-            onPress={() => {}}
-            title="Add Bitcoin"
-            icon="add"
-            leftIcon={
-              <Image
-                source={require('../../../../assets/images/bitcoin.png')}
-                style={{
-                  width: 20,
-                  resizeMode: 'contain'
-                }}
-              />
-            }
-          />
+            <MenuButton
+              onPress={() => {}}
+              title="Add Bitcoin"
+              icon="add"
+              leftIcon={
+                <Image
+                  source={require('../../../../assets/images/bitcoin.png')}
+                  style={{
+                    width: 20,
+                    resizeMode: 'contain'
+                  }}
+                />
+              }
+            />
 
-          <MenuButton
-            onPress={() => {}}
-            title="Add Paypal"
-            icon="add"
-            leftIcon={
-              <Image
-                source={require('../../../../assets/images/Paypal-icon.png')}
-                style={{
-                  width: 25,
-                  resizeMode: 'contain'
-                }}
-              />
-            }
-          />
+            <MenuButton
+              onPress={() => {}}
+              title="Add Paypal"
+              icon="add"
+              leftIcon={
+                <Image
+                  source={require('../../../../assets/images/Paypal-icon.png')}
+                  style={{
+                    width: 25,
+                    resizeMode: 'contain'
+                  }}
+                />
+              }
+            />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

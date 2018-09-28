@@ -16,9 +16,12 @@ import Button from '../Button';
 
 import { FONT_FAMILY, COLOR_WHITE } from '../../services/constants';
 
-import styles from './styles';
+import styles, { stylesRaw } from './styles';
 
 import showGenericAlert from '../GenericAlert';
+
+const CREDIT_CARD = 'credit_card';
+const CASH = 'cash';
 
 export default class CheckoutSwiper extends Component {
   constructor(props) {
@@ -49,10 +52,12 @@ export default class CheckoutSwiper extends Component {
           }
         },
         () => {
-          if (this.state.selectedPaymentType === 'visa') {
+          if (this.state.selectedPaymentType === CREDIT_CARD) {
             this.selectPaymentMethod('');
-          } else {
+          } else if(this.state.selectedPaymentType === CASH) {
             this.selectPaymentMethod('cash');
+          } else {
+            this.selectPaymentMethod('');
           }
         }
       );
@@ -73,6 +78,7 @@ export default class CheckoutSwiper extends Component {
     if(this.index > 0) {
       this.swiper.scrollBy(this.index * -1, false);
     }
+    this.setPaymentType('');
   }
 
   dineInBtnSelect() {
@@ -306,7 +312,10 @@ export default class CheckoutSwiper extends Component {
                   <View style={styles.paymentBtnHolder}>
                     <Button
                       style={paymentBtnStyles.commonBtn}
-                      onPress={() => this.setPaymentType('visa')}
+                      onPress={() => this.setPaymentType(CREDIT_CARD)}
+                      disabled={
+                        this.state.selectedPaymentType === CREDIT_CARD ? true : false
+                      }
                     >
                       <View>
                         <Image
@@ -316,7 +325,7 @@ export default class CheckoutSwiper extends Component {
                       </View>
                     </Button>
                     {(() => {
-                      if (this.state.selectedPaymentType === 'visa') {
+                      if (this.state.selectedPaymentType === CREDIT_CARD) {
                         return (
                           <View style={styles.checkMarkIconHolder}>
                             <Icon name="check" size={wp('4%')} color="white" />
@@ -329,7 +338,10 @@ export default class CheckoutSwiper extends Component {
                   <View style={styles.paymentBtnHolder}>
                     <Button
                       style={paymentBtnStyles.commonBtn}
-                      onPress={() => this.setPaymentType('cash')}
+                      onPress={() => this.setPaymentType(CASH)}
+                      disabled={
+                        this.state.selectedPaymentType === CASH ? true : false
+                      }
                     >
                       <View>
                         <Image
@@ -339,7 +351,7 @@ export default class CheckoutSwiper extends Component {
                       </View>
                     </Button>
                     {(() => {
-                      if (this.state.selectedPaymentType === 'cash') {
+                      if (this.state.selectedPaymentType === CASH) {
                         return (
                           <View style={styles.checkMarkIconHolder}>
                             <Icon name="check" size={wp('4%')} color="white" />
@@ -350,7 +362,7 @@ export default class CheckoutSwiper extends Component {
                   </View>
                 </View>
                 {(() => {
-                  if (this.state.selectedPaymentType === 'visa') {
+                  if (this.state.selectedPaymentType === CREDIT_CARD) {
                     return (
                       <View style={styles.paymentInfoContainer}>
                         <Text style={styles.paymentInfoTitle}>
@@ -359,10 +371,15 @@ export default class CheckoutSwiper extends Component {
                         <Picker
                           mode="dropdown"
                           iosIcon={
-                            <NativeBaseIcon name="ios-arrow-down-outline" />
+                            <NativeBaseIcon
+                              name="ios-arrow-down-outline"
+                              style={stylesRaw.pickerIcon}
+                            />
                           }
                           selectedValue={this.state.selectedPaymentMethod}
                           onValueChange={val => this.selectPaymentMethod(val)}
+                          style={styles.cardPicker}
+                          textStyle={styles.cardPickerText}
                         >
                           <Picker.Item
                             label="Select a payment method"

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { FONT_FAMILY } from '../../services/constants';
+import { FONT_FAMILY } from '../../../services/constants';
 
 const checkboxSize: number = 25;
 

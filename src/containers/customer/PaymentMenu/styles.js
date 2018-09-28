@@ -58,5 +58,9 @@ export default StyleSheet.create({
     backgroundColor: COLOR_BLACK,
     flex: 1,
     justifyContent: 'center'
+  },
+
+  scrollViewStyle: {
+    backgroundColor: COLOR_BLACK
   }
 });

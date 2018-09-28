@@ -11,6 +11,7 @@ import { RESET_STATE } from '../modules/session/types';
 import VendorReducer from '../modules/vendor';
 import ExploreReducer from '../modules/explore';
 import RestaurantDetails from '../modules/restaurant';
+import paymentMethods from '../modules/paymentMethods';
 
 const reducers = {
   navigatorState: NavigatorStateReducer,
@@ -22,7 +23,8 @@ const reducers = {
   user: UserReducer,
   signup: SignupReducer,
   vendor: VendorReducer,
-  restaurant: RestaurantDetails
+  restaurant: RestaurantDetails,
+  paymentMethods
 };
 
 // initial state, accessor and mutator for supporting root-level

@@ -13,10 +13,10 @@ import {
 } from 'react-native-responsive-screen';
 import BTClient from 'react-native-braintree-xplat';
 import styles from './styles';
-import Button from '../Button';
-import { get, post } from '../../utils/api';
+import Button from '../../../components/Button';
+import { get, post } from '../../../utils/api';
 
-import { FONT_FAMILY_MEDIUM } from '../../services/constants';
+import { FONT_FAMILY_MEDIUM } from '../../../services/constants';
 
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -69,8 +69,8 @@ class PaymentDetails extends Component {
 
   getCheckboxImage() {
     return this.state.selectCheckBox
-      ? require('../../../assets/images/icons/checkbox-checked.png')
-      : require('../../../assets/images/icons/checkbox-unchecked.png');
+      ? require('../../../../assets/images/icons/checkbox-checked.png')
+      : require('../../../../assets/images/icons/checkbox-unchecked.png');
   }
 
   togglePreferredPayment() {
@@ -98,19 +98,26 @@ class PaymentDetails extends Component {
           get(`/v1/self/payment-token`).then(response => {
             console.log(`Token: ${response.token}`);
             BTClient.setup(response.token);
+            console.log("Token Received!");
 
             BTClient.getCardNonce(card).then(nonce => {
               console.log(`Nonce: ${nonce}`);
               post(`/v1/payment-methods`, {
                 nonce
               }).then(res => {
-                console.log(res);
-                this.setState(() => {
-                  return {
-                    isTokenizing: false
-                  }
-                })
+                this.props.addCreditCardInfo(res).then(() => {
+                  console.log('Card Added Succesfully!');
+                  this.setState(() => {
+                    return {
+                      isTokenizing: false
+                    }
+                  }, () => {
+                    this.props.navigate({ routeName: 'PaymentMenu' });
+                  })
+                });
               });
+            }).catch(function(err) {
+              console.log("Error Occured!");
             });
           });
         } catch (e) {

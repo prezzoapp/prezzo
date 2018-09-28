@@ -1,8 +1,9 @@
 // @flow
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {NavigationActions} from 'react-navigation';
-import {loginWithEmail} from '../../../modules/auth';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { NavigationActions } from 'react-navigation';
+import { loginWithEmail } from '../../../modules/auth';
+import { listCreditCards } from '../../../modules/paymentMethods';
 import Login from './Login';
 
 export default connect(
@@ -10,6 +11,7 @@ export default connect(
   dispatch => {
     return {
       loginWithEmail: bindActionCreators(loginWithEmail, dispatch),
+      listCreditCards: bindActionCreators(listCreditCards, dispatch),
       navigate: bindActionCreators(NavigationActions.navigate, dispatch)
     };
   }

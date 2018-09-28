@@ -25,7 +25,7 @@ import MapScreen from '../../customer/MapScreen';
 import Profile from '../../customer/Profile';
 import EditProfile from '../../customer/EditProfile';
 import PaymentMenu from '../../customer/PaymentMenu';
-import PaymentDetails from '../../../components/PaymentDetails';
+import PaymentDetails from '../../customer/PaymentDetails';
 
 import Activity from '../../customer/Activity';
 
