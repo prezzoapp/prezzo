@@ -2,7 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, Text, StyleSheet } from 'react-native';
-import { FONT_FAMILY, FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD } from '../../../services/constants';
+import {
+  FONT_FAMILY,
+  FONT_FAMILY_MEDIUM,
+  FONT_FAMILY_BOLD
+} from '../../../services/constants';
 import Button from '../../../components/Button';
 
 type Props = {};
