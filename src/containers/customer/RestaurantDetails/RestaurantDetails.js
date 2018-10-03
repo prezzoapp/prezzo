@@ -12,11 +12,12 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/dist/Feather';
+import { Header } from 'react-navigation';
 
-import LinearGradient from 'react-native-linear-gradient';
+import { Feather } from '../../../components/VectorIcons';
 
-import { BlurView } from 'react-native-blur';
+import { LinearGradient, BlurView } from 'expo';
+
 
 import {
   widthPercentageToDP as wp,
@@ -199,8 +200,8 @@ export default class RestaurantDetails extends Component {
             <View style={styles.bottomViewHolder}>
               <BlurView
                 style={styles.bottomViewBlurContainer}
-                blurType="dark"
-                blurAmount={10}
+                tint="dark"
+                intensity={10}
               />
 
               {(() => {
@@ -325,13 +326,13 @@ export default class RestaurantDetails extends Component {
                 {this.props.navigation.state.params.item.location.postalCode}
               </Text>
               <View style={styles.headerContentTextContainer}>
-                <Icon name="package" size={22} color="white" />
+                <Feather name="package" size={22} color="white" />
                 <Text style={[styles.transparent, styles.headerContentText]}>
                   Delivery
                 </Text>
               </View>
               <View style={styles.headerContentTextContainer}>
-                <Icon name="clock" size={22} color="white" />
+                <Feather name="clock" size={22} color="white" />
                 <Text style={[styles.transparent, styles.headerContentText]}>
                   8 Mins Wait Time
                 </Text>

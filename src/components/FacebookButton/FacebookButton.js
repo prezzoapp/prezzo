@@ -2,6 +2,7 @@
 import React from 'react';
 import { Text, Image, TouchableOpacity } from 'react-native';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import { Facebook } from 'expo';
 import { FONT_FAMILY } from '../../services/constants';
 
 type Props = {
@@ -15,29 +16,28 @@ type Props = {
 };
 
 class Button extends React.Component<Props> {
-  getAccessToken() {
-    AccessToken.getCurrentAccessToken().then(data => {
-      const { userID, accessToken } = data;
-      this.props.onSuccess(userID, accessToken);
-    });
+  async getUserData(token) {
+    const response = await fetch(
+      `https://graph.facebook.com/me?access_token=${token}&fields=id,name,birthday,picture.type(large)`);
+
+    const { id } = await response.json();
+    this.props.onSuccess(id, token);
   }
 
-  login() {
+  async login() {
     const { onStart, onSuccess, onFailure, onCancel } = this.props;
-
     onStart && onStart();
-
-    // Attempt a login using the Facebook login dialog asking for default permissions.
-    LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(result => {
-        if (result.isCancelled) {
-          return onCancel && onCancel();
-        } else {
-          this.getAccessToken();
-        }
-      }, error => {
-        onFailure && onFailure(error);
+    const { type, token } = await Facebook.logInWithReadPermissionsAsync(
+      "2029030444036230",
+      {
+        permissions: ["public_profile", "email"]
       }
     );
+    if (type === "success") {
+      this.getUserData(token);
+    } else {
+      return onCancel && onCancel();
+    }
   }
 
   render() {
@@ -48,6 +48,7 @@ class Button extends React.Component<Props> {
 
     return (
       <TouchableOpacity
+        testID={'facebookButton'}
         onPress={() => !disabled && this.login()}
         activeOpacity={disabled ? 1 : 0.7}
         style={buttonStyle}

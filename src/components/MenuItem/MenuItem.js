@@ -1,20 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  TextInput
-  // Animated,
-  // Easing,
-  // Platform
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import { View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
+import { Feather } from '../VectorIcons';
 import PropTypes from 'prop-types';
 import MenuItemImage from '../MenuItemImage';
 import styles from './styles';
 import { COLOR_DANGER } from '../../services/constants';
+import { getTimeStampString } from '../../services/commonFunctions';
 
 export default class MenuItem extends Component {
   constructor(props) {
@@ -264,7 +256,7 @@ export default class MenuItem extends Component {
               style={styles.itemImagePickerBtn}
               onPress={this.addImageComponent}
             >
-              <Icon
+              <Feather
                 title="Add More"
                 name="plus"
                 color="rgb(161,161,161)"

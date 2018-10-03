@@ -16,7 +16,7 @@ class AppView extends Component {
     dispatch: PropTypes.func.isRequired
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     snapshotUtil.resetSnapshot().then(snapshot => {
       const { dispatch } = this.props;
 

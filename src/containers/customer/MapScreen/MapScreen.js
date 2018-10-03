@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
 import styles from './styles';
-import MapStyle from '../../../services/mapStyle.json';
+import MapStyle from '../../../services/mapStyle';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
 
 export default class MapScreen extends Component {
@@ -103,14 +102,13 @@ export default class MapScreen extends Component {
   }
 
   render() {
-    // console.log(this.props.data);
     return (
       <View style={styles.container}>
         <MapView
           ref={ref => {
             this.mapView = ref;
           }}
-          provider={PROVIDER_GOOGLE}
+          provider={MapView.PROVIDER_GOOGLE}
           initialRegion={this.state.customRegion}
           onRegionChangeComplete={region => this.onRegionChangeComplete(region)}
           customMapStyle={MapStyle}

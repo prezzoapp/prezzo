@@ -8,9 +8,9 @@ import {
 
 import { Icon as NativeBaseIcon, Picker } from 'native-base';
 
-import Icon from 'react-native-vector-icons/dist/Feather';
-
 import PropTypes from 'prop-types';
+
+import { Feather } from '../VectorIcons';
 
 import Button from '../Button';
 
@@ -145,7 +145,7 @@ export default class CheckoutSwiper extends Component {
               style={styles.quantityBtn}
               onPress={() => this.removeItemFromCart(item)}
             >
-              <Icon name="minus" size={wp('4.9%')} color="#2ED573" />
+              <Feather name="minus" size={wp('4.9%')} color="#2ED573" />
             </TouchableOpacity>
 
             <Text style={styles.quantity}>{item.quantity}</Text>
@@ -161,7 +161,7 @@ export default class CheckoutSwiper extends Component {
                 )
               }
             >
-              <Icon name="plus" size={wp('4.9%')} color="#2ED573" />
+              <Feather name="plus" size={wp('4.9%')} color="#2ED573" />
             </TouchableOpacity>
           </View>
         </View>
@@ -188,7 +188,7 @@ export default class CheckoutSwiper extends Component {
                 style={styles.backBtn}
                 onPress={() => this.swiper.scrollBy(-1, false)}
               >
-                <Icon name="chevron-left" size={wp('8%')} color="white" />
+                <Feather name="chevron-left" size={wp('8%')} color="white" />
               </TouchableOpacity>
             );
           }
@@ -328,7 +328,7 @@ export default class CheckoutSwiper extends Component {
                       if (this.state.selectedPaymentType === CREDIT_CARD) {
                         return (
                           <View style={styles.checkMarkIconHolder}>
-                            <Icon name="check" size={wp('4%')} color="white" />
+                            <Feather name="check" size={wp('4%')} color="white" />
                           </View>
                         );
                       }
@@ -354,7 +354,7 @@ export default class CheckoutSwiper extends Component {
                       if (this.state.selectedPaymentType === CASH) {
                         return (
                           <View style={styles.checkMarkIconHolder}>
-                            <Icon name="check" size={wp('4%')} color="white" />
+                            <Feather name="check" size={wp('4%')} color="white" />
                           </View>
                         );
                       }

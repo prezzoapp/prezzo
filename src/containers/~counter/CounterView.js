@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from '../../components/VectorIcons';
 
 class CounterView extends Component {
   static displayName = 'CounterView';
@@ -16,7 +16,7 @@ class CounterView extends Component {
   static navigationOptions = {
     title: 'Counter',
     tabBarIcon: (props) => (
-        <Icon name='plus-one' size={24} color={props.tintColor} />
+        <MaterialIcons name='plus-one' size={24} color={props.tintColor} />
       )
   }
 

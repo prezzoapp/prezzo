@@ -1,15 +1,18 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View, Image, Text, StyleSheet} from 'react-native';
-import Permissions from 'react-native-permissions';
-import {FONT_FAMILY, FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD} from '../../../services/constants';
+import { View, Image, Text, StyleSheet } from 'react-native';
+import {
+  FONT_FAMILY,
+  FONT_FAMILY_MEDIUM,
+  FONT_FAMILY_BOLD
+} from '../../../services/constants';
 import Button from '../../../components/Button';
 
 type Props = {};
 
 type State = {
-  notificationPermission: 'authorized' | 'denied' | 'restricted' | 'undetermined'
+  notificationPermission: 'granted' | 'denied' | 'restricted' | 'undetermined'
 };
 
 class EnableNotificationsView extends React.Component<Props, State> {
@@ -26,32 +29,35 @@ class EnableNotificationsView extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    Permissions.check('notification').then(response => {
-      console.log('setting notificationPermission', response);
-      // Response is one of: 'authorized', 'denied',
-      // 'restricted', or 'undetermined'
-      this.setState({notificationPermission: response});
-    });
+    this.checkNotificationPermission();
   }
 
-  requestPermission = () => {
-    Permissions.request('notification').then(response => {
-      // Returns once the user has chosen to 'allow' or to 'not allow' access
-      // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-      this.setState({notificationPermission: response});
-    });
+  async checkNotificationPermission() {
+    const { Permissions } = Expo;
+    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    this.setState({
+      notificationPermission: status
+    })
+  }
+
+  requestPermission = async () => {
+    const { Permissions } = Expo;
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    this.setState({
+      notificationPermission: status
+    })
   }
 
   navigateToTutorial() {
-    this.props.navigate({routeName: 'Home'});
+    this.props.navigate({ routeName: 'Home' });
   }
 
   navigateToSignup() {
-    this.props.navigate({routeName: 'SignupName'});
+    this.props.navigate({ routeName: 'SignupName' });
   }
 
   render() {
-    const doesHavePermission = this.state.notificationPermission === 'authorized';
+    const doesHavePermission = this.state.notificationPermission === 'granted';
     const notifyButtonStyle = {
       ...buttonStyles.notify
     };

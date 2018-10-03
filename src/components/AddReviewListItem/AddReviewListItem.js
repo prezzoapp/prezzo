@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/Feather';
+// import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo';
 import PropTypes from 'prop-types';
+import { Feather } from '../VectorIcons';
 import styles from './styles';
 import MenuItemImage from '../MenuItemImage';
 import RatingBar from '../RatingBar';
@@ -52,7 +53,7 @@ class AddReviewListItem extends Component {
             style={styles.itemImagePickerBtn}
             onPress={() => this.addImageComponent()}
           >
-            <Icon
+            <Feather
               title="Add More"
               name="plus"
               color="rgb(161,161,161)"

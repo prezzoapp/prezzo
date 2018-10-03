@@ -6,16 +6,17 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  View
+  View,
+  ActionSheetIOS
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { Icon as NativeBaseIcon, Picker, Spinner } from 'native-base';
-import ImagePicker from 'react-native-image-picker';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Picker, Spinner } from 'native-base';
+// import ImagePicker from 'react-native-image-picker';
+import { MaterialIcons, Ionicons } from '../../../components/VectorIcons';
 import Slider from 'react-native-slider';
-
+import { ImagePicker, Permissions } from 'expo';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-
+import { getTimeStampString } from '../../../services/commonFunctions';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import ProfileDataField from '../../../components/ProfileDataField';
 import EditableListItem from '../../../components/EditableListItem';
@@ -23,6 +24,7 @@ import showGenericAlert from '../../../components/GenericAlert';
 import { restaurantCategories, COLOR_GREEN } from '../../../services/constants';
 import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
+import { FONT_FAMILY } from '../../../services/constants';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
@@ -32,10 +34,7 @@ const price4Indicator = wp('85%') * 0.99 - wp('9.5%');
 
 export default class AccountInfo extends React.Component {
   static navigationOptions = {
-    tabBarIcon: props => (
-      <Icon name="person-outline" size={24} color={props.tintColor} />
-    ),
-    title: 'Vendor Account',
+    title: 'Profile',
     headerStyle: {
       position: 'relative',
       backgroundColor: '#2B2C2C',
@@ -132,27 +131,56 @@ export default class AccountInfo extends React.Component {
     this.constructor.currentContext = this;
   }
 
-  showAvatarActionSheet() {
-    ImagePicker.showImagePicker(
+  showAvatarActionSheet = () => {
+    ActionSheetIOS.showActionSheetWithOptions(
       {
-        maxWidth: 800,
-        title: 'Select an avatar',
-        quality: 0.3
+        options: ['Take Photo', 'Choose from Library', 'Cancel'],
+        cancelButtonIndex: 2,
+        title: 'Select an avatar'
       },
-      response => {
-        if (response.didCancel) {
-          console.log('User cancelled image upload');
-        } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-        } else {
-          console.log('Image response: ', response);
-          this.setState({
-            avatarURL: response.uri,
-            upload: response
-          });
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          this.requestCameraPermission();
+        } else if (buttonIndex === 1) {
+          this.requestPhotoLibraryPermission();
         }
       }
     );
+  }
+
+  requestPhotoLibraryPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      this.openImageGallery()
+    }
+  }
+
+  requestCameraPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status === 'granted') {
+      this.openCamera();
+    }
+  };
+
+  openImageGallery = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: false,
+      quality: 0.3
+    });
+    if (!result.cancelled) {
+      this.setState({ upload: result, avatarURL: result.uri });
+    }
+  };
+
+  openCamera = async () => {
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: false,
+      quality: 0.3
+    });
+
+    if (!result.cancelled) {
+      this.setState({ upload: result, avatarURL: result.uri });
+    }
   }
 
   addSelectedCategory() {
@@ -358,17 +386,11 @@ export default class AccountInfo extends React.Component {
     }
 
     const { upload } = this.state;
-    const { fileName, fileSize, uri } = upload;
+    const { uri } = upload;
+    const fileName = `${getTimeStampString()}.jpg`;
 
     await this.props
-      .uploadImage(
-        uri,
-        fileSize,
-        'image/jpeg',
-        fileName,
-        'userAvatar',
-        'public-read'
-      )
+      .uploadImage(uri, 10, 'image/jpeg', fileName, 'userAvatar', 'public-read')
       .then(async avatarURL => {
         console.log('got avatarURL', avatarURL);
 
@@ -665,7 +687,7 @@ export default class AccountInfo extends React.Component {
                 mode="dropdown"
                 iosHeader="Select a day"
                 iosIcon={
-                  <NativeBaseIcon
+                  <Ionicons
                     name="ios-arrow-down-outline"
                     style={stylesRaw.pickerIcon}
                   />
@@ -684,7 +706,7 @@ export default class AccountInfo extends React.Component {
                 mode="dropdown"
                 iosHeader="Select an opening time"
                 iosIcon={
-                  <NativeBaseIcon
+                  <Ionicons
                     name="ios-arrow-down-outline"
                     style={stylesRaw.pickerIcon}
                   />
@@ -709,7 +731,7 @@ export default class AccountInfo extends React.Component {
                 mode="dropdown"
                 iosHeader="Select a closing time"
                 iosIcon={
-                  <NativeBaseIcon
+                  <Ionicons
                     name="ios-arrow-down-outline"
                     style={stylesRaw.pickerIcon}
                   />
@@ -760,7 +782,7 @@ export default class AccountInfo extends React.Component {
                       mode="dropdown"
                       iosHeader="Select a category"
                       iosIcon={
-                        <NativeBaseIcon
+                        <Ionicons
                           name="ios-arrow-down-outline"
                           style={stylesRaw.pickerIcon}
                         />

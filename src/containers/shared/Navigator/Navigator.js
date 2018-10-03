@@ -1,15 +1,15 @@
 // @flow
 import {
-  createTabNavigator,
+  createBottomTabNavigator,
   createStackNavigator,
   createSwitchNavigator
 } from 'react-navigation';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import FeatherIcon from 'react-native-vector-icons/Feather';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Image } from 'react-native';
 
+import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import Tutorial from '../../authentication/Tutorial';
 import EnableNotifications from '../../authentication/EnableNotifications';
 import Login from '../../authentication/Login';
@@ -27,17 +27,19 @@ import EditProfile from '../../customer/EditProfile';
 import PaymentMenu from '../../customer/PaymentMenu';
 import PaymentDetails from '../../customer/PaymentDetails';
 
-import Activity from '../../customer/Activity';
+import CustomerActivity from '../../customer/Activity';
 
 import Tables from '../../vendor/Tables';
 import VendorAccountMenu from '../../vendor/AccountMenu';
 import VendorAccountInfo from '../../vendor/AccountInfo';
 import CreateMenu from '../../vendor/CreateMenu';
-
+import Activity from '../../vendor/Activity';
+import Delivery from '../../vendor/Delivery';
+import { COLOR_GREEN } from '../../../services/constants';
 import LocationSearch from '../../shared/LocationSearch';
 
 const headerColor = '#2B2C2C';
-const activeColor = 'white';
+const activeColor = COLOR_GREEN;
 const inactiveColor = '#919191';
 
 const tabBarOptions = {
@@ -82,21 +84,21 @@ const CustomerProfileNavigator = createStackNavigator({
 );
 
 const ActivityNavigator = createStackNavigator({
-    Activity: { screen: Activity }
+    CustomerActivity: { screen: CustomerActivity }
   },
   {
-    initialRouteName: 'Activity'
+    initialRouteName: 'CustomerActivity'
   }
 );
 
-const ExploreScreenNavigator = createTabNavigator(
+const ExploreScreenNavigator = createBottomTabNavigator(
   {
     Explore: { screen: Explore },
     ActivityNavigator: { screen: ActivityNavigator,
       navigationOptions: {
         title:'Activity',
         tabBarIcon: ({ focused }) => (
-          <FeatherIcon
+          <Feather
             name="activity"
             size={24}
             color={focused ? activeColor : inactiveColor}
@@ -109,7 +111,7 @@ const ExploreScreenNavigator = createTabNavigator(
       navigationOptions: {
         title:'Profile',
         tabBarIcon: ({ focused }) => (
-          <Icon
+          <MaterialIcons
             name="person"
             size={24}
             color={focused ? activeColor : inactiveColor}
@@ -152,10 +154,28 @@ const VendorProfileNavigator = createStackNavigator(
   }
 );
 
-const VendorNavigator = createTabNavigator(
+const VendorNavigator = createBottomTabNavigator(
   {
     Tables: { screen: Tables },
-    VendorProfile: { screen: VendorProfileNavigator }
+    Delivery: { screen: Delivery },
+    Activity: { screen: Activity },
+    VendorProfile: {
+      screen: VendorProfileNavigator,
+      navigationOptions: {
+        title: 'Profile',
+        tabBarIcon: ({ focused }) => (
+          <Image
+            style={{
+              height: 22,
+              width: 22,
+              resizeMode: 'contain',
+              tintColor: focused ? activeColor : inactiveColor
+            }}
+            source={require('../../../../assets/images/icons/VendorProfile.png')}
+          />
+        )
+      }
+    }
   },
   {
     initialRouteName: 'VendorProfile',

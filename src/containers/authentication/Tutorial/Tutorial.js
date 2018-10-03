@@ -63,7 +63,7 @@ class Tutorial extends React.Component {
 
         // check if user exists with email
         const user = await this.props.findUser(email);
-        this.setState({isBusy: false});
+        this.setState({ isBusy: false });
 
         if (user) {
           this.navigateToSignupMergeFacebook();
@@ -99,14 +99,15 @@ class Tutorial extends React.Component {
   }
 
   render() {
-    const {isBusy} = this.state;
+    const { isBusy } = this.state;
 
     return (
       <View style={styles.container}>
         <Swiper
+          testID="swiper"
           loop={false}
-          dotColor='rgba(255, 255, 255, 0.5)'
-          activeDotColor='#0DD24A'
+          dotColor="rgba(255, 255, 255, 0.5)"
+          activeDotColor="#0DD24A"
         >
           <TutorialScreen image={images.tutorial1} />
           <TutorialScreen image={images.tutorial2} />
@@ -114,25 +115,27 @@ class Tutorial extends React.Component {
           <TutorialScreen image={images.tutorial4} />
         </Swiper>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => this.navigateToLogin()}>
-            <Text style={styles.login}>
-              Log In
-            </Text>
+          <TouchableOpacity
+            testID="loginButton"
+            onPress={() => this.navigateToLogin()}
+          >
+            <Text style={styles.login}>Log In</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.footer}>
           <FacebookButton
+            testID="facebookButton"
             disabled={isBusy}
             style={buttonStyles.facebookButton}
-            onStart={() => this.setState({isBusy: true})}
-            onFailure={() => this.setState({isBusy: false})}
-            onCancel={() => this.setState({isBusy: false})}
+            onStart={() => this.setState({ isBusy: true })}
+            onFailure={() => this.setState({ isBusy: false })}
+            onCancel={() => this.setState({ isBusy: false })}
             onSuccess={(facebookId, accessToken) => {
               this.onFacebookLogin(facebookId, accessToken);
             }}
           />
-
           <Button
+            testID="signupButton"
             disabled={isBusy}
             style={buttonStyles.createAccountButton}
             onPress={() => this.navigateToEnableNotifications()}

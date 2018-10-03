@@ -60,6 +60,7 @@ class LoginTextInput extends Component<Props, State> {
         </View>
 
         <TextInput
+          testID={'loginTextInput'}
           style={styles.input}
           secureTextEntry={type === 'password' && !isShowingPassword}
           autoCapitalize={type === 'name' ? 'words' : 'none'}
@@ -92,21 +93,21 @@ const styles = StyleSheet.create({
     color: '#959595',
     fontSize: 14,
     fontWeight: '600',
-    fontFamily: FONT_FAMILY,
+    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
     paddingBottom: 10
   },
   togglePasswordVisibility: {
     color: '#959595',
     fontSize: 14,
     fontWeight: '600',
-    fontFamily: FONT_FAMILY,
+    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
     paddingBottom: 10
   },
   input: {
     color: 'white',
     fontSize: 20,
     fontWeight: '600',
-    fontFamily: FONT_FAMILY_MEDIUM,
+    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
     paddingBottom: 10
   }
 });

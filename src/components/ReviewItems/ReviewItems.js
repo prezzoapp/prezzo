@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, View, Image, Text, FlatList } from 'react-native';
-import { BlurView } from 'react-native-blur';
+// import { BlurView } from 'react-native-blur';
+import { BlurView } from 'expo';
 import PropTypes from 'prop-types';
 import {
   widthPercentageToDP as wp,
@@ -56,7 +57,7 @@ class ReviewItems extends Component {
       >
         <View style={styles.container}>
           <View style={styles.modalHolder}>
-            <BlurView style={styles.blurView} blurType="light" blurAmount={5} />
+            <BlurView style={styles.blurView} tint="light" intensity={50} />
             <FlatList
               keyExtractor={item => item.id.toString()}
               showsVerticalScrollIndicator={false}

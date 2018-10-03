@@ -11,7 +11,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import BTClient from 'react-native-braintree-xplat';
 import styles from './styles';
 import Button from '../../../components/Button';
 import { get, post } from '../../../utils/api';
@@ -82,54 +81,54 @@ class PaymentDetails extends Component {
   }
 
   cardTokenize() {
-    const card = {
-      number: this.formData.values.number,
-      expirationDate: this.formData.values.expiry,
-      cvv: this.formData.values.cvc,
-      postalCode: this.formData.values.postalCode
-    }
-    this.setState(() => {
-        return {
-          isTokenizing: true
-        }
-      },
-      () => {
-        try {
-          get(`/v1/self/payment-token`).then(response => {
-            console.log(`Token: ${response.token}`);
-            BTClient.setup(response.token);
-            console.log("Token Received!");
-
-            BTClient.getCardNonce(card).then(nonce => {
-              console.log(`Nonce: ${nonce}`);
-              post(`/v1/payment-methods`, {
-                nonce
-              }).then(res => {
-                this.props.addCreditCardInfo(res).then(() => {
-                  console.log('Card Added Succesfully!');
-                  this.setState(() => {
-                    return {
-                      isTokenizing: false
-                    }
-                  }, () => {
-                    this.props.navigate({ routeName: 'PaymentMenu' });
-                  })
-                });
-              });
-            }).catch(function(err) {
-              console.log("Error Occured!");
-            });
-          });
-        } catch (e) {
-          console.log(e.message);
-          this.setState(() => {
-            return {
-              isTokenizing: false
-            }
-          })
-        }
-      }
-    );
+    // const card = {
+    //   number: this.formData.values.number,
+    //   expirationDate: this.formData.values.expiry,
+    //   cvv: this.formData.values.cvc,
+    //   postalCode: this.formData.values.postalCode
+    // }
+    // this.setState(() => {
+    //     return {
+    //       isTokenizing: true
+    //     }
+    //   },
+    //   () => {
+    //     try {
+    //       get(`/v1/self/payment-token`).then(response => {
+    //         console.log(`Token: ${response.token}`);
+    //         BTClient.setup(response.token);
+    //         console.log("Token Received!");
+    //
+    //         BTClient.getCardNonce(card).then(nonce => {
+    //           console.log(`Nonce: ${nonce}`);
+    //           post(`/v1/payment-methods`, {
+    //             nonce
+    //           }).then(res => {
+    //             this.props.addCreditCardInfo(res).then(() => {
+    //               console.log('Card Added Succesfully!');
+    //               this.setState(() => {
+    //                 return {
+    //                   isTokenizing: false
+    //                 }
+    //               }, () => {
+    //                 this.props.navigate({ routeName: 'PaymentMenu' });
+    //               })
+    //             });
+    //           });
+    //         }).catch(function(err) {
+    //           console.log("Error Occured!");
+    //         });
+    //       });
+    //     } catch (e) {
+    //       console.log(e.message);
+    //       this.setState(() => {
+    //         return {
+    //           isTokenizing: false
+    //         }
+    //       })
+    //     }
+    //   }
+    // );
   }
 
   render() {

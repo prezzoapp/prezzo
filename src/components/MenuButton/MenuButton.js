@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from '../VectorIcons';
 import PropTypes from 'prop-types'
 import { FONT_FAMILY } from '../../services/constants';
 
@@ -28,7 +28,7 @@ const MenuButton = ({ leftIcon, icon, onPress, title, subtitle }: Props) => {
           {subtitle && <Text style={styles.buttonSubtitle}>{subtitle}</Text>}
         </View>
         <View style={styles.buttonActionContainer}>
-          <Icon name={icon} size={40} color='white'/>
+          <MaterialIcons name={icon} size={40} color='white'/>
         </View>
       </View>
     </TouchableOpacity>
@@ -66,12 +66,12 @@ const styles = {
   },
   buttonSubtitle: {
     color: textColor,
-    fontFamily: FONT_FAMILY,
+    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
     fontSize: 12
   },
   buttonTitle: {
     color: textColor,
-    fontFamily: FONT_FAMILY,
+    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
     fontSize: 18
   }
 };

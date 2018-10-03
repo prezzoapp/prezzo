@@ -62,46 +62,43 @@ class Login extends React.Component<Props, State> {
   }
 
   render() {
-    const {email, password} = this.state;
+    const { email, password } = this.state;
 
     return (
       <ImageBackground
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.png')}
       >
-        <Text style={styles.headerText}>
+        <Text testID="welcomeText" style={styles.headerText}>
           Welcome back!
         </Text>
 
-        <Text style={styles.subHeaderText}>
+        <Text testID="signinText" style={styles.subHeaderText}>
           Sign In To Continue
         </Text>
 
         <LoginTextInput
-          type='email'
-          label='Email Address'
+          type="email"
+          label="Email Address"
           value={email}
-          onChange={email => this.setState({email})}
+          onChange={email => this.setState({ email })}
         />
 
         <LoginTextInput
-          type='password'
-          label='Password'
+          type="password"
+          label="Password"
           value={password}
-          onChange={password => this.setState({password})}
+          onChange={password => this.setState({ password })}
         />
 
         <TouchableOpacity
+          testID="signupButton"
           style={styles.signupLabelContainer}
           onPress={() => this.navigateToSignup()}
         >
-          <Text style={styles.signupLabel}>
-            Don't have an account?
-          </Text>
+          <Text style={styles.signupLabel}>Don't have an account?</Text>
 
-          <Text style={styles.signupLink}>
-            Sign Up
-          </Text>
+          <Text style={styles.signupLink}>Sign Up</Text>
         </TouchableOpacity>
 
         <View style={styles.buttonContainer}>
@@ -173,9 +170,7 @@ const buttonStyles = {
     backgroundColor: '#0DD24A',
     borderColor: '#0DD24A'
   },
-  loginText: {
-
-  }
+  loginText: {}
 };
 
 export default Login;

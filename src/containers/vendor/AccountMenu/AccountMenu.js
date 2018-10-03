@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { Image, View, Alert, TouchableOpacity, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { MaterialIcons } from '../../../components/VectorIcons';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
 import styles from './styles';
@@ -10,7 +10,7 @@ import styles from './styles';
 export default class AccountMenu extends React.Component {
   static navigationOptions = {
     tabBarIcon: props => (
-      <Icon name="person-outline" size={24} color={props.tintColor} />
+      <MaterialIcons name="person-outline" size={24} color={props.tintColor} />
     ),
     headerStyle: {
       //position: 'absolute',

@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { View, FlatList, Text, ActivityIndicator } from 'react-native';
-import { BlurView } from 'react-native-blur';
+import { BlurView } from 'expo';
 import PropTypes from 'prop-types';
 import SearchVendorListItem from '../../../components/SearchVendorListItem';
 import ExploreSearchInput from '../../../components/ExploreSearchInput';
@@ -72,7 +72,7 @@ class ExploreSearch extends Component {
       >
         {this.state.showList &&
           <View style={styles.container}>
-            <BlurView style={styles.container} blurType="dark" blurAmount={6} />
+            <BlurView style={styles.container} tint="dark" intensity={100} />
             <View style={styles.listHolder}>
               {(() => {
                 if(this.state.showLoader) {

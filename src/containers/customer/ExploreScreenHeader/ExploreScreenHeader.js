@@ -3,9 +3,9 @@ import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import Slider from 'react-native-slider';
-import { BlurView } from 'react-native-blur';
-
-import DropArrowIcon from 'react-native-vector-icons/EvilIcons';
+import { LinearGradient, BlurView } from 'expo';
+import { EvilIcons } from '../../../components/VectorIcons';
+import ExploreSearchInput from '../../../components/ExploreSearchInput';
 import FilterItem from '../../../components/FilterItem';
 import styles from './styles';
 
@@ -39,44 +39,43 @@ export default class ExploreScreenHeader extends PureComponent {
 
   render() {
     const { filters } = this.props;
-
     return (
       <View style={styles.header}>
-        <View style={styles.filterPanel}>
-          <Text style={styles.nearMeText}>Near Me</Text>
-          <View style={styles.mainTitleFilterAndMapIconHolder}>
-            <Text style={styles.restaurantTitle}>Restaurants</Text>
-            <View style={styles.filterButtonAndMapIconHolder}>
-              <TouchableOpacity activeOpacity={0.6}
-                style={styles.filterBtn}
-                onPress={() =>
-                  this.setState({ showFilters: !this.state.showFilters })
-                }
-              >
-                <Text style={styles.filter}> Filter</Text>
-                <DropArrowIcon
-                  name="chevron-down"
-                  size={25}
-                  color="#fafafa"
-                  style={styles.dropArrowIcon}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={0.6}
-                style={{ marginLeft: 10 }}
-                onPress={() => this.props.navigate({ routeName: 'MapScreen' })}
-              >
-                <Image
-                  source={require('../../../../assets/images/location_icon.png')}
-                  style={styles.locationPin} />
-              </TouchableOpacity>
+        <LinearGradient
+          colors={['rgb(0,0,0)', 'transparent']}
+          style={styles.LinearGradientStyle}
+        >
+          <View style={styles.filterPanel}>
+            <Text style={styles.nearMeText}>Near Me</Text>
+            <View style={styles.mainTitleFilterAndMapIconHolder}>
+              <Text style={styles.restaurantTitle}>Restaurants</Text>
+              <View style={styles.filterButtonAndMapIconHolder}>
+                <TouchableOpacity activeOpacity={0.6}
+                  style={styles.filterBtn}
+                  onPress={() =>
+                    this.setState({ showFilters: !this.state.showFilters })
+                  }
+                >
+                  <Text style={styles.filter}> Filter</Text>
+                  <EvilIcons name="chevron-down" size={25} color="#fafafa" style={styles.dropArrowIcon} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  style={{ marginLeft: 10 }}
+                  onPress={() => this.props.navigate({ routeName: 'MapScreen' })}
+                >
+                  <Image
+                    source={require('../../../../assets/images/location_icon.png')}
+                    style={styles.locationPin} />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
+        </LinearGradient>
 
         {this.state.showFilters &&
           <View style={styles.filtersHolder}>
-            <BlurView style={styles.blurView} blurType="dark" blurAmount={6} />
+            <BlurView style={styles.blurView} tint="dark" intensity={100} />
             <FlatList
               horizontal
               contentContainerStyle={styles.filtersList}

@@ -19,6 +19,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
+  for (NSString *familyName in [UIFont familyNames]){
+    NSLog(@"Family name: %@", familyName);
+    for (NSString *fontName in [UIFont fontNamesForFamilyName:familyName]) {
+      NSLog(@"--Font name: %@", fontName);
+    }
+  }
   
   [GMSServices provideAPIKey:@"AIzaSyAPHWmpGS03_gRrn1lm5dJP48-be6AI9Ug"];
   
@@ -38,6 +44,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
   return YES;
 }
 

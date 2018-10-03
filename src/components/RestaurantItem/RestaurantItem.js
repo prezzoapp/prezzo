@@ -4,9 +4,9 @@ import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-import Icon from 'react-native-vector-icons/dist/Feather';
+import { Feather } from '../VectorIcons';
 
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo';
 
 import Swiper from 'react-native-swiper';
 
@@ -68,7 +68,7 @@ export default class RestaurantItem extends Component {
                       )
                     }
                   >
-                    <Icon name="plus" size={22} color="white" />
+                    <Feather name="plus" size={22} color="white" />
                   </TouchableOpacity>
                 );
               }
@@ -86,7 +86,7 @@ export default class RestaurantItem extends Component {
                       )
                     }
                   >
-                    <Icon name="minus" size={22} color="green" />
+                    <Feather name="minus" size={22} color="green" />
                   </TouchableOpacity>
 
                   <Text style={[styles.itemTitle, { top: -3 }]}>
@@ -102,7 +102,7 @@ export default class RestaurantItem extends Component {
                       )
                     }
                   >
-                    <Icon name="plus" size={22} color="green" />
+                    <Feather name="plus" size={22} color="green" />
                   </TouchableOpacity>
                 </View>
               );
@@ -167,7 +167,7 @@ export default class RestaurantItem extends Component {
                       )
                     }
                   >
-                    <Icon name="minus" size={16} color="white" />
+                    <Feather name="minus" size={16} color="white" />
                   </TouchableOpacity>
 
                   <Text style={styles.quantityTextStyleInPhotoMode}>
@@ -183,7 +183,7 @@ export default class RestaurantItem extends Component {
                       )
                     }
                   >
-                    <Icon name="plus" size={16} color="white" />
+                    <Feather name="plus" size={16} color="white" />
                   </TouchableOpacity>
                 </View>
               );

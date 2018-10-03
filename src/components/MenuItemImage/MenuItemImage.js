@@ -1,8 +1,9 @@
 // @flow
 import React, { Component } from 'react';
-import { TouchableOpacity, Image, View } from 'react-native';
-import ImagePicker from 'react-native-image-picker';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { TouchableOpacity, Image, View, ActionSheetIOS } from 'react-native';
+import { ImagePicker, Permissions } from 'expo';
+import { Ionicons } from '../VectorIcons';
+import { getTimeStampString } from '../../services/commonFunctions';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
@@ -31,9 +32,85 @@ export default class ItemImagePicker extends Component {
           )
           .then(async itemImage => {
             this.props.addNewImageComponent(itemImage);
-        });
+          });
       }
     });
+  };
+
+  showAvatarActionSheet = () => {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['Take Photo', 'Choose from Library', 'Cancel'],
+        cancelButtonIndex: 2,
+        title: "Select an Item's Image"
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          this.requestCameraPermission();
+        } else if (buttonIndex === 1) {
+          this.requestPhotoLibraryPermission();
+        }
+      }
+    );
+  }
+
+  requestPhotoLibraryPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      this.openImageGallery();
+    }
+  };
+
+  requestCameraPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status === 'granted') {
+      this.openCamera();
+    }
+  };
+
+  openImageGallery = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: false,
+      quality: 0.3
+    });
+    if (!result.cancelled) {
+      const fileName = `${getTimeStampString()}.jpg`;
+      this.props
+        .uploadImage(
+          result.uri,
+          10,
+          'image/jpeg',
+          fileName,
+          'userAvatar',
+          'public-read'
+        )
+        .then(async itemImage => {
+          this.props.addNewImageComponent(itemImage);
+        });
+    }
+  };
+
+  openCamera = async () => {
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: false,
+      quality: 0.3
+    });
+
+    if (!result.cancelled) {
+      const fileName = `${getTimeStampString()}.jpg`;
+      this.props
+        .uploadImage(
+          result.uri,
+          10,
+          'image/jpeg',
+          fileName,
+          'userAvatar',
+          'public-read'
+        )
+        .then(async itemImage => {
+          this.props.addNewImageComponent(itemImage);
+        });
+    }
   };
 
   render() {
@@ -45,7 +122,7 @@ export default class ItemImagePicker extends Component {
             activeOpacity={0.6}
             onPress={() => this.props.deleteImageComponent(this.props.image)}
           >
-            <Icon
+            <Ionicons
               title="Delete"
               name="md-close"
               color="black"
@@ -57,7 +134,7 @@ export default class ItemImagePicker extends Component {
 
         {this.props.image === '' ? (
           <TouchableOpacity
-            onPress={this.itemPickerActionSheet}
+            onPress={this.showAvatarActionSheet}
             style={styles.itemImagePickerBtn}
           >
             <Image

@@ -10,7 +10,7 @@ import ReactNative, {
   findNodeHandle
 } from 'react-native';
 
-import { BlurView } from 'react-native-blur';
+import { BlurView } from 'expo';
 
 import PropTypes from 'prop-types';
 
@@ -168,7 +168,7 @@ export default class Checkout extends Component {
           }}
         />
         <View style={styles.modalView}>
-          <BlurView style={styles.blurView} blurType="dark" blurAmount={5} />
+          <BlurView style={styles.blurView} tint="dark" intensity={100} />
           <View style={{ flex: 1 }}>
             <View
               ref={child => {

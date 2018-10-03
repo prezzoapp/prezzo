@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, FlatList, Text, Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/Feather';
+import { Feather } from '../VectorIcons';
 import Button from '../Button';
 
 import styles from './styles';
@@ -91,7 +91,7 @@ class FilteredVendorBottomCard extends Component {
                 { justifyContent: 'space-between' }
               ]}>
               <View style={styles.iconTextHolder}>
-                <Icon name="corner-up-right" size={20} color="white" />
+                <Feather name="corner-up-right" size={20} color="white" />
                 <Text style={styles.milesText}>0.32 miles away</Text>
               </View>
 

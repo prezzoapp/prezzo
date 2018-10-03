@@ -10,11 +10,11 @@ import {
   Easing
 } from 'react-native';
 
-import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo';
 
 import PropTypes from 'prop-types';
 
-import Icon from 'react-native-vector-icons/EvilIcons';
+import { EvilIcons } from '../VectorIcons';
 
 import styles from './styles';
 
@@ -108,7 +108,7 @@ export default class ExploreSearchInput extends Component {
           >
             {!this.props.showListValue &&
               <View style={styles.placeholder}>
-                <Icon name="search" size={21} color="rgb(151, 151, 151)" />
+                <EvilIcons name="search" size={21} color="rgb(151, 151, 151)" />
                 <Text style={styles.searchText}>Search</Text>
               </View>
             }
