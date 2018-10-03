@@ -30,13 +30,14 @@ export default (state = INITIAL_STATE, action) => {
 
     case REMOVE_CREDIT_CARD_SUCCESS:
       return state.update('data', () =>
-        state.get('data').filter(item => {
-          return item.get('_id') !== action.payload;
-        })
-      );
+          state.get('data').filter(item => item.get('_id') !== action.payload)
+        )
+        .update('isBusy', () => false);
 
     case ADD_CREDIT_CARD_SUCCESS:
-      return state.update('data', array => array.push(action.payload));
+      return state
+        .update('data', array => array.push(action.payload))
+        .update('isBusy', () => false);
 
     case LIST_CREDIT_CARDS_SUCCESS:
       console.log(action.payload.toJS());

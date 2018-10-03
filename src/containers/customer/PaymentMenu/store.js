@@ -9,8 +9,11 @@ export const mapStateToProps = state => {
     .get('data')
     .toJS();
 
+  const isBusy = state.get('paymentMethods').get('isBusy');
+
   return {
-    data
+    data,
+    isBusy
   };
 };
 

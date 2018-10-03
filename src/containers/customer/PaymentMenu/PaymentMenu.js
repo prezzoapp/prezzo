@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, Image, Alert, ScrollView, Dimensions } from 'react-native';
+import {
+  View,
+  Image,
+  Alert,
+  ScrollView,
+  Dimensions,
+  ActivityIndicator
+} from 'react-native';
 import { PropTypes } from 'prop-types';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import MenuButton from '../../../components/MenuButton';
@@ -37,22 +44,11 @@ class PaymentMenu extends Component {
     )
   }
 
-  // removeCard(id) {
-  //   console.log('delete Pressed', id);
-  //   const newcards = [...this.state.cards];
-  //
-  //   newcards.splice(index, 1);
-  //   this.setState(() => {
-  //     return {
-  //       cards: newcards
-  //     };
-  //   });
-  // }
-
   render() {
+    console.log(this.props.isBusy);
     return (
-      <ScrollView style={styles.scrollViewStyle} bounces={false}>
-        <View style={styles.parent}>
+      <View style={styles.parent}>
+        <ScrollView style={styles.scrollViewStyle} bounces={false}>
           <View style={[styles.container, { paddingVertical: hp('7%') }]}>
             <MenuButton
               onPress={() =>
@@ -75,7 +71,13 @@ class PaymentMenu extends Component {
             />
 
             {this.props.data&& this.props.data.map((item, key) => (
-                <View key={key} style={{ flexDirection: 'row', height: 0.2 * 0.85 * Dimensions.get('window').width }}>
+                <View
+                  key={key}
+                  style={{
+                    flexDirection: 'row',
+                    height: 0.2 * 0.85 * Dimensions.get('window').width
+                  }}
+                >
                   <EditableListItem
                     text={item.readableIdentifier}
                     expDate={item.expDate}
@@ -97,6 +99,30 @@ class PaymentMenu extends Component {
                         return (
                           <Image
                             source={require('../../../../assets/images/icons/stp_card_mastercard.png')}
+                            style={{
+                              width: 35,
+                              resizeMode: 'contain',
+                              marginLeft: 10,
+                              marginRight: 15
+                            }}
+                          />
+                        )
+                      } else if (item.type === 'braintree-discover') {
+                        return (
+                          <Image
+                            source={require('../../../../assets/images/icons/stp_card_discover.png')}
+                            style={{
+                              width: 35,
+                              resizeMode: 'contain',
+                              marginLeft: 10,
+                              marginRight: 15
+                            }}
+                          />
+                        )
+                      } else if (item.type === 'braintree-jcb') {
+                        return (
+                          <Image
+                            source={require('../../../../assets/images/icons/stp_card_jcb.png')}
                             style={{
                               width: 35,
                               resizeMode: 'contain',
@@ -141,8 +167,19 @@ class PaymentMenu extends Component {
               }
             />
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+
+        {(() => {
+          if(this.props.isBusy) {
+            return (
+              <View style={styles.loaderView}>
+                <ActivityIndicator size="large" color="white" />
+              </View>
+            )
+          }
+          return null;
+        })()}
+      </View>
     );
   }
 }

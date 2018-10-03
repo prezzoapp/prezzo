@@ -12,7 +12,7 @@ import {
   LIST_CREDIT_CARDS_FAILURE
 } from './types';
 
-import { get } from '../../utils/api';
+import { get, del } from '../../utils/api';
 
 export const addCreditCardInfo = async(cardInfo: object) => async dispatch => {
   dispatch({ type: ADD_CREDIT_CARD_REQUEST });
@@ -31,6 +31,8 @@ export const removeCreditCard = async(id: string) => async dispatch => {
   dispatch({ type: REMOVE_CREDIT_CARD_REQUEST });
 
   try {
+    await del(`/v1/payment-methods/${id}`);
+
     return dispatch({
       type: REMOVE_CREDIT_CARD_SUCCESS,
       payload: fromJS(id)
