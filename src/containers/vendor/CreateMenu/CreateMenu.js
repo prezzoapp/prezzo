@@ -280,15 +280,6 @@ export default class CreateMenu extends Component<Props> {
         this.props.menu.get('categories').toJS()
       : [];
 
-    if(array.length !== 0) {
-      array.sort((a, b) => {
-       const nameA = a.title.toLowerCase();
-       const nameB = b.title.toLowerCase();
-        if (nameA > nameB) return 1;
-        return 0;
-      });
-    }
-
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>

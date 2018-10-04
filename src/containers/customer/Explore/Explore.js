@@ -31,8 +31,8 @@ class Explore extends PureComponent<Props> {
 
   static displayName = 'Explore';
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       customRegion: {

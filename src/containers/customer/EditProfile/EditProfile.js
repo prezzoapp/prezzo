@@ -11,9 +11,9 @@ import {
   View,
   ActionSheetIOS
 } from 'react-native';
-import { MaterialIcons } from '../../../components/VectorIcons';
 import { ImagePicker, Permissions } from 'expo';
 import PropTypes from 'prop-types';
+import { MaterialIcons } from '../../../components/VectorIcons';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import { getTimeStampString } from '../../../services/commonFunctions';

@@ -74,8 +74,6 @@ const CustomerProfileNavigator = createStackNavigator({
     EditProfile: { screen: EditProfile },
     PaymentMenu: { screen: PaymentMenu },
     PaymentDetails: { screen: PaymentDetails },
-    VendorAccountMenu: { screen: VendorAccountMenu },
-    VendorAccountInfo: { screen: VendorAccountInfo },
     LocationSearch: { screen: LocationSearch }
   },
   {
@@ -83,7 +81,7 @@ const CustomerProfileNavigator = createStackNavigator({
   }
 );
 
-const ActivityNavigator = createStackNavigator({
+const CustomerActivityNavigator = createStackNavigator({
     CustomerActivity: { screen: CustomerActivity }
   },
   {
@@ -91,10 +89,10 @@ const ActivityNavigator = createStackNavigator({
   }
 );
 
-const ExploreScreenNavigator = createBottomTabNavigator(
+const CustomerSectionTabNavigator = createBottomTabNavigator(
   {
     Explore: { screen: Explore },
-    ActivityNavigator: { screen: ActivityNavigator,
+    CustomerActivityNavigator: { screen: CustomerActivityNavigator,
       navigationOptions: {
         title:'Activity',
         tabBarIcon: ({ focused }) => (
@@ -106,7 +104,7 @@ const ExploreScreenNavigator = createBottomTabNavigator(
         )
       }
     },
-    CustomerProfile: {
+    CustomerProfileNavigator: {
       screen: CustomerProfileNavigator,
       navigationOptions: {
         title:'Profile',
@@ -128,8 +126,8 @@ const ExploreScreenNavigator = createBottomTabNavigator(
 
 const CustomerNavigator = createStackNavigator(
   {
-    ExploreScreenNavigator: {
-      screen: ExploreScreenNavigator,
+    CustomerSectionTabNavigator: {
+      screen: CustomerSectionTabNavigator,
       navigationOptions: {
         header: null
       }

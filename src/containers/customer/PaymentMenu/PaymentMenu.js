@@ -5,7 +5,8 @@ import {
   Alert,
   ScrollView,
   Dimensions,
-  ActivityIndicator
+  ActivityIndicator,
+  Modal
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -169,16 +170,11 @@ class PaymentMenu extends Component {
           </View>
         </ScrollView>
 
-        {(() => {
-          if(this.props.isBusy) {
-            return (
-              <View style={styles.loaderView}>
-                <ActivityIndicator size="large" color="white" />
-              </View>
-            )
-          }
-          return null;
-        })()}
+        <Modal animationType="none" transparent visible={this.props.isBusy}>
+          <View style={styles.loaderView}>
+            <ActivityIndicator size="large" color="white" />
+          </View>
+        </Modal>
       </View>
     );
   }

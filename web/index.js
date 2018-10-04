@@ -11,26 +11,24 @@ RNMessageChannel.on('json', text => {
           number: text.payload.number,
           cvv: text.payload.cvv,
           expirationDate: text.payload.expirationDate,
-          billingAddress: {
-            postalCode: text.payload.postalCode
-          },
+          // billingAddress: {
+          //   postalCode: text.payload.postalCode
+          // },
           options: {
-            validate: true
+            validate: false
           }
         }
       };
 
-      // Warning: For a merchant to be eligible for the easiest level of PCI compliance (SAQ A),
-      // payment fields cannot be hosted on your checkout page.
-      // For an alternative to the following, use Hosted Fields.
       clientInstance.request({
           endpoint: 'payment_methods/credit_cards',
           method: 'post',
           data
         }, (requestErr, response) => {
-          // More detailed example of handling API errors: https://codepen.io/braintree/pen/MbwjdM
           if (requestErr) {
-            throw new Error(requestErr);
+            RNMessageChannel.emit('isError', {
+              payload: JSON.stringify(requestErr.details.originalError)
+            });
           }
 
           RNMessageChannel.emit('isTokenizationComplete', {

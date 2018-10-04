@@ -11,11 +11,10 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { Picker, Spinner } from 'native-base';
-// import ImagePicker from 'react-native-image-picker';
-import { MaterialIcons, Ionicons } from '../../../components/VectorIcons';
 import Slider from 'react-native-slider';
 import { ImagePicker, Permissions } from 'expo';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Ionicons } from '../../../components/VectorIcons';
 import { getTimeStampString } from '../../../services/commonFunctions';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import ProfileDataField from '../../../components/ProfileDataField';
@@ -24,7 +23,6 @@ import showGenericAlert from '../../../components/GenericAlert';
 import { restaurantCategories, COLOR_GREEN } from '../../../services/constants';
 import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
-import { FONT_FAMILY } from '../../../services/constants';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 

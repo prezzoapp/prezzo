@@ -174,7 +174,7 @@ export default class CheckoutSwiper extends Component {
     this.cartItems =
       this.props.data.data.menu &&
       this.props.data.data.menu.categories
-      .map(category =>
+        .map(category =>
           category.data.map(d => ({ ...d, sectionId: category._id }))
         )
         .reduce((a, v) => [...a, ...v], []);

@@ -13,13 +13,7 @@ export default class AccountMenu extends React.Component {
       <MaterialIcons name="person-outline" size={24} color={props.tintColor} />
     ),
     headerStyle: {
-      //position: 'absolute',
       backgroundColor: '#2B2C2C',
-      // zIndex: 100,
-      // top: 0,
-      // left: 0,
-      // right: 0,
-      // shadowColor: 'transparent',
       borderBottomWidth: 0
     },
     headerTintColor: '#fff',
@@ -91,7 +85,7 @@ export default class AccountMenu extends React.Component {
             <MenuButton onPress={() => {}} title="Accept Payments" icon="add" />
             <MenuButton
               onPress={() =>
-                this.props.navigate({ routeName: 'CustomerProfile' })
+                this.props.navigate({ routeName: 'CustomerProfileNavigator' })
               }
               title="Switch to User Account"
               icon="repeat"

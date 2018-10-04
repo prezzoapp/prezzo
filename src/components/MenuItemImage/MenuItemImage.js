@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Image, View, ActionSheetIOS } from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
+import PropTypes from 'prop-types';
 import { Ionicons } from '../VectorIcons';
 import { getTimeStampString } from '../../services/commonFunctions';
-import PropTypes from 'prop-types';
 import styles from './styles';
 
 export default class ItemImagePicker extends Component {

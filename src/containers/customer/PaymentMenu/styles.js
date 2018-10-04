@@ -63,13 +63,9 @@ export default StyleSheet.create({
     width: '100%'
   },
   loaderView: {
-    position: 'absolute',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
     backgroundColor: 'rgba(0,0,0,0.8)'
   }
 });

@@ -4,7 +4,8 @@ import {
   TouchableOpacity,
   Image,
   Text,
-  ActivityIndicator
+  ActivityIndicator,
+  Modal
 } from 'react-native';
 import { CreditCardInput } from 'react-native-credit-card-input';
 import {
@@ -41,7 +42,8 @@ class PaymentDetails extends Component {
     this.state = {
       selectCheckBox: false,
       dataValid: false,
-      isLoading: true
+      isLoading: true,
+      error: ''
     };
 
     this.formData = null;
@@ -61,6 +63,10 @@ class PaymentDetails extends Component {
             this.getToken = response.token;
             this.webview.messagesChannel.on('isTokenizationComplete', nonce =>
               this.isTokenizationComplete(nonce)
+            );
+
+            this.webview.messagesChannel.on('isError', error =>
+              this.isError(error)
             );
           }
         );
@@ -97,6 +103,15 @@ class PaymentDetails extends Component {
       : require('../../../../assets/images/icons/checkbox-unchecked.png');
   }
 
+  isError(error) {
+    this.setState(() => {
+      return {
+        error: error.payload,
+        isLoading: false
+      }
+    })
+  }
+
   isTokenizationComplete(response) {
     const nonce = response.payload;
     // console.log('Nonce: ');
@@ -105,32 +120,38 @@ class PaymentDetails extends Component {
     post(`/v1/payment-methods`, {
       nonce
     }).then(paymentMethod => {
-      // console.log('Response After Sending Nonce: ');
-      // console.log(res);
+      console.log('Response After Sending Nonce: ');
+      console.log(paymentMethod);
 
       if(this.state.selectCheckBox) {
-        post(`/v1/payment-methods/${paymentMethod._id}/default`).then(defaultPaymentMethod => {
-          console.log('Default Payment Method: ');
-          console.log(defaultPaymentMethod);
+        console.log("Calling makeDefault API!");
 
-          this.props.addCreditCardInfo(defaultPaymentMethod).then(() => {
-              console.log('Default Payment Method Added Succesfully!');
-              this.setState(() => {
-                  return {
-                    isLoading: false
-                  };
-              },
-                () => {
-                  this.props.navigate({ routeName: 'PaymentMenu' });
-                }
-              );
+        post(`/v1/payment-methods/${paymentMethod._id}/default`).then(defaultPaymentMethod => {
+            console.log("makeDefault API Successfully Called!");
+          // console.log('Default Payment Method: ');
+          // console.log(defaultPaymentMethod);
+
+            this.props
+              .addCreditCardInfo(defaultPaymentMethod, true)
+              .then(() => {
+                console.log('Default Payment Method Added Succesfully!');
+                this.setState(() => {
+                    return {
+                      isLoading: false
+                    };
+                  },
+                  () => {
+                    this.props.navigate({ routeName: 'PaymentMenu' });
+                  }
+                );
             });
           }
         )
       } else {
-        this.props.addCreditCardInfo(paymentMethod).then(() => {
-          console.log('Payment Method Added Succesfully!');
-          console.log(paymentMethod);
+        this.props.addCreditCardInfo(paymentMethod, false).then(() => {
+          // console.log('Payment Method Added Succesfully!');
+          // console.log(paymentMethod);
+
           this.setState(() => {
               return {
                 isLoading: false
@@ -213,14 +234,17 @@ class PaymentDetails extends Component {
             Submit
           </Button>
         </View>
+        <Modal animationType="none" transparent visible={this.state.isLoading}>
+          <View style={styles.loaderView}>
+            <ActivityIndicator size="large" color="white" />
+          </View>
+        </Modal>
+
         {(() => {
-          if(this.state.isLoading) {
-            return (
-              <View style={styles.loaderView}>
-                <ActivityIndicator size="large" color="white" />
-              </View>
-            )
+          if(this.state.error) {
+            return <Text style={{ color: 'white' }}>{this.state.error}</Text>;
           }
+          return null;
         })()}
 
         <WebView

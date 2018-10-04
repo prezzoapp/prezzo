@@ -14,13 +14,19 @@ import {
 
 import { get, del } from '../../utils/api';
 
-export const addCreditCardInfo = async(cardInfo: object) => async dispatch => {
+export const addCreditCardInfo = async (
+  cardInfo: object,
+  defaultPayment: boolean
+) => async dispatch => {
   dispatch({ type: ADD_CREDIT_CARD_REQUEST });
 
   try {
     return dispatch({
       type: ADD_CREDIT_CARD_SUCCESS,
-      payload: fromJS(cardInfo)
+      payload: fromJS({
+        cardInfo,
+        defaultPayment
+      })
     });
   } catch (e) {
     dispatch({ type: ADD_CREDIT_CARD_FAILURE });
