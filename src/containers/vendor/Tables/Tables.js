@@ -15,22 +15,24 @@ class Tables extends Component {
   static displayName = 'Tables';
 
   static navigationOptions = {
-    title: 'Tables',
+    title: null,
     tabBarIcon: props => (
       <Image
         style={{ height: 24, width: 24, tintColor: props.tintColor }}
         source={require('../../../../assets/images/icons/TableIcon.png')}
       />
     ),
-    headerTintColor: 'white',
-    headerStyle: {
-      position: 'absolute',
-      backgroundColor: 'transparent',
-      zIndex: 100,
-      top: 0,
-      left: 0,
-      right: 0
-    }
+    header: null
+    // headerTintColor: 'white',
+    // headerStyle: {
+    //   position: 'absolute',
+    //   backgroundColor: 'transparent',
+    //   zIndex: 100,
+    //   top: 0,
+    //   left: 0,
+    //   right: 0,
+    //   borderBottomColor: 'transparent'
+    // }
   };
 
   static propTypes = {
@@ -111,7 +113,9 @@ class Tables extends Component {
         }
         renderItem={rowData => {
           if (this.props.layout === 'list') {
-            return <OpenTableItem data={rowData} />;
+            return (
+              <OpenTableItem data={rowData} navigate={this.props.navigate} />
+            );
           }
           return (
             <TableGridItem tableType={this.props.section} data={rowData} />

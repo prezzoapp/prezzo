@@ -30,6 +30,7 @@ import PaymentDetails from '../../customer/PaymentDetails';
 import CustomerActivity from '../../customer/Activity';
 
 import Tables from '../../vendor/Tables';
+import OpenTableDetails from '../../../components/OpenTableDetails';
 import VendorAccountMenu from '../../vendor/AccountMenu';
 import VendorAccountInfo from '../../vendor/AccountInfo';
 import CreateMenu from '../../vendor/CreateMenu';
@@ -152,9 +153,14 @@ const VendorProfileNavigator = createStackNavigator(
   }
 );
 
+const VendorTablesNavigator = createStackNavigator({
+  Tables: { screen: Tables },
+  OpenTableDetails: { screen: OpenTableDetails }
+});
+
 const VendorNavigator = createBottomTabNavigator(
   {
-    Tables: { screen: Tables },
+    VendorTablesNavigator: { screen: VendorTablesNavigator },
     Delivery: { screen: Delivery },
     Activity: { screen: Activity },
     VendorProfile: {
