@@ -1,19 +1,21 @@
 import { StyleSheet } from 'react-native';
-
-import { FONT_FAMILY } from '../../services/constants';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2B2C2C'
+    paddingHorizontal: wp('6.66'),
+    backgroundColor: '#2B2C2C',
+    paddingTop: hp('4.92%')
   },
 
-  text: {
-    fontFamily: FONT_FAMILY,
-    fontSize: 25,
-    color: 'white'
+  footerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: hp('12.80%')
   }
 });
 

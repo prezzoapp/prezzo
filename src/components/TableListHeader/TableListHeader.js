@@ -4,7 +4,7 @@ import styles from './styles';
 import { Feather, Ionicons } from '../VectorIcons';
 
 export default class TableListHeader extends Component {
-  
+
   onListTypeSelection = index => {
     this.props.onListTypeSelection(index);
   };
@@ -19,63 +19,37 @@ export default class TableListHeader extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.listSection}>
-          <TouchableOpacity
-            onPress={() => this.onListTypeSelection(0)}
-            style={styles.textContainer}
-          >
-            <Text
-              style={
-                selectedIndex === 0
-                  ? styles.selectedText
-                  : styles.unselectedText
-              }
-            >
-              Open
-            </Text>
-            {selectedIndex === 0 && (
-              <View
-                style={{ height: 2, width: 38, backgroundColor: '#2ED573' }}
-              />
-            )}
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.onListTypeSelection(1)}
-            style={styles.textContainer}
-          >
-            <Text
-              style={
-                selectedIndex === 1
-                  ? styles.selectedText
-                  : styles.unselectedText
-              }
-            >
-              Queue
-            </Text>
-            {selectedIndex === 1 && (
-              <View
-                style={{ height: 2, width: 38, backgroundColor: '#2ED573' }}
-              />
-            )}
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.onListTypeSelection(2)}
-            style={styles.textContainer}
-          >
-            <Text
-              style={
-                selectedIndex === 2
-                  ? styles.selectedText
-                  : styles.unselectedText
-              }
-            >
-              Closed
-            </Text>
-            {selectedIndex === 2 && (
-              <View
-                style={{ height: 2, width: 38, backgroundColor: '#2ED573' }}
-              />
-            )}
-          </TouchableOpacity>
+          {(() => {
+            return (
+              this.props.tabNames &&
+              this.props.tabNames.map((item, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => this.onListTypeSelection(index)}
+                  style={styles.textContainer}
+                >
+                  <Text
+                    style={
+                      selectedIndex === index
+                        ? styles.selectedText
+                        : styles.unselectedText
+                    }
+                  >
+                    {item}
+                  </Text>
+                  {selectedIndex === index && (
+                    <View
+                      style={{
+                        height: 2,
+                        width: 38,
+                        backgroundColor: '#2ED573'
+                      }}
+                    />
+                  )}
+                </TouchableOpacity>
+              ))
+            );
+          })()}
           <TouchableOpacity
             onPress={() => this.onChangeLayout('list')}
             style={styles.icons}

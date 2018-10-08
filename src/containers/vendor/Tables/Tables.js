@@ -23,16 +23,6 @@ class Tables extends Component {
       />
     ),
     header: null
-    // headerTintColor: 'white',
-    // headerStyle: {
-    //   position: 'absolute',
-    //   backgroundColor: 'transparent',
-    //   zIndex: 100,
-    //   top: 0,
-    //   left: 0,
-    //   right: 0,
-    //   borderBottomColor: 'transparent'
-    // }
   };
 
   static propTypes = {
@@ -185,13 +175,14 @@ class Tables extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TableScreenHeader
+        {/*<TableScreenHeader
           vendorData={this.props.vendorData}
           tableSection={this.props.section}
-        />
-        <View style={{ marginTop: 145, marginHorizontal: 16 }}>
+        />*/}
+        <View style={styles.innerContainer}>
           <TableListHeader
             currentTab={this.props.section}
+            tabNames={['Open', 'Queue', 'Closed']}
             currentLayout={this.props.layout}
             onChangeLayout={layout => this.props.changeLayout(layout)}
             onListTypeSelection={index => this.onSectionChange(index)}

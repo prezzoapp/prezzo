@@ -23,25 +23,29 @@ class ActivityOpenOrder extends Component {
         id: 1,
         status: 'Delivered',
         name: 'Buffalo Cauliflower x2',
-        info: 'Extra buffalo sauce, hold the carrots'
+        info: 'Extra buffalo sauce, hold the carrots',
+        editable: false
       },
       {
         id: 2,
         status: 'Delivered',
         name: 'Mac n’ Cheese x1',
-        info: 'Split in two bowls'
+        info: 'Split in two bowls',
+        editable: false
       },
       {
         id: 3,
         status: 'In Progress',
         name: 'BBQ Pinapple x2',
-        info: ''
+        info: '',
+        editable: true
       },
       {
         id: 4,
         status: 'In Progress',
         name: 'Mole Bowl x1',
-        info: ''
+        info: '',
+        editable: true
       }
     ];
   }

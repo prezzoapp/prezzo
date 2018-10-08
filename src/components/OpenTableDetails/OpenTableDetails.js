@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 import OpenOrdersList from '../OpenOrdersList';
 import OpenTablePayment from '../OpenTablePayment';
@@ -19,14 +18,16 @@ export default class OpenTableDetails extends Component {
 
   static displayName = 'OpenTableDetails';
 
-  constructor() {
-    super();
+  onTabChange() {
+    this.props.navigation.setParams({ visible: false })
   }
 
   render() {
     return (
       <Container style={styles.container}>
         <Tabs
+          onChangeTab={() => this.onTabChange()}
+          locked
           tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
           renderTabBar={() => (
             <ScrollableTab

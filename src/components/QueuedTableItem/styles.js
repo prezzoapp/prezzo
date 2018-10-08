@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FONT_FAMILY, FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
@@ -9,7 +10,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 15,
-    marginHorizontal: 5,
+    marginHorizontal: wp('4.26%'),
     shadowOffset: { width: 1, height: 6 },
     shadowColor: 'black',
     shadowOpacity: 0.7

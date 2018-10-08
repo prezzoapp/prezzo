@@ -39,6 +39,8 @@ import Delivery from '../../vendor/Delivery';
 import { COLOR_GREEN } from '../../../services/constants';
 import LocationSearch from '../../shared/LocationSearch';
 
+import VendorTabBar from '../../../components/VendorTabBar';
+
 const headerColor = '#2B2C2C';
 const activeColor = COLOR_GREEN;
 const inactiveColor = '#919191';
@@ -160,7 +162,21 @@ const VendorTablesNavigator = createStackNavigator({
 
 const VendorNavigator = createBottomTabNavigator(
   {
-    VendorTablesNavigator: { screen: VendorTablesNavigator },
+    VendorTablesNavigator: { screen: VendorTablesNavigator,
+      navigationOptions: {
+        title:'Tables',
+        tabBarIcon: ({ focused }) => (
+          <Image
+            style={{
+              height: 24,
+              width: 24,
+              tintColor: focused ? activeColor : inactiveColor
+            }}
+            source={require('../../../../assets/images/icons/TableIcon.png')}
+          />
+        )
+      }
+    },
     Delivery: { screen: Delivery },
     Activity: { screen: Activity },
     VendorProfile: {
@@ -183,7 +199,8 @@ const VendorNavigator = createBottomTabNavigator(
   },
   {
     initialRouteName: 'VendorProfile',
-    tabBarOptions
+    tabBarOptions,
+    tabBarComponent: VendorTabBar
   }
 );
 

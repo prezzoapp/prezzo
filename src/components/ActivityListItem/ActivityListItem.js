@@ -21,7 +21,7 @@ const ActivityListItem = props => (
     <View
       style={[
         styles.rightSide,
-        { paddingRight: props.item.status === 'In Progress' ? wp('9%') : 0 }
+        { paddingRight: props.item.editable ? wp('9%') : 0 }
       ]}
     >
       <Text style={styles.status}>{props.item.status}</Text>
@@ -31,7 +31,7 @@ const ActivityListItem = props => (
       props.item.info !== null ? (
         <Text style={styles.info}>{props.item.info}</Text>
       ) : null}
-      {props.item.status === 'In Progress' ? (
+      {props.item.editable ? (
         <TouchableOpacity activeOpacity={0.6} style={styles.editBtn}>
           <Image
             source={require('../../../assets/images/icons/edit.png')}

@@ -13,6 +13,7 @@ import ExploreReducer from '../modules/explore';
 import RestaurantDetails from '../modules/restaurant';
 import paymentMethods from '../modules/paymentMethods';
 import TableReducer from '../modules/table';
+import DeliveryReducer from '../modules/delivery';
 
 const reducers = {
   navigatorState: NavigatorStateReducer,
@@ -26,7 +27,8 @@ const reducers = {
   vendor: VendorReducer,
   restaurant: RestaurantDetails,
   paymentMethods,
-  table: TableReducer
+  table: TableReducer,
+  delivery: DeliveryReducer
 };
 
 // initial state, accessor and mutator for supporting root-level
