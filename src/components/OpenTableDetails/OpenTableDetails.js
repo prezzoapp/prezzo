@@ -18,16 +18,16 @@ export default class OpenTableDetails extends Component {
 
   static displayName = 'OpenTableDetails';
 
-  onTabChange() {
-    this.props.navigation.setParams({ visible: false })
-  }
+  // onTabChange() {
+  //   this.props.navigation.setParams({ visible: false })
+  // }
 
   render() {
     return (
       <Container style={styles.container}>
         <Tabs
-          onChangeTab={() => this.onTabChange()}
           locked
+          scrollWithoutAnimation
           tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
           renderTabBar={() => (
             <ScrollableTab

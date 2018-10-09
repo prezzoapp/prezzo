@@ -4,7 +4,9 @@ import {
   removeRestaurantDetail,
   addRemoveItemQuantity,
   clearCartData,
-  changeItemRating
+  changeItemRating,
+  setType,
+  createOrder
 } from './actions';
 import reducer from './reducer';
 
@@ -13,7 +15,9 @@ export {
   removeRestaurantDetail,
   addRemoveItemQuantity,
   clearCartData,
-  changeItemRating
+  changeItemRating,
+  setType,
+  createOrder
 };
 
 export default reducer;

@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'column',
-    paddingLeft: 10
+    paddingLeft: 10,
+    flex: 1,
+    paddingRight: wp('8%')
   },
   userName: {
     color: 'white',
@@ -42,7 +44,8 @@ const styles = StyleSheet.create({
     marginLeft: 5
   },
   statusContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    flex: 1
   },
   arrow: {
     position: 'absolute',

@@ -15,8 +15,22 @@ import {
   REMOVE_RESTAURANT_DETAIL_FAILURE,
   CLEAR_CART_DATA_REQUEST,
   CLEAR_CART_DATA_SUCCESS,
-  CLEAR_CART_DATA_FAILURE
+  CLEAR_CART_DATA_FAILURE,
+
+  SET_TYPE_REQUEST,
+  SET_TYPE_SUCCESS,
+  SET_TYPE_FAILURE,
+
+  SET_PAYMENT_TYPE_REQUEST,
+  SET_PAYMENT_TYPE_SUCCESS,
+  SET_PAYMENT_TYPE_FAILURE,
+
+  CREATE_ORDER_REQUEST,
+  CREATE_ORDER_SUCCESS,
+  CREATE_ORDER_FAILURE
 } from './types';
+
+import { post } from '../../utils/api';
 
 export const addRestaurantDetail = (restaurant: object) => dispatch => {
   dispatch({ type: ADD_RESTAURANT_DETAIL_REQUEST });
@@ -83,8 +97,45 @@ export const clearCartData = () => dispatch => {
   try {
     return dispatch({
       type: CLEAR_CART_DATA_SUCCESS
-    })
+    });
   } catch (e) {
-    return dispatch({ type: CLEAR_CART_DATA_FAILURE })
+    return dispatch({ type: CLEAR_CART_DATA_FAILURE });
+  }
+};
+
+export const setType = async (type: string) => async dispatch => {
+  dispatch({ type: SET_TYPE_REQUEST });
+
+  try {
+    return dispatch({
+      type: SET_TYPE_SUCCESS,
+      payload: { type }
+    });
+  } catch (e) {
+    return dispatch({ type: SET_TYPE_FAILURE });
+  }
+};
+
+export const createOrder = async (
+  items: array,
+  type: string,
+  paymentType: string,
+  vendor: string
+) => async dispatch => {
+  dispatch({ type: CREATE_ORDER_REQUEST });
+
+  try {
+    await post(`/v1/orders/`, {
+      items,
+      type,
+      paymentType,
+      vendor
+    });
+
+    return dispatch({
+      type: CREATE_ORDER_SUCCESS
+    });
+  } catch (e) {
+    return dispatch({ type: CREATE_ORDER_FAILURE });
   }
 };

@@ -64,6 +64,15 @@ export default class CheckoutSwiper extends Component {
     }
   }
 
+  setPlaceOrderType(type) {
+    if(type === 'delivery') {
+      showGenericAlert(null, "This feature isn't available yet");
+    }
+    if(this.props.type !== type) {
+      this.props.setType(type);
+    }
+  }
+
   moveToIndex(index = null) {
     if (index !== null || index !== undefined || typeof index !== 'string') {
       this.swiper.scrollBy(index - this.index, false);
@@ -81,27 +90,25 @@ export default class CheckoutSwiper extends Component {
     this.setPaymentType('');
   }
 
-  dineInBtnSelect() {
-    if(this.state.dineInBtnSelectState === false) {
-      this.setState(() => {
-        return {
-          dineInBtnSelectState: true
-        };
-      })
-    }
-  }
+  // dineInBtnSelect() {
+  //   if(this.state.dineInBtnSelectState === false) {
+  //     this.setState(() => {
+  //       return {
+  //         dineInBtnSelectState: true
+  //       };
+  //     })
+  //   }
+  // }
 
-  deliveryBtnSelect() {
-    if(this.state.dineInBtnSelectState) {
-      this.setState(() => {
-        return {
-          dineInBtnSelectState: false
-        };
-      });
-    }
-
-    showGenericAlert(null, "This feature isn't available yet");
-  }
+  // deliveryBtnSelect() {
+  //   if(this.state.dineInBtnSelectState) {
+  //     this.setState(() => {
+  //       return {
+  //         dineInBtnSelectState: false
+  //       };
+  //     });
+  //   }
+  // }
 
   removeItemFromCart(item) {
     this.props
@@ -266,13 +273,12 @@ export default class CheckoutSwiper extends Component {
                     style={[
                       dineInDileveryBtnStyles.commonBtn,
                       {
-                        borderColor: this.state.dineInBtnSelectState
-                          ? '#0DD24A'
-                          : 'white'
+                        borderColor:
+                          this.props.type === 'table' ? '#0DD24A' : 'white'
                       }
                     ]}
                     textStyle={dineInDileveryBtnStyles.commonBtnText}
-                    onPress={() => this.dineInBtnSelect()}
+                    onPress={() => this.setPlaceOrderType('table')}
                   >
                     Dine In
                   </Button>
@@ -281,13 +287,12 @@ export default class CheckoutSwiper extends Component {
                     style={[
                       dineInDileveryBtnStyles.commonBtn,
                       {
-                        borderColor: this.state.dineInBtnSelectState
-                          ? 'white'
-                          : '#0DD24A'
+                        borderColor:
+                          this.props.type === 'delivery' ? '#0DD24A' : 'white'
                       }
                     ]}
                     textStyle={dineInDileveryBtnStyles.commonBtnText}
-                    onPress={() => this.deliveryBtnSelect()}
+                    onPress={() => this.setPlaceOrderType('delivery')}
                   >
                     Delivery
                   </Button>
@@ -443,5 +448,6 @@ CheckoutSwiper.propTypes = {
   addRemoveItemQuantity: PropTypes.func.isRequired,
   restaurantName: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
-  hideModal: PropTypes.func.isRequired
+  hideModal: PropTypes.func.isRequired,
+  setType: PropTypes.func.isRequired
 };

@@ -258,6 +258,8 @@ export default class Checkout extends Component {
               isSelectedPaymentMethod={val =>
                 this.props.isSelectedPaymentMethod(val)
               }
+              setType={type => this.props.setType(type)}
+              type={this.props.type}
             />
           </View>
         </View>
@@ -272,5 +274,6 @@ Checkout.propTypes = {
   addRemoveItemQuantity: PropTypes.func.isRequired,
   setCurrentIndex: PropTypes.func.isRequired,
   showNextOrderBtn: PropTypes.func.isRequired,
-  hideNextOrderBtn: PropTypes.func.isRequired
+  hideNextOrderBtn: PropTypes.func.isRequired,
+  setType: PropTypes.func.isRequired
 };

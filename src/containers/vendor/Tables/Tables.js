@@ -104,7 +104,11 @@ class Tables extends Component {
         renderItem={rowData => {
           if (this.props.layout === 'list') {
             return (
-              <OpenTableItem data={rowData} navigate={this.props.navigate} />
+              <OpenTableItem
+                data={rowData}
+                navigate={this.props.navigate}
+                tabName="tables"
+              />
             );
           }
           return (
@@ -130,6 +134,7 @@ class Tables extends Component {
               <QueuedTableItem
                 handleQueuedTableItem={this.handleQueuedTableItem}
                 user={rowData}
+                tabName="tables"
               />
             );
           }
@@ -150,6 +155,7 @@ class Tables extends Component {
       <View style={{ flex: 1 }}>
         <ClosedTableTabs
           currentTab={this.props.closedTableSection}
+          tabNames={['24 Hours', '3 Days', '1 Week']}
           onListTypeSelection={index => this.props.changeClosedSection(index)}
         />
         <FlatList
@@ -161,7 +167,7 @@ class Tables extends Component {
           }
           renderItem={rowData => {
             if (this.props.layout === 'list') {
-              return <OpenTableItem data={rowData} />;
+              return <OpenTableItem data={rowData} tabName="tables"/>;
             }
             return (
               <TableGridItem tableType={this.props.section} data={rowData} />
@@ -175,10 +181,10 @@ class Tables extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {/*<TableScreenHeader
+        <TableScreenHeader
           vendorData={this.props.vendorData}
           tableSection={this.props.section}
-        />*/}
+        />
         <View style={styles.innerContainer}>
           <TableListHeader
             currentTab={this.props.section}

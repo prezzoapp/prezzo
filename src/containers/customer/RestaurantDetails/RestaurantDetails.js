@@ -12,7 +12,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-import { Header } from 'react-navigation';
+// import { Header } from 'react-navigation';
 
 import { Feather } from '../../../components/VectorIcons';
 
@@ -37,6 +37,7 @@ import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 import Checkout from '../Checkout';
 
 import CustomPopup from '../../../components/CustomPopup';
+import showGenericAlert from '../../../components/GenericAlert';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 
@@ -101,16 +102,18 @@ export default class RestaurantDetails extends Component {
     ) {
       this.modal.getWrappedInstance().scrollForward();
     } else if (this.modal && this.state.currentSlideIndex === 2) {
-      this.setState(() => {
-        return {
-            modalVisible: true
-          };
-        },
-        () => {
-          this.modal.getWrappedInstance().hideModal();
-          this.props.clearCartData();
-        }
-      );
+      this.modal.getWrappedInstance().hideModal();
+      this.attemptToCreateOrder().then(() => {
+        this.setState(() => {
+          return {
+              modalVisible: true
+            };
+          },
+          () => {
+            this.props.clearCartData();
+          }
+        );
+      });
     }
   }
 
@@ -121,6 +124,27 @@ export default class RestaurantDetails extends Component {
         currentSlideIndex: index
       }
     });
+  }
+
+  async attemptToCreateOrder() {
+    const cartItems =
+      this.props.data && this.props.data.data.menu &&
+      this.props.data.data.menu.categories
+        .map(category =>
+          category.data.map(d => ({ ...d, sectionId: category._id }))
+        )
+        .reduce((a, v) => [...a, ...v], []);
+
+    try {
+      await this.props.createOrder(
+        cartItems,
+        this.props.type,
+        'cash',
+        this.props.data.data.name
+      )
+    } catch(e) {
+      showGenericAlert('Uh-oh!', e.message || e);
+    }
   }
 
   isSelectedPaymentMethod(val) {

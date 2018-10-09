@@ -30,6 +30,8 @@ class Activity extends Component {
       <Container style={styles.container}>
         <View style={styles.absoluteView} />
         <Tabs
+          locked
+          scrollWithoutAnimation
           tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
           renderTabBar={() => (
             <ScrollableTab

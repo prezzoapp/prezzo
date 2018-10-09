@@ -6,19 +6,14 @@ import Profile from './Profile';
 import { userLogout } from '../../../modules/auth';
 
 const mapStateToProps = state => {
+  const account = state.get('user').get('account');
+  const logoutIsBusy = state.get('auth').get('isBusy');
+
   return {
-    avatarURL: null,
-    vendor: null,
-    logoutIsBusy: null
+    avatarURL: account.get('avatarURL'),
+    vendor: account.get('vendor') || null,
+    logoutIsBusy
   };
-  // const account = state.get('user').get('account');
-  // const logoutIsBusy = state.get('auth').get('isBusy');
-  //
-  // return {
-  //   avatarURL: account.get('avatarURL'),
-  //   vendor: account.get('vendor') || null,
-  //   logoutIsBusy
-  // };
 };
 
 const mapDispatchToProps = dispatch => {

@@ -55,7 +55,6 @@ class Login extends React.Component<Props, State> {
   }
 
   login() {
-    //this.afterLogin()
     const { email, password } = this.state;
     this.props.loginWithEmail(email, password)
       .then(() => this.afterLogin())

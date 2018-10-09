@@ -18,3 +18,15 @@ export const REMOVE_RESTAURANT_DETAIL_FAILURE: string = 'restaurant/REMOVE_RESTA
 export const CLEAR_CART_DATA_REQUEST: string = 'restaurant/CLEAR_CART_DATA_REQUEST';
 export const CLEAR_CART_DATA_SUCCESS: string = 'restaurant/CLEAR_CART_DATA_SUCCESS';
 export const CLEAR_CART_DATA_FAILURE: string = 'restaurant/CLEAR_CART_DATA_FAILURE';
+
+export const SET_TYPE_REQUEST: string = 'restaurant/SET_TYPE_REQUEST';
+export const SET_TYPE_SUCCESS: string = 'restaurant/SET_TYPE_SUCCESS';
+export const SET_TYPE_FAILURE: string = 'restaurant/SET_TYPE_FAILURE';
+
+export const CREATE_ORDER_REQUEST: string = 'restaurant/CREATE_ORDER_REQUEST';
+export const CREATE_ORDER_SUCCESS: string = 'restaurant/CREATE_ORDER_SUCCESS';
+export const CREATE_ORDER_FAILURE: string = 'restaurant/CREATE_ORDER_FAILURE';
+
+// export const SET_PAYMENT_TYPE_REQUEST: string = 'restaurant/SET_PAYMENT_TYPE_REQUEST';
+// export const SET_PAYMENT_TYPE_SUCCESS: string = 'restaurant/SET_PAYMENT_TYPE_SUCCESS';
+// export const SET_PAYMENT_TYPE_FAILURE: string = 'restaurant/SET_PAYMENT_TYPE_FAILURE';

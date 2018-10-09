@@ -13,7 +13,46 @@ export default class ClosedTableTabs extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.listSection}>
-          <TouchableOpacity
+          {(() => {
+            return (
+              this.props.tabNames&&
+              this.props.tabNames.map((item, index) => (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  key={item}
+                  onPress={() => this.onListTypeSelection(index)}
+                  style={styles.textContainer}
+                >
+                  <View style={
+                    selectedIndex === index
+                      ? styles.selectedTab
+                      : styles.unselectedTab
+                    }
+                  >
+                    <Text
+                      style={
+                        selectedIndex === index
+                          ? styles.selectedText
+                          : styles.unselectedText
+                      }
+                    >
+                      {item}
+                    </Text>
+                  </View>
+                  {/*selectedIndex === index && (
+                    <View
+                      style={{
+                        height: 2,
+                        width: '75%',
+                        backgroundColor: '#2ED573'
+                      }}
+                    />
+                  )*/}
+                </TouchableOpacity>
+              ))
+            );
+          })()}
+          {/*<TouchableOpacity
             onPress={() => this.onListTypeSelection(0)}
             style={styles.textContainer}
           >
@@ -69,7 +108,7 @@ export default class ClosedTableTabs extends Component {
                 style={{ height: 2, width: 38, backgroundColor: '#2ED573' }}
               />
             )}
-          </TouchableOpacity>
+          </TouchableOpacity>*/}
         </View>
       </View>
     );

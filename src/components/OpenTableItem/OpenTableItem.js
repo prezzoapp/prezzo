@@ -25,10 +25,24 @@ const OpenTableItem = props => {
       />
       <View style={styles.textContainer}>
         <Text style={styles.userName}>{item.userName}</Text>
-        <View style={styles.statusContainer}>
-          <Text style={styles.tableId}>Table {item.tableId}</Text>
-          <Text style={styles.statusText}>• Waiter Reqested</Text>
-        </View>
+        {(() => {
+          if (props.tabName === 'tables') {
+            return (
+              <View style={styles.statusContainer}>
+                <Text style={styles.tableId}>Table {item.tableId}</Text>
+                <Text style={styles.statusText}>• Waiter Reqested</Text>
+              </View>
+            );
+          } else if(props.tabName === 'delivery') {
+            return (
+              <View style={styles.statusContainer}>
+                <Text numberOfLines={1} style={[styles.tableId]}>
+                  {item.address}
+                </Text>
+              </View>
+            )
+          }
+        })()}
       </View>
       <View style={styles.arrow}>
         <Entypo name="chevron-right" size={30} color="white" />

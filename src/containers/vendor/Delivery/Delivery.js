@@ -12,8 +12,6 @@ import ClosedTableTabs from '../../../components/ClosedTableTabs';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
 
 class Delivery extends Component {
-  static displayName = 'Delivery';
-
   static navigationOptions = {
     title: null,
     tabBarIcon: props => (
@@ -25,8 +23,11 @@ class Delivery extends Component {
     header: null
   };
 
+  static displayName = 'Delivery';
+
   static propTypes = {
-    navigate: PropTypes.func.isRequired
+    navigate: PropTypes.func.isRequired,
+    changeSection: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -104,7 +105,11 @@ class Delivery extends Component {
         renderItem={rowData => {
           if (this.props.layout === 'list') {
             return (
-              <OpenTableItem data={rowData} navigate={this.props.navigate} />
+              <OpenTableItem
+                data={rowData}
+                navigate={this.props.navigate}
+                tabName="delivery"
+              />
             );
           }
           return (
@@ -130,6 +135,7 @@ class Delivery extends Component {
               <QueuedTableItem
                 handleQueuedTableItem={this.handleQueuedTableItem}
                 user={rowData}
+                tabName="delivery"
               />
             );
           }
@@ -150,6 +156,7 @@ class Delivery extends Component {
       <View style={{ flex: 1 }}>
         <ClosedTableTabs
           currentTab={this.props.deliveredTableSection}
+          tabNames={['24 Hours', '3 Days', '1 Week']}
           onListTypeSelection={index => this.props.changeClosedSection(index)}
         />
         <FlatList
@@ -161,7 +168,7 @@ class Delivery extends Component {
           }
           renderItem={rowData => {
             if (this.props.layout === 'list') {
-              return <OpenTableItem data={rowData} />;
+              return <OpenTableItem data={rowData} tabName="delivery"/>;
             }
             return (
               <TableGridItem tableType={this.props.section} data={rowData} />
@@ -175,10 +182,10 @@ class Delivery extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {/*<TableScreenHeader
+        <TableScreenHeader
           vendorData={this.props.vendorData}
           tableSection={this.props.section}
-        />*/}
+        />
         <View style={styles.innerContainer}>
           <TableListHeader
             currentTab={this.props.section}
