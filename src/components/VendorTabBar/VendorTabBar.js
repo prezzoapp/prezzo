@@ -7,7 +7,7 @@ class VendorTabBar extends Component {
     this.state = { tabBarVisible: true }
   }
   componentWillReceiveProps(props) {
-    this.setState({ tabBarVisible: false })
+    // this.setState({ tabBarVisible: false })
 
     // const oldState = this.props.navigation.state;
     // const oldRoute = oldState.routes[oldState.index];

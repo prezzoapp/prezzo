@@ -6,7 +6,6 @@ import { FONT_FAMILY } from '../../services/constants';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     alignItems: 'center',
     backgroundColor: '#2B2C2C'
   },

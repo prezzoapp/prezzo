@@ -7,9 +7,13 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: wp('6.66'),
     backgroundColor: '#2B2C2C',
-    paddingTop: hp('4.92%')
+    justifyContent: 'space-between'
+  },
+
+  infoHolder: {
+    paddingHorizontal: wp('8.53%'),
+    paddingTop: hp('5.04%')
   }
 });
 

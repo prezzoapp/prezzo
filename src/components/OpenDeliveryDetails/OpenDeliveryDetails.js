@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
+import { View, Text } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import OpenOrdersList from '../OpenOrdersList';
 import OpenTablePayment from '../OpenTablePayment';
-import styles from './styles';
+import OpenDelivery from '../OpenDelivery';
 import Button from '../Button';
 import {
   FONT_FAMILY_MEDIUM,
@@ -15,8 +15,9 @@ import {
   FONT_FAMILY,
   COLOR_WHITE
 } from '../../services/constants';
+import styles from './styles';
 
-export default class OpenTableDetails extends Component {
+export default class OpenDeliveryDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.state.params.userName,
@@ -28,7 +29,7 @@ export default class OpenTableDetails extends Component {
     }
   };
 
-  static displayName = 'OpenTableDetails';
+  static displayName = 'OpenDeliveryDetails';
 
   constructor() {
     super();
@@ -37,14 +38,14 @@ export default class OpenTableDetails extends Component {
         status: 'Delivered',
         name: 'Buffalo Cauliflower x2',
         info: 'Extra buffalo sauce, hold the carrots',
-        editable: true
+        editable: false
       },
       {
         id: 2,
         status: 'Delivered',
         name: 'Mac n’ Cheese x1',
         info: 'Split in two bowls',
-        editable: true
+        editable: false
       },
       {
         id: 3,
@@ -86,10 +87,6 @@ export default class OpenTableDetails extends Component {
     ];
   }
 
-  // onTabChange() {
-  //   this.props.navigation.setParams({ visible: false })
-  // }
-
   render() {
     return (
       <Container style={styles.container}>
@@ -117,11 +114,11 @@ export default class OpenTableDetails extends Component {
               footer={
                 <View style={styles.footerContainer}>
                   <Button
-                    style={buttonStyles.closeTableBtn}
-                    textStyle={buttonStyles.closeTableBtnText}
+                    style={buttonStyles.cancelDeliveryBtn}
+                    textStyle={buttonStyles.cancelDeliveryBtnText}
                     onPress={() => null}
                   >
-                    Close Table
+                    Cancel Delivery
                   </Button>
                 </View>
               }
@@ -138,32 +135,21 @@ export default class OpenTableDetails extends Component {
             <OpenTablePayment
               data={this.paymentListInfo}
               footer={
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    width: wp('100%'),
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    height: hp('10.16%'),
-                    borderTopColor: COLOR_GREEN,
-                    borderTopWidth: 2,
-                    backgroundColor: 'black'
-                  }}
-                >
-                  <Button
-                    style={buttonStyles.requestBtn}
-                    textStyle={buttonStyles.requestBtnText}
-                    onPress={() => null}
-                  >
-                    Request
-                  </Button>
-
-                  <Text style={[styles.price, { textAlign: 'right' }]}>
-                    Total $90.95
-                  </Text>
+                <View style={styles.footerView}>
+                  <Text style={styles.text}>Total Paid $90.95</Text>
                 </View>
               }
             />
+          </Tab>
+          <Tab
+            heading="Delivery"
+            tabStyle={styles.paymentTabStyle}
+            activeTabStyle={styles.paymentTabStyle}
+            textStyle={styles.paymentTabTextStyle}
+            activeTextStyle={styles.paymentTabTextStyle}
+            style={styles.tabStyle}
+          >
+            <OpenDelivery />
           </Tab>
         </Tabs>
       </Container>
@@ -172,39 +158,20 @@ export default class OpenTableDetails extends Component {
 }
 
 const buttonStyles = {
-  closeTableBtn: {
+  cancelDeliveryBtn: {
     backgroundColor: 'transparent',
     borderColor: 'transparent',
-    width: wp('37.33%'),
+    width: wp('44%'),
     height: hp('4.92%'),
     justifyContent: 'center',
     borderRadius: 8,
     marginTop: hp('1%')
   },
 
-  closeTableBtnText: {
+  cancelDeliveryBtnText: {
     fontSize: wp('5.33%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: 'rgba(255,255,255,0.5)',
-    paddingTop: 0,
-    paddingBottom: 0,
-    justifyContent: 'center'
-  },
-
-  requestBtn: {
-    backgroundColor: '#2ED573',
-    borderColor: '#0DD24A',
-    width: wp('37.33%'),
-    height: hp('4.92%'),
-    justifyContent: 'center',
-    borderRadius: 8,
-    marginLeft: wp('5.33%')
-  },
-
-  requestBtnText: {
-    fontSize: wp('3.46%'),
-    fontFamily: FONT_FAMILY,
-    color: COLOR_WHITE,
     paddingTop: 0,
     paddingBottom: 0,
     justifyContent: 'center'

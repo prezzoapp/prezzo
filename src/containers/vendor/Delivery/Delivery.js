@@ -14,12 +14,6 @@ import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
 class Delivery extends Component {
   static navigationOptions = {
     title: null,
-    tabBarIcon: props => (
-      <Image
-        style={{ height: 24, width: 24, tintColor: props.tintColor }}
-        source={require('../../../../assets/images/icons/Delivery.png')}
-      />
-    ),
     header: null
   };
 
@@ -54,10 +48,8 @@ class Delivery extends Component {
 
   handleQueuedTableItem = (tableId, index, actionType) => {
     Alert.alert(
-      actionType === ACCEPT_ORDER ? 'Accept' : 'Delete',
-      `${this.props.queuedTableList[index].userName} \n Table ${
-        this.props.queuedTableList[index].tableId
-      }`,
+      actionType === ACCEPT_ORDER ? 'Accept' : 'Remove',
+      `${this.props.queuedTableList[index].userName} \n Delivery Order`,
       [
         {
           text: 'Cancel',
@@ -96,6 +88,7 @@ class Delivery extends Component {
   renderOpenTable() {
     return (
       <FlatList
+        keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         data={
           this.props.openTableList.constructor.name === 'Array'
@@ -123,6 +116,7 @@ class Delivery extends Component {
   renderQueueTable() {
     return (
       <FlatList
+        keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         data={
           this.props.queuedTableList.constructor.name === 'Array'
@@ -160,6 +154,7 @@ class Delivery extends Component {
           onListTypeSelection={index => this.props.changeClosedSection(index)}
         />
         <FlatList
+          keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           data={
             this.props.openTableList.constructor.name === 'Array'
@@ -185,6 +180,7 @@ class Delivery extends Component {
         <TableScreenHeader
           vendorData={this.props.vendorData}
           tableSection={this.props.section}
+          tabName="delivery"
         />
         <View style={styles.innerContainer}>
           <TableListHeader

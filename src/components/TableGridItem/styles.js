@@ -5,7 +5,7 @@ import { FONT_FAMILY } from '../../services/constants';
 const styles = StyleSheet.create({
   container: {
     paddingTop: 10,
-    paddingHorizontal: wp('4%')
+    marginHorizontal: wp('4.26%'),
   },
 
   header: {

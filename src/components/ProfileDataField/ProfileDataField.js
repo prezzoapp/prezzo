@@ -1,6 +1,10 @@
 // @flow
 import React from 'react';
 import { Dimensions, Text, View } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import { FONT_FAMILY } from '../../services/constants';
 
 type Props = {
@@ -20,9 +24,7 @@ const ProfileDataField = ({ label, value }: Props) => {
           <Text style={styles.label}>{label}</Text>
         </View>
         <View style={styles.valueContainer}>
-          <Text style={styles.value} numberOfLines={1}>
-            {value}
-          </Text>
+          <Text style={styles.value}>{value}</Text>
         </View>
       </View>
     </View>
@@ -33,17 +35,18 @@ const styles = {
   container: {
     flexDirection: 'row',
     height: 0.1 * screenWidth,
-    marginTop: 5,
-    width: 0.83 * screenWidth
+    marginTop: 5
+    //width: 0.83 * screenWidth
   },
   currentValueContainer: {
     flexDirection: 'row',
-    width: 0.49 * screenWidth
+    flex: 1
+    //width: 0.49 * screenWidth
   },
   label: {
     color: labelTextColor,
     fontFamily: FONT_FAMILY,
-    fontSize: 15
+    fontSize: wp('4.53%')
   },
   labelContainer: {
     width: 0.3 * screenWidth
@@ -51,10 +54,10 @@ const styles = {
   value: {
     color: valueTextColor,
     fontFamily: FONT_FAMILY,
-    fontSize: 18
+    fontSize: wp('5.33%')
   },
   valueContainer: {
-    width: 0.44 * screenWidth
+    width: '100%'
   }
 };
 

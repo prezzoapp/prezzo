@@ -131,16 +131,30 @@ export default class RestaurantDetails extends Component {
       this.props.data && this.props.data.data.menu &&
       this.props.data.data.menu.categories
         .map(category =>
-          category.data.map(d => ({ ...d, sectionId: category._id }))
+          category.data.map(d => {
+            return d;
+          })
         )
         .reduce((a, v) => [...a, ...v], []);
 
+    console.log(cartItems);
+
+    const fakeCardItems = [{
+        createdDate: cartItems[0].createdDate,
+        creator: '5b67dbd4b60a83004be0bc1b',
+        item: cartItems[0]._id,
+        notes: cartItems[0].description,
+        rating: cartItems[0].rating,
+        imageURLs: cartItems[0].imageURLs
+      }
+    ];
+
     try {
       await this.props.createOrder(
-        cartItems,
+        fakeCardItems,
         this.props.type,
         'cash',
-        this.props.data.data.name
+        this.props.data.data.name,
       )
     } catch(e) {
       showGenericAlert('Uh-oh!', e.message || e);
@@ -493,6 +507,9 @@ export default class RestaurantDetails extends Component {
         {this.state.modalVisible ? (
           <CustomPopup
             modalVisible={this.state.modalVisible}
+            title="Congratulations!"
+            message="Please show the table code to your server.!"
+            otherInfo="9192"
             onDismiss={() => {
               this.setState({ modalVisible: false });
             }}

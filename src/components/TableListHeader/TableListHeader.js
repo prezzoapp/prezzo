@@ -60,6 +60,7 @@ export default class TableListHeader extends Component {
             );
           })()}
           <TouchableOpacity
+            disabled={this.props.screenName === 'activity'}
             onPress={() => this.onChangeLayout('list')}
             style={[
               styles.icons,
@@ -69,17 +70,30 @@ export default class TableListHeader extends Component {
             <Feather
               name="list"
               size={wp('8%')}
-              style={{ color: isList ? '#2ED573' : 'white' }}
+              style={{
+                color: this.props.screenName === 'activity'
+                  ? 'transparent'
+                  : isList
+                    ? '#2ED573'
+                    : 'white'
+              }}
             />
           </TouchableOpacity>
           <TouchableOpacity
+            disabled={this.props.screenName === 'activity'}
             onPress={() => this.onChangeLayout('grid')}
             style={styles.icons}
           >
             <Ionicons
               name="ios-keypad"
               size={wp('7%')}
-              style={{ color: !isList ? '#2ED573' : 'white' }}
+              style={{
+                color: this.props.screenName === 'activity'
+                  ? 'transparent'
+                  : !isList
+                    ? '#2ED573'
+                    : 'white'
+              }}
             />
           </TouchableOpacity>
         </View>

@@ -31,6 +31,7 @@ import CustomerActivity from '../../customer/Activity';
 
 import Tables from '../../vendor/Tables';
 import OpenTableDetails from '../../../components/OpenTableDetails';
+import OpenDeliveryDetails from '../../../components/OpenDeliveryDetails';
 import VendorAccountMenu from '../../vendor/AccountMenu';
 import VendorAccountInfo from '../../vendor/AccountInfo';
 import CreateMenu from '../../vendor/CreateMenu';
@@ -160,6 +161,15 @@ const VendorTablesNavigator = createStackNavigator({
   OpenTableDetails: { screen: OpenTableDetails }
 });
 
+const VendorDeliveryNavigator = createStackNavigator({
+  Delivery: { screen: Delivery },
+  OpenDeliveryDetails: { screen: OpenDeliveryDetails }
+});
+
+const VendorActivityNavigator = createStackNavigator({
+  Activity: { screen: Activity }
+})
+
 const VendorNavigator = createBottomTabNavigator(
   {
     VendorTablesNavigator: { screen: VendorTablesNavigator,
@@ -177,8 +187,36 @@ const VendorNavigator = createBottomTabNavigator(
         )
       }
     },
-    Delivery: { screen: Delivery },
-    Activity: { screen: Activity },
+
+    VendorDeliveryNavigator: { screen: VendorDeliveryNavigator,
+      navigationOptions: {
+        title:'Delivery',
+        tabBarIcon: ({ focused }) => (
+          <Image
+            style={{
+              height: 24,
+              width: 24,
+              tintColor: focused ? activeColor : inactiveColor
+            }}
+            source={require('../../../../assets/images/icons/Delivery.png')}
+          />
+        )
+      }
+    },
+
+    VendorActivityNavigator: { screen: VendorActivityNavigator,
+      navigationOptions: {
+        title:'Activity',
+        tabBarIcon: ({ focused }) => (
+          <Feather
+            name="bell"
+            size={24}
+            color={focused ? activeColor : inactiveColor}
+          />
+        )
+      }
+    },
+
     VendorProfile: {
       screen: VendorProfileNavigator,
       navigationOptions: {

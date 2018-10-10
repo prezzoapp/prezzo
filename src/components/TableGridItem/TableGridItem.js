@@ -46,6 +46,7 @@ const TableGridItem = props => {
         )}
       </View>
       <FlatList
+        keyExtractor={(item, index) => index.toString()}
         data={item.items}
         showsHorizontalScrollIndicator={false}
         horizontal

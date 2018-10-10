@@ -6,7 +6,6 @@ import styles from './styles';
 import ExploreSearchInput from '../../../components/ExploreSearchInput';
 
 const TableScreenHeader = props => {
-  
   return (
     <View style={styles.header}>
       <LinearGradient
@@ -29,11 +28,20 @@ const TableScreenHeader = props => {
               {props.vendorData.get('name')}
             </Text>
             <Text style={styles.category}>
-              {props.tableSection === 0
-                ? 'Open Tables'
-                : props.tableSection === 1
-                  ? 'Queue Tables'
-                  : 'Closed Tables'}
+              {(() => {
+                if(props.tableSection === 0) {
+                  if (props.tabName === 'tables') return 'Open Tables';
+                  else if (props.tabName === 'delivery') return 'Delivery';
+                  return 'Content Review';
+                } else if(props.tableSection === 1) {
+                  if (props.tabName === 'tables') return 'Queue Tables';
+                  else if (props.tabName === 'delivery') return 'Delivery';
+                  return 'Content Review';
+                }
+                return props.tabName === 'tables'
+                  ? 'Closed Tables'
+                  : 'Delivery';
+              })()}
             </Text>
           </View>
         </View>

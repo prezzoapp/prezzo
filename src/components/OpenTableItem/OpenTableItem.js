@@ -10,7 +10,10 @@ const OpenTableItem = props => {
       style={styles.container}
       onPress={() =>
         props.navigate({
-          routeName: 'OpenTableDetails',
+          routeName:
+            props.tabName === 'tables'
+              ? 'OpenTableDetails'
+              : 'OpenDeliveryDetails',
           params: { userName: item.userName }
         })
       }

@@ -4,7 +4,7 @@ import {
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
 
-import { FONT_FAMILY } from '../../services/constants';
+import { FONT_FAMILY, COLOR_GREEN } from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,15 +19,15 @@ const styles = StyleSheet.create({
   },
 
   scrollableTabStyle: {
-    width: wp('49.86%'),
-    marginHorizontal: wp('100%') / 4,
+    width: wp('74.86%'),
+    marginHorizontal: wp('100%') / 8,
     backgroundColor: 'transparent',
     height: hp('6.03%'),
     borderWidth: 0
   },
 
   tabsContainerStyle: {
-    width: wp('49.86%')
+    width: wp('74.86%')
   },
 
   orderTabStyle: {
@@ -61,7 +61,18 @@ const styles = StyleSheet.create({
     height: hp('12.80%')
   },
 
-  price: {
+  footerView: {
+    flexDirection: 'row',
+    width: wp('100%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: hp('10.16%'),
+    borderTopColor: COLOR_GREEN,
+    borderTopWidth: 2,
+    backgroundColor: 'black'
+  },
+
+  text: {
     fontFamily: FONT_FAMILY,
     fontSize: wp('4.8%'),
     color: 'white'

@@ -30,11 +30,18 @@ const CustomPopup = props => (
           source={require('../../../assets/images/custom_modal_icons/thumbs_up_icon.png')}
           style={styles.imageIcon}
         />
-        <Text style={styles.title}>Congratulations!</Text>
-        <Text style={styles.message}>
-          Please show the table code to your server.!
+        <Text style={styles.title}>{props.title}!</Text>
+        <Text
+          style={[
+            styles.message,
+            { paddingBottom: props.otherInfo ? 0 : wp('5.33%') }
+          ]}
+        >
+          {props.message}
         </Text>
-        <Text style={styles.tableCode}>9192</Text>
+        {props.otherInfo&& (
+          <Text style={styles.tableCode}>{props.otherInfo}</Text>
+        )}
         <Button
           style={customPopupBtnStyles.commonBtn}
           textStyle={customPopupBtnStyles.commonBtnText}

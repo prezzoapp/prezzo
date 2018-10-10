@@ -37,13 +37,12 @@ const styles = StyleSheet.create({
   listSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',
+    width: wp('90%'),
     paddingHorizontal: wp('2.40%')
   },
 
   textContainer: {
     flexDirection: 'column',
-    width: '25%',
     justifyContent: 'center',
     alignItems: 'flex-start'
   },
