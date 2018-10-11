@@ -11,15 +11,6 @@ import {
   LIST_CLOSED_TABLE_REQUEST
 } from './types';
 
-const INITIAL_STATE = Map({
-  layout: 'list',
-  section: 0,
-  closedTableSection: 0,
-  openTableList: [],
-  queuedTableList: [],
-  closedTableList: []
-});
-
 function getDummyData() {
   return [
     {
@@ -107,7 +98,139 @@ function getDummyData() {
       ]
     },
     {
-      id: '3',
+      id: '4',
+      userName: 'James',
+      tableId: 1341,
+      userImg:
+        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+      status: true,
+      items: [
+        {
+          imgUrl: require('../../../assets/images/item6.png'),
+          itemName: 'BBQ Pinapple',
+          quantity: 2,
+          status: 1
+        },
+        {
+          imgUrl: require('../../../assets/images/item2.png'),
+          itemName: 'Buffalo Cauliflower',
+          quantity: 2,
+          status: 1
+        }
+      ]
+    },
+    {
+      id: '5',
+      userName: 'James',
+      tableId: 1341,
+      userImg:
+        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+      status: true,
+      items: [
+        {
+          imgUrl: require('../../../assets/images/item6.png'),
+          itemName: 'BBQ Pinapple',
+          quantity: 2,
+          status: 1
+        },
+        {
+          imgUrl: require('../../../assets/images/item2.png'),
+          itemName: 'Buffalo Cauliflower',
+          quantity: 2,
+          status: 1
+        }
+      ]
+    },
+    {
+      id: '6',
+      userName: 'James',
+      tableId: 1341,
+      userImg:
+        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+      status: true,
+      items: [
+        {
+          imgUrl: require('../../../assets/images/item6.png'),
+          itemName: 'BBQ Pinapple',
+          quantity: 2,
+          status: 1
+        },
+        {
+          imgUrl: require('../../../assets/images/item2.png'),
+          itemName: 'Buffalo Cauliflower',
+          quantity: 2,
+          status: 1
+        }
+      ]
+    },
+    {
+      id: '7',
+      userName: 'James',
+      tableId: 1341,
+      userImg:
+        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+      status: true,
+      items: [
+        {
+          imgUrl: require('../../../assets/images/item6.png'),
+          itemName: 'BBQ Pinapple',
+          quantity: 2,
+          status: 1
+        },
+        {
+          imgUrl: require('../../../assets/images/item2.png'),
+          itemName: 'Buffalo Cauliflower',
+          quantity: 2,
+          status: 1
+        }
+      ]
+    },
+    {
+      id: '8',
+      userName: 'James',
+      tableId: 1341,
+      userImg:
+        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+      status: true,
+      items: [
+        {
+          imgUrl: require('../../../assets/images/item6.png'),
+          itemName: 'BBQ Pinapple',
+          quantity: 2,
+          status: 1
+        },
+        {
+          imgUrl: require('../../../assets/images/item2.png'),
+          itemName: 'Buffalo Cauliflower',
+          quantity: 2,
+          status: 1
+        }
+      ]
+    },
+    {
+      id: '9',
+      userName: 'James',
+      tableId: 1341,
+      userImg:
+        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+      status: true,
+      items: [
+        {
+          imgUrl: require('../../../assets/images/item6.png'),
+          itemName: 'BBQ Pinapple',
+          quantity: 2,
+          status: 1
+        },
+        {
+          imgUrl: require('../../../assets/images/item2.png'),
+          itemName: 'Buffalo Cauliflower',
+          quantity: 2,
+          status: 1
+        }
+      ]
+    },
+    {
+      id: '10',
       userName: 'James',
       tableId: 1341,
       userImg:
@@ -130,6 +253,15 @@ function getDummyData() {
     }
   ];
 }
+
+const INITIAL_STATE = Map({
+  layout: 'list',
+  section: 0,
+  closedTableSection: 0,
+  openTableList: [],
+  queuedTableList: [],
+  closedTableList: []
+});
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {

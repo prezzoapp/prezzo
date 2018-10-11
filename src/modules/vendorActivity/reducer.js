@@ -25,7 +25,7 @@ function getDummyData() {
     {
       id: '1',
       userName: 'Danny',
-      address: '731 Admiralty Way, Marina del Rey CA',
+      tableId: 1221,
       userImg:
         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
       status: false,
@@ -59,7 +59,7 @@ function getDummyData() {
     {
       id: '2',
       userName: 'Robert',
-      address: '731 Admiralty Way, Marina del Rey CA',
+      tableId: 1221,
       userImg:
         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
       status: true,
@@ -87,7 +87,7 @@ function getDummyData() {
     {
       id: '3',
       userName: 'Angelica',
-      address: '731 Admiralty Way, Marina del Rey CA',
+      tableId: 1221,
       userImg:
         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
       status: true,
@@ -109,7 +109,7 @@ function getDummyData() {
     {
       id: '3',
       userName: 'James',
-      address: '731 Admiralty Way, Marina del Rey CA',
+      tableId: 1221,
       userImg:
         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
       status: true,

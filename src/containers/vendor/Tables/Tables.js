@@ -1,7 +1,8 @@
 // @flow
 import React, { Component } from 'react';
-import { View, FlatList, Alert, Image } from 'react-native';
+import { View, FlatList, Alert } from 'react-native';
 import PropTypes from 'prop-types';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import styles from './styles';
 import TableScreenHeader from '../TableScreenHeader';
 import OpenTableItem from '../../../components/OpenTableItem';
@@ -88,61 +89,67 @@ class Tables extends Component {
 
   renderOpenTable() {
     return (
-      <FlatList
-        keyExtractor={(item, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-        data={
-          this.props.openTableList.constructor.name === 'Array'
-            ? Array.from(this.props.openTableList)
-            : []
-        }
-        renderItem={rowData => {
-          if (this.props.layout === 'list') {
-            return (
-              <OpenTableItem
-                data={rowData}
-                navigate={this.props.navigate}
-                tabName="tables"
-              />
-            );
+      <View style={{ flex: 1 }}>
+        <FlatList
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.flatListStyle}
+          data={
+            this.props.openTableList.constructor.name === 'Array'
+              ? Array.from(this.props.openTableList)
+              : []
           }
-          return (
-            <TableGridItem tableType={this.props.section} data={rowData} />
-          );
-        }}
-      />
+          renderItem={rowData => {
+            if (this.props.layout === 'list') {
+              return (
+                <OpenTableItem
+                  data={rowData}
+                  navigate={this.props.navigate}
+                  tabName="tables"
+                />
+              );
+            }
+            return (
+              <TableGridItem tableType={this.props.section} data={rowData} />
+            );
+          }}
+        />
+      </View>
     );
   }
 
   renderQueueTable() {
     return (
-      <FlatList
-        keyExtractor={(item, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-        data={
-          this.props.queuedTableList.constructor.name === 'Array'
-            ? Array.from(this.props.queuedTableList)
-            : []
-        }
-        renderItem={rowData => {
-          if (this.props.layout === 'list') {
+      <View style={{ flex: 1 }}>
+        <FlatList
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.flatListStyle}
+          data={
+            this.props.queuedTableList.constructor.name === 'Array'
+              ? Array.from(this.props.queuedTableList)
+              : []
+          }
+          renderItem={rowData => {
+            if (this.props.layout === 'list') {
+              return (
+                <QueuedTableItem
+                  handleQueuedTableItem={this.handleQueuedTableItem}
+                  user={rowData}
+                  tabName="tables"
+                />
+              );
+            }
             return (
-              <QueuedTableItem
+              <TableGridItem
+                tableType={this.props.section}
                 handleQueuedTableItem={this.handleQueuedTableItem}
-                user={rowData}
-                tabName="tables"
+                data={rowData}
               />
             );
-          }
-          return (
-            <TableGridItem
-              tableType={this.props.section}
-              handleQueuedTableItem={this.handleQueuedTableItem}
-              data={rowData}
-            />
-          );
-        }}
-      />
+          }}
+        />
+      </View>
     );
   }
 
@@ -154,23 +161,26 @@ class Tables extends Component {
           tabNames={['24 Hours', '3 Days', '1 Week']}
           onListTypeSelection={index => this.props.changeClosedSection(index)}
         />
-        <FlatList
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          data={
-            this.props.openTableList.constructor.name === 'Array'
-              ? Array.from(this.props.closedTableList)
-              : []
-          }
-          renderItem={rowData => {
-            if (this.props.layout === 'list') {
-              return <OpenTableItem data={rowData} tabName="tables"/>;
+        <View style={{ flex: 1 }}>
+          <FlatList
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.flatListStyle}
+            data={
+              this.props.closedTableList.constructor.name === 'Array'
+                ? Array.from(this.props.closedTableList)
+                : []
             }
-            return (
-              <TableGridItem tableType={this.props.section} data={rowData} />
-            );
-          }}
-        />
+            renderItem={rowData => {
+              if (this.props.layout === 'list') {
+                return <OpenTableItem data={rowData} tabName="tables"/>;
+              }
+              return (
+                <TableGridItem tableType={this.props.section} data={rowData} />
+              );
+            }}
+          />
+        </View>
       </View>
     );
   }

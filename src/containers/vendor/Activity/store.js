@@ -2,8 +2,8 @@
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import {
-  listOpenTable,
-  listQueuedTable,
+  listWaiterRequestTable,
+  listPhotoReviewTable,
   acceptQueuedRequest,
   deleteQueuedRequest,
   changeSection,
@@ -26,8 +26,8 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
   navigate: bindActionCreators(NavigationActions.navigate, dispatch),
-  listOpenTable: bindActionCreators(listOpenTable, dispatch),
-  listQueuedTable: bindActionCreators(listQueuedTable, dispatch),
+  listWaiterRequestTable: bindActionCreators(listWaiterRequestTable, dispatch),
+  listPhotoReviewTable: bindActionCreators(listPhotoReviewTable, dispatch),
   acceptQueuedRequest: bindActionCreators(acceptQueuedRequest, dispatch),
   deleteQueuedRequest: bindActionCreators(deleteQueuedRequest, dispatch),
   changeSection: bindActionCreators(changeSection, dispatch),

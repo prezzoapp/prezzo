@@ -31,12 +31,14 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    marginHorizontal: wp('6.66%'),
-    paddingVertical: hp('1%')
+    // marginHorizontal: wp('6.66%'),
+    paddingVertical: hp('1%'),
+    // backgroundColor: 'green'
   },
 
   listSection: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    paddingHorizontal: wp('2.40%')
   },
 
   textContainer: {

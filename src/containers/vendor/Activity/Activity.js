@@ -1,14 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import { View, FlatList, Alert, Image } from 'react-native';
+import { View, FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import TableScreenHeader from '../TableScreenHeader';
 import OpenTableItem from '../../../components/OpenTableItem';
 import QueuedTableItem from '../../../components/QueuedTableItem';
 import TableListHeader from '../../../components/TableListHeader';
-import TableGridItem from '../../../components/TableGridItem';
-import ClosedTableTabs from '../../../components/ClosedTableTabs';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
 
 class Activity extends Component {
@@ -26,21 +24,17 @@ class Activity extends Component {
 
   componentDidMount() {
     if (this.props.section === 0) {
-      this.props.listOpenTable();
-    } else if (this.props.section === 1) {
-      this.props.listQueuedTable();
+      this.props.listWaiterRequestTable();
     } else {
-      this.props.listDeliveredTable();
+      this.props.listPhotoReviewTable();
     }
   }
 
   onSectionChange = index => {
     if (index === 0) {
-      this.props.listOpenTable();
-    } else if (index === 1) {
-      this.props.listQueuedTable();
+      this.props.listWaiterRequestTable();
     } else {
-      this.props.listDeliveredTable();
+      this.props.listPhotoReviewTable();
     }
 
     this.props.changeSection(index);
@@ -64,7 +58,7 @@ class Activity extends Component {
 
   changeTabHandler = index => {
     if (index === 1) {
-      this.props.listQueuedTable();
+      this.props.listPhotoReviewTable();
     }
   };
 
@@ -78,99 +72,52 @@ class Activity extends Component {
 
   renderSection = () => {
     if (this.props.section === 0) {
-      return this.renderOpenTable();
-    } else if (this.props.section === 1) {
-      return this.renderQueueTable();
+      return this.renderWaiterRequestTable();
     }
-    return this.renderClosedTable();
+    return this.renderPhotoReviewTable();
   };
 
-  renderOpenTable() {
+  renderWaiterRequestTable() {
     return (
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.flatListStyle}
         data={
           this.props.openTableList.constructor.name === 'Array'
             ? Array.from(this.props.openTableList)
             : []
         }
-        renderItem={rowData => {
-          if (this.props.layout === 'list') {
-            return (
-              <OpenTableItem
-                data={rowData}
-                navigate={this.props.navigate}
-                tabName="delivery"
-              />
-            );
-          }
-          return (
-            <TableGridItem tableType={this.props.section} data={rowData} />
-          );
-        }}
+        renderItem={rowData =>
+          <OpenTableItem
+            data={rowData}
+            navigate={this.props.navigate}
+            tabName="activity"
+          />
+        }
       />
     );
   }
 
-  renderQueueTable() {
+  renderPhotoReviewTable() {
     return (
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.flatListStyle}
         data={
           this.props.queuedTableList.constructor.name === 'Array'
             ? Array.from(this.props.queuedTableList)
             : []
         }
-        renderItem={rowData => {
-          if (this.props.layout === 'list') {
-            return (
-              <QueuedTableItem
-                handleQueuedTableItem={this.handleQueuedTableItem}
-                user={rowData}
-                tabName="delivery"
-              />
-            );
-          }
-          return (
-            <TableGridItem
-              tableType={this.props.section}
-              handleQueuedTableItem={this.handleQueuedTableItem}
-              data={rowData}
-            />
-          );
-        }}
+        renderItem={rowData =>
+          <OpenTableItem
+            data={rowData}
+            tabName="activity"
+            innerTabName="photoReview"
+          />
+        }
       />
-    );
-  }
-
-  renderClosedTable() {
-    return (
-      <View style={{ flex: 1 }}>
-        <ClosedTableTabs
-          currentTab={this.props.deliveredTableSection}
-          tabNames={['24 Hours', '3 Days', '1 Week']}
-          onListTypeSelection={index => this.props.changeClosedSection(index)}
-        />
-        <FlatList
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          data={
-            this.props.openTableList.constructor.name === 'Array'
-              ? Array.from(this.props.deliveredTableList)
-              : []
-          }
-          renderItem={rowData => {
-            if (this.props.layout === 'list') {
-              return <OpenTableItem data={rowData} tabName="delivery"/>;
-            }
-            return (
-              <TableGridItem tableType={this.props.section} data={rowData} />
-            );
-          }}
-        />
-      </View>
     );
   }
 
@@ -180,11 +127,12 @@ class Activity extends Component {
         <TableScreenHeader
           vendorData={this.props.vendorData}
           tableSection={this.props.section}
-          tabName="delivery"
+          tabName="activity"
         />
         <View style={styles.innerContainer}>
           <TableListHeader
             currentTab={this.props.section}
+            screenName="activity"
             currentLayout={this.props.layout}
             tabNames={['Waiter Request', 'Photo Review']}
             onChangeLayout={layout => this.props.changeLayout(layout)}

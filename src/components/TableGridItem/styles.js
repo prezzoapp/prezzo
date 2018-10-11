@@ -1,11 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FONT_FAMILY } from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 10,
-    marginHorizontal: wp('4.26%'),
+    paddingTop: 10
   },
 
   header: {

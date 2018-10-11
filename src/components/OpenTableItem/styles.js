@@ -1,16 +1,20 @@
 import { StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import { FONT_FAMILY, FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    flex: 1,
     backgroundColor: '#3A3A3A',
     borderRadius: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 15,
-    marginHorizontal: wp('4.26%'),
+    marginTop: hp('1.84%'),
+    marginHorizontal: 1,
     shadowOffset: { width: 1, height: 6 },
     shadowColor: 'black',
     shadowOpacity: 0.7
@@ -39,9 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   statusText: {
-    color: '#2ED573',
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
-    marginLeft: 5
+    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY)
   },
   statusContainer: {
     flexDirection: 'row',

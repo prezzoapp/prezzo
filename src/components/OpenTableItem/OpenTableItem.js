@@ -5,15 +5,18 @@ import styles from './styles';
 import { Entypo } from '../VectorIcons';
 
 const OpenTableItem = props => {
-  const { item, index } = props.data;  return (
+  const { item, index } = props.data;
+  return (
     <TouchableOpacity
       style={styles.container}
       onPress={() =>
-        props.navigate({
+        props.navigate&& props.navigate({
           routeName:
             props.tabName === 'tables'
               ? 'OpenTableDetails'
-              : 'OpenDeliveryDetails',
+              : props.tabName === 'delivery'
+                ? 'OpenDeliveryDetails'
+                : 'VendorAdminActivityDetails',
           params: { userName: item.userName }
         })
       }
@@ -33,7 +36,9 @@ const OpenTableItem = props => {
             return (
               <View style={styles.statusContainer}>
                 <Text style={styles.tableId}>Table {item.tableId}</Text>
-                <Text style={styles.statusText}>• Waiter Reqested</Text>
+                <Text style={[styles.statusText, { color: '#2ED573' }]}>
+                  • Waiter Reqested
+                </Text>
               </View>
             );
           } else if(props.tabName === 'delivery') {
@@ -45,6 +50,24 @@ const OpenTableItem = props => {
               </View>
             )
           }
+          return (
+            <View style={styles.statusContainer}>
+              <Text style={styles.tableId}>Table {item.tableId}</Text>
+              <Text
+                style={[
+                  styles.statusText,
+                  {
+                    color:
+                      props.innerTabName !== 'photoReview' ? '#2ED573' : 'white'
+                  }
+                ]}
+              >
+                {props.innerTabName !== 'photoReview'
+                  ? '  •  Waiter Reqested'
+                  : ` - ${item.items.length} Photos`}
+              </Text>
+            </View>
+          );
         })()}
       </View>
       <View style={styles.arrow}>

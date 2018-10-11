@@ -11,12 +11,12 @@ import {
 
 // import store from '../../redux/store';
 
-export const listOpenTable = () => ({
+export const listWaiterRequestTable = () => ({
   type: LIST_OPEN_TABLE_REQUEST,
   payload: null
 });
 
-export const listQueuedTable = () => ({
+export const listPhotoReviewTable = () => ({
   type: LIST_QUEUED_TABLE_REQUEST,
   payload: null
 });

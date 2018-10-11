@@ -1,6 +1,6 @@
 import {
-  listOpenTable,
-  listQueuedTable,
+  listWaiterRequestTable,
+  listPhotoReviewTable,
   acceptQueuedRequest,
   deleteQueuedRequest,
   changeSection,
@@ -12,8 +12,8 @@ import {
 import reducer from './reducer';
 
 export {
-  listOpenTable,
-  listQueuedTable,
+  listWaiterRequestTable,
+  listPhotoReviewTable,
   acceptQueuedRequest,
   deleteQueuedRequest,
   changeSection,

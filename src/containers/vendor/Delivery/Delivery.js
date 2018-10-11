@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, FlatList, Alert, Image } from 'react-native';
+import { View, FlatList, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import TableScreenHeader from '../TableScreenHeader';
@@ -90,6 +90,7 @@ class Delivery extends Component {
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 60 }}
         data={
           this.props.openTableList.constructor.name === 'Array'
             ? Array.from(this.props.openTableList)
@@ -118,6 +119,7 @@ class Delivery extends Component {
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 60 }}
         data={
           this.props.queuedTableList.constructor.name === 'Array'
             ? Array.from(this.props.queuedTableList)
@@ -147,7 +149,7 @@ class Delivery extends Component {
 
   renderClosedTable() {
     return (
-      <View style={{ flex: 1 }}>
+      <View>
         <ClosedTableTabs
           currentTab={this.props.deliveredTableSection}
           tabNames={['24 Hours', '3 Days', '1 Week']}
@@ -156,6 +158,7 @@ class Delivery extends Component {
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 60 }}
           data={
             this.props.openTableList.constructor.name === 'Array'
               ? Array.from(this.props.deliveredTableList)

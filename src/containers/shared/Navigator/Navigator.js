@@ -32,6 +32,7 @@ import CustomerActivity from '../../customer/Activity';
 import Tables from '../../vendor/Tables';
 import OpenTableDetails from '../../../components/OpenTableDetails';
 import OpenDeliveryDetails from '../../../components/OpenDeliveryDetails';
+import VendorAdminActivityDetails from '../../../components/VendorAdminActivityDetails';
 import VendorAccountMenu from '../../vendor/AccountMenu';
 import VendorAccountInfo from '../../vendor/AccountInfo';
 import CreateMenu from '../../vendor/CreateMenu';
@@ -156,19 +157,35 @@ const VendorProfileNavigator = createStackNavigator(
   }
 );
 
-const VendorTablesNavigator = createStackNavigator({
-  Tables: { screen: Tables },
-  OpenTableDetails: { screen: OpenTableDetails }
-});
+const VendorTablesNavigator = createStackNavigator(
+  {
+    Tables: { screen: Tables },
+    OpenTableDetails: { screen: OpenTableDetails }
+  },
+  {
+    headerMode: 'screen'
+  }
+);
 
-const VendorDeliveryNavigator = createStackNavigator({
-  Delivery: { screen: Delivery },
-  OpenDeliveryDetails: { screen: OpenDeliveryDetails }
-});
+const VendorDeliveryNavigator = createStackNavigator(
+  {
+    Delivery: { screen: Delivery },
+    OpenDeliveryDetails: { screen: OpenDeliveryDetails }
+  },
+  {
+    headerMode: 'screen'
+  }
+);
 
-const VendorActivityNavigator = createStackNavigator({
-  Activity: { screen: Activity }
-})
+const VendorActivityNavigator = createStackNavigator(
+  {
+    Activity: { screen: Activity },
+    VendorAdminActivityDetails: { screen: VendorAdminActivityDetails }
+  },
+  {
+    headerMode: 'screen'
+  }
+);
 
 const VendorNavigator = createBottomTabNavigator(
   {
