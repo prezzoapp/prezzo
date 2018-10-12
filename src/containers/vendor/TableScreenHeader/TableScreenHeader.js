@@ -7,6 +7,7 @@ import ExploreSearchInput from '../../../components/ExploreSearchInput';
 
 const TableScreenHeader = props => {
   return (
+    
     <View style={styles.header}>
       <LinearGradient
         colors={['rgb(0,0,0)', 'transparent']}
@@ -47,6 +48,7 @@ const TableScreenHeader = props => {
         </View>
       </LinearGradient>
     </View>
+
   );
 };
 

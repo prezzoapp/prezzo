@@ -16,27 +16,62 @@ import {
   COLOR_WHITE
 } from '../../services/constants';
 
+const Left = ({ onPress }) => (
+  <TouchableHighlight onPress={onPress}>
+    <Image source={navigation.state.params.userImage} />
+  </TouchableHighlight>
+);
+
 export default class OpenTableDetails extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerTitle: (
-        <View>
-          <Text>{navigation.state.params.userName}</Text>
-        </View>
-      ),
-      headerTintColor: 'white',
-      headerStyle: {
-        backgroundColor: '#1F1F1F',
-        borderBottomColor: 'transparent'
-      }
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: (
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          width: '100%'
+        }}
+      >
+        <Image
+          style={{
+            width: wp('11.73%'),
+            height: wp('11.73%'),
+            borderColor: 'white',
+            borderWidth: 2,
+            borderRadius: wp('5.86%')
+          }}
+          source={navigation.state.params.userImage}
+        />
+        <Text style={{ color: 'white', marginLeft: 10 }}>
+          {navigation.state.params.userName}
+        </Text>
+      </View>
+    ),
+
+
+
+
+    headerTintColor: 'white',
+    headerStyle: {
+      backgroundColor: '#1F1F1F',
+      borderBottomColor: 'transparent'
     }
-  };
+
+
+
+  });
+
+  componentWillReceiveProps() {
+    console.log('components will receive props', this.props);
+  }
 
   static displayName = 'OpenTableDetails';
 
   constructor() {
     super();
-    this.data = [{
+    this.data = [
+      {
         id: 1,
         status: 'Delivered',
         name: 'Buffalo Cauliflower x2',
@@ -91,7 +126,7 @@ export default class OpenTableDetails extends Component {
   }
 
   onTabChange(data) {
-    if(data.i === 0) {
+    if (data.i === 0) {
       this.props.navigation.setParams({ visible: true });
     } else {
       this.props.navigation.setParams({ visible: false });
@@ -103,7 +138,7 @@ export default class OpenTableDetails extends Component {
       <Container style={styles.container}>
         <Tabs
           locked
-          onChangeTab={(data) => this.onTabChange(data)}
+          onChangeTab={data => this.onTabChange(data)}
           scrollWithoutAnimation
           tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
           renderTabBar={() => (
@@ -176,7 +211,7 @@ export default class OpenTableDetails extends Component {
           </Tab>
         </Tabs>
       </Container>
-    )
+    );
   }
 }
 

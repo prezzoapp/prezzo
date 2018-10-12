@@ -7,25 +7,25 @@ class VendorTabBar extends Component {
     this.state = { tabBarVisible: true }
   }
   componentWillReceiveProps(props) {
-    console.log(props.navigation.state.routes[props.navigation.state.index].routes.length);
-    if (
-      props.navigation.state.routes[props.navigation.state.index].routes.length > 1) {
-      if( props.navigation.state.routes[props.navigation.state.index].routes[1]
-        .params.visible === false )
-        {
-          this.setState(() => {
-            return {
-              tabBarVisible: false
-            }
-          });
-        } else {
-          this.setState(() => {
-            return {
-              tabBarVisible: true
-            }
-          });
-        }
-    }
+    // console.log(props.navigation.state.routes[props.navigation.state.index].routes.length);
+    // if (
+    //   props.navigation.state.routes[props.navigation.state.index].routes.length > 1) {
+    //   if( props.navigation.state.routes[props.navigation.state.index].routes[1]
+    //     .params.visible === false )
+    //     {
+    //       this.setState(() => {
+    //         return {
+    //           tabBarVisible: false
+    //         }
+    //       });
+    //     } else {
+    //       this.setState(() => {
+    //         return {
+    //           tabBarVisible: true
+    //         }
+    //       });
+    //     }
+    // }
     // this.setState({ tabBarVisible: false });
 
     // const oldState = this.props.navigation.state;
