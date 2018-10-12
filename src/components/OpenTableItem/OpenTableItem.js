@@ -17,7 +17,13 @@ const OpenTableItem = props => {
               : props.tabName === 'delivery'
                 ? 'OpenDeliveryDetails'
                 : 'VendorAdminActivityDetails',
-          params: { userName: item.userName }
+          params: {
+            userName:
+              props.tabName !== 'delivery'
+                ? `${item.userName} - ${item.tableId}`
+                : `${item.userName}`,
+            userImage: require('../../../assets/images/item4.png')
+          }
         })
       }
     >

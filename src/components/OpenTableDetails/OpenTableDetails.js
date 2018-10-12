@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 import {
   widthPercentageToDP as wp,
@@ -19,7 +19,11 @@ import {
 export default class OpenTableDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.state.params.userName,
+      headerTitle: (
+        <View>
+          <Text>{navigation.state.params.userName}</Text>
+        </View>
+      ),
       headerTintColor: 'white',
       headerStyle: {
         backgroundColor: '#1F1F1F',
