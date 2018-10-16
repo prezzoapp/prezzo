@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 import {
   widthPercentageToDP as wp,
@@ -9,6 +9,7 @@ import OpenOrdersList from '../OpenOrdersList';
 import OpenTablePayment from '../OpenTablePayment';
 import styles from './styles';
 import Button from '../Button';
+import { Feather } from '../VectorIcons';
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_GREEN,
@@ -16,40 +17,40 @@ import {
   COLOR_WHITE
 } from '../../services/constants';
 
-const Left = ({ onPress }) => (
-  <TouchableHighlight onPress={onPress}>
-    <Image source={navigation.state.params.userImage} />
-  </TouchableHighlight>
-);
-
 export default class OpenTableDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: (
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          width: '100%'
-        }}
-      >
-        <Image
+    headerLeft: (
+      <TouchableOpacity onPress={() => navigation.goBack()} >
+        <View
           style={{
-            width: wp('11.73%'),
-            height: wp('11.73%'),
-            borderColor: 'white',
-            borderWidth: 2,
-            borderRadius: wp('5.86%')
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center'
           }}
-          source={navigation.state.params.userImage}
-        />
-        <Text style={{ color: 'white', marginLeft: 10 }}>
-          {navigation.state.params.userName}
-        </Text>
-      </View>
+        >
+          <Feather
+            title="Add More"
+            name="chevron-left"
+            color="white"
+            size={wp('8%')}
+            style={styles.closeBtnIcon}
+          />
+
+          <Image
+            style={{
+              width: wp('11.73%'),
+              height: wp('11.73%'),
+              borderColor: 'white',
+              marginLeft: 10,
+              borderWidth: 2,
+              borderRadius: wp('5.86%')
+            }}
+            source={navigation.state.params.userImage}
+          />
+        </View>
+      </TouchableOpacity>
     ),
-
-
+    title: navigation.state.params.userName,
 
 
     headerTintColor: 'white',
@@ -57,14 +58,9 @@ export default class OpenTableDetails extends Component {
       backgroundColor: '#1F1F1F',
       borderBottomColor: 'transparent'
     }
-
-
-
   });
 
-  componentWillReceiveProps() {
-    console.log('components will receive props', this.props);
-  }
+  
 
   static displayName = 'OpenTableDetails';
 

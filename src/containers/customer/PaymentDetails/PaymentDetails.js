@@ -128,8 +128,8 @@ class PaymentDetails extends Component {
 
         post(`/v1/payment-methods/${paymentMethod._id}/default`).then(defaultPaymentMethod => {
             console.log("makeDefault API Successfully Called!");
-          // console.log('Default Payment Method: ');
-          // console.log(defaultPaymentMethod);
+            console.log('Default Payment Method: ');
+            console.log(defaultPaymentMethod);
 
             this.props
               .addCreditCardInfo(defaultPaymentMethod, true)

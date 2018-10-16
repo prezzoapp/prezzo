@@ -163,14 +163,15 @@ export default class MapScreen extends Component {
           pointerEvents="none"
         />
 
-        <View style={styles.searchSpotHolder}>
+        <View style={styles.searchBarHolder}>
           <Text style={styles.spotText}>Find, Your Spot?</Text>
           <GooglePlacesAutocomplete
-            placeholder="Search Location"
+            placeholder="Search Location..."
             minLength={3}
             autoFocus={false}
             returnKeyType="search"
             listViewDisplayed="auto"
+            enablePoweredByContainer={false}
             fetchDetails
             getDefaultValue={() => ''}
             currentLocation={false}
@@ -192,11 +193,19 @@ export default class MapScreen extends Component {
                 marginLeft: 0,
                 marginRight: 0,
                 height: 38,
-                fontSize: 16
+                fontSize: 16,
+                backgroundColor: '#414141',
+                color: 'white'
               },
               listView: {
                 zIndex: 999,
-                backgroundColor: 'white'
+                // backgroundColor: 'white',
+                marginHorizontal: 12,
+                backgroundColor: '#414141'
+              },
+
+              description: {
+                color: 'white'
               }
             }}
           />

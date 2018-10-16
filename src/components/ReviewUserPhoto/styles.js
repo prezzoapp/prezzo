@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#292828',
     paddingTop: hp('1.47%'),
     paddingBottom: hp('3.44%'),
-    paddingHorizontal: wp('3.2%'),
+    paddingHorizontal: wp('1.9%'),
     borderRadius: 8,
     marginTop: hp('3.07%'),
     marginLeft: 10,
@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
   },
 
   bigImageHolder: {
-    height: wp('32%'),
-    width: wp('32%'),
-    margin: 10,
-    justifyContent: 'flex-end'
+    height: wp('36%'),
+    backgroundColor: 'transparent',
+    width: wp('38%'),
+    marginTop: 10
   },
 
   linearGradient: {
@@ -33,12 +33,15 @@ const styles = StyleSheet.create({
 
   bigImage: {
     height: wp('32%'),
+    width: wp('32%'),
     borderRadius: 8,
     overflow: 'hidden',
     justifyContent: 'flex-end',
     backgroundColor: 'transparent',
     borderColor: COLOR_GREEN,
-    borderWidth : 2
+    borderWidth : 2,
+    marginTop:10,
+    marginLeft: 11
   },
 
   name: {

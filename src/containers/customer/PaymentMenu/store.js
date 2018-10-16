@@ -2,6 +2,7 @@
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { removeCreditCard } from '../../../modules/paymentMethods';
+import { listCreditCards } from '../../../modules/paymentMethods';
 
 export const mapStateToProps = state => {
   const data = state
@@ -20,6 +21,7 @@ export const mapStateToProps = state => {
 export const mapDispatchToProps = dispatch => {
   return {
     navigate: bindActionCreators(NavigationActions.navigate, dispatch),
-    removeCreditCard: bindActionCreators(removeCreditCard, dispatch)
+    removeCreditCard: bindActionCreators(removeCreditCard, dispatch),
+    listCreditCards: bindActionCreators(listCreditCards, dispatch)
   };
 };

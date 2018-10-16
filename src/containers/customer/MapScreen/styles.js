@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2B2C2C',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     paddingTop: Header.HEIGHT + 5
   },
 
@@ -47,6 +47,14 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     resizeMode: 'contain'
+  },
+
+  searchBarHolder: {
+    position: 'absolute',
+    top: Header.HEIGHT + 25,
+    left: 0,
+    right: 0,
+    zIndex: 9999
   }
 });
 

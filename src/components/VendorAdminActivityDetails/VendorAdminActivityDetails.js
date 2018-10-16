@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 import {
   widthPercentageToDP as wp,
@@ -9,6 +9,8 @@ import OpenOrdersList from '../OpenOrdersList';
 import OpenTablePayment from '../OpenTablePayment';
 import styles from './styles';
 import Button from '../Button';
+import { Feather } from '../VectorIcons';
+
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_GREEN,
@@ -19,6 +21,37 @@ import {
 export default class VendorAdminActivityDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack()} >
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <Feather
+              title="Add More"
+              name="chevron-left"
+              color="white"
+              size={wp('8%')}
+              style={styles.closeBtnIcon}
+            />
+
+            <Image
+              style={{
+                width: wp('11.73%'),
+                height: wp('11.73%'),
+                borderColor: 'white',
+                marginLeft: 10,
+                borderWidth: 2,
+                borderRadius: wp('5.86%')
+              }}
+              source={navigation.state.params.userImage}
+            />
+          </View>
+        </TouchableOpacity>
+      ),
       title: navigation.state.params.userName,
       headerTintColor: 'white',
       headerStyle: {

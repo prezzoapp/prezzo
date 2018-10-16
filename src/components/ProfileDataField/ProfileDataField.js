@@ -24,7 +24,7 @@ const ProfileDataField = ({ label, value }: Props) => {
           <Text style={styles.label}>{label}</Text>
         </View>
         <View style={styles.valueContainer}>
-          <Text style={styles.value}>{value}</Text>
+          <Text style={styles.value} numberOfLines={2}>{value}</Text>
         </View>
       </View>
     </View>
@@ -57,7 +57,7 @@ const styles = {
     fontSize: wp('5.33%')
   },
   valueContainer: {
-    width: '100%'
+    flex: 1
   }
 };
 

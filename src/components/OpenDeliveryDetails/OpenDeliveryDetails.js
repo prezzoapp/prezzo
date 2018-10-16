@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
+
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -9,6 +10,8 @@ import OpenOrdersList from '../OpenOrdersList';
 import OpenTablePayment from '../OpenTablePayment';
 import OpenDelivery from '../OpenDelivery';
 import Button from '../Button';
+import { Feather } from '../VectorIcons';
+
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_GREEN,
@@ -18,22 +21,53 @@ import {
 import styles from './styles';
 
 export default class OpenDeliveryDetails extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.state.params.userName,
-      headerTintColor: 'white',
-      headerStyle: {
-        backgroundColor: '#1F1F1F',
-        borderBottomColor: 'transparent'
-      }
+  static navigationOptions = ({ navigation }) => ({
+    headerLeft: (
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          <Feather
+            title="Add More"
+            name="chevron-left"
+            color="white"
+            size={wp('8%')}
+            style={styles.closeBtnIcon}
+          />
+          <Image
+            style={{
+              width: wp('11.73%'),
+              height: wp('11.73%'),
+              borderColor: 'white',
+              marginLeft: 10,
+              borderWidth: 2,
+              borderRadius: wp('5.86%')
+            }}
+            source={navigation.state.params.userImage}
+          />
+        </View>
+      </TouchableOpacity>
+    ),
+
+
+     title: navigation.state.params.userName,
+    headerTintColor: 'white',
+    headerStyle: {
+      backgroundColor: '#1F1F1F',
+      borderBottomColor: 'transparent'
     }
-  };
+  });
 
   static displayName = 'OpenDeliveryDetails';
 
   constructor() {
     super();
-    this.data = [{
+    this.data = [
+      {
         id: 1,
         status: 'Delivered',
         name: 'Buffalo Cauliflower x2',
@@ -88,7 +122,7 @@ export default class OpenDeliveryDetails extends Component {
   }
 
   onTabChange(data) {
-    if(data.i === 0) {
+    if (data.i === 0) {
       this.props.navigation.setParams({ visible: true });
     } else {
       this.props.navigation.setParams({ visible: false });
@@ -101,7 +135,7 @@ export default class OpenDeliveryDetails extends Component {
         <Tabs
           locked
           scrollWithoutAnimation
-          onChangeTab={(data) => this.onTabChange(data)}
+          onChangeTab={data => this.onTabChange(data)}
           tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
           renderTabBar={() => (
             <ScrollableTab
@@ -162,7 +196,7 @@ export default class OpenDeliveryDetails extends Component {
           </Tab>
         </Tabs>
       </Container>
-    )
+    );
   }
 }
 

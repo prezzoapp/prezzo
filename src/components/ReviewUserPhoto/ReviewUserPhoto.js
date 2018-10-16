@@ -30,7 +30,6 @@ class ReviewUserPhoto extends Component {
         // console.log(this.state.data)
       }
     );
-
   }
 
   addImageComponent(itemIndex, imageIndex) {
@@ -38,11 +37,16 @@ class ReviewUserPhoto extends Component {
   }
 
   render() {
-    console.log('render called',this.props.item.images);
+    console.log('render called', this.props.item.images);
 
     return (
       <View style={styles.item}>
-        <Text style={styles.addPhotoText} onPress={() => this.addImageComponent(0,0)}>{this.props.item.name}</Text>
+        <Text
+          style={styles.addPhotoText}
+          onPress={() => this.addImageComponent(0, 0)}
+        >
+          {this.props.item.name}
+        </Text>
 
         <View style={{ backgroundColor: 'transparent' }}>
           <FlatList
@@ -57,7 +61,13 @@ class ReviewUserPhoto extends Component {
                     this.addImageComponent(this.props.item.index, item.index)
                   }
                 >
-                  <View style={{ position: 'relative' }}>
+                  <View
+                    style={{
+                      position: 'relative',
+                      backgroundColor: 'transparent',
+                      height: '100%'
+                    }}
+                  >
                     <ImageBackground
                       source={{ uri: item.key }}
                       style={styles.bigImage}

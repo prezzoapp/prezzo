@@ -35,7 +35,7 @@ export default (state = INITIAL_STATE, action) => {
         .update('isBusy', () => false);
 
     case ADD_CREDIT_CARD_SUCCESS:
-      if(action.payload.get('defaultPayment')) {
+//      if(action.payload.get('defaultPayment')) {
         return state
           .update('data', array =>
             array.map(item => {
@@ -44,11 +44,11 @@ export default (state = INITIAL_STATE, action) => {
               .push(action.payload.get('cardInfo'))
           )
           .update('isBusy', () => false);
-      }
+//      }
 
-      return state
-        .update('data', array => array.push(action.payload.get('cardInfo')))
-        .update('isBusy', () => false);
+// return state
+//         .update('data', array => array.push(action.payload.get('cardInfo')))
+//         .update('isBusy', () => false);
 
     case LIST_CREDIT_CARDS_SUCCESS:
       console.log(action.payload.toJS());

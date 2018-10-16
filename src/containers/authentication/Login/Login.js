@@ -50,7 +50,7 @@ class Login extends React.Component<Props, State> {
   }
 
   afterLogin() {
-    this.props.listCreditCards();
+  //  this.props.listCreditCards();
     this.navigateToMain();
   }
 

@@ -27,13 +27,18 @@ class PaymentMenu extends Component {
 
   static displayName = 'Payment Methods';
 
+  componentDidMount() {
+    this.props.listCreditCards();
+  }
+
   removeCardAtIndex(id) {
     Alert.alert(
-    null,
+      null,
       'Are you sure you want to delete this payment method?',
       [
         {
-          text: 'Yes', onPress: () => this.props.removeCreditCard(id)
+          text: 'Yes',
+          onPress: () => this.props.removeCreditCard(id)
         },
         {
           text: 'No',
@@ -42,7 +47,7 @@ class PaymentMenu extends Component {
         }
       ],
       { cancelable: false }
-    )
+    );
   }
 
   render() {
@@ -71,7 +76,8 @@ class PaymentMenu extends Component {
               }
             />
 
-            {this.props.data&& this.props.data.map((item, key) => (
+            {this.props.data &&
+              this.props.data.map((item, key) => (
                 <View
                   key={key}
                   style={{
@@ -95,7 +101,7 @@ class PaymentMenu extends Component {
                               marginRight: 15
                             }}
                           />
-                        )
+                        );
                       } else if (item.type === 'braintree-mastercard') {
                         return (
                           <Image
@@ -107,7 +113,7 @@ class PaymentMenu extends Component {
                               marginRight: 15
                             }}
                           />
-                        )
+                        );
                       } else if (item.type === 'braintree-discover') {
                         return (
                           <Image
@@ -119,7 +125,7 @@ class PaymentMenu extends Component {
                               marginRight: 15
                             }}
                           />
-                        )
+                        );
                       } else if (item.type === 'braintree-jcb') {
                         return (
                           <Image
@@ -131,12 +137,12 @@ class PaymentMenu extends Component {
                               marginRight: 15
                             }}
                           />
-                        )
+                        );
                       }
                     })()}
                   />
-               </View>
-            ))}
+                </View>
+              ))}
 
             <MenuButton
               onPress={() => {}}
