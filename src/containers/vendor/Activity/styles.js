@@ -8,7 +8,7 @@ import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE
 } from '../../../services/constants';
-const SECTION_WIDTH: number = 0.85 * Dimensions.get('window').width;
+const SECTION_WIDTH: number = 0.90 * Dimensions.get('window').width;
 
 
 const styles = StyleSheet.create({
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
    right: 0,
    bottom: 0,
    left: 0,
-   backgroundColor: 'black',
+   backgroundColor: 'transparent',
    zIndex: 9999,
    opacity: 0.99
  },
@@ -128,7 +128,17 @@ const styles = StyleSheet.create({
    backgroundColor: 'grey',
    opacity: 0.9,
    borderRadius: 10
-  }
+ },
+ blurView: {
+   position: 'absolute',
+   top: 0,
+   right: 0,
+   bottom: 0,
+   left: 0,
+    borderRadius: 10
+   // borderTopLeftRadius: 10,
+   // borderTopRightRadius: 10
+ }
 });
 
 export default styles;

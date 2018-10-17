@@ -11,6 +11,7 @@ import { LinearGradient } from 'expo';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import MenuItemImage from '../MenuItemImage';
+import { COLOR_GREEN } from '../../services/constants';
 
 class ReviewUserPhoto extends Component {
   constructor(props) {
@@ -70,7 +71,17 @@ class ReviewUserPhoto extends Component {
                   >
                     <ImageBackground
                       source={{ uri: item.key }}
-                      style={styles.bigImage}
+                      blurRadius={1}
+                      style={[
+                        styles.bigImage,
+                        {
+                          borderColor:
+                            item.selected == true
+                              ? COLOR_GREEN
+                              : 'rgba(255, 255, 255, 0.5)',
+                          borderWidth: item.selected == true ? 3 : 2
+                        }
+                      ]}
                     />
                     {(() => {
                       if (item.selected) {

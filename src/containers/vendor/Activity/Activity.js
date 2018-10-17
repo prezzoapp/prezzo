@@ -332,8 +332,12 @@ class Activity extends Component {
             }
           ]}
         >
+// <View style= {{position: 'absolute', top: 0, left: 0, right:0, height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.9)'} }>
+// </View>
+
           <View style={styles.box2}>
-            <BlurView style={styles.blurView} tint="light" intensity={30} />
+          <BlurView style={styles.blurView} tint="red" intensity={100} />
+
             <View
               style={{
                 flexDirection: 'row',

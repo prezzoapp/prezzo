@@ -60,7 +60,7 @@ export default class OpenTableDetails extends Component {
     }
   });
 
-  
+
 
   static displayName = 'OpenTableDetails';
 
@@ -198,7 +198,7 @@ export default class OpenTableDetails extends Component {
                     Request
                   </Button>
 
-                  <Text style={[styles.price, { textAlign: 'right' }]}>
+                  <Text style={[styles.price, { textAlign: 'right', marginRight: wp('5.33%') }]}>
                     Total $90.95
                   </Text>
                 </View>

@@ -21,7 +21,8 @@ const OpenOrdersList = props => {
     <View style={styles.container}>
       <View
         style={{
-          height: hp('29.55%'),
+          // height: hp('29.55%'),
+          flex: 1,
           marginTop: 0,
           borderBottomColor: COLOR_GREEN,
           borderBottomWidth: 1

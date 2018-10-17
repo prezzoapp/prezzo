@@ -13,10 +13,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#292828',
     paddingTop: hp('1.47%'),
     paddingBottom: hp('3.44%'),
-    paddingHorizontal: wp('1.9%'),
+    paddingHorizontal: wp('3.44%'),
     borderRadius: 8,
     marginTop: hp('3.07%'),
-    marginLeft: 10,
+    marginLeft: 16,
     marginRight: 10
   },
 
@@ -38,8 +38,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     justifyContent: 'flex-end',
     backgroundColor: 'transparent',
-    borderColor: COLOR_GREEN,
-    borderWidth : 2,
     marginTop:10,
     marginLeft: 11
   },
