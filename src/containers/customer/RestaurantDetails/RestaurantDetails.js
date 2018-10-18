@@ -12,19 +12,18 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-// import { Header } from 'react-navigation';
-
-import { Feather } from '../../../components/VectorIcons';
-
-import { LinearGradient, BlurView } from 'expo';
-
-
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
 import PropTypes from 'prop-types';
+
+// import { Header } from 'react-navigation';
+
+import { Feather } from '../../../components/VectorIcons';
+
+import { LinearGradient, BlurView } from 'expo';
 
 import styles from './styles';
 
@@ -54,7 +53,8 @@ export default class RestaurantDetails extends Component {
       shadowColor: 'transparent',
       borderBottomWidth: 0
     },
-    headerTintColor: '#fff'
+    headerTintColor: '#fff',
+    gesturesEnabled: false
   });
 
   constructor(props) {
@@ -239,7 +239,7 @@ export default class RestaurantDetails extends Component {
               <BlurView
                 style={styles.bottomViewBlurContainer}
                 tint="dark"
-                intensity={10}
+                intensity={100}
               />
 
               {(() => {

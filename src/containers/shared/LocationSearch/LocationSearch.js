@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import styles from './styles';
 
 class LocationSearch extends React.Component {

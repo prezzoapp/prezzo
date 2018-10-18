@@ -28,6 +28,7 @@ class PaymentMenu extends Component {
   static displayName = 'Payment Methods';
 
   componentDidMount() {
+    console.log(this.props.data);
     this.props.listCreditCards();
   }
 

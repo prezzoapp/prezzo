@@ -5,7 +5,8 @@ import {
   Image,
   Text,
   ActivityIndicator,
-  Modal
+  Modal,
+  InteractionManager
 } from 'react-native';
 import { CreditCardInput } from 'react-native-credit-card-input';
 import {
@@ -42,7 +43,7 @@ class PaymentDetails extends Component {
     this.state = {
       selectCheckBox: false,
       dataValid: false,
-      isLoading: true,
+      isLoading: false,
       error: ''
     };
 
@@ -51,29 +52,37 @@ class PaymentDetails extends Component {
   }
 
   componentDidMount() {
-    try {
-      get(`/v1/self/payment-token`).then(response => {
-        console.log(`Token: ${response.token}`);
-        this.setState(() => {
-            return {
-              isLoading: false
-            };
-          },
-          () => {
-            this.getToken = response.token;
-            this.webview.messagesChannel.on('isTokenizationComplete', nonce =>
-              this.isTokenizationComplete(nonce)
-            );
+    InteractionManager.runAfterInteractions(() => {
+      this.setState(() => {
+        return {
+          isLoading: true
+        }
+      }, () => {
+        try {
+          get(`/v1/self/payment-token`).then(response => {
+            console.log(`Token: ${response.token}`);
+            this.setState(() => {
+                return {
+                  isLoading: false
+                };
+              },
+              () => {
+                this.getToken = response.token;
+                this.webview.messagesChannel.on('isTokenizationComplete', nonce =>
+                  this.isTokenizationComplete(nonce)
+                );
 
-            this.webview.messagesChannel.on('isError', error =>
-              this.isError(error)
+                this.webview.messagesChannel.on('isError', error =>
+                  this.isError(error)
+                );
+              }
             );
-          }
-        );
+          });
+        } catch (e) {
+          console.log(e.message);
+        }
       });
-    } catch (e) {
-      console.log(e.message);
-    }
+    });
   }
 
   onChange(data) {
@@ -118,51 +127,66 @@ class PaymentDetails extends Component {
     // console.log(nonce);
 
     post(`/v1/payment-methods`, {
-      nonce
+      nonce,
+      isDefault: this.state.selectCheckBox
     }).then(paymentMethod => {
       console.log('Response After Sending Nonce: ');
       console.log(paymentMethod);
-
-      if(this.state.selectCheckBox) {
-        console.log("Calling makeDefault API!");
-
-        post(`/v1/payment-methods/${paymentMethod._id}/default`).then(defaultPaymentMethod => {
-            console.log("makeDefault API Successfully Called!");
-            console.log('Default Payment Method: ');
-            console.log(defaultPaymentMethod);
-
-            this.props
-              .addCreditCardInfo(defaultPaymentMethod, true)
-              .then(() => {
-                console.log('Default Payment Method Added Succesfully!');
-                this.setState(() => {
-                    return {
-                      isLoading: false
-                    };
-                  },
-                  () => {
-                    this.props.navigate({ routeName: 'PaymentMenu' });
-                  }
-                );
-            });
-          }
-        )
-      } else {
-        this.props.addCreditCardInfo(paymentMethod, false).then(() => {
-          // console.log('Payment Method Added Succesfully!');
-          // console.log(paymentMethod);
-
-          this.setState(() => {
-              return {
-                isLoading: false
-              };
-            },
+      this.props
+        .addCreditCardInfo(paymentMethod, paymentMethod.isDefault)
+        .then(() => {
+          this.setState(
             () => {
-              this.props.navigate({ routeName: 'PaymentMenu' });
-            }
-          );
-        });
-      }
+            return {
+                isLoading: false
+            };
+          },
+          () => {
+            this.props.navigation.goBack();
+          }
+        );
+      });
+
+      // if(this.state.selectCheckBox) {
+      //   console.log("Calling makeDefault API!");
+      //
+      //   post(`/v1/payment-methods/${paymentMethod._id}/default`).then(defaultPaymentMethod => {
+      //       console.log("makeDefault API Successfully Called!");
+      //       console.log('Default Payment Method: ');
+      //       console.log(defaultPaymentMethod);
+      //
+      //       this.props
+      //         .addCreditCardInfo(defaultPaymentMethod, true)
+      //         .then(() => {
+      //           console.log('Default Payment Method Added Succesfully!');
+      //           this.setState(() => {
+      //               return {
+      //                 isLoading: false
+      //               };
+      //             },
+      //             () => {
+      //               this.props.navigate({ routeName: 'PaymentMenu' });
+      //             }
+      //           );
+      //       });
+      //     }
+      //   )
+      // } else {
+      //   this.props.addCreditCardInfo(paymentMethod, false).then(() => {
+      //     // console.log('Payment Method Added Succesfully!');
+      //     // console.log(paymentMethod);
+      //
+      //     this.setState(() => {
+      //         return {
+      //           isLoading: false
+      //         };
+      //       },
+      //       () => {
+      //         this.props.navigate({ routeName: 'PaymentMenu' });
+      //       }
+      //     );
+      //   });
+      // }
     });
   }
 

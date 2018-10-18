@@ -138,7 +138,8 @@ const CustomerNavigator = createStackNavigator(
       }
     },
     MapScreen: { screen: MapScreen },
-    RestaurantDetails: { screen: RestaurantDetails }
+    RestaurantDetails: { screen: RestaurantDetails },
+    CheckoutPaymentDetails: { screen: PaymentDetails }
   },
   {
     mode: 'modal'

@@ -129,7 +129,7 @@ export default class CheckoutSwiper extends Component {
       () => {
         if (this.state.selectedPaymentMethod === 'add_new_card') {
           this.props.navigate({
-            routeName: 'PaymentDetails',
+            routeName: 'CheckoutPaymentDetails',
             params: { title: 'Add New Card' }
           });
         } else {
