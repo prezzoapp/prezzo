@@ -39,6 +39,7 @@ export default class Checkout extends Component {
     this.animationRunning = false;
   }
 
+
   componentWillMount() {
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => false,
@@ -60,7 +61,7 @@ export default class Checkout extends Component {
 
       onPanResponderMove: (evt, gestureState) => {
         // console.log("Move Gesture Called!");
-        if(gestureState.dy > 0) {
+        if (gestureState.dy > 0) {
           this.showModalAnimatedValue.setValue(gestureState.dy);
         }
       },
@@ -69,7 +70,7 @@ export default class Checkout extends Component {
         // console.log(parseInt(height / 5));
         // console.log(gestureState.dy);
 
-        if(gestureState.dy <= parseInt(height / 5)) {
+        if (gestureState.dy <= parseInt(height / 5)) {
           Animated.timing(this.showModalAnimatedValue, {
             toValue: 0,
             duration: 200,
@@ -81,12 +82,18 @@ export default class Checkout extends Component {
       }
     });
   }
+  componentDidMount() {
+    this.props.listCreditCards();
+  }
+
+
 
   onScrollEnd(index) {
     this.scrollView.scrollTo({
       x: parseFloat((width * index) / 3),
       y: 0,
-      animated: false });
+      animated: false
+    });
 
     this.index = index;
   }
@@ -114,8 +121,8 @@ export default class Checkout extends Component {
   }
 
   showModal() {
-    if(this.animationRunning === false) {
-      //this.showModalAnimatedValue.setValue(0);
+    if (this.animationRunning === false) {
+      // this.showModalAnimatedValue.setValue(0);
       this.animationRunning = true;
       Animated.timing(this.showModalAnimatedValue, {
         toValue: 0,
@@ -129,7 +136,7 @@ export default class Checkout extends Component {
   }
 
   hideModal() {
-    //this.showModalAnimatedValue.setValue(1);
+    // this.showModalAnimatedValue.setValue(1);
 
     Animated.timing(this.showModalAnimatedValue, {
       toValue: height,
@@ -246,6 +253,7 @@ export default class Checkout extends Component {
               }}
               navigate={this.props.navigate}
               restaurantName={this.props.restaurantName}
+              creditCardList={this.props.creditCardList}
               onScrollingEnd={(xValue, index) =>
                 this.onScrollEnd(xValue, index)
               }
