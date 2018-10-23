@@ -19,8 +19,6 @@ import {
 
 import PropTypes from 'prop-types';
 
-// import { Header } from 'react-navigation';
-
 import { Feather } from '../../../components/VectorIcons';
 
 import { LinearGradient, BlurView } from 'expo';
@@ -127,6 +125,7 @@ export default class RestaurantDetails extends Component {
   }
 
   async attemptToCreateOrder() {
+    const tempCardItems = [];
     const cartItems =
       this.props.data && this.props.data.data.menu &&
       this.props.data.data.menu.categories
@@ -135,26 +134,29 @@ export default class RestaurantDetails extends Component {
             return d;
           })
         )
-        .reduce((a, v) => [...a, ...v], []);
+        .reduce((a, v) => a.concat(v), []);
 
-    console.log(cartItems);
-
-    const fakeCardItems = [{
-        createdDate: cartItems[0].createdDate,
-        creator: '5b67dbd4b60a83004be0bc1b',
-        item: cartItems[0]._id,
-        notes: cartItems[0].description,
-        rating: cartItems[0].rating,
-        imageURLs: cartItems[0].imageURLs
-      }
-    ];
+    cartItems.map(cart => {
+      for (let i = 0; i < cart.quantity; i++) {
+       tempCardItems.push({
+         createdDate: cart.createdDate,
+         title: cart.title,
+         description: cart.description,
+         notes: cart.description,
+         price: cart.price,
+         rating: cart.rating,
+         imageURLs: cart.imageURLs,
+         _id: cart._id
+       });
+     }
+   });
 
     try {
       await this.props.createOrder(
-        fakeCardItems,
+        tempCardItems,
         this.props.type,
         'cash',
-        this.props.data.data.name,
+        this.props.data.data._id
       )
     } catch(e) {
       showGenericAlert('Uh-oh!', e.message || e);
@@ -320,6 +322,8 @@ export default class RestaurantDetails extends Component {
   )
 
   render() {
+    console.log(this.props.data);
+
     const animatedHeader = this.scrollAnimatedValue.interpolate({
       inputRange: [0, 190],
       outputRange: [190, 0],

@@ -125,7 +125,7 @@ export const createOrder = async (
   dispatch({ type: CREATE_ORDER_REQUEST });
 
   try {
-    await post(`/v1/orders/`, {
+    await post(`/v1/orders`, {
       items,
       type,
       paymentType,

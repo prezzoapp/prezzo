@@ -63,6 +63,7 @@ export default (state = INITIAL_STATE, action) => {
     case CLEAR_CART_DATA_REQUEST:
     case SET_TYPE_REQUEST:
     case SET_PAYMENT_TYPE_REQUEST:
+    case CREATE_ORDER_REQUEST:
       return state.update('isBusy', () => true);
 
     case ADD_RESTAURANT_DETAIL_FAILURE:
@@ -72,6 +73,7 @@ export default (state = INITIAL_STATE, action) => {
     case CLEAR_CART_DATA_FAILURE:
     case SET_TYPE_FAILURE:
     case SET_PAYMENT_TYPE_FAILURE:
+    case CREATE_ORDER_FAILURE:
       return state.update('isBusy', () => false);
 
     case ADD_RESTAURANT_DETAIL_SUCCESS:
