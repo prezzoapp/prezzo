@@ -6,8 +6,7 @@ import {
   addRemoveItemQuantity,
   changeItemRating,
   removeRestaurantDetail,
-  clearCartData,
-  createOrder
+  clearCartData
 } from '../../../modules/restaurant';
 
 export const mapStateToProps = state => {
@@ -26,6 +25,5 @@ export const mapDispatchToProps = dispatch => ({
   changeItemRating: bindActionCreators(changeItemRating, dispatch),
   addRestaurantDetail: bindActionCreators(addRestaurantDetail, dispatch),
   removeRestaurantDetail: bindActionCreators(removeRestaurantDetail, dispatch),
-  clearCartData: bindActionCreators(clearCartData, dispatch),
-  createOrder: bindActionCreators(createOrder, dispatch)
+  clearCartData: bindActionCreators(clearCartData, dispatch)
 });

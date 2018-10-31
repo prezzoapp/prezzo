@@ -18,15 +18,15 @@ import {
 
   SET_TYPE_REQUEST,
   SET_TYPE_SUCCESS,
-  SET_TYPE_FAILURE,
+  SET_TYPE_FAILURE
 
-  SET_PAYMENT_TYPE_REQUEST,
-  SET_PAYMENT_TYPE_SUCCESS,
-  SET_PAYMENT_TYPE_FAILURE,
-
-  CREATE_ORDER_REQUEST,
-  CREATE_ORDER_SUCCESS,
-  CREATE_ORDER_FAILURE
+  // SET_PAYMENT_TYPE_REQUEST,
+  // SET_PAYMENT_TYPE_SUCCESS,
+  // SET_PAYMENT_TYPE_FAILURE,
+  //
+  // CREATE_ORDER_REQUEST,
+  // CREATE_ORDER_SUCCESS,
+  // CREATE_ORDER_FAILURE
 } from './types';
 
 const INITIAL_STATE = fromJS({
@@ -36,7 +36,9 @@ const INITIAL_STATE = fromJS({
   type: 'table',
   paymentType: '',
   vendor: null,
-  paymentMethod: null
+  paymentMethod: null,
+
+  // currentOrder: null
 });
 
 calculateFinalPrice = categories => {
@@ -62,8 +64,8 @@ export default (state = INITIAL_STATE, action) => {
     case CHANGE_ITEM_RATING_REQUEST:
     case CLEAR_CART_DATA_REQUEST:
     case SET_TYPE_REQUEST:
-    case SET_PAYMENT_TYPE_REQUEST:
-    case CREATE_ORDER_REQUEST:
+    // case SET_PAYMENT_TYPE_REQUEST:
+    // case CREATE_ORDER_REQUEST:
       return state.update('isBusy', () => true);
 
     case ADD_RESTAURANT_DETAIL_FAILURE:
@@ -72,9 +74,14 @@ export default (state = INITIAL_STATE, action) => {
     case CHANGE_ITEM_RATING_FAILURE:
     case CLEAR_CART_DATA_FAILURE:
     case SET_TYPE_FAILURE:
-    case SET_PAYMENT_TYPE_FAILURE:
-    case CREATE_ORDER_FAILURE:
+    // case SET_PAYMENT_TYPE_FAILURE:
+    // case CREATE_ORDER_FAILURE:
       return state.update('isBusy', () => false);
+
+    // case CREATE_ORDER_SUCCESS:
+    //   return state
+    //     .update('currentOrder', () => action.payload)
+    //     .update('isBusy', () => false);
 
     case ADD_RESTAURANT_DETAIL_SUCCESS:
       restaurant = state.set('data', action.payload);

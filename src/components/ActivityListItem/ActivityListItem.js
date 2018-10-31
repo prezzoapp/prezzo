@@ -9,7 +9,7 @@ const ActivityListItem = props => (
     <View style={styles.leftSide}>
       <Image
         source={
-          props.item.status === 'Delivered'
+          props.item.status === 'delivered'
             ? require('../../../assets/images/icons/active_status.png')
             : require('../../../assets/images/icons/green_in_progress.png')
         }
@@ -24,12 +24,12 @@ const ActivityListItem = props => (
         { paddingRight: props.item.editable ? wp('9%') : 0 }
       ]}
     >
-      <Text style={styles.status}>{props.item.status}</Text>
-      <Text style={styles.name}>{props.item.name}</Text>
-      {props.item.info !== '' &&
-      props.item.info !== undefined &&
-      props.item.info !== null ? (
-        <Text style={styles.info}>{props.item.info}</Text>
+      <Text style={styles.status}>Delivered</Text>
+      <Text style={styles.name}>{props.item.title}</Text>
+      {props.item.notes !== '' &&
+      props.item.notes !== undefined &&
+      props.item.notes !== null ? (
+        <Text style={styles.info}>{props.item.notes}</Text>
       ) : null}
       {props.item.editable ? (
         <TouchableOpacity activeOpacity={0.6} style={styles.editBtn}>

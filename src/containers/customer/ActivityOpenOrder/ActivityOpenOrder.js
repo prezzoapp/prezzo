@@ -5,6 +5,8 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
+import PropTypes from 'prop-types';
+
 import styles from './styles';
 import ActivityListItem from '../../../components/ActivityListItem';
 import Button from '../../../components/Button';
@@ -19,64 +21,101 @@ class ActivityOpenOrder extends Component {
   constructor() {
     super();
 
-    this.data = [{
-        id: 1,
-        status: 'Delivered',
-        name: 'Buffalo Cauliflower x2',
-        info: 'Extra buffalo sauce, hold the carrots',
-        editable: false
+    this.state = { isFetching: false }
+  }
+
+  componentDidMount() {
+    this.hitAPI();
+  }
+
+  onRefresh() {
+    this.setState(() => {
+        return {
+          isFetching: true
+        }
       },
-      {
-        id: 2,
-        status: 'Delivered',
-        name: 'Mac n’ Cheese x1',
-        info: 'Split in two bowls',
-        editable: false
-      },
-      {
-        id: 3,
-        status: 'In Progress',
-        name: 'BBQ Pinapple x2',
-        info: '',
-        editable: true
-      },
-      {
-        id: 4,
-        status: 'In Progress',
-        name: 'Mole Bowl x1',
-        info: '',
-        editable: true
+      () => {
+        this.hitAPI();
+        this.setState(() => {
+          return {
+            isFetching: false
+          }
+        });
       }
-    ];
+    );
+  }
+
+  hitAPI() {
+    this.props.listOpenOrders('5bd2c0661392eb0a5c23c08b');
+  }
+
+  renderHeader() {
+    return <Text style={styles.tableCode}>Table 9192</Text>;
   }
 
   render() {
+    const pendingItem =
+      this.props.data &&
+      this.props.data.filter(item => {
+        if (
+          item.status === 'preparing' ||
+          item.status === 'active' ||
+          item.status === 'pending'
+      ) {
+        return item.items.filter(innerItem => {
+            innerItem.status = 'delivered';
+            innerItem.editable = false;
+          }
+        )
+      }
+    });
+
+    console.log(pendingItem);
+
     return (
       <View style={styles.container}>
-        <Text style={styles.tableCode}>Table 9192</Text>
-        <FlatList
-          keyExtractor={item => item.id.toString()}
-          showsVerticalScrollIndicator={false}
-          data={this.data}
-          renderItem={({ item }) => <ActivityListItem item={item} />}
-        />
-        <View style={styles.footerContainer}>
-          <Button
-            style={buttonStyles.callWaiterBtn}
-            textStyle={buttonStyles.callWaiterBtnText}
-            onPress={() => null}
-          >
-            Call Waiter
-          </Button>
+        {(() => {
+          if (pendingItem.length === 0) {
+            return (
+              <View style={styles.notFoundHolder}>
+                <Text style={styles.message}>
+                  No pending order. You can create new one.
+                </Text>
+              </View>
+            )
+          }
+          return (
+            <View style={{ flex: 1 }}>
+              <FlatList
+                keyExtractor={(item, index) => index.toString()}
+                showsVerticalScrollIndicator={false}
+                data={pendingItem.length !== 0 ? pendingItem[0].items : []}
+                renderItem={({ item }) => <ActivityListItem item={item} />}
+                onRefresh={() => this.onRefresh()}
+                refreshing={this.state.isFetching}
+                ListHeaderComponent={this.renderHeader}
+                stickyHeaderIndices={[0]}
+              />
+              <View style={styles.footerContainer}>
+                <Button
+                  style={buttonStyles.callWaiterBtn}
+                  textStyle={buttonStyles.callWaiterBtnText}
+                  onPress={() => null}
+                >
+                  Call Waiter
+                </Button>
 
-          <Button
-            style={buttonStyles.closeTableBtn}
-            textStyle={buttonStyles.closeTableBtnText}
-            onPress={() => null}
-          >
-            Close Table
-          </Button>
-        </View>
+                <Button
+                  style={buttonStyles.closeTableBtn}
+                  textStyle={buttonStyles.closeTableBtnText}
+                  onPress={() => null}
+                >
+                  Close Table
+                </Button>
+              </View>
+            </View>
+          );
+        })()}
       </View>
     );
   }
@@ -119,6 +158,11 @@ const buttonStyles = {
     paddingBottom: 0,
     justifyContent: 'center'
   }
+};
+
+ActivityOpenOrder.propTypes = {
+  data: PropTypes.object.isRequired,
+  listOpenOrders: PropTypes.func.isRequired
 };
 
 export default ActivityOpenOrder;

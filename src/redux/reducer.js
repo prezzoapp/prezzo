@@ -15,6 +15,7 @@ import paymentMethods from '../modules/paymentMethods';
 import TableReducer from '../modules/table';
 import DeliveryReducer from '../modules/delivery';
 import VendorActivityReducer from '../modules/vendorActivity';
+import UserActivityReducer from '../modules/userActivity';
 
 const reducers = {
   navigatorState: NavigatorStateReducer,
@@ -30,7 +31,8 @@ const reducers = {
   paymentMethods,
   table: TableReducer,
   delivery: DeliveryReducer,
-  vendorActivity: VendorActivityReducer
+  vendorActivity: VendorActivityReducer,
+  userActivity: UserActivityReducer
 };
 
 // initial state, accessor and mutator for supporting root-level

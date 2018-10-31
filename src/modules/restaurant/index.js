@@ -5,8 +5,8 @@ import {
   addRemoveItemQuantity,
   clearCartData,
   changeItemRating,
-  setType,
-  createOrder
+  setType
+  // createOrder
 } from './actions';
 import reducer from './reducer';
 
@@ -16,8 +16,8 @@ export {
   addRemoveItemQuantity,
   clearCartData,
   changeItemRating,
-  setType,
-  createOrder
+  setType
+  // createOrder
 };
 
 export default reducer;

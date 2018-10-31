@@ -50,7 +50,7 @@ class Activity extends Component {
           >
             <ActivityOpenOrder />
           </Tab>
-          <Tab
+          {/*<Tab
             heading="History"
             tabStyle={styles.historyTabStyle}
             activeTabStyle={styles.historyTabStyle}
@@ -59,7 +59,7 @@ class Activity extends Component {
             style={styles.tabStyle}
           >
             <ActivityHistory />
-          </Tab>
+          </Tab>*/}
         </Tabs>
       </Container>
     );

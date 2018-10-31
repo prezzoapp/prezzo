@@ -19,18 +19,18 @@ import {
 
   SET_TYPE_REQUEST,
   SET_TYPE_SUCCESS,
-  SET_TYPE_FAILURE,
+  SET_TYPE_FAILURE
 
-  SET_PAYMENT_TYPE_REQUEST,
-  SET_PAYMENT_TYPE_SUCCESS,
-  SET_PAYMENT_TYPE_FAILURE,
-
-  CREATE_ORDER_REQUEST,
-  CREATE_ORDER_SUCCESS,
-  CREATE_ORDER_FAILURE
+  // SET_PAYMENT_TYPE_REQUEST,
+  // SET_PAYMENT_TYPE_SUCCESS,
+  // SET_PAYMENT_TYPE_FAILURE,
+  //
+  // CREATE_ORDER_REQUEST,
+  // CREATE_ORDER_SUCCESS,
+  // CREATE_ORDER_FAILURE
 } from './types';
 
-import { post } from '../../utils/api';
+// import { post } from '../../utils/api';
 
 export const addRestaurantDetail = (restaurant: object) => dispatch => {
   dispatch({ type: ADD_RESTAURANT_DETAIL_REQUEST });
@@ -116,26 +116,29 @@ export const setType = async (type: string) => async dispatch => {
   }
 };
 
-export const createOrder = async (
-  items: array,
-  type: string,
-  paymentType: string,
-  vendor: string
-) => async dispatch => {
-  dispatch({ type: CREATE_ORDER_REQUEST });
-
-  try {
-    await post(`/v1/orders`, {
-      items,
-      type,
-      paymentType,
-      vendor
-    });
-
-    return dispatch({
-      type: CREATE_ORDER_SUCCESS
-    });
-  } catch (e) {
-    return dispatch({ type: CREATE_ORDER_FAILURE });
-  }
-};
+// export const createOrder = async (
+//   items: array,
+//   // status: string,
+//   type: string,
+//   paymentType: string,
+//   vendor: string
+// ) => async dispatch => {
+//   dispatch({ type: CREATE_ORDER_REQUEST });
+//
+//   try {
+//     const order = await post(`/v1/orders`, {
+//       items,
+//       // status,
+//       type,
+//       paymentType,
+//       vendor
+//     });
+//
+//     return dispatch({
+//       type: CREATE_ORDER_SUCCESS,
+//       payload: fromJS(order)
+//     });
+//   } catch (e) {
+//     return dispatch({ type: CREATE_ORDER_FAILURE });
+//   }
+// };

@@ -1,8 +1,9 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 840,
-  "expoServerNgrokUrl": "https://jg-67y.expoprojects.prezzo-9-aug-18.exp.direct",
-  "packagerNgrokUrl": "https://packager.jg-67y.expoprojects.prezzo-9-aug-18.exp.direct",
-  "ngrokPid": 866
+  "packagerPid": 784,
+  "expoServerNgrokUrl": "https://yj-dku.expoprojects.prezzo-9-aug-18.exp.direct",
+  "packagerNgrokUrl": "https://packager.yj-dku.expoprojects.prezzo-9-aug-18.exp.direct",
+  "ngrokPid": 1030,
+  "devToolsPort": 19002
 }

@@ -36,6 +36,8 @@ import Checkout from '../Checkout';
 import CustomPopup from '../../../components/CustomPopup';
 import showGenericAlert from '../../../components/GenericAlert';
 
+import { post } from '../../../utils/api';
+
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 
 export default class RestaurantDetails extends Component {
@@ -80,7 +82,7 @@ export default class RestaurantDetails extends Component {
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
       this.props.addRestaurantDetail(this.props.navigation.state.params.item);
-    })
+    });
   }
 
   componentWillUnmount() {
@@ -101,17 +103,7 @@ export default class RestaurantDetails extends Component {
       this.modal.getWrappedInstance().scrollForward();
     } else if (this.modal && this.state.currentSlideIndex === 2) {
       this.modal.getWrappedInstance().hideModal();
-      this.attemptToCreateOrder().then(() => {
-        this.setState(() => {
-          return {
-              modalVisible: true
-            };
-          },
-          () => {
-            this.props.clearCartData();
-          }
-        );
-      });
+      this.attemptToCreateOrder();
     }
   }
 
@@ -124,8 +116,8 @@ export default class RestaurantDetails extends Component {
     });
   }
 
-  async attemptToCreateOrder() {
-    const tempCardItems = [];
+  attemptToCreateOrder() {
+    const modifiedCartItems = [];
     const cartItems =
       this.props.data && this.props.data.data.menu &&
       this.props.data.data.menu.categories
@@ -138,7 +130,7 @@ export default class RestaurantDetails extends Component {
 
     cartItems.map(cart => {
       for (let i = 0; i < cart.quantity; i++) {
-       tempCardItems.push({
+       modifiedCartItems.push({
          createdDate: cart.createdDate,
          title: cart.title,
          description: cart.description,
@@ -149,16 +141,34 @@ export default class RestaurantDetails extends Component {
          _id: cart._id
        });
      }
-   });
+    });
 
     try {
-      await this.props.createOrder(
-        tempCardItems,
-        this.props.type,
-        'cash',
-        this.props.data.data._id
-      )
+      setTimeout(() => {
+        post(`/v1/orders`, {
+          items: modifiedCartItems,
+          type: this.props.type,
+          paymentType: 'cash',
+          vendor: this.props.data.data._id
+        }).then(response => {
+            this.setState(
+              () => {
+                return {
+                  modalVisible: true
+                };
+              },
+              () => {
+                this.props.clearCartData();
+              }
+            );
+          })
+          .catch(err => {
+            showGenericAlert('Uh-oh!', err.message);
+          });
+      }, 1000);
     } catch(e) {
+      console.log("error");
+      console.log(e);
       showGenericAlert('Uh-oh!', e.message || e);
     }
   }
