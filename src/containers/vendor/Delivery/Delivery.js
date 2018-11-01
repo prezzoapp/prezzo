@@ -86,8 +86,8 @@ class Delivery extends Component {
   };
 
   renderOpenTable() {
-    return (
-      <FlatList
+    //return (
+      {/*<FlatList
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 60 }}
@@ -110,8 +110,9 @@ class Delivery extends Component {
             <TableGridItem tableType={this.props.section} data={rowData} />
           );
         }}
-      />
-    );
+      />*/}
+    //);
+    return null;
   }
 
   renderQueueTable() {
@@ -166,7 +167,8 @@ class Delivery extends Component {
           }
           renderItem={rowData => {
             if (this.props.layout === 'list') {
-              return <OpenTableItem data={rowData} tabName="delivery"/>;
+              return null;
+              // return <OpenTableItem data={rowData} tabName="delivery"/>;
             }
             return (
               <TableGridItem tableType={this.props.section} data={rowData} />

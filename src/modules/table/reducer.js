@@ -2,7 +2,14 @@
 import { Map } from 'immutable';
 import {
   LIST_OPEN_TABLE_REQUEST,
+  LIST_OPEN_TABLE_SUCCESS,
+  LIST_OPEN_TABLE_FAILURE,
+  LIST_QUEUED_TABLE_SUCCESS,
+  LIST_QUEUED_TABLE_FAILURE,
   LIST_QUEUED_TABLE_REQUEST,
+  APPROVE_ORDER_REQUEST,
+  APPROVE_ORDER_SUCCESS,
+  APPROVE_ORDER_FAILURE,
   ACCEPT_QUEUED_REQUEST,
   DELETE_QUEUED_REQUEST,
   SECTION_CHANGE,
@@ -260,16 +267,25 @@ const INITIAL_STATE = Map({
   closedTableSection: 0,
   openTableList: [],
   queuedTableList: [],
-  closedTableList: []
+  closedTableList: [],
+  isBusy: false
 });
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LIST_OPEN_TABLE_REQUEST:
-      return state.update('openTableList', () => getDummyData());
-
+    case LIST_OPEN_TABLE_FAILURE:
     case LIST_QUEUED_TABLE_REQUEST:
-      return state.update('queuedTableList', () => getDummyData());
+    case LIST_QUEUED_TABLE_FAILURE:
+    case APPROVE_ORDER_REQUEST:
+    case APPROVE_ORDER_FAILURE:
+      return state.update('isBusy', () => true);
+
+    case LIST_OPEN_TABLE_SUCCESS:
+      return state.update('openTableList', () => action.payload).update('isBusy', () => false);
+
+    case LIST_QUEUED_TABLE_SUCCESS:
+      return state.update('queuedTableList', () => action.payload).update('isBusy', () => false);
 
     case ACCEPT_QUEUED_REQUEST:
       return state.update('queuedTableList', () => action.payload);
@@ -288,6 +304,8 @@ const reducer = (state = INITIAL_STATE, action) => {
 
     case LIST_CLOSED_TABLE_REQUEST:
       return state.update('closedTableList', () => getDummyData());
+
+    case APPROVE_ORDER_SUCCESS:
     default:
       return state;
   }

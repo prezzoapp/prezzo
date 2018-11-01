@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 17,
     fontFamily: FONT_FAMILY,
-    paddingHorizontal: 10
+    paddingLeft: 10
   },
 
   tableId: {

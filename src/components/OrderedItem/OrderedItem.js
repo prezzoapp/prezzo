@@ -5,19 +5,19 @@ import styles from './styles';
 import { FontAwesome, Entypo } from '../VectorIcons';
 
 const OrderedItem = props => {
-  console.log(props.data);
+  console.log(props.data.imageURLs[0]);
   return (
     <View style={styles.container}>
-      <Image style={styles.itemImage} source={props.data.imgUrl} />
+      <Image style={styles.itemImage} source={{ uri: props.data.imageURLs[0] }} />
       <View style={styles.itemTextContainer}>
         <FontAwesome
           name={props.data.status === 2 ? 'circle' : 'circle-o'}
           size={props.data.status === 2 ? 11 : 12}
           style={styles.dot}
         />
-        <Text style={styles.itemName}>{props.data.itemName}</Text>
+        <Text style={styles.itemName}>{props.data.title}</Text>
       </View>
-      <Text style={styles.quantity}>x{props.data.quantity}</Text>
+    {/*<Text style={styles.quantity}>x{props.data.quantity}</Text>*/}
     </View>
   );
 };

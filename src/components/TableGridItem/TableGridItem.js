@@ -14,10 +14,14 @@ const TableGridItem = props => {
       <View style={styles.header}>
         <Image
           style={styles.userImage}
-          source={require('../../../assets/images/item2.png')}
+          source={
+            item.creator.avatarURL !== ''
+              ? { uri: item.userImg }
+              : require('../../../assets/images/etc/default-avatar.png')
+          }
         />
-        <Text style={styles.userName}>{item.userName}</Text>
-        <Text style={styles.tableId}>- Table {item.tableId}</Text>
+        <Text style={styles.userName}>{item.creator.fullName} </Text>
+        <Text style={styles.tableId}>- Table 9192</Text>
         {tableType === 1 ? (
           <View style={styles.buttonContainer}>
             <TouchableOpacity

@@ -24,6 +24,14 @@ class Tables extends Component {
     navigate: PropTypes.func.isRequired
   };
 
+  constructor() {
+    super();
+    this.state = {
+      isOpenOrderFetching: false,
+      isQueuedOrderFetching: false
+    }
+  }
+
   componentDidMount() {
     if (this.props.section === 0) {
       this.props.listOpenTable();
@@ -87,6 +95,37 @@ class Tables extends Component {
     return this.renderClosedTable();
   };
 
+  onRefresh(orderType) {
+    if(orderType === 'open') {
+      this.setState(() => {
+        return {
+          isOpenOrderFetching: true
+        }
+      }, () => {
+        this.props.listOpenTable();
+        this.setState(() => {
+          return {
+            isOpenOrderFetching: false
+          }
+        });
+      });
+    } else if(orderType === 'queue') {
+        this.setState(() => {
+          return {
+            isQueuedOrderFetching: true
+          }
+        }, () => {
+          this.props.listQueuedTable();
+          this.setState(() => {
+            return {
+              isQueuedOrderFetching: false
+            }
+          });
+        }
+      );
+    }
+  }
+
   renderOpenTable() {
     return (
       <View style={{ flex: 1 }}>
@@ -94,11 +133,9 @@ class Tables extends Component {
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flatListStyle}
-          data={
-            this.props.openTableList.constructor.name === 'Array'
-              ? Array.from(this.props.openTableList)
-              : []
-          }
+          onRefresh={() => this.onRefresh('open')}
+          refreshing={this.state.isOpenOrderFetching}
+          data={this.props.openTableList.length !== 0 ? this.props.openTableList.toJS() : []}
           renderItem={rowData => {
             if (this.props.layout === 'list') {
               return (
@@ -125,11 +162,9 @@ class Tables extends Component {
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flatListStyle}
-          data={
-            this.props.queuedTableList.constructor.name === 'Array'
-              ? Array.from(this.props.queuedTableList)
-              : []
-          }
+          onRefresh={() => this.onRefresh('queue')}
+          refreshing={this.state.isQueuedOrderFetching}
+          data={this.props.queuedTableList.length !== 0 ? this.props.queuedTableList.toJS() : []}
           renderItem={rowData => {
             if (this.props.layout === 'list') {
               return (
@@ -137,6 +172,8 @@ class Tables extends Component {
                   handleQueuedTableItem={this.handleQueuedTableItem}
                   user={rowData}
                   tabName="tables"
+                  approveDenyOrder={(orderId, status) => this.props.approveDenyOrder(orderId, status)}
+                  listQueuedTable={this.props.listQueuedTable}
                 />
               );
             }

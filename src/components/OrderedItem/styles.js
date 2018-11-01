@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   itemImage: {
     height: 100,
     width: 100,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     borderRadius: 5
   },
 

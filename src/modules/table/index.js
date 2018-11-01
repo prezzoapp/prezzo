@@ -6,7 +6,8 @@ import {
   changeSection,
   changeLayout,
   changeClosedSection,
-  listClosedTable
+  listClosedTable,
+  approveDenyOrder
 } from './actions';
 
 import reducer from './reducer';
@@ -19,7 +20,8 @@ export {
   changeSection,
   changeLayout,
   changeClosedSection,
-  listClosedTable
+  listClosedTable,
+  approveDenyOrder
 };
 
 export default reducer;

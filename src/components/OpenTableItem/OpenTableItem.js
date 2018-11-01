@@ -30,18 +30,18 @@ const OpenTableItem = props => {
       <Image
         style={styles.userImage}
         source={
-          item.userName !== ''
-            ? { uri: item.userImg }
-            : require('../../../assets/images/item4.png')
+          item.creator.avatarURL !== ''
+            ? { uri: item.creator.avatarURL }
+            : require('../../../assets/images/etc/default-avatar.png')
         }
       />
       <View style={styles.textContainer}>
-        <Text style={styles.userName}>{item.userName}</Text>
+        <Text style={styles.userName}>{item.creator.fullName}</Text>
         {(() => {
           if (props.tabName === 'tables') {
             return (
               <View style={styles.statusContainer}>
-                <Text style={styles.tableId}>Table {item.tableId}</Text>
+                <Text style={styles.tableId}>Table 9192 </Text>
                 <Text style={[styles.statusText, { color: '#2ED573' }]}>
                   • Waiter Reqested
                 </Text>
