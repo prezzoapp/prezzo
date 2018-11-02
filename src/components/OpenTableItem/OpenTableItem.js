@@ -20,9 +20,11 @@ const OpenTableItem = props => {
           params: {
             userName:
               props.tabName !== 'delivery'
-                ? `${item.userName} - ${item.tableId}`
+                ? `${item.creator.fullName} - 9192`
                 : `${item.userName}`,
-            userImage: require('../../../assets/images/item4.png')
+            userImage: item.creator.avatarURL,
+            item: props.tabName === 'tables' ? item : null,
+            changeOrderStatus: props.tabName === 'tables' ? props.changeOrderStatus : null
           }
         })
       }

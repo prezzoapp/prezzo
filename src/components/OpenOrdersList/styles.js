@@ -10,6 +10,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp('6.66'),
     backgroundColor: '#2B2C2C',
     paddingTop: hp('4.92%')
+  },
+
+  footerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: hp('12.80%')
   }
 });
 

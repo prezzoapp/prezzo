@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, FlatList, Alert } from 'react-native';
+import { View, FlatList, Alert, Modal } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import styles from './styles';
@@ -26,10 +26,6 @@ class Tables extends Component {
 
   constructor() {
     super();
-    this.state = {
-      isOpenOrderFetching: false,
-      isQueuedOrderFetching: false
-    }
   }
 
   componentDidMount() {
@@ -44,45 +40,19 @@ class Tables extends Component {
 
   onSectionChange = index => {
     if (index === 0) {
-      this.props.listOpenTable();
+      this.props.listOpenTable(this.props.vendorData.get('_id'));
     } else if (index === 1) {
-      this.props.listQueuedTable();
+      this.props.listQueuedTable(this.props.vendorData.get('_id'));
     } else {
-      this.props.listClosedTable();
+      this.props.listClosedTable(this.props.vendorData.get('_id'));
     }
 
     this.props.changeSection(index);
   };
 
-  handleQueuedTableItem = (tableId, index, actionType) => {
-    Alert.alert(
-      actionType === ACCEPT_ORDER ? 'Accept' : 'Delete',
-      `${this.props.queuedTableList[index].userName} \n Table ${
-        this.props.queuedTableList[index].tableId
-      }`,
-      [
-        {
-          text: 'Cancel',
-          onPress: () => null,
-          style: 'cancel'
-        },
-        { text: 'OK', onPress: () => this.handleConfirm(tableId, actionType) }
-      ],
-      { cancelable: false }
-    );
-  };
-
   changeTabHandler = index => {
     if (index === 1) {
       this.props.listQueuedTable();
-    }
-  };
-
-  handleConfirm = (tableId, actioType) => {
-    if (actioType === ACCEPT_ORDER) {
-      this.props.acceptQueuedRequest(this.props.queuedTableList, tableId);
-    } else if (actioType === DELETE_ORDER) {
-      this.props.deleteQueuedRequest(this.props.queuedTableList, tableId);
     }
   };
 
@@ -95,37 +65,6 @@ class Tables extends Component {
     return this.renderClosedTable();
   };
 
-  onRefresh(orderType) {
-    if(orderType === 'open') {
-      this.setState(() => {
-        return {
-          isOpenOrderFetching: true
-        }
-      }, () => {
-        this.props.listOpenTable();
-        this.setState(() => {
-          return {
-            isOpenOrderFetching: false
-          }
-        });
-      });
-    } else if(orderType === 'queue') {
-        this.setState(() => {
-          return {
-            isQueuedOrderFetching: true
-          }
-        }, () => {
-          this.props.listQueuedTable();
-          this.setState(() => {
-            return {
-              isQueuedOrderFetching: false
-            }
-          });
-        }
-      );
-    }
-  }
-
   renderOpenTable() {
     return (
       <View style={{ flex: 1 }}>
@@ -133,8 +72,6 @@ class Tables extends Component {
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flatListStyle}
-          onRefresh={() => this.onRefresh('open')}
-          refreshing={this.state.isOpenOrderFetching}
           data={this.props.openTableList.length !== 0 ? this.props.openTableList.toJS() : []}
           renderItem={rowData => {
             if (this.props.layout === 'list') {
@@ -143,6 +80,7 @@ class Tables extends Component {
                   data={rowData}
                   navigate={this.props.navigate}
                   tabName="tables"
+                  changeOrderStatus={(orderId, status) => this.props.changeOrderStatus(orderId, status)}
                 />
               );
             }
@@ -162,8 +100,6 @@ class Tables extends Component {
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flatListStyle}
-          onRefresh={() => this.onRefresh('queue')}
-          refreshing={this.state.isQueuedOrderFetching}
           data={this.props.queuedTableList.length !== 0 ? this.props.queuedTableList.toJS() : []}
           renderItem={rowData => {
             if (this.props.layout === 'list') {
@@ -172,7 +108,7 @@ class Tables extends Component {
                   handleQueuedTableItem={this.handleQueuedTableItem}
                   user={rowData}
                   tabName="tables"
-                  approveDenyOrder={(orderId, status) => this.props.approveDenyOrder(orderId, status)}
+                  changeOrderStatus={(orderId, status) => this.props.changeOrderStatus(orderId, status, 'queued')}
                   listQueuedTable={this.props.listQueuedTable}
                 />
               );
@@ -193,21 +129,17 @@ class Tables extends Component {
   renderClosedTable() {
     return (
       <View style={{ flex: 1 }}>
-        <ClosedTableTabs
+        {/*<ClosedTableTabs
           currentTab={this.props.closedTableSection}
           tabNames={['24 Hours', '3 Days', '1 Week']}
           onListTypeSelection={index => this.props.changeClosedSection(index)}
-        />
+        />*/}
         <View style={{ flex: 1 }}>
           <FlatList
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.flatListStyle}
-            data={
-              this.props.closedTableList.constructor.name === 'Array'
-                ? Array.from(this.props.closedTableList)
-                : []
-            }
+            data={this.props.closedTableList.length !== 0 ? this.props.closedTableList.toJS() : []}
             renderItem={rowData => {
               if (this.props.layout === 'list') {
                 return <OpenTableItem data={rowData} tabName="tables"/>;
@@ -240,6 +172,14 @@ class Tables extends Component {
           />
           {this.renderSection()}
         </View>
+
+        {/*<Modal
+          animationType="none"
+          transparent
+          visible={this.props.isBusy}
+        >
+          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.8)' }} />
+        </Modal>*/}
       </View>
     );
   }

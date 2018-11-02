@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import styles from './styles';
 import { FontAwesome, MaterialIcons } from '../VectorIcons';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../services/constants';
@@ -9,8 +9,22 @@ const QueuedTableItem = props => {
   const { item, index } = props.user;
 
   function renderQueuedList(status) {
-    props.approveDenyOrder(item._id, status);
-    props.listQueuedTable();
+    Alert.alert(
+      status === 'active' ? 'Accept' : 'Remove',
+      `${item.creator.fullName} \n Table 9192`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel'
+        },
+        { text: 'OK', onPress: () => {
+          props.changeOrderStatus(item._id, status);
+          props.listQueuedTable();
+        }}
+      ],
+      { cancelable: false }
+    );
   }
 
   return (

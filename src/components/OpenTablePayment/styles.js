@@ -40,6 +40,12 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     fontSize: wp('5.33%'),
     color: 'white'
+  },
+
+  price: {
+    fontFamily: FONT_FAMILY,
+    fontSize: wp('4.8%'),
+    color: 'white'
   }
 });
 

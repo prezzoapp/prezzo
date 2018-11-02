@@ -55,12 +55,6 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY
   },
 
-  footerContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: hp('12.80%')
-  },
-
   price: {
     fontFamily: FONT_FAMILY,
     fontSize: wp('4.8%'),

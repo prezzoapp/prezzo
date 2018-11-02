@@ -4,24 +4,29 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import { COLOR_GREEN } from '../../services/constants';
+import {
+  COLOR_GREEN,
+  FONT_FAMILY,
+  COLOR_WHITE
+} from '../../services/constants';
 
 import styles from './styles';
+import Button from '../Button';
 
 const SECTION_WIDTH: number = 0.85 * Dimensions.get('window').width;
-// const data = [
-//   { name: 'Buffalo Caluiflower v2', price: '$24' },
-//   { name: 'Mac n Cheese x1', price: '$15' },
-//   { name: 'BBQ Pineapple x2', price: '$30' },
-//   { name: 'Mole Bawl x1', price: '$16' }
-// ];
+const TAX = 5.95;
 
-const OpenOrdersList = props => {
+const OpenTablePayment = props => {
+  const subTotal = props.data.items
+    .map(item => item.price)
+    .reduce((previous, next) => {
+    return parseFloat(previous + next);
+  });
+
   return (
     <View style={styles.container}>
       <View
         style={{
-          // height: hp('29.55%'),
           flex: 1,
           marginTop: 0,
           borderBottomColor: COLOR_GREEN,
@@ -35,7 +40,7 @@ const OpenOrdersList = props => {
           }}
         >
           <FlatList
-            data={props.data}
+            data={props.data.items}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => (
               <View
@@ -48,9 +53,9 @@ const OpenOrdersList = props => {
                   height: hp('6.15%')
                 }}
               >
-                <Text style={styles.text}>{item.name}</Text>
+                <Text style={styles.text}>{item.title}</Text>
                 <Text style={[styles.text, { textAlign: 'right' }]}>
-                  {item.price}
+                  ${item.price}
                 </Text>
               </View>
             )}
@@ -79,7 +84,7 @@ const OpenOrdersList = props => {
           }}
         >
           <Text style={styles.text}>Subtotal</Text>
-          <Text style={[styles.text, { textAlign: 'right' }]}>$85</Text>
+          <Text style={[styles.text, { textAlign: 'right' }]}>{subTotal}</Text>
         </View>
 
         <View
@@ -92,7 +97,7 @@ const OpenOrdersList = props => {
           }}
         >
           <Text style={styles.text}>TAX</Text>
-          <Text style={[styles.text, { textAlign: 'right' }]}>+ $5.95</Text>
+          <Text style={[styles.text, { textAlign: 'right' }]}>+ ${TAX}</Text>
         </View>
       </View>
 
@@ -167,9 +172,64 @@ const OpenOrdersList = props => {
           </Text>
         </View>
       </View>
-      {props.footer}
+      {(() => {
+        if(props.tabName === 'payment') {
+          return (
+            <View
+              style={{
+                flexDirection: 'row',
+                width: wp('100%'),
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                height: hp('10.16%'),
+                borderTopColor: COLOR_GREEN,
+                borderTopWidth: 2,
+                backgroundColor: 'black'
+              }}
+            >
+              <Button
+                style={buttonStyles.requestBtn}
+                textStyle={buttonStyles.requestBtnText}
+                onPress={() => props.changeOrderStatus(props.data._id, 'complete')}
+              >
+                Request
+              </Button>
+
+              <Text
+                style={[
+                  styles.price,
+                  { textAlign: 'right', marginRight: wp('5.33%') }
+                ]}
+              >
+                Total ${((subTotal * TAX) / 100 + subTotal).toFixed(2)}
+              </Text>
+            </View>
+          );
+        }
+      })()}
     </View>
   );
 }
 
-export default OpenOrdersList;
+const buttonStyles = {
+  requestBtn: {
+    backgroundColor: '#2ED573',
+    borderColor: '#0DD24A',
+    width: wp('37.33%'),
+    height: hp('4.92%'),
+    justifyContent: 'center',
+    borderRadius: 8,
+    marginLeft: wp('5.33%')
+  },
+
+  requestBtnText: {
+    fontSize: wp('3.46%'),
+    fontFamily: FONT_FAMILY,
+    color: COLOR_WHITE,
+    paddingTop: 0,
+    paddingBottom: 0,
+    justifyContent: 'center'
+  }
+};
+
+export default OpenTablePayment;

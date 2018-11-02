@@ -6,10 +6,12 @@ import {
   LIST_QUEUED_TABLE_REQUEST,
   LIST_QUEUED_TABLE_SUCCESS,
   LIST_QUEUED_TABLE_FAILURE,
-  APPROVE_ORDER_REQUEST,
-  APPROVE_ORDER_SUCCESS,
-  APPROVE_ORDER_FAILURE,
+  CHANGE_ORDER_STATUS_REQUEST,
+  CHANGE_ORDER_STATUS_SUCCESS,
+  CHANGE_ORDER_STATUS_FAILURE,
   LIST_CLOSED_TABLE_REQUEST,
+  LIST_CLOSED_TABLE_SUCCESS,
+  LIST_CLOSED_TABLE_FAILURE,
   ACCEPT_QUEUED_REQUEST,
   DELETE_QUEUED_REQUEST,
   SECTION_CHANGE,
@@ -19,12 +21,12 @@ import {
 
 import { get, post } from '../../utils/api';
 
-export const listOpenTable = async () => async dispatch => {
+export const listOpenTable = async (vendorId: string) => async dispatch => {
   dispatch({ type: LIST_OPEN_TABLE_REQUEST });
 
   try {
     const order = await get(
-      'v1/vendors/5bd2c1001392eb0a5c23c090/orders?status=active&type=table'
+      `v1/vendors/${vendorId}/orders?status=active&type=table`
     );
 
     return dispatch({
@@ -41,12 +43,12 @@ export const listOpenTable = async () => async dispatch => {
   }
 };
 
-export const listQueuedTable = async () => async dispatch => {
+export const listQueuedTable = async (vendorId: string) => async dispatch => {
   dispatch({ type: LIST_QUEUED_TABLE_REQUEST });
 
   try {
     const order = await get(
-      'v1/vendors/5bd2c1001392eb0a5c23c090/orders?status=pending&type=table'
+      `v1/vendors/${vendorId}/orders?status=pending&type=table`
     );
 
     return dispatch({
@@ -63,30 +65,52 @@ export const listQueuedTable = async () => async dispatch => {
   }
 };
 
-export const approveDenyOrder = async (
+export const changeOrderStatus = async (
   orderId: string,
-  status: string
+  status: string,
+  type: string
 ) => async dispatch => {
-  dispatch({ type: APPROVE_ORDER_REQUEST });
+  dispatch({ type: CHANGE_ORDER_STATUS_REQUEST });
 
   try {
     await post(`/v1/orders/${orderId}`, { status });
 
     return dispatch({
-      type: APPROVE_ORDER_SUCCESS
+      type: CHANGE_ORDER_STATUS_SUCCESS,
+      payload: { orderId, status, type }
     });
   } catch (e) {
     dispatch({
-      type: APPROVE_ORDER_FAILURE,
+      type: CHANGE_ORDER_STATUS_FAILURE,
       payload: e && e.message ? e.message : e
     })
   }
 }
 
-export const listClosedTable = () => ({
-  type: LIST_CLOSED_TABLE_REQUEST,
-  payload: null
-});
+export const listClosedTable = async (vendorId: string) => async dispatch => {
+  // type: LIST_CLOSED_TABLE_REQUEST,
+  // payload: null
+
+  dispatch({ type: LIST_CLOSED_TABLE_REQUEST });
+
+  try {
+    const order = await get(
+      `v1/vendors/${vendorId}/orders?status=complete&type=table`
+    );
+
+    return dispatch({
+      type: LIST_CLOSED_TABLE_SUCCESS,
+      payload: fromJS(order)
+    });
+  } catch (e) {
+    dispatch({
+      type: LIST_CLOSED_TABLE_FAILURE,
+      payload: e && e.message ? e.message : e
+    });
+
+    throw e;
+  }
+};
 
 export const acceptQueuedRequest = (queueList: any, requestId: string) => {
   const queuedList = queueList.filter(element => element.id != requestId);

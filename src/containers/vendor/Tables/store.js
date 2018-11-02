@@ -10,7 +10,7 @@ import {
   changeLayout,
   changeClosedSection,
   listClosedTable,
-  approveDenyOrder
+  changeOrderStatus
 } from '../../../modules/table';
 
 export const mapStateToProps = state => ({
@@ -20,7 +20,8 @@ export const mapStateToProps = state => ({
   queuedTableList: state.get('table').get('queuedTableList')&& state.get('table').get('queuedTableList'),
   closedTableSection: state.get('table').get('closedTableSection'),
   closedTableList: state.get('table').get('closedTableList'),
-  vendorData: state.get('vendor').get('data')
+  vendorData: state.get('vendor').get('data'),
+  isBusy: state.get('table').get('isBusy')
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -33,5 +34,5 @@ export const mapDispatchToProps = dispatch => ({
   changeLayout: bindActionCreators(changeLayout, dispatch),
   changeClosedSection: bindActionCreators(changeClosedSection, dispatch),
   listClosedTable: bindActionCreators(listClosedTable, dispatch),
-  approveDenyOrder: bindActionCreators(approveDenyOrder, dispatch)
+  changeOrderStatus: bindActionCreators(changeOrderStatus, dispatch)
 });

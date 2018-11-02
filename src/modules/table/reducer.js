@@ -7,15 +7,17 @@ import {
   LIST_QUEUED_TABLE_SUCCESS,
   LIST_QUEUED_TABLE_FAILURE,
   LIST_QUEUED_TABLE_REQUEST,
-  APPROVE_ORDER_REQUEST,
-  APPROVE_ORDER_SUCCESS,
-  APPROVE_ORDER_FAILURE,
+  CHANGE_ORDER_STATUS_REQUEST,
+  CHANGE_ORDER_STATUS_SUCCESS,
+  CHANGE_ORDER_STATUS_FAILURE,
+  LIST_CLOSED_TABLE_REQUEST,
+  LIST_CLOSED_TABLE_SUCCESS,
+  LIST_CLOSED_TABLE_FAILURE,
   ACCEPT_QUEUED_REQUEST,
   DELETE_QUEUED_REQUEST,
   SECTION_CHANGE,
   LAYOUT_CHANGE,
-  CLOSED_TABLE_SECTION_CHANGE,
-  LIST_CLOSED_TABLE_REQUEST
+  CLOSED_TABLE_SECTION_CHANGE
 } from './types';
 
 function getDummyData() {
@@ -277,8 +279,10 @@ const reducer = (state = INITIAL_STATE, action) => {
     case LIST_OPEN_TABLE_FAILURE:
     case LIST_QUEUED_TABLE_REQUEST:
     case LIST_QUEUED_TABLE_FAILURE:
-    case APPROVE_ORDER_REQUEST:
-    case APPROVE_ORDER_FAILURE:
+    case CHANGE_ORDER_STATUS_REQUEST:
+    case CHANGE_ORDER_STATUS_FAILURE:
+    case LIST_CLOSED_TABLE_REQUEST:
+    case LIST_CLOSED_TABLE_FAILURE:
       return state.update('isBusy', () => true);
 
     case LIST_OPEN_TABLE_SUCCESS:
@@ -302,10 +306,20 @@ const reducer = (state = INITIAL_STATE, action) => {
     case CLOSED_TABLE_SECTION_CHANGE:
       return state.update('closedTableSection', () => action.payload);
 
-    case LIST_CLOSED_TABLE_REQUEST:
-      return state.update('closedTableList', () => getDummyData());
+    case LIST_CLOSED_TABLE_SUCCESS:
+      return state.update('closedTableList', () => action.payload);
 
-    case APPROVE_ORDER_SUCCESS:
+    case CHANGE_ORDER_STATUS_SUCCESS:
+      console.log(action.payload.orderId, action.payload.status, action.payload.type);
+      // if(action.payload.type === 'queued') {
+      //   console.log("Queued List Item: ");
+      //   console.log(state.get('queuedTableList').filter(item => {
+      //     if(action.payload.status === 'active' && item.get('_id') === action.payload.orderId) {
+      //       item.set('status', action.payload.status);
+      //     }
+      //     return item;
+      //   }).toJS());
+      // }
     default:
       return state;
   }
