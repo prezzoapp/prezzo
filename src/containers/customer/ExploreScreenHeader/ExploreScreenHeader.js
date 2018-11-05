@@ -37,6 +37,24 @@ export default class ExploreScreenHeader extends PureComponent {
     );
   }
 
+  toggleFilter(id) {
+    let activeFilters = [];
+    this.props.toggleFilter(id).then(() => {
+      this.props.filters.map(item => {
+          if(item.on) {
+            activeFilters.push(item.filterType);
+          }
+      });
+
+      this.props.listVendors(
+        this.props.currentLatitude,
+        this.props.currentLongitude,
+        '200000000',
+        activeFilters.join(',')
+      );
+    });
+  }
+
   render() {
     const { filters } = this.props;
     return (
@@ -88,14 +106,14 @@ export default class ExploreScreenHeader extends PureComponent {
                   name={item.name}
                   on={item.on}
                   style={{ marginRight: 12 }}
-                  toggleFilter={() => this.props.toggleFilter(item._id)}
+                  toggleFilter={() => this.toggleFilter(item._id)}
                 />
               }
             />
 
             <View>
               {filters.map(item => {
-                if (item.filterType === 'realtime' && item.on === true) {
+                if (item.filterType === 'openNow' && item.on === true) {
                   return (
                     <View key={item._id} style={styles.slidersHolder}>
                       <View style={styles.sliderTitleHolder}>

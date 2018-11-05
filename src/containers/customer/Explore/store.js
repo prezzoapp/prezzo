@@ -11,12 +11,14 @@ export const mapStateToProps = state => {
   const minDistance = state.get('explore').get('minDistance');
   const maxDistance = state.get('explore').get('maxDistance');
   const distance = state.get('explore').get('distance');
+  const isBusy = state.get('explore').get('isBusy');
 
   return {
     filters,
     minDistance,
     maxDistance,
-    distance
+    distance,
+    isBusy
   };
 };
 

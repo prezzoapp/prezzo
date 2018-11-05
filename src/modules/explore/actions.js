@@ -30,13 +30,14 @@ export const toggleFilter = async (filterId: number) => async dispatch => {
 export const listVendors = async (
   latitude: string,
   longitude: string,
-  distance: string
+  distance: string,
+  activeFilters: string
 ) => async dispatch => {
   dispatch({ type: LIST_VENDORS_REQUEST });
 
   try {
     const vendors = await get(
-      `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=${distance}`
+      `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=${distance}&activeFilters=${activeFilters}`
     );
 
     dispatch({

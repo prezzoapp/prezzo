@@ -33,7 +33,7 @@ const INITIAL_STATE = fromJS({
   filters: [
     {
       _id: 0,
-      filterType: 'realtime',
+      filterType: 'openNow',
       name: 'Open Now',
       on: true,
       image: require('../../../assets/images/filters/realtime-protection.png')
@@ -51,21 +51,21 @@ const INITIAL_STATE = fromJS({
       name: 'Wifi',
       on: false,
       image: require('../../../assets/images/filters/wifi-icon.png')
-    },
-    {
-      _id: 3,
-      filterType: 'delivery',
-      name: 'Delivery',
-      on: false,
-      image: require('../../../assets/images/filters/delivery.png')
-    },
-    {
-      _id: 4,
-      filterType: 'breakfast',
-      name: 'Breakfast',
-      on: false,
-      image: require('../../../assets/images/filters/breakfast.png')
     }
+    // {
+    //   _id: 3,
+    //   filterType: 'delivery',
+    //   name: 'Delivery',
+    //   on: false,
+    //   image: require('../../../assets/images/filters/delivery.png')
+    // },
+    // {
+    //   _id: 4,
+    //   filterType: 'breakfast',
+    //   name: 'Breakfast',
+    //   on: false,
+    //   image: require('../../../assets/images/filters/breakfast.png')
+    // }
   ],
   restaurants,
   minDistance: 1,

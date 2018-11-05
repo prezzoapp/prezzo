@@ -118,9 +118,11 @@ export default class AccountInfo extends React.Component {
       selectedOpeningTime: '10:00',
       upload: null,
       website: vendor.get('website') || '',
-      filters: [],
+      filters: vendor.get('filters').toJS() || [],
       email: ''
     };
+
+    console.log(this.state);
 
     this.toggle = this.toggle.bind(this);
   }
@@ -411,6 +413,8 @@ export default class AccountInfo extends React.Component {
       await this.uploadPhoto();
 
       const params = { ...this.state };
+      console.log("Params: ");
+      console.log(params);
       delete params.upload;
 
       if (!params.avatarURL) {
@@ -450,31 +454,23 @@ export default class AccountInfo extends React.Component {
     });
   }
 
-  toggle(id, name) {
-    // const filterIndex = this.filters[this.filters.findIndex(x => x.id === id)];
-
+  toggle(name) {
     if (this.state.filters.length === 0) {
-      this.state.filters.push({
-        id,
-        name
-      });
-    } else if (this.state.filters.findIndex(x => x.id === id) !== -1) {
+      this.state.filters.push(name);
+    } else if (this.state.filters.findIndex(x => x === name) !== -1) {
       this.state.filters.splice(
-        this.state.filters.findIndex(x => x.id === id),
+        this.state.filters.findIndex(x => x === name),
         1
       );
     } else {
-      this.state.filters.push({
-        id,
-        name
-      });
+      this.state.filters.push(name);
     }
 
     this.setState(() => ({
       filters: this.state.filters
-    }));
-
-    console.log(this.state.filters);
+    }), () => {
+      console.log(this.state.filters);
+    });
   }
 
   render() {
@@ -827,32 +823,43 @@ export default class AccountInfo extends React.Component {
           <View style={styles.filtersHolder}>
             <View style={styles.commonFilterPanel}>
               <FilterItem
+                name="Open Now"
+                image={require('../../../../assets/images/filters/realtime-protection.png')}
+                style={{ marginBottom: 8 }}
+                toggleFilter={() => this.toggle('openNow')}
+                on={this.state.filters.find(x => x === "openNow") ? true : false}
+              />
+
+              <FilterItem
                 name="Price"
                 image={require('../../../../assets/images/filters/dollar-sign-icon.png')}
                 style={{ marginBottom: 8 }}
-                toggleFilter={() => this.toggle(1, 'Price')}
+                toggleFilter={() => this.toggle('price')}
+                on={this.state.filters.find(x => x === "price") ? true : false}
               />
 
               <FilterItem
                 name="Wifi"
                 image={require('../../../../assets/images/filters/wifi-icon.png')}
                 style={{ marginBottom: 8 }}
-                toggleFilter={() => this.toggle(2, 'Wifi')}
+                toggleFilter={() => this.toggle('wifi')}
+                on={this.state.filters.find(x => x === "wifi") ? true : false}
               />
 
-              <FilterItem
+              {/*<FilterItem
                 name="Delivery"
                 image={require('../../../../assets/images/filters/delivery.png')}
                 style={{ marginBottom: 8 }}
-                toggleFilter={() => this.toggle(3, 'Delivery')}
-              />
+                toggleFilter={() => this.toggle('delivery')}
+                on={this.state.filters.find(x => x === "delivery") ? true : false}
+              />*/}
             </View>
 
             {this.state.filters.map(item => {
-              if (item.id === 1) {
+              if (item === "price") {
                 return (
                   <View
-                    key={item.id}
+                    key={item}
                     style={{
                       flex: 1,
                       height: 50,
@@ -1066,35 +1073,39 @@ export default class AccountInfo extends React.Component {
               }
             })}
 
-            <View style={styles.commonFilterPanel}>
+            {/*<View style={styles.commonFilterPanel}>
               <FilterItem
                 name="Breakfast"
                 image={require('../../../../assets/images/filters/breakfast.png')}
                 style={{ marginTop: 8 }}
-                toggleFilter={() => this.toggle(4, 'Breakfast')}
+                toggleFilter={() => this.toggle('breakfast')}
+                on={this.state.filters.find(x => x === "breakfast") ? true : false}
               />
 
               <FilterItem
                 name="Lunch"
                 image={require('../../../../assets/images/filters/lunch_filter.png')}
                 style={{ marginTop: 8 }}
-                toggleFilter={() => this.toggle(5, 'Lunch')}
+                toggleFilter={() => this.toggle('lunch')}
+                on={this.state.filters.find(x => x === "lunch") ? true : false}
               />
 
               <FilterItem
                 name="Dinner"
                 image={require('../../../../assets/images/filters/dinner_filter.png')}
                 style={{ marginTop: 8 }}
-                toggleFilter={() => this.toggle(6, 'Dinner')}
+                toggleFilter={() => this.toggle('dinner')}
+                on={this.state.filters.find(x => x === "dinner") ? true : false}
               />
 
               <FilterItem
                 name="Coffee"
                 image={require('../../../../assets/images/filters/coffee_filter.png')}
                 style={{ marginTop: 8 }}
-                toggleFilter={() => this.toggle(7, 'Coffee')}
+                toggleFilter={() => this.toggle('coffee')}
+                on={this.state.filters.find(x => x === "coffee") ? true : false}
               />
-            </View>
+            </View>*/}
           </View>
         </View>
 
