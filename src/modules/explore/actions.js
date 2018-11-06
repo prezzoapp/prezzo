@@ -9,7 +9,10 @@ import {
   LIST_VENDORS_FAILURE,
   UPDATE_DISTANCE_REQUEST,
   UPDATE_DISTANCE_SUCCESS,
-  UPDATE_DISTANCE_FAILURE
+  UPDATE_DISTANCE_FAILURE,
+  UPDATE_PRICE_FILTER_REQUEST,
+  UPDATE_PRICE_FILTER_SUCCESS,
+  UPDATE_PRICE_FILTER_FAILURE
 } from './types';
 import { get } from '../../utils/api';
 
@@ -74,3 +77,23 @@ export const updateDistance = async (
     dispatch({ type: UPDATE_DISTANCE_FAILURE });
   }
 };
+
+export const updatePrice = async (pricing: number) => async dispatch => {
+  dispatch({ type: UPDATE_PRICE_FILTER_REQUEST });
+
+  try {
+    console.log("Pricing: ", pricing);
+    const vendors = await get(`/v1/vendors?pricing=${pricing + 1}`);
+
+    const updatedVendors = fromJS(vendors);
+    // const pricing = fromJS(pricing);
+
+    dispatch({
+      type: UPDATE_PRICE_FILTER_SUCCESS,
+      payload: { updatedVendors }
+    });
+  } catch (e) {
+    console.warn('e', e);
+    dispatch({ type: UPDATE_PRICE_FILTER_FAILURE });
+  }
+}

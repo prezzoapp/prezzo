@@ -63,7 +63,6 @@ export default class AccountInfo extends React.Component {
     super(props);
 
     const { avatarURL, vendor } = props;
-    // temp_restaurantCategories = [...restaurantCategories];
 
     if (!vendor) {
       this.state = {
@@ -73,7 +72,7 @@ export default class AccountInfo extends React.Component {
         hours: [],
         location: {},
         name: '',
-        slidervalue: 0.0,
+        pricing: 0,
         selectedHoursDay: 0,
         selectedCategory: restaurantCategories[0],
         selectedClosingTime: '18:00',
@@ -88,14 +87,13 @@ export default class AccountInfo extends React.Component {
     }
 
     const location = vendor.get('location');
-    // temp_restaurantCategories = [...restaurantCategories];
 
     this.state = {
       temp_restaurantCategories: [...restaurantCategories],
       avatarURL,
       categories: vendor.get('categories').toJS() || [],
       hours: vendor.get('hours').toJS() || [],
-      slidervalue: 0.0,
+      pricing: vendor.get('pricing') - 1 || 0,
       location: {
         address: location.get('address') || '',
         city: location.get('city') || '',
@@ -413,6 +411,7 @@ export default class AccountInfo extends React.Component {
       await this.uploadPhoto();
 
       const params = { ...this.state };
+      params.pricing += 1;
       console.log("Params: ");
       console.log(params);
       delete params.upload;
@@ -895,7 +894,7 @@ export default class AccountInfo extends React.Component {
                           styles.priceBarIndicator,
                           {
                             backgroundColor:
-                              this.state.slidervalue > 0.0
+                              this.state.pricing > 0.0
                                 ? 'rgba(255,255,255,1.0)'
                                 : null
                           }
@@ -925,7 +924,7 @@ export default class AccountInfo extends React.Component {
                           },
                           {
                             color:
-                              this.state.slidervalue >= 33.3
+                              this.state.pricing >= 1
                                 ? COLOR_GREEN
                                 : 'rgba(255,255,255,1.0)'
                           }
@@ -939,7 +938,7 @@ export default class AccountInfo extends React.Component {
                           styles.priceBarIndicator,
                           {
                             backgroundColor:
-                              this.state.slidervalue === 33.33
+                              this.state.pricing === 1
                                 ? null
                                 : 'rgba(255,255,255,1.0)'
                           }
@@ -970,7 +969,7 @@ export default class AccountInfo extends React.Component {
                           },
                           {
                             color:
-                              this.state.slidervalue >= 66.6
+                              this.state.pricing >= 2
                                 ? COLOR_GREEN
                                 : 'rgba(255,255,255,1.0)'
                           }
@@ -984,7 +983,7 @@ export default class AccountInfo extends React.Component {
                           styles.priceBarIndicator,
                           {
                             backgroundColor:
-                              this.state.slidervalue === 66.66
+                              this.state.pricing === 2
                                 ? null
                                 : 'rgba(255,255,255,1.0)'
                           }
@@ -1014,7 +1013,7 @@ export default class AccountInfo extends React.Component {
                           },
                           {
                             color:
-                              this.state.slidervalue >= 99
+                              this.state.pricing >= 3
                                 ? COLOR_GREEN
                                 : 'rgba(255,255,255,1.0)'
                           }
@@ -1028,7 +1027,7 @@ export default class AccountInfo extends React.Component {
                           styles.priceBarIndicator,
                           {
                             backgroundColor:
-                              this.state.slidervalue >= 99.9
+                              this.state.pricing >= 3
                                 ? null
                                 : 'rgba(255,255,255,1.0)'
                           }
@@ -1048,23 +1047,21 @@ export default class AccountInfo extends React.Component {
                     >
                       <Slider
                         minimumValue={0}
-                        maximumValue={100}
-                        step={parseFloat((100 / 3).toFixed(2))}
+                        maximumValue={3}
+                        step={1}
                         minimumTrackTintColor="rgb(47,212,117)"
                         maximumTrackTintColor="rgb(230,230,230)"
                         thumbTintColor="rgb(255,254,255)"
                         thumbStyle={{ height: 18, width: 18 }}
-                        onValueChange={value => console.log('slider running')}
+                        value={this.state.pricing}
                         onSlidingComplete={value =>
-                          this.setState({ slidervalue: value }, () => {
-                            console.log(value);
-                          })
+                          this.setState({ pricing: value })
                         }
-                        onSlidingStart={value =>
-                          this.state.slidervalue >= 99.9
-                            ? this.setState({ slidervalue: value - 0.1 })
-                            : this.setState({ slidervalue: value + 0.1 })
-                        }
+                        // onSlidingStart={value =>
+                        //   this.state.slidervalue >= 99.9
+                        //     ? this.setState({ slidervalue: value - 0.1 })
+                        //     : this.setState({ slidervalue: value + 0.1 })
+                        // }
                         trackStyle={{ height: 3 }}
                       />
                     </View>

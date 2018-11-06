@@ -46,6 +46,7 @@ class Explore extends PureComponent<Props> {
   }
 
   componentDidMount() {
+    console.log("Component Did Mount Called!");
     this.watchID = navigator.geolocation.getCurrentPosition(
       position => {
         this.setState(() => {

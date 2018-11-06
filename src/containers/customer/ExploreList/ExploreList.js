@@ -12,6 +12,8 @@ export default class ExploreList extends PureComponent {
 
   render() {
     const { restaurants } = this.props;
+    console.log("Restaurants: ");
+    console.log(restaurants);
 
     return (
       <FlatList

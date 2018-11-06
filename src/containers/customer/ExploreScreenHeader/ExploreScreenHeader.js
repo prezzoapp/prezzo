@@ -24,7 +24,11 @@ export default class ExploreScreenHeader extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = { showFilters: false, sliderValue: this.props.distance };
+    this.state = {
+      showFilters: false,
+      sliderValue: this.props.distance,
+      priceSliderValue: 0
+    };
   }
 
   changeDistance(value) {
@@ -35,6 +39,17 @@ export default class ExploreScreenHeader extends PureComponent {
       this.props.currentLongitude,
       distance
     );
+  }
+
+  updatePrice(value) {
+    this.setState(() => {
+      return {
+        priceSliderValue: value
+      }
+    }, () => {
+      console.log("P: ", this.state.priceSliderValue);
+      this.props.updatePrice(this.state.priceSliderValue);
+    });
   }
 
   toggleFilter(id) {
@@ -129,7 +144,7 @@ export default class ExploreScreenHeader extends PureComponent {
                         maximumTrackTintColor="rgb(230,230,230)"
                         thumbTintColor="rgb(255,254,255)"
                         thumbStyle={{ height: 18, width: 18 }}
-                        value={this.state.sliderValue}
+                        value={this.props.distance}
                         trackStyle={{ height: 3 }}
                         onSlidingComplete={value => this.changeDistance(value)}
                       />
@@ -140,13 +155,14 @@ export default class ExploreScreenHeader extends PureComponent {
                     <View key={item._id} style={styles.slidersHolder}>
                       <Slider
                         minimumValue={0}
-                        maximumValue={100}
-                        step={parseFloat((100 / 3).toFixed(2))}
+                        maximumValue={3}
+                        step={1}
                         minimumTrackTintColor="rgb(47,212,117)"
                         maximumTrackTintColor="rgb(230,230,230)"
                         thumbTintColor="rgb(255,254,255)"
                         thumbStyle={{ height: 18, width: 18 }}
-                        onValueChange={value => console.log(value)}
+                        value={this.state.priceSliderValue}
+                        onSlidingComplete={value => this.updatePrice(value)}
                         trackStyle={{ height: 3 }}
                       />
                     </View>

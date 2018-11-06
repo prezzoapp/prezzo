@@ -9,7 +9,10 @@ import {
   LIST_VENDORS_FAILURE,
   UPDATE_DISTANCE_REQUEST,
   UPDATE_DISTANCE_SUCCESS,
-  UPDATE_DISTANCE_FAILURE
+  UPDATE_DISTANCE_FAILURE,
+  UPDATE_PRICE_FILTER_REQUEST,
+  UPDATE_PRICE_FILTER_SUCCESS,
+  UPDATE_PRICE_FILTER_FAILURE
 } from './types';
 
 const restaurants = [];
@@ -70,7 +73,8 @@ const INITIAL_STATE = fromJS({
   restaurants,
   minDistance: 1,
   maxDistance: 10,
-  distance: 10
+  distance: 10,
+  pricing: 0
 });
 
 export default (state = INITIAL_STATE, action) => {
@@ -83,10 +87,12 @@ export default (state = INITIAL_STATE, action) => {
     case TOGGLE_FILTER_REQUEST:
     case LIST_VENDORS_REQUEST:
     case UPDATE_DISTANCE_REQUEST:
+    case UPDATE_PRICE_FILTER_REQUEST:
       return state.set('isBusy', true);
     case TOGGLE_FILTER_FAILURE:
     case LIST_VENDORS_FAILURE:
     case UPDATE_DISTANCE_FAILURE:
+    case UPDATE_PRICE_FILTER_FAILURE:
       return state.set('isBusy', false);
     case TOGGLE_FILTER_SUCCESS:
       oldFilters = state.get('filters').toJS();
@@ -109,6 +115,11 @@ export default (state = INITIAL_STATE, action) => {
         .set('isBusy', false)
         .set('restaurants', payload.vendorsData)
         .set('distance', payload.updatedDistance);
+    case UPDATE_PRICE_FILTER_SUCCESS:
+        return state
+        // .update('pricing', () => action.payload.pricing)
+        .update('restaurants', () => action.payload.updatedVendors)
+        .update('isBusy', () => false);
     default:
       return state;
   }
