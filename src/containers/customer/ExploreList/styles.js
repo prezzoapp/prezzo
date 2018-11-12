@@ -1,6 +1,10 @@
 import { StyleSheet } from 'react-native';
 
-import { FONT_FAMILY_BOLD } from '../../../services/constants';
+import {
+  FONT_FAMILY_BOLD,
+  FONT_FAMILY,
+  COLOR_WHITE
+} from '../../../services/constants';
 
 const styles = StyleSheet.create({
   threeDotsImage: {
@@ -21,6 +25,19 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 17,
     fontFamily: FONT_FAMILY_BOLD
+  },
+
+  notFoundHolder: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  message: {
+    color: COLOR_WHITE,
+    fontFamily: FONT_FAMILY,
+    fontSize: 20,
+    textAlign: 'center'
   }
 });
 

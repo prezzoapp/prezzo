@@ -5,9 +5,11 @@ import { NavigationActions } from 'react-navigation';
 export const mapStateToProps = state => {
   const explore = state.get('explore');
   const restaurants = explore.get('restaurants').toJS();
+  const isBusy = explore.get('isBusy');
 
   return {
-    restaurants
+    restaurants,
+    isBusy
   };
 };
 

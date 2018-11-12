@@ -89,26 +89,6 @@ export default class CheckoutSwiper extends Component {
     this.setPaymentType('');
   }
 
-  // dineInBtnSelect() {
-  //   if(this.state.dineInBtnSelectState === false) {
-  //     this.setState(() => {
-  //       return {
-  //         dineInBtnSelectState: true
-  //       };
-  //     })
-  //   }
-  // }
-
-  // deliveryBtnSelect() {
-  //   if(this.state.dineInBtnSelectState) {
-  //     this.setState(() => {
-  //       return {
-  //         dineInBtnSelectState: false
-  //       };
-  //     });
-  //   }
-  // }
-
   removeItemFromCart(item) {
     this.props
       .addRemoveItemQuantity(item.sectionId, item._id, 'remove')
@@ -121,7 +101,6 @@ export default class CheckoutSwiper extends Component {
   }
 
   selectPaymentMethod(val) {
-    console.log(val);
     this.setState(
       () => ({
         selectedPaymentMethod: val

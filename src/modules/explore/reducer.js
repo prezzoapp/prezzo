@@ -74,7 +74,7 @@ const INITIAL_STATE = fromJS({
   minDistance: 1,
   maxDistance: 10,
   distance: 10,
-  pricing: 0
+  pricing: 1
 });
 
 export default (state = INITIAL_STATE, action) => {
@@ -108,17 +108,16 @@ export default (state = INITIAL_STATE, action) => {
 
       return state.set('filters', immutableFilters);
     case LIST_VENDORS_SUCCESS:
-      return state.set('isBusy', false).set('restaurants', payload);
+      console.log("List Vendors API SUCCESS Called!");
+      return state.update('isBusy', () => false).update('restaurants', () => payload);
+      // return state;
     case UPDATE_DISTANCE_SUCCESS:
-      //console.log(payload.vendorsData.toJS());
       return state
-        .set('isBusy', false)
-        .set('restaurants', payload.vendorsData)
-        .set('distance', payload.updatedDistance);
+        .set('distance', payload)
+        .set('isBusy', false);
     case UPDATE_PRICE_FILTER_SUCCESS:
         return state
-        // .update('pricing', () => action.payload.pricing)
-        .update('restaurants', () => action.payload.updatedVendors)
+        .update('pricing', () => payload)
         .update('isBusy', () => false);
     default:
       return state;

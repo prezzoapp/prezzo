@@ -18,7 +18,9 @@ type Props = {
 class Button extends React.Component<Props> {
   async getUserData(token) {
     const response = await fetch(
-      `https://graph.facebook.com/me?access_token=${token}&fields=id,name,birthday,picture.type(large)`);
+      // `https://graph.facebook.com/me?access_token=${token}&fields=id,name,birthday,picture.type(large)`);
+      `https://graph.facebook.com/me?access_token=${token}&fields=id`
+    );
 
     const { id } = await response.json();
     this.props.onSuccess(id, token);
@@ -28,12 +30,12 @@ class Button extends React.Component<Props> {
     const { onStart, onSuccess, onFailure, onCancel } = this.props;
     onStart && onStart();
     const { type, token } = await Facebook.logInWithReadPermissionsAsync(
-      "2029030444036230",
+      '2029030444036230',
       {
-        permissions: ["public_profile", "email"]
+        permissions: ['public_profile', 'email']
       }
     );
-    if (type === "success") {
+    if (type === 'success') {
       this.getUserData(token);
     } else {
       return onCancel && onCancel();
@@ -48,7 +50,7 @@ class Button extends React.Component<Props> {
 
     return (
       <TouchableOpacity
-        testID={'facebookButton'}
+        testID='facebookButton'
         onPress={() => !disabled && this.login()}
         activeOpacity={disabled ? 1 : 0.7}
         style={buttonStyle}

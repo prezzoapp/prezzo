@@ -34,13 +34,14 @@ export const listVendors = async (
   latitude: string,
   longitude: string,
   distance: string,
-  activeFilters: string
+  activeFilters: string,
+  pricing: number
 ) => async dispatch => {
   dispatch({ type: LIST_VENDORS_REQUEST });
 
   try {
     const vendors = await get(
-      `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=${distance}&activeFilters=${activeFilters}`
+      `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=${distance}&activeFilters=${activeFilters}&pricing=${pricing}`
     );
 
     dispatch({
@@ -53,24 +54,38 @@ export const listVendors = async (
   }
 };
 
-export const updateDistance = async (
-  latitude: string,
-  longitude: string,
-  distance: string
-) => async dispatch => {
+// export const updateDistance = async (
+//   latitude: string,
+//   longitude: string,
+//   distance: string
+// ) => async dispatch => {
+//   dispatch({ type: UPDATE_DISTANCE_REQUEST });
+//
+//   try {
+//     const vendors = await get(
+//       `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=${distance}`
+//     );
+//
+//     const vendorsData = fromJS(vendors);
+//     const updatedDistance = fromJS(distance);
+//
+//     dispatch({
+//       type: UPDATE_DISTANCE_SUCCESS,
+//       payload: { vendorsData, updatedDistance }
+//     });
+//   } catch (e) {
+//     console.warn('e', e);
+//     dispatch({ type: UPDATE_DISTANCE_FAILURE });
+//   }
+// };
+
+export const updateDistance = async ( distance: string ) => async dispatch => {
   dispatch({ type: UPDATE_DISTANCE_REQUEST });
 
   try {
-    const vendors = await get(
-      `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=${distance}`
-    );
-
-    const vendorsData = fromJS(vendors);
-    const updatedDistance = fromJS(distance);
-
     dispatch({
       type: UPDATE_DISTANCE_SUCCESS,
-      payload: { vendorsData, updatedDistance }
+      payload: fromJS(distance)
     });
   } catch (e) {
     console.warn('e', e);
@@ -82,15 +97,14 @@ export const updatePrice = async (pricing: number) => async dispatch => {
   dispatch({ type: UPDATE_PRICE_FILTER_REQUEST });
 
   try {
-    console.log("Pricing: ", pricing);
-    const vendors = await get(`/v1/vendors?pricing=${pricing + 1}`);
-
-    const updatedVendors = fromJS(vendors);
+    // const vendors = await get(`/v1/vendors?pricing=${pricing + 1}`);
+    //
+    // const updatedVendors = fromJS(vendors);
     // const pricing = fromJS(pricing);
 
     dispatch({
       type: UPDATE_PRICE_FILTER_SUCCESS,
-      payload: { updatedVendors }
+      payload: fromJS(pricing + 1)
     });
   } catch (e) {
     console.warn('e', e);

@@ -77,6 +77,8 @@ export default class RestaurantDetails extends Component {
     this.scrollAnimatedValue = new Animated.Value(0);
 
     this.flag = 0;
+
+    this.selectedPaymentMethod = '';
   }
 
   componentDidMount() {
@@ -174,6 +176,15 @@ export default class RestaurantDetails extends Component {
   }
 
   isSelectedPaymentMethod(val) {
+    if(val === '') {
+      this.selectedPaymentMethod = '';
+    } else if(val !== 'cash') {
+      this.selectedPaymentMethod = 'card';
+    } else {
+      this.selectedPaymentMethod = val;
+    }
+
+    console.log('Selected Payment Method:', this.selectedPaymentMethod);
     if(val === '') {
       this.setState(() => {
         return {

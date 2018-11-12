@@ -11,14 +11,14 @@ export const mapStateToProps = state => {
   const minDistance = state.get('explore').get('minDistance');
   const maxDistance = state.get('explore').get('maxDistance');
   const distance = state.get('explore').get('distance');
-  // const price = state.get('explore').get('pricing');
+  const pricing = state.get('explore').get('pricing');
 
   return {
     filters,
     minDistance,
     maxDistance,
     distance,
-    // price
+    pricing
   };
 };
 

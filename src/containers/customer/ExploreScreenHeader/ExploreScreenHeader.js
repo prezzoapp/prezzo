@@ -25,48 +25,67 @@ export default class ExploreScreenHeader extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      showFilters: false,
-      sliderValue: this.props.distance,
-      priceSliderValue: 0
+      showFilters: false
     };
+
+    this.activeFilters = [];
   }
 
-  changeDistance(value) {
-    const distance = parseFloat(value.toFixed(1));
-    console.log(distance);
-    this.props.updateDistance(
-      this.props.currentLatitude,
-      this.props.currentLongitude,
-      distance
-    );
-  }
-
-  updatePrice(value) {
+  hideFilterPanel() {
     this.setState(() => {
       return {
-        priceSliderValue: value
+        showFilters: false
       }
-    }, () => {
-      console.log("P: ", this.state.priceSliderValue);
-      this.props.updatePrice(this.state.priceSliderValue);
+    });
+  }
+
+  updateDistance(distance) {
+    const newDistance = parseFloat(distance.toFixed(1));
+    this.props.updateDistance(newDistance).then(() => {
+      this.props.listVendors(
+        this.props.currentLatitude,
+        this.props.currentLongitude,
+        this.props.distance,
+        this.activeFilters.join(','),
+        this.props.pricing
+      ).then(() => {
+          this.hideFilterPanel();
+      });
+    });
+  }
+
+  updatePrice(price) {
+    this.props.updatePrice(price).then(() => {
+      this.props.listVendors(
+        this.props.currentLatitude,
+        this.props.currentLongitude,
+        this.props.distance,
+        this.activeFilters.join(','),
+        this.props.pricing
+      ).then(() => {
+          this.hideFilterPanel();
+      });
     });
   }
 
   toggleFilter(id) {
-    let activeFilters = [];
+    this.activeFilters = [];
     this.props.toggleFilter(id).then(() => {
       this.props.filters.map(item => {
           if(item.on) {
-            activeFilters.push(item.filterType);
+            this.activeFilters.push(item.filterType);
           }
       });
 
       this.props.listVendors(
         this.props.currentLatitude,
         this.props.currentLongitude,
-        '200000000',
-        activeFilters.join(',')
-      );
+        this.props.distance,
+        this.activeFilters.join(','),
+        this.props.pricing
+      ).then(() => {
+          this.hideFilterPanel();
+      });
     });
   }
 
@@ -146,7 +165,7 @@ export default class ExploreScreenHeader extends PureComponent {
                         thumbStyle={{ height: 18, width: 18 }}
                         value={this.props.distance}
                         trackStyle={{ height: 3 }}
-                        onSlidingComplete={value => this.changeDistance(value)}
+                        onSlidingComplete={value => this.updateDistance(value)}
                       />
                     </View>
                   );
@@ -161,7 +180,7 @@ export default class ExploreScreenHeader extends PureComponent {
                         maximumTrackTintColor="rgb(230,230,230)"
                         thumbTintColor="rgb(255,254,255)"
                         thumbStyle={{ height: 18, width: 18 }}
-                        value={this.state.priceSliderValue}
+                        value={this.props.pricing - 1}
                         onSlidingComplete={value => this.updatePrice(value)}
                         trackStyle={{ height: 3 }}
                       />

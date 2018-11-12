@@ -40,7 +40,8 @@ class Tutorial extends React.Component {
 
       try {
         // update info so signup screens have access to facebook info
-        const { email, firstName, lastName, avatarURL } = await getUserInfo();
+        // const { email, firstName, lastName, avatarURL } = await getUserInfo();
+        const { email, firstName, lastName, avatarURL } = await getUserInfo(accessToken);
 
         if (email) {
           this.props.updateEmail(email);
