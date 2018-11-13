@@ -79,6 +79,7 @@ export default class RestaurantDetails extends Component {
     this.flag = 0;
 
     this.selectedPaymentMethod = '';
+    this.cardToken = null;
   }
 
   componentDidMount() {

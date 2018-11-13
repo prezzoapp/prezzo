@@ -412,8 +412,7 @@ export default class AccountInfo extends React.Component {
 
       const params = { ...this.state };
       params.pricing += 1;
-      console.log("Params: ");
-      console.log(params);
+
       delete params.upload;
 
       if (!params.avatarURL) {
@@ -467,9 +466,7 @@ export default class AccountInfo extends React.Component {
 
     this.setState(() => ({
       filters: this.state.filters
-    }), () => {
-      console.log(this.state.filters);
-    });
+    }));
   }
 
   render() {

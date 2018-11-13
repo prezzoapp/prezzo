@@ -60,6 +60,7 @@ class ExploreSearch extends Component {
   renderSeparator = () => <View style={styles.listSeparator} />;
 
   render() {
+    console.log("Explore Search component.");
     return (
       <View
         style={{

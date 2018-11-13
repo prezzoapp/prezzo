@@ -38,23 +38,28 @@ class Explore extends PureComponent<Props> {
       customRegion: {
         latitude: 0,
         longitude: 0,
-        latitudeDelta: 0,
-        longitudeDelta: 0
+        latitudeDelta: 0.00922,
+        longitudeDelta: 0.00422
       }
     };
   }
 
   componentDidMount() {
     console.log("Component Did Mount Called!");
+    let activeFilters = [];
+    this.props.filters.map(item => {
+        if(item.on) {
+          activeFilters.push(item.filterType);
+        }
+    });
+
     this.watchID = navigator.geolocation.getCurrentPosition(
       position => {
         this.setState(() => {
           return {
               customRegion: {
                 latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                latitudeDelta: 0.00922,
-                longitudeDelta: 0.00422
+                longitude: position.coords.longitude
               }
             };
           }, () => {
@@ -62,11 +67,7 @@ class Explore extends PureComponent<Props> {
               this.state.customRegion.latitude,
               this.state.customRegion.longitude,
               this.props.distance,
-              this.props.filters.map(item => {
-                if(item.on) {
-                  return item.filterType
-                }
-              }).join(','),
+              activeFilters.join(','),
               this.props.pricing
             );
           }
@@ -82,6 +83,8 @@ class Explore extends PureComponent<Props> {
   }
 
   render() {
+    console.log("Coordinates: ");
+    console.log(this.state.customRegion);
     return (
       <LinearGradient
         testID="linearGradient"

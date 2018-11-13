@@ -381,7 +381,7 @@ export default class CheckoutSwiper extends Component {
                                 .toUpperCase() + item.type.slice(11)} - ${
                                 item.readableIdentifier
                               }`}
-                              value={item.token}
+                              value={item._id}
                               key={index}
                             />
                           ))}

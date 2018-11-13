@@ -41,7 +41,7 @@ export const listVendors = async (
 
   try {
     const vendors = await get(
-      `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=${distance}&activeFilters=${activeFilters}&pricing=${pricing}`
+      `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=200000000&activeFilters=${activeFilters}&pricing=${pricing}`
     );
 
     dispatch({

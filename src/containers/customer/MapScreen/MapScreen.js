@@ -28,8 +28,8 @@ export default class MapScreen extends Component {
       customRegion: {
         latitude: 0,
         longitude: 0,
-        latitudeDelta: 0.00922,
-        longitudeDelta: 0.00922
+        latitudeDelta: 1.00922,
+        longitudeDelta: 1.00922
       }
     };
 
@@ -44,8 +44,8 @@ export default class MapScreen extends Component {
             customRegion: {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
-              latitudeDelta: 0.00922,
-              longitudeDelta: 0.00422
+              latitudeDelta: 1.00922,
+              longitudeDelta: 1.00922
             }
           }
         });
@@ -63,17 +63,19 @@ export default class MapScreen extends Component {
       this.setState(() => {
           return {
           customRegion: {
-              ...region,
-              latitudeDelta: 0.00922,
-              longitudeDelta: 0.00422
+              ...region
             }
           };
         },
         () => {
+          console.log("onRegionChangeComplete function called!");
+          console.log(this.state.customRegion);
           this.props.listVendors(
             this.state.customRegion.latitude,
             this.state.customRegion.longitude,
-            '200000000'
+            '200000000',
+            '',
+            ''
           );
 
           console.log("API called !");
@@ -96,8 +98,8 @@ export default class MapScreen extends Component {
     this.mapView.animateToRegion({
       latitude: coordinates[1],
       longitude: coordinates[0],
-      latitudeDelta: 0.00922,
-      longitudeDelta: 0.00422
+      latitudeDelta: 1.00922,
+      longitudeDelta: 1.00422
     });
   }
 

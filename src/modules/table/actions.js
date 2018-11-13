@@ -83,7 +83,7 @@ export const changeOrderStatus = async (
     dispatch({
       type: CHANGE_ORDER_STATUS_FAILURE,
       payload: e && e.message ? e.message : e
-    })
+    });
   }
 }
 

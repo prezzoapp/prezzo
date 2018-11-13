@@ -49,7 +49,7 @@ export default class ExploreScreenHeader extends PureComponent {
         this.activeFilters.join(','),
         this.props.pricing
       ).then(() => {
-          this.hideFilterPanel();
+          // this.hideFilterPanel();
       });
     });
   }
@@ -63,7 +63,7 @@ export default class ExploreScreenHeader extends PureComponent {
         this.activeFilters.join(','),
         this.props.pricing
       ).then(() => {
-          this.hideFilterPanel();
+          // this.hideFilterPanel();
       });
     });
   }
@@ -84,13 +84,14 @@ export default class ExploreScreenHeader extends PureComponent {
         this.activeFilters.join(','),
         this.props.pricing
       ).then(() => {
-          this.hideFilterPanel();
+          // this.hideFilterPanel();
       });
     });
   }
 
   render() {
     const { filters } = this.props;
+    console.log("Explore screen Header component.");
     return (
       <View style={styles.header}>
         <LinearGradient

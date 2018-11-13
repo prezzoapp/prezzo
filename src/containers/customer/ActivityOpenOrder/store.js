@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { listOpenOrders } from '../../../modules/userActivity';
+import { changeOrderStatus } from '../../../modules/table';
 
 export const mapStateToProps = state => {
   const data = state
@@ -19,6 +20,7 @@ export const mapStateToProps = state => {
 export const mapDispatchToProps = dispatch => {
   return {
     listOpenOrders: bindActionCreators(listOpenOrders, dispatch),
+    changeOrderStatus: bindActionCreators(changeOrderStatus, dispatch),
     navigate: bindActionCreators(NavigationActions.navigate, dispatch)
   };
 };
