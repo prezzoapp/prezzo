@@ -79,7 +79,7 @@ export default class RestaurantDetails extends Component {
     this.flag = 0;
 
     this.selectedPaymentMethod = '';
-    this.cardToken = null;
+    this.paymentMethodId = '';
   }
 
   componentDidMount() {
@@ -111,7 +111,6 @@ export default class RestaurantDetails extends Component {
   }
 
   setIndex(index) {
-    // console.log("Index: " + index);
     this.setState(() => {
       return {
         currentSlideIndex: index
@@ -119,7 +118,7 @@ export default class RestaurantDetails extends Component {
     });
   }
 
-  attemptToCreateOrder() {
+  async attemptToCreateOrder() {
     const modifiedCartItems = [];
     const cartItems =
       this.props.data && this.props.data.data.menu &&
@@ -147,28 +146,33 @@ export default class RestaurantDetails extends Component {
     });
 
     try {
-      setTimeout(() => {
-        post(`/v1/orders`, {
+      if(this.paymentMethodId === '') {
+        await post(`/v1/orders`, {
           items: modifiedCartItems,
           type: this.props.type,
-          paymentType: 'cash',
+          paymentType: this.selectedPaymentMethod,
           vendor: this.props.data.data._id
-        }).then(response => {
-            this.setState(
-              () => {
-                return {
-                  modalVisible: true
-                };
-              },
-              () => {
-                this.props.clearCartData();
-              }
-            );
-          })
-          .catch(err => {
-            showGenericAlert('Uh-oh!', err.message);
-          });
-      }, 1000);
+        });
+      } else {
+        await post(`/v1/orders`, {
+          items: modifiedCartItems,
+          type: this.props.type,
+          paymentType: this.selectedPaymentMethod,
+          vendor: this.props.data.data._id,
+          paymentMethod: this.paymentMethodId
+        });
+      }
+
+      this.setState(
+        () => {
+          return {
+            modalVisible: true
+          };
+        },
+        () => {
+          this.props.clearCartData();
+        }
+      );
     } catch(e) {
       console.log("error");
       console.log(e);
@@ -181,6 +185,7 @@ export default class RestaurantDetails extends Component {
       this.selectedPaymentMethod = '';
     } else if(val !== 'cash') {
       this.selectedPaymentMethod = 'card';
+      this.paymentMethodId = val;
     } else {
       this.selectedPaymentMethod = val;
     }

@@ -28,7 +28,6 @@ export default class CheckoutSwiper extends Component {
     super(props);
 
     this.state = {
-      dineInBtnSelectState: true,
       selectedPaymentType: '',
       selectedPaymentMethod: ''
     };
@@ -42,6 +41,15 @@ export default class CheckoutSwiper extends Component {
     this.index = index;
     props.onScrollingEnd(index);
     this.props.setCurrentIndex(index);
+  }
+
+  setPlaceOrderType(type) {
+    if (type === 'delivery') {
+      showGenericAlert(null, "This feature isn't available yet");
+    }
+    if (this.props.type !== type) {
+      this.props.setType(type);
+    }
   }
 
   setPaymentType(paymentType) {
@@ -63,13 +71,23 @@ export default class CheckoutSwiper extends Component {
     }
   }
 
-  setPlaceOrderType(type) {
-    if (type === 'delivery') {
-      showGenericAlert(null, "This feature isn't available yet");
-    }
-    if (this.props.type !== type) {
-      this.props.setType(type);
-    }
+  selectPaymentMethod(val) {
+    this.setState(
+      () => ({
+        selectedPaymentMethod: val
+      }),
+      () => {
+        if (this.state.selectedPaymentMethod === 'add_new_card') {
+          this.props.navigate({
+            routeName: 'CheckoutPaymentDetails',
+            params: { title: 'Add New Card' }
+          });
+        } else {
+          this.props.isSelectedPaymentMethod(val);
+          console.log('credit card list', this.props.creditCardList);
+        }
+      }
+    );
   }
 
   moveToIndex(index = null) {
@@ -98,25 +116,6 @@ export default class CheckoutSwiper extends Component {
           this.props.hideModal();
         }
       });
-  }
-
-  selectPaymentMethod(val) {
-    this.setState(
-      () => ({
-        selectedPaymentMethod: val
-      }),
-      () => {
-        if (this.state.selectedPaymentMethod === 'add_new_card') {
-          this.props.navigate({
-            routeName: 'CheckoutPaymentDetails',
-            params: { title: 'Add New Card' }
-          });
-        } else {
-          this.props.isSelectedPaymentMethod(val);
-          console.log('credit card list', this.props.creditCardList);
-        }
-      }
-    );
   }
 
   renderItem(item) {

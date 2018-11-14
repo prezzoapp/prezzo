@@ -58,6 +58,7 @@ class Explore extends PureComponent<Props> {
         this.setState(() => {
           return {
               customRegion: {
+                ...this.state.customRegion,
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude
               }

@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import ActivityListItem from '../../../components/ActivityListItem';
 import Button from '../../../components/Button';
+import LoadingComponent from '../../../components/LoadingComponent';
 
 import {
   FONT_FAMILY,
@@ -46,7 +47,7 @@ class ActivityOpenOrder extends Component {
   }
 
   hitAPI() {
-    this.props.listOpenOrders('5bd2c0661392eb0a5c23c08b');
+    this.props.listOpenOrders('5bd2c0661392eb0a5c23c08b', 'pending');
   }
 
   renderHeader() {
@@ -54,28 +55,10 @@ class ActivityOpenOrder extends Component {
   }
 
   render() {
-    const pendingItem =
-      this.props.data &&
-      this.props.data.filter(item => {
-        if (
-          item.status === 'preparing' ||
-          item.status === 'active' ||
-          item.status === 'pending'
-      ) {
-        return item.items.filter(innerItem => {
-            innerItem.status = 'delivered';
-            innerItem.editable = false;
-          }
-        )
-      }
-    });
-
-    console.log(pendingItem);
-
     return (
       <View style={styles.container}>
         {(() => {
-          if (pendingItem.length === 0) {
+          if (this.props.data.length === 0) {
             return (
               <View style={styles.notFoundHolder}>
                 <Text style={styles.message}>
@@ -89,7 +72,9 @@ class ActivityOpenOrder extends Component {
               <FlatList
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
-                data={pendingItem.length !== 0 ? pendingItem[0].items : []}
+                data={
+                  this.props.data.length !== 0 ? this.props.data[0].items : []
+                }
                 renderItem={({ item }) => <ActivityListItem item={item} />}
                 onRefresh={() => this.onRefresh()}
                 refreshing={this.state.isFetching}
@@ -108,7 +93,13 @@ class ActivityOpenOrder extends Component {
                 <Button
                   style={buttonStyles.closeTableBtn}
                   textStyle={buttonStyles.closeTableBtnText}
-                  onPress={() => null}
+                  onPress={() =>
+                    this.props.makePaymentAndCompleteOrder(
+                      this.props.data[0]._id,
+                      this.props.data[0].paymentMethod.token,
+                      10
+                    )
+                  }
                 >
                   Close Table
                 </Button>
@@ -116,6 +107,8 @@ class ActivityOpenOrder extends Component {
             </View>
           );
         })()}
+
+        {this.props.isBusy && <LoadingComponent />}
       </View>
     );
   }
