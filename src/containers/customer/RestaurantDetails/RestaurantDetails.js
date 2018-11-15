@@ -120,6 +120,7 @@ export default class RestaurantDetails extends Component {
 
   async attemptToCreateOrder() {
     const modifiedCartItems = [];
+    let order = null;
     const cartItems =
       this.props.data && this.props.data.data.menu &&
       this.props.data.data.menu.categories
@@ -147,14 +148,14 @@ export default class RestaurantDetails extends Component {
 
     try {
       if(this.paymentMethodId === '') {
-        await post(`/v1/orders`, {
+        order = await post(`/v1/orders`, {
           items: modifiedCartItems,
           type: this.props.type,
           paymentType: this.selectedPaymentMethod,
           vendor: this.props.data.data._id
         });
       } else {
-        await post(`/v1/orders`, {
+        order = await post(`/v1/orders`, {
           items: modifiedCartItems,
           type: this.props.type,
           paymentType: this.selectedPaymentMethod,

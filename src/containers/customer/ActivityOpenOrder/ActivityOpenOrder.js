@@ -18,6 +18,8 @@ import {
   COLOR_WHITE
 } from '../../../services/constants';
 
+const TAX = 5.95;
+
 class ActivityOpenOrder extends Component {
   constructor() {
     super();
@@ -55,6 +57,15 @@ class ActivityOpenOrder extends Component {
   }
 
   render() {
+    const subTotal =
+      this.props.data.length !== 0
+        ? this.props.data[0].items
+            .map(item => item.price)
+      .reduce((previous, next) => {
+              return parseFloat(previous + next);
+            })
+        : 0;
+
     return (
       <View style={styles.container}>
         {(() => {
@@ -97,7 +108,7 @@ class ActivityOpenOrder extends Component {
                     this.props.makePaymentAndCompleteOrder(
                       this.props.data[0]._id,
                       this.props.data[0].paymentMethod.token,
-                      10
+                      parseFloat(((subTotal * TAX) / 100 + subTotal).toFixed(2))
                     )
                   }
                 >

@@ -1,7 +1,9 @@
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { listOpenOrders } from '../../../modules/userActivity';
-import { makePaymentAndCompleteOrder } from '../../../modules/userActivity';
+import {
+  listOpenOrders,
+  makePaymentAndCompleteOrder
+} from '../../../modules/userActivity';
 
 export const mapStateToProps = state => {
   const data = state

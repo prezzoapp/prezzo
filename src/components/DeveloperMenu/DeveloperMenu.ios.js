@@ -42,7 +42,7 @@ class DeveloperMenu extends Component {
       <TouchableOpacity
         style={styles.circle}
         onPress={this.showDeveloperMenu}
-        />
+      />
     );
   }
 }
@@ -50,8 +50,8 @@ class DeveloperMenu extends Component {
 const styles = StyleSheet.create({
   circle: {
     position: 'absolute',
-    bottom: 5,
-    right: 5,
+    bottom: 10,
+    right: 10,
     width: 10,
     height: 10,
     borderRadius: 5,
