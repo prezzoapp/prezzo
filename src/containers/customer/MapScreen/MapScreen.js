@@ -253,6 +253,8 @@ export default class MapScreen extends Component {
     }
   };
 
+  _isMounted = false;
+
   constructor() {
     super();
 
@@ -263,36 +265,51 @@ export default class MapScreen extends Component {
 
     this.btnClicked = false;
     this.isFirstLoad = true;
-    this.timer = -1;
+
+    this.activeFilters = '';
   }
 
-  componentWillMount() {
-    console.log('custom region is....', this.state.customRegion);
+  componentDidMount() {
+    this._isMounted = true;
+    this.activeFilters = '';
+    const activatedFiltersArray = [];
+    this.props.filters.map(item => {
+      if(item.on) {
+        activatedFiltersArray.push(item.filterType);
+      }
+    });
+
+    this.activeFilters = activatedFiltersArray.join(',');
 
     this.watchID = navigator.geolocation.getCurrentPosition(
       position => {
-        this.setState(() => ({
-          customRegion: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            latitudeDelta: 0.00922,
-            longitudeDelta: 0.00422
-          },
-          isGetLocation: true
-        }));
+        if(this._isMounted) {
+          this.setState(() => {
+              return {
+                customRegion: {
+                  latitude: position.coords.latitude,
+                  longitude: position.coords.longitude,
+                  latitudeDelta: 0.00922,
+                  longitudeDelta: 0.00422
+                },
+                isGetLocation: true
+              }
+            },
+            () => {
+              this.props.listVendors(
+                this.state.customRegion.latitude,
+                this.state.customRegion.longitude,
+                this.props.distance,
+                this.activeFilters,
+                this.props.pricing
+              );
 
-        this.props
-          .listVendors(
-            this.state.customRegion.latitude,
-            this.state.customRegion.longitude,
-            '200000000',
-            '',
-            ''
-          )
-          .then(() => {
-            this.isFirstLoad = false;
-          });
-        console.log('First Time API Called!');
+              console.log("After Getting Correct Coordinates: ");
+              console.log(this.state.customRegion);
+              console.log('First Time API Called!');
+            }
+          );
+        }
       },
       error => console.log(error.message),
       {
@@ -304,18 +321,11 @@ export default class MapScreen extends Component {
   }
 
   componentWillUnmount() {
-    this.setState(() => {
-      return {
-        isGetLocation: true
-      }
-    });
-
     this.watchID = null;
+    this._isMounted = false;
   }
 
   onRegionChangeComplete(region) {
-    console.log('region changed called');
-
     if (this.btnClicked === false && this.isFirstLoad === false) {
       this.setState(
         () => ({
@@ -329,7 +339,9 @@ export default class MapScreen extends Component {
           this.props.listVendors(
             this.state.customRegion.latitude,
             this.state.customRegion.longitude,
-            '200000000'
+            this.props.distance,
+            this.activeFilters,
+            this.props.pricing
           );
           this.isFirstLoad = false;
 
@@ -338,17 +350,18 @@ export default class MapScreen extends Component {
       );
     } else {
       this.btnClicked = false;
+      this.isFirstLoad = false;
     }
   }
 
-  onMapReady() {
-    console.log('OnMapReady Method Called!');
+  //onMapReady() {
+    //console.log('OnMapReady Method Called!');
 
-    this.mapView.animateToRegion(this.state.customRegion);
-  }
+    //this.mapView.animateToRegion(this.state.customRegion);
+  //}
 
   moveToPosition(coordinates) {
-    console.log('Move To Position Method Called!');
+    //console.log('Move To Position Method Called!');
 
     this.btnClicked = true;
 
@@ -361,8 +374,8 @@ export default class MapScreen extends Component {
   }
 
   render() {
-    console.log('Map screen render called');
-    console.log('Map screen region', this.state.customRegion);
+    //console.log('Map screen render called');
+    //console.log('Map screen region', this.state.customRegion);
     //  console.log('Map screen default region', region);
 
     return (

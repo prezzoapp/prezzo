@@ -10,6 +10,9 @@ import {
   CHANGE_ORDER_STATUS_REQUEST,
   CHANGE_ORDER_STATUS_SUCCESS,
   CHANGE_ORDER_STATUS_FAILURE,
+  MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST,
+  MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS,
+  MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE,
   LIST_CLOSED_TABLE_REQUEST,
   LIST_CLOSED_TABLE_SUCCESS,
   LIST_CLOSED_TABLE_FAILURE,
@@ -283,6 +286,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case CHANGE_ORDER_STATUS_FAILURE:
     case LIST_CLOSED_TABLE_REQUEST:
     case LIST_CLOSED_TABLE_FAILURE:
+    case MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST:
       return state.update('isBusy', () => true);
 
     case LIST_OPEN_TABLE_SUCCESS:
@@ -320,6 +324,10 @@ const reducer = (state = INITIAL_STATE, action) => {
       //     return item;
       //   }).toJS());
       // }
+
+    case MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE:
+      return state.update('isBusy', () => false);
+    case MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS:
     default:
       return state;
   }

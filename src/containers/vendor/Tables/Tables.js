@@ -80,6 +80,7 @@ class Tables extends Component {
                   data={rowData}
                   navigate={this.props.navigate}
                   tabName="tables"
+                  makePaymentAndCompleteOrder={(orderId, token, amount, paymentType, status) => this.props.makePaymentAndCompleteOrder(orderId, token, amount, paymentType, status, 'queued')}
                   changeOrderStatus={(orderId, status) => this.props.changeOrderStatus(orderId, status)}
                 />
               );

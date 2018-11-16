@@ -24,7 +24,8 @@ const OpenTableItem = props => {
                 : `${item.userName}`,
             userImage: item.creator.avatarURL,
             item: props.tabName === 'tables' ? item : null,
-            changeOrderStatus: props.tabName === 'tables' ? props.changeOrderStatus : null
+            changeOrderStatus: props.tabName === 'tables' ? props.changeOrderStatus : null,
+            makePaymentAndCompleteOrder: props.tabName === 'tables' ? props.makePaymentAndCompleteOrder : null
           }
         })
       }

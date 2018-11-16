@@ -20,7 +20,7 @@ const QueuedTableItem = props => {
         },
         { text: 'OK', onPress: () => {
           props.changeOrderStatus(item._id, status);
-          props.listQueuedTable();
+          // props.listQueuedTable();
         }}
       ],
       { cancelable: false }

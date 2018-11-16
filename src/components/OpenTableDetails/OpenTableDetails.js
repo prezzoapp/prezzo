@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableOpacity, Modal } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import OpenOrdersList from '../OpenOrdersList';
@@ -98,6 +98,22 @@ export default class OpenTableDetails extends Component {
             <OpenTablePayment
               data={item}
               tabName="payment"
+              makePaymentAndCompleteOrder={(
+                order,
+                token,
+                amount,
+                paymentType,
+                status
+              ) =>
+                this.props.navigation.state.params.makePaymentAndCompleteOrder(
+                  order,
+                  token,
+                  amount,
+                  paymentType,
+                  status,
+                  'open'
+                )
+              }
               changeOrderStatus={(orderId, status) =>
                 this.props.navigation.state.params.changeOrderStatus(orderId, status)
               }

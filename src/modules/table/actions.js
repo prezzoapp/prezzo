@@ -9,6 +9,9 @@ import {
   CHANGE_ORDER_STATUS_REQUEST,
   CHANGE_ORDER_STATUS_SUCCESS,
   CHANGE_ORDER_STATUS_FAILURE,
+  MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST,
+  MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS,
+  MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE,
   LIST_CLOSED_TABLE_REQUEST,
   LIST_CLOSED_TABLE_SUCCESS,
   LIST_CLOSED_TABLE_FAILURE,
@@ -65,6 +68,36 @@ export const listQueuedTable = async (vendorId: string) => async dispatch => {
   }
 };
 
+export const makePaymentAndCompleteOrder = async (
+  order: string,
+  token: string,
+  amount: string,
+  paymentType: string,
+  status: string,
+  orderType: string
+) => async dispatch => {
+  dispatch({ type: MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST });
+
+  try {
+    await post(`/v1/transaction`, {
+      order,
+      token,
+      amount,
+      paymentType
+    });
+
+    return dispatch({
+      type: MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS,
+      payload: { order, status, orderType }
+    });
+  } catch (e) {
+    dispatch({
+      type: MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE,
+      payload: e && e.message ? e.message : e
+    });
+  }
+};
+
 export const changeOrderStatus = async (
   orderId: string,
   status: string,
@@ -85,7 +118,7 @@ export const changeOrderStatus = async (
       payload: e && e.message ? e.message : e
     });
   }
-}
+};
 
 export const listClosedTable = async (vendorId: string) => async dispatch => {
   // type: LIST_CLOSED_TABLE_REQUEST,

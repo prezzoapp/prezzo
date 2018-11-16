@@ -23,6 +23,26 @@ const OpenTablePayment = props => {
     return parseFloat(previous + next);
   });
 
+  completeOrder = (subtotal) => {
+    if(props.data.paymentType === 'card') {
+      props.makePaymentAndCompleteOrder(
+        props.data._id,
+        props.data.paymentMethod.token,
+        parseFloat(((subTotal * TAX) / 100 + subTotal).toFixed(2)),
+        'card',
+        'complete'
+      )
+    } else {
+      props.makePaymentAndCompleteOrder(
+        props.data._id,
+        '',
+        parseFloat(((subTotal * TAX) / 100 + subTotal).toFixed(2)),
+        'cash',
+        'complete'
+      )
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View
@@ -190,7 +210,8 @@ const OpenTablePayment = props => {
               <Button
                 style={buttonStyles.requestBtn}
                 textStyle={buttonStyles.requestBtnText}
-                onPress={() => props.changeOrderStatus(props.data._id, 'complete')}
+                onPress={() => completeOrder(subTotal)}
+                // onPress={() => props.changeOrderStatus(props.data._id, 'complete')}
               >
                 Request
               </Button>
@@ -209,7 +230,7 @@ const OpenTablePayment = props => {
       })()}
     </View>
   );
-}
+};
 
 const buttonStyles = {
   requestBtn: {

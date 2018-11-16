@@ -30,7 +30,8 @@ export const listOpenOrders = async (
 export const makePaymentAndCompleteOrder = async (
   order: string,
   token: string,
-  amount: string
+  amount: string,
+  paymentType: string
 ) => async dispatch => {
   dispatch({ type: MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST });
 
@@ -38,7 +39,8 @@ export const makePaymentAndCompleteOrder = async (
     await post(`/v1/transaction`, {
       order,
       token,
-      amount
+      amount,
+      paymentType
     });
 
     return dispatch({
@@ -47,4 +49,4 @@ export const makePaymentAndCompleteOrder = async (
   } catch (e) {
     dispatch({ type: MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE });
   }
-}
+};

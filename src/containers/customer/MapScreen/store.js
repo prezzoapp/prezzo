@@ -9,8 +9,18 @@ export const mapStateToProps = state => {
     .get('restaurants')
     .toJS();
 
+    const filters = state
+      .get('explore')
+      .get('filters')
+      .toJS();
+    const distance = state.get('explore').get('distance');
+    const pricing = state.get('explore').get('pricing');
+
   return {
-    data
+    data,
+    filters,
+    distance,
+    pricing
   };
 };
 

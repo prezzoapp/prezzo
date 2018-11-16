@@ -52,6 +52,23 @@ class ActivityOpenOrder extends Component {
     this.props.listOpenOrders('5bd2c0661392eb0a5c23c08b', 'pending');
   }
 
+  completeOrder(subTotal) {
+    if(this.props.data[0].paymentType === 'card') {
+      this.props.makePaymentAndCompleteOrder(
+        this.props.data[0]._id,
+        this.props.data[0].paymentMethod.token,
+        parseFloat(((subTotal * TAX) / 100 + subTotal).toFixed(2))
+      )
+    } else {
+      this.props.makePaymentAndCompleteOrder(
+        this.props.data[0]._id,
+        '',
+        parseFloat(((subTotal * TAX) / 100 + subTotal).toFixed(2)),
+        'cash'
+      )
+    }
+  }
+
   renderHeader() {
     return <Text style={styles.tableCode}>Table 9192</Text>;
   }
@@ -104,13 +121,7 @@ class ActivityOpenOrder extends Component {
                 <Button
                   style={buttonStyles.closeTableBtn}
                   textStyle={buttonStyles.closeTableBtnText}
-                  onPress={() =>
-                    this.props.makePaymentAndCompleteOrder(
-                      this.props.data[0]._id,
-                      this.props.data[0].paymentMethod.token,
-                      parseFloat(((subTotal * TAX) / 100 + subTotal).toFixed(2))
-                    )
-                  }
+                  onPress={() => this.completeOrder(subTotal)}
                 >
                   Close Table
                 </Button>
