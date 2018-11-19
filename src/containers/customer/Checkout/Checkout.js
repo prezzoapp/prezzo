@@ -6,8 +6,7 @@ import ReactNative, {
   ScrollView,
   Image,
   Dimensions,
-  PanResponder,
-  findNodeHandle
+  PanResponder
 } from 'react-native';
 
 import { BlurView } from 'expo';

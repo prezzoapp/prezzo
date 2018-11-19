@@ -238,6 +238,7 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
+import showGenericAlert from '../../../components/GenericAlert';
 
 export default class MapScreen extends Component {
   static navigationOptions = {
@@ -297,12 +298,16 @@ export default class MapScreen extends Component {
             },
             () => {
               this.props.listVendors(
-                this.state.customRegion.latitude,
-                this.state.customRegion.longitude,
-                this.props.distance,
-                this.activeFilters,
-                this.props.pricing
-              );
+                  this.state.customRegion.latitude,
+                  this.state.customRegion.longitude,
+                  this.props.distance,
+                  this.activeFilters,
+                  this.props.pricing
+                )
+                .then(() => {})
+                .catch(e => {
+                  showGenericAlert('Uh-oh!', e.message || e);
+                });
 
               console.log("After Getting Correct Coordinates: ");
               console.log(this.state.customRegion);

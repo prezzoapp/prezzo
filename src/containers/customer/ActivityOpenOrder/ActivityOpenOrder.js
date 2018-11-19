@@ -103,7 +103,15 @@ class ActivityOpenOrder extends Component {
                 data={
                   this.props.data.length !== 0 ? this.props.data[0].items : []
                 }
-                renderItem={({ item }) => <ActivityListItem item={item} />}
+                renderItem={({ item }) => (
+                  <ActivityListItem
+                    item={item}
+                    orderId={this.props.data[0]._id}
+                    checkStatusAndCancelItem={(orderId, itemId) =>
+                      this.props.checkStatusAndCancelItem(orderId, itemId)
+                    }
+                  />
+                )}
                 onRefresh={() => this.onRefresh()}
                 refreshing={this.state.isFetching}
                 ListHeaderComponent={this.renderHeader}

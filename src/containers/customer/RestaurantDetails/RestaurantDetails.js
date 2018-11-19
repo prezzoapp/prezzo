@@ -120,7 +120,6 @@ export default class RestaurantDetails extends Component {
 
   async attemptToCreateOrder() {
     const modifiedCartItems = [];
-    let order = null;
     const cartItems =
       this.props.data && this.props.data.data.menu &&
       this.props.data.data.menu.categories
@@ -137,6 +136,7 @@ export default class RestaurantDetails extends Component {
          createdDate: cart.createdDate,
          title: cart.title,
          description: cart.description,
+         status: 'pending',
          notes: cart.description,
          price: cart.price,
          rating: cart.rating,

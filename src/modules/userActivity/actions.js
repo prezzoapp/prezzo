@@ -5,7 +5,10 @@ import {
   GET_USER_OPEN_ORDER_FAILURE,
   MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST,
   MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS,
-  MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE
+  MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE,
+  CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST,
+  CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS,
+  CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE
 } from './types';
 import { get, post } from '../../utils/api';
 
@@ -48,5 +51,23 @@ export const makePaymentAndCompleteOrder = async (
     });
   } catch (e) {
     dispatch({ type: MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE });
+  }
+};
+
+export const checkStatusAndCancelItem = async (
+  order: string,
+  item: string
+) => async dispatch => {
+  dispatch({ type: CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST });
+
+  try {
+    const updatedOrder = await post(`/v1/order/${order}/item/${item}`);
+
+    return dispatch({
+      type: CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS,
+      payload: fromJS(updatedOrder)
+    });
+  } catch (e) {
+    dispatch({ type: CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE });
   }
 };

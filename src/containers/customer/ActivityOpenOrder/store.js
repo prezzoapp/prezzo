@@ -2,7 +2,8 @@ import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import {
   listOpenOrders,
-  makePaymentAndCompleteOrder
+  makePaymentAndCompleteOrder,
+  checkStatusAndCancelItem
 } from '../../../modules/userActivity';
 
 export const mapStateToProps = state => {
@@ -24,6 +25,10 @@ export const mapDispatchToProps = dispatch => {
     listOpenOrders: bindActionCreators(listOpenOrders, dispatch),
     makePaymentAndCompleteOrder: bindActionCreators(
       makePaymentAndCompleteOrder,
+      dispatch
+    ),
+    checkStatusAndCancelItem: bindActionCreators(
+      checkStatusAndCancelItem,
       dispatch
     ),
     navigate: bindActionCreators(NavigationActions.navigate, dispatch)
