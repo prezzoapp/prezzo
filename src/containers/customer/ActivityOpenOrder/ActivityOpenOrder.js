@@ -25,6 +25,8 @@ class ActivityOpenOrder extends Component {
     super();
 
     this.state = { isFetching: false }
+
+    this.timer = -1;
   }
 
   componentDidMount() {
@@ -53,20 +55,36 @@ class ActivityOpenOrder extends Component {
   }
 
   completeOrder(subTotal) {
-    if(this.props.data[0].paymentType === 'card') {
+    if(this.props.data.order[0].paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(
-        this.props.data[0]._id,
-        this.props.data[0].paymentMethod.token,
+        this.props.data.order[0]._id,
+        this.props.data.order[0].paymentMethod.token,
         parseFloat(((subTotal * TAX) / 100 + subTotal).toFixed(2))
       )
     } else {
       this.props.makePaymentAndCompleteOrder(
-        this.props.data[0]._id,
+        this.props.data.order[0]._id,
         '',
         parseFloat(((subTotal * TAX) / 100 + subTotal).toFixed(2)),
         'cash'
       )
     }
+  }
+
+  checkStatusAndCancelItem(orderId, itemId) {
+    this.props
+      .checkStatusAndCancelItem(orderId, itemId)
+      .then(result => {
+        if (this.props.data.message && this.props.isBusy === false) {
+          clearTimeout(this.timer);
+          this.timer = setTimeout(() => {
+            alert(this.props.data.message);
+          }, 300);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   renderHeader() {
@@ -75,10 +93,10 @@ class ActivityOpenOrder extends Component {
 
   render() {
     const subTotal =
-      this.props.data.length !== 0
-        ? this.props.data[0].items
+      this.props.data && this.props.data.order.length !== 0
+        ? this.props.data.order[0].items
             .map(item => item.price)
-      .reduce((previous, next) => {
+            .reduce((previous, next) => {
               return parseFloat(previous + next);
             })
         : 0;
@@ -86,7 +104,7 @@ class ActivityOpenOrder extends Component {
     return (
       <View style={styles.container}>
         {(() => {
-          if (this.props.data.length === 0) {
+          if (this.props.data && this.props.data.order.length === 0) {
             return (
               <View style={styles.notFoundHolder}>
                 <Text style={styles.message}>
@@ -101,14 +119,14 @@ class ActivityOpenOrder extends Component {
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
                 data={
-                  this.props.data.length !== 0 ? this.props.data[0].items : []
+                  this.props.data && this.props.data.order.length !== 0 ? this.props.data.order[0].items : []
                 }
                 renderItem={({ item }) => (
                   <ActivityListItem
                     item={item}
-                    orderId={this.props.data[0]._id}
+                    orderId={this.props.data && this.props.data.order[0]._id}
                     checkStatusAndCancelItem={(orderId, itemId) =>
-                      this.props.checkStatusAndCancelItem(orderId, itemId)
+                      this.checkStatusAndCancelItem(orderId, itemId)
                     }
                   />
                 )}

@@ -1,9 +1,9 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, Image, FlatList, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import Slider from 'react-native-slider';
-import { LinearGradient, BlurView } from 'expo';
+import { LinearGradient, BlurView, Location, Permissions } from 'expo';
 import { EvilIcons } from '../../../components/VectorIcons';
 import ExploreSearchInput from '../../../components/ExploreSearchInput';
 import FilterItem from '../../../components/FilterItem';
@@ -89,6 +89,24 @@ export default class ExploreScreenHeader extends PureComponent {
     });
   }
 
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    const { locationServicesEnabled } = await Location.getProviderStatusAsync({});
+    if (locationServicesEnabled === false || status !== 'granted') {
+      Alert.alert(
+        'Prezzo',
+        'Uh oh! Location service Unavailable.',
+        [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: false }
+      )
+    }
+    else{
+      this.props.navigate({ routeName: 'MapScreen' });
+    }
+  };
+
   render() {
     const { filters } = this.props;
     console.log("Explore screen Header component.");
@@ -115,7 +133,7 @@ export default class ExploreScreenHeader extends PureComponent {
                 <TouchableOpacity
                   activeOpacity={0.6}
                   style={{ marginLeft: 10 }}
-                  onPress={() => this.props.navigate({ routeName: 'MapScreen' })}
+                  onPress={() => this._getLocationAsync()}
                 >
                   <Image
                     source={require('../../../../assets/images/location_icon.png')}
