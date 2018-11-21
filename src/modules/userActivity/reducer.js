@@ -14,7 +14,7 @@ import {
 
 const INITIAL_STATE = fromJS({
   isBusy: false,
-  data: []
+  data: {}
 });
 
 export default (state = INITIAL_STATE, action) => {
@@ -35,7 +35,7 @@ export default (state = INITIAL_STATE, action) => {
         .update('isBusy', () => false);
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS:
       return state
-        .update('data', () => fromJS([]))
+        .update('data', () => fromJS({ order: [] }))
         .update('isBusy', () => false);
 
     case GET_USER_OPEN_ORDER_REQUEST:

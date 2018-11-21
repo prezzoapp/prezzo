@@ -93,18 +93,18 @@ class ActivityOpenOrder extends Component {
 
   render() {
     const subTotal =
-      this.props.data && this.props.data.order.length !== 0
+      this.props.data.order && (this.props.data.order.length !== 0
         ? this.props.data.order[0].items
             .map(item => item.price)
             .reduce((previous, next) => {
               return parseFloat(previous + next);
             })
-        : 0;
+        : 0);
 
     return (
       <View style={styles.container}>
         {(() => {
-          if (this.props.data && this.props.data.order.length === 0) {
+          if (this.props.data.order && this.props.data.order.length === 0) {
             return (
               <View style={styles.notFoundHolder}>
                 <Text style={styles.message}>
@@ -119,12 +119,14 @@ class ActivityOpenOrder extends Component {
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
                 data={
-                  this.props.data && this.props.data.order.length !== 0 ? this.props.data.order[0].items : []
+                  this.props.data.order && this.props.data.order.length !== 0 ? this.props.data.order[0].items : []
                 }
                 renderItem={({ item }) => (
                   <ActivityListItem
                     item={item}
-                    orderId={this.props.data && this.props.data.order[0]._id}
+                    orderId={
+                      this.props.data.order && this.props.data.order[0]._id
+                    }
                     checkStatusAndCancelItem={(orderId, itemId) =>
                       this.checkStatusAndCancelItem(orderId, itemId)
                     }

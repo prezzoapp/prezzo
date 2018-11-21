@@ -1,6 +1,6 @@
 // @flow
-import React, {Component} from 'react';
-import {Provider} from 'react-redux';
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
 import { AppRegistry, View, StyleSheet, ActivityIndicator } from 'react-native';
 import { MaterialIcons, EvilIcons, Ionicons, Feather, FontAwesome, Entypo, Foundation } from '@expo/vector-icons';
 //import MaterialIcons from '@expo/vector-icons/fonts/MaterialIcons.ttf'
@@ -48,7 +48,7 @@ class Prezzo extends Component {
 
       this.setState({ didFontsLoad: true });
       console.log('loaded fonts', Font, typeof Font, ' ');
-      
+
       // this.props.dispatch(SessionStateActions.resetStateAfterFontLoaded(true));
 
     } catch (error) {
