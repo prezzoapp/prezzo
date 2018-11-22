@@ -9,7 +9,10 @@ import {
   MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE,
   CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST,
   CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS,
-  CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE
+  CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE,
+  CHECK_ORDER_STATUS_REQUEST,
+  CHECK_ORDER_STATUS_SUCCESS,
+  CHECK_ORDER_STATUS_FAILURE
 } from './types';
 
 const INITIAL_STATE = fromJS({
@@ -21,15 +24,18 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST:
     case CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST:
+    case CHECK_ORDER_STATUS_REQUEST:
       return state.update('isBusy', () => true);
 
     case GET_USER_OPEN_ORDER_FAILURE:
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE:
     case CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE:
+    case CHECK_ORDER_STATUS_FAILURE:
       return state.update('isBusy', () => false);
 
     case GET_USER_OPEN_ORDER_SUCCESS:
     case CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS:
+    case CHECK_ORDER_STATUS_SUCCESS:
       return state
         .update('data', () => action.payload)
         .update('isBusy', () => false);

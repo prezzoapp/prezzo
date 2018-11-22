@@ -10,7 +10,8 @@ import {
   changeLayout,
   changeClosedSection,
   listClosedTable,
-  makePaymentAndCompleteOrder
+  makePaymentAndCompleteOrder,
+  changeOrderStatus
 } from '../../../modules/table';
 
 export const mapStateToProps = state => ({
@@ -34,5 +35,6 @@ export const mapDispatchToProps = dispatch => ({
   changeLayout: bindActionCreators(changeLayout, dispatch),
   changeClosedSection: bindActionCreators(changeClosedSection, dispatch),
   listClosedTable: bindActionCreators(listClosedTable, dispatch),
-  makePaymentAndCompleteOrder: bindActionCreators(makePaymentAndCompleteOrder, dispatch)
+  makePaymentAndCompleteOrder: bindActionCreators(makePaymentAndCompleteOrder, dispatch),
+  changeOrderStatus: bindActionCreators(changeOrderStatus, dispatch)
 });

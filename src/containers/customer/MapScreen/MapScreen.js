@@ -239,6 +239,8 @@ import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
 import showGenericAlert from '../../../components/GenericAlert';
+import publicIP from 'react-native-public-ip';
+
 
 export default class MapScreen extends Component {
   static navigationOptions = {
@@ -316,7 +318,7 @@ export default class MapScreen extends Component {
           );
         }
       },
-      error => console.log(error.message),
+      error => this.getNetworkIP(),
       {
         enableHighAccuracy: false,
         timeout: 200000,
@@ -324,6 +326,75 @@ export default class MapScreen extends Component {
       }
     );
   }
+  getNetworkIP() {
+    publicIP()
+      .then(ip => {
+        this.getIPLocation(ip);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  getIPLocation(ip)
+  {
+    // console.log('location ip is ------ ', ip);
+    var commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
+    console.log("location url is ------ ",commonHtml);
+    fetch(commonHtml)
+    .then((response) => response.json())
+    .then((responseJson) => {
+        console.log(responseJson);
+        if (responseJson.latitude) {
+
+          this.setState({
+            customRegion: {
+              latitude: responseJson.latitude,
+              longitude: responseJson.longitude,
+              latitudeDelta: 0.00922,
+              longitudeDelta: 0.00422
+            },
+            isGetLocation: true,
+            countryName: responseJson.country_name,
+            regionName: responseJson.region_name,
+
+          });
+   console.log('location ip  --- ',this.state.customRegion);
+   this.props.listVendors(
+       this.state.customRegion.latitude,
+       this.state.customRegion.longitude,
+       this.props.distance,
+       this.activeFilters,
+       this.props.pricing
+     )
+     .then(() => {})
+     .catch(e => {
+       showGenericAlert('Uh-oh!', e.message || e);
+     });
+
+   console.log("After Getting Correct Coordinates: ");
+   console.log(this.state.customRegion);
+   console.log('First Time API Called!');
+
+
+            }
+            else{
+              // show error message
+            }
+
+
+           })
+           .catch((error) => {
+            console.error("getting error is --- ",error);
+
+
+
+
+           });
+
+
+
+    }
 
   componentWillUnmount() {
     this.watchID = null;

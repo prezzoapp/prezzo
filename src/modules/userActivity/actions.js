@@ -8,7 +8,10 @@ import {
   MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE,
   CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST,
   CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS,
-  CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE
+  CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE,
+  CHECK_ORDER_STATUS_REQUEST,
+  CHECK_ORDER_STATUS_SUCCESS,
+  CHECK_ORDER_STATUS_FAILURE
 } from './types';
 import { get, post } from '../../utils/api';
 
@@ -69,5 +72,23 @@ export const checkStatusAndCancelItem = async (
     });
   } catch (e) {
     dispatch({ type: CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE });
+  }
+};
+
+export const checkOrderStatus = async (
+  orderId: string,
+  status: stirng
+) => async dispatch => {
+  dispatch({ type: CHECK_ORDER_STATUS_REQUEST });
+
+  try {
+    const updatedOrder = await get(`v1/order/${orderId}?status=${status}`);
+
+    return dispatch({
+      type: CHECK_ORDER_STATUS_SUCCESS,
+      payload: fromJS(updatedOrder)
+    });
+  } catch (e) {
+    dispatch({ type: CHECK_ORDER_STATUS_FAILURE });
   }
 };

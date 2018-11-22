@@ -90,21 +90,21 @@ export default class ExploreScreenHeader extends PureComponent {
   }
 
   _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    const { locationServicesEnabled } = await Location.getProviderStatusAsync({});
-    if (locationServicesEnabled === false || status !== 'granted') {
-      Alert.alert(
-        'Prezzo',
-        'Uh oh! Location service Unavailable.',
-        [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        { cancelable: false }
-      )
-    }
-    else{
+    // let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    // const { locationServicesEnabled } = await Location.getProviderStatusAsync({});
+    // if (locationServicesEnabled === false || status !== 'granted') {
+    //   Alert.alert(
+    //     'Prezzo',
+    //     'Uh oh! Location service Unavailable.',
+    //     [
+    //       {text: 'OK', onPress: () => console.log('OK Pressed')},
+    //     ],
+    //     { cancelable: false }
+    //   )
+    // }
+    //else{
       this.props.navigate({ routeName: 'MapScreen' });
-    }
+    //}
   };
 
   render() {

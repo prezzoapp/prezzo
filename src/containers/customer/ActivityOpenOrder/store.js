@@ -3,7 +3,8 @@ import { NavigationActions } from 'react-navigation';
 import {
   listOpenOrders,
   makePaymentAndCompleteOrder,
-  checkStatusAndCancelItem
+  checkStatusAndCancelItem,
+  checkOrderStatus
 } from '../../../modules/userActivity';
 
 export const mapStateToProps = state => {
@@ -12,11 +13,17 @@ export const mapStateToProps = state => {
     .get('data')
     .toJS();
 
+  const userId = state
+    .get('user')
+    .get('account')
+    .get('_id');
+
   const isBusy = state.get('userActivity').get('isBusy');
 
   return {
     data,
-    isBusy
+    isBusy,
+    userId
   };
 };
 
@@ -31,6 +38,7 @@ export const mapDispatchToProps = dispatch => {
       checkStatusAndCancelItem,
       dispatch
     ),
+    checkOrderStatus: bindActionCreators(checkOrderStatus, dispatch),
     navigate: bindActionCreators(NavigationActions.navigate, dispatch)
   };
 };

@@ -1,7 +1,7 @@
 // @flow
-import { listOpenOrders, makePaymentAndCompleteOrder, checkStatusAndCancelItem } from './actions';
+import { listOpenOrders, makePaymentAndCompleteOrder, checkStatusAndCancelItem, checkOrderStatus } from './actions';
 import reducer from './reducer';
 
-export { listOpenOrders, makePaymentAndCompleteOrder, checkStatusAndCancelItem };
+export { listOpenOrders, makePaymentAndCompleteOrder, checkStatusAndCancelItem, checkOrderStatus };
 
 export default reducer;

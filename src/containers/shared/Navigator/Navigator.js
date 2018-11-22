@@ -168,15 +168,15 @@ const VendorTablesNavigator = createStackNavigator(
   }
 );
 
-const VendorDeliveryNavigator = createStackNavigator(
-  {
-    Delivery: { screen: Delivery },
-    OpenDeliveryDetails: { screen: OpenDeliveryDetails }
-  },
-  {
-    headerMode: 'screen'
-  }
-);
+// const VendorDeliveryNavigator = createStackNavigator(
+//   {
+//     Delivery: { screen: Delivery },
+//     OpenDeliveryDetails: { screen: OpenDeliveryDetails }
+//   },
+//   {
+//     headerMode: 'screen'
+//   }
+// );
 
 const VendorActivityNavigator = createStackNavigator(
   {
@@ -206,21 +206,21 @@ const VendorNavigator = createBottomTabNavigator(
       }
     },
 
-    VendorDeliveryNavigator: { screen: VendorDeliveryNavigator,
-      navigationOptions: {
-        title:'Delivery',
-        tabBarIcon: ({ focused }) => (
-          <Image
-            style={{
-              height: 24,
-              width: 24,
-              tintColor: focused ? activeColor : inactiveColor
-            }}
-            source={require('../../../../assets/images/icons/Delivery.png')}
-          />
-        )
-      }
-    },
+    // VendorDeliveryNavigator: { screen: VendorDeliveryNavigator,
+    //   navigationOptions: {
+    //     title:'Delivery',
+    //     tabBarIcon: ({ focused }) => (
+    //       <Image
+    //         style={{
+    //           height: 24,
+    //           width: 24,
+    //           tintColor: focused ? activeColor : inactiveColor
+    //         }}
+    //         source={require('../../../../assets/images/icons/Delivery.png')}
+    //       />
+    //     )
+    //   }
+    // },
 
     VendorActivityNavigator: { screen: VendorActivityNavigator,
       navigationOptions: {

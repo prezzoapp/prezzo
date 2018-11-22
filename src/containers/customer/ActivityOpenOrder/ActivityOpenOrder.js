@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList, Text, Alert } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -51,24 +51,71 @@ class ActivityOpenOrder extends Component {
   }
 
   hitAPI() {
-    this.props.listOpenOrders('5bd2c0661392eb0a5c23c08b', 'pending');
+    this.props.listOpenOrders(this.props.userId, 'pending');
   }
 
-  completeOrder(subTotal) {
+  finalizeOrder(price) {
     if(this.props.data.order[0].paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(
         this.props.data.order[0]._id,
         this.props.data.order[0].paymentMethod.token,
-        parseFloat(((subTotal * TAX) / 100 + subTotal).toFixed(2))
+        price
       )
     } else {
       this.props.makePaymentAndCompleteOrder(
         this.props.data.order[0]._id,
         '',
-        parseFloat(((subTotal * TAX) / 100 + subTotal).toFixed(2)),
+        price,
         'cash'
       )
     }
+  }
+
+  completeOrder(id, status) {
+    this.props.checkOrderStatus(id, status).then(() => {
+        if (this.props.data.message && this.props.isBusy === false) {
+          clearTimeout(this.timer);
+          if(this.props.data.order[0].status !== 'complete') {
+            let pendingItems = 0;
+            let price = 0;
+
+            this.props.data.order[0].items.filter(item => {
+              if(item.status === 'pending') {
+                pendingItems += 1;
+              } else if(item.status !== 'denied') {
+                price += item.price;
+              }
+            });
+
+            price = parseFloat(((price * TAX) / 100 + price).toFixed(2));
+
+            this.timer = setTimeout(() => {
+              Alert.alert(
+                '',
+                `You have ${pendingItems} pending item(s). Are you sure ${price}?`,
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => null,
+                    style: 'cancel'
+                  },
+                  {
+                    text: 'OK', onPress: () => this.finalizeOrder(price)
+                  }
+                ],
+                { cancelable: false }
+              );
+            }, 300);
+          } else {
+            this.timer = setTimeout(() => {
+              alert(this.props.data.message);
+            }, 300);
+          }
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
 
   checkStatusAndCancelItem(orderId, itemId) {
@@ -149,7 +196,12 @@ class ActivityOpenOrder extends Component {
                 <Button
                   style={buttonStyles.closeTableBtn}
                   textStyle={buttonStyles.closeTableBtnText}
-                  onPress={() => this.completeOrder(subTotal)}
+                  onPress={() =>
+                    this.completeOrder(
+                      this.props.data.order[0]._id,
+                      this.props.data.order[0].status
+                    )
+                  }
                 >
                   Close Table
                 </Button>
