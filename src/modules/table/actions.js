@@ -128,7 +128,7 @@ export const listClosedTable = async (vendorId: string) => async dispatch => {
 
   try {
     const order = await get(
-      `v1/vendors/${vendorId}/orders?status=complete&type=table`
+      `v1/vendors/${vendorId}/orders?status=complete&type=table&page=1`
     );
 
     return dispatch({

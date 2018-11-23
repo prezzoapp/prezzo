@@ -385,10 +385,6 @@ export default class MapScreen extends Component {
 
            })
            .catch((error) => {
-            console.error("getting error is --- ",error);
-
-
-
 
            });
 
@@ -448,6 +444,17 @@ export default class MapScreen extends Component {
       longitudeDelta: 0.00422
     });
   }
+
+  moveMapPositionOnSearch(lat,lon) {
+    this.mapView.animateToRegion({
+      latitude: lat,
+      longitude: lon,
+      latitudeDelta: 0.00922,
+      longitudeDelta: 0.00422
+    });
+  }
+
+
 
   render() {
     //console.log('Map screen render called');
@@ -523,7 +530,7 @@ export default class MapScreen extends Component {
             minLength={3}
             autoFocus={false}
             returnKeyType="search"
-            listViewDisplayed="auto"
+            listViewDisplayed="false"
             enablePoweredByContainer={false}
             fetchDetails
             getDefaultValue={() => ''}
@@ -535,6 +542,12 @@ export default class MapScreen extends Component {
               language: 'en'
             }}
             debounce={200}
+            onPress={(data, details = null) => {
+              // 'details' is provided when fetchDetails = true
+              // console.log("Detail is ---------",details.geometry.location);
+              // console.log("Detail is ---------",details.geometry.location.lat);
+            this.moveMapPositionOnSearch(details.geometry.location.lat,details.geometry.location.lng);
+     }}
             styles={{
               textInputContainer: {
                 paddingHorizontal: 12,

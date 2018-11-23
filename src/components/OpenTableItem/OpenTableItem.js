@@ -6,6 +6,7 @@ import { Entypo } from '../VectorIcons';
 
 const OpenTableItem = props => {
   const { item, index } = props.data;
+  console.log(item);
   return (
     <TouchableOpacity
       style={styles.container}
@@ -14,16 +15,14 @@ const OpenTableItem = props => {
           routeName:
             props.tabName === 'tables'
               ? 'OpenTableDetails'
-              : props.tabName === 'delivery'
-                ? 'OpenDeliveryDetails'
-                : 'VendorAdminActivityDetails',
+              : 'VendorAdminActivityDetails',
           params: {
             userName:
               props.tabName !== 'delivery'
                 ? `${item.creator.fullName} - 9192`
                 : `${item.userName}`,
             userImage: item.creator.avatarURL,
-            item: props.tabName === 'tables' ? item : null,
+            item: item,
             changeOrderStatus: props.tabName === 'tables' ? props.changeOrderStatus : null,
             makePaymentAndCompleteOrder: props.tabName === 'tables' ? props.makePaymentAndCompleteOrder : null
           }
@@ -72,8 +71,8 @@ const OpenTableItem = props => {
                 ]}
               >
                 {props.innerTabName !== 'photoReview'
-                  ? '  •  Waiter Reqested'
-                  : ` - ${item.items.length} Photos`}
+                  ? ' •  Waiter Reqested'
+                  : `- ${item.items.length} Photos`}
               </Text>
             </View>
           );

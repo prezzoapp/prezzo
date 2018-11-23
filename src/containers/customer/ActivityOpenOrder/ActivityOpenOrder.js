@@ -55,10 +55,16 @@ class ActivityOpenOrder extends Component {
   }
 
   finalizeOrder(price) {
-    if(this.props.data.order[0].paymentType === 'card') {
+    if(this.props.data.order[0].paymentType === 'card' && price !== 0) {
       this.props.makePaymentAndCompleteOrder(
         this.props.data.order[0]._id,
         this.props.data.order[0].paymentMethod.token,
+        price
+      )
+    } else if(this.props.data.order[0].paymentType === 'card') {
+      this.props.makePaymentAndCompleteOrder(
+        this.props.data.order[0]._id,
+        '',
         price
       )
     } else {
@@ -71,46 +77,78 @@ class ActivityOpenOrder extends Component {
     }
   }
 
-  completeOrder(id, status) {
-    this.props.checkOrderStatus(id, status).then(() => {
-        if (this.props.data.message && this.props.isBusy === false) {
+  completeOrder(id) {
+    this.props.checkOrderStatus(id).then(() => {
+        console.log("Order Status: ");
+        console.log(this.props.data.order[0]);
+        if (
+          this.props.data.finalStatus &&
+          this.props.data.finalStatus === 'complete'
+        ) {
+          // If order has been already completed.
+
           clearTimeout(this.timer);
-          if(this.props.data.order[0].status !== 'complete') {
-            let pendingItems = 0;
-            let price = 0;
 
-            this.props.data.order[0].items.filter(item => {
-              if(item.status === 'pending') {
-                pendingItems += 1;
-              } else if(item.status !== 'denied') {
-                price += item.price;
-              }
-            });
+          this.timer = setTimeout(() => {
+            alert(
+              this.props.data.message ||
+                'This order has been already completed.'
+            );
+          }, 300);
+        } else if (
+          this.props.data.finalStatus &&
+          this.props.data.finalStatus === 'denied'
+        ) {
+          // If order has been already denied.
 
-            price = parseFloat(((price * TAX) / 100 + price).toFixed(2));
+          clearTimeout(this.timer);
 
-            this.timer = setTimeout(() => {
-              Alert.alert(
-                '',
-                `You have ${pendingItems} pending item(s). Are you sure ${price}?`,
-                [
-                  {
-                    text: 'Cancel',
-                    onPress: () => null,
-                    style: 'cancel'
-                  },
-                  {
-                    text: 'OK', onPress: () => this.finalizeOrder(price)
-                  }
-                ],
-                { cancelable: false }
-              );
-            }, 300);
-          } else {
-            this.timer = setTimeout(() => {
-              alert(this.props.data.message);
-            }, 300);
-          }
+          this.timer = setTimeout(() => {
+            alert(this.props.data.message || 'This order has been denied.');
+          }, 300);
+        } else {
+          clearTimeout(this.timer);
+          let pendingItems = 0;
+          let price = 0;
+
+          this.props.data.order[0].items.filter(item => {
+            if(item.status === 'pending') {
+              pendingItems += 1;
+            } else if(item.status !== 'denied') {
+              price += item.price;
+            }
+          });
+
+          price = parseFloat(((price * TAX) / 100 + price).toFixed(2));
+
+          const message =
+            pendingItems === 0
+              ? this.props.data.order[0].paymentType === 'card'
+                ? `Continue to pay $${price}`
+                : 'Are you sure you want to complete?'
+              : this.props.data.order[0].paymentType === 'card'
+                ? price === 0
+                  ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
+                  : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
+                : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and complete order?`
+
+          this.timer = setTimeout(() => {
+            Alert.alert(
+              '',
+              message,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => null,
+                  style: 'cancel'
+                },
+                {
+                  text: 'OK', onPress: () => this.finalizeOrder(price)
+                }
+              ],
+              { cancelable: false }
+            );
+          }, 300);
         }
       })
       .catch(e => {
@@ -197,10 +235,7 @@ class ActivityOpenOrder extends Component {
                   style={buttonStyles.closeTableBtn}
                   textStyle={buttonStyles.closeTableBtnText}
                   onPress={() =>
-                    this.completeOrder(
-                      this.props.data.order[0]._id,
-                      this.props.data.order[0].status
-                    )
+                    this.completeOrder(this.props.data.order[0]._id)
                   }
                 >
                   Close Table

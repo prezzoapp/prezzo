@@ -75,14 +75,11 @@ export const checkStatusAndCancelItem = async (
   }
 };
 
-export const checkOrderStatus = async (
-  orderId: string,
-  status: stirng
-) => async dispatch => {
+export const checkOrderStatus = async (orderId: string) => async dispatch => {
   dispatch({ type: CHECK_ORDER_STATUS_REQUEST });
 
   try {
-    const updatedOrder = await get(`v1/order/${orderId}?status=${status}`);
+    const updatedOrder = await get(`v1/order/${orderId}`);
 
     return dispatch({
       type: CHECK_ORDER_STATUS_SUCCESS,

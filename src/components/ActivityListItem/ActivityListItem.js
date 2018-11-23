@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { Feather } from '../VectorIcons';
@@ -7,7 +7,21 @@ import styles from './styles';
 
 const ActivityListItem = props => {
   function checkAndCancelOrder(orderId, itemId) {
-    props.checkStatusAndCancelItem(orderId, itemId);
+    Alert.alert(
+      '',
+      'Are you sure you want to cancel?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel'
+        },
+        {
+          text: 'OK', onPress: () => props.checkStatusAndCancelItem(orderId, itemId)
+        }
+      ],
+      { cancelable: false }
+    );
   }
 
   if(props.item.status !== 'denied') {
@@ -16,7 +30,7 @@ const ActivityListItem = props => {
         <View style={styles.leftSide}>
           <Image
             source={
-              props.item.status === 'delivered'
+              props.item.status === 'complete'
                 ? require('../../../assets/images/icons/active_status.png')
                 : require('../../../assets/images/icons/green_in_progress.png')
             }
@@ -81,7 +95,8 @@ const ActivityListItem = props => {
 };
 
 ActivityListItem.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  checkStatusAndCancelItem: PropTypes.func.isRequired
 };
 
 export default ActivityListItem;

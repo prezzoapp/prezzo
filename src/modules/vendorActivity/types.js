@@ -1,5 +1,7 @@
 // @flow
 export const LIST_OPEN_TABLE_REQUEST = 'vendorActivity/LIST_OPEN_TABLE_REQUEST';
+export const LIST_OPEN_TABLE_SUCCESS = 'vendorActivity/LIST_OPEN_TABLE_SUCCESS';
+export const LIST_OPEN_TABLE_FAILURE = 'vendorActivity/LIST_OPEN_TABLE_FAILURE';
 export const LIST_QUEUED_TABLE_REQUEST = 'vendorActivity/LIST_QUEUED_TABLE_REQUEST';
 export const ACCEPT_QUEUED_REQUEST = 'vendorActivity/ACCEPT_QUEUED_REQUEST';
 export const DELETE_QUEUED_REQUEST = 'vendorActivity/DELETE_QUEUED_REQUEST';

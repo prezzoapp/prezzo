@@ -2,6 +2,9 @@
 import { Map } from 'immutable';
 import {
   LIST_OPEN_TABLE_REQUEST,
+  LIST_OPEN_TABLE_SUCCESS,
+  LIST_OPEN_TABLE_FAILURE,
+
   LIST_QUEUED_TABLE_REQUEST,
   ACCEPT_QUEUED_REQUEST,
   DELETE_QUEUED_REQUEST,
@@ -134,7 +137,11 @@ function getDummyData() {
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LIST_OPEN_TABLE_REQUEST:
-      return state.update('openTableList', () => getDummyData());
+    case LIST_OPEN_TABLE_FAILURE:
+      return state.update('isBusy', () => true);
+      
+    case LIST_OPEN_TABLE_SUCCESS:
+      return state.update('openTableList', () => action.payload).update('isBusy', () => false);
 
     case LIST_QUEUED_TABLE_REQUEST:
       return state.update('queuedTableList', () => getDummyData());

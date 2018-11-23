@@ -8,8 +8,8 @@ import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE
 } from '../../../services/constants';
-const SECTION_WIDTH: number = 0.90 * Dimensions.get('window').width;
 
+const SECTION_WIDTH: number = 0.9 * Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {

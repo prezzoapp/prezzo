@@ -30,11 +30,11 @@ class Tables extends Component {
 
   componentDidMount() {
     if (this.props.section === 0) {
-      this.props.listOpenTable();
+      this.props.listOpenTable(this.props.vendorData.get('_id'));
     } else if (this.props.section === 1) {
-      this.props.listQueuedTable();
+      this.props.listQueuedTable(this.props.vendorData.get('_id'));
     } else {
-      this.props.listClosedTable();
+      this.props.listClosedTable(this.props.vendorData.get('_id'));
     }
   }
 

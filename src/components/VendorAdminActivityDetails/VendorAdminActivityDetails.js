@@ -120,6 +120,7 @@ export default class VendorAdminActivityDetails extends Component {
   }
 
   render() {
+    const { item } = this.props.navigation.state.params;
     return (
       <Container style={styles.container}>
         <Tabs
@@ -142,7 +143,7 @@ export default class VendorAdminActivityDetails extends Component {
             style={styles.tabStyle}
           >
             <OpenOrdersList
-              data={this.data}
+              data={item}
               footer={
                 <View style={styles.footerContainer}>
                   <Button
@@ -165,7 +166,7 @@ export default class VendorAdminActivityDetails extends Component {
             style={styles.tabStyle}
           >
             <OpenTablePayment
-              data={this.paymentListInfo}
+              data={item}
               footer={
                 <View
                   style={{

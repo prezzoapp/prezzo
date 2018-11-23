@@ -155,7 +155,7 @@ class Activity extends Component {
 
   componentDidMount() {
     if (this.props.section === 0) {
-      this.props.listWaiterRequestTable();
+      this.props.listWaiterRequestTable(this.props.vendorData.get('_id'));
     } else {
       this.props.listPhotoReviewTable();
     }
@@ -163,7 +163,7 @@ class Activity extends Component {
 
   onSectionChange = index => {
     if (index === 0) {
-      this.props.listWaiterRequestTable();
+      this.props.listWaiterRequestTable(this.props.vendorData.get('_id'));
     } else {
       this.props.listPhotoReviewTable();
     }
@@ -204,21 +204,21 @@ class Activity extends Component {
     }).start();
   }
 
-  handleQueuedTableItem = (tableId, index, actionType) => {
-    Alert.alert(
-      actionType === ACCEPT_ORDER ? 'Accept' : 'Remove',
-      `${this.props.queuedTableList[index].userName} \n Delivery Order`,
-      [
-        {
-          text: 'Cancel',
-          onPress: () => null,
-          style: 'cancel'
-        },
-        { text: 'OK', onPress: () => this.handleConfirm(tableId, actionType) }
-      ],
-      { cancelable: false }
-    );
-  };
+  // handleQueuedTableItem = (tableId, index, actionType) => {
+  //   Alert.alert(
+  //     actionType === ACCEPT_ORDER ? 'Accept' : 'Remove',
+  //     `${this.props.queuedTableList[index].userName} \n Delivery Order`,
+  //     [
+  //       {
+  //         text: 'Cancel',
+  //         onPress: () => null,
+  //         style: 'cancel'
+  //       },
+  //       { text: 'OK', onPress: () => this.handleConfirm(tableId, actionType) }
+  //     ],
+  //     { cancelable: false }
+  //   );
+  // };
 
   changeTabHandler = index => {
     if (index === 1) {
@@ -226,13 +226,13 @@ class Activity extends Component {
     }
   };
 
-  handleConfirm = (tableId, actioType) => {
-    if (actioType === ACCEPT_ORDER) {
-      this.props.acceptQueuedRequest(this.props.queuedTableList, tableId);
-    } else if (actioType === DELETE_ORDER) {
-      this.props.deleteQueuedRequest(this.props.queuedTableList, tableId);
-    }
-  };
+  // handleConfirm = (tableId, actioType) => {
+  //   if (actioType === ACCEPT_ORDER) {
+  //     this.props.acceptQueuedRequest(this.props.queuedTableList, tableId);
+  //   } else if (actioType === DELETE_ORDER) {
+  //     this.props.deleteQueuedRequest(this.props.queuedTableList, tableId);
+  //   }
+  // };
   renderHeader = () => (
     <View
       style={{
@@ -262,11 +262,7 @@ class Activity extends Component {
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.flatListStyle}
-        data={
-          this.props.openTableList.constructor.name === 'Array'
-            ? Array.from(this.props.openTableList)
-            : []
-        }
+        data={this.props.openTableList.length !== 0 ? this.props.openTableList.toJS() : []}
         renderItem={rowData => (
           <OpenTableItem
             data={rowData}
@@ -284,11 +280,7 @@ class Activity extends Component {
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.flatListStyle}
-        data={
-          this.props.queuedTableList.constructor.name === 'Array'
-            ? Array.from(this.props.queuedTableList)
-            : []
-        }
+        data={this.props.openTableList.length !== 0 ? this.props.openTableList.toJS() : []}
         renderItem={rowData => (
           <TouchableOpacity onPress={() => this.show()}>
             <View
@@ -301,7 +293,6 @@ class Activity extends Component {
               />
               <View
                 style={{
-                  backgroundColor: 'transparent',
                   position: 'absolute',
                   top: 0,
                   left: 0,
@@ -336,7 +327,7 @@ class Activity extends Component {
 // </View>
 
           <View style={styles.box2}>
-          <BlurView style={styles.blurView} tint="red" intensity={100} />
+          <BlurView style={styles.blurView} intensity={100} />
 
             <View
               style={{
@@ -381,7 +372,7 @@ class Activity extends Component {
               }}
             >
               <FlatList
-                keyExtractor={item => item.index}
+                keyExtractor={item => item.index.toString()}
                 showsVerticalScrollIndicator={false}
                 data={this.state.data}
                 ListHeaderComponent={() => this.renderHeader()}
