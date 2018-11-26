@@ -101,10 +101,10 @@ export default class RestaurantDetails extends Component {
     if (
       this.modal &&
       this.state.currentSlideIndex >= 0 &&
-      this.state.currentSlideIndex < 2
+      this.state.currentSlideIndex < 1
     ) {
       this.modal.getWrappedInstance().scrollForward();
-    } else if (this.modal && this.state.currentSlideIndex === 2) {
+    } else if (this.modal && this.state.currentSlideIndex === 1) {
       this.modal.getWrappedInstance().hideModal();
       this.attemptToCreateOrder();
     }
@@ -148,14 +148,14 @@ export default class RestaurantDetails extends Component {
 
     try {
       if(this.paymentMethodId === '') {
-        order = await post(`/v1/orders`, {
+        await post(`/v1/orders`, {
           items: modifiedCartItems,
           type: this.props.type,
           paymentType: this.selectedPaymentMethod,
           vendor: this.props.data.data._id
         });
       } else {
-        order = await post(`/v1/orders`, {
+        await post(`/v1/orders`, {
           items: modifiedCartItems,
           type: this.props.type,
           paymentType: this.selectedPaymentMethod,
@@ -191,7 +191,6 @@ export default class RestaurantDetails extends Component {
       this.selectedPaymentMethod = val;
     }
 
-    console.log('Selected Payment Method:', this.selectedPaymentMethod);
     if(val === '') {
       this.setState(() => {
         return {
@@ -280,12 +279,12 @@ export default class RestaurantDetails extends Component {
                         buttonStyles.placeOrderBtn,
                         {
                           backgroundColor:
-                            this.state.currentSlideIndex === 2 &&
+                            this.state.currentSlideIndex === 1 &&
                             !this.state.isSelectedPaymentType
                               ? 'grey'
                               : '#2ED573',
                           borderColor:
-                            this.state.currentSlideIndex === 2 &&
+                            this.state.currentSlideIndex === 1 &&
                             !this.state.isSelectedPaymentType
                               ? 'grey'
                               : '#2ED573'
@@ -293,7 +292,7 @@ export default class RestaurantDetails extends Component {
                       ]}
                       textStyle={buttonStyles.btnText}
                       disabled={
-                        this.state.currentSlideIndex === 2 &&
+                        this.state.currentSlideIndex === 1 &&
                         !this.state.isSelectedPaymentType
                           ? true
                           : false
@@ -301,7 +300,7 @@ export default class RestaurantDetails extends Component {
                       onPress={this.onOrderBtnClick}
                     >
                       {(() => {
-                        if (this.state.currentSlideIndex < 2) {
+                        if (this.state.currentSlideIndex < 1) {
                           return 'Next';
                         }
                         return 'Complete Order';

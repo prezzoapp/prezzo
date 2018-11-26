@@ -13,8 +13,6 @@ export default class ExploreList extends PureComponent {
 
   render() {
     const { restaurants } = this.props;
-    console.log("Restaurants: ");
-    console.log(restaurants);
     if(restaurants.length === 0 && this.props.isBusy === false) {
       return (
         <View style={styles.notFoundHolder}>
@@ -25,7 +23,7 @@ export default class ExploreList extends PureComponent {
           )}
         </View>
       );
-    } else if(this.props.isBusy === false) {
+    } else if(this.props.isBusy === false && restaurants.length !== 0) {
       return (
         <FlatList
           contentContainerStyle={{ marginHorizontal: 15, paddingTop: 10 }}
@@ -39,7 +37,17 @@ export default class ExploreList extends PureComponent {
         />
       );
     } else {
-      return null;
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <View style={[styles.notFoundHolder, {position: 'absolute', backgroundColor: 'red', right: 0, left: 0}]}>
+            {this.props.isBusy ? null : (
+              <Text style={styles.message}>
+                Oops, No Restaurants found.
+              </Text>
+            )}
+          </View>
+        </View>
+      );
     }
   }
 }

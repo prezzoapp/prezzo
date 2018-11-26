@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
 
   tabBarIconsHolder: {
-    width: wp('33.33%'),
+    width: wp('100%'),
     alignItems: 'center',
     paddingVertical: wp('5%')
   },

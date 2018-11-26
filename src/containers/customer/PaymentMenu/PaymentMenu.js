@@ -145,7 +145,7 @@ class PaymentMenu extends Component {
                 </View>
               ))}
 
-            <MenuButton
+            {/*<MenuButton
               onPress={() => {}}
               title="Add Bitcoin"
               icon="add"
@@ -173,7 +173,7 @@ class PaymentMenu extends Component {
                   }}
                 />
               }
-            />
+            />*/}
           </View>
         </ScrollView>
 

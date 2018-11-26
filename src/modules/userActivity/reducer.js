@@ -34,14 +34,28 @@ export default (state = INITIAL_STATE, action) => {
       return state.update('isBusy', () => false);
 
     case GET_USER_OPEN_ORDER_SUCCESS:
-    case CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS:
-    case CHECK_ORDER_STATUS_SUCCESS:
       return state
         .update('data', () => action.payload)
         .update('isBusy', () => false);
-    case MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS:
+    case CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS:
+    case CHECK_ORDER_STATUS_SUCCESS:
+      const updatedStateAfterOrderStatusCheck =
+        (action.payload.get('finalStatus') === 'complete' ||
+        action.payload.get('finalStatus') === 'denied')
+          ? action.payload.update('order', () => [])
+          : action.payload;
+
       return state
-        .update('data', () => fromJS({ order: [] }))
+        .update('data', () => updatedStateAfterOrderStatusCheck)
+        .update('isBusy', () => false);
+    case MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS:
+      const updatedStateAfterPayment =
+        (action.payload.get('finalStatus') === 'complete')
+          ? action.payload.update('order', () => [])
+          : action.payload;
+
+      return state
+        .update('data', () => updatedStateAfterPayment)
         .update('isBusy', () => false);
 
     case GET_USER_OPEN_ORDER_REQUEST:

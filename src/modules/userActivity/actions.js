@@ -42,7 +42,7 @@ export const makePaymentAndCompleteOrder = async (
   dispatch({ type: MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST });
 
   try {
-    await post(`/v1/transaction`, {
+    const data = await post(`/v1/transaction`, {
       order,
       token,
       amount,
@@ -50,7 +50,8 @@ export const makePaymentAndCompleteOrder = async (
     });
 
     return dispatch({
-      type: MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS
+      type: MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS,
+      payload: fromJS(data)
     });
   } catch (e) {
     dispatch({ type: MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE });

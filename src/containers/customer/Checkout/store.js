@@ -27,5 +27,4 @@ export const mapDispatchToProps = dispatch => ({
   addRemoveItemQuantity: bindActionCreators(addRemoveItemQuantity, dispatch),
   setType: bindActionCreators(setType, dispatch),
   listCreditCards: bindActionCreators(listCreditCards, dispatch)
-
 });

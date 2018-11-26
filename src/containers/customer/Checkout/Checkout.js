@@ -59,16 +59,12 @@ export default class Checkout extends Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
       onPanResponderMove: (evt, gestureState) => {
-        // console.log("Move Gesture Called!");
         if (gestureState.dy > 0) {
           this.showModalAnimatedValue.setValue(gestureState.dy);
         }
       },
 
       onPanResponderRelease: (evt, gestureState) => {
-        // console.log(parseInt(height / 5));
-        // console.log(gestureState.dy);
-
         if (gestureState.dy <= parseInt(height / 5)) {
           Animated.timing(this.showModalAnimatedValue, {
             toValue: 0,
@@ -85,13 +81,11 @@ export default class Checkout extends Component {
     this.props.listCreditCards();
   }
 
-
-
   onScrollEnd(index) {
     this.scrollView.scrollTo({
-      x: parseFloat((width * index) / 3),
+      x: parseFloat(width * index),
       y: 0,
-      animated: false
+      animated: true
     });
 
     this.index = index;
@@ -105,8 +99,6 @@ export default class Checkout extends Component {
         this.viewPosition.y = yPos;
         this.viewPosition.width = Width;
         this.viewPosition.height = Height;
-
-        console.log(this.viewPosition);
       }
     );
   }
@@ -121,7 +113,6 @@ export default class Checkout extends Component {
 
   showModal() {
     if (this.animationRunning === false) {
-      // this.showModalAnimatedValue.setValue(0);
       this.animationRunning = true;
       Animated.timing(this.showModalAnimatedValue, {
         toValue: 0,
@@ -135,8 +126,6 @@ export default class Checkout extends Component {
   }
 
   hideModal() {
-    // this.showModalAnimatedValue.setValue(1);
-
     Animated.timing(this.showModalAnimatedValue, {
       toValue: height,
       duration: 250,
@@ -147,8 +136,6 @@ export default class Checkout extends Component {
   }
 
   render() {
-    console.log('Render called!');
-
     return (
       <Animated.View
         {...this.panResponder.panHandlers}
@@ -198,8 +185,6 @@ export default class Checkout extends Component {
                 }}
                 bounces={false}
               >
-                <View style={styles.tabBarIconsHolder} />
-
                 <TouchableOpacity
                   activeOpacity={0.6}
                   onPress={() => this.checkoutSwiper.moveToIndex(0)}
@@ -220,29 +205,13 @@ export default class Checkout extends Component {
                   style={styles.tabBarIconsHolder}
                 >
                   <Image
-                    source={require('../../../../assets/images/filters/dinner_filter.png')}
+                    source={require('../../../../assets/images/checkout_icons/payment_icon.png')}
                     style={[
                       styles.icon,
                       { tintColor: this.index === 1 ? '#2ED573' : null }
                     ]}
                   />
                 </TouchableOpacity>
-
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  onPress={() => this.checkoutSwiper.moveToIndex(2)}
-                  style={styles.tabBarIconsHolder}
-                >
-                  <Image
-                    source={require('../../../../assets/images/checkout_icons/payment_icon.png')}
-                    style={[
-                      styles.icon,
-                      { tintColor: this.index === 2 ? '#2ED573' : null }
-                    ]}
-                  />
-                </TouchableOpacity>
-
-                <View style={styles.tabBarIconsHolder} />
               </ScrollView>
             </View>
 

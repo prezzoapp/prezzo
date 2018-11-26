@@ -238,7 +238,7 @@ export default class CheckoutSwiper extends Component {
             </View>
           </View>
 
-          <View style={styles.slide}>
+          {/*<View style={styles.slide}>
             <View>
               <View style={styles.orderDetails}>
                 <Text style={styles.restaurantName}>WHERE TO?</Text>
@@ -278,10 +278,10 @@ export default class CheckoutSwiper extends Component {
                   Please show this code to your server, or give it to your
                   friend to join a table.
                 </Text>
-                <Text style={styles.tableCode}>9192</Text> */}
+                <Text style={styles.tableCode}>9192</Text>
               </View>
             </View>
-          </View>
+          </View> */}
 
           <View style={styles.slide}>
             <View>
