@@ -1,18 +1,30 @@
 // @flow
-import { Map } from 'immutable';
+import { fromJS } from 'immutable';
 import {
   LIST_OPEN_TABLE_REQUEST,
   LIST_OPEN_TABLE_SUCCESS,
   LIST_OPEN_TABLE_FAILURE,
+
   LIST_QUEUED_TABLE_SUCCESS,
   LIST_QUEUED_TABLE_FAILURE,
   LIST_QUEUED_TABLE_REQUEST,
+
   CHANGE_ORDER_STATUS_REQUEST,
   CHANGE_ORDER_STATUS_SUCCESS,
   CHANGE_ORDER_STATUS_FAILURE,
+
   MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST,
   MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS,
   MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE,
+
+  OPEN_TABLE_SELECTED_ITEM_REQUEST,
+  OPEN_TABLE_SELECTED_ITEM_SUCCESS,
+  OPEN_TABLE_SELECTED_ITEM_FAILURE,
+
+  CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST,
+  CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS,
+  CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE,
+
   LIST_CLOSED_TABLE_REQUEST,
   LIST_CLOSED_TABLE_SUCCESS,
   LIST_CLOSED_TABLE_FAILURE,
@@ -266,13 +278,14 @@ function getDummyData() {
   ];
 }
 
-const INITIAL_STATE = Map({
+const INITIAL_STATE = fromJS({
   layout: 'list',
   section: 0,
   closedTableSection: 0,
   openTableList: [],
   queuedTableList: [],
   closedTableList: [],
+  openTableSelectedItem: null,
   isBusy: false
 });
 
@@ -287,6 +300,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case LIST_CLOSED_TABLE_REQUEST:
     case LIST_CLOSED_TABLE_FAILURE:
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST:
+    case OPEN_TABLE_SELECTED_ITEM_REQUEST:
       return state.update('isBusy', () => true);
 
     case LIST_OPEN_TABLE_SUCCESS:
@@ -313,6 +327,17 @@ const reducer = (state = INITIAL_STATE, action) => {
     case LIST_CLOSED_TABLE_SUCCESS:
       return state.update('closedTableList', () => action.payload);
 
+    case CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS:
+      const updatedStateAfterOrderStatusCheck =
+        (action.payload.get('finalStatus') === 'complete' ||
+        action.payload.get('finalStatus') === 'denied')
+          ? action.payload.update('order', () => [])
+          : action.payload;
+
+      return state
+        .update('openTableSelectedItem', () => updatedStateAfterOrderStatusCheck)
+        .update('isBusy', () => false);
+
     case CHANGE_ORDER_STATUS_SUCCESS:
       console.log(action.payload.orderId, action.payload.status, action.payload.type);
       // if(action.payload.type === 'queued') {
@@ -324,6 +349,9 @@ const reducer = (state = INITIAL_STATE, action) => {
       //     return item;
       //   }).toJS());
       // }
+
+    case OPEN_TABLE_SELECTED_ITEM_SUCCESS:
+      return state.update('openTableSelectedItem', () => action.payload).update('isBusy', () => false);
 
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE:
       return state.update('isBusy', () => false);

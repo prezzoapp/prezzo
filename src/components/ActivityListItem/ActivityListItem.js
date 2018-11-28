@@ -6,7 +6,7 @@ import { Feather } from '../VectorIcons';
 import styles from './styles';
 
 const ActivityListItem = props => {
-  function checkAndCancelOrder(orderId, itemId) {
+  function checkAndCancelOrderItem(orderId, itemId) {
     Alert.alert(
       '',
       'Are you sure you want to cancel?',
@@ -24,7 +24,7 @@ const ActivityListItem = props => {
     );
   }
 
-  if(props.item.status !== 'denied') {
+  if(props.item.status !== 'denied' || props.type === 'vendor') {
     return (
       <View style={styles.item}>
         <View style={styles.leftSide}>
@@ -32,7 +32,9 @@ const ActivityListItem = props => {
             source={
               props.item.status === 'complete'
                 ? require('../../../assets/images/icons/active_status.png')
-                : require('../../../assets/images/icons/green_in_progress.png')
+                : props.item.status === 'denied'
+                  ? null
+                  : require('../../../assets/images/icons/green_in_progress.png')
             }
             style={styles.statusImage}
           />
@@ -58,7 +60,9 @@ const ActivityListItem = props => {
             <TouchableOpacity
               activeOpacity={0.6}
               style={styles.editBtn}
-              onPress={() => checkAndCancelOrder(props.orderId, props.item._id)}
+              onPress={() =>
+                checkAndCancelOrderItem(props.orderId, props.item._id)
+              }
             >
               <Feather name="x" size={wp('6%')} color="white" />
             </TouchableOpacity>

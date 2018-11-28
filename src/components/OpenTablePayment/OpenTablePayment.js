@@ -17,10 +17,17 @@ const SECTION_WIDTH: number = 0.85 * Dimensions.get('window').width;
 const TAX = 5.95;
 
 const OpenTablePayment = props => {
-  const subTotal = props.data.items
-    .map(item => item.price)
+  const subTotal =
+    props.data &&
+    props.data.order[0].items
+    .map(item => {
+        if (item.status !== 'denied') {
+          return item.price;
+        }
+        return null;
+      })
     .reduce((previous, next) => {
-    return parseFloat(previous + next);
+        return parseFloat(previous + next);
   });
 
   completeOrder = (subtotal) => {
@@ -60,25 +67,28 @@ const OpenTablePayment = props => {
           }}
         >
           <FlatList
-            data={props.data.items}
+            keyExtractor={item => item._id.toString()}
+            data={props.data !== null ? props.data.order[0].items : []}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  width: SECTION_WIDTH,
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  height: hp('6.15%')
+            renderItem={({ item }) =>
+              item.status !== 'denied' && (
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    width: SECTION_WIDTH,
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    height: hp('6.15%')
                 }}
               >
                 <Text style={styles.text}>{item.title}</Text>
-                <Text style={[styles.text, { textAlign: 'right' }]}>
+                  <Text style={[styles.text, { textAlign: 'right' }]}>
                   ${item.price}
                 </Text>
               </View>
-            )}
+              )
+            }
           />
         </View>
       </View>

@@ -12,15 +12,28 @@ import styles from './styles';
 const OpenOrdersList = props => {
   const closeTable = () => {
     props.changeOrderStatus(props.data._id, 'complete');
-  }
+  };
 
   return (
     <View style={styles.container}>
       <FlatList
         keyExtractor={item => item._id.toString()}
         showsVerticalScrollIndicator={false}
-        data={props.data.items ? props.data.items : []}
-        renderItem={({ item }) => <ActivityListItem item={item} />}
+        data={
+          props.data !== null && props.data.order.length !== 0
+            ? props.data.order[0].items
+            : []
+        }
+        renderItem={({ item }) => (
+          <ActivityListItem
+            item={item}
+            orderId={props.data.order[0]._id}
+            type="vendor"
+            checkStatusAndCancelItem={(orderId, itemId) =>
+              props.checkStatusAndCancelItem(orderId, itemId)
+            }
+          />
+        )}
       />
       {(() => {
         if(props.tabName === 'openOrder') {

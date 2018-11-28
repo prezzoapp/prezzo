@@ -8,7 +8,9 @@ import {
   changeClosedSection,
   listClosedTable,
   changeOrderStatus,
-  makePaymentAndCompleteOrder
+  makePaymentAndCompleteOrder,
+  openTableItemDetails,
+  checkStatusAndCancelItem
 } from './actions';
 
 import reducer from './reducer';
@@ -23,7 +25,9 @@ export {
   changeClosedSection,
   listClosedTable,
   changeOrderStatus,
-  makePaymentAndCompleteOrder
+  makePaymentAndCompleteOrder,
+  openTableItemDetails,
+  checkStatusAndCancelItem
 };
 
 export default reducer;

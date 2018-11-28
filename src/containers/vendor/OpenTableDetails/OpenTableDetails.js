@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, Modal } from 'react-native';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Modal,
+  InteractionManager
+} from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import OpenOrdersList from '../OpenOrdersList';
-import OpenTablePayment from '../OpenTablePayment';
+import OpenOrdersList from '../../../components/OpenOrdersList';
+import OpenTablePayment from '../../../components/OpenTablePayment';
 import styles from './styles';
-import { Feather } from '../VectorIcons';
+import { Feather } from '../../../components/VectorIcons';
+import LoadingComponent from '../../../components/LoadingComponent';
 
 export default class OpenTableDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -37,7 +44,7 @@ export default class OpenTableDetails extends Component {
             }}
             source={
               navigation.state.params.userImage === ''
-                ? require('../../../assets/images/etc/default-avatar.png')
+                ? require('../../../../assets/images/etc/default-avatar.png')
                 : { uri: navigation.state.params.userImage }
             }
           />
@@ -55,8 +62,31 @@ export default class OpenTableDetails extends Component {
 
   static displayName = 'OpenTableDetails';
 
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.props.openTableItemDetails(this.props.navigation.state.params.item);
+    });
+  }
+
+  checkStatusAndCancelItem = (orderId, itemId) => {
+    this.props
+      .checkStatusAndCancelItem(orderId, itemId)
+      .then(result => {
+        if (this.props.openTableSelectedItem.message) {
+          clearTimeout(this.timer);
+          this.timer = setTimeout(() => {
+            alert(this.props.openTableSelectedItem.message);
+          }, 300);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   render() {
-    const { item } = this.props.navigation.state.params;
+    const selectedItem = this.props.openTableSelectedItem;
+    console.log(selectedItem);
 
     return (
       <Container style={styles.container}>
@@ -80,9 +110,12 @@ export default class OpenTableDetails extends Component {
             style={styles.tabStyle}
           >
             <OpenOrdersList
-              data={item}
+              data={selectedItem}
               changeOrderStatus={(orderId, status) =>
                 this.props.navigation.state.params.changeOrderStatus(orderId, status)
+              }
+              checkStatusAndCancelItem={(orderId, itemId) =>
+                this.checkStatusAndCancelItem(orderId, itemId)
               }
               tabName="openOrder"
             />
@@ -96,7 +129,7 @@ export default class OpenTableDetails extends Component {
             style={styles.tabStyle}
           >
             <OpenTablePayment
-              data={item}
+              data={selectedItem}
               tabName="payment"
               makePaymentAndCompleteOrder={(
                 order,

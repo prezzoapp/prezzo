@@ -3,18 +3,31 @@ import {
   LIST_OPEN_TABLE_REQUEST,
   LIST_OPEN_TABLE_SUCCESS,
   LIST_OPEN_TABLE_FAILURE,
+
   LIST_QUEUED_TABLE_REQUEST,
   LIST_QUEUED_TABLE_SUCCESS,
   LIST_QUEUED_TABLE_FAILURE,
+
   CHANGE_ORDER_STATUS_REQUEST,
   CHANGE_ORDER_STATUS_SUCCESS,
   CHANGE_ORDER_STATUS_FAILURE,
+
   MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST,
   MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS,
   MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE,
+
   LIST_CLOSED_TABLE_REQUEST,
   LIST_CLOSED_TABLE_SUCCESS,
   LIST_CLOSED_TABLE_FAILURE,
+
+  OPEN_TABLE_SELECTED_ITEM_REQUEST,
+  OPEN_TABLE_SELECTED_ITEM_SUCCESS,
+  OPEN_TABLE_SELECTED_ITEM_FAILURE,
+
+  CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST,
+  CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS,
+  CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE,
+
   ACCEPT_QUEUED_REQUEST,
   DELETE_QUEUED_REQUEST,
   SECTION_CHANGE,
@@ -121,9 +134,6 @@ export const changeOrderStatus = async (
 };
 
 export const listClosedTable = async (vendorId: string) => async dispatch => {
-  // type: LIST_CLOSED_TABLE_REQUEST,
-  // payload: null
-
   dispatch({ type: LIST_CLOSED_TABLE_REQUEST });
 
   try {
@@ -142,6 +152,37 @@ export const listClosedTable = async (vendorId: string) => async dispatch => {
     });
 
     throw e;
+  }
+};
+
+export const openTableItemDetails = (item: object) => dispatch => {
+  dispatch({ type: OPEN_TABLE_SELECTED_ITEM_REQUEST });
+
+  try {
+    return dispatch({
+      type: OPEN_TABLE_SELECTED_ITEM_SUCCESS,
+      payload: fromJS({ order: [item] })
+    });
+  } catch (e) {
+    dispatch({ type: OPEN_TABLE_SELECTED_ITEM_FAILURE });
+  }
+};
+
+export const checkStatusAndCancelItem = async (
+  order: string,
+  item: string
+) => async dispatch => {
+  dispatch({ type: CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST });
+
+  try {
+    const updatedOrder = await post(`/v1/order/${order}/item/${item}`);
+
+    return dispatch({
+      type: CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS,
+      payload: fromJS(updatedOrder)
+    });
+  } catch (e) {
+    dispatch({ type: CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE });
   }
 };
 

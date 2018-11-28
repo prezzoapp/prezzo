@@ -6,7 +6,6 @@ import { Entypo } from '../VectorIcons';
 
 const OpenTableItem = props => {
   const { item, index } = props.data;
-  console.log(item);
   return (
     <TouchableOpacity
       style={styles.container}

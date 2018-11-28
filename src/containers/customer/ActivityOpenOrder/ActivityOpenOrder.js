@@ -83,7 +83,7 @@ class ActivityOpenOrder extends Component {
   }
 
   hitAPI() {
-    this.props.listOpenOrders(this.props.userId, 'pending');
+    this.props.listOpenOrders(this.props.userId, 'active');
   }
 
   finalizeOrder(price) {
@@ -121,7 +121,7 @@ class ActivityOpenOrder extends Component {
             style: 'cancel'
           },
           {
-            text: 'OK', onPress: () => this.finalizeOrder(price)
+            text: 'OK', onPress: () => null
           }
         ],
         { cancelable: false }
@@ -252,7 +252,9 @@ class ActivityOpenOrder extends Component {
                 keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
                 data={
-                  this.props.data.order && this.props.data.order.length !== 0 ? this.props.data.order[0].items : []
+                  this.props.data.order && this.props.data.order.length !== 0
+                    ? this.props.data.order[0].items
+                    : []
                 }
                 renderItem={({ item }) => (
                   <ActivityListItem

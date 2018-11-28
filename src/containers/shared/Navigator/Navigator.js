@@ -30,7 +30,7 @@ import PaymentDetails from '../../customer/PaymentDetails';
 import CustomerActivity from '../../customer/Activity';
 
 import Tables from '../../vendor/Tables';
-import OpenTableDetails from '../../../components/OpenTableDetails';
+import OpenTableDetails from '../../vendor/OpenTableDetails';
 import OpenDeliveryDetails from '../../../components/OpenDeliveryDetails';
 import VendorAdminActivityDetails from '../../../components/VendorAdminActivityDetails';
 import VendorAccountMenu from '../../vendor/AccountMenu';

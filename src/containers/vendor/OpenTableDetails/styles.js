@@ -4,7 +4,7 @@ import {
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
 
-import { FONT_FAMILY } from '../../services/constants';
+import { FONT_FAMILY } from '../../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
