@@ -3,7 +3,7 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Modal,
+  Alert,
   InteractionManager
 } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
@@ -12,6 +12,7 @@ import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import styles from './styles';
 import { Feather } from '../../../components/VectorIcons';
+import { TAX } from '../../../services/constants';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 export default class OpenTableDetails extends Component {
@@ -68,6 +69,105 @@ export default class OpenTableDetails extends Component {
     });
   }
 
+  finalizeOrder(price) {
+    if(this.props.openTableSelectedItem.order[0].paymentType === 'card' && price !== 0) {
+      this.props.makePaymentAndCompleteOrder(
+        this.props.openTableSelectedItem.order[0]._id,
+        this.props.openTableSelectedItem.order[0].paymentMethod.token,
+        price
+      )
+    } else if(this.props.openTableSelectedItem.order[0].paymentType === 'card') {
+      this.props.makePaymentAndCompleteOrder(
+        this.props.openTableSelectedItem.order[0]._id,
+        '',
+        price
+      )
+    } else {
+      this.props.makePaymentAndCompleteOrder(
+        this.props.openTableSelectedItem.order[0]._id,
+        '',
+        price,
+        'cash'
+      )
+    }
+  }
+
+  completeOrder(id) {
+    this.props
+      .checkOrderStatus(id)
+      .then(() => {
+        if (
+          this.props.openTableSelectedItem.finalStatus &&
+          this.props.openTableSelectedItem.finalStatus === 'complete'
+        ) {
+          // If order has been already completed.
+
+          clearTimeout(this.timer);
+
+          this.timer = setTimeout(() => {
+            alert(this.props.openTableSelectedItem.message);
+          }, 300);
+        } else if (
+          this.props.openTableSelectedItem.finalStatus &&
+          this.props.openTableSelectedItem.finalStatus === 'denied'
+        ) {
+          // If order has been already denied.
+
+          clearTimeout(this.timer);
+
+          this.timer = setTimeout(() => {
+            alert(this.props.openTableSelectedItem.message);
+          }, 300);
+        } else {
+          clearTimeout(this.timer);
+          let pendingItems = 0;
+          let price = 0;
+
+          this.props.openTableSelectedItem.order[0].items.filter(item => {
+            if(item.status === 'pending') {
+              pendingItems += 1;
+            } else if(item.status !== 'denied') {
+              price += item.price;
+            }
+          });
+
+          price = parseFloat(((price * TAX) / 100 + price).toFixed(2));
+
+          const message =
+            pendingItems === 0
+              ? this.props.openTableSelectedItem.order[0].paymentType === 'card'
+                ? `Continue to pay $${price}`
+                : 'Are you sure you want to complete?'
+              : this.props.openTableSelectedItem.order[0].paymentType === 'card'
+                ? price === 0
+                  ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
+                  : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
+                : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and complete order?`
+
+          this.timer = setTimeout(() => {
+            Alert.alert(
+              '',
+              message,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => null,
+                  style: 'cancel'
+                },
+                {
+                  text: 'OK', onPress: () => this.finalizeOrder(price)
+                }
+              ],
+              { cancelable: false }
+            );
+          }, 300);
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
+
   checkStatusAndCancelItem = (orderId, itemId) => {
     this.props
       .checkStatusAndCancelItem(orderId, itemId)
@@ -86,7 +186,6 @@ export default class OpenTableDetails extends Component {
 
   render() {
     const selectedItem = this.props.openTableSelectedItem;
-    console.log(selectedItem);
 
     return (
       <Container style={styles.container}>
@@ -111,12 +210,12 @@ export default class OpenTableDetails extends Component {
           >
             <OpenOrdersList
               data={selectedItem}
-              changeOrderStatus={(orderId, status) =>
-                this.props.navigation.state.params.changeOrderStatus(orderId, status)
-              }
               checkStatusAndCancelItem={(orderId, itemId) =>
                 this.checkStatusAndCancelItem(orderId, itemId)
               }
+              completeOrder={orderId => {
+                this.completeOrder(orderId)
+              }}
               tabName="openOrder"
             />
           </Tab>

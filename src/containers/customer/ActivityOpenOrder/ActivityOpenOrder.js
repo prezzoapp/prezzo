@@ -15,10 +15,9 @@ import LoadingComponent from '../../../components/LoadingComponent';
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
-  COLOR_WHITE
+  COLOR_WHITE,
+  TAX
 } from '../../../services/constants';
-
-const TAX = 5.95;
 
 class ActivityOpenOrder extends Component {
   constructor() {
@@ -47,7 +46,7 @@ class ActivityOpenOrder extends Component {
   }
 
   componentDidMount() {
-    this.hitAPI();
+    this.props.listOpenOrders(this.props.userId, 'pending');
   }
 
   componentWillUnmount() {
@@ -58,17 +57,19 @@ class ActivityOpenOrder extends Component {
   }
 
   onRefresh() {
+    console.log(this.props.data.order[0].status);
     this.setState(() => {
         return {
           isFetching: true
         }
       },
       () => {
-        this.hitAPI();
+        this.props.listOpenOrders(this.props.userId, 'pending').then(() => {
         this.setState(() => {
-          return {
-            isFetching: false
-          }
+            return {
+              isFetching: false
+            };
+          });
         });
       }
     );
@@ -80,10 +81,6 @@ class ActivityOpenOrder extends Component {
     } else {
       this.connectionStatus = isConnected;
     }
-  }
-
-  hitAPI() {
-    this.props.listOpenOrders(this.props.userId, 'active');
   }
 
   finalizeOrder(price) {
@@ -127,7 +124,9 @@ class ActivityOpenOrder extends Component {
         { cancelable: false }
       );
     } else {
-      this.props.checkOrderStatus(id).then(() => {
+      this.props
+        .checkOrderStatus(id)
+        .then(() => {
           if (
             this.props.data.finalStatus &&
             this.props.data.finalStatus === 'complete'
@@ -137,10 +136,7 @@ class ActivityOpenOrder extends Component {
             clearTimeout(this.timer);
 
             this.timer = setTimeout(() => {
-              alert(
-                this.props.data.message ||
-                  'This order has been already completed.'
-              );
+              alert(this.props.data.message);
             }, 300);
           } else if (
             this.props.data.finalStatus &&
@@ -151,7 +147,7 @@ class ActivityOpenOrder extends Component {
             clearTimeout(this.timer);
 
             this.timer = setTimeout(() => {
-              alert(this.props.data.message || 'This order has been denied.');
+              alert(this.props.data.message);
             }, 300);
           } else {
             clearTimeout(this.timer);

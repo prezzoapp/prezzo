@@ -12,10 +12,6 @@ import {
   CHANGE_ORDER_STATUS_SUCCESS,
   CHANGE_ORDER_STATUS_FAILURE,
 
-  MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST,
-  MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS,
-  MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE,
-
   LIST_CLOSED_TABLE_REQUEST,
   LIST_CLOSED_TABLE_SUCCESS,
   LIST_CLOSED_TABLE_FAILURE,
@@ -27,6 +23,14 @@ import {
   CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST,
   CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS,
   CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE,
+
+  CHECK_ORDER_STATUS_REQUEST,
+  CHECK_ORDER_STATUS_SUCCESS,
+  CHECK_ORDER_STATUS_FAILURE,
+
+  MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST,
+  MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS,
+  MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE,
 
   ACCEPT_QUEUED_REQUEST,
   DELETE_QUEUED_REQUEST,
@@ -92,7 +96,7 @@ export const makePaymentAndCompleteOrder = async (
   dispatch({ type: MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST });
 
   try {
-    await post(`/v1/transaction`, {
+    const updatedOrder = await post(`/v1/transaction`, {
       order,
       token,
       amount,
@@ -101,7 +105,7 @@ export const makePaymentAndCompleteOrder = async (
 
     return dispatch({
       type: MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS,
-      payload: { order, status, orderType }
+      payload: fromJS(updatedOrder)
     });
   } catch (e) {
     dispatch({
@@ -183,6 +187,21 @@ export const checkStatusAndCancelItem = async (
     });
   } catch (e) {
     dispatch({ type: CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE });
+  }
+};
+
+export const checkOrderStatus = async (orderId: string) => async dispatch => {
+  dispatch({ type: CHECK_ORDER_STATUS_REQUEST });
+
+  try {
+    const updatedOrder = await get(`v1/order/${orderId}`);
+
+    return dispatch({
+      type: CHECK_ORDER_STATUS_SUCCESS,
+      payload: fromJS(updatedOrder)
+    });
+  } catch (e) {
+    dispatch({ type: CHECK_ORDER_STATUS_FAILURE });
   }
 };
 

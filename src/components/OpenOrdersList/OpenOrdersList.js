@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -11,44 +11,57 @@ import styles from './styles';
 
 const OpenOrdersList = props => {
   const closeTable = () => {
-    props.changeOrderStatus(props.data._id, 'complete');
+    props.completeOrder(props.data.order[0]._id);
   };
 
   return (
     <View style={styles.container}>
-      <FlatList
-        keyExtractor={item => item._id.toString()}
-        showsVerticalScrollIndicator={false}
-        data={
-          props.data !== null && props.data.order.length !== 0
-            ? props.data.order[0].items
-            : []
-        }
-        renderItem={({ item }) => (
-          <ActivityListItem
-            item={item}
-            orderId={props.data.order[0]._id}
-            type="vendor"
-            checkStatusAndCancelItem={(orderId, itemId) =>
-              props.checkStatusAndCancelItem(orderId, itemId)
-            }
-          />
-        )}
-      />
       {(() => {
-        if(props.tabName === 'openOrder') {
+        if (props.data && props.data.order.length === 0) {
           return (
-            <View style={styles.footerContainer}>
-              <Button
-                style={buttonStyles.closeTableBtn}
-                textStyle={buttonStyles.closeTableBtnText}
-                onPress={closeTable}
-              >
-                Close Table
-              </Button>
+            <View style={styles.notFoundHolder}>
+              <Text style={styles.message}>Order has been completed.</Text>
             </View>
-          );
+          )
         }
+        return (
+          <View style={{ flex: 1 }}>
+            <FlatList
+              keyExtractor={item => item._id.toString()}
+              showsVerticalScrollIndicator={false}
+              data={
+                props.data !== null && props.data.order.length !== 0
+                  ? props.data.order[0].items
+                  : []
+              }
+              renderItem={({ item }) => (
+                <ActivityListItem
+                  item={item}
+                  orderId={props.data.order[0]._id}
+                  type="vendor"
+                  checkStatusAndCancelItem={(orderId, itemId) =>
+                    props.checkStatusAndCancelItem(orderId, itemId)
+                  }
+                />
+              )}
+            />
+            {(() => {
+              if (props.tabName === 'openOrder') {
+                return (
+                  <View style={styles.footerContainer}>
+                    <Button
+                      style={buttonStyles.closeTableBtn}
+                      textStyle={buttonStyles.closeTableBtnText}
+                      onPress={closeTable}
+                    >
+                      Close Table
+                    </Button>
+                  </View>
+                );
+              }
+            })()}
+          </View>
+        );
       })()}
     </View>
   );

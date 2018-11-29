@@ -21,6 +21,10 @@ import {
   OPEN_TABLE_SELECTED_ITEM_SUCCESS,
   OPEN_TABLE_SELECTED_ITEM_FAILURE,
 
+  CHECK_ORDER_STATUS_REQUEST,
+  CHECK_ORDER_STATUS_SUCCESS,
+  CHECK_ORDER_STATUS_FAILURE,
+
   CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST,
   CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS,
   CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE,
@@ -327,6 +331,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case LIST_CLOSED_TABLE_SUCCESS:
       return state.update('closedTableList', () => action.payload);
 
+    case CHECK_ORDER_STATUS_SUCCESS:
     case CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS:
       const updatedStateAfterOrderStatusCheck =
         (action.payload.get('finalStatus') === 'complete' ||
@@ -336,6 +341,16 @@ const reducer = (state = INITIAL_STATE, action) => {
 
       return state
         .update('openTableSelectedItem', () => updatedStateAfterOrderStatusCheck)
+        .update('isBusy', () => false);
+
+    case MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS:
+      const updatedStateAfterPayment =
+        (action.payload.get('finalStatus') === 'complete')
+          ? action.payload.update('order', () => [])
+          : action.payload;
+
+      return state
+        .update('openTableSelectedItem', () => updatedStateAfterPayment)
         .update('isBusy', () => false);
 
     case CHANGE_ORDER_STATUS_SUCCESS:
@@ -355,7 +370,6 @@ const reducer = (state = INITIAL_STATE, action) => {
 
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE:
       return state.update('isBusy', () => false);
-    case MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS:
     default:
       return state;
   }

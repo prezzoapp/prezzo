@@ -236,7 +236,15 @@ export default class CreateMenu extends Component<Props> {
       <TouchableOpacity
         style={styles.addAnotherCommonBtn}
         activeOpacity={0.6}
-        onPress={() => this.props.addCategory(this.props.menuId, 'Category #7')}
+        onPress={() => {
+          const tempArray = this.props.menu
+            ? this.props.menu.get('categories') &&
+              this.props.menu.get('categories').toJS()
+            : [];
+              var length = tempArray.length;
+              this.addCategory(length);
+
+          }}
       >
         <Text style={styles.addAnotherCommonBtnText}>Add Another Category</Text>
       </TouchableOpacity>
@@ -273,6 +281,37 @@ export default class CreateMenu extends Component<Props> {
         this.props.updateCategory(this.props.menuId, categoryId, title)}
     />
   );
+
+
+ addCategory(length){
+   var categoryName = `Category # ${length+1}`;
+   console.log("Add category",length);
+   const tempArray = this.props.menu
+     ? this.props.menu.get('categories') &&
+       this.props.menu.get('categories').toJS()
+     : [];
+     var found = false;
+     for(let i = 0; i < tempArray.length; i++){
+       console.log("category array:- ",tempArray[i].title);
+       if(tempArray[i].title === categoryName)
+       {
+         found = true;
+       }
+
+     }
+     if(found === true)
+     {
+       length = length + 1;
+       this.addCategory(length);
+     }else{
+       this.props.addCategory(this.props.menuId, categoryName);
+
+     }
+
+  // if (tempArray.indexOf(selectedCategory) > 0) {
+  // }
+
+ }
 
   render() {
     const array = this.props.menu

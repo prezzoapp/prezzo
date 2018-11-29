@@ -7,8 +7,6 @@ import ExploreSearch from '../ExploreSearch';
 import ExploreScreenHeader from '../ExploreScreenHeader';
 import ExploreList from '../ExploreList';
 import styles from './styles';
-import publicIP from 'react-native-public-ip';
-
 
 type Props = {
   listVendors: Function
@@ -76,7 +74,7 @@ class Explore extends PureComponent<Props> {
           }
         );
       },
-      error => this.getNetworkIP(),
+      error => console.log(error.message),
       {
         enableHighAccuracy: false,
         timeout: 200000,
@@ -84,76 +82,6 @@ class Explore extends PureComponent<Props> {
       }
     );
   }
-  getNetworkIP()
-  {
-    publicIP()
-      .then(ip => {
-        this.getIPLocation(ip);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  getIPLocation(ip)
-  {
-
-     console.log("location ip is ------ ",ip);
-     var commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
-     console.log("location url is ------ ",commonHtml);
-       fetch(commonHtml)
-         .then((response) => response.json())
-         .then((responseJson) => {
-           console.log(responseJson);
-           if(responseJson.latitude){
-
-
-
-           this.setState({
-             countryName: responseJson.country_name,
-             regionName: responseJson.region_name,
-             customRegion: {
-               latitude: responseJson.latitude,
-               longitude: responseJson.longitude,
-               latitudeDelta: 0.00922,
-               longitudeDelta: 0.00422
-             }
-           });
-           console.log('location ip  --- ',this.state.customRegion);
-
-            this.props.listVendors(
-               responseJson.latitude,
-               responseJson.longitude,
-            //  this.state.customRegion.latitude,
-            //  this.state.customRegion.longitude,
-              this.props.distance,
-              this.props.filters.map(item => {
-                if(item.on) {
-                  return item.filterType
-                }
-              }).join(','),
-              this.props.pricing
-            );
-          }
-          else{
-            // show error message
-          }
-
-
-         })
-         .catch((error) => {
-          console.error("getting error is --- ",error);
-
-
-
-
-         });
-
-
-
-  }
-
-
 
   render() {
     // console.log("Coordinates: ");

@@ -11,6 +11,7 @@ export const COLOR_DANGER = 'rgb(120,18,31)';
 export const COLOR_WHITE = 'white';
 export const ACCEPT_ORDER = 'accept_order';
 export const DELETE_ORDER = 'delete_order';
+export const TAX = 5.95;
 
 export const restaurantCategories = [
   'Italian',

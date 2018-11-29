@@ -10,7 +10,8 @@ import {
   changeOrderStatus,
   makePaymentAndCompleteOrder,
   openTableItemDetails,
-  checkStatusAndCancelItem
+  checkStatusAndCancelItem,
+  checkOrderStatus
 } from './actions';
 
 import reducer from './reducer';
@@ -27,7 +28,8 @@ export {
   changeOrderStatus,
   makePaymentAndCompleteOrder,
   openTableItemDetails,
-  checkStatusAndCancelItem
+  checkStatusAndCancelItem,
+  checkOrderStatus
 };
 
 export default reducer;
