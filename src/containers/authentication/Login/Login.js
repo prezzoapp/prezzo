@@ -58,7 +58,7 @@ class Login extends React.Component<Props, State> {
     const { email, password } = this.state;
     this.props.loginWithEmail(email, password)
       .then(() => this.afterLogin())
-      .catch(e => console.log(e));
+      .catch(e => alert(e.message));
   }
 
   render() {

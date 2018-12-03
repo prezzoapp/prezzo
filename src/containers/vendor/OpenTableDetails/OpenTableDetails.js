@@ -70,21 +70,21 @@ export default class OpenTableDetails extends Component {
   }
 
   finalizeOrder(price) {
-    if(this.props.openTableSelectedItem.order[0].paymentType === 'card' && price !== 0) {
+    if(this.props.openTableSelectedItem.paymentType === 'card' && price !== 0) {
       this.props.makePaymentAndCompleteOrder(
-        this.props.openTableSelectedItem.order[0]._id,
-        this.props.openTableSelectedItem.order[0].paymentMethod.token,
+        this.props.openTableSelectedItem._id,
+        this.props.openTableSelectedItem.paymentMethod.token,
         price
       )
-    } else if(this.props.openTableSelectedItem.order[0].paymentType === 'card') {
+    } else if(this.props.openTableSelectedItem.paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(
-        this.props.openTableSelectedItem.order[0]._id,
+        this.props.openTableSelectedItem._id,
         '',
         price
       )
     } else {
       this.props.makePaymentAndCompleteOrder(
-        this.props.openTableSelectedItem.order[0]._id,
+        this.props.openTableSelectedItem._id,
         '',
         price,
         'cash'
@@ -94,36 +94,36 @@ export default class OpenTableDetails extends Component {
 
   completeOrder(id) {
     this.props
-      .checkOrderStatus(id)
+      .checkOpenOrderStatus(id)
       .then(() => {
         if (
-          this.props.openTableSelectedItem.finalStatus &&
-          this.props.openTableSelectedItem.finalStatus === 'complete'
+          this.props.openOrderFinalStatus &&
+          this.props.openOrderFinalStatus === 'complete'
         ) {
           // If order has been already completed.
 
           clearTimeout(this.timer);
 
           this.timer = setTimeout(() => {
-            alert(this.props.openTableSelectedItem.message);
+            alert('This order has been already completed.');
           }, 300);
         } else if (
-          this.props.openTableSelectedItem.finalStatus &&
-          this.props.openTableSelectedItem.finalStatus === 'denied'
+          this.props.openOrderFinalStatus &&
+          this.props.openOrderFinalStatus === 'denied'
         ) {
           // If order has been already denied.
 
           clearTimeout(this.timer);
 
           this.timer = setTimeout(() => {
-            alert(this.props.openTableSelectedItem.message);
+            alert('This order has been already denied.');
           }, 300);
         } else {
           clearTimeout(this.timer);
           let pendingItems = 0;
           let price = 0;
 
-          this.props.openTableSelectedItem.order[0].items.filter(item => {
+          this.props.openTableSelectedItem.items.filter(item => {
             if(item.status === 'pending') {
               pendingItems += 1;
             } else if(item.status !== 'denied') {
@@ -135,10 +135,10 @@ export default class OpenTableDetails extends Component {
 
           const message =
             pendingItems === 0
-              ? this.props.openTableSelectedItem.order[0].paymentType === 'card'
+              ? this.props.openTableSelectedItem.paymentType === 'card'
                 ? `Continue to pay $${price}`
                 : 'Are you sure you want to complete?'
-              : this.props.openTableSelectedItem.order[0].paymentType === 'card'
+              : this.props.openTableSelectedItem.paymentType === 'card'
                 ? price === 0
                   ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
                   : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
@@ -171,13 +171,27 @@ export default class OpenTableDetails extends Component {
   checkStatusAndCancelItem = (orderId, itemId) => {
     this.props
       .checkStatusAndCancelItem(orderId, itemId)
-      .then(result => {
-        if (this.props.openTableSelectedItem.message) {
-          clearTimeout(this.timer);
-          this.timer = setTimeout(() => {
-            alert(this.props.openTableSelectedItem.message);
-          }, 300);
+      .then(() => {
+        const item = this.props.openTableSelectedItem.items.find(item => item._id === itemId);
+        if(item) {
+          if(item.status === 'denied') {
+            clearTimeout(this.timer);
+            this.timer = setTimeout(() => {
+              alert('Item has been successfully canceled.');
+            }, 300);
+          } else {
+            clearTimeout(this.timer);
+            this.timer = setTimeout(() => {
+              alert("Item can't be canceled.");
+            }, 300);
+          }
         }
+        // if (this.props.openTableSelectedItem.message) {
+        //   clearTimeout(this.timer);
+        //   this.timer = setTimeout(() => {
+        //     alert(this.props.openTableSelectedItem.message);
+        //   }, 300);
+        // }
       })
       .catch(err => {
         console.log(err);

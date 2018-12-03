@@ -21,13 +21,18 @@ import {
   OPEN_TABLE_SELECTED_ITEM_SUCCESS,
   OPEN_TABLE_SELECTED_ITEM_FAILURE,
 
-  CHECK_ORDER_STATUS_REQUEST,
-  CHECK_ORDER_STATUS_SUCCESS,
-  CHECK_ORDER_STATUS_FAILURE,
+  CHECK_OPEN_ORDER_STATUS_REQUEST,
+  CHECK_OPEN_ORDER_STATUS_SUCCESS,
+  CHECK_OPEN_ORDER_STATUS_FAILURE,
+
+  CHECK_QUEUE_ORDER_STATUS_REQUEST,
+  CHECK_QUEUE_ORDER_STATUS_SUCCESS,
+  CHECK_QUEUE_ORDER_STATUS_FAILURE,
 
   CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST,
   CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS,
   CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE,
+  SHOW_ALERT,
 
   LIST_CLOSED_TABLE_REQUEST,
   LIST_CLOSED_TABLE_SUCCESS,
@@ -290,7 +295,8 @@ const INITIAL_STATE = fromJS({
   queuedTableList: [],
   closedTableList: [],
   openTableSelectedItem: null,
-  isBusy: false
+  isBusy: false,
+  openOrderFinalStatus: ''
 });
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -331,30 +337,63 @@ const reducer = (state = INITIAL_STATE, action) => {
     case LIST_CLOSED_TABLE_SUCCESS:
       return state.update('closedTableList', () => action.payload);
 
-    case CHECK_ORDER_STATUS_SUCCESS:
+    case CHECK_OPEN_ORDER_STATUS_SUCCESS:
     case CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS:
+      // const updatedStateAfterOrderStatusCheck =
+      //   (action.payload.get('finalStatus') === 'complete' ||
+      //   action.payload.get('finalStatus') === 'denied')
+      //     ? action.payload.update('order', () => [])
+      //     : action.payload;
+      //
+      // return state
+      //   .update('openTableSelectedItem', () => updatedStateAfterOrderStatusCheck)
+      //   .update('isBusy', () => false);
+
       const updatedStateAfterOrderStatusCheck =
-        (action.payload.get('finalStatus') === 'complete' ||
-        action.payload.get('finalStatus') === 'denied')
-          ? action.payload.update('order', () => [])
-          : action.payload;
+        (action.payload.first().get('status') === 'complete' ||
+        action.payload.first().get('status') === 'denied')
+          ? null
+          : action.payload.first();
 
       return state
         .update('openTableSelectedItem', () => updatedStateAfterOrderStatusCheck)
+        .update('openOrderFinalStatus', () => action.payload.get('status'))
         .update('isBusy', () => false);
 
+    case CHECK_QUEUE_ORDER_STATUS_SUCCESS:
+      console.log(action.payload.get('order').first().get('status'));
+      if(
+        action.payload.get('order').first().get('status') === 'active' ||
+        action.payload.get('order').first().get('status') === 'denied' ||
+        action.payload.get('order').first().get('status') === 'complete') {
+        const newQueuedList = state.get('queuedTableList').filter(item => item.get('_id') !== action.payload.get('order').first().get('_id'));
+        return state.update('queuedTableList', () => newQueuedList);
+      }
+      return state;
+
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS:
+      // const updatedStateAfterPayment =
+      //   (action.payload.get('finalStatus') === 'complete')
+      //     ? action.payload.update('order', () => [])
+      //     : action.payload;
+      //
+      // return state
+      //   .update('openTableSelectedItem', () => updatedStateAfterPayment)
+      //   .update('isBusy', () => false);
+
       const updatedStateAfterPayment =
-        (action.payload.get('finalStatus') === 'complete')
-          ? action.payload.update('order', () => [])
-          : action.payload;
+        (action.payload.get('status') === 'complete')
+          ? null
+          : action.payload.first();
 
       return state
         .update('openTableSelectedItem', () => updatedStateAfterPayment)
+        .update('openOrderFinalStatus', () => action.payload.get('status'))
         .update('isBusy', () => false);
 
     case CHANGE_ORDER_STATUS_SUCCESS:
-      console.log(action.payload.orderId, action.payload.status, action.payload.type);
+      return state;
+      // console.log(action.payload.orderId, action.payload.status, action.payload.type);
       // if(action.payload.type === 'queued') {
       //   console.log("Queued List Item: ");
       //   console.log(state.get('queuedTableList').filter(item => {
@@ -366,10 +405,12 @@ const reducer = (state = INITIAL_STATE, action) => {
       // }
 
     case OPEN_TABLE_SELECTED_ITEM_SUCCESS:
+      console.log(action.payload.toJS());
       return state.update('openTableSelectedItem', () => action.payload).update('isBusy', () => false);
 
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE:
       return state.update('isBusy', () => false);
+    case SHOW_ALERT:
     default:
       return state;
   }
