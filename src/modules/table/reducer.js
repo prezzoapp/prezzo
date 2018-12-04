@@ -1,5 +1,5 @@
 // @flow
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 import {
   LIST_OPEN_TABLE_REQUEST,
   LIST_OPEN_TABLE_SUCCESS,
@@ -29,9 +29,9 @@ import {
   CHECK_QUEUE_ORDER_STATUS_SUCCESS,
   CHECK_QUEUE_ORDER_STATUS_FAILURE,
 
-  CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST,
-  CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS,
-  CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE,
+  CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_REQUEST,
+  CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_SUCCESS,
+  CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_FAILURE,
   SHOW_ALERT,
 
   LIST_CLOSED_TABLE_REQUEST,
@@ -313,21 +313,21 @@ const reducer = (state = INITIAL_STATE, action) => {
     case LIST_QUEUED_TABLE_FAILURE:
     return state.update('isBusy', () => false);
 
+    case CHECK_QUEUE_ORDER_STATUS_REQUEST:
     case CHANGE_ORDER_STATUS_REQUEST:
-    return state.update('isBusy', () => true);
+    case MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST:
+    case OPEN_TABLE_SELECTED_ITEM_REQUEST:
+      return state.update('isBusy', () => true);
 
+    case CHECK_QUEUE_ORDER_STATUS_FAILURE:
     case CHANGE_ORDER_STATUS_FAILURE:
-    return state.update('isBusy', () => false);
+      return state.update('isBusy', () => false);
 
     case LIST_CLOSED_TABLE_REQUEST:
     return state.update('isBusy', () => true);
 
     case LIST_CLOSED_TABLE_FAILURE:
     return state.update('isBusy', () => false);
-
-    case MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST:
-    case OPEN_TABLE_SELECTED_ITEM_REQUEST:
-       return state.update('isBusy', () => true);
 
 
     case LIST_OPEN_TABLE_SUCCESS:
@@ -357,7 +357,7 @@ const reducer = (state = INITIAL_STATE, action) => {
 
 
     case CHECK_OPEN_ORDER_STATUS_SUCCESS:
-    case CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS:
+    case CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_SUCCESS:
       // const updatedStateAfterOrderStatusCheck =
       //   (action.payload.get('finalStatus') === 'complete' ||
       //   action.payload.get('finalStatus') === 'denied')
@@ -374,21 +374,29 @@ const reducer = (state = INITIAL_STATE, action) => {
           ? null
           : action.payload.first();
 
+      console.log("Action.Payload: ");
+      console.log(action.payload.toJS());
+
       return state
         .update('openTableSelectedItem', () => updatedStateAfterOrderStatusCheck)
-        .update('openOrderFinalStatus', () => action.payload.get('status'))
+        .update('openOrderFinalStatus', () => action.payload.first().get('status'))
         .update('isBusy', () => false);
 
     case CHECK_QUEUE_ORDER_STATUS_SUCCESS:
-      console.log(action.payload.get('order').first().get('status'));
       if(
-        action.payload.get('order').first().get('status') === 'active' ||
-        action.payload.get('order').first().get('status') === 'denied' ||
-        action.payload.get('order').first().get('status') === 'complete') {
-        const newQueuedList = state.get('queuedTableList').filter(item => item.get('_id') !== action.payload.get('order').first().get('_id'));
-        return state.update('queuedTableList', () => newQueuedList);
+        action.payload.first().get('status') === 'active' ||
+        action.payload.first().get('status') === 'denied' ||
+        action.payload.first().get('status') === 'complete') {
+        const newQueuedList = state.get('queuedTableList').filter(item => item.get('_id') !== action.payload.first().get('_id'));
+        console.log(newQueuedList.toJS());
+        return state
+          .update('queuedTableList', () => newQueuedList)
+          .update('openOrderFinalStatus', () => action.payload.first().get('status'))
+          .update('isBusy', () => false);
       }
-      return state;
+      return state
+        .update('openOrderFinalStatus', () => action.payload.first().get('status'))
+        .update('isBusy', () => false);
 
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS:
       // const updatedStateAfterPayment =
@@ -399,6 +407,9 @@ const reducer = (state = INITIAL_STATE, action) => {
       // return state
       //   .update('openTableSelectedItem', () => updatedStateAfterPayment)
       //   .update('isBusy', () => false);
+
+      console.log("After Payment:");
+      console.log(action.payload.toJS());
 
       const updatedStateAfterPayment =
         (action.payload.get('status') === 'complete')
@@ -411,7 +422,13 @@ const reducer = (state = INITIAL_STATE, action) => {
         .update('isBusy', () => false);
 
     case CHANGE_ORDER_STATUS_SUCCESS:
-      return state;
+      // console.log(action.payload.toJS());
+      const newQueuedList = state.get('queuedTableList').filter(item => item.get('_id') !== action.payload.get('_id'));
+
+      return state
+        .update('openOrderFinalStatus', () => action.payload.get('status'))
+        .update('queuedTableList', () => newQueuedList)
+        .update('isBusy', () => false);
       // console.log(action.payload.orderId, action.payload.status, action.payload.type);
       // if(action.payload.type === 'queued') {
       //   console.log("Queued List Item: ");

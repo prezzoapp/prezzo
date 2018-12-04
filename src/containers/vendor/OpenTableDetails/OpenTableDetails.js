@@ -4,7 +4,8 @@ import {
   Image,
   TouchableOpacity,
   Alert,
-  InteractionManager
+  InteractionManager,
+  Text
 } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -69,26 +70,51 @@ export default class OpenTableDetails extends Component {
     });
   }
 
+  showAlert(message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      Alert.alert('Prezzo', message);
+    }, duration);
+  }
+
   finalizeOrder(price) {
     if(this.props.openTableSelectedItem.paymentType === 'card' && price !== 0) {
       this.props.makePaymentAndCompleteOrder(
         this.props.openTableSelectedItem._id,
         this.props.openTableSelectedItem.paymentMethod.token,
-        price
-      )
+          price
+        )
+      .then(() => {
+          if(this.props.openOrderFinalStatus === 'complete') {
+            this.showAlert('Order has been completed.', 300);
+          }
+        })
+      .catch(e => console.log(e));
     } else if(this.props.openTableSelectedItem.paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(
-        this.props.openTableSelectedItem._id,
-        '',
-        price
+          this.props.openTableSelectedItem._id,
+          '',
+          price
       )
+      .then(() => {
+          if(this.props.openOrderFinalStatus === 'complete') {
+            this.showAlert('Order has been completed.', 300);
+          }
+        })
+        .catch(e => console.log(e));
     } else {
       this.props.makePaymentAndCompleteOrder(
-        this.props.openTableSelectedItem._id,
-        '',
-        price,
-        'cash'
-      )
+          this.props.openTableSelectedItem._id,
+          '',
+          price,
+          'cash'
+        )
+        .then(() => {
+          if(this.props.openOrderFinalStatus === 'complete') {
+            this.showAlert('Order has been completed.', 300);
+          }
+        })
+        .catch(e => console.log(e));
     }
   }
 
@@ -96,28 +122,24 @@ export default class OpenTableDetails extends Component {
     this.props
       .checkOpenOrderStatus(id)
       .then(() => {
+        console.log(
+          'Open Order final status: ',
+          this.props.openOrderFinalStatus
+        );
         if (
           this.props.openOrderFinalStatus &&
           this.props.openOrderFinalStatus === 'complete'
         ) {
           // If order has been already completed.
 
-          clearTimeout(this.timer);
-
-          this.timer = setTimeout(() => {
-            alert('This order has been already completed.');
-          }, 300);
+          this.showAlert('This order has been already completed.', 300);
         } else if (
           this.props.openOrderFinalStatus &&
           this.props.openOrderFinalStatus === 'denied'
         ) {
           // If order has been already denied.
 
-          clearTimeout(this.timer);
-
-          this.timer = setTimeout(() => {
-            alert('This order has been already denied.');
-          }, 300);
+          this.showAlert('This order has been already denied.', 300);
         } else {
           clearTimeout(this.timer);
           let pendingItems = 0;
@@ -146,7 +168,7 @@ export default class OpenTableDetails extends Component {
 
           this.timer = setTimeout(() => {
             Alert.alert(
-              '',
+              'Prezzo',
               message,
               [
                 {
@@ -172,18 +194,18 @@ export default class OpenTableDetails extends Component {
     this.props
       .checkStatusAndCancelItem(orderId, itemId)
       .then(() => {
-        const item = this.props.openTableSelectedItem.items.find(item => item._id === itemId);
-        if(item) {
-          if(item.status === 'denied') {
-            clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
-              alert('Item has been successfully canceled.');
-            }, 300);
-          } else {
-            clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
-              alert("Item can't be canceled.");
-            }, 300);
+        // console.log("Open Selected Item: ");
+        // console.log(this.props.openTableSelectedItem);
+        if(this.props.openOrderFinalStatus === 'complete') {
+          this.showAlert('Order has been completed.', 300);
+        } else {
+          const item = this.props.openTableSelectedItem.items.find(item => item._id === itemId);
+          if(item) {
+            if(item.status === 'denied') {
+              this.showAlert('Item has been successfully canceled.', 300);
+            } else {
+              this.showAlert("Item can't be canceled.", 300);
+            }
           }
         }
         // if (this.props.openTableSelectedItem.message) {
@@ -203,69 +225,81 @@ export default class OpenTableDetails extends Component {
 
     return (
       <Container style={styles.container}>
-        <Tabs
-          locked
-          scrollWithoutAnimation
-          tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
-          renderTabBar={() => (
-            <ScrollableTab
-              style={styles.scrollableTabStyle}
-              tabsContainerStyle={styles.tabsContainerStyle}
-            />
-          )}
-        >
-          <Tab
-            heading="Order"
-            tabStyle={styles.orderTabStyle}
-            activeTabStyle={styles.orderTabStyle}
-            textStyle={styles.orderTabTextStyle}
-            activeTextStyle={styles.orderTabTextStyle}
-            style={styles.tabStyle}
-          >
-            <OpenOrdersList
-              data={selectedItem}
-              checkStatusAndCancelItem={(orderId, itemId) =>
-                this.checkStatusAndCancelItem(orderId, itemId)
-              }
-              completeOrder={orderId => {
-                this.completeOrder(orderId)
-              }}
-              tabName="openOrder"
-            />
-          </Tab>
-          <Tab
-            heading="Payment"
-            tabStyle={styles.paymentTabStyle}
-            activeTabStyle={styles.paymentTabStyle}
-            textStyle={styles.paymentTabTextStyle}
-            activeTextStyle={styles.paymentTabTextStyle}
-            style={styles.tabStyle}
-          >
-            <OpenTablePayment
-              data={selectedItem}
-              tabName="payment"
-              makePaymentAndCompleteOrder={(
-                order,
-                token,
-                amount,
-                paymentType,
-                status
-              ) =>
-                this.props.navigation.state.params.makePaymentAndCompleteOrder(
-                  order,
-                  token,
-                  amount,
-                  paymentType,
-                  status,
-                  'open'
-                )
-              }
-              changeOrderStatus={(orderId, status) =>
-                this.props.navigation.state.params.changeOrderStatus(orderId, status)
-              }
-            />
-          </Tab>
-        </Tabs>
+        {(() => {
+          if(!selectedItem) {
+            return (
+              <View style={styles.notFoundHolder}>
+                <Text style={styles.message}>Order has been completed.</Text>
+              </View>
+            )
+          }
+
+          return (
+            <Tabs
+              locked
+              scrollWithoutAnimation
+              tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
+              renderTabBar={() => (
+                <ScrollableTab
+                  style={styles.scrollableTabStyle}
+                  tabsContainerStyle={styles.tabsContainerStyle}
+                />
+              )}
+            >
+              <Tab
+                heading="Order"
+                tabStyle={styles.orderTabStyle}
+                activeTabStyle={styles.orderTabStyle}
+                textStyle={styles.orderTabTextStyle}
+                activeTextStyle={styles.orderTabTextStyle}
+                style={styles.tabStyle}
+              >
+                <OpenOrdersList
+                  data={selectedItem}
+                  checkStatusAndCancelItem={(orderId, itemId) =>
+                    this.checkStatusAndCancelItem(orderId, itemId)
+                  }
+                  completeOrder={orderId => {
+                    this.completeOrder(orderId)
+                  }}
+                  tabName="openOrder"
+                />
+              </Tab>
+              <Tab
+                heading="Payment"
+                tabStyle={styles.paymentTabStyle}
+                activeTabStyle={styles.paymentTabStyle}
+                textStyle={styles.paymentTabTextStyle}
+                activeTextStyle={styles.paymentTabTextStyle}
+                style={styles.tabStyle}
+              >
+                <OpenTablePayment
+                  data={selectedItem}
+                  tabName="payment"
+                  makePaymentAndCompleteOrder={(
+                    order,
+                    token,
+                    amount,
+                    paymentType,
+                    status
+                  ) =>
+                    this.props.navigation.state.params.makePaymentAndCompleteOrder(
+                      order,
+                      token,
+                      amount,
+                      paymentType,
+                      status,
+                      'open'
+                    )
+                  }
+                  changeOrderStatus={(orderId, status) =>
+                    this.props.navigation.state.params.changeOrderStatus(orderId, status)
+                  }
+                />
+              </Tab>
+            </Tabs>
+          );
+        })()}
       </Container>
     );
   }

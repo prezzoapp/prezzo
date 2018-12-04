@@ -18,7 +18,7 @@ import {
 const INITIAL_STATE = fromJS({
   isBusy: false,
   data: [],
-  finalStatus: ''
+  openOrderFinalStatus: ''
 });
 
 export default (state = INITIAL_STATE, action) => {
@@ -35,6 +35,8 @@ export default (state = INITIAL_STATE, action) => {
       return state.update('isBusy', () => false);
 
     case GET_USER_OPEN_ORDER_SUCCESS:
+      console.log('User Open Order: ');
+      console.log(action.payload.toJS());
       return state
         .update('data', () => action.payload)
         .update('isBusy', () => false);
@@ -48,26 +50,34 @@ export default (state = INITIAL_STATE, action) => {
 
       // console.log(action.payload.toJS());
       // return state;
+      console.log('After Updation: ');
+      console.log(action.payload.toJS());
 
       const updatedStateAfterOrderStatusCheck =
         (action.payload.first().get('status') === 'complete' ||
         action.payload.first().get('status') === 'denied')
-          ? List()
+          ? List([])
           : action.payload;
 
       return state
         .update('data', () => updatedStateAfterOrderStatusCheck)
-        .update('finalStatus', () => action.payload.first().get('status'))
+        .update('openOrderFinalStatus', () => action.payload.first().get('status'))
         .update('isBusy', () => false);
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS:
+
+      const payload = List([action.payload]);
+
+      console.log("Payload: ");
+      console.log(payload.first().get('status'));
+
       const updatedStateAfterPayment =
-        (action.payload.get('status') === 'complete')
-          ? List()
-          : action.payload;
+        (payload.first().get('status') === 'complete')
+          ? List([])
+          : payload;
 
       return state
         .update('data', () => updatedStateAfterPayment)
-        .update('finalStatus', () => action.payload.get('status'))
+        .update('openOrderFinalStatus', () => payload.first().get('status'))
         .update('isBusy', () => false);
 
     case GET_USER_OPEN_ORDER_REQUEST:

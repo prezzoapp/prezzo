@@ -24,7 +24,8 @@ export const mapStateToProps = state => ({
   closedTableSection: state.get('table').get('closedTableSection'),
   closedTableList: state.get('table').get('closedTableList'),
   vendorData: state.get('vendor').get('data'),
-  isBusy: state.get('table').get('isBusy')
+  isBusy: state.get('table').get('isBusy'),
+  openOrderFinalStatus: state.get('table').get('openOrderFinalStatus')
 });
 
 export const mapDispatchToProps = dispatch => ({

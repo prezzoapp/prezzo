@@ -59,6 +59,19 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     fontSize: wp('4.8%'),
     color: 'white'
+  },
+
+  notFoundHolder: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  message: {
+    color: COLOR_WHITE,
+    fontFamily: FONT_FAMILY,
+    fontSize: 20,
+    textAlign: 'center'
   }
 });
 

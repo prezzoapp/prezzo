@@ -16,56 +16,45 @@ const OpenOrdersList = props => {
 
   return (
     <View style={styles.container}>
-      {(() => {
-        if (!props.data) {
-          return (
-            <View style={styles.notFoundHolder}>
-              <Text style={styles.message}>Order has been completed.</Text>
-            </View>
-          )
-        }
-        return (
-          <View style={{ flex: 1 }}>
-            <FlatList
-              keyExtractor={item => item._id.toString()}
-              showsVerticalScrollIndicator={false}
-              data={
-                props.data !== null && props.data.items.length !== 0
-                  ? props.data.items
-                  : []
+      <View style={{ flex: 1 }}>
+        <FlatList
+          keyExtractor={item => item._id.toString()}
+          showsVerticalScrollIndicator={false}
+          data={
+            props.data !== null && props.data.items.length !== 0
+              ? props.data.items
+              : []
+          }
+          renderItem={({ item }) => (
+            <ActivityListItem
+              item={item}
+              orderId={props.data._id}
+              type="vendor"
+              checkStatusAndCancelItem={(orderId, itemId) =>
+                props.checkStatusAndCancelItem(orderId, itemId)
               }
-              renderItem={({ item }) => (
-                <ActivityListItem
-                  item={item}
-                  orderId={props.data._id}
-                  type="vendor"
-                  checkStatusAndCancelItem={(orderId, itemId) =>
-                    props.checkStatusAndCancelItem(orderId, itemId)
-                  }
-                />
-              )}
             />
-            {(() => {
-              if (props.tabName === 'openOrder') {
-                return (
-                  <View style={styles.footerContainer}>
-                    <Button
-                      style={buttonStyles.closeTableBtn}
-                      textStyle={buttonStyles.closeTableBtnText}
-                      onPress={closeTable}
-                    >
-                      Close Table
-                    </Button>
-                  </View>
-                );
-              }
-            })()}
-          </View>
-        );
-      })()}
+          )}
+        />
+        {(() => {
+          if (props.tabName === 'openOrder') {
+            return (
+              <View style={styles.footerContainer}>
+                <Button
+                  style={buttonStyles.closeTableBtn}
+                  textStyle={buttonStyles.closeTableBtnText}
+                  onPress={closeTable}
+                >
+                  Close Table
+                </Button>
+              </View>
+            );
+          }
+        })()}
+      </View>
     </View>
   );
-}
+};
 
 const buttonStyles = {
   closeTableBtn: {

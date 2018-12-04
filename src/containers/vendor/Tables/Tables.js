@@ -35,7 +35,7 @@ class Tables extends Component {
   }
 
   componentDidMount() {
-      NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     if (this.props.section === 0) {
       this.props.listOpenTable(this.props.vendorData.get('_id'));
     } else if (this.props.section === 1) {
@@ -49,8 +49,31 @@ class Tables extends Component {
       console.log(`is connected: ${this.state.status}`);
 }
 
-  async checkAndChangeQueueOrderStatus(orderId, status) {
-    this.props.checkQueueOrderStatus(orderId, status);
+  showAlert = (message, duration) => {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      Alert.alert('Prezzo', message,
+      { cancelable: false });
+    }, duration);
+  }
+
+  checkAndChangeQueueOrderStatus(orderId, status) {
+    this.props.checkQueueOrderStatus(orderId).then(() => {
+        if(
+          this.props.openOrderFinalStatus === 'active' ||
+          this.props.openOrderFinalStatus === 'complete' ||
+          this.props.openOrderFinalStatus === 'denied'
+        ) {
+          // console.log(this.props.openOrderFinalStatus);
+          //showAlert(`Order is already ${this.props.openOrderFinalStatus}`, 300);
+        } else {
+          this.props.changeOrderStatus(orderId, status)
+          .then(() => {
+            //showAlert(`Order is ${this.props.openOrderFinalStatus}`, 300);
+          })
+          .catch(e => console.log(e));
+        }
+    });
     // try {
     //   const response = await get(`v1/order/${orderId}`);
     //   if(response.order[0].status === 'active') {
@@ -158,7 +181,6 @@ class Tables extends Component {
                 data={rowData}
                 checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
                 listQueuedTable={this.props.listQueuedTable}
-
               />
             );
           }}

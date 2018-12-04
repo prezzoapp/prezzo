@@ -18,7 +18,9 @@ export const mapStateToProps = state => {
     .get('account')
     .get('_id');
 
-  const finalStatus = state.get('userActivity').get('finalStatus');
+  const openOrderFinalStatus = state
+    .get('userActivity')
+    .get('openOrderFinalStatus');
 
   const isBusy = state.get('userActivity').get('isBusy');
 
@@ -26,7 +28,7 @@ export const mapStateToProps = state => {
     data,
     isBusy,
     userId,
-    finalStatus
+    openOrderFinalStatus
   };
 };
 

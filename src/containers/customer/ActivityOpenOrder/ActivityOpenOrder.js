@@ -57,7 +57,6 @@ class ActivityOpenOrder extends Component {
   }
 
   onRefresh() {
-    //console.log(this.props.data.order[0].status);
     this.setState(() => {
         return {
           isFetching: true
@@ -75,6 +74,13 @@ class ActivityOpenOrder extends Component {
     );
   }
 
+  showAlert(message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      alert(message);
+    }, duration);
+  }
+
   _handleConnectivityChange = isConnected => {
     if(isConnected) {
       this.connectionStatus = isConnected;
@@ -86,19 +92,35 @@ class ActivityOpenOrder extends Component {
   finalizeOrder(price) {
     if(this.props.data[0].paymentType === 'card' && price !== 0) {
       this.props.makePaymentAndCompleteOrder(
-        this.props.data[0]._id,
-        this.props.data[0].paymentMethod.token,
-        price
-      )
+          this.props.data[0]._id,
+          this.props.data[0].paymentMethod.token,
+          price
+        )
+        .then(() => {
+          if(this.props.openOrderFinalStatus === 'complete') {
+            this.showAlert('Order has been completed.', 300);
+          }
+        })
+        .catch(e => console.log(e));
     } else if(this.props.data[0].paymentType === 'card') {
-      this.props.makePaymentAndCompleteOrder(this.props.data[0]._id, '', price);
+      this.props.makePaymentAndCompleteOrder(this.props.data[0]._id, '', price)
+        .then(() => {
+          if(this.props.openOrderFinalStatus === 'complete') {
+            this.showAlert('Order has been completed.', 300);
+          }
+        })
+      .catch(e => console.log(e));
     } else {
-      this.props.makePaymentAndCompleteOrder(
-        this.props.data[0]._id,
-        '',
-        price,
-        'cash'
-      )
+      this.props
+        .makePaymentAndCompleteOrder(this.props.data[0]._id, '', price, 'cash')
+        .then(() => {
+          console.log("User this.props.openOrderFinalStatus Prop: ");
+          console.log(this.props);
+          if (this.props.openOrderFinalStatus === 'complete') {
+            this.showAlert('Order has been completed.', 300);
+          }
+        })
+        .catch(e => console.log(e));
     }
   }
 
@@ -123,25 +145,20 @@ class ActivityOpenOrder extends Component {
       this.props
         .checkOrderStatus(id)
         .then(() => {
-          if (this.props.finalStatus && this.props.finalStatus === 'complete') {
+          if (
+            this.props.openOrderFinalStatus &&
+            this.props.openOrderFinalStatus === 'complete'
+          ) {
             // If order has been already completed.
 
-            clearTimeout(this.timer);
-
-            this.timer = setTimeout(() => {
-              alert('This order has been already completed.');
-            }, 300);
+            this.showAlert('This order has been already completed.', 300);
           } else if (
-            this.props.finalStatus &&
-            this.props.finalStatus === 'denied'
+            this.props.openOrderFinalStatus &&
+            this.props.openOrderFinalStatus === 'denied'
           ) {
             // If order has been already denied.
 
-            clearTimeout(this.timer);
-
-            this.timer = setTimeout(() => {
-              alert('This order has been already denied.');
-            }, 300);
+            this.showAlert('This order has been already denied.', 300);
           } else {
             clearTimeout(this.timer);
             let pendingItems = 0;
@@ -193,22 +210,20 @@ class ActivityOpenOrder extends Component {
     }
   }
 
-  checkStatusAndCancelItem(orderId, itemId) {
+  checkStatusAndCancelItem(orderId, eleId) {
     this.props
-      .checkStatusAndCancelItem(orderId, itemId)
+      .checkStatusAndCancelItem(orderId, eleId)
       .then(() => {
-        const item = this.props.data[0].items.find(item => item._id === itemId);
-        if(item) {
-          if(item.status === 'denied') {
-            clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
-              alert('Item has been successfully canceled.');
-            }, 300);
-          } else {
-            clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
-              alert("Item can't be canceled.");
-            }, 300);
+        if(this.props.openOrderFinalStatus === 'complete') {
+          this.showAlert('Order has been completed.', 300);
+        } else {
+          const item = this.props.data[0].items.find(ele => ele._id === eleId);
+          if(item) {
+            if(item.status === 'denied') {
+              this.showAlert('Item has been successfully canceled.', 300);
+            } else {
+              this.showAlert("Item can't be canceled.", 300);
+            }
           }
         }
         // if (this.props.data.message && this.props.isBusy === false) {
@@ -228,6 +243,8 @@ class ActivityOpenOrder extends Component {
   }
 
   render() {
+    console.log("This Props.Data :");
+    console.log(this.props.data);
     const subTotal =
       this.props.data && this.props.data.length !== 0
         ? this.props.data[0].items
