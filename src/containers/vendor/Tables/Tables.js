@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, FlatList, Alert, Modal } from 'react-native';
+import { View, FlatList, Alert, Modal, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import styles from './styles';
@@ -12,6 +12,8 @@ import TableGridItem from '../../../components/TableGridItem';
 import ClosedTableTabs from '../../../components/ClosedTableTabs';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
 import { get } from '../../../utils/api';
+import {NetInfo} from 'react-native';
+
 
 class Tables extends Component {
   static displayName = 'Tables';
@@ -27,9 +29,13 @@ class Tables extends Component {
 
   constructor() {
     super();
+    this.state = {
+     isFetching: false
+ }
   }
 
   componentDidMount() {
+      NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     if (this.props.section === 0) {
       this.props.listOpenTable(this.props.vendorData.get('_id'));
     } else if (this.props.section === 1) {
@@ -38,6 +44,10 @@ class Tables extends Component {
       this.props.listClosedTable(this.props.vendorData.get('_id'));
     }
   }
+  handleConnectionChange = (isConnected) => {
+      this.setState({ status: isConnected });
+      console.log(`is connected: ${this.state.status}`);
+}
 
   async checkAndChangeQueueOrderStatus(orderId, status) {
     this.props.checkQueueOrderStatus(orderId, status);
@@ -90,6 +100,8 @@ class Tables extends Component {
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
+          onRefresh={() => this.onRefresh()}
+          refreshing={this.state.isFetching}
           contentContainerStyle={styles.flatListStyle}
           data={this.props.openTableList.length !== 0 ? this.props.openTableList.toJS() : []}
           renderItem={rowData => {
@@ -105,7 +117,10 @@ class Tables extends Component {
               );
             }
             return (
-              <TableGridItem tableType={this.props.section} data={rowData} />
+              <TableGridItem
+              tableType={this.props.section}
+              data={rowData}
+              />
             );
           }}
         />
@@ -119,6 +134,8 @@ class Tables extends Component {
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
+          onRefresh={() => this.onRefresh()}
+          refreshing={this.state.isFetching}
           contentContainerStyle={styles.flatListStyle}
           data={this.props.queuedTableList.length !== 0 ? this.props.queuedTableList.toJS() : []}
           renderItem={rowData => {
@@ -139,6 +156,9 @@ class Tables extends Component {
                 tableType={this.props.section}
                 handleQueuedTableItem={this.handleQueuedTableItem}
                 data={rowData}
+                checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
+                listQueuedTable={this.props.listQueuedTable}
+
               />
             );
           }}
@@ -159,6 +179,8 @@ class Tables extends Component {
           <FlatList
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
+            onRefresh={() => this.onRefresh()}
+            refreshing={this.state.isFetching}
             contentContainerStyle={styles.flatListStyle}
             data={this.props.closedTableList.length !== 0 ? this.props.closedTableList.toJS() : []}
             renderItem={rowData => {
@@ -174,7 +196,59 @@ class Tables extends Component {
       </View>
     );
   }
+  onRefresh() {
 
+    NetInfo.isConnected.fetch().done(
+      (isConnected) => { console.log(isConnected);
+       if(isConnected)
+       {
+        this.getData();
+       }
+       else{
+         this.setState(() => {
+           return {
+             isFetching: false
+           }
+         }, ()=> {
+           setTimeout(() => {
+             Alert.alert(
+              'Prezzo',
+               'Please check your internet connection and try again later.',
+               [
+                 {text: 'OK', onPress: () => console.log('OK Pressed')},
+               ],
+               { cancelable: false }
+             )
+           }, 500);
+         });
+
+
+
+
+       }
+
+      }
+    );
+  }
+  getData(){
+
+
+    if (this.props.section === 0) {
+      this.props.listOpenTable(this.props.vendorData.get('_id'));
+    } else if (this.props.section === 1) {
+      this.props.listQueuedTable(this.props.vendorData.get('_id'));
+    } else {
+      this.props.listClosedTable(this.props.vendorData.get('_id'));
+    }
+
+  this.setState(() => {
+    return {
+      isFetching: false
+    }
+  });
+
+
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -194,13 +268,21 @@ class Tables extends Component {
           {this.renderSection()}
         </View>
 
+
+
         {/*<Modal
           animationType="none"
           transparent
           visible={this.props.isBusy}
         >
           <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.8)' }} />
-        </Modal>*/}
+        </Modal>*/
+        <Modal animationType="none" transparent visible={this.props.isBusy}>
+          <View style={styles.loaderView}>
+            <ActivityIndicator size="large" color="white" />
+          </View>
+        </Modal>
+      }
       </View>
     );
   }

@@ -28,6 +28,12 @@ const styles = StyleSheet.create({
   flatListStyle: {
     paddingTop: hp('0.61%'),
     paddingBottom: hp('2.46%')
+  },
+  loaderView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.8)'
   }
 });
 

@@ -302,16 +302,33 @@ const INITIAL_STATE = fromJS({
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LIST_OPEN_TABLE_REQUEST:
+    return state.update('isBusy', () => true);
+
     case LIST_OPEN_TABLE_FAILURE:
+    return state.update('isBusy', () => false);
+
     case LIST_QUEUED_TABLE_REQUEST:
+    return state.update('isBusy', () => true);
+
     case LIST_QUEUED_TABLE_FAILURE:
+    return state.update('isBusy', () => false);
+
     case CHANGE_ORDER_STATUS_REQUEST:
+    return state.update('isBusy', () => true);
+
     case CHANGE_ORDER_STATUS_FAILURE:
+    return state.update('isBusy', () => false);
+
     case LIST_CLOSED_TABLE_REQUEST:
+    return state.update('isBusy', () => true);
+
     case LIST_CLOSED_TABLE_FAILURE:
+    return state.update('isBusy', () => false);
+
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST:
     case OPEN_TABLE_SELECTED_ITEM_REQUEST:
-      return state.update('isBusy', () => true);
+       return state.update('isBusy', () => true);
+
 
     case LIST_OPEN_TABLE_SUCCESS:
       return state.update('openTableList', () => action.payload).update('isBusy', () => false);
@@ -335,7 +352,9 @@ const reducer = (state = INITIAL_STATE, action) => {
       return state.update('closedTableSection', () => action.payload);
 
     case LIST_CLOSED_TABLE_SUCCESS:
-      return state.update('closedTableList', () => action.payload);
+      //return state.update('closedTableList', () => action.payload);
+      return state.update('closedTableList', () => action.payload).update('isBusy', () => false);
+
 
     case CHECK_OPEN_ORDER_STATUS_SUCCESS:
     case CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS:

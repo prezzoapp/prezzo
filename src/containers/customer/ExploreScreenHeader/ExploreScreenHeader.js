@@ -8,6 +8,8 @@ import { EvilIcons } from '../../../components/VectorIcons';
 import ExploreSearchInput from '../../../components/ExploreSearchInput';
 import FilterItem from '../../../components/FilterItem';
 import styles from './styles';
+import {NetInfo} from 'react-native';
+
 
 export default class ExploreScreenHeader extends PureComponent {
   static propTypes = {
@@ -90,6 +92,31 @@ export default class ExploreScreenHeader extends PureComponent {
   }
 
   _getLocationAsync = async () => {
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+
+      NetInfo.isConnected.fetch().done(
+        (isConnected) => { console.log(isConnected);
+         if(isConnected)
+         {
+           this.props.navigate({ routeName: 'MapScreen' });
+         }
+         else{
+
+              Alert.alert(
+               'Prezzo',
+                'Please check your internet connection and try again later.',
+                [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ],
+                { cancelable: false }
+              )
+         }
+
+        }
+      );
+
+
+
     // let { status } = await Permissions.askAsync(Permissions.LOCATION);
     // const { locationServicesEnabled } = await Location.getProviderStatusAsync({});
     // if (locationServicesEnabled === false || status !== 'granted') {
@@ -103,9 +130,14 @@ export default class ExploreScreenHeader extends PureComponent {
     //   )
     // }
     //else{
-      this.props.navigate({ routeName: 'MapScreen' });
+    //  this.props.navigate({ routeName: 'MapScreen' });
     //}
   };
+
+  handleConnectionChange = (isConnected) => {
+         this.setState({ status: isConnected });
+         console.log(`is connected: ${this.state.status}`);
+ }
 
   render() {
     const { filters } = this.props;

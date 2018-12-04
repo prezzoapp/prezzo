@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { Entypo, FontAwesome, MaterialIcons } from '../VectorIcons';
 import styles from './styles';
 import OrderedItem from '../../components/OrderedItem';
@@ -9,6 +9,29 @@ import { DELETE_ORDER, ACCEPT_ORDER } from '../../services/constants';
 const TableGridItem = props => {
   const { item, index } = props.data;
   const { tableType } = props;
+  function showAcceptDeniedAlert(status) {
+    Alert.alert(
+      status === 'accept' ? 'Accept' : 'Remove',
+      `${item.creator.fullName} \n Table 9192`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel'
+        },
+        { text: 'OK', onPress: () => {
+            props.checkAndChangeQueueOrderStatus(
+              item._id,
+              status === 'accept' ? 'active' : 'denied'
+            );
+        }}
+      ],
+      { cancelable: false }
+    );
+  }
+
+
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -26,16 +49,20 @@ const TableGridItem = props => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.delete}
-              onPress={() =>
-                props.handleQueuedTableItem(item.id, index, DELETE_ORDER)
-              }
+              onPress={() => showAcceptDeniedAlert('denied')}
+
+              // onPress={() =>
+              //   props.handleQueuedTableItem(item.id, index, DELETE_ORDER)
+              // }
             >
               <FontAwesome name="trash-o" size={30} color="white" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() =>
-                this.props.handleQueuedTableItem(item.id, index, ACCEPT_ORDER)
-              }
+            onPress={() => showAcceptDeniedAlert('accept')}
+
+              // onPress={() =>
+              //   this.props.handleQueuedTableItem(item.id, index, ACCEPT_ORDER)
+              // }
             >
               <MaterialIcons name="add" size={30} color="white" />
             </TouchableOpacity>
