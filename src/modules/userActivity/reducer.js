@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 
 import {
   GET_USER_OPEN_ORDER_REQUEST,
@@ -17,7 +17,8 @@ import {
 
 const INITIAL_STATE = fromJS({
   isBusy: false,
-  data: {}
+  data: [],
+  finalStatus: ''
 });
 
 export default (state = INITIAL_STATE, action) => {
@@ -39,23 +40,34 @@ export default (state = INITIAL_STATE, action) => {
         .update('isBusy', () => false);
     case CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS:
     case CHECK_ORDER_STATUS_SUCCESS:
+      // const updatedStateAfterOrderStatusCheck =
+      //   (action.payload.get('finalStatus') === 'complete' ||
+      //   action.payload.get('finalStatus') === 'denied')
+      //     ? action.payload.update('order', () => [])
+      //     : action.payload;
+
+      // console.log(action.payload.toJS());
+      // return state;
+
       const updatedStateAfterOrderStatusCheck =
-        (action.payload.get('finalStatus') === 'complete' ||
-        action.payload.get('finalStatus') === 'denied')
-          ? action.payload.update('order', () => [])
+        (action.payload.first().get('status') === 'complete' ||
+        action.payload.first().get('status') === 'denied')
+          ? List()
           : action.payload;
 
       return state
         .update('data', () => updatedStateAfterOrderStatusCheck)
+        .update('finalStatus', () => action.payload.first().get('status'))
         .update('isBusy', () => false);
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS:
       const updatedStateAfterPayment =
-        (action.payload.get('finalStatus') === 'complete')
-          ? action.payload.update('order', () => [])
+        (action.payload.get('status') === 'complete')
+          ? List()
           : action.payload;
 
       return state
         .update('data', () => updatedStateAfterPayment)
+        .update('finalStatus', () => action.payload.get('status'))
         .update('isBusy', () => false);
 
     case GET_USER_OPEN_ORDER_REQUEST:

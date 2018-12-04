@@ -11,13 +11,13 @@ import styles from './styles';
 
 const OpenOrdersList = props => {
   const closeTable = () => {
-    props.completeOrder(props.data.order[0]._id);
+    props.completeOrder(props.data._id);
   };
 
   return (
     <View style={styles.container}>
       {(() => {
-        if (props.data && props.data.order.length === 0) {
+        if (!props.data) {
           return (
             <View style={styles.notFoundHolder}>
               <Text style={styles.message}>Order has been completed.</Text>
@@ -30,14 +30,14 @@ const OpenOrdersList = props => {
               keyExtractor={item => item._id.toString()}
               showsVerticalScrollIndicator={false}
               data={
-                props.data !== null && props.data.order.length !== 0
-                  ? props.data.order[0].items
+                props.data !== null && props.data.items.length !== 0
+                  ? props.data.items
                   : []
               }
               renderItem={({ item }) => (
                 <ActivityListItem
                   item={item}
-                  orderId={props.data.order[0]._id}
+                  orderId={props.data._id}
                   type="vendor"
                   checkStatusAndCancelItem={(orderId, itemId) =>
                     props.checkStatusAndCancelItem(orderId, itemId)

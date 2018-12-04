@@ -8,9 +8,9 @@ import { ACCEPT_ORDER, DELETE_ORDER } from '../../services/constants';
 const QueuedTableItem = props => {
   const { item, index } = props.user;
 
-  function renderQueuedList(status) {
+  function showAcceptDeniedAlert(status) {
     Alert.alert(
-      status === 'active' ? 'Accept' : 'Remove',
+      status === 'accept' ? 'Accept' : 'Remove',
       `${item.creator.fullName} \n Table 9192`,
       [
         {
@@ -19,8 +19,7 @@ const QueuedTableItem = props => {
           style: 'cancel'
         },
         { text: 'OK', onPress: () => {
-          props.changeOrderStatus(item._id, status);
-          // props.listQueuedTable();
+          props.checkAndChangeQueueOrderStatus(item._id, status === 'accept' ? 'active' : 'denied');
         }}
       ],
       { cancelable: false }
@@ -59,13 +58,13 @@ const QueuedTableItem = props => {
       </View>
       <TouchableOpacity
         style={styles.delete}
-        onPress={() => renderQueuedList('denied')}
+        onPress={() => showAcceptDeniedAlert('denied')}
       >
         <FontAwesome name="trash-o" size={30} color="white" />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.add}
-        onPress={() => renderQueuedList('active')}
+        onPress={() => showAcceptDeniedAlert('accept')}
       >
         <MaterialIcons name="add" size={30} color="white" />
       </TouchableOpacity>

@@ -18,12 +18,15 @@ export const mapStateToProps = state => {
     .get('account')
     .get('_id');
 
+  const finalStatus = state.get('userActivity').get('finalStatus');
+
   const isBusy = state.get('userActivity').get('isBusy');
 
   return {
     data,
     isBusy,
-    userId
+    userId,
+    finalStatus
   };
 };
 

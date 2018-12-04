@@ -19,7 +19,7 @@ const TAX = 5.95;
 const OpenTablePayment = props => {
   const subTotal =
     props.data &&
-    props.data.order[0].items
+    props.data.items
     .map(item => {
         if (item.status !== 'denied') {
           return item.price;
@@ -68,7 +68,7 @@ const OpenTablePayment = props => {
         >
           <FlatList
             keyExtractor={item => item._id.toString()}
-            data={props.data !== null ? props.data.order[0].items : []}
+            data={props.data !== null ? props.data.items : []}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) =>
               item.status !== 'denied' && (

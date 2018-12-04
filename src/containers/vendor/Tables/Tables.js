@@ -11,6 +11,7 @@ import TableListHeader from '../../../components/TableListHeader';
 import TableGridItem from '../../../components/TableGridItem';
 import ClosedTableTabs from '../../../components/ClosedTableTabs';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
+import { get } from '../../../utils/api';
 
 class Tables extends Component {
   static displayName = 'Tables';
@@ -36,6 +37,24 @@ class Tables extends Component {
     } else {
       this.props.listClosedTable(this.props.vendorData.get('_id'));
     }
+  }
+
+  async checkAndChangeQueueOrderStatus(orderId, status) {
+    this.props.checkQueueOrderStatus(orderId, status);
+    // try {
+    //   const response = await get(`v1/order/${orderId}`);
+    //   if(response.order[0].status === 'active') {
+    //     Alert.alert('', 'This item has been already activated!');
+    //   } else if(response.order[0].status === 'denied') {
+    //     Alert.alert('', 'This item has been already denied!');
+    //   } else if(response.order[0].status === 'complete') {
+    //     Alert.alert('', 'This item has been already completed!');
+    //   } else {
+    //     this.props.changeOrderStatus(orderId, status);
+    //   }
+    // } catch(e) {
+    //   console.log(e);
+    // }
   }
 
   onSectionChange = index => {
@@ -109,7 +128,8 @@ class Tables extends Component {
                   handleQueuedTableItem={this.handleQueuedTableItem}
                   user={rowData}
                   tabName="tables"
-                  changeOrderStatus={(orderId, status) => this.props.changeOrderStatus(orderId, status, 'queued')}
+                  checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
+                  // changeOrderStatus={(orderId, status) => this.props.changeOrderStatus(orderId, status, 'queued')}
                   listQueuedTable={this.props.listQueuedTable}
                 />
               );
