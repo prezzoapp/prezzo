@@ -14,8 +14,7 @@ import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
 import { get } from '../../../utils/api';
 import {NetInfo} from 'react-native';
 import {AsyncStorage} from 'react-native';
-
-
+import LoadingComponent from '../../../components/LoadingComponent';
 
 class Tables extends Component {
   static displayName = 'Tables';
@@ -33,7 +32,9 @@ class Tables extends Component {
     super();
     this.state = {
      isFetching: false
- }
+    }
+
+    this.timer = null;
   }
 
   componentDidMount() {
@@ -85,11 +86,10 @@ class Tables extends Component {
       console.log(`is connected: ${this.state.status}`);
 }
 
-  showAlert = (message, duration) => {
+  showAlert(message, duration) {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-      Alert.alert('Prezzo', message,
-      { cancelable: false });
+      alert(message);
     }, duration);
   }
 
@@ -120,7 +120,24 @@ class Tables extends Component {
     //       .catch(e => console.log(e));
     //     }
     // });
-    // try {
+
+//     this.props.checkQueueOrderStatus(orderId).then(() => {
+//         if(
+//           this.props.openOrderFinalStatus === 'active' ||
+//           this.props.openOrderFinalStatus === 'complete' ||
+//           this.props.openOrderFinalStatus === 'denied'
+//         ) {
+//           this.showAlert(`Order is already ${this.props.openOrderFinalStatus}`, 300);
+//         } else {
+//           this.props.changeOrderStatus(orderId, status)
+//           .then(() => {
+//             this.showAlert(`Order is ${this.props.openOrderFinalStatus}`, 300);
+//           })
+//           .catch(e => console.log(e));
+//         }
+//     });
+
+//     // try {
     //   const response = await get(`v1/order/${orderId}`);
     //   if(response.order[0].status === 'active') {
     //     Alert.alert('', 'This item has been already activated!');
@@ -277,7 +294,6 @@ class Tables extends Component {
     );
   }
   onRefresh() {
-
     NetInfo.isConnected.fetch().done(
       (isConnected) => { console.log(isConnected);
        if(isConnected)
@@ -301,18 +317,12 @@ class Tables extends Component {
              )
            }, 500);
          });
-
-
-
-
        }
-
       }
     );
   }
-  getData(){
 
-
+  getData() {
     if (this.props.section === 0) {
       this.props.listOpenTable(this.props.vendorData.get('_id')).then(() => {
           this.checkResponseMessage();
@@ -333,14 +343,13 @@ class Tables extends Component {
         });
     }
 
-  this.setState(() => {
-    return {
-      isFetching: false
-    }
-  });
-
-
+    this.setState(() => {
+      return {
+        isFetching: false
+      }
+    });
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -368,12 +377,14 @@ class Tables extends Component {
           visible={this.props.isBusy}
         >
           <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.8)' }} />
-        </Modal>*/
+        </Modal>
         <Modal animationType="none" transparent visible={this.props.isBusy}>
           <View style={styles.loaderView}>
             <ActivityIndicator size="large" color="white" />
           </View>
-        </Modal>
+        </Modal>*/}
+
+        <LoadingComponent visible={this.props.isBusy} />
       }
       </View>
     );

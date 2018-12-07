@@ -46,7 +46,9 @@ class ActivityOpenOrder extends Component {
   }
 
   componentDidMount() {
-    this.props.listOpenOrders(this.props.userId, 'pending');
+    this.props.listOpenOrders(this.props.userId, 'pending')
+      .then(() => {})
+      .catch(e => alert(e.message));
   }
 
   componentWillUnmount() {
@@ -64,7 +66,7 @@ class ActivityOpenOrder extends Component {
       },
       () => {
         this.props.listOpenOrders(this.props.userId, 'pending').then(() => {
-        this.setState(() => {
+          this.setState(() => {
             return {
               isFetching: false
             };
@@ -109,7 +111,7 @@ class ActivityOpenOrder extends Component {
             this.showAlert('Order has been completed.', 300);
           }
         })
-      .catch(e => console.log(e));
+        .catch(e => console.log(e));
     } else {
       this.props
         .makePaymentAndCompleteOrder(this.props.data[0]._id, '', price, 'cash')

@@ -146,7 +146,7 @@ export default class RestaurantDetails extends Component {
      }
     });
 
-console.log("modifiedCartItems ---- ",modifiedCartItems);
+  //  console.log(cartItems);
 
     try {
       if(this.paymentMethodId === '') {

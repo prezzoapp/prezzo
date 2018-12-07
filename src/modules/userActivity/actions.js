@@ -30,6 +30,8 @@ export const listOpenOrders = async (
     });
   } catch (e) {
     dispatch({ type: GET_USER_OPEN_ORDER_FAILURE });
+
+    throw e;
   }
 };
 

@@ -69,10 +69,7 @@ export async function del(path, body, suppressRedBox) {
 export async function request(method, path, body, suppressRedBox) {
   try {
     const response = await sendRequest(method, path, body, suppressRedBox);
-    return handleResponse(
-      path,
-      response
-    );
+    return handleResponse(path, response);
   }
   catch (error) {
     if (!suppressRedBox) {
@@ -197,15 +194,14 @@ function timeout(promise, ms) {
 async function bodyOf(requestPromise) {
   try {
     const response = await requestPromise;
-    if(response.headers.map.res_message){
-    let message = response.headers.map.res_message[0];
-    console.log('response_message', message);
-     let res_code = response.headers.map.res_code[0];
-     console.log('response_code', res_code);
+    if (response.headers.map.res_message) {
+      const message = response.headers.map.res_message[0];
+      console.log('response_message', message);
+      const res_code = response.headers.map.res_code[0];
+      console.log('response_code', res_code);
       AsyncStorage.setItem('response_message', message);
-    AsyncStorage.setItem('response_code', res_code);
-
-  }
+      AsyncStorage.setItem('response_code', res_code);
+    }
     return response.body;
   } catch (e) {
     throw e;

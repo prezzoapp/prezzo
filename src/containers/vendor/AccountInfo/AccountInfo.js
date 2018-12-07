@@ -116,7 +116,7 @@ export default class AccountInfo extends React.Component {
       selectedOpeningTime: '10:00',
       upload: null,
       website: vendor.get('website') || '',
-      filters: vendor.get('filters').toJS() || [],
+      filters: [],
       email: ''
     };
 
