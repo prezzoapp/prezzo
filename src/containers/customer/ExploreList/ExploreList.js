@@ -6,6 +6,9 @@ import ExploreListItem from '../../../components/ExploreListItem';
 import styles from './styles';
 import {NetInfo} from 'react-native';
 import publicIP from 'react-native-public-ip';
+import {AsyncStorage} from 'react-native';
+import showGenericAlert from '../../../components/GenericAlert';
+
 
 
 export default class ExploreList extends PureComponent {
@@ -53,13 +56,21 @@ export default class ExploreList extends PureComponent {
 
     }
 
-    hitAPI(){
+  checkResponseMessage(){
+    AsyncStorage.getItem('response_message').then((msg) => {
+    console.log("response message is -----------------",msg);
+    });
+  }
 
+
+    hitAPI(){
   NetInfo.isConnected.fetch().done(
     (isConnected) => { console.log(isConnected);
      if(isConnected)
      {
         this.getData();
+
+
      }
      else{
        this.setState(() => {
@@ -113,7 +124,13 @@ handleConnectionChange = (isConnected) => {
               this.props.distance,
             //  activeFilters.join(','),
               this.props.pricing
-            );
+            ).then(() => {
+                this.checkResponseMessage();
+              })
+              .catch(e => {
+              });
+
+
           }
         );
       },

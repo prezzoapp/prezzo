@@ -222,7 +222,7 @@ export const checkOpenOrderStatus = async (
   dispatch({ type: CHECK_OPEN_ORDER_STATUS_REQUEST });
 
   try {
-    const updatedOrder = await get(`v1/order/${orderId}`);
+    const updatedOrder = await get(`v1/order/${orderId}?status=complete`);
 
     return dispatch({
       type: CHECK_OPEN_ORDER_STATUS_SUCCESS,

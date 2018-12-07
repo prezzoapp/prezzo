@@ -13,6 +13,8 @@ import ClosedTableTabs from '../../../components/ClosedTableTabs';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
 import { get } from '../../../utils/api';
 import {NetInfo} from 'react-native';
+import {AsyncStorage} from 'react-native';
+
 
 
 class Tables extends Component {
@@ -37,13 +39,47 @@ class Tables extends Component {
   componentDidMount() {
     NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     if (this.props.section === 0) {
-      this.props.listOpenTable(this.props.vendorData.get('_id'));
+      this.props.listOpenTable(this.props.vendorData.get('_id')).then(() => {
+          this.checkResponseMessage();
+        })
+        .catch(e => {
+        });
     } else if (this.props.section === 1) {
-      this.props.listQueuedTable(this.props.vendorData.get('_id'));
+      this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
+          this.checkResponseMessage();
+        })
+        .catch(e => {
+        });
     } else {
-      this.props.listClosedTable(this.props.vendorData.get('_id'));
+      this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
+          this.checkResponseMessage();
+        })
+        .catch(e => {
+        });
     }
   }
+
+  checkResponseMessage(){
+    AsyncStorage.getItem('response_code').then((code) => {
+    console.log("response message is -----------------",code);
+    if(code !== '200'){
+      AsyncStorage.getItem('response_message').then((msg) => {
+      console.log("response message is -----------------",msg);
+      Alert.alert(
+       'Prezzo',
+        msg,
+        [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: false }
+      )
+      });
+    }
+
+    });
+
+  }
+
   handleConnectionChange = (isConnected) => {
       this.setState({ status: isConnected });
       console.log(`is connected: ${this.state.status}`);
@@ -58,22 +94,32 @@ class Tables extends Component {
   }
 
   checkAndChangeQueueOrderStatus(orderId, status) {
-    this.props.checkQueueOrderStatus(orderId).then(() => {
-        if(
-          this.props.openOrderFinalStatus === 'active' ||
-          this.props.openOrderFinalStatus === 'complete' ||
-          this.props.openOrderFinalStatus === 'denied'
-        ) {
-          // console.log(this.props.openOrderFinalStatus);
-          //showAlert(`Order is already ${this.props.openOrderFinalStatus}`, 300);
-        } else {
-          this.props.changeOrderStatus(orderId, status)
-          .then(() => {
-            //showAlert(`Order is ${this.props.openOrderFinalStatus}`, 300);
-          })
-          .catch(e => console.log(e));
-        }
-    });
+
+
+    this.props.changeOrderStatus(orderId, status)
+    .then(() => {
+        this.checkResponseMessage();
+    })
+
+
+
+
+    // this.props.checkQueueOrderStatus(orderId).then(() => {
+    //     if(
+    //       this.props.openOrderFinalStatus === 'active' ||
+    //       this.props.openOrderFinalStatus === 'complete' ||
+    //       this.props.openOrderFinalStatus === 'denied'
+    //     ) {
+    //       // console.log(this.props.openOrderFinalStatus);
+    //       //showAlert(`Order is already ${this.props.openOrderFinalStatus}`, 300);
+    //     } else {
+    //       this.props.changeOrderStatus(orderId, status)
+    //       .then(() => {
+    //         //showAlert(`Order is ${this.props.openOrderFinalStatus}`, 300);
+    //       })
+    //       .catch(e => console.log(e));
+    //     }
+    // });
     // try {
     //   const response = await get(`v1/order/${orderId}`);
     //   if(response.order[0].status === 'active') {
@@ -92,11 +138,23 @@ class Tables extends Component {
 
   onSectionChange = index => {
     if (index === 0) {
-      this.props.listOpenTable(this.props.vendorData.get('_id'));
+      this.props.listOpenTable(this.props.vendorData.get('_id')).then(() => {
+          this.checkResponseMessage();
+        })
+        .catch(e => {
+        });
     } else if (index === 1) {
-      this.props.listQueuedTable(this.props.vendorData.get('_id'));
+      this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
+          this.checkResponseMessage();
+        })
+        .catch(e => {
+        });
     } else {
-      this.props.listClosedTable(this.props.vendorData.get('_id'));
+      this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
+          this.checkResponseMessage();
+        })
+        .catch(e => {
+        });
     }
 
     this.props.changeSection(index);
@@ -256,11 +314,23 @@ class Tables extends Component {
 
 
     if (this.props.section === 0) {
-      this.props.listOpenTable(this.props.vendorData.get('_id'));
+      this.props.listOpenTable(this.props.vendorData.get('_id')).then(() => {
+          this.checkResponseMessage();
+        })
+        .catch(e => {
+        });
     } else if (this.props.section === 1) {
-      this.props.listQueuedTable(this.props.vendorData.get('_id'));
+      this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
+          this.checkResponseMessage();
+        })
+        .catch(e => {
+        });
     } else {
-      this.props.listClosedTable(this.props.vendorData.get('_id'));
+      this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
+          this.checkResponseMessage();
+        })
+        .catch(e => {
+        });
     }
 
   this.setState(() => {

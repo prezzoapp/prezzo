@@ -2,6 +2,7 @@ import Promise from 'bluebird';
 import HttpError from 'standard-http-error';
 import {getConfiguration} from '../utils/configuration';
 import {getAuthenticationToken} from '../utils/authentication';
+import { AsyncStorage } from 'react-native';
 
 const EventEmitter = require('event-emitter');
 
@@ -196,6 +197,15 @@ function timeout(promise, ms) {
 async function bodyOf(requestPromise) {
   try {
     const response = await requestPromise;
+    if(response.headers.map.res_message){
+    let message = response.headers.map.res_message[0];
+    console.log('response_message', message);
+     let res_code = response.headers.map.res_code[0];
+     console.log('response_code', res_code);
+      AsyncStorage.setItem('response_message', message);
+    AsyncStorage.setItem('response_code', res_code);
+
+  }
     return response.body;
   } catch (e) {
     throw e;
