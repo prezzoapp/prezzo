@@ -161,7 +161,7 @@ export default class Checkout extends Component {
           }}
         />
         <View style={styles.modalView}>
-          <BlurView style={styles.blurView} tint="dark" intensity={100} />
+          <BlurView style={styles.blurView} tint="dark" intensity={90} />
           <View style={{ flex: 1 }}>
             <View
               ref={child => {

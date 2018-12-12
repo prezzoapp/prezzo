@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Text,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from 'react-native';
 import { BlurView } from 'expo';
 import PropTypes from 'prop-types';
@@ -24,6 +25,7 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 import Button from '../../../components/Button';
 import ReviewUserPhoto from '../../../components/ReviewUserPhoto';
+// import AddReviewListItem from '../../../components/AddReviewListItem';
 
 const SECTION_WIDTH: number = 0.85 * Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -224,35 +226,12 @@ checkResponseMessage(){
     }).start();
   }
 
-  // handleQueuedTableItem = (tableId, index, actionType) => {
-  //   Alert.alert(
-  //     actionType === ACCEPT_ORDER ? 'Accept' : 'Remove',
-  //     `${this.props.queuedTableList[index].userName} \n Delivery Order`,
-  //     [
-  //       {
-  //         text: 'Cancel',
-  //         onPress: () => null,
-  //         style: 'cancel'
-  //       },
-  //       { text: 'OK', onPress: () => this.handleConfirm(tableId, actionType) }
-  //     ],
-  //     { cancelable: false }
-  //   );
-  // };
-
   changeTabHandler = index => {
     if (index === 1) {
       this.props.listPhotoReviewTable();
     }
   };
 
-  // handleConfirm = (tableId, actioType) => {
-  //   if (actioType === ACCEPT_ORDER) {
-  //     this.props.acceptQueuedRequest(this.props.queuedTableList, tableId);
-  //   } else if (actioType === DELETE_ORDER) {
-  //     this.props.deleteQueuedRequest(this.props.queuedTableList, tableId);
-  //   }
-  // };
   renderHeader = () => (
     <View
       style={{
@@ -302,26 +281,12 @@ checkResponseMessage(){
         contentContainerStyle={styles.flatListStyle}
         data={this.props.openTableList.length !== 0 ? this.props.openTableList.toJS() : []}
         renderItem={rowData => (
-          <TouchableOpacity onPress={() => this.show()}>
-            <View
-              style={{ backgroundColor: 'transparent', position: 'relative' }}
-            >
-              <OpenTableItem
-                data={rowData}
-                tabName="activity"
-                innerTabName="photoReview"
-              />
-              <View
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%'
-                }}
-              />
-            </View>
-          </TouchableOpacity>
+          <OpenTableItem
+            data={rowData}
+            tabName="activity"
+            innerTabName="photoReview"
+            showReviewModal={() => this.show()}
+          />
         )}
       />
     );
@@ -343,20 +308,15 @@ checkResponseMessage(){
             }
           ]}
         >
-// <View style= {{position: 'absolute', top: 0, left: 0, right:0, height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.9)'} }>
-// </View>
 
           <View style={styles.box2}>
-          <BlurView style={styles.blurView} intensity={100} />
-
+            <BlurView style={styles.blurView} tint="dark" intensity={95} />
             <View
               style={{
-                flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: SECTION_WIDTH,
-                height: hp('6.15%'),
-                position: 'relative'
+                position: 'relative',
+                paddingBottom: 5
               }}
             >
               <View style={{ position: 'absolute', left: 10 }}>
@@ -371,16 +331,6 @@ checkResponseMessage(){
                 </TouchableOpacity>
               </View>
               <Text style={styles.Title}>Victor Franco</Text>
-            </View>
-
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: SECTION_WIDTH
-              }}
-            >
               <Text style={styles.subTitle}>Table 5932 - 3 Photos</Text>
             </View>
             <View

@@ -15,9 +15,8 @@ const OrderedItem = props => {
           size={props.data.status === 2 ? 11 : 12}
           style={styles.dot}
         />
-        <Text style={styles.itemName}>{props.data.title}</Text>
+        <Text style={styles.itemName} numberOfLines={3}>{props.data.title}</Text>
       </View>
-    {/*<Text style={styles.quantity}>x{props.data.quantity}</Text>*/}
     </View>
   );
 };

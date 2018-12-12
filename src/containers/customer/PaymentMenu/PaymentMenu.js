@@ -6,7 +6,8 @@ import {
   ScrollView,
   Dimensions,
   ActivityIndicator,
-  Modal
+  Modal,
+  AsyncStorage
 } from 'react-native';
 import { PropTypes } from 'prop-types';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';

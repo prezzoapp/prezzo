@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     paddingTop: hp('1.47%'),
     paddingBottom: hp('3.44%'),
     paddingHorizontal: wp('3.44%'),
-    borderRadius: 8,
     marginTop: hp('3.07%'),
     marginLeft: 16,
     marginRight: 10
@@ -34,12 +33,13 @@ const styles = StyleSheet.create({
   bigImage: {
     height: wp('32%'),
     width: wp('32%'),
-    borderRadius: 8,
     overflow: 'hidden',
     justifyContent: 'flex-end',
     backgroundColor: 'transparent',
-    marginTop:10,
-    marginLeft: 11
+    marginTop: 10,
+    marginLeft: 11,
+    borderRadius: 8,
+    resizeMode: 'cover'
   },
 
   name: {

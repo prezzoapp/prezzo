@@ -88,7 +88,7 @@ class Tables extends Component {
   handleConnectionChange = (isConnected) => {
       this.setState({ status: isConnected });
       console.log(`is connected: ${this.state.status}`);
-}
+  }
 
   showAlert(message, duration) {
     clearTimeout(this.timer);
@@ -98,15 +98,10 @@ class Tables extends Component {
   }
 
   checkAndChangeQueueOrderStatus(orderId, status) {
-
-
     this.props.changeOrderStatus(orderId, status)
     .then(() => {
         this.checkResponseMessage();
-    })
-
-
-
+    });
 
     // this.props.checkQueueOrderStatus(orderId).then(() => {
     //     if(
@@ -206,6 +201,14 @@ class Tables extends Component {
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={() => {
+            if(this.props.layout !== 'list') {
+              return (
+                <View style={styles.separator}/>
+              );
+            }
+            return null;
+          }}
           onRefresh={() => this.onRefresh()}
           refreshing={this.state.isFetching}
           contentContainerStyle={styles.flatListStyle}
@@ -240,6 +243,14 @@ class Tables extends Component {
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={() => {
+            if(this.props.layout !== 'list') {
+              return (
+                <View style={styles.separator}/>
+              );
+            }
+            return null;
+          }}
           onRefresh={() => this.onRefresh()}
           refreshing={this.state.isFetching}
           contentContainerStyle={styles.flatListStyle}
@@ -252,7 +263,6 @@ class Tables extends Component {
                   user={rowData}
                   tabName="tables"
                   checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
-                  // changeOrderStatus={(orderId, status) => this.props.changeOrderStatus(orderId, status, 'queued')}
                   listQueuedTable={this.props.listQueuedTable}
                 />
               );
@@ -284,6 +294,14 @@ class Tables extends Component {
           <FlatList
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
+            ItemSeparatorComponent={() => {
+              if(this.props.layout !== 'list') {
+                return (
+                  <View style={styles.separator}/>
+                );
+              }
+              return null;
+            }}
             onRefresh={() => this.onRefresh()}
             refreshing={this.state.isFetching}
             contentContainerStyle={styles.flatListStyle}
@@ -379,24 +397,7 @@ class Tables extends Component {
           />
           {this.renderSection()}
         </View>
-
-
-
-        {/*<Modal
-          animationType="none"
-          transparent
-          visible={this.props.isBusy}
-        >
-          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.8)' }} />
-        </Modal>
-        <Modal animationType="none" transparent visible={this.props.isBusy}>
-          <View style={styles.loaderView}>
-            <ActivityIndicator size="large" color="white" />
-          </View>
-        </Modal>*/}
-
         <LoadingComponent visible={this.props.isBusy} />
-      }
       </View>
     );
   }

@@ -25,7 +25,7 @@ const MenuButton = ({ leftIcon, icon, onPress, title, subtitle }: Props) => {
         })()}
         <View style={styles.buttonTextContainer}>
           <Text style={styles.buttonTitle}>{title}</Text>
-          {subtitle && <Text style={styles.buttonSubtitle}>{subtitle}</Text>}
+          {!!subtitle && <Text style={styles.buttonSubtitle}>{subtitle}</Text>}
         </View>
         <View style={styles.buttonActionContainer}>
           <MaterialIcons name={icon} size={40} color='white'/>

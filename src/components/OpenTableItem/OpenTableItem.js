@@ -10,20 +10,22 @@ const OpenTableItem = props => {
     <TouchableOpacity
       style={styles.container}
       onPress={() =>
-        props.navigate&& props.navigate({
-          routeName:
-            props.tabName === 'tables'
-              ? 'OpenTableDetails'
-              : 'VendorAdminActivityDetails',
-          params: {
-            userName:
-              props.tabName !== 'delivery'
-                ? `${item.creator.fullName} - 9192`
-                : `${item.userName}`,
-            userImage: item.creator.avatarURL,
-            item: item,
-            changeOrderStatus: props.tabName === 'tables' ? props.changeOrderStatus : null,
-            makePaymentAndCompleteOrder: props.tabName === 'tables' ? props.makePaymentAndCompleteOrder : null
+        props.showReviewModal
+          ? props.showReviewModal()
+          : props.navigate&& props.navigate({
+            routeName:
+              props.tabName === 'tables'
+                ? 'OpenTableDetails'
+                : 'VendorAdminActivityDetails',
+            params: {
+              userName:
+                props.tabName !== 'delivery'
+                  ? `${item.creator.fullName} - 9192`
+                  : `${item.userName}`,
+              userImage: item.creator.avatarURL,
+              item: item,
+              changeOrderStatus: props.tabName === 'tables' ? props.changeOrderStatus : null,
+              makePaymentAndCompleteOrder: props.tabName === 'tables' ? props.makePaymentAndCompleteOrder : null
           }
         })
       }

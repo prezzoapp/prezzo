@@ -4,6 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { LinearGradient } from 'expo';
 import {
   COLOR_GREEN,
   FONT_FAMILY,
@@ -207,9 +208,7 @@ const OpenTablePayment = props => {
           return (
             <View
               style={{
-                flexDirection: 'row',
                 width: wp('100%'),
-                justifyContent: 'space-between',
                 alignItems: 'center',
                 height: hp('10.16%'),
                 borderTopColor: COLOR_GREEN,
@@ -217,23 +216,39 @@ const OpenTablePayment = props => {
                 backgroundColor: 'black'
               }}
             >
-              <Button
-                style={buttonStyles.requestBtn}
-                textStyle={buttonStyles.requestBtnText}
-                onPress={() => null}
-                // onPress={() => props.changeOrderStatus(props.data._id, 'complete')}
+              <LinearGradient
+                colors={['transparent', '#2B2C2C']}
+                start={[0.3, 0]}
+                style={{
+                  flexDirection: 'row',
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  bottom: 0,
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}
+                pointerEvents="none"
               >
-                Request
-              </Button>
+                <Button
+                  style={buttonStyles.requestBtn}
+                  textStyle={buttonStyles.requestBtnText}
+                  onPress={() => null}
+                  // onPress={() => props.changeOrderStatus(props.data._id, 'complete')}
+                >
+                  Request
+                </Button>
 
-              <Text
-                style={[
-                  styles.price,
-                  { textAlign: 'right', marginRight: wp('5.33%') }
-                ]}
-              >
-                Total ${((subTotal * TAX) / 100 + subTotal).toFixed(2)}
-              </Text>
+                <Text
+                  style={[
+                    styles.price,
+                    { textAlign: 'right', marginRight: wp('5.33%') }
+                  ]}
+                >
+                  Total ${((subTotal * TAX) / 100 + subTotal).toFixed(2)}
+                </Text>
+              </LinearGradient>
             </View>
           );
         }

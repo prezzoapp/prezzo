@@ -1,4 +1,8 @@
 import { StyleSheet } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import { FONT_FAMILY } from '../../services/constants';
 
 const styles = StyleSheet.create({
@@ -9,7 +13,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 10
+    paddingVertical: hp('1.23%'),
+    paddingRight: wp('18.66%')
   },
 
   userImage: {
@@ -17,14 +22,16 @@ const styles = StyleSheet.create({
     height: 32,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#fff'
+    borderColor: '#fff',
+    paddingVertical: hp('1.47%')
   },
 
   userName: {
     color: '#fff',
     fontSize: 17,
     fontFamily: FONT_FAMILY,
-    paddingLeft: 10
+    paddingLeft: 10,
+    flex: 1
   },
 
   tableId: {
@@ -41,8 +48,7 @@ const styles = StyleSheet.create({
   seprator: {
     height: 1,
     backgroundColor: '#2ED573',
-    width: '100%',
-    marginTop: 10
+    width: '100%'
   },
 
   buttonContainer: {
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
   },
 
   delete: {
-    marginRight: 5
+    marginRight: wp('5%')
   }
 });
 

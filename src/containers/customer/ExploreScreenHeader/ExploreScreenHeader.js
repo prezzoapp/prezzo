@@ -178,7 +178,7 @@ export default class ExploreScreenHeader extends PureComponent {
 
         {this.state.showFilters &&
           <View style={styles.filtersHolder}>
-            <BlurView style={styles.blurView} tint="dark" intensity={100} />
+            <BlurView style={styles.blurView} tint="dark" intensity={90} />
             <FlatList
               horizontal
               contentContainerStyle={styles.filtersList}

@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2B2C2C',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     paddingTop: Header.HEIGHT + 5
   },
 
@@ -50,11 +50,7 @@ const styles = StyleSheet.create({
   },
 
   searchBarHolder: {
-    position: 'absolute',
-    top: Header.HEIGHT + 25,
-    left: 0,
-    right: 0,
-    zIndex: 9999
+    backgroundColor: 'transparent'
   }
 });
 

@@ -63,7 +63,7 @@ class PaymentDetails extends Component {
             console.log(`Token: ${response.token}`);
             this.setState(() => {
                 return {
-                  isLoading: true
+                  isLoading: false
                 };
               },
               () => {

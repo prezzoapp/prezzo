@@ -241,7 +241,6 @@ import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCa
 import showGenericAlert from '../../../components/GenericAlert';
 import publicIP from 'react-native-public-ip';
 
-
 export default class MapScreen extends Component {
   static navigationOptions = {
     title: 'Local Search',
@@ -251,8 +250,8 @@ export default class MapScreen extends Component {
       top: 0,
       right: 0,
       left: 0,
-      backgroundColor: 'transparent',
-      borderBottomWidth: 0
+      borderBottomWidth: 0,
+      backgroundColor: 'transparent'
     }
   };
 
@@ -277,7 +276,7 @@ export default class MapScreen extends Component {
     this.activeFilters = '';
     const activatedFiltersArray = [];
     this.props.filters.map(item => {
-      if(item.on) {
+      if (item.on) {
         activatedFiltersArray.push(item.filterType);
       }
     });
@@ -286,20 +285,20 @@ export default class MapScreen extends Component {
 
     this.watchID = navigator.geolocation.getCurrentPosition(
       position => {
-        if(this._isMounted) {
-          this.setState(() => {
-              return {
-                customRegion: {
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude,
-                  latitudeDelta: 0.00922,
-                  longitudeDelta: 0.00422
-                },
-                isGetLocation: true
-              }
-            },
+        if (this._isMounted) {
+          this.setState(
+            () => ({
+              customRegion: {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                latitudeDelta: 0.00922,
+                longitudeDelta: 0.00422
+              },
+              isGetLocation: true
+            }),
             () => {
-              this.props.listVendors(
+              this.props
+                .listVendors(
                   this.state.customRegion.latitude,
                   this.state.customRegion.longitude,
                   this.props.distance,
@@ -311,7 +310,7 @@ export default class MapScreen extends Component {
                   showGenericAlert('Uh-oh!', e.message || e);
                 });
 
-              console.log("After Getting Correct Coordinates: ");
+              console.log('After Getting Correct Coordinates: ');
               console.log(this.state.customRegion);
               console.log('First Time API Called!');
             }
@@ -336,17 +335,15 @@ export default class MapScreen extends Component {
       });
   }
 
-  getIPLocation(ip)
-  {
+  getIPLocation(ip) {
     // console.log('location ip is ------ ', ip);
-    var commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
-    console.log("location url is ------ ",commonHtml);
+    const commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
+    console.log('location url is ------ ', commonHtml);
     fetch(commonHtml)
-    .then((response) => response.json())
-    .then((responseJson) => {
+      .then(response => response.json())
+      .then(responseJson => {
         console.log(responseJson);
         if (responseJson.latitude) {
-
           this.setState({
             customRegion: {
               latitude: responseJson.latitude,
@@ -356,41 +353,31 @@ export default class MapScreen extends Component {
             },
             isGetLocation: true,
             countryName: responseJson.country_name,
-            regionName: responseJson.region_name,
-
+            regionName: responseJson.region_name
           });
-   console.log('location ip  --- ',this.state.customRegion);
-   this.props.listVendors(
-       this.state.customRegion.latitude,
-       this.state.customRegion.longitude,
-       this.props.distance,
-       this.activeFilters,
-       this.props.pricing
-     )
-     .then(() => {})
-     .catch(e => {
-       showGenericAlert('Uh-oh!', e.message || e);
-     });
+          console.log('location ip  --- ', this.state.customRegion);
+          this.props
+            .listVendors(
+              this.state.customRegion.latitude,
+              this.state.customRegion.longitude,
+              this.props.distance,
+              this.activeFilters,
+              this.props.pricing
+            )
+            .then(() => {})
+            .catch(e => {
+              showGenericAlert('Uh-oh!', e.message || e);
+            });
 
-   console.log("After Getting Correct Coordinates: ");
-   console.log(this.state.customRegion);
-   console.log('First Time API Called!');
-
-
-            }
-            else{
-              // show error message
-            }
-
-
-           })
-           .catch((error) => {
-
-           });
-
-
-
-    }
+          console.log('After Getting Correct Coordinates: ');
+          console.log(this.state.customRegion);
+          console.log('First Time API Called!');
+        } else {
+          // show error message
+        }
+      })
+      .catch(error => {});
+  }
 
   componentWillUnmount() {
     this.watchID = null;
@@ -426,14 +413,14 @@ export default class MapScreen extends Component {
     }
   }
 
-  //onMapReady() {
-    //console.log('OnMapReady Method Called!');
+  // onMapReady() {
+  // console.log('OnMapReady Method Called!');
 
-    //this.mapView.animateToRegion(this.state.customRegion);
-  //}
+  // this.mapView.animateToRegion(this.state.customRegion);
+  // }
 
   moveToPosition(coordinates) {
-    //console.log('Move To Position Method Called!');
+    // console.log('Move To Position Method Called!');
 
     this.btnClicked = true;
 
@@ -445,7 +432,7 @@ export default class MapScreen extends Component {
     });
   }
 
-  moveMapPositionOnSearch(lat,lon) {
+  moveMapPositionOnSearch(lat, lon) {
     this.mapView.animateToRegion({
       latitude: lat,
       longitude: lon,
@@ -454,11 +441,9 @@ export default class MapScreen extends Component {
     });
   }
 
-
-
   render() {
-    //console.log('Map screen render called');
-    //console.log('Map screen region', this.state.customRegion);
+    // console.log('Map screen render called');
+    // console.log('Map screen region', this.state.customRegion);
     //  console.log('Map screen default region', region);
 
     return (
@@ -477,7 +462,6 @@ export default class MapScreen extends Component {
             customMapStyle={MapStyle}
             loadingEnabled
             followUserLocation={false}
-            //  onMapReady={() => this.onMapReady()}
             onPress={() => {
               this.btnClicked = false;
             }}
@@ -543,11 +527,11 @@ export default class MapScreen extends Component {
             }}
             debounce={200}
             onPress={(data, details = null) => {
-              // 'details' is provided when fetchDetails = true
-              // console.log("Detail is ---------",details.geometry.location);
-              // console.log("Detail is ---------",details.geometry.location.lat);
-            this.moveMapPositionOnSearch(details.geometry.location.lat,details.geometry.location.lng);
-     }}
+              this.moveMapPositionOnSearch(
+                details.geometry.location.lat,
+                details.geometry.location.lng
+              );
+            }}
             styles={{
               textInputContainer: {
                 paddingHorizontal: 12,
@@ -564,8 +548,9 @@ export default class MapScreen extends Component {
                 color: 'white'
               },
               listView: {
-                zIndex: 999,
-                // backgroundColor: 'white',
+                zIndex: 99999,
+                top: 38,
+                position: 'absolute',
                 marginHorizontal: 12,
                 backgroundColor: '#414141'
               },

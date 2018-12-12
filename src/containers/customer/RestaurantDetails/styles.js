@@ -7,7 +7,11 @@ import {
 
 // import { Header } from 'react-navigation';
 
-import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
+import {
+  FONT_FAMILY,
+  COLOR_WHITE,
+  FONT_FAMILY_MEDIUM
+} from '../../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -144,7 +148,7 @@ const styles = StyleSheet.create({
 
   totalPrice: {
     fontSize: wp('4.8%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
     marginRight: wp('10.53%')
   },
@@ -166,6 +170,16 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0
+  },
+
+  headerLeftBtn: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+
+  headerLeftBtnText: {
+    fontSize: wp('5.33%'),
+    color: 'white'
   }
 });
 

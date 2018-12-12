@@ -33,6 +33,7 @@ class AppView extends Component {
   }
 
   render() {
+    console.log('AppView Render!');
     if (!this.props.isReady) {
       return (
         <View style={{ flex: 1 }}>

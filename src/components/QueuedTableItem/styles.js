@@ -31,12 +31,12 @@ const styles = StyleSheet.create({
   userName: {
     color: 'white',
     fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
-    fontSize: 20
+    fontSize: wp('5.33%')
   },
   tableId: {
     color: 'white',
     fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
-    fontSize: 14
+    fontSize: wp('3.73%')
   },
   statusText: {
     color: '#2ED573',
@@ -49,11 +49,11 @@ const styles = StyleSheet.create({
   },
   add: {
     position: 'absolute',
-    right: 10
+    right: wp('4.53%')
   },
   delete: {
     position: 'absolute',
-    right: 50
+    right: wp('18.44%')
   }
 });
 

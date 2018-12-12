@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     width: avatarSize,
     height: avatarSize,
     alignSelf: 'center',
-    borderWidth: 4,
+    borderWidth: 2,
     borderColor: '#fff',
     borderRadius: avatarSize / 2,
     resizeMode: 'cover'
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     height: avatarSize / 2.5,
     position: 'absolute',
     top: 0,
-    right: 0,
+    right: 5,
     borderWidth: 2,
     borderColor: '#fff',
     borderRadius: avatarSize / 5,
@@ -178,7 +178,7 @@ class SignupPassword extends React.Component<Props, State> {
         } else if (buttonIndex === 1) {
           this.requestPhotoLibraryPermission();
 
-        } 
+        }
       });
   }
 
@@ -229,7 +229,7 @@ class SignupPassword extends React.Component<Props, State> {
     if (!this.state.upload) {
       return;
     }
-    
+
     const { uri } = this.state.upload;
     const { updateUser, uploadImage } = this.props;
     const fileName = getTimeStampString() + '.jpg'

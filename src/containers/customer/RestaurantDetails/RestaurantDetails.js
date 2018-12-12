@@ -42,7 +42,6 @@ const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 
 export default class RestaurantDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.state.params.item.name,
     headerStyle: {
       position: 'absolute',
       backgroundColor: 'transparent',
@@ -54,7 +53,24 @@ export default class RestaurantDetails extends Component {
       borderBottomWidth: 0
     },
     headerTintColor: '#fff',
-    gesturesEnabled: false
+    gesturesEnabled: false,
+    headerLeft: (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.goBack()}
+        style={styles.headerLeftBtn}>
+        <Feather
+          title="Back"
+          name="chevron-left"
+          color="white"
+          size={wp('8%')}
+          style={styles.closeBtnIcon}
+        />
+        <Text style={styles.headerLeftBtnText} numberOfLines={1}>
+          {navigation.state.params.item.name}
+        </Text>
+      </TouchableOpacity>
+    )
   });
 
   constructor(props) {
@@ -270,7 +286,7 @@ export default class RestaurantDetails extends Component {
               <BlurView
                 style={styles.bottomViewBlurContainer}
                 tint="dark"
-                intensity={100}
+                intensity={90}
               />
 
               {(() => {

@@ -73,7 +73,7 @@ class Profile extends Component {
               icon="chevron-right"
             />
             <MenuButton
-              onPress={() => {}}
+              onPress={() => null}
               title="My History"
               icon="chevron-right"
             />

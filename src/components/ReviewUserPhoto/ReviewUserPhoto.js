@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  ImageBackground,
-  TouchableOpacity,
-  FlatList,
-  Image
-} from 'react-native';
-import { LinearGradient } from 'expo';
+import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './styles';
-import MenuItemImage from '../MenuItemImage';
 import { COLOR_GREEN } from '../../services/constants';
 
 class ReviewUserPhoto extends Component {
@@ -69,17 +60,15 @@ class ReviewUserPhoto extends Component {
                       height: '100%'
                     }}
                   >
-                    <ImageBackground
+                    <Image
                       source={{ uri: item.key }}
-                      blurRadius={1}
                       style={[
                         styles.bigImage,
                         {
-                          borderColor:
-                            item.selected == true
-                              ? COLOR_GREEN
-                              : 'rgba(255, 255, 255, 0.5)',
-                          borderWidth: item.selected == true ? 3 : 2
+                          borderColor: item.selected
+                            ? COLOR_GREEN
+                            : 'rgba(255, 255, 255, 0.5)',
+                          borderWidth: item.selected ? 2 : 2
                         }
                       ]}
                     />

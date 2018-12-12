@@ -1,19 +1,20 @@
 import { StyleSheet } from 'react-native';
-import { FONT_FAMILY, FONT_FAMILY_MEDIUM } from '../../services/constants';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+import { FONT_FAMILY } from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
-    width: 110,
-    height: 190,
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    padding: 5
+    paddingBottom: hp('2.4%'),
+    marginRight: wp('4%'),
+    width: wp('26.66%')
   },
 
   itemImage: {
-    height: 100,
-    width: 100,
+    height: wp('26.66%'),
+    flex: 1,
     resizeMode: 'cover',
     borderRadius: 5
   },
@@ -21,8 +22,9 @@ const styles = StyleSheet.create({
   itemName: {
     color: '#fff',
     fontFamily: FONT_FAMILY,
-    width: '80%',
-    fontSize: 15
+    fontSize: wp('4%'),
+    paddingRight: 5,
+    flex: 1
   },
 
   itemTextContainer: {

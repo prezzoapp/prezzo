@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import styles from './styles';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FontAwesome, MaterialIcons } from '../VectorIcons';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../services/constants';
 
@@ -60,13 +61,13 @@ const QueuedTableItem = props => {
         style={styles.delete}
         onPress={() => showAcceptDeniedAlert('denied')}
       >
-        <FontAwesome name="trash-o" size={30} color="white" />
+        <FontAwesome name="trash-o" size={wp('5%')} color="white" />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.add}
         onPress={() => showAcceptDeniedAlert('accept')}
       >
-        <MaterialIcons name="add" size={30} color="white" />
+        <MaterialIcons name="add" size={wp('5%')} color="white" />
       </TouchableOpacity>
     </View>
   );

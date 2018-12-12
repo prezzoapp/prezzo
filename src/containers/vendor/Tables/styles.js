@@ -34,6 +34,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.8)'
+  },
+
+  separator: {
+    height: 1,
+    backgroundColor: '#2ED573',
+    width: '100%'
   }
 });
 

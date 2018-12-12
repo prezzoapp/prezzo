@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Entypo, FontAwesome, MaterialIcons } from '../VectorIcons';
 import styles from './styles';
 import OrderedItem from '../../components/OrderedItem';
@@ -43,28 +44,17 @@ const TableGridItem = props => {
               : require('../../../assets/images/etc/default-avatar.png')
           }
         />
-        <Text style={styles.userName}>{item.creator.fullName} </Text>
-        <Text style={styles.tableId}>- Table 9192</Text>
+        <Text style={styles.userName}>{item.creator.fullName} - Table 9192</Text>
         {tableType === 1 ? (
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.delete}
               onPress={() => showAcceptDeniedAlert('denied')}
-
-              // onPress={() =>
-              //   props.handleQueuedTableItem(item.id, index, DELETE_ORDER)
-              // }
             >
-              <FontAwesome name="trash-o" size={30} color="white" />
+              <FontAwesome name="trash-o" size={wp('5%')} color="white" />
             </TouchableOpacity>
-            <TouchableOpacity
-            onPress={() => showAcceptDeniedAlert('accept')}
-
-              // onPress={() =>
-              //   this.props.handleQueuedTableItem(item.id, index, ACCEPT_ORDER)
-              // }
-            >
-              <MaterialIcons name="add" size={30} color="white" />
+            <TouchableOpacity onPress={() => showAcceptDeniedAlert('accept')}>
+              <MaterialIcons name="add" size={wp('5%')} color="white" />
             </TouchableOpacity>
           </View>
         ) : (
@@ -83,7 +73,6 @@ const TableGridItem = props => {
         horizontal
         renderItem={({ item }) => <OrderedItem data={item} />}
       />
-      <View style={styles.seprator} />
     </View>
   );
 };
