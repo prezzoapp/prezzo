@@ -23,6 +23,10 @@ import {
   COLOR_BLACK,
   COLOR_GREEN
 } from '../../../services/constants';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 type State = {
   avatarURL: string,
@@ -172,6 +176,7 @@ class EditProfile extends Component<Props, State> {
     });
     if (!result.cancelled) {
       this.setState({ upload: result, avatarURL: result.uri });
+      this.save();
     }
   };
 
@@ -183,6 +188,8 @@ class EditProfile extends Component<Props, State> {
 
     if (!result.cancelled) {
       this.setState({ upload: result, avatarURL: result.uri });
+      this.save();
+
     }
   };
 
@@ -204,9 +211,10 @@ class EditProfile extends Component<Props, State> {
             <View style={styles.headerContainer}>
               <View style={styles.avatarContainer}>
                 {(() => {
-                  if (this.state.isEditing) {
+                  if (1) {
                     return (
                       <TouchableOpacity
+                       style= {{position: 'relative'}}
                         onPress={() => this.showAvatarActionSheet()}
                       >
                         <Image
@@ -217,40 +225,35 @@ class EditProfile extends Component<Props, State> {
                               : require('../../../../assets/images/etc/default-avatar.png')
                           }
                         />
+
+                        <Image
+                          style={{width: 34, height: 34, position: 'absolute', right:0}}
+                          source={
+                           require('../../../../assets/images/etc/EditIcon.png')
+                          }
+                        />
+
                       </TouchableOpacity>
                     );
                   }
-                  return (
-                    <Image
-                      style={styles.avatar}
-                      source={
-                        avatarURL
-                          ? { uri: avatarURL }
-                          : require('../../../../assets/images/etc/default-avatar.png')
-                      }
-                    />
-                  );
+
                 })()}
               </View>
-              <TouchableOpacity onPress={() => this.toggleEditing()}>
-                <View>
-                  <Text style={styles.edit}>
-                    {this.state.isEditing ? 'Save' : 'Edit'}
-                  </Text>
-                </View>
-              </TouchableOpacity>
             </View>
             {(() => {
               if (this.state.isEditing) {
                 return (
-                  <View style={styles.bodyContainer}>
-                    <ProfileTextInput
+                  <View style={[styles.bodyContainer,{position: 'relative'}]}>
+
+
+                  <ProfileTextInput
                       type="name"
                       label="First Name"
                       placeholder="John"
                       onChange={firstName => this.setState({ firstName })}
                       value={firstName}
                     />
+
                     <ProfileTextInput
                       type="name"
                       label="Last Name"
@@ -286,15 +289,23 @@ class EditProfile extends Component<Props, State> {
                       onChange={city => this.setState({ city })}
                       value={city}
                     />
+                    <TouchableOpacity style={{position: 'absolute', right: 0, top: 5}} onPress={() => this.toggleEditing()}>
+                      <View>
+                        <Text style={styles.edit}>
+                          {this.state.isEditing ? 'Save' : 'Edit'}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
                   </View>
                 );
               }
               return (
-                <View style={styles.bodyContainer}>
-                  <ProfileDataField
-                    label="First Name"
-                    value={this.props.firstName}
-                  />
+                <View style={[styles.bodyContainer,{position: 'relative'}]}>
+                <ProfileDataField
+                  label="First Name"
+                  value={this.props.firstName}
+                />
+
                   <ProfileDataField
                     label="Last Name"
                     value={this.props.lastName}
@@ -306,6 +317,14 @@ class EditProfile extends Component<Props, State> {
                   />
                   <ProfileDataField label="Zip" value={this.props.zip} />
                   <ProfileDataField label="City" value={this.props.city} />
+
+                  <TouchableOpacity style={{position: 'absolute', right: 0, top: 5}} onPress={() => this.toggleEditing()}>
+                      <View>
+                      <Text style={styles.edit}>
+                      {this.state.isEditing ? 'Save' : 'Edit'}
+                      </Text>
+                      </View>
+                  </TouchableOpacity>
                 </View>
               );
             })()}
@@ -333,8 +352,7 @@ const styles = StyleSheet.create({
   bodyContainer: {
     alignItems: 'center',
     flex: 2,
-    flexDirection: 'column',
-    marginTop: 28
+    flexDirection: 'column'
   },
   container: {
     alignItems: 'center',

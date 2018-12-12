@@ -59,6 +59,10 @@ export const listCreditCards = async() => async dispatch => {
       payload: fromJS(data)
     });
   } catch (e) {
-    dispatch({ type: LIST_CREDIT_CARDS_FAILURE });
+    dispatch({
+      type: LIST_CREDIT_CARDS_FAILURE,
+      payload: e && e.message ? e.message : e
+    });
+    throw e;
   }
 };

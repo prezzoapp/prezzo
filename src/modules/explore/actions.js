@@ -49,8 +49,11 @@ export const listVendors = async (
       payload: fromJS(vendors)
     });
   } catch (e) {
-    dispatch({ type: LIST_VENDORS_FAILURE });
-
+    dispatch({
+      type: LIST_VENDORS_FAILURE,
+      payload: e && e.message ? e.message : e
+      });
+    console.log("Errorrrrr ",e.message);
     throw e;
   }
 };

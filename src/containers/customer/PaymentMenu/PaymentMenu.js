@@ -29,9 +29,25 @@ class PaymentMenu extends Component {
 
   componentDidMount() {
     console.log(this.props.data);
-    this.props.listCreditCards();
+    this.props.listCreditCards().then(() => {
+        this.checkResponseMessage();
+      })
+      .catch(e => {
+        this.showAlert(e.message, 300);
+      });
+  }
+  showAlert(message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      alert(message);
+    }, duration);
   }
 
+  checkResponseMessage(){
+  AsyncStorage.getItem('response_message').then((msg) => {
+  console.log("response message is -----------------",msg);
+  });
+  }
   removeCardAtIndex(id) {
     Alert.alert(
       null,

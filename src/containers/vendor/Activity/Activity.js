@@ -163,13 +163,33 @@ class Activity extends Component {
 
   onSectionChange = index => {
     if (index === 0) {
-      this.props.listWaiterRequestTable(this.props.vendorData.get('_id'));
+      this.props.listWaiterRequestTable(this.props.vendorData.get('_id')).then(() => {
+          this.checkResponseMessage();
+        })
+        .catch(e => {
+          this.showAlert(e.message, 300);
+        });
     } else {
       this.props.listPhotoReviewTable();
     }
 
     this.props.changeSection(index);
   };
+
+  showAlert(message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      alert(message);
+    }, duration);
+  }
+
+checkResponseMessage(){
+  AsyncStorage.getItem('response_message').then((msg) => {
+  console.log("response message is -----------------",msg);
+  });
+}
+
+
 
   myCallback(itemIndex, imageIndex) {
     const item = this.state.data.findIndex(x => x.index === itemIndex);

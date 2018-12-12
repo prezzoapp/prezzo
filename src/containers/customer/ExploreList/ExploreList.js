@@ -56,6 +56,13 @@ export default class ExploreList extends PureComponent {
 
     }
 
+    showAlert(message, duration) {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        alert(message);
+      }, duration);
+    }
+
   checkResponseMessage(){
     AsyncStorage.getItem('response_message').then((msg) => {
     console.log("response message is -----------------",msg);
@@ -128,7 +135,9 @@ handleConnectionChange = (isConnected) => {
                 this.checkResponseMessage();
               })
               .catch(e => {
+                this.showAlert(e.message, 300);
               });
+              // .catch(e => this.showAlert(e.message, 300));
 
 
           }

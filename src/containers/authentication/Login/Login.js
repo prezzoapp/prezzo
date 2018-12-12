@@ -12,6 +12,8 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
+import LoadingComponent from '../../../components/LoadingComponent';
+
 
 type Props = {
   loginWithEmail: Function,
@@ -40,7 +42,10 @@ class Login extends React.Component<Props, State> {
     email: '',
     password: ''
   };
-
+  componentDidMount()
+  {
+    console.log("isBusy value --- ",this.props.isBusy);
+  }
   navigateToSignup() {
     this.props.navigate({ routeName: 'SignupName' });
   }
@@ -54,11 +59,19 @@ class Login extends React.Component<Props, State> {
     this.navigateToMain();
   }
 
+  showAlert(message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      alert(message);
+    }, duration);
+  }
+
   login() {
     const { email, password } = this.state;
     this.props.loginWithEmail(email, password)
       .then(() => this.afterLogin())
-      .catch(e => alert(e.message));
+    .catch(e => this.showAlert(e.message, 300));
+
   }
 
   render() {
@@ -109,7 +122,10 @@ class Login extends React.Component<Props, State> {
           >
             Sign In
           </Button>
+
         </View>
+        <LoadingComponent visible={this.props.isBusy} />
+
       </ImageBackground>
     );
   }

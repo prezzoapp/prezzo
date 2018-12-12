@@ -6,8 +6,12 @@ import { loginWithEmail } from '../../../modules/auth';
 import { listCreditCards } from '../../../modules/paymentMethods';
 import Login from './Login';
 
+const mapStateToProps = state => ({
+  isBusy: state.get('auth').get('isBusy'),
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   dispatch => {
     return {
       loginWithEmail: bindActionCreators(loginWithEmail, dispatch),

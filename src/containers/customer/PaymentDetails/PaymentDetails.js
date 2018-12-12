@@ -58,12 +58,12 @@ class PaymentDetails extends Component {
           isLoading: true
         }
       }, () => {
-        try {
+        //try {
           get(`/v1/self/payment-token`).then(response => {
             console.log(`Token: ${response.token}`);
             this.setState(() => {
                 return {
-                  isLoading: false
+                  isLoading: true
                 };
               },
               () => {
@@ -77,14 +77,32 @@ class PaymentDetails extends Component {
                 );
               }
             );
+          }).catch(e => {
+            this.showAlert(e.message, 300);
+            this.setState(() => {
+                return {
+                  isLoading: false
+                };
+              });
           });
-        } catch (e) {
-          console.log(e.message);
-        }
+        //}
       });
     });
   }
 
+
+      showAlert(message, duration) {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+          alert(message);
+        }, duration);
+      }
+
+    checkResponseMessage(){
+      AsyncStorage.getItem('response_message').then((msg) => {
+      console.log("response message is -----------------",msg);
+      });
+    }
   onChange(data) {
     console.log(data);
     if(data.valid === true && this.state.dataValid === false) {

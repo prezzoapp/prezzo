@@ -37,6 +37,7 @@ class Tables extends Component {
     this.timer = null;
   }
 
+
   componentDidMount() {
     NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     if (this.props.section === 0) {
@@ -44,18 +45,21 @@ class Tables extends Component {
           this.checkResponseMessage();
         })
         .catch(e => {
+          this.showAlert(e.message, 300);
         });
     } else if (this.props.section === 1) {
       this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
           this.checkResponseMessage();
         })
         .catch(e => {
+          this.showAlert(e.message, 300);
         });
     } else {
       this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
           this.checkResponseMessage();
         })
         .catch(e => {
+          this.showAlert(e.message, 300);
         });
     }
   }
@@ -159,18 +163,22 @@ class Tables extends Component {
           this.checkResponseMessage();
         })
         .catch(e => {
+          this.showAlert(e.message, 300);
         });
     } else if (index === 1) {
       this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
           this.checkResponseMessage();
         })
         .catch(e => {
+          this.showAlert(e.message, 300);
+
         });
     } else {
       this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
           this.checkResponseMessage();
         })
         .catch(e => {
+          this.showAlert(e.message, 300);
         });
     }
 
@@ -328,18 +336,21 @@ class Tables extends Component {
           this.checkResponseMessage();
         })
         .catch(e => {
+          this.showAlert(e.message, 300);
         });
     } else if (this.props.section === 1) {
       this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
           this.checkResponseMessage();
         })
         .catch(e => {
+          this.showAlert(e.message, 300);
         });
     } else {
       this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
           this.checkResponseMessage();
         })
         .catch(e => {
+          this.showAlert(e.message, 300);
         });
     }
 
