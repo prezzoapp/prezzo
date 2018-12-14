@@ -7,7 +7,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ActionSheetIOS
+  ActionSheetIOS,
+  KeyboardAvoidingView
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { Picker, Spinner } from 'native-base';
@@ -30,14 +31,22 @@ const price3Indicator = wp('85%') * 0.66 - wp('9.5%');
 
 const price4Indicator = wp('85%') * 0.99 - wp('9.5%');
 
+import {
+  FONT_FAMILY_MEDIUM
+} from '../../../services/constants';
+
 export default class AccountInfo extends React.Component {
   static navigationOptions = {
-    title: 'Profile',
+    title: 'Vendor Account',
     headerStyle: {
       position: 'relative',
       backgroundColor: '#2B2C2C',
       shadowColor: 'transparent',
       borderBottomWidth: 0
+    },
+    headerTitleStyle: {
+      fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
+      fontSize: wp('6.4%')
     },
     headerTintColor: '#fff',
     headerRight: (
@@ -523,608 +532,610 @@ export default class AccountInfo extends React.Component {
     ];
 
     return (
-      <ScrollView
-        contentContainerStyle={styles.containerContentStyle}
-        style={styles.container}
-      >
-        <View
-          style={{
-            ...stylesRaw.spinnerContainer,
-            ...(isBusy ? {} : { display: 'none' })
-          }}
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
+        <ScrollView
+          contentContainerStyle={styles.containerContentStyle}
+          style={styles.container}
         >
-          <Spinner color="red" />
-        </View>
-
-        <View style={styles.header}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.avatarWrap}
-            onPress={() => this.showAvatarActionSheet()}
+          <View
+            style={{
+              ...stylesRaw.spinnerContainer,
+              ...(isBusy ? {} : { display: 'none' })
+            }}
           >
-            <Image
-              style={styles.avatar}
-              source={
-                avatarURL
-                  ? { uri: avatarURL }
-                  : require('../../../../assets/images/etc/default-avatar.png')
-              }
-            />
-            <Image
-              style={styles.editAvatarIcon}
-              source={require('../../../../assets/images/icons/edit.png')}
-            />
-          </TouchableOpacity>
+            <Spinner color="red" />
+          </View>
 
-          <View style={styles.editInfoHolder}>
-            <Text style={[styles.editText, { color: 'white' }]}>
-              Add / Change Logo
-            </Text>
+          <View style={styles.header}>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => {}}
-              style={styles.editBtn}
+              style={styles.avatarWrap}
+              onPress={() => this.showAvatarActionSheet()}
             >
-              <Text style={styles.editText}>Edit Info</Text>
+              <Image
+                style={styles.avatar}
+                source={
+                  avatarURL
+                    ? { uri: avatarURL }
+                    : require('../../../../assets/images/etc/default-avatar.png')
+                }
+              />
+              <Image
+                style={styles.editAvatarIcon}
+                source={require('../../../../assets/images/icons/edit.png')}
+              />
             </TouchableOpacity>
+
+            <View style={styles.editInfoHolder}>
+              <Text style={[styles.editText, { color: 'white' }]}>
+                Add / Change Logo
+              </Text>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {}}
+                style={styles.editBtn}
+              >
+                <Text style={styles.editText}>Edit Info</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
 
-        <View style={styles.contactContainer}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderText}>Contact</Text>
+          <View style={styles.contactContainer}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionHeaderText}>Contact</Text>
+            </View>
+            <View style={styles.sectionBody}>
+              <ProfileTextInput
+                label="Business Name"
+                onChange={val => this.setState({ name: val })}
+                placeholder=""
+                showInputBottomBorder={false}
+                type="name"
+                value={name}
+              />
+              <ProfileTextInput
+                label="Web Address"
+                onChange={val => this.setState({ website: val })}
+                placeholder=""
+                showInputBottomBorder={false}
+                type="url"
+                value={website}
+              />
+            </View>
           </View>
-          <View style={styles.sectionBody}>
-            <ProfileTextInput
-              label="Business Name"
-              onChange={val => this.setState({ name: val })}
-              placeholder=""
-              showInputBottomBorder={false}
-              type="name"
-              value={name}
-            />
-            <ProfileTextInput
-              label="Web Address"
-              onChange={val => this.setState({ website: val })}
-              placeholder=""
-              showInputBottomBorder={false}
-              type="url"
-              value={website}
-            />
+
+          <View style={styles.addressContainer}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionHeaderText}>Address</Text>
+
+              <TouchableOpacity onPress={() => this.navigateToMapView()}>
+                <Text style={styles.addText}>Edit</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.sectionBody}>
+              <ProfileDataField label="Address" value={address} />
+              <ProfileDataField label="City" value={city} />
+              <ProfileDataField label="State" value={region} />
+              <ProfileDataField label="Zip" value={postalCode} />
+              <ProfileDataField label="Country" value={country} />
+            </View>
           </View>
-        </View>
 
-        <View style={styles.addressContainer}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderText}>Address</Text>
+          <View style={styles.hoursContainer}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionHeaderText}>Hours</Text>
+            </View>
+            <View style={styles.hoursSectionBody}>
+              {hours.map((hour, index) => {
+                let {
+                  dayOfWeek,
+                  closeTimeHour,
+                  closeTimeMinutes,
+                  openTimeHour,
+                  openTimeMinutes
+                } = hour;
 
-            <TouchableOpacity onPress={() => this.navigateToMapView()}>
-              <Text style={styles.addText}>Edit</Text>
-            </TouchableOpacity>
+                if (closeTimeMinutes === 0) {
+                  closeTimeMinutes = '00';
+                }
+
+                if (openTimeMinutes === 0) {
+                  openTimeMinutes = '00';
+                }
+
+                const openTime = this.openTimeFormat(
+                  openTimeHour,
+                  openTimeMinutes
+                );
+
+                const closeTime = this.closeTimeFormat(
+                  closeTimeHour,
+                  closeTimeMinutes
+                );
+
+                let readableDayOfWeek = '';
+
+                if (dayOfWeek === 0) {
+                  readableDayOfWeek = 'Sun';
+                } else if (dayOfWeek === 1) {
+                  readableDayOfWeek = 'Mon';
+                } else if (dayOfWeek === 2) {
+                  readableDayOfWeek = 'Tue';
+                } else if (dayOfWeek === 3) {
+                  readableDayOfWeek = 'Wed';
+                } else if (dayOfWeek === 4) {
+                  readableDayOfWeek = 'Thu';
+                } else if (dayOfWeek === 5) {
+                  readableDayOfWeek = 'Fri';
+                } else if (dayOfWeek === 6) {
+                  readableDayOfWeek = 'Sat';
+                }
+
+                const text = `${readableDayOfWeek} ${openTime} - ${closeTime}`;
+
+                return (
+                  <EditableListItem
+                    key={index}
+                    text={text}
+                    onRemove={() => this.removeHoursOfOperationAtIndex(index)}
+                  />
+                );
+              })}
+
+              <View style={styles.pickerContainer}>
+                <Picker
+                  mode="dropdown"
+                  iosHeader="Select a day"
+                  iosIcon={
+                    <Ionicons
+                      name="ios-arrow-down-outline"
+                      style={stylesRaw.pickerIcon}
+                    />
+                  }
+                  style={styles.hoursPicker}
+                  textStyle={styles.hoursPickerText}
+                  selectedValue={selectedHoursDay}
+                  onValueChange={val => this.setState({ selectedHoursDay: val })}
+                >
+                  {pickerOptionsForDay.map((value, index) => (
+                    <Picker.Item label={value} value={index} key={index} />
+                  ))}
+                </Picker>
+
+                <Picker
+                  mode="dropdown"
+                  iosHeader="Select an opening time"
+                  iosIcon={
+                    <Ionicons
+                      name="ios-arrow-down-outline"
+                      style={stylesRaw.pickerIcon}
+                    />
+                  }
+                  style={styles.hoursPicker}
+                  textStyle={styles.hoursPickerText}
+                  selectedValue={selectedOpeningTime}
+                  onValueChange={val =>
+                    this.setState({ selectedOpeningTime: val })
+                  }
+                >
+                  {pickerOptionsForTime.map((option, index) => (
+                    <Picker.Item
+                      label={option.label}
+                      value={option.value}
+                      key={index}
+                    />
+                  ))}
+                </Picker>
+
+                <Picker
+                  mode="dropdown"
+                  iosHeader="Select a closing time"
+                  iosIcon={
+                    <Ionicons
+                      name="ios-arrow-down-outline"
+                      style={stylesRaw.pickerIcon}
+                    />
+                  }
+                  style={styles.hoursPicker}
+                  textStyle={styles.hoursPickerText}
+                  selectedValue={selectedClosingTime}
+                  onValueChange={val =>
+                    this.setState({ selectedClosingTime: val })
+                  }
+                >
+                  {pickerOptionsForTime.map((option, index) => (
+                    <Picker.Item
+                      label={option.label}
+                      value={option.value}
+                      key={index}
+                    />
+                  ))}
+                </Picker>
+              </View>
+
+              <TouchableOpacity
+                onPress={() => this.addSelectedHoursOfOperation()}
+                style={styles.addTextContainer}
+              >
+                <Text style={styles.addText}>Add Time</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.sectionBody}>
-            <ProfileDataField label="Address" value={address} />
-            <ProfileDataField label="City" value={city} />
-            <ProfileDataField label="State" value={region} />
-            <ProfileDataField label="Zip" value={postalCode} />
-            <ProfileDataField label="Country" value={country} />
-          </View>
-        </View>
 
-        <View style={styles.hoursContainer}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderText}>Hours</Text>
-          </View>
-          <View style={styles.hoursSectionBody}>
-            {hours.map((hour, index) => {
-              let {
-                dayOfWeek,
-                closeTimeHour,
-                closeTimeMinutes,
-                openTimeHour,
-                openTimeMinutes
-              } = hour;
-
-              if (closeTimeMinutes === 0) {
-                closeTimeMinutes = '00';
-              }
-
-              if (openTimeMinutes === 0) {
-                openTimeMinutes = '00';
-              }
-
-              const openTime = this.openTimeFormat(
-                openTimeHour,
-                openTimeMinutes
-              );
-
-              const closeTime = this.closeTimeFormat(
-                closeTimeHour,
-                closeTimeMinutes
-              );
-
-              let readableDayOfWeek = '';
-
-              if (dayOfWeek === 0) {
-                readableDayOfWeek = 'Sun';
-              } else if (dayOfWeek === 1) {
-                readableDayOfWeek = 'Mon';
-              } else if (dayOfWeek === 2) {
-                readableDayOfWeek = 'Tue';
-              } else if (dayOfWeek === 3) {
-                readableDayOfWeek = 'Wed';
-              } else if (dayOfWeek === 4) {
-                readableDayOfWeek = 'Thu';
-              } else if (dayOfWeek === 5) {
-                readableDayOfWeek = 'Fri';
-              } else if (dayOfWeek === 6) {
-                readableDayOfWeek = 'Sat';
-              }
-
-              const text = `${readableDayOfWeek} ${openTime} - ${closeTime}`;
-
-              return (
+          <View style={styles.categoriesContainer}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionHeaderText}>Categories</Text>
+            </View>
+            <View style={styles.categoriesSectionBody}>
+              {categories.map((category, index) => (
                 <EditableListItem
                   key={index}
-                  text={text}
-                  onRemove={() => this.removeHoursOfOperationAtIndex(index)}
+                  text={category}
+                  onRemove={() => this.removeCategoryAtIndex(index)}
                 />
-              );
-            })}
-
-            <View style={styles.pickerContainer}>
-              <Picker
-                mode="dropdown"
-                iosHeader="Select a day"
-                iosIcon={
-                  <Ionicons
-                    name="ios-arrow-down-outline"
-                    style={stylesRaw.pickerIcon}
-                  />
-                }
-                style={styles.hoursPicker}
-                textStyle={styles.hoursPickerText}
-                selectedValue={selectedHoursDay}
-                onValueChange={val => this.setState({ selectedHoursDay: val })}
-              >
-                {pickerOptionsForDay.map((value, index) => (
-                  <Picker.Item label={value} value={index} key={index} />
-                ))}
-              </Picker>
-
-              <Picker
-                mode="dropdown"
-                iosHeader="Select an opening time"
-                iosIcon={
-                  <Ionicons
-                    name="ios-arrow-down-outline"
-                    style={stylesRaw.pickerIcon}
-                  />
-                }
-                style={styles.hoursPicker}
-                textStyle={styles.hoursPickerText}
-                selectedValue={selectedOpeningTime}
-                onValueChange={val =>
-                  this.setState({ selectedOpeningTime: val })
-                }
-              >
-                {pickerOptionsForTime.map((option, index) => (
-                  <Picker.Item
-                    label={option.label}
-                    value={option.value}
-                    key={index}
-                  />
-                ))}
-              </Picker>
-
-              <Picker
-                mode="dropdown"
-                iosHeader="Select a closing time"
-                iosIcon={
-                  <Ionicons
-                    name="ios-arrow-down-outline"
-                    style={stylesRaw.pickerIcon}
-                  />
-                }
-                style={styles.hoursPicker}
-                textStyle={styles.hoursPickerText}
-                selectedValue={selectedClosingTime}
-                onValueChange={val =>
-                  this.setState({ selectedClosingTime: val })
-                }
-              >
-                {pickerOptionsForTime.map((option, index) => (
-                  <Picker.Item
-                    label={option.label}
-                    value={option.value}
-                    key={index}
-                  />
-                ))}
-              </Picker>
-            </View>
-
-            <TouchableOpacity
-              onPress={() => this.addSelectedHoursOfOperation()}
-              style={styles.addTextContainer}
-            >
-              <Text style={styles.addText}>Add Time</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        <View style={styles.categoriesContainer}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderText}>Categories</Text>
-          </View>
-          <View style={styles.categoriesSectionBody}>
-            {categories.map((category, index) => (
-              <EditableListItem
-                key={index}
-                text={category}
-                onRemove={() => this.removeCategoryAtIndex(index)}
-              />
-            ))}
-            {(() => {
-              if (this.state.temp_restaurantCategories.length != 0) {
-                return (
-                  <View style={styles.pickerContainer}>
-                    <Picker
-                      mode="dropdown"
-                      iosHeader="Select a category"
-                      iosIcon={
-                        <Ionicons
-                          name="ios-arrow-down-outline"
-                          style={stylesRaw.pickerIcon}
-                        />
-                      }
-                      style={styles.hoursPicker}
-                      textStyle={styles.hoursPickerText}
-                      selectedValue={selectedCategory}
-                      onValueChange={val =>
-                        this.setState({ selectedCategory: val })
-                      }
-                    >
-                      {this.state.temp_restaurantCategories.map(
-                        (value, index) => (
-                          <Picker.Item
-                            label={value}
-                            value={value}
-                            key={index}
+              ))}
+              {(() => {
+                if (this.state.temp_restaurantCategories.length != 0) {
+                  return (
+                    <View style={styles.pickerContainer}>
+                      <Picker
+                        mode="dropdown"
+                        iosHeader="Select a category"
+                        iosIcon={
+                          <Ionicons
+                            name="ios-arrow-down-outline"
+                            style={stylesRaw.pickerIcon}
                           />
-                        )
-                      )}
-                    </Picker>
+                        }
+                        style={styles.hoursPicker}
+                        textStyle={styles.hoursPickerText}
+                        selectedValue={selectedCategory}
+                        onValueChange={val =>
+                          this.setState({ selectedCategory: val })
+                        }
+                      >
+                        {this.state.temp_restaurantCategories.map(
+                          (value, index) => (
+                            <Picker.Item
+                              label={value}
+                              value={value}
+                              key={index}
+                            />
+                          )
+                        )}
+                      </Picker>
 
-                    <TouchableOpacity
-                      onPress={() => this.addSelectedCategory()}
-                    >
-                      <Text style={styles.addText}>Add Category</Text>
-                    </TouchableOpacity>
-                  </View>
-                );
-              }
-              return null;
-            })()}
-          </View>
-        </View>
-
-        <View style={styles.filtersContainer}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderText}>Search Filters</Text>
-          </View>
-          <Text style={styles.sectionSubHeaderText}>
-            Select the options your location offers
-          </Text>
-
-          <View style={styles.filtersHolder}>
-            <View style={styles.commonFilterPanel}>
-              <FilterItem
-                name="Open Now"
-                image={require('../../../../assets/images/filters/realtime-protection.png')}
-                style={{ marginBottom: 8 }}
-                toggleFilter={() => this.toggle('openNow')}
-                on={this.state.filters.find(x => x === "openNow") ? true : false}
-              />
-
-              <FilterItem
-                name="Price"
-                image={require('../../../../assets/images/filters/dollar-sign-icon.png')}
-                style={{ marginBottom: 8 }}
-                toggleFilter={() => this.toggle('price')}
-                on={this.state.filters.find(x => x === "price") ? true : false}
-              />
-
-              <FilterItem
-                name="Wifi"
-                image={require('../../../../assets/images/filters/wifi-icon.png')}
-                style={{ marginBottom: 8 }}
-                toggleFilter={() => this.toggle('wifi')}
-                on={this.state.filters.find(x => x === "wifi") ? true : false}
-              />
-
-              {/*<FilterItem
-                name="Delivery"
-                image={require('../../../../assets/images/filters/delivery.png')}
-                style={{ marginBottom: 8 }}
-                toggleFilter={() => this.toggle('delivery')}
-                on={this.state.filters.find(x => x === "delivery") ? true : false}
-              />*/}
+                      <TouchableOpacity
+                        onPress={() => this.addSelectedCategory()}
+                      >
+                        <Text style={styles.addText}>Add Category</Text>
+                      </TouchableOpacity>
+                    </View>
+                  );
+                }
+                return null;
+              })()}
             </View>
+          </View>
 
-            {this.state.filters.map(item => {
-              if (item === "price") {
-                return (
-                  <View
-                    key={item}
-                    style={{
-                      flex: 1,
-                      height: 50,
-                      marginRight: 15,
-                      marginTop: 10,
-                      marginBottom: 15,
-                      position: 'relative',
-                      flexDirection: 'row'
-                    }}
-                  >
+          <View style={styles.filtersContainer}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionHeaderText}>Search Filters</Text>
+            </View>
+            <Text style={styles.sectionSubHeaderText}>
+              Select the options your location offers
+            </Text>
+
+            <View style={styles.filtersHolder}>
+              <View style={styles.commonFilterPanel}>
+                <FilterItem
+                  name="Open Now"
+                  image={require('../../../../assets/images/filters/realtime-protection.png')}
+                  style={{ marginBottom: 8 }}
+                  toggleFilter={() => this.toggle('openNow')}
+                  on={this.state.filters.find(x => x === "openNow") ? true : false}
+                />
+
+                <FilterItem
+                  name="Price"
+                  image={require('../../../../assets/images/filters/dollar-sign-icon.png')}
+                  style={{ marginBottom: 8 }}
+                  toggleFilter={() => this.toggle('price')}
+                  on={this.state.filters.find(x => x === "price") ? true : false}
+                />
+
+                <FilterItem
+                  name="Wifi"
+                  image={require('../../../../assets/images/filters/wifi-icon.png')}
+                  style={{ marginBottom: 8 }}
+                  toggleFilter={() => this.toggle('wifi')}
+                  on={this.state.filters.find(x => x === "wifi") ? true : false}
+                />
+
+                {/*<FilterItem
+                  name="Delivery"
+                  image={require('../../../../assets/images/filters/delivery.png')}
+                  style={{ marginBottom: 8 }}
+                  toggleFilter={() => this.toggle('delivery')}
+                  on={this.state.filters.find(x => x === "delivery") ? true : false}
+                />*/}
+              </View>
+
+              {this.state.filters.map(item => {
+                if (item === "price") {
+                  return (
                     <View
-                      style={{
-                        width: wp('13.33%'),
-                        height: 50,
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        zIndex: 1
-                      }}
-                    >
-                      <Text
-                        style={{
-                          color: COLOR_GREEN,
-                          fontSize: 17,
-                          width: wp('13.33%'),
-                          height: 20
-                        }}
-                      >
-                        $
-                      </Text>
-
-                      <View
-                        style={[
-                          styles.priceBarIndicator,
-                          {
-                            backgroundColor:
-                              this.state.pricing > 0.0
-                                ? 'rgba(255,255,255,1.0)'
-                                : null
-                          }
-                        ]}
-                      />
-                    </View>
-
-                    <View
-                      style={{
-                        width: wp('13.33%'),
-                        left: price2Indicator,
-                        position: 'absolute',
-                        height: 50,
-                        flexDirection: 'column',
-                        zIndex: 1,
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <Text
-                        style={[
-                          {
-                            fontSize: 17,
-                            height: 20,
-                            textAlign: 'center',
-                            width: wp('13.33%')
-                          },
-                          {
-                            color:
-                              this.state.pricing >= 1
-                                ? COLOR_GREEN
-                                : 'rgba(255,255,255,1.0)'
-                          }
-                        ]}
-                      >
-                        $$
-                      </Text>
-
-                      <View
-                        style={[
-                          styles.priceBarIndicator,
-                          {
-                            backgroundColor:
-                              this.state.pricing === 1
-                                ? null
-                                : 'rgba(255,255,255,1.0)'
-                          }
-                        ]}
-                      />
-                    </View>
-
-                    <View
-                      style={{
-                        width: wp('13.33%'),
-                        position: 'absolute',
-                        left: price3Indicator,
-                        height: 50,
-                        flexDirection: 'column',
-                        zIndex: 1,
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <Text
-                        style={[
-                          {
-                            fontSize: 17,
-                            height: 20,
-                            marginLeft: 2,
-                            textAlign: 'center',
-                            width: wp('13.33%')
-                          },
-                          {
-                            color:
-                              this.state.pricing >= 2
-                                ? COLOR_GREEN
-                                : 'rgba(255,255,255,1.0)'
-                          }
-                        ]}
-                      >
-                        $$$
-                      </Text>
-
-                      <View
-                        style={[
-                          styles.priceBarIndicator,
-                          {
-                            backgroundColor:
-                              this.state.pricing === 2
-                                ? null
-                                : 'rgba(255,255,255,1.0)'
-                          }
-                        ]}
-                      />
-                    </View>
-
-                    <View
-                      style={{
-                        width: wp('13.33%'),
-                        height: 50,
-                        position: 'absolute',
-                        left: price4Indicator,
-                        flexDirection: 'column',
-                        zIndex: 1,
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                      }}
-                    >
-                      <Text
-                        style={[
-                          {
-                            fontSize: 17,
-                            height: 20,
-                            textAlign: 'center',
-                            width: wp('13.33%')
-                          },
-                          {
-                            color:
-                              this.state.pricing >= 3
-                                ? COLOR_GREEN
-                                : 'rgba(255,255,255,1.0)'
-                          }
-                        ]}
-                      >
-                        $$$$
-                      </Text>
-
-                      <View
-                        style={[
-                          styles.priceBarIndicator,
-                          {
-                            backgroundColor:
-                              this.state.pricing >= 3
-                                ? null
-                                : 'rgba(255,255,255,1.0)'
-                          }
-                        ]}
-                      />
-                    </View>
-
-                    <View
+                      key={item}
                       style={{
                         flex: 1,
-                        zIndex: 10,
-                        position: 'absolute',
-                        left: 0,
-                        right: 0,
-                        bottom: -12
+                        height: 50,
+                        marginRight: 15,
+                        marginTop: 10,
+                        marginBottom: 15,
+                        position: 'relative',
+                        flexDirection: 'row'
                       }}
                     >
-                      <Slider
-                        minimumValue={0}
-                        maximumValue={3}
-                        step={1}
-                        minimumTrackTintColor="rgb(47,212,117)"
-                        maximumTrackTintColor="rgb(230,230,230)"
-                        thumbTintColor="rgb(255,254,255)"
-                        thumbStyle={{ height: 18, width: 18 }}
-                        value={this.state.pricing}
-                        onSlidingComplete={value =>
-                          this.setState({ pricing: value })
-                        }
-                        // onSlidingStart={value =>
-                        //   this.state.slidervalue >= 99.9
-                        //     ? this.setState({ slidervalue: value - 0.1 })
-                        //     : this.setState({ slidervalue: value + 0.1 })
-                        // }
-                        trackStyle={{ height: 3 }}
-                      />
+                      <View
+                        style={{
+                          width: wp('13.33%'),
+                          height: 50,
+                          flexDirection: 'column',
+                          justifyContent: 'space-between',
+                          zIndex: 1
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: COLOR_GREEN,
+                            fontSize: 17,
+                            width: wp('13.33%'),
+                            height: 20
+                          }}
+                        >
+                          $
+                        </Text>
+
+                        <View
+                          style={[
+                            styles.priceBarIndicator,
+                            {
+                              backgroundColor:
+                                this.state.pricing > 0.0
+                                  ? 'rgba(255,255,255,1.0)'
+                                  : null
+                            }
+                          ]}
+                        />
+                      </View>
+
+                      <View
+                        style={{
+                          width: wp('13.33%'),
+                          left: price2Indicator,
+                          position: 'absolute',
+                          height: 50,
+                          flexDirection: 'column',
+                          zIndex: 1,
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <Text
+                          style={[
+                            {
+                              fontSize: 17,
+                              height: 20,
+                              textAlign: 'center',
+                              width: wp('13.33%')
+                            },
+                            {
+                              color:
+                                this.state.pricing >= 1
+                                  ? COLOR_GREEN
+                                  : 'rgba(255,255,255,1.0)'
+                            }
+                          ]}
+                        >
+                          $$
+                        </Text>
+
+                        <View
+                          style={[
+                            styles.priceBarIndicator,
+                            {
+                              backgroundColor:
+                                this.state.pricing === 1
+                                  ? null
+                                  : 'rgba(255,255,255,1.0)'
+                            }
+                          ]}
+                        />
+                      </View>
+
+                      <View
+                        style={{
+                          width: wp('13.33%'),
+                          position: 'absolute',
+                          left: price3Indicator,
+                          height: 50,
+                          flexDirection: 'column',
+                          zIndex: 1,
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <Text
+                          style={[
+                            {
+                              fontSize: 17,
+                              height: 20,
+                              marginLeft: 2,
+                              textAlign: 'center',
+                              width: wp('13.33%')
+                            },
+                            {
+                              color:
+                                this.state.pricing >= 2
+                                  ? COLOR_GREEN
+                                  : 'rgba(255,255,255,1.0)'
+                            }
+                          ]}
+                        >
+                          $$$
+                        </Text>
+
+                        <View
+                          style={[
+                            styles.priceBarIndicator,
+                            {
+                              backgroundColor:
+                                this.state.pricing === 2
+                                  ? null
+                                  : 'rgba(255,255,255,1.0)'
+                            }
+                          ]}
+                        />
+                      </View>
+
+                      <View
+                        style={{
+                          width: wp('13.33%'),
+                          height: 50,
+                          position: 'absolute',
+                          left: price4Indicator,
+                          flexDirection: 'column',
+                          zIndex: 1,
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <Text
+                          style={[
+                            {
+                              fontSize: 17,
+                              height: 20,
+                              textAlign: 'center',
+                              width: wp('13.33%')
+                            },
+                            {
+                              color:
+                                this.state.pricing >= 3
+                                  ? COLOR_GREEN
+                                  : 'rgba(255,255,255,1.0)'
+                            }
+                          ]}
+                        >
+                          $$$$
+                        </Text>
+
+                        <View
+                          style={[
+                            styles.priceBarIndicator,
+                            {
+                              backgroundColor:
+                                this.state.pricing >= 3
+                                  ? null
+                                  : 'rgba(255,255,255,1.0)'
+                            }
+                          ]}
+                        />
+                      </View>
+
+                      <View
+                        style={{
+                          flex: 1,
+                          zIndex: 10,
+                          position: 'absolute',
+                          left: 0,
+                          right: 0,
+                          bottom: -12
+                        }}
+                      >
+                        <Slider
+                          minimumValue={0}
+                          maximumValue={3}
+                          step={1}
+                          minimumTrackTintColor="rgb(47,212,117)"
+                          maximumTrackTintColor="rgb(230,230,230)"
+                          thumbTintColor="rgb(255,254,255)"
+                          thumbStyle={{ height: 18, width: 18 }}
+                          value={this.state.pricing}
+                          onSlidingComplete={value =>
+                            this.setState({ pricing: value })
+                          }
+                          // onSlidingStart={value =>
+                          //   this.state.slidervalue >= 99.9
+                          //     ? this.setState({ slidervalue: value - 0.1 })
+                          //     : this.setState({ slidervalue: value + 0.1 })
+                          // }
+                          trackStyle={{ height: 3 }}
+                        />
+                      </View>
                     </View>
-                  </View>
-                );
-              }
-            })}
+                  );
+                }
+              })}
 
-            {/*<View style={styles.commonFilterPanel}>
-              <FilterItem
-                name="Breakfast"
-                image={require('../../../../assets/images/filters/breakfast.png')}
-                style={{ marginTop: 8 }}
-                toggleFilter={() => this.toggle('breakfast')}
-                on={this.state.filters.find(x => x === "breakfast") ? true : false}
-              />
+              {/*<View style={styles.commonFilterPanel}>
+                <FilterItem
+                  name="Breakfast"
+                  image={require('../../../../assets/images/filters/breakfast.png')}
+                  style={{ marginTop: 8 }}
+                  toggleFilter={() => this.toggle('breakfast')}
+                  on={this.state.filters.find(x => x === "breakfast") ? true : false}
+                />
 
-              <FilterItem
-                name="Lunch"
-                image={require('../../../../assets/images/filters/lunch_filter.png')}
-                style={{ marginTop: 8 }}
-                toggleFilter={() => this.toggle('lunch')}
-                on={this.state.filters.find(x => x === "lunch") ? true : false}
-              />
+                <FilterItem
+                  name="Lunch"
+                  image={require('../../../../assets/images/filters/lunch_filter.png')}
+                  style={{ marginTop: 8 }}
+                  toggleFilter={() => this.toggle('lunch')}
+                  on={this.state.filters.find(x => x === "lunch") ? true : false}
+                />
 
-              <FilterItem
-                name="Dinner"
-                image={require('../../../../assets/images/filters/dinner_filter.png')}
-                style={{ marginTop: 8 }}
-                toggleFilter={() => this.toggle('dinner')}
-                on={this.state.filters.find(x => x === "dinner") ? true : false}
-              />
+                <FilterItem
+                  name="Dinner"
+                  image={require('../../../../assets/images/filters/dinner_filter.png')}
+                  style={{ marginTop: 8 }}
+                  toggleFilter={() => this.toggle('dinner')}
+                  on={this.state.filters.find(x => x === "dinner") ? true : false}
+                />
 
-              <FilterItem
-                name="Coffee"
-                image={require('../../../../assets/images/filters/coffee_filter.png')}
-                style={{ marginTop: 8 }}
-                toggleFilter={() => this.toggle('coffee')}
-                on={this.state.filters.find(x => x === "coffee") ? true : false}
-              />
-            </View>*/}
+                <FilterItem
+                  name="Coffee"
+                  image={require('../../../../assets/images/filters/coffee_filter.png')}
+                  style={{ marginTop: 8 }}
+                  toggleFilter={() => this.toggle('coffee')}
+                  on={this.state.filters.find(x => x === "coffee") ? true : false}
+                />
+              </View>*/}
+            </View>
           </View>
-        </View>
 
-        <View style={styles.filtersContainer}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderText}>Submit</Text>
+          <View style={styles.filtersContainer}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionHeaderText}>Submit</Text>
+            </View>
+            <Text style={styles.sectionSubHeaderText}>
+              We will send you an email to verify your information
+            </Text>
+
+            <ProfileTextInput
+              showLabel={false}
+              label=""
+              style={{ marginTop: 20 }}
+              onChange={val => this.setState({ email: val })}
+              placeholder=""
+              keyboardType="email-address"
+              type="name"
+              showInputBottomBorder
+              borderBottomColor="rgba(255,255,255,0.53)"
+              value={email}
+            />
           </View>
-          <Text style={styles.sectionSubHeaderText}>
-            We will send you an email to verify your information
-          </Text>
-
-          <ProfileTextInput
-            showLabel={false}
-            label=""
-            style={{ marginTop: 20 }}
-            onChange={val => this.setState({ email: val })}
-            placeholder=""
-            keyboardType="email-address"
-            type="name"
-            showInputBottomBorder
-            borderBottomColor="rgba(255,255,255,0.53)"
-            value={email}
-          />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }

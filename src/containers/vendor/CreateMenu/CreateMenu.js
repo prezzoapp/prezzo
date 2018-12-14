@@ -209,27 +209,46 @@ import {
   SectionList,
   Text,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  KeyboardAvoidingView
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { MaterialIcons } from '../../../components/VectorIcons';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import MenuItem from '../../../components/MenuItem';
-import { COLOR_BLACK } from '../../../services/constants';
+import { COLOR_BLACK, FONT_FAMILY_MEDIUM } from '../../../services/constants';
 import styles from './styles';
 import MenuListCategoriesHeader from '../../../components/MenuListCategoriesHeader';
 
 export default class CreateMenu extends Component<Props> {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     title: 'Create Menu',
     headerTintColor: 'white',
     headerStyle: {
       backgroundColor: COLOR_BLACK,
       borderBottomWidth: 0
     },
+    headerTitleStyle: {
+      fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
+      fontSize: wp('6.4%')
+    },
     tabBarIcon: props => (
       <MaterialIcons name="person-outline" size={24} color={props.tintColor} />
+    ),
+    headerLeft: (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.goBack()}
+        style={styles.headerLeftBtn}>
+        <Feather
+          title="Back"
+          name="chevron-left"
+          color="white"
+          size={wp('8%')}
+        />
+      </TouchableOpacity>
     )
-  };
+  });
 
   renderListFooter = () => (
     <View style={styles.listFooterHolder}>
@@ -307,10 +326,6 @@ export default class CreateMenu extends Component<Props> {
        this.props.addCategory(this.props.menuId, categoryName);
 
      }
-
-  // if (tempArray.indexOf(selectedCategory) > 0) {
-  // }
-
  }
 
   render() {
@@ -320,11 +335,12 @@ export default class CreateMenu extends Component<Props> {
       : [];
 
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior='padding' keyboardVerticalOffset={40}>
         <View style={{ flex: 1 }}>
           <SectionList
             showsVerticalScrollIndicator={false}
             extraData={array}
+            contentContainerStyle={styles.sectionListStyle}
             keyExtractor={(item, index) => item + index}
             sections={array}
             renderSectionHeader={({ section }) =>
@@ -390,7 +406,7 @@ export default class CreateMenu extends Component<Props> {
             <ActivityIndicator size="large" color="white"/>
           </View>
         ) : null}
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

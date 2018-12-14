@@ -1,8 +1,9 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
+import { Constants } from 'expo';
 import { Header } from 'react-navigation';
 
 import { FONT_FAMILY } from '../../../services/constants';
@@ -11,7 +12,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2B2C2C',
-    paddingTop: Header.HEIGHT + hp('1.5%')
+    paddingTop:
+      Header.HEIGHT +
+      Constants.statusBarHeight -
+      (Platform.OS === 'ios' ? 20 : 0)
   },
 
   absoluteView: {

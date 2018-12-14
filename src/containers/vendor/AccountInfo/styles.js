@@ -57,12 +57,12 @@ export default StyleSheet.create({
     width: SECTION_WIDTH
   },
   container: {
-    backgroundColor: COLOR_BLACK,
-    flex: 1
+    backgroundColor: COLOR_BLACK
   },
   containerContentStyle: {
     alignItems: 'center',
-    paddingBottom: 50
+    paddingBottom: 50,
+    paddingTop: hp('2%')
   },
   editAvatarIcon: {
     width: AVATAR_SIZE / 3,

@@ -2,20 +2,26 @@
 import * as React from 'react';
 import { Image, View, Alert, TouchableOpacity, Text } from 'react-native';
 import PropTypes from 'prop-types';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { MaterialIcons } from '../../../components/VectorIcons';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
 import styles from './styles';
+import {
+  FONT_FAMILY_MEDIUM
+} from '../../../services/constants';
 
 export default class AccountMenu extends React.Component {
   static navigationOptions = {
-    tabBarIcon: props => (
-      <MaterialIcons name="person-outline" size={24} color={props.tintColor} />
-    ),
     headerStyle: {
       backgroundColor: '#2B2C2C',
       borderBottomWidth: 0
     },
+    headerTitleStyle: {
+      fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
+      fontSize: wp('6.4%')
+    },
+    headerBackTitle: null,
     headerTintColor: '#fff',
     title: 'Vendor Account'
   };

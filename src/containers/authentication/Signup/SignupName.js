@@ -1,6 +1,9 @@
 // @flow
 import React from 'react';
-import {ImageBackground, Text, StyleSheet} from 'react-native';
+import {ImageBackground, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Platform} from 'react-native';
+import { Header } from 'react-navigation';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Constants } from 'expo';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -28,10 +31,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4A4A4A',
+    paddingTop: Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0)
+  },
+  scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingTop: containerPaddingTopBottom,
-    paddingBottom: containerPaddingTopBottom
+    paddingBottom: containerPaddingTopBottom,
+    paddingTop: hp('3.50%')
   },
   headerText: {
     fontSize: 30,
@@ -58,8 +64,15 @@ const nextButtonStyle = {
 
 class SignupName extends React.Component<Props, State> {
   static navigationOptions = {
-    headerStyle: styles.navigation,
-    headerTintColor: '#fff'
+    headerTintColor: '#fff',
+    headerStyle: {
+      backgroundColor: 'transparent',
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      left: 0,
+      borderBottomColor: 'transparent'
+    }
   };
 
   isFormValid() {
@@ -75,34 +88,41 @@ class SignupName extends React.Component<Props, State> {
     const {firstName, lastName} = this.props;
 
     return (
-      <ImageBackground
-        style={styles.container}
-        source={require('../../../../assets/images/bg/authentication.png')}
-      >
-        <Text style={styles.headerText}>
-          What's your name?
-        </Text>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : null}>
+          <ImageBackground
+            style={styles.container}
+            source={require('../../../../assets/images/bg/authentication.png')}
+          >
+          <ScrollView
+            contentContainerStyle={styles.scrollView}>
+            <Text style={styles.headerText}>
+              What's your name?
+            </Text>
 
-        <LoginTextInput
-          type='name'
-          label='First Name'
-          value={firstName}
-          onChange={val => this.props.updateFirstName(val)}
-        />
+            <LoginTextInput
+              type='name'
+              label='First Name'
+              value={firstName}
+              onChange={val => this.props.updateFirstName(val)}
+            />
 
-        <LoginTextInput
-          type='name'
-          label='Last Name'
-          value={lastName}
-          onChange={val => this.props.updateLastName(val)}
-        />
+            <LoginTextInput
+              type='name'
+              label='Last Name'
+              value={lastName}
+              onChange={val => this.props.updateLastName(val)}
+            />
 
-        <NextButton
-          style={nextButtonStyle}
-          onPress={() => this.navigateToSignupEmail()}
-          disabled={!this.isFormValid()}
-        />
-      </ImageBackground>
+            <NextButton
+              style={nextButtonStyle}
+              onPress={() => this.navigateToSignupEmail()}
+              disabled={!this.isFormValid()}
+            />
+          </ScrollView>
+        </ImageBackground>
+      </KeyboardAvoidingView>
     );
   }
 }

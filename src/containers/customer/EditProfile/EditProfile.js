@@ -41,9 +41,6 @@ type State = {
 class EditProfile extends Component<Props, State> {
   static navigationOptions = {
     title: 'Profile',
-    tabBarIcon: props => (
-      <MaterialIcons name="person-outline" size={24} color={props.tintColor} />
-    ),
     headerTintColor: 'white',
     headerTitleStyle: {
       fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),

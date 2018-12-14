@@ -5,11 +5,15 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
+import { Header } from 'react-navigation';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Constants } from 'expo';
 import { findUser } from '../../../modules/user';
 import {
   updateEmail,
@@ -40,7 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4A4A4A',
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingTop: containerPaddingTopBottom,
+    paddingTop: hp('3.50%') + (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0)),
     paddingBottom: containerPaddingTopBottom
   },
   headerText: {
@@ -88,7 +92,14 @@ const nextButtonStyle = {
 
 class SignupEmail extends React.Component<Props> {
   static navigationOptions = {
-    headerStyle: styles.navigation,
+    headerStyle: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      left: 0,
+      backgroundColor: 'transparent',
+      borderBottomColor: 'transparent'
+    },
     headerTintColor: '#fff'
   };
 

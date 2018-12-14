@@ -1,5 +1,6 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { Header } from 'react-navigation';
+import { Constants } from 'expo';
 
 import { FONT_FAMILY_MEDIUM } from '../../../services/constants';
 
@@ -8,7 +9,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2B2C2C',
     justifyContent: 'space-between',
-    paddingTop: Header.HEIGHT + 5
+    paddingTop:
+      Header.HEIGHT +
+      Constants.statusBarHeight -
+      (Platform.OS === 'ios' ? 20 : 0)
   },
 
   map: {

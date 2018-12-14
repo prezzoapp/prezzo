@@ -1,5 +1,6 @@
 // @flow
 import { StyleSheet } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import {
   FONT_FAMILY,
   FONT_FAMILY_BOLD,
@@ -11,7 +12,11 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLOR_BLACK,
-    paddingHorizontal: 20
+    paddingHorizontal: wp('5.33%')
+  },
+
+  sectionListStyle: {
+    paddingTop: hp('2%')
   },
 
   spinnerView: {
@@ -95,5 +100,9 @@ export default StyleSheet.create({
     color: 'white',
     marginVertical: 0,
     textAlignVertical: 'top'
+  },
+
+  headerLeftBtn: {
+    marginLeft: wp('3%')
   }
 });

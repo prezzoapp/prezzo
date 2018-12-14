@@ -11,14 +11,9 @@ import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
 class Profile extends Component {
   static navigationOptions = {
     title: 'Profile',
+    headerBackTitle: null,
     headerStyle: {
-      //position: 'absolute',
       backgroundColor: '#2B2C2C',
-      // backgroundColor: 'orange',
-      //zIndex: 100,
-      //top: 0,
-      //left: 0,
-      //right: 0,
       shadowColor: 'transparent',
       borderBottomWidth: 0
     },

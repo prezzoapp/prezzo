@@ -70,7 +70,8 @@ const AuthenticationNavigator = createStackNavigator(
     SignupComplete: { screen: SignupComplete }
   },
   {
-    initialRouteName: 'Tutorial'
+    initialRouteName: 'Tutorial',
+    headerMode: 'screen'
   }
 );
 
@@ -82,7 +83,8 @@ const CustomerProfileNavigator = createStackNavigator({
     LocationSearch: { screen: LocationSearch }
   },
   {
-    initialRouteName: 'Profile'
+    initialRouteName: 'Profile',
+    headerMode: 'screen'
   }
 );
 

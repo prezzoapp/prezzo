@@ -18,6 +18,7 @@ import styles from './styles';
 class PaymentMenu extends Component {
   static navigationOptions = {
     title: 'Payment Methods',
+    headerBackTitle: null,
     headerStyle: {
       backgroundColor: '#2B2C2C',
       shadowColor: 'transparent',

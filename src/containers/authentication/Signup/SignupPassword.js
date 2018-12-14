@@ -7,11 +7,15 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  ActionSheetIOS
+  ActionSheetIOS,
+  ScrollView,
+  Platform,
+  KeyboardAvoidingView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, Header } from 'react-navigation';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { uploadImage } from '../../../modules/upload';
 import { updateUser } from '../../../modules/user';
 import { updateAvatarURL, updatePassword, signup } from '../../../modules/Signup';
@@ -20,7 +24,7 @@ import LoginTextInput from '../../../components/LoginTextInput';
 import FacebookButton from '../../../components/FacebookButton';
 import Button from '../../../components/Button';
 import NextButton from './NextButton';
-import { ImagePicker, Permissions } from 'expo';
+import { ImagePicker, Permissions, Constants } from 'expo';
 import { getTimeStampString } from '../../../services/commonFunctions';
 
 type Props = {
@@ -48,10 +52,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4A4A4A',
+    paddingTop: Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0)
+  },
+  scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingTop: containerPaddingTopBottom,
-    paddingBottom: containerPaddingTopBottom
+    paddingBottom: containerPaddingTopBottom,
+    paddingTop: hp('3.50%')
   },
   headerText: {
     fontSize: 30,
@@ -145,7 +152,14 @@ const buttonStyles = {
 
 class SignupPassword extends React.Component<Props, State> {
   static navigationOptions = {
-    headerStyle: styles.navigation,
+    headerStyle: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      left: 0,
+      backgroundColor: 'transparent',
+      borderBottomColor: 'transparent'
+    },
     headerTintColor: '#fff'
   };
 
@@ -271,90 +285,97 @@ class SignupPassword extends React.Component<Props, State> {
     const { firstName, email, password, avatarURL } = this.props;
 
     return (
-      <ImageBackground
-        style={styles.container}
-        source={require('../../../../assets/images/bg/authentication.png')}
-      >
-        <Text style={styles.headerText}>
-          Awesome, you're almost done!
-        </Text>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : null}>
+        <ImageBackground
+          style={styles.container}
+          source={require('../../../../assets/images/bg/authentication.png')}
+        >
+          <ScrollView
+            contentContainerStyle={styles.scrollView}>
+          <Text style={styles.headerText}>
+            Awesome, you're almost done!
+          </Text>
 
-        <View style={styles.profileContainer}>
-          <TouchableOpacity
-            style={styles.avatarContainer}
-            onPress={() => this.showAvatarActionSheet()}
-          >
-            <Image
-              style={styles.avatar}
-              source={
-                avatarURL
-                  ? { uri: avatarURL }
-                  : require('../../../../assets/images/etc/default-avatar.png')
-              }
-            />
-            <Image
-              style={styles.editAvatarIcon}
-              source={require('../../../../assets/images/icons/edit.png')}
-            />
-          </TouchableOpacity>
+          <View style={styles.profileContainer}>
+            <TouchableOpacity
+              style={styles.avatarContainer}
+              onPress={() => this.showAvatarActionSheet()}
+            >
+              <Image
+                style={styles.avatar}
+                source={
+                  avatarURL
+                    ? { uri: avatarURL }
+                    : require('../../../../assets/images/etc/default-avatar.png')
+                }
+              />
+              <Image
+                style={styles.editAvatarIcon}
+                source={require('../../../../assets/images/icons/edit.png')}
+              />
+            </TouchableOpacity>
 
-          <View style={styles.nameAndEmailContainer}>
-            <Text style={styles.name}>
-              {firstName}
-            </Text>
+            <View style={styles.nameAndEmailContainer}>
+              <Text style={styles.name}>
+                {firstName}
+              </Text>
 
-            <Text style={styles.email}>
-              {email}
-            </Text>
+              <Text style={styles.email}>
+                {email}
+              </Text>
+            </View>
           </View>
-        </View>
 
-        {
-          !showPassword && (
-            <View style={styles.buttonsContainer}>
-              <FacebookButton
-                disabled={isBusy}
-                onStart={() => this.setState({ isBusy: true })}
-                onFailure={() => this.setState({ isBusy: false })}
-                onCancel={() => this.setState({ isBusy: false })}
-                onSuccess={(facebookId, accessToken) => {
-                  console.log('facebook info', facebookId, accessToken);
-                }}
+          {
+            !showPassword && (
+              <View style={styles.buttonsContainer}>
+                <FacebookButton
+                  disabled={isBusy}
+                  onStart={() => this.setState({ isBusy: true })}
+                  onFailure={() => this.setState({ isBusy: false })}
+                  onCancel={() => this.setState({ isBusy: false })}
+                  onSuccess={(facebookId, accessToken) => {
+                    console.log('facebook info', facebookId, accessToken);
+                  }}
+                />
+
+                <Button
+                  style={buttonStyles.password}
+                  onPress={() => this.setState({ showPassword: true })}
+                >
+                  Create Password
+                </Button>
+              </View>
+            )
+          }
+
+          {
+            showPassword && (
+              <View style={styles.passwordContainer}>
+                <LoginTextInput
+                  type='password'
+                  label='Password'
+                  value={password}
+                  onChange={value => this.props.updatePassword(value)}
+                />
+              </View>
+            )
+          }
+
+          {
+            showPassword && !isBusy && (
+              <NextButton
+                style={buttonStyles.next}
+                disabled={!this.isFormValid()}
+                onPress={() => this.signup()}
               />
-
-              <Button
-                style={buttonStyles.password}
-                onPress={() => this.setState({ showPassword: true })}
-              >
-                Create Password
-              </Button>
-            </View>
-          )
-        }
-
-        {
-          showPassword && (
-            <View style={styles.passwordContainer}>
-              <LoginTextInput
-                type='password'
-                label='Password'
-                value={password}
-                onChange={value => this.props.updatePassword(value)}
-              />
-            </View>
-          )
-        }
-
-        {
-          showPassword && !isBusy && (
-            <NextButton
-              style={buttonStyles.next}
-              disabled={!this.isFormValid()}
-              onPress={() => this.signup()}
-            />
-          )
-        }
-      </ImageBackground>
+            )
+          }
+          </ScrollView>
+        </ImageBackground>
+      </KeyboardAvoidingView>
     );
   }
 }

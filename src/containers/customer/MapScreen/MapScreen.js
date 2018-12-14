@@ -235,11 +235,11 @@ import { View, Text, Image } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
+import publicIP from 'react-native-public-ip';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
 import showGenericAlert from '../../../components/GenericAlert';
-import publicIP from 'react-native-public-ip';
 
 export default class MapScreen extends Component {
   static navigationOptions = {

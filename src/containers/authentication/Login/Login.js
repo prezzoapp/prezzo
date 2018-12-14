@@ -1,19 +1,23 @@
 // @flow
 import React from 'react';
+import { Header } from 'react-navigation';
 import {
   ImageBackground,
   View,
   Text,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
+import { Constants } from 'expo';
 import LoadingComponent from '../../../components/LoadingComponent';
-
 
 type Props = {
   loginWithEmail: Function,
@@ -33,7 +37,8 @@ class Login extends React.Component<Props, State> {
       zIndex: 100,
       top: 0,
       left: 0,
-      right: 0
+      right: 0,
+      borderBottomColor: 'transparent'
     },
     headerTintColor: '#fff'
   };
@@ -78,55 +83,61 @@ class Login extends React.Component<Props, State> {
     const { email, password } = this.state;
 
     return (
-      <ImageBackground
-        style={styles.container}
-        source={require('../../../../assets/images/bg/authentication.png')}
-      >
-        <Text testID="welcomeText" style={styles.headerText}>
-          Welcome back!
-        </Text>
-
-        <Text testID="signinText" style={styles.subHeaderText}>
-          Sign In To Continue
-        </Text>
-
-        <LoginTextInput
-          type="email"
-          label="Email Address"
-          value={email}
-          onChange={email => this.setState({ email })}
-        />
-
-        <LoginTextInput
-          type="password"
-          label="Password"
-          value={password}
-          onChange={password => this.setState({ password })}
-        />
-
-        <TouchableOpacity
-          testID="signupButton"
-          style={styles.signupLabelContainer}
-          onPress={() => this.navigateToSignup()}
-        >
-          <Text style={styles.signupLabel}>Don't have an account?</Text>
-
-          <Text style={styles.signupLink}>Sign Up</Text>
-        </TouchableOpacity>
-
-        <View style={styles.buttonContainer}>
-          <Button
-            style={buttonStyles.login}
-            textStyle={buttonStyles.loginText}
-            onPress={() => this.login()}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior='padding'>
+          <ImageBackground
+            style={styles.container}
+            source={require('../../../../assets/images/bg/authentication.png')}
           >
-            Sign In
-          </Button>
+            <ScrollView
+              contentContainerStyle={styles.scrollView}>
+              <Text testID="welcomeText" style={styles.headerText}>
+                Welcome back!
+              </Text>
 
-        </View>
-        <LoadingComponent visible={this.props.isBusy} />
+              <Text testID="signinText" style={styles.subHeaderText}>
+                Sign In To Continue
+              </Text>
 
-      </ImageBackground>
+              <LoginTextInput
+                type="email"
+                label="Email Address"
+                value={email}
+                onChange={email => this.setState({ email })}
+              />
+
+              <LoginTextInput
+                type="password"
+                label="Password"
+                value={password}
+                onChange={password => this.setState({ password })}
+              />
+
+              <TouchableOpacity
+                testID="signupButton"
+                style={styles.signupLabelContainer}
+                onPress={() => this.navigateToSignup()}
+              >
+                <Text style={styles.signupLabel}>Don't have an account?</Text>
+
+                <Text style={styles.signupLink}>Sign Up</Text>
+              </TouchableOpacity>
+
+              <View style={styles.buttonContainer}>
+                <Button
+                  style={buttonStyles.login}
+                  textStyle={buttonStyles.loginText}
+                  onPress={() => this.login()}
+                >
+                  Sign In
+                </Button>
+
+              </View>
+            </ScrollView>
+          </ImageBackground>
+          <LoadingComponent visible={this.props.isBusy} />
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -138,10 +149,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4A4A4A',
+    paddingTop: Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0)
+  },
+  scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingTop: hp('13.42%'),
-    paddingBottom: containerPaddingTopBottom
+    paddingBottom: containerPaddingTopBottom,
+    paddingTop: hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0))
   },
   headerText: {
     fontSize: 30,
