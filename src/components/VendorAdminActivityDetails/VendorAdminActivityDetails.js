@@ -22,11 +22,14 @@ export default class VendorAdminActivityDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerLeft: (
-        <TouchableOpacity onPress={() => navigation.goBack()} >
-          <View
+        <View
+          style={{ flexDirection: 'row', width: wp('90%'), alignItems: 'center' }}
+        >
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
             style={{
               flexDirection: 'row',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
               alignItems: 'center'
             }}
           >
@@ -43,20 +46,34 @@ export default class VendorAdminActivityDetails extends Component {
                 width: wp('11.73%'),
                 height: wp('11.73%'),
                 borderColor: 'white',
-                marginLeft: 10,
-                borderWidth: 2,
+                marginRight: wp('2.5%'),
+                borderWidth: 1,
                 borderRadius: wp('5.86%')
               }}
-              source={navigation.state.params.userImage}
+              source={
+                navigation.state.params.userImage === ''
+                  ? require('../../../assets/images/etc/default-avatar.png')
+                  : { uri: navigation.state.params.userImage }
+              }
             />
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: wp('6.93%'),
+              color: 'white',
+              flex: 1
+            }}
+            numberOfLines={1}
+          >
+            {navigation.state.params.userName}
+          </Text>
+        </View>
       ),
-      title: navigation.state.params.userName,
       headerTintColor: 'white',
       headerStyle: {
         backgroundColor: '#1F1F1F',
-        borderBottomColor: 'transparent'
+        borderBottomColor: 'transparent',
+        height: hp('10%')
       }
     }
   };

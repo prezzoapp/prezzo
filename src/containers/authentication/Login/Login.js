@@ -12,8 +12,9 @@ import {
   Platform
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
+import { Feather } from '../../../components/VectorIcons';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
 import { Constants } from 'expo';
@@ -30,7 +31,7 @@ type State = {
 };
 
 class Login extends React.Component<Props, State> {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     headerStyle: {
       position: 'absolute',
       backgroundColor: 'transparent',
@@ -40,8 +41,21 @@ class Login extends React.Component<Props, State> {
       right: 0,
       borderBottomColor: 'transparent'
     },
-    headerTintColor: '#fff'
-  };
+    headerTintColor: '#fff',
+    headerLeft: (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.goBack()}
+        style={styles.headerLeftBtn}>
+        <Feather
+          title="Back"
+          name="chevron-left"
+          color="white"
+          size={wp('8%')}
+        />
+      </TouchableOpacity>
+    )
+  });
 
   state = {
     email: '',
@@ -154,7 +168,6 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: containerPaddingTopBottom,
     paddingTop: hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0))
   },
   headerText: {
@@ -192,6 +205,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '50%',
     alignSelf: 'center'
+  },
+  headerLeftBtn: {
+    marginLeft: wp('4.4%')
   }
 });
 

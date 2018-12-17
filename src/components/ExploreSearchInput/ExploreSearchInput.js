@@ -86,7 +86,6 @@ export default class ExploreSearchInput extends Component {
         };
       }, () => {
         this.props.clearTimer();
-        this.onBlur();
         this.searchInput.blur();
         this.props.showList(false);
       }

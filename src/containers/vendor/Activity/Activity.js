@@ -25,7 +25,7 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 import Button from '../../../components/Button';
 import ReviewUserPhoto from '../../../components/ReviewUserPhoto';
-// import AddReviewListItem from '../../../components/AddReviewListItem';
+import VendorSearch from '../VendorSearch';
 
 const SECTION_WIDTH: number = 0.85 * Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -256,12 +256,15 @@ checkResponseMessage(){
   };
 
   renderWaiterRequestTable() {
+    if(this.props.openTableList.size !== 0) {
+      console.log(this.props.openTableList.toJS());
+    }
     return (
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.flatListStyle}
-        data={this.props.openTableList.length !== 0 ? this.props.openTableList.toJS() : []}
+        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toJS() : []}
         renderItem={rowData => (
           <OpenTableItem
             data={rowData}
@@ -279,7 +282,7 @@ checkResponseMessage(){
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.flatListStyle}
-        data={this.props.openTableList.length !== 0 ? this.props.openTableList.toJS() : []}
+        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toJS() : []}
         renderItem={rowData => (
           <OpenTableItem
             data={rowData}
@@ -378,6 +381,7 @@ checkResponseMessage(){
           />
           {this.renderSection()}
         </View>
+        <VendorSearch />
       </View>
     );
   }

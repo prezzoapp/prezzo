@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp
+} from 'react-native-responsive-screen';
 import { FONT_FAMILY } from '../../../services/constants';
 
 const checkboxSize: number = 25;
@@ -7,8 +10,12 @@ const checkboxSize: number = 25;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2B2C2C',
-    paddingTop: hp('3.69%')
+    backgroundColor: '#2B2C2C'
+  },
+
+  scrollView: {
+    paddingTop: hp('3.69%'),
+    backgroundColor: 'transparent'
   },
 
   textStyle: {
@@ -54,6 +61,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.8)',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+
+  headerLeftBtn: {
+    marginLeft: wp('4.4%')
   }
 });
 

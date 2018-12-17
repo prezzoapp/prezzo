@@ -1,16 +1,15 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 import ActivityOpenOrder from '../ActivityOpenOrder';
-import ActivityHistory from '../ActivityHistory';
+// import ActivityHistory from '../ActivityHistory';
 
 import styles from './styles';
 
 class Activity extends Component {
   static navigationOptions = {
-    title: 'Activity',
     headerTintColor: 'white',
     headerStyle: {
       position: 'absolute',
@@ -20,7 +19,10 @@ class Activity extends Component {
       left: 0,
       right: 0,
       borderBottomColor: 'transparent'
-    }
+    },
+    headerLeft: (
+      <Text style={styles.headerText}>Activity</Text>
+    )
   };
 
   static displayName = 'Activity';

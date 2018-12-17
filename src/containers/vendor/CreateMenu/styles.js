@@ -12,7 +12,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLOR_BLACK,
-    paddingHorizontal: wp('5.33%')
+    paddingHorizontal: wp('7.46%')
   },
 
   sectionListStyle: {
@@ -103,6 +103,6 @@ export default StyleSheet.create({
   },
 
   headerLeftBtn: {
-    marginLeft: wp('3%')
+    marginLeft: wp('4.4%')
   }
 });

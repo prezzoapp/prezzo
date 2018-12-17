@@ -3,15 +3,19 @@ import React, { Component } from 'react';
 import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 // import { Header } from 'react-navigation';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
-import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_MEDIUM, COLOR_BLACK } from '../../../services/constants';
 
 class Profile extends Component {
   static navigationOptions = {
-    title: 'Profile',
+    title: 'My Profile',
     headerBackTitle: null,
+    headerTitleStyle: {
+      fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
+      fontSize: wp('6.4%')
+    },
     headerStyle: {
       backgroundColor: '#2B2C2C',
       shadowColor: 'transparent',

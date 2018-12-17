@@ -14,8 +14,9 @@ import PropTypes from 'prop-types';
 import { Picker, Spinner } from 'native-base';
 import Slider from 'react-native-slider';
 import { ImagePicker, Permissions } from 'expo';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Ionicons } from '../../../components/VectorIcons';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { BoxShadow } from 'expo-react-native-shadow';
+import { Ionicons, Feather } from '../../../components/VectorIcons';
 import { getTimeStampString } from '../../../services/commonFunctions';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import ProfileDataField from '../../../components/ProfileDataField';
@@ -32,11 +33,13 @@ const price3Indicator = wp('85%') * 0.66 - wp('9.5%');
 const price4Indicator = wp('85%') * 0.99 - wp('9.5%');
 
 import {
-  FONT_FAMILY_MEDIUM
+  FONT_FAMILY_MEDIUM,
+  FONT_FAMILY,
+  COLOR_BLACK
 } from '../../../services/constants';
 
 export default class AccountInfo extends React.Component {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     title: 'Vendor Account',
     headerStyle: {
       position: 'relative',
@@ -55,8 +58,21 @@ export default class AccountInfo extends React.Component {
         onPress={() => AccountInfo.currentContext.save()}
         title="Save"
       />
+    ),
+    headerLeft: (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.goBack()}
+        style={styles.headerLeftBtn}>
+        <Feather
+          title="Back"
+          name="chevron-left"
+          color="white"
+          size={wp('8%')}
+        />
+      </TouchableOpacity>
     )
-  };
+  });
 
   static displayName = 'Profile';
 
@@ -547,24 +563,26 @@ export default class AccountInfo extends React.Component {
           </View>
 
           <View style={styles.header}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.avatarWrap}
-              onPress={() => this.showAvatarActionSheet()}
-            >
-              <Image
-                style={styles.avatar}
-                source={
-                  avatarURL
-                    ? { uri: avatarURL }
-                    : require('../../../../assets/images/etc/default-avatar.png')
-                }
-              />
-              <Image
-                style={styles.editAvatarIcon}
-                source={require('../../../../assets/images/icons/edit.png')}
-              />
-            </TouchableOpacity>
+            <BoxShadow setting={{ x: 0, y: 4, width: 80, height: 80, color: '#000', border: 2, radius: 10, opacity: 0.5 }}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.avatarWrap}
+                onPress={() => this.showAvatarActionSheet()}
+              >
+                <Image
+                  style={styles.avatar}
+                  source={
+                    avatarURL
+                      ? { uri: avatarURL }
+                      : require('../../../../assets/images/etc/default-avatar.png')
+                  }
+                />
+                <Image
+                  style={styles.editAvatarIcon}
+                  source={require('../../../../assets/images/icons/edit.png')}
+                />
+              </TouchableOpacity>
+            </BoxShadow>
 
             <View style={styles.editInfoHolder}>
               <Text style={[styles.editText, { color: 'white' }]}>
@@ -868,18 +886,44 @@ export default class AccountInfo extends React.Component {
                       key={item}
                       style={{
                         flex: 1,
-                        height: 50,
-                        marginRight: 15,
+                        marginRight: 14,
                         marginTop: 10,
                         marginBottom: 15,
                         position: 'relative',
-                        flexDirection: 'row'
+                        flexDirection: 'row',
+                        alignItems: 'center'
                       }}
                     >
                       <View
                         style={{
+                          flex: 1,
+                          position: 'absolute',
+                          left: 0,
+                          right: 0,
+                          bottom: -13.5
+                        }}
+                      >
+                        <Slider
+                          minimumValue={0}
+                          maximumValue={3}
+                          step={1}
+                          minimumTrackTintColor="rgb(47,212,117)"
+                          maximumTrackTintColor="rgb(230,230,230)"
+                          thumbTintColor="rgb(255,254,255)"
+                          thumbStyle={{ height: 18, width: 18 }}
+                          value={this.state.pricing}
+                          onSlidingComplete={value =>
+                            this.setState({ pricing: value })
+                          }
+                          trackStyle={{ height: 3 }}
+                        />
+                      </View>
+
+                      <View
+                        pointerEvents="none"
+                        style={{
                           width: wp('13.33%'),
-                          height: 50,
+                          height: 47,
                           flexDirection: 'column',
                           justifyContent: 'space-between',
                           zIndex: 1
@@ -888,9 +932,10 @@ export default class AccountInfo extends React.Component {
                         <Text
                           style={{
                             color: COLOR_GREEN,
-                            fontSize: 17,
+                            fontSize: wp('3.2%'),
                             width: wp('13.33%'),
-                            height: 20
+                            height: 20,
+                            fontFamily: FONT_FAMILY_MEDIUM
                           }}
                         >
                           $
@@ -910,11 +955,12 @@ export default class AccountInfo extends React.Component {
                       </View>
 
                       <View
+                        pointerEvents="none"
                         style={{
                           width: wp('13.33%'),
                           left: price2Indicator,
                           position: 'absolute',
-                          height: 50,
+                          height: 47,
                           flexDirection: 'column',
                           zIndex: 1,
                           justifyContent: 'space-between',
@@ -924,10 +970,11 @@ export default class AccountInfo extends React.Component {
                         <Text
                           style={[
                             {
-                              fontSize: 17,
+                              fontSize: wp('3.2%'),
                               height: 20,
                               textAlign: 'center',
-                              width: wp('13.33%')
+                              width: wp('13.33%'),
+                              fontFamily: FONT_FAMILY_MEDIUM
                             },
                             {
                               color:
@@ -954,11 +1001,12 @@ export default class AccountInfo extends React.Component {
                       </View>
 
                       <View
+                        pointerEvents="none"
                         style={{
                           width: wp('13.33%'),
                           position: 'absolute',
                           left: price3Indicator,
-                          height: 50,
+                          height: 47,
                           flexDirection: 'column',
                           zIndex: 1,
                           justifyContent: 'space-between',
@@ -968,11 +1016,12 @@ export default class AccountInfo extends React.Component {
                         <Text
                           style={[
                             {
-                              fontSize: 17,
+                              fontSize: wp('3.2%'),
                               height: 20,
                               marginLeft: 2,
                               textAlign: 'center',
-                              width: wp('13.33%')
+                              width: wp('13.33%'),
+                              fontFamily: FONT_FAMILY_MEDIUM
                             },
                             {
                               color:
@@ -999,9 +1048,10 @@ export default class AccountInfo extends React.Component {
                       </View>
 
                       <View
+                        pointerEvents="none"
                         style={{
                           width: wp('13.33%'),
-                          height: 50,
+                          height: 47,
                           position: 'absolute',
                           left: price4Indicator,
                           flexDirection: 'column',
@@ -1013,10 +1063,11 @@ export default class AccountInfo extends React.Component {
                         <Text
                           style={[
                             {
-                              fontSize: 17,
+                              fontSize: wp('3.2%'),
                               height: 20,
                               textAlign: 'center',
-                              width: wp('13.33%')
+                              width: wp('13.33%'),
+                              fontFamily: FONT_FAMILY_MEDIUM
                             },
                             {
                               color:
@@ -1039,37 +1090,6 @@ export default class AccountInfo extends React.Component {
                                   : 'rgba(255,255,255,1.0)'
                             }
                           ]}
-                        />
-                      </View>
-
-                      <View
-                        style={{
-                          flex: 1,
-                          zIndex: 10,
-                          position: 'absolute',
-                          left: 0,
-                          right: 0,
-                          bottom: -12
-                        }}
-                      >
-                        <Slider
-                          minimumValue={0}
-                          maximumValue={3}
-                          step={1}
-                          minimumTrackTintColor="rgb(47,212,117)"
-                          maximumTrackTintColor="rgb(230,230,230)"
-                          thumbTintColor="rgb(255,254,255)"
-                          thumbStyle={{ height: 18, width: 18 }}
-                          value={this.state.pricing}
-                          onSlidingComplete={value =>
-                            this.setState({ pricing: value })
-                          }
-                          // onSlidingStart={value =>
-                          //   this.state.slidervalue >= 99.9
-                          //     ? this.setState({ slidervalue: value - 0.1 })
-                          //     : this.setState({ slidervalue: value + 0.1 })
-                          // }
-                          trackStyle={{ height: 3 }}
                         />
                       </View>
                     </View>

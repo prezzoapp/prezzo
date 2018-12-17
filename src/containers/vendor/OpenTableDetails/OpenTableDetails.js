@@ -8,7 +8,10 @@ import {
   Text
 } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import styles from './styles';
@@ -19,11 +22,14 @@ import LoadingComponent from '../../../components/LoadingComponent';
 export default class OpenTableDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <View
+      <View
+        style={{ flexDirection: 'row', width: wp('90%'), alignItems: 'center' }}
+      >
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
           style={{
             flexDirection: 'row',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             alignItems: 'center'
           }}
         >
@@ -40,8 +46,8 @@ export default class OpenTableDetails extends Component {
               width: wp('11.73%'),
               height: wp('11.73%'),
               borderColor: 'white',
-              marginLeft: 10,
-              borderWidth: 2,
+              marginRight: wp('2.5%'),
+              borderWidth: 1,
               borderRadius: wp('5.86%')
             }}
             source={
@@ -50,15 +56,25 @@ export default class OpenTableDetails extends Component {
                 : { uri: navigation.state.params.userImage }
             }
           />
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+        <Text
+          style={{
+            fontSize: wp('6.93%'),
+            color: 'white',
+            flex: 1
+          }}
+          numberOfLines={1}
+        >
+          {navigation.state.params.userName}
+        </Text>
+      </View>
     ),
-    title: navigation.state.params.userName,
 
     headerTintColor: 'white',
     headerStyle: {
       backgroundColor: '#1F1F1F',
-      borderBottomColor: 'transparent'
+      borderBottomColor: '#2ED573',
+      height: hp('10%')
     }
   });
 

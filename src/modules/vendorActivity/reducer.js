@@ -1,5 +1,5 @@
 // @flow
-import { Map } from 'immutable';
+import { fromJS } from 'immutable';
 import {
   LIST_OPEN_TABLE_REQUEST,
   LIST_OPEN_TABLE_SUCCESS,
@@ -14,7 +14,7 @@ import {
   LIST_DELIVERED_TABLE_REQUEST
 } from './types';
 
-const INITIAL_STATE = Map({
+const INITIAL_STATE = fromJS({
   layout: 'list',
   section: 0,
   deliveredTableSection: 0,
@@ -139,7 +139,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case LIST_OPEN_TABLE_REQUEST:
     case LIST_OPEN_TABLE_FAILURE:
       return state.update('isBusy', () => true);
-      
+
     case LIST_OPEN_TABLE_SUCCESS:
       return state.update('openTableList', () => action.payload).update('isBusy', () => false);
 

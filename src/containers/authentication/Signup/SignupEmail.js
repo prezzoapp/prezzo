@@ -12,8 +12,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { Header } from 'react-navigation';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Constants } from 'expo';
+import { Feather } from '../../../components/VectorIcons';
 import { findUser } from '../../../modules/user';
 import {
   updateEmail,
@@ -83,6 +84,9 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
     backgroundColor: 'transparent'
+  },
+  headerLeftBtn: {
+    marginLeft: wp('4.4%')
   }
 });
 
@@ -91,7 +95,7 @@ const nextButtonStyle = {
 };
 
 class SignupEmail extends React.Component<Props> {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     headerStyle: {
       position: 'absolute',
       top: 0,
@@ -100,8 +104,21 @@ class SignupEmail extends React.Component<Props> {
       backgroundColor: 'transparent',
       borderBottomColor: 'transparent'
     },
-    headerTintColor: '#fff'
-  };
+    headerTintColor: '#fff',
+    headerLeft: (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.goBack()}
+        style={styles.headerLeftBtn}>
+        <Feather
+          title="Back"
+          name="chevron-left"
+          color="white"
+          size={wp('8%')}
+        />
+      </TouchableOpacity>
+    )
+  });
 
   isFormValid() {
     const { email } = this.props;

@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 
   slidersHolder: {
     paddingHorizontal: 30,
-    paddingVertical: 15
+    paddingTop: 15
   },
 
   sliderTitleText: {
@@ -95,6 +95,13 @@ const styles = StyleSheet.create({
 
   blurView: {
     ...StyleSheet.absoluteFillObject
+  },
+
+  priceBarIndicator: {
+    width: 2,
+    height: hp('1.97%'),
+    zIndex: 1,
+    backgroundColor: 'white'
   }
 });
 

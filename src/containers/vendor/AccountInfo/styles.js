@@ -15,7 +15,8 @@ const SECTION_WIDTH: number = 0.85 * Dimensions.get('window').width;
 
 export default StyleSheet.create({
   addressContainer: {
-    width: SECTION_WIDTH
+    paddingHorizontal: wp('7.46%'),
+    width: '100%'
   },
   addText: {
     color: COLOR_GREEN,
@@ -36,7 +37,8 @@ export default StyleSheet.create({
   header: {
     marginTop: 20,
     marginVertical: 30,
-    width: SECTION_WIDTH,
+    paddingHorizontal: wp('7.46%'),
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -44,24 +46,27 @@ export default StyleSheet.create({
     alignItems: 'center',
     height: AVATAR_SIZE,
     position: 'relative',
-    width: AVATAR_SIZE
+    width: AVATAR_SIZE,
+    backgroundColor: COLOR_BLACK
   },
   categoriesContainer: {
-    width: SECTION_WIDTH
+    paddingHorizontal: wp('7.46%'),
+    width: '100%'
   },
   categoriesSectionBody: {
     paddingBottom: 5,
     paddingTop: 5
   },
   contactContainer: {
-    width: SECTION_WIDTH
+    paddingHorizontal: wp('7.46%'),
+    width: '100%'
   },
   container: {
-    backgroundColor: COLOR_BLACK
+    backgroundColor: '#2B2C2C',
+    paddingBottom: hp('7.51%')
   },
   containerContentStyle: {
     alignItems: 'center',
-    paddingBottom: 50,
     paddingTop: hp('2%')
   },
   editAvatarIcon: {
@@ -79,7 +84,8 @@ export default StyleSheet.create({
   },
   hoursContainer: {
     marginBottom: 25,
-    width: SECTION_WIDTH
+    paddingHorizontal: wp('7.46%'),
+    width: '100%'
   },
   hoursPicker: {
     borderColor: '#fff',
@@ -124,7 +130,8 @@ export default StyleSheet.create({
 
   filtersContainer: {
     paddingTop: 30,
-    width: SECTION_WIDTH
+    paddingHorizontal: wp('7.46%'),
+    width: '100%'
   },
 
   sectionSubHeaderText: {
@@ -137,7 +144,7 @@ export default StyleSheet.create({
   commonFilterPanel: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: SECTION_WIDTH
+    width: '100%'
   },
 
   filtersHolder: {
@@ -192,6 +199,10 @@ export default StyleSheet.create({
     width: wp('13.33%'),
     height: 20,
     fontFamily: FONT_FAMILY
+  },
+
+  headerLeftBtn: {
+    marginLeft: wp('4.4%')
   }
 });
 

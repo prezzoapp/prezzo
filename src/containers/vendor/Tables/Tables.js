@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import styles from './styles';
 import TableScreenHeader from '../TableScreenHeader';
+import VendorSearch from '../VendorSearch';
 import OpenTableItem from '../../../components/OpenTableItem';
 import QueuedTableItem from '../../../components/QueuedTableItem';
 import TableListHeader from '../../../components/TableListHeader';
@@ -397,6 +398,7 @@ class Tables extends Component {
           />
           {this.renderSection()}
         </View>
+        <VendorSearch />
         <LoadingComponent visible={this.props.isBusy} />
       </View>
     );

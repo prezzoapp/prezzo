@@ -1,13 +1,15 @@
 // @flow
 import React from 'react';
-import {ImageBackground, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Platform} from 'react-native';
+import {ImageBackground, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, TouchableOpacity} from 'react-native';
 import { Header } from 'react-navigation';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Constants } from 'expo';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import { Feather } from '../../../components/VectorIcons';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {updateFirstName, updateLastName} from '../../../modules/Signup';
 import {FONT_FAMILY_BOLD} from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
@@ -55,6 +57,9 @@ const styles = StyleSheet.create({
     right: 0,
     shadowColor: 'transparent',
     borderBottomWidth: 0
+  },
+  headerLeftBtn: {
+    marginLeft: wp('4.4%')
   }
 });
 
@@ -63,7 +68,7 @@ const nextButtonStyle = {
 };
 
 class SignupName extends React.Component<Props, State> {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     headerTintColor: '#fff',
     headerStyle: {
       backgroundColor: 'transparent',
@@ -72,8 +77,21 @@ class SignupName extends React.Component<Props, State> {
       right: 0,
       left: 0,
       borderBottomColor: 'transparent'
-    }
-  };
+    },
+    headerLeft: (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.goBack()}
+        style={styles.headerLeftBtn}>
+        <Feather
+          title="Back"
+          name="chevron-left"
+          color="white"
+          size={wp('8%')}
+        />
+      </TouchableOpacity>
+    )
+  });
 
   isFormValid() {
     const {firstName, lastName} = this.props;
@@ -87,42 +105,74 @@ class SignupName extends React.Component<Props, State> {
   render() {
     const {firstName, lastName} = this.props;
 
+    // return (
+    //   <KeyboardAvoidingView
+    //     style={{ flex: 1 }}
+    //     behavior='padding'>
+    //       <ImageBackground
+    //         style={styles.container}
+    //         source={require('../../../../assets/images/bg/authentication.png')}
+    //       >
+    //       <ScrollView
+    //         contentContainerStyle={styles.scrollView}>
+    //         <Text style={styles.headerText}>
+    //           What's your name?
+    //         </Text>
+    //
+    //         <LoginTextInput
+    //           type='name'
+    //           label='First Name'
+    //           value={firstName}
+    //           onChange={val => this.props.updateFirstName(val)}
+    //         />
+    //
+    //         <LoginTextInput
+    //           type='name'
+    //           label='Last Name'
+    //           value={lastName}
+    //           onChange={val => this.props.updateLastName(val)}
+    //         />
+    //
+    //         <NextButton
+    //           style={nextButtonStyle}
+    //           onPress={() => this.navigateToSignupEmail()}
+    //           disabled={!this.isFormValid()}
+    //         />
+    //       </ScrollView>
+    //     </ImageBackground>
+    //   </KeyboardAvoidingView>
+    // );
     return (
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : null}>
-          <ImageBackground
-            style={styles.container}
-            source={require('../../../../assets/images/bg/authentication.png')}
-          >
-          <ScrollView
-            contentContainerStyle={styles.scrollView}>
-            <Text style={styles.headerText}>
-              What's your name?
-            </Text>
+      <ImageBackground
+        style={styles.container}
+        source={require('../../../../assets/images/bg/authentication.png')}
+      >
+        <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 50 }} style={[{ backgroundColor: 'transparent' }, styles.scrollView]}>
+          <Text style={styles.headerText}>
+            What's your name?
+          </Text>
 
-            <LoginTextInput
-              type='name'
-              label='First Name'
-              value={firstName}
-              onChange={val => this.props.updateFirstName(val)}
-            />
+          <LoginTextInput
+            type='name'
+            label='First Name'
+            value={firstName}
+            onChange={val => this.props.updateFirstName(val)}
+          />
 
-            <LoginTextInput
-              type='name'
-              label='Last Name'
-              value={lastName}
-              onChange={val => this.props.updateLastName(val)}
-            />
+          <LoginTextInput
+            type='name'
+            label='Last Name'
+            value={lastName}
+            onChange={val => this.props.updateLastName(val)}
+          />
 
-            <NextButton
-              style={nextButtonStyle}
-              onPress={() => this.navigateToSignupEmail()}
-              disabled={!this.isFormValid()}
-            />
-          </ScrollView>
-        </ImageBackground>
-      </KeyboardAvoidingView>
+          <NextButton
+            style={nextButtonStyle}
+            onPress={() => this.navigateToSignupEmail()}
+            disabled={!this.isFormValid()}
+          />
+        </KeyboardAwareScrollView>
+      </ImageBackground>
     );
   }
 }

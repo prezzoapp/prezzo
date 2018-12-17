@@ -8,6 +8,8 @@ import { Header } from 'react-navigation';
 
 import { FONT_FAMILY } from '../../../services/constants';
 
+// console.log(Header.HEIGHT);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -30,7 +32,8 @@ const styles = StyleSheet.create({
   tabBarUnderlineStyle: {
     backgroundColor: '#2ED573',
     borderRadius: 5,
-    height: 2
+    height: 2,
+    bottom: hp('0.6%')
   },
 
   scrollableTabStyle: {
@@ -58,7 +61,8 @@ const styles = StyleSheet.create({
     color: 'white',
     width: wp('24.33%'),
     textAlign: 'center',
-    fontFamily: FONT_FAMILY
+    fontFamily: FONT_FAMILY,
+    fontSize: wp('3.46%')
   },
 
   historyTabStyle: {
@@ -72,6 +76,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     backgroundColor: 'transparent',
     fontFamily: FONT_FAMILY
+  },
+
+  headerText: {
+    fontSize: wp('8.8%'),
+    color: 'white',
+    fontFamily: FONT_FAMILY,
+    paddingLeft: wp('6.93%')
   }
 });
 

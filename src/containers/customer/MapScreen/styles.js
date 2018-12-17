@@ -1,5 +1,9 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { Header } from 'react-navigation';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp
+} from 'react-native-responsive-screen';
 import { Constants } from 'expo';
 
 import { FONT_FAMILY_MEDIUM } from '../../../services/constants';
@@ -29,22 +33,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: FONT_FAMILY_MEDIUM,
     paddingBottom: 10,
-    paddingHorizontal: 12
-  },
-
-  sliderHolder: {
-    marginTop: 60,
-    paddingHorizontal: 30
-  },
-
-  sliderTitleText: {
-    color: 'rgb(255,251,245)',
-    fontSize: 11
-  },
-
-  sliderTitleHolder: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    paddingHorizontal: wp('4.26%')
   },
 
   markerStyle: {
@@ -54,7 +43,11 @@ const styles = StyleSheet.create({
   },
 
   searchBarHolder: {
-    backgroundColor: 'transparent'
+    paddingTop: hp('1.35%')
+  },
+
+  headerLeftBtn: {
+    paddingLeft: wp('2%')
   }
 });
 

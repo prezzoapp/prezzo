@@ -221,7 +221,6 @@ export default class MenuItem extends Component {
             </View>
             {this.state.editItem ? (
               <TextInput
-                multiline
                 underlineColorAndroid="transparent"
                 value={this.state.description}
                 style={styles.otherInfoTextInput}

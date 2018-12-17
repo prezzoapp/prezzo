@@ -231,27 +231,49 @@
 // };
 
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
 import publicIP from 'react-native-public-ip';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
 import showGenericAlert from '../../../components/GenericAlert';
+import { FONT_FAMILY_MEDIUM } from '../../../services/constants';
 
 export default class MapScreen extends Component {
-  static navigationOptions = {
-    title: 'Local Search',
-    headerTintColor: 'white',
-    headerStyle: {
-      position: 'absolute',
-      top: 0,
-      right: 0,
-      left: 0,
-      borderBottomWidth: 0,
-      backgroundColor: 'transparent'
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Local Search',
+      headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
+        fontSize: wp('6.4%')
+      },
+      headerStyle: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        left: 0,
+        borderBottomWidth: 0,
+        backgroundColor: 'transparent'
+      },
+      headerLeft: (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.goBack()}
+          style={styles.headerLeftBtn}>
+          <Feather
+            title="Back"
+            name="chevron-left"
+            color="white"
+            size={wp('8%')}
+          />
+        </TouchableOpacity>
+      )
     }
   };
 
@@ -336,7 +358,6 @@ export default class MapScreen extends Component {
   }
 
   getIPLocation(ip) {
-    // console.log('location ip is ------ ', ip);
     const commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
     console.log('location url is ------ ', commonHtml);
     fetch(commonHtml)
@@ -413,15 +434,7 @@ export default class MapScreen extends Component {
     }
   }
 
-  // onMapReady() {
-  // console.log('OnMapReady Method Called!');
-
-  // this.mapView.animateToRegion(this.state.customRegion);
-  // }
-
   moveToPosition(coordinates) {
-    // console.log('Move To Position Method Called!');
-
     this.btnClicked = true;
 
     this.mapView.animateToRegion({
@@ -442,10 +455,6 @@ export default class MapScreen extends Component {
   }
 
   render() {
-    // console.log('Map screen render called');
-    // console.log('Map screen region', this.state.customRegion);
-    //  console.log('Map screen default region', region);
-
     return (
       <View style={styles.container}>
         {this.state.isGetLocation && (
@@ -534,7 +543,7 @@ export default class MapScreen extends Component {
             }}
             styles={{
               textInputContainer: {
-                paddingHorizontal: 12,
+                paddingHorizontal: wp('4.26%'),
                 backgroundColor: 'transparent',
                 borderTopWidth: 0,
                 borderBottomWidth: 0
@@ -551,7 +560,7 @@ export default class MapScreen extends Component {
                 zIndex: 99999,
                 top: 38,
                 position: 'absolute',
-                marginHorizontal: 12,
+                marginHorizontal: wp('4.26%'),
                 backgroundColor: '#414141'
               },
 

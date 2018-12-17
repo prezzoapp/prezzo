@@ -3,22 +3,14 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { LinearGradient } from 'expo';
 import styles from './styles';
-import ExploreSearchInput from '../../../components/ExploreSearchInput';
 
 const TableScreenHeader = props => {
   return (
-    
     <View style={styles.header}>
       <LinearGradient
         colors={['rgb(0,0,0)', 'transparent']}
         style={styles.linearGradientStyle}
       >
-        <ExploreSearchInput
-          showList={() => null}
-          showListValue={() => null}
-          clearTimer={() => null}
-          onTextChange={() => null}
-        />
         <View style={styles.detailContainer}>
           <Image
             source={require('../../../../assets/images/item5.png')}

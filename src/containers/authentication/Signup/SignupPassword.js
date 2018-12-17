@@ -15,7 +15,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigationActions, Header } from 'react-navigation';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { uploadImage } from '../../../modules/upload';
 import { updateUser } from '../../../modules/user';
 import { updateAvatarURL, updatePassword, signup } from '../../../modules/Signup';
@@ -26,6 +26,7 @@ import Button from '../../../components/Button';
 import NextButton from './NextButton';
 import { ImagePicker, Permissions, Constants } from 'expo';
 import { getTimeStampString } from '../../../services/commonFunctions';
+import { Feather } from '../../../components/VectorIcons';
 
 type Props = {
   firstName: string,
@@ -136,6 +137,9 @@ const styles = StyleSheet.create({
     right: 0,
     shadowColor: 'transparent',
     borderBottomWidth: 0
+  },
+  headerLeftBtn: {
+    marginLeft: wp('4.4%')
   }
 });
 
@@ -151,7 +155,7 @@ const buttonStyles = {
 };
 
 class SignupPassword extends React.Component<Props, State> {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     headerStyle: {
       position: 'absolute',
       top: 0,
@@ -160,8 +164,21 @@ class SignupPassword extends React.Component<Props, State> {
       backgroundColor: 'transparent',
       borderBottomColor: 'transparent'
     },
-    headerTintColor: '#fff'
-  };
+    headerTintColor: '#fff',
+    headerLeft: (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.goBack()}
+        style={styles.headerLeftBtn}>
+        <Feather
+          title="Back"
+          name="chevron-left"
+          color="white"
+          size={wp('8%')}
+        />
+      </TouchableOpacity>
+    )
+  });
 
   state = {
     isBusy: false,

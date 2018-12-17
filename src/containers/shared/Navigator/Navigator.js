@@ -53,7 +53,7 @@ const tabBarOptions = {
   style: {
     backgroundColor: headerColor,
     borderTopWidth: 1,
-    borderTopColor: '#e1e1e1'
+    borderTopColor: '#e1e1e1'    
   }
 };
 
@@ -156,7 +156,8 @@ const VendorProfileNavigator = createStackNavigator(
     LocationSearch: { screen: LocationSearch }
   },
   {
-    initialRouteName: 'VendorAccountMenu'
+    initialRouteName: 'VendorAccountMenu',
+    headerMode: 'screen'
   }
 );
 

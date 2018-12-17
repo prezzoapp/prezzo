@@ -2,6 +2,7 @@
 import { StyleSheet } from 'react-native';
 // import { Header } from 'react-navigation';
 import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 export default StyleSheet.create({
   avatar: {
@@ -67,5 +68,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.8)'
+  },
+  headerLeftBtn: {
+    marginLeft: wp('4.4%')
   }
 });

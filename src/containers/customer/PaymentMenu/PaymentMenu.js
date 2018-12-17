@@ -7,25 +7,48 @@ import {
   Dimensions,
   ActivityIndicator,
   Modal,
-  AsyncStorage
+  AsyncStorage,
+  TouchableOpacity
 } from 'react-native';
 import { PropTypes } from 'prop-types';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp
+} from 'react-native-responsive-screen';
 import MenuButton from '../../../components/MenuButton';
+import { Feather } from '../../../components/VectorIcons';
 import EditableListItem from '../../../components/EditableListItem';
 import styles from './styles';
+import { FONT_FAMILY_MEDIUM } from '../../../services/constants';
 
 class PaymentMenu extends Component {
-  static navigationOptions = {
+  static navigationOptions = ({ navigation }) => ({
     title: 'Payment Methods',
     headerBackTitle: null,
+    headerTitleStyle: {
+      fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
+      fontSize: wp('6.4%')
+    },
     headerStyle: {
       backgroundColor: '#2B2C2C',
       shadowColor: 'transparent',
       borderBottomWidth: 0
     },
+    headerLeft: (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.goBack()}
+        style={styles.headerLeftBtn}>
+        <Feather
+          title="Back"
+          name="chevron-left"
+          color="white"
+          size={wp('8%')}
+        />
+      </TouchableOpacity>
+    ),
     headerTintColor: '#fff'
-  };
+  });
 
   static displayName = 'Payment Methods';
 

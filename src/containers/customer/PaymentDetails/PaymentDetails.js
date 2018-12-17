@@ -6,6 +6,9 @@ import {
   Text,
   ActivityIndicator,
   Modal,
+  AsyncStorage,
+  KeyboardAvoidingView,
+  ScrollView,
   InteractionManager
 } from 'react-native';
 import { CreditCardInput } from 'react-native-credit-card-input';
@@ -15,6 +18,7 @@ import {
 } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { WebView } from 'react-native-webview-messaging/WebView';
+import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 import Button from '../../../components/Button';
 import { get, post } from '../../../utils/api';
@@ -30,8 +34,25 @@ class PaymentDetails extends Component {
         shadowColor: 'transparent',
         borderBottomWidth: 0
       },
+      headerTitleStyle: {
+        fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
+        fontSize: wp('6.4%')
+      },
       headerTintColor: '#fff',
-      headerBackTitle: 'Hello'
+      headerBackTitle: 'Hello',
+      headerLeft: (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.goBack()}
+          style={styles.headerLeftBtn}>
+          <Feather
+            title="Back"
+            name="chevron-left"
+            color="white"
+            size={wp('8%')}
+          />
+        </TouchableOpacity>
+      )
     }
   };
 
@@ -54,55 +75,45 @@ class PaymentDetails extends Component {
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
       this.setState(() => {
-        return {
-          isLoading: true
-        }
-      }, () => {
-        //try {
+          return {
+            isLoading: true
+          }
+        },
+        () => {
           get(`/v1/self/payment-token`).then(response => {
-            console.log(`Token: ${response.token}`);
-            this.setState(() => {
-                return {
-                  isLoading: false
-                };
+              console.log(`Token: ${response.token}`);
+              this.setState(
+                () => {
+                  return {
+                    isLoading: false
+                  };
               },
-              () => {
-                this.getToken = response.token;
-                this.webview.messagesChannel.on('isTokenizationComplete', nonce =>
-                  this.isTokenizationComplete(nonce)
+                () => {
+                  this.getToken = response.token;
+                  this.webview.messagesChannel.on(
+                    'isTokenizationComplete',
+                    nonce => this.isTokenizationComplete(nonce)
                 );
 
                 this.webview.messagesChannel.on('isError', error =>
-                  this.isError(error)
-                );
-              }
-            );
-          }).catch(e => {
-            this.showAlert(e.message, 300);
-            this.setState(() => {
+                    this.isError(error)
+                  );
+                }
+              );
+            })
+            .catch(e => {
+              this.showAlert(e.message, 300);
+              this.setState(() => {
                 return {
                   isLoading: false
                 };
               });
-          });
-        //}
-      });
+            });
+        }
+      );
     });
   }
 
-
-      showAlert(message, duration) {
-        clearTimeout(this.timer);
-        this.timer = setTimeout(() => {
-          alert(message);
-        }, duration);
-      }
-
-    checkResponseMessage(){
-      AsyncStorage.getItem('response_message').then((msg) => {
-      console.log("response message is -----------------",msg);
-      });
-    }
   onChange(data) {
     console.log(data);
     if(data.valid === true && this.state.dataValid === false) {
@@ -130,6 +141,20 @@ class PaymentDetails extends Component {
       : require('../../../../assets/images/icons/checkbox-unchecked.png');
   }
 
+
+  showAlert(message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      alert(message);
+    }, duration);
+  }
+
+  async checkResponseMessage(){
+    await AsyncStorage.getItem('response_message').then((msg) => {
+      console.log('response message is -----------------', msg);
+    });
+  }
+
   isError(error) {
     this.setState(() => {
       return {
@@ -141,8 +166,6 @@ class PaymentDetails extends Component {
 
   isTokenizationComplete(response) {
     const nonce = response.payload;
-    // console.log('Nonce: ');
-    // console.log(nonce);
 
     post(`/v1/payment-methods`, {
       nonce,
@@ -164,47 +187,6 @@ class PaymentDetails extends Component {
           }
         );
       });
-
-      // if(this.state.selectCheckBox) {
-      //   console.log("Calling makeDefault API!");
-      //
-      //   post(`/v1/payment-methods/${paymentMethod._id}/default`).then(defaultPaymentMethod => {
-      //       console.log("makeDefault API Successfully Called!");
-      //       console.log('Default Payment Method: ');
-      //       console.log(defaultPaymentMethod);
-      //
-      //       this.props
-      //         .addCreditCardInfo(defaultPaymentMethod, true)
-      //         .then(() => {
-      //           console.log('Default Payment Method Added Succesfully!');
-      //           this.setState(() => {
-      //               return {
-      //                 isLoading: false
-      //               };
-      //             },
-      //             () => {
-      //               this.props.navigate({ routeName: 'PaymentMenu' });
-      //             }
-      //           );
-      //       });
-      //     }
-      //   )
-      // } else {
-      //   this.props.addCreditCardInfo(paymentMethod, false).then(() => {
-      //     // console.log('Payment Method Added Succesfully!');
-      //     // console.log(paymentMethod);
-      //
-      //     this.setState(() => {
-      //         return {
-      //           isLoading: false
-      //         };
-      //       },
-      //       () => {
-      //         this.props.navigate({ routeName: 'PaymentMenu' });
-      //       }
-      //     );
-      //   });
-      // }
     });
   }
 
@@ -239,70 +221,79 @@ class PaymentDetails extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <CreditCardInput
-          inputStyle={styles.textStyle}
-          labelStyle={styles.textStyle}
-          placeholderColor="rgba(255, 255, 255, 0.5)"
-          allowScroll
-          requiresPostalCode
-          inputContainerStyle={styles.containerStyle}
-          onChange={data => this.onChange(data)}
-        />
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+        <View style={styles.container}>
+          <ScrollView contentContainerStyle={styles.scrollView}>
+            <CreditCardInput
+              inputStyle={styles.textStyle}
+              labelStyle={styles.textStyle}
+              placeholderColor="rgba(255, 255, 255, 0.5)"
+              allowScroll
+              requiresPostalCode
+              inputContainerStyle={styles.containerStyle}
+              onChange={data => this.onChange(data)}
+            />
 
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.promotionsContainer}
-          onPress={() => this.togglePreferredPayment()}
-        >
-          <Image style={styles.checkbox} source={this.getCheckboxImage()} />
-          <Text style={styles.promotionalText}>Preferred Payment</Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.promotionsContainer}
+              onPress={() => this.togglePreferredPayment()}
+            >
+              <Image style={styles.checkbox} source={this.getCheckboxImage()} />
+              <Text style={styles.promotionalText}>Preferred Payment</Text>
+            </TouchableOpacity>
 
-        <View style={styles.btnHolder}>
-          <Button
-            style={buttonStyles.submitBtn}
-            disabled={!this.state.dataValid}
-            textStyle={[
-              buttonStyles.submitBtnText,
-              {
-                color: this.state.dataValid
-                  ? 'green'
-                  : 'rgba(255, 255, 255, 0.5)'
+            <View style={styles.btnHolder}>
+              <Button
+                style={buttonStyles.submitBtn}
+                disabled={!this.state.dataValid}
+                textStyle={[
+                  buttonStyles.submitBtnText,
+                  {
+                    color: this.state.dataValid
+                      ? 'green'
+                      : 'rgba(255, 255, 255, 0.5)'
+                  }
+                ]}
+                onPress={() => this.cardTokenize()}
+              >
+                Submit
+              </Button>
+            </View>
+            <Modal
+              animationType="none"
+              transparent
+              visible={this.state.isLoading}
+            >
+              <View style={styles.loaderView}>
+                <ActivityIndicator size="large" color="white" />
+              </View>
+            </Modal>
+
+            {(() => {
+              if(this.state.error) {
+                return (
+                  <Text style={{ color: 'white' }}>{this.state.error}</Text>
+                );
               }
-            ]}
-            onPress={() => this.cardTokenize()}
-          >
-            Submit
-          </Button>
+              return null;
+            })()}
+            <WebView
+              ref={webview => {
+                this.webview = webview;
+              }}
+              source={require('../../../../dist/index.html')}
+              style={{
+                position: 'absolute',
+                top: '100%',
+                bottom: 0,
+                right: 0,
+                left: 0
+              }}
+            />
+          </ScrollView>
         </View>
-        <Modal animationType="none" transparent visible={this.state.isLoading}>
-          <View style={styles.loaderView}>
-            <ActivityIndicator size="large" color="white" />
-          </View>
-        </Modal>
-
-        {(() => {
-          if(this.state.error) {
-            return <Text style={{ color: 'white' }}>{this.state.error}</Text>;
-          }
-          return null;
-        })()}
-
-        <WebView
-          ref={webview => {
-            this.webview = webview;
-          }}
-          source={require('../../../../dist/index.html')}
-          style={{
-            position: 'absolute',
-            top: '100%',
-            bottom: 0,
-            right: 0,
-            left: 0
-          }}
-        />
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
