@@ -84,8 +84,6 @@ class Explore extends PureComponent<Props> {
   }
 
   render() {
-    // console.log("Coordinates: ");
-    // console.log(this.state.customRegion);
     return (
       <LinearGradient
         testID="linearGradient"

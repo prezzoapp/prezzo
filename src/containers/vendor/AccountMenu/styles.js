@@ -2,6 +2,7 @@
 import { StyleSheet } from 'react-native';
 // import { Header } from 'react-navigation';
 import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default StyleSheet.create({
   avatar: {
@@ -26,7 +27,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     marginHorizontal: 25,
-    marginBottom: 10
+    marginBottom: hp('9%')
   },
   footerContainer: {
     alignSelf: 'stretch',
@@ -49,9 +50,8 @@ export default StyleSheet.create({
   headerContainer: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    // marginTop: Header.HEIGHT + 10,
-    marginTop: 10,
-    marginBottom: 20
+    marginTop: hp('3.20%'),
+    marginBottom: hp('3.44%')
   },
   parent: {
     alignItems: 'center',

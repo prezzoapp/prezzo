@@ -104,5 +104,10 @@ export default StyleSheet.create({
 
   headerLeftBtn: {
     marginLeft: wp('4.4%')
+  },
+
+  innerContainer: {
+    flex: 1,
+    marginBottom: hp('9%')
   }
 });

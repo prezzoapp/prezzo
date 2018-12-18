@@ -48,12 +48,12 @@ class EditProfile extends Component<Props, State> {
       fontSize: wp('6.4%')
     },
     headerStyle: {
-      position: 'absolute',
-      backgroundColor: 'transparent',
-      zIndex: 100,
-      top: 0,
-      left: 0,
-      right: 0,
+      //position: 'absolute',
+      backgroundColor: COLOR_BLACK,
+      //zIndex: 100,
+      //top: 0,
+      //left: 0,
+      //right: 0,
       shadowColor: 'transparent',
       borderBottomWidth: 0
     },
@@ -219,164 +219,125 @@ class EditProfile extends Component<Props, State> {
       <KeyboardAvoidingView
         style={styles.parent}
         behavior='padding'>
-          <ScrollView>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-              <View style={styles.container}>
-                <View style={styles.headerContainer}>
-                  <View style={styles.avatarContainer}>
-                    {(() => {
-                      if (1) {
-                        return (
-                          <TouchableOpacity
-                           style= {{position: 'relative'}}
-                            onPress={() => this.showAvatarActionSheet()}
-                          >
-                            <Image
-                              style={styles.avatar}
-                              source={
-                                avatarURL
-                                  ? { uri: avatarURL }
-                                  : require('../../../../assets/images/etc/default-avatar.png')
-                              }
-                            />
-
-                            <Image
-                              style={{width: 34, height: 34, position: 'absolute', right:0}}
-                              source={
-                               require('../../../../assets/images/etc/EditIcon.png')
-                              }
-                            />
-
-                          </TouchableOpacity>
-                        );
-                      }
-
-                    })()}
-                  </View>
-                </View>
+          <ScrollView contentContainerStyle={{ paddingHorizontal: 31, paddingBottom: hp('9%') }}>
+            <View style={styles.headerContainer}>
+              <View style={styles.avatarContainer}>
                 {(() => {
-                  if (this.state.isEditing) {
+                  if (1) {
                     return (
-                      <View style={[styles.bodyContainer,{position: 'relative'}]}>
-                        <ProfileTextInput
-                          type="name"
-                          label="First Name"
-                          placeholder="John"
-                          onChange={firstName => this.setState({ firstName })}
-                          value={firstName}
+                      <TouchableOpacity
+                       style= {{position: 'relative'}}
+                        onPress={() => this.showAvatarActionSheet()}
+                      >
+                        <Image
+                          style={styles.avatar}
+                          source={
+                            avatarURL
+                              ? { uri: avatarURL }
+                              : require('../../../../assets/images/etc/default-avatar.png')
+                          }
                         />
 
-                        <ProfileTextInput
-                          type="name"
-                          label="Last Name"
-                          placeholder="Doe"
-                          onChange={lastName => this.setState({ lastName })}
-                          value={lastName}
+                        <Image
+                          style={{width: 34, height: 34, position: 'absolute', right:0}}
+                          source={
+                           require('../../../../assets/images/etc/EditIcon.png')
+                          }
                         />
-                        <ProfileTextInput
-                          type="number"
-                          label="Phone"
-                          placeholder="(123) 456-7890"
-                          onChange={phone => this.setState({ phone })}
-                          value={phone}
-                        />
-                        <ProfileTextInput
-                          type="name"
-                          label="Address"
-                          placeholder="123 Main St"
-                          onChange={address => this.setState({ address })}
-                          value={address}
-                        />
-                        <ProfileTextInput
-                          type="number"
-                          label="Zip"
-                          placeholder="12345"
-                          onChange={zip => this.setState({ zip })}
-                          value={zip}
-                        />
-                        <ProfileTextInput
-                          type="name"
-                          label="City"
-                          placeholder="New York"
-                          onChange={city => this.setState({ city })}
-                          value={city}
-                        />
-                        <ProfileTextInput
-                          type="name"
-                          label="City"
-                          placeholder="New York"
-                          onChange={city => this.setState({ city })}
-                          value={city}
-                        />
-                        <ProfileTextInput
-                          type="name"
-                          label="City"
-                          placeholder="New York"
-                          onChange={city => this.setState({ city })}
-                          value={city}
-                        />
-                        <ProfileTextInput
-                          type="name"
-                          label="City"
-                          placeholder="New York"
-                          onChange={city => this.setState({ city })}
-                          value={city}
-                        />
-                        <ProfileTextInput
-                          type="name"
-                          label="City"
-                          placeholder="New York"
-                          onChange={city => this.setState({ city })}
-                          value={city}
-                        />
-                        <ProfileTextInput
-                          type="name"
-                          label="City"
-                          placeholder="New York"
-                          onChange={city => this.setState({ city })}
-                          value={city}
-                        />
-                        <TouchableOpacity style={{position: 'absolute', right: 0, top: 5}} onPress={() => this.toggleEditing()}>
-                          <View>
-                            <Text style={styles.edit}>
-                              {this.state.isEditing ? 'Save' : 'Edit'}
-                            </Text>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
+
+                      </TouchableOpacity>
                     );
                   }
-                  return (
-                    <View style={[styles.bodyContainer,{position: 'relative'}]}>
-                      <ProfileDataField
-                        label="First Name"
-                        value={this.props.firstName}
-                      />
 
-                      <ProfileDataField
-                        label="Last Name"
-                        value={this.props.lastName}
-                      />
-                      <ProfileDataField label="Phone" value={this.props.phone} />
-                      <ProfileDataField
-                        label="Address"
-                        value={this.props.address}
-                      />
-                      <ProfileDataField label="Zip" value={this.props.zip} />
-                      <ProfileDataField label="City" value={this.props.city} />
-
-                      <TouchableOpacity style={{position: 'absolute', right: 0, top: 5}} onPress={() => this.toggleEditing()}>
-                          <View>
-                          <Text style={styles.edit}>
-                          {this.state.isEditing ? 'Save' : 'Edit'}
-                          </Text>
-                          </View>
-                      </TouchableOpacity>
-                    </View>
-                  );
                 })()}
               </View>
-            </TouchableWithoutFeedback>
+            </View>
+            {(() => {
+              if (this.state.isEditing) {
+                return (
+                  <View style={[styles.bodyContainer,{position: 'relative'}]}>
+                    <ProfileTextInput
+                      type="name"
+                      label="First Name"
+                      placeholder="John"
+                      onChange={firstName => this.setState({ firstName })}
+                      value={firstName}
+                    />
+
+                    <ProfileTextInput
+                      type="name"
+                      label="Last Name"
+                      placeholder="Doe"
+                      onChange={lastName => this.setState({ lastName })}
+                      value={lastName}
+                    />
+                    <ProfileTextInput
+                      type="number"
+                      label="Phone"
+                      placeholder="(123) 456-7890"
+                      onChange={phone => this.setState({ phone })}
+                      value={phone}
+                    />
+                    <ProfileTextInput
+                      type="name"
+                      label="Address"
+                      placeholder="123 Main St"
+                      onChange={address => this.setState({ address })}
+                      value={address}
+                    />
+                    <ProfileTextInput
+                      type="number"
+                      label="Zip"
+                      placeholder="12345"
+                      onChange={zip => this.setState({ zip })}
+                      value={zip}
+                    />
+                    <ProfileTextInput
+                      type="name"
+                      label="City"
+                      placeholder="New York"
+                      onChange={city => this.setState({ city })}
+                      value={city}
+                    />
+                    <TouchableOpacity style={{position: 'absolute', right: 0, top: 5}} onPress={() => this.toggleEditing()}>
+                      <View>
+                        <Text style={styles.edit}>
+                          {this.state.isEditing ? 'Save' : 'Edit'}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                );
+              }
+              return (
+                <View style={[styles.bodyContainer,{position: 'relative'}]}>
+                  <ProfileDataField
+                    label="First Name"
+                    value={this.props.firstName}
+                  />
+
+                  <ProfileDataField
+                    label="Last Name"
+                    value={this.props.lastName}
+                  />
+                  <ProfileDataField label="Phone" value={this.props.phone} />
+                  <ProfileDataField
+                    label="Address"
+                    value={this.props.address}
+                  />
+                  <ProfileDataField label="Zip" value={this.props.zip} />
+                  <ProfileDataField label="City" value={this.props.city} />
+
+                  <TouchableOpacity style={{position: 'absolute', right: 0, top: 5}} onPress={() => this.toggleEditing()}>
+                      <View>
+                      <Text style={styles.edit}>
+                      {this.state.isEditing ? 'Save' : 'Edit'}
+                      </Text>
+                      </View>
+                  </TouchableOpacity>
+                </View>
+              );
+            })()}
           </ScrollView>
       </KeyboardAvoidingView>
     );
@@ -398,15 +359,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   bodyContainer: {
-    alignItems: 'center',
-    flex: 2,
-    flexDirection: 'column'
-  },
-  container: {
-    alignItems: 'center',
     flex: 1,
-    marginHorizontal: 31,
-    marginTop: 90
+    flexDirection: 'column'
   },
   edit: {
     color: COLOR_GREEN,
@@ -419,7 +373,9 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: 'center',
     flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginTop: hp('3.20%'),
+    marginBottom: hp('3.44%')
   },
   parent: {
     backgroundColor: COLOR_BLACK,

@@ -32,6 +32,10 @@ const styles = StyleSheet.create({
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
     fontSize: 20
+  },
+
+  flatListStyle: {
+    paddingBottom: hp('9%')
   }
 });
 

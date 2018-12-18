@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2B2C2C',
+    paddingBottom: hp('9%'),
     paddingTop:
       Header.HEIGHT +
       Constants.statusBarHeight -

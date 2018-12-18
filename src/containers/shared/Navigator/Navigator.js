@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import Tutorial from '../../authentication/Tutorial';
@@ -45,15 +46,17 @@ import VendorTabBar from '../../../components/VendorTabBar';
 
 const headerColor = '#2B2C2C';
 const activeColor = COLOR_GREEN;
-const inactiveColor = '#919191';
+// const inactiveColor = '#919191';
+const inactiveColor = 'white';
 
 const tabBarOptions = {
   activeTintColor: activeColor,
+  inactiveTintColor: inactiveColor,
   indicatorStyle: { backgroundColor: activeColor },
   style: {
     backgroundColor: headerColor,
     borderTopWidth: 1,
-    borderTopColor: '#e1e1e1'    
+    borderTopColor: '#e1e1e1'
   }
 };
 
@@ -127,7 +130,8 @@ const CustomerSectionTabNavigator = createBottomTabNavigator(
   },
   {
     initialRouteName: 'Explore',
-    tabBarOptions
+    tabBarOptions,
+    tabBarComponent: props => <VendorTabBar {...props} />
   }
 );
 
@@ -199,8 +203,9 @@ const VendorNavigator = createBottomTabNavigator(
         tabBarIcon: ({ focused }) => (
           <Image
             style={{
-              height: 24,
-              width: 24,
+              height: wp('6.4%'),
+              width: wp('6.4%'),
+              resizeMode: 'contain',
               tintColor: focused ? activeColor : inactiveColor
             }}
             source={require('../../../../assets/images/icons/TableIcon.png')}
@@ -227,11 +232,11 @@ const VendorNavigator = createBottomTabNavigator(
 
     VendorActivityNavigator: { screen: VendorActivityNavigator,
       navigationOptions: {
-        title:'Activity',
+        title: 'Activity',
         tabBarIcon: ({ focused }) => (
           <Feather
             name="bell"
-            size={24}
+            size={wp('6.4%')}
             color={focused ? activeColor : inactiveColor}
           />
         )
@@ -245,8 +250,8 @@ const VendorNavigator = createBottomTabNavigator(
         tabBarIcon: ({ focused }) => (
           <Image
             style={{
-              height: 22,
-              width: 22,
+              height: wp('6.4%'),
+              width: wp('6.4%'),
               resizeMode: 'contain',
               tintColor: focused ? activeColor : inactiveColor
             }}
@@ -259,7 +264,7 @@ const VendorNavigator = createBottomTabNavigator(
   {
     initialRouteName: 'VendorProfile',
     tabBarOptions,
-    tabBarComponent: VendorTabBar
+    tabBarComponent: props => <VendorTabBar {...props} />
   }
 );
 

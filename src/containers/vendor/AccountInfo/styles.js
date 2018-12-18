@@ -67,7 +67,8 @@ export default StyleSheet.create({
   },
   containerContentStyle: {
     alignItems: 'center',
-    paddingTop: hp('2%')
+    paddingTop: hp('2%'),
+    paddingBottom: hp('11%')
   },
   editAvatarIcon: {
     width: AVATAR_SIZE / 3,

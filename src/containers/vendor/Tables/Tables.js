@@ -38,7 +38,6 @@ class Tables extends Component {
     this.timer = null;
   }
 
-
   componentDidMount() {
     NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     if (this.props.section === 0) {
@@ -87,8 +86,8 @@ class Tables extends Component {
   }
 
   handleConnectionChange = (isConnected) => {
-      this.setState({ status: isConnected });
-      console.log(`is connected: ${this.state.status}`);
+    this.setState({ status: isConnected });
+    console.log(`is connected: ${this.state.status}`);
   }
 
   showAlert(message, duration) {

@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Constants } from 'expo';
 
 import { FONT_FAMILY } from '../../services/constants';
 
@@ -9,11 +10,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: hp('5.17%'),
+    marginTop: Constants.statusBarHeight + hp('2.95%'),
     position: 'absolute',
     top: 0,
     right: 0,
-    left: 0
+    left: 0,
+    height: hp('3.69%')
   },
 
   searchTextInput: {

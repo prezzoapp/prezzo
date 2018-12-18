@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 
   flatListStyle: {
     paddingTop: hp('0.61%'),
-    paddingBottom: hp('2.46%')
+    paddingBottom: hp('11%')
   },
   title: {
     fontSize: wp('6.4%'),
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 40,
     marginHorizontal: wp('3.73%'),
-    bottom: 10,
+    bottom: hp('11%'),
     zIndex: 9999,
     backgroundColor: 'grey',
     opacity: 0.9,

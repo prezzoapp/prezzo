@@ -311,7 +311,6 @@ checkResponseMessage(){
             }
           ]}
         >
-
           <View style={styles.box2}>
             <BlurView style={styles.blurView} tint="dark" intensity={95} />
             <View

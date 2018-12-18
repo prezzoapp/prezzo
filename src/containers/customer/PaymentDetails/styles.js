@@ -10,7 +10,8 @@ const checkboxSize: number = 25;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2B2C2C'
+    backgroundColor: '#2B2C2C',
+    paddingBottom: hp('9%')
   },
 
   scrollView: {

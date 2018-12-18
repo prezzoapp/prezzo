@@ -87,6 +87,7 @@ class ExploreSearch extends Component {
                     <FlatList
                       keyExtractor={item => item._id}
                       data={this.state.filteredData}
+                      contentContainerStyle={styles.flatListStyle}
                       ItemSeparatorComponent={() => this.renderSeparator()}
                       renderItem={({ item }) => (
                         <SearchVendorListItem

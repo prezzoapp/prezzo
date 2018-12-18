@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import {
   FONT_FAMILY_BOLD,
@@ -38,6 +39,12 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     fontSize: 20,
     textAlign: 'center'
+  },
+
+  flatListStyle: {
+    marginHorizontal: 15,
+    paddingTop: 10,
+    paddingBottom: hp('9%')
   }
 });
 

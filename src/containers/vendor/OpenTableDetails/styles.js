@@ -9,7 +9,8 @@ import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2B2C2C'
+    backgroundColor: '#2B2C2C',
+    paddingBottom: hp('9%')
   },
 
   tabBarUnderlineStyle: {

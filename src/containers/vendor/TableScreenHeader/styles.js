@@ -1,4 +1,6 @@
 import { StyleSheet } from 'react-native';
+import { Constants } from 'expo';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import {
   FONT_FAMILY_BOLD,
   FONT_FAMILY_MEDIUM
@@ -13,21 +15,24 @@ const styles = StyleSheet.create({
     right: 0
   },
   linearGradientStyle: {
-    paddingTop: 30
+    paddingTop: 0
   },
   vendorImage: {
     height: 59,
     width: 59
   },
   detailContainer: {
-    marginTop: 20,
+    paddingTop: Constants.statusBarHeight + hp('9.1%'),
     flexDirection: 'row',
-    padding: 15,
+    paddingHorizontal: 15,
+    paddingBottom: 15,
     alignItems: 'center'
   },
   nameContainer: {
-    padding: 15,
-    flexDirection: 'column'
+    paddingHorizontal: 15,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start'
   },
   vendorName: {
     fontSize: 15,

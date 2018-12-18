@@ -335,8 +335,8 @@ export default class CreateMenu extends Component<Props> {
       : [];
 
     return (
-      <KeyboardAvoidingView style={styles.container} behavior='padding' keyboardVerticalOffset={40}>
-        <View style={{ flex: 1 }}>
+      <KeyboardAvoidingView style={styles.container} behavior='padding'>
+        <View style={styles.innerContainer}>
           <SectionList
             showsVerticalScrollIndicator={false}
             extraData={array}

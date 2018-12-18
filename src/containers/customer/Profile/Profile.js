@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 10,
-    marginBottom: 20
+    marginTop: hp('3.20%'),
+    marginBottom: hp('3.44%')
   },
   parent: {
     alignItems: 'center',

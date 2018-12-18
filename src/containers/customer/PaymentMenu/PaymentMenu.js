@@ -68,10 +68,10 @@ class PaymentMenu extends Component {
     }, duration);
   }
 
-  checkResponseMessage(){
-  AsyncStorage.getItem('response_message').then((msg) => {
-  console.log("response message is -----------------",msg);
-  });
+  checkResponseMessage() {
+    AsyncStorage.getItem('response_message').then((msg) => {
+      console.log('response message is -----------------', msg);
+    });
   }
   removeCardAtIndex(id) {
     Alert.alert(
@@ -93,130 +93,129 @@ class PaymentMenu extends Component {
   }
 
   render() {
-    console.log(this.props.isBusy);
     return (
       <View style={styles.parent}>
-        <ScrollView style={styles.scrollViewStyle} bounces={false}>
-          <View style={[styles.container, { paddingVertical: hp('7%') }]}>
-            <MenuButton
-              onPress={() =>
-                this.props.navigate({
-                  routeName: 'PaymentDetails',
-                  params: { title: 'Add Credit Card' }
-                })
-              }
-              title="Add Credit Card"
-              icon="add"
-              leftIcon={
-                <Image
-                  source={require('../../../../assets/images/Credit-Card.png')}
-                  style={{
-                    width: 28,
-                    resizeMode: 'contain'
-                  }}
-                />
-              }
-            />
+        <View style={styles.container}>
+          <MenuButton
+            onPress={() =>
+              this.props.navigate({
+                routeName: 'PaymentDetails',
+                params: { title: 'Add Credit Card' }
+              })
+            }
+            title="Add Credit Card"
+            icon="add"
+            leftIcon={
+              <Image
+                source={require('../../../../assets/images/Credit-Card.png')}
+                style={{
+                  width: 28,
+                  resizeMode: 'contain'
+                }}
+              />
+            }
+          />
 
+          <ScrollView style={styles.scrollViewStyle}>
             {this.props.data &&
-              this.props.data.map((item, key) => (
-                <View
-                  key={key}
-                  style={{
-                    flexDirection: 'row',
-                    height: 0.2 * 0.85 * Dimensions.get('window').width
-                  }}
-                >
-                  <EditableListItem
-                    text={item.readableIdentifier}
-                    expDate={item.expDate}
-                    onRemove={() => this.removeCardAtIndex(item._id)}
-                    leftIcon={(() => {
-                      if (item.type === 'braintree-visa') {
-                        return (
-                          <Image
-                            source={require('../../../../assets/images/icons/stp_card_visa.png')}
-                            style={{
-                              width: 35,
-                              resizeMode: 'contain',
-                              marginLeft: 10,
-                              marginRight: 15
-                            }}
-                          />
-                        );
-                      } else if (item.type === 'braintree-mastercard') {
-                        return (
-                          <Image
-                            source={require('../../../../assets/images/icons/stp_card_mastercard.png')}
-                            style={{
-                              width: 35,
-                              resizeMode: 'contain',
-                              marginLeft: 10,
-                              marginRight: 15
-                            }}
-                          />
-                        );
-                      } else if (item.type === 'braintree-discover') {
-                        return (
-                          <Image
-                            source={require('../../../../assets/images/icons/stp_card_discover.png')}
-                            style={{
-                              width: 35,
-                              resizeMode: 'contain',
-                              marginLeft: 10,
-                              marginRight: 15
-                            }}
-                          />
-                        );
-                      } else if (item.type === 'braintree-jcb') {
-                        return (
-                          <Image
-                            source={require('../../../../assets/images/icons/stp_card_jcb.png')}
-                            style={{
-                              width: 35,
-                              resizeMode: 'contain',
-                              marginLeft: 10,
-                              marginRight: 15
-                            }}
-                          />
-                        );
-                      }
-                    })()}
-                  />
-                </View>
-              ))}
-
-            {/*<MenuButton
-              onPress={() => {}}
-              title="Add Bitcoin"
-              icon="add"
-              leftIcon={
-                <Image
-                  source={require('../../../../assets/images/bitcoin.png')}
-                  style={{
-                    width: 20,
-                    resizeMode: 'contain'
-                  }}
+            this.props.data.map((item, key) => (
+              <View
+                key={key}
+                style={{
+                  flexDirection: 'row',
+                  height: 0.2 * 0.85 * Dimensions.get('window').width
+                }}
+              >
+                <EditableListItem
+                  text={item.readableIdentifier}
+                  expDate={item.expDate}
+                  onRemove={() => this.removeCardAtIndex(item._id)}
+                  leftIcon={(() => {
+                    if (item.type === 'braintree-visa') {
+                      return (
+                        <Image
+                          source={require('../../../../assets/images/icons/stp_card_visa.png')}
+                          style={{
+                            width: 35,
+                            resizeMode: 'contain',
+                            marginLeft: 10,
+                            marginRight: 15
+                          }}
+                        />
+                      );
+                    } else if (item.type === 'braintree-mastercard') {
+                      return (
+                        <Image
+                          source={require('../../../../assets/images/icons/stp_card_mastercard.png')}
+                          style={{
+                            width: 35,
+                            resizeMode: 'contain',
+                            marginLeft: 10,
+                            marginRight: 15
+                          }}
+                        />
+                      );
+                    } else if (item.type === 'braintree-discover') {
+                      return (
+                        <Image
+                          source={require('../../../../assets/images/icons/stp_card_discover.png')}
+                          style={{
+                            width: 35,
+                            resizeMode: 'contain',
+                            marginLeft: 10,
+                            marginRight: 15
+                          }}
+                        />
+                      );
+                    } else if (item.type === 'braintree-jcb') {
+                      return (
+                        <Image
+                          source={require('../../../../assets/images/icons/stp_card_jcb.png')}
+                          style={{
+                            width: 35,
+                            resizeMode: 'contain',
+                            marginLeft: 10,
+                            marginRight: 15
+                          }}
+                        />
+                      );
+                    }
+                  })()}
                 />
-              }
-            />
+              </View>
+            ))}
+          </ScrollView>
 
-            <MenuButton
-              onPress={() => {}}
-              title="Add Paypal"
-              icon="add"
-              leftIcon={
-                <Image
-                  source={require('../../../../assets/images/Paypal-icon.png')}
-                  style={{
-                    width: 25,
-                    resizeMode: 'contain'
-                  }}
-                />
-              }
-            />*/}
-          </View>
-        </ScrollView>
+          {/*<MenuButton
+            onPress={() => {}}
+            title="Add Bitcoin"
+            icon="add"
+            leftIcon={
+              <Image
+                source={require('../../../../assets/images/bitcoin.png')}
+                style={{
+                  width: 20,
+                  resizeMode: 'contain'
+                }}
+              />
+            }
+          />
+
+          <MenuButton
+            onPress={() => {}}
+            title="Add Paypal"
+            icon="add"
+            leftIcon={
+              <Image
+                source={require('../../../../assets/images/Paypal-icon.png')}
+                style={{
+                  width: 25,
+                  resizeMode: 'contain'
+                }}
+              />
+            }
+          />*/}
+        </View>
 
         <Modal animationType="none" transparent visible={this.props.isBusy}>
           <View style={styles.loaderView}>

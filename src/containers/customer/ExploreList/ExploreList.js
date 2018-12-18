@@ -9,30 +9,24 @@ import publicIP from 'react-native-public-ip';
 import {AsyncStorage} from 'react-native';
 import showGenericAlert from '../../../components/GenericAlert';
 
-
-
 export default class ExploreList extends PureComponent {
   static propTypes = {
     restaurants: PropTypes.array.isRequired,
     navigate: PropTypes.func.isRequired
   };
   constructor() {
-  super();
+    super();
 
-  this.state = {
-    isFetching: false,
-    customRegion: {
-      latitude: 0,
-      longitude: 0,
-      latitudeDelta: 0.00922,
-      longitudeDelta: 0.00422
+    this.state = {
+      isFetching: false,
+      customRegion: {
+        latitude: 0,
+        longitude: 0,
+        latitudeDelta: 0.00922,
+        longitudeDelta: 0.00422
+      }
     }
-
   }
-
-
-}
-
 
   onRefresh() {
     this.setState(() => {
@@ -51,17 +45,17 @@ export default class ExploreList extends PureComponent {
     );
   }
 
-    componentDidMount(){
-      NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
 
-    }
+  }
 
-    showAlert(message, duration) {
-      clearTimeout(this.timer);
-      this.timer = setTimeout(() => {
-        alert(message);
-      }, duration);
-    }
+  showAlert(message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      alert(message);
+    }, duration);
+  }
 
   checkResponseMessage(){
     AsyncStorage.getItem('response_message').then((msg) => {
@@ -70,48 +64,40 @@ export default class ExploreList extends PureComponent {
   }
 
 
-    hitAPI(){
-  NetInfo.isConnected.fetch().done(
-    (isConnected) => { console.log(isConnected);
-     if(isConnected)
-     {
-        this.getData();
+  hitAPI(){
+    NetInfo.isConnected.fetch().done(
+      (isConnected) => { console.log(isConnected);
+       if(isConnected) {
+          this.getData();
+       }
+       else {
+         this.setState(() => {
+           return {
+             isFetching: false
+           }
+         }, ()=> {
+           setTimeout(() => {
+             Alert.alert(
+              'Prezzo',
+               'Please check your internet connection and try again later.',
+               [
+                 {text: 'OK', onPress: () => console.log('OK Pressed')},
+               ],
+               { cancelable: false }
+             )
+           }, 500);
+         });
+       }
+      }
+    );
+  }
 
+  handleConnectionChange = (isConnected) => {
+    this.setState({ status: isConnected });
+    console.log(`is connected: ${this.state.status}`);
+  }
 
-     }
-     else{
-       this.setState(() => {
-         return {
-           isFetching: false
-         }
-       }, ()=> {
-         setTimeout(() => {
-           Alert.alert(
-            'Prezzo',
-             'Please check your internet connection and try again later.',
-             [
-               {text: 'OK', onPress: () => console.log('OK Pressed')},
-             ],
-             { cancelable: false }
-           )
-         }, 500);
-       });
-
-
-
-
-     }
-
-    }
-  );
-
-}
-handleConnectionChange = (isConnected) => {
-       this.setState({ status: isConnected });
-       console.log(`is connected: ${this.state.status}`);
- }
-
- getData()
+  getData()
   {
     console.log("pull to refresh Called!");
     this.watchID = navigator.geolocation.getCurrentPosition(
@@ -151,19 +137,20 @@ handleConnectionChange = (isConnected) => {
       }
     );
   }
-  getNetworkIP()
-{
-  publicIP()
-    .then(ip => {
-      this.getIPLocation(ip);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-}
-getIPLocation(ip)
-  {
 
+  getNetworkIP()
+  {
+    publicIP()
+      .then(ip => {
+        this.getIPLocation(ip);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  getIPLocation(ip)
+  {
      console.log("location ip is ------ ",ip);
      var commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
      console.log("location url is ------ ",commonHtml);
@@ -209,11 +196,7 @@ getIPLocation(ip)
          })
          .catch((error) => {
          });
-
-
-
   }
-
 
   render(){
     const { restaurants } = this.props;
@@ -233,7 +216,7 @@ getIPLocation(ip)
     if(this.props.isBusy === false && restaurants.length !== 0) {
       return (
         <FlatList
-          contentContainerStyle={{ marginHorizontal: 15, paddingTop: 10 }}
+          contentContainerStyle={styles.flatListStyle}
           style={{ marginTop: 140 }}
           initialNumToRender={10}
           onRefresh={() => this.onRefresh()}
@@ -257,7 +240,7 @@ getIPLocation(ip)
           </View>
 
           <FlatList
-            contentContainerStyle={{ marginHorizontal: 15, paddingTop: 10 }}
+            contentContainerStyle={styles.flatListStyle}
             style={{ marginTop: 140, backgroundColor: 'transparent' }}
             onRefresh={() => this.onRefresh()}
             refreshing={this.state.isFetching}
