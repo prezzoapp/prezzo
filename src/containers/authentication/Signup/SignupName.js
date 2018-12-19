@@ -11,7 +11,7 @@ import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {updateFirstName, updateLastName} from '../../../modules/Signup';
-import {FONT_FAMILY_BOLD} from '../../../services/constants';
+import {FONT_FAMILY_REGULAR} from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import NextButton from './NextButton';
 
@@ -42,10 +42,10 @@ const styles = StyleSheet.create({
     paddingTop: hp('3.50%')
   },
   headerText: {
-    fontSize: 30,
-    fontFamily: FONT_FAMILY_BOLD,
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_REGULAR,
     color: '#fff',
-    marginBottom: 40,
+    marginBottom: hp('5.04%'),
     backgroundColor: 'transparent'
   },
   navigation: {
@@ -64,7 +64,9 @@ const styles = StyleSheet.create({
 });
 
 const nextButtonStyle = {
-  alignSelf: 'flex-end'
+  alignSelf: 'flex-end',
+  position: 'relative',
+  top: -hp('0.98%')
 };
 
 class SignupName extends React.Component<Props, State> {
@@ -104,44 +106,6 @@ class SignupName extends React.Component<Props, State> {
 
   render() {
     const {firstName, lastName} = this.props;
-
-    // return (
-    //   <KeyboardAvoidingView
-    //     style={{ flex: 1 }}
-    //     behavior='padding'>
-    //       <ImageBackground
-    //         style={styles.container}
-    //         source={require('../../../../assets/images/bg/authentication.png')}
-    //       >
-    //       <ScrollView
-    //         contentContainerStyle={styles.scrollView}>
-    //         <Text style={styles.headerText}>
-    //           What's your name?
-    //         </Text>
-    //
-    //         <LoginTextInput
-    //           type='name'
-    //           label='First Name'
-    //           value={firstName}
-    //           onChange={val => this.props.updateFirstName(val)}
-    //         />
-    //
-    //         <LoginTextInput
-    //           type='name'
-    //           label='Last Name'
-    //           value={lastName}
-    //           onChange={val => this.props.updateLastName(val)}
-    //         />
-    //
-    //         <NextButton
-    //           style={nextButtonStyle}
-    //           onPress={() => this.navigateToSignupEmail()}
-    //           disabled={!this.isFormValid()}
-    //         />
-    //       </ScrollView>
-    //     </ImageBackground>
-    //   </KeyboardAvoidingView>
-    // );
     return (
       <ImageBackground
         style={styles.container}

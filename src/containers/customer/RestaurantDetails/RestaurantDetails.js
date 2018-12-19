@@ -356,7 +356,7 @@ export default class RestaurantDetails extends Component {
       style={{
         borderBottomWidth: 1,
         borderBottomColor: 'white',
-        backgroundColor: 'black',
+        backgroundColor: 'transparent',
         bottom: 0
       }}
     >
@@ -495,6 +495,7 @@ export default class RestaurantDetails extends Component {
               return (
                 <AnimatedSectionList
                   bounces={false}
+                  stickySectionHeadersEnabled
                   keyExtractor={item => item._id.toString()}
                   onScroll={Animated.event([
                     {

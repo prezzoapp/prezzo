@@ -23,7 +23,8 @@ import {
 import { isValidEmail } from '../../../utils/validators';
 import {
   FONT_FAMILY_MEDIUM,
-  FONT_FAMILY_BOLD
+  FONT_FAMILY_BOLD,
+  FONT_FAMILY_REGULAR
 } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import alert from '../../../components/GenericAlert';
@@ -49,10 +50,10 @@ const styles = StyleSheet.create({
     paddingBottom: containerPaddingTopBottom
   },
   headerText: {
-    fontSize: 30,
-    fontFamily: FONT_FAMILY_BOLD,
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_REGULAR,
     color: '#fff',
-    marginBottom: 40,
+    marginBottom: hp('5.04%'),
     backgroundColor: 'transparent'
   },
   navigation: {
@@ -79,9 +80,9 @@ const styles = StyleSheet.create({
     marginRight: 20
   },
   promotionalText: {
-    fontSize: 18,
+    fontSize: wp('4.53%'),
     lineHeight: 30,
-    fontFamily: FONT_FAMILY_MEDIUM,
+    fontFamily: FONT_FAMILY_REGULAR,
     color: '#fff',
     backgroundColor: 'transparent'
   },
@@ -91,7 +92,9 @@ const styles = StyleSheet.create({
 });
 
 const nextButtonStyle = {
-  alignSelf: 'flex-end'
+  alignSelf: 'flex-end',
+  position: 'relative',
+  top: -hp('0.98%')
 };
 
 class SignupEmail extends React.Component<Props> {

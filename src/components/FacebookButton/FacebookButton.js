@@ -2,6 +2,7 @@
 import React from 'react';
 import { Text, Image, TouchableOpacity } from 'react-native';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Facebook } from 'expo';
 import { FONT_FAMILY } from '../../services/constants';
 
@@ -67,28 +68,26 @@ class Button extends React.Component<Props> {
 
 const styles = {
   button: {
-    width: '100%',
     backgroundColor: 'rgba(58,159,249,0.81)',
     borderWidth: 2,
     borderColor: '#2074FF',
     borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: hp('5.29%')
   },
   text: {
     color: 'white',
-    fontSize: 20,
+    fontSize: wp('4.8%'),
     fontWeight: '600',
-    fontFamily: FONT_FAMILY,
-    paddingTop: 10,
-    paddingBottom: 10
+    fontFamily: FONT_FAMILY
   },
   icon: {
-    width: 25,
-    height: 25,
+    width: wp('6%'),
+    height: wp('6%'),
     resizeMode: 'contain',
-    marginRight: 15
+    marginRight: wp('3.73%')
   }
 };
 

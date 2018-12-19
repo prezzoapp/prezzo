@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { Constants } from 'expo';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp
+} from 'react-native-responsive-screen';
 import {
   FONT_FAMILY_BOLD,
   FONT_FAMILY_MEDIUM
@@ -18,33 +21,33 @@ const styles = StyleSheet.create({
     paddingTop: 0
   },
   vendorImage: {
-    height: 59,
-    width: 59
+    height: wp('15.73%'),
+    width: wp('15.73%')
   },
   detailContainer: {
-    paddingTop: Constants.statusBarHeight + hp('9.1%'),
+    paddingTop: Constants.statusBarHeight + hp('7.15%'),
     flexDirection: 'row',
-    paddingHorizontal: 15,
-    paddingBottom: 15,
-    alignItems: 'center'
+    paddingHorizontal: wp('4.26%')
   },
   nameContainer: {
-    paddingHorizontal: 15,
+    paddingHorizontal: wp('3%'),
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'flex-start'
+    justifyContent: 'space-between'
   },
   vendorName: {
-    fontSize: 15,
+    fontSize: wp('4%'),
     color: 'rgb(50, 209, 119)',
     fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM).fontFamily,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    flex: 1
   },
   category: {
     fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_BOLD).fontFamily,
     color: 'white',
-    fontSize: 25,
-    backgroundColor: 'transparent'
+    fontSize: wp('6.6%'),
+    backgroundColor: 'transparent',
+    flex: 1
   }
 });
 

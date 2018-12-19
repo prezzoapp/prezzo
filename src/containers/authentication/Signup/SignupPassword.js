@@ -19,7 +19,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { uploadImage } from '../../../modules/upload';
 import { updateUser } from '../../../modules/user';
 import { updateAvatarURL, updatePassword, signup } from '../../../modules/Signup';
-import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_BOLD, FONT_FAMILY_REGULAR } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import FacebookButton from '../../../components/FacebookButton';
 import Button from '../../../components/Button';
@@ -47,7 +47,7 @@ type State = {
 
 const containerPaddingLeftRight: number = 40;
 const containerPaddingTopBottom: number = 80;
-const avatarSize: number = 70;
+const avatarSize: number = wp('17.33%');
 
 const styles = StyleSheet.create({
   container: {
@@ -62,10 +62,10 @@ const styles = StyleSheet.create({
     paddingTop: hp('3.50%')
   },
   headerText: {
-    fontSize: 30,
-    fontFamily: FONT_FAMILY_BOLD,
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_REGULAR,
     color: '#fff',
-    marginBottom: 30,
+    marginBottom: hp('2.83%'),
     backgroundColor: 'transparent'
   },
   profileContainer: {
@@ -93,14 +93,14 @@ const styles = StyleSheet.create({
     resizeMode: 'cover'
   },
   editAvatarIcon: {
-    width: avatarSize / 2.5,
-    height: avatarSize / 2.5,
+    width: wp('5.66%'),
+    height: wp('5.66%'),
     position: 'absolute',
-    top: 0,
-    right: 5,
-    borderWidth: 2,
+    top: hp('0.5%'),
+    right: wp('2%'),
+    borderWidth: 1,
     borderColor: '#fff',
-    borderRadius: avatarSize / 5,
+    borderRadius: wp('5.66%') / 2,
     backgroundColor: '#484848'
   },
   nameAndEmailContainer: {
@@ -108,14 +108,15 @@ const styles = StyleSheet.create({
     paddingLeft: 20
   },
   name: {
-    fontSize: 24,
-    fontFamily: FONT_FAMILY_BOLD,
+    fontSize: wp('5.33%'),
+    fontFamily: FONT_FAMILY_REGULAR,
     color: '#fff',
+    marginBottom: hp('1.72%'),
     backgroundColor: 'transparent'
   },
   email: {
-    fontSize: 20,
-    fontFamily: FONT_FAMILY,
+    fontSize: wp('4.53%'),
+    fontFamily: FONT_FAMILY_REGULAR,
     color: '#959595',
     backgroundColor: 'transparent'
   },
@@ -150,7 +151,9 @@ const buttonStyles = {
     borderColor: '#fff'
   },
   next: {
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    position: 'relative',
+    top: -hp('0.98%')
   }
 };
 

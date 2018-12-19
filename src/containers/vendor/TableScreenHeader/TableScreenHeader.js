@@ -17,10 +17,10 @@ const TableScreenHeader = props => {
             style={styles.vendorImage}
           />
           <View style={styles.nameContainer}>
-            <Text style={styles.vendorName}>
+            <Text style={styles.vendorName} numberOfLines={1}>
               {props.vendorData.get('name')}
             </Text>
-            <Text style={styles.category}>
+            <Text style={styles.category} numberOfLines={1}>
               {(() => {
                 if(props.tableSection === 0) {
                   if (props.tabName === 'tables') return 'Open Tables';

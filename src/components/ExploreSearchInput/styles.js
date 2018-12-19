@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: Constants.statusBarHeight + hp('2.95%'),
+    marginTop: Constants.statusBarHeight + hp('1%'),
     position: 'absolute',
     top: 0,
     right: 0,

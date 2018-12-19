@@ -32,6 +32,7 @@ class Prezzo extends Component {
         'ClearSans-Light': require('./assets/fonts/clear-sans/ClearSans-Light.ttf'),
         'ClearSans-Medium': require('./assets/fonts/clear-sans/ClearSans-Medium.ttf'),
         'ClearSans-Bold': require('./assets/fonts/clear-sans/ClearSans-Bold.ttf'),
+        'ClearSans-Regular': require('./assets/fonts/clear-sans/ClearSans-Regular.ttf'),
         'material': require('@expo/vector-icons/fonts/MaterialIcons.ttf'),
         'ionicons': require('@expo/vector-icons/fonts/Ionicons.ttf'),
         'entypo': require('@expo/vector-icons/fonts/Entypo.ttf'),

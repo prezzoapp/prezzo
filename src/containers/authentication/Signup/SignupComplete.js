@@ -1,11 +1,12 @@
 // @flow
 import React from 'react';
 import { ImageBackground, Text, Image, StyleSheet } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_REGULAR } from '../../../services/constants';
 import Button from '../../../components/Button';
 
 type Props = {
@@ -34,19 +35,19 @@ const styles = StyleSheet.create({
     resizeMode: 'contain'
   },
   headerText: {
-    fontSize: 30,
-    fontFamily: FONT_FAMILY_BOLD,
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_REGULAR,
     textAlign: 'center',
     color: '#fff',
-    marginBottom: 10,
+    marginBottom: hp('0.98%'),
     backgroundColor: 'transparent'
   },
   bodyText: {
-    fontSize: 24,
-    fontFamily: FONT_FAMILY,
+    fontSize: wp('8%'),
+    fontFamily: FONT_FAMILY_REGULAR,
     textAlign: 'center',
     color: '#fff',
-    marginBottom: 80,
+    marginBottom: hp('17.24%'),
     backgroundColor: 'transparent'
   },
   navigation: {

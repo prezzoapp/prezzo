@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import { FONT_FAMILY } from '../../services/constants';
 
 const styles = StyleSheet.create({
@@ -24,20 +27,13 @@ const styles = StyleSheet.create({
     color: '#FAFAFA',
     fontSize: wp('3.46%'),
     fontFamily: FONT_FAMILY,
-    marginVertical: 5
-  },
-
-  container: {
-    // marginHorizontal: wp('4.26%')
-    // width: wp('91.46%')
-    // width: '100%'
+    marginVertical: hp('0.61%')
   },
 
   listSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    // backgroundColor: 'red',
     paddingHorizontal: wp('2.40%')
   },
 

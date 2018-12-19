@@ -41,10 +41,14 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
 
-  flatListStyle: {
+  flatListContentContainerStyle: {
     marginHorizontal: 15,
-    paddingTop: 10,
+    paddingTop: hp('2%'),
     paddingBottom: hp('9%')
+  },
+
+  flatListStyle: {
+    marginTop: hp('20.68%')
   }
 });
 

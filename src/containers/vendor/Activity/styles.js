@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
 
   innerContainer: {
-    marginTop: 145,
+    marginTop: hp('20.68%'),
     width: wp('91.46%')
   },
 

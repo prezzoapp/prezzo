@@ -1,5 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+import { Constants } from 'expo';
 
 import {
   FONT_FAMILY_BOLD,
@@ -10,7 +14,7 @@ const styles = StyleSheet.create({
   header: {
     alignSelf: 'stretch',
     position: 'absolute',
-    top: hp('8.86%'),
+    top: 0,
     left: 0,
     right: 0
   },
@@ -23,8 +27,8 @@ const styles = StyleSheet.create({
   },
 
   filterPanel: {
-    paddingHorizontal: 15,
-    paddingTop: 8
+    paddingHorizontal: wp('4.26%'),
+    marginTop: Constants.statusBarHeight + hp('6.5%')
   },
 
   filter: {
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 2,
     borderBottomColor: 'rgb(36, 49, 42)',
-    paddingBottom: 10
+    paddingBottom: hp('1.8%')
   },
 
   restaurantTitle: {

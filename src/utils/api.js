@@ -1,8 +1,8 @@
 import Promise from 'bluebird';
 import HttpError from 'standard-http-error';
-import {getConfiguration} from '../utils/configuration';
-import {getAuthenticationToken} from '../utils/authentication';
 import { AsyncStorage } from 'react-native';
+import { getConfiguration } from '../utils/configuration';
+import { getAuthenticationToken } from '../utils/authentication';
 
 const EventEmitter = require('event-emitter');
 
@@ -199,8 +199,8 @@ async function bodyOf(requestPromise) {
       console.log('response_message', message);
       const res_code = response.headers.map.res_code[0];
       console.log('response_code', res_code);
-      AsyncStorage.setItem('response_message', message);
-      AsyncStorage.setItem('response_code', res_code);
+      await AsyncStorage.setItem('response_message', message);
+      await AsyncStorage.setItem('response_code', res_code);
     }
     return response.body;
   } catch (e) {

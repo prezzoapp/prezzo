@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import TutorialScreen from './TutorialScreen';
 import Button from '../../../components/Button';
 import FacebookButton from '../../../components/FacebookButton';
@@ -138,6 +139,7 @@ class Tutorial extends React.Component {
           <Button
             testID="signupButton"
             disabled={isBusy}
+            textStyle={buttonStyles.textStyle}
             style={buttonStyles.createAccountButton}
             onPress={() => this.navigateToEnableNotifications()}
           >
@@ -164,17 +166,16 @@ const styles = StyleSheet.create({
   },
   footer: {
     position: 'absolute',
-    bottom: '5%',
+    bottom: hp('7%'),
     left: 0,
     right: 0,
-    width: '100%',
-    height: '20%'
+    width: '100%'
   },
   login: {
-    fontSize: 18,
+    fontSize: wp('5.33%'),
     fontFamily: FONT_FAMILY,
     letterSpacing: 0,
-    marginRight: 20,
+    marginRight: wp('5.33%'),
     color: '#fff',
     alignSelf: 'flex-end'
   }
@@ -182,17 +183,23 @@ const styles = StyleSheet.create({
 
 const buttonStyles = {
   facebookButton: {
-    width: '90%',
-    marginLeft: 20,
-    marginRight: 20
+    marginLeft: wp('10.13%'),
+    marginRight: wp('10.13%')
   },
   createAccountButton: {
-    width: '90%',
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    width: 'auto',
+    height: hp('5.29%'),
+    marginLeft: wp('10.13%'),
+    marginRight: wp('10.13%'),
+    justifyContent: 'center',
+    marginTop: hp('1.72%'),
+    backgroundColor: 'transparent',
     borderColor: '#fff'
+  },
+  textStyle: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    fontSize: wp('4.8%')
   }
 };
 

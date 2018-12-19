@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_REGULAR } from '../../../services/constants';
 import { Feather } from '../../../components/VectorIcons';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
@@ -74,7 +74,6 @@ class Login extends React.Component<Props, State> {
   }
 
   afterLogin() {
-  //  this.props.listCreditCards();
     this.navigateToMain();
   }
 
@@ -171,16 +170,17 @@ const styles = StyleSheet.create({
     paddingTop: hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0))
   },
   headerText: {
-    fontSize: 30,
-    fontFamily: FONT_FAMILY_BOLD,
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_REGULAR,
     color: '#fff',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    paddingTop: hp('1.72%')
   },
   subHeaderText: {
-    fontSize: 24,
-    fontFamily: FONT_FAMILY,
+    fontSize: wp('6.4%'),
+    fontFamily: FONT_FAMILY_REGULAR,
     color: '#fff',
-    marginBottom: 40,
+    marginBottom: hp('5.66%'),
     backgroundColor: 'transparent'
   },
   signupLabelContainer: {
@@ -193,17 +193,16 @@ const styles = StyleSheet.create({
   },
   signupLabel: {
     color: '#959595',
-    fontSize: 16,
-    fontFamily: FONT_FAMILY,
+    fontSize: wp('4.53%'),
+    fontFamily: FONT_FAMILY_REGULAR,
     marginRight: 4
   },
   signupLink: {
     color: '#fff',
-    fontSize: 16,
-    fontFamily: FONT_FAMILY
+    fontSize: wp('4.53%'),
+    fontFamily: FONT_FAMILY_REGULAR
   },
   buttonContainer: {
-    width: '50%',
     alignSelf: 'center'
   },
   headerLeftBtn: {
@@ -213,10 +212,18 @@ const styles = StyleSheet.create({
 
 const buttonStyles = {
   login: {
+    width: wp('42.66%'),
+    height: hp('6.65%'),
     backgroundColor: '#0DD24A',
-    borderColor: '#0DD24A'
+    borderColor: '#0DD24A',
+    justifyContent: 'center'
   },
-  loginText: {}
+  loginText: {
+    fontSize: wp('5.33%'),
+    fontFamily: FONT_FAMILY_REGULAR,
+    paddingTop: 0,
+    paddingBottom: 0
+  }
 };
 
 export default Login;

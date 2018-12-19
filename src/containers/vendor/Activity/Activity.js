@@ -127,7 +127,6 @@ class Activity extends Component {
     };
   }
 
-
   renderFooter = () => (
     <View style={styles.listFooter}>
       <Button
@@ -166,11 +165,11 @@ class Activity extends Component {
   onSectionChange = index => {
     if (index === 0) {
       this.props.listWaiterRequestTable(this.props.vendorData.get('_id')).then(() => {
-          this.checkResponseMessage();
-        })
-        .catch(e => {
-          this.showAlert(e.message, 300);
-        });
+        this.checkResponseMessage();
+      })
+      .catch(e => {
+        this.showAlert(e.message, 300);
+      });
     } else {
       this.props.listPhotoReviewTable();
     }
@@ -185,13 +184,11 @@ class Activity extends Component {
     }, duration);
   }
 
-checkResponseMessage(){
-  AsyncStorage.getItem('response_message').then((msg) => {
-  console.log("response message is -----------------",msg);
-  });
-}
-
-
+  async checkResponseMessage(){
+    await AsyncStorage.getItem('response_message').then((msg) => {
+      console.log("response message is -----------------",msg);
+    });
+  }
 
   myCallback(itemIndex, imageIndex) {
     const item = this.state.data.findIndex(x => x.index === itemIndex);
@@ -208,7 +205,6 @@ checkResponseMessage(){
       () => {}
     );
   }
-
 
   show() {
     Animated.timing(this.showModalAnimatedValue, {
@@ -256,9 +252,6 @@ checkResponseMessage(){
   };
 
   renderWaiterRequestTable() {
-    if(this.props.openTableList.size !== 0) {
-      console.log(this.props.openTableList.toJS());
-    }
     return (
       <FlatList
         keyExtractor={(item, index) => index.toString()}
@@ -344,7 +337,7 @@ checkResponseMessage(){
               }}
             >
               <FlatList
-                keyExtractor={item => item.index.toString()}
+                keyExtractor={(item, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
                 data={this.state.data}
                 ListHeaderComponent={() => this.renderHeader()}
@@ -357,8 +350,6 @@ checkResponseMessage(){
                     }
                   />
                 )}
-
-                // renderItem={({ item }) => <AddReviewListItem item={item} />}
               />
             </View>
           </View>

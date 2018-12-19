@@ -17,7 +17,6 @@ const price3Indicator = wp('85%') * 0.66 - wp('9.5%');
 
 const price4Indicator = wp('85%') * 0.99 - wp('9.5%');
 
-
 export default class ExploreScreenHeader extends PureComponent {
   static propTypes = {
     navigate: PropTypes.func.isRequired,
@@ -57,9 +56,7 @@ export default class ExploreScreenHeader extends PureComponent {
         this.props.distance,
         this.activeFilters.join(','),
         this.props.pricing
-      ).then(() => {
-          // this.hideFilterPanel();
-      });
+      );
     });
   }
 
@@ -71,9 +68,7 @@ export default class ExploreScreenHeader extends PureComponent {
         this.props.distance,
         this.activeFilters.join(','),
         this.props.pricing
-      ).then(() => {
-          // this.hideFilterPanel();
-      });
+      );
     });
   }
 
@@ -92,9 +87,7 @@ export default class ExploreScreenHeader extends PureComponent {
         this.props.distance,
         this.activeFilters.join(','),
         this.props.pricing
-      ).then(() => {
-          // this.hideFilterPanel();
-      });
+      );
     });
   }
 
@@ -142,9 +135,9 @@ export default class ExploreScreenHeader extends PureComponent {
   };
 
   handleConnectionChange = (isConnected) => {
-         this.setState({ status: isConnected });
-         console.log(`is connected: ${this.state.status}`);
- }
+      this.setState({ status: isConnected });
+      console.log(`is connected: ${this.state.status}`);
+    }
 
   render() {
     const { filters } = this.props;

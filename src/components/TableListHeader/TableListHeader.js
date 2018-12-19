@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import PropTypes from 'prop-types';
 import styles from './styles';
 import { Feather, Ionicons } from '../VectorIcons';
 
 export default class TableListHeader extends Component {
-
   onListTypeSelection = index => {
     this.props.onListTypeSelection(index);
   };
@@ -25,7 +25,7 @@ export default class TableListHeader extends Component {
               this.props.tabNames &&
               this.props.tabNames.map((item, index) => (
                 <TouchableOpacity
-                  key={index}
+                  key={item}
                   activeOpacity={0.8}
                   onPress={() => this.onListTypeSelection(index)}
                   style={styles.textContainer}
@@ -46,15 +46,6 @@ export default class TableListHeader extends Component {
                       {item}
                     </Text>
                   </View>
-                  {/*selectedIndex === index && (
-                    <View
-                      style={{
-                        height: 2,
-                        width: '70%',
-                        backgroundColor: '#2ED573'
-                      }}
-                    />
-                  )}*/}
                 </TouchableOpacity>
               ))
             );
@@ -73,10 +64,10 @@ export default class TableListHeader extends Component {
                 size={wp('8%')}
                 style={{
                   color: this.props.screenName === 'activity'
-                    ? 'transparent'
-                    : isList
-                      ? '#2ED573'
-                      : 'white'
+                      ? 'transparent'
+                      : isList
+                        ? '#2ED573'
+                        : 'white'
                 }}
               />
             </TouchableOpacity>
@@ -90,10 +81,10 @@ export default class TableListHeader extends Component {
                 size={wp('7%')}
                 style={{
                   color: this.props.screenName === 'activity'
-                    ? 'transparent'
-                    : !isList
-                      ? '#2ED573'
-                      : 'white'
+                      ? 'transparent'
+                      : !isList
+                        ? '#2ED573'
+                        : 'white'
                 }}
               />
             </TouchableOpacity>
@@ -104,3 +95,16 @@ export default class TableListHeader extends Component {
     );
   }
 }
+
+TableListHeader.defaultProps = {
+  screenName: ''
+};
+
+TableListHeader.propTypes = {
+  onListTypeSelection: PropTypes.func.isRequired,
+  onChangeLayout: PropTypes.func.isRequired,
+  currentTab: PropTypes.number.isRequired,
+  currentLayout: PropTypes.string.isRequired,
+  tabNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  screenName: PropTypes.string
+};

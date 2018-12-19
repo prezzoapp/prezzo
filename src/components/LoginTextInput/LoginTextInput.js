@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
-import { FONT_FAMILY, FONT_FAMILY_MEDIUM } from '../../services/constants';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { FONT_FAMILY, FONT_FAMILY_MEDIUM, FONT_FAMILY_REGULAR } from '../../services/constants';
 
 type Props = {
   onChange: Function,
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 'auto',
-    marginBottom: 40,
+    marginBottom: hp('4.92%'),
     borderBottomWidth: 2,
     borderBottomColor: '#0DD24A',
     backgroundColor: 'transparent'
@@ -91,23 +92,23 @@ const styles = StyleSheet.create({
   },
   label: {
     color: '#959595',
-    fontSize: 14,
+    fontSize: wp('4.53%'),
     fontWeight: '600',
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
-    paddingBottom: 10
+    fontFamily: FONT_FAMILY_REGULAR,
+    paddingBottom: hp('1.23%')
   },
   togglePasswordVisibility: {
     color: '#959595',
-    fontSize: 14,
+    fontSize: wp('4.53%'),
     fontWeight: '600',
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
+    fontFamily: FONT_FAMILY_REGULAR,
     paddingBottom: 10
   },
   input: {
     color: 'white',
-    fontSize: 20,
+    fontSize: wp('5.33%'),
     fontWeight: '600',
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
+    fontFamily: FONT_FAMILY_REGULAR,
     paddingBottom: 10
   }
 });
