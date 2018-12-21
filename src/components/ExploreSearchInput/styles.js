@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Constants } from 'expo';
 
-import { FONT_FAMILY } from '../../services/constants';
+import { SF_PRO_DISPLAY_REGULAR } from '../../services/constants';
 
 const styles = StyleSheet.create({
   searchInputHolder: {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     justifyContent: 'center',
     color: 'rgb(151, 151, 151)',
-    fontFamily: FONT_FAMILY,
+    fontFamily: SF_PRO_DISPLAY_REGULAR,
     top: -1,
     paddingLeft: 3
   },
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: 'transparent',
     fontSize: 16,
-    fontFamily: FONT_FAMILY
+    fontFamily: SF_PRO_DISPLAY_REGULAR
   }
 });
 

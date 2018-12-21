@@ -31,7 +31,7 @@ export default class ExploreList extends PureComponent {
   onRefresh() {
     this.setState(() => {
         return {
-          isFetching: false
+          isFetching: true
         }
       },
       () => {
@@ -47,7 +47,13 @@ export default class ExploreList extends PureComponent {
 
   componentDidMount() {
     NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+  }
 
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
   }
 
   showAlert(message, duration) {
@@ -63,10 +69,9 @@ export default class ExploreList extends PureComponent {
     });
   }
 
-
   hitAPI(){
     NetInfo.isConnected.fetch().done(
-      (isConnected) => { console.log(isConnected);
+      (isConnected) => { console.log("isConnected: ", isConnected);
        if(isConnected) {
           this.getData();
        }
@@ -94,12 +99,19 @@ export default class ExploreList extends PureComponent {
 
   handleConnectionChange = (isConnected) => {
     this.setState({ status: isConnected });
-    console.log(`is connected: ${this.state.status}`);
   }
 
-  getData()
-  {
+  getData() {
     console.log("pull to refresh Called!");
+    let activeFilters = [];
+    this.props.filters.map(item => {
+      if(item.on) {
+        activeFilters.push(item.filterType);
+      }
+    });
+
+    console.log(activeFilters);
+
     this.watchID = navigator.geolocation.getCurrentPosition(
       position => {
         this.setState(() => {
@@ -115,7 +127,7 @@ export default class ExploreList extends PureComponent {
               this.state.customRegion.latitude,
               this.state.customRegion.longitude,
               this.props.distance,
-            //  activeFilters.join(','),
+              activeFilters.join(','),
               this.props.pricing
             ).then(() => {
                 this.checkResponseMessage();
@@ -207,7 +219,7 @@ export default class ExploreList extends PureComponent {
           style={styles.flatListStyle}
           initialNumToRender={10}
           onRefresh={() => this.onRefresh()}
-          refreshing={false}
+          refreshing={this.state.isFetching}
           keyExtractor={(item, index) => index.toString()}
           data={restaurants}
           renderItem={({ item }) => (

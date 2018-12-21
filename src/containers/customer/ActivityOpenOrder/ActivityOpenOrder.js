@@ -16,6 +16,7 @@ import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
+  SF_PRO_TEXT_BOLD,
   TAX
 } from '../../../services/constants';
 
@@ -228,12 +229,6 @@ class ActivityOpenOrder extends Component {
             }
           }
         }
-        // if (this.props.data.message && this.props.isBusy === false) {
-        //   clearTimeout(this.timer);
-        //   this.timer = setTimeout(() => {
-        //     alert(this.props.data.message);
-        //   }, 300);
-        // }
       })
       .catch(err => {
         console.log(err);
@@ -281,9 +276,7 @@ class ActivityOpenOrder extends Component {
                 renderItem={({ item }) => (
                   <ActivityListItem
                     item={item}
-                    orderId={
-                      this.props.data && this.props.data[0]._id
-                    }
+                    orderId={this.props.data && this.props.data[0]._id}
                     checkStatusAndCancelItem={(orderId, itemId) =>
                       this.checkStatusAndCancelItem(orderId, itemId)
                     }
@@ -306,9 +299,7 @@ class ActivityOpenOrder extends Component {
                 <Button
                   style={buttonStyles.closeTableBtn}
                   textStyle={buttonStyles.closeTableBtnText}
-                  onPress={() =>
-                    this.completeOrder(this.props.data[0]._id)
-                  }
+                  onPress={() => this.completeOrder(this.props.data[0]._id)}
                 >
                   Close Table
                 </Button>
@@ -335,7 +326,7 @@ const buttonStyles = {
 
   callWaiterBtnText: {
     fontSize: wp('3.46%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: SF_PRO_TEXT_BOLD,
     color: COLOR_WHITE,
     paddingTop: 0,
     paddingBottom: 0,

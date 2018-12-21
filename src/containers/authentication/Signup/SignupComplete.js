@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { FONT_FAMILY, FONT_FAMILY_REGULAR } from '../../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_REGULAR, SF_PRO_DISPLAY_BOLD, SF_PRO_DISPLAY_ULTRALIGHT, SF_PRO_TEXT_SEMI_BOLD } from '../../../services/constants';
 import Button from '../../../components/Button';
 
 type Props = {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: wp('9.6%'),
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: SF_PRO_DISPLAY_BOLD,
     textAlign: 'center',
     color: '#fff',
     marginBottom: hp('0.98%'),
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     fontSize: wp('8%'),
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: SF_PRO_DISPLAY_ULTRALIGHT,
     textAlign: 'center',
     color: '#fff',
     marginBottom: hp('17.24%'),
@@ -67,7 +67,8 @@ const buttonStyles = {
     width: '50%',
     alignSelf: 'center',
     backgroundColor: '#0DD24A',
-    borderColor: '#0DD24A'
+    borderColor: '#0DD24A',
+    fontFamily: SF_PRO_TEXT_SEMI_BOLD
   }
 };
 

@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { FONT_FAMILY, FONT_FAMILY_REGULAR } from '../../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_REGULAR, FONT_FAMILY_MEDIUM } from '../../../services/constants';
 import { Feather } from '../../../components/VectorIcons';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
@@ -171,14 +171,14 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: wp('9.6%'),
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
     backgroundColor: 'transparent',
     paddingTop: hp('1.72%')
   },
   subHeaderText: {
     fontSize: wp('6.4%'),
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY,
     color: '#fff',
     marginBottom: hp('5.66%'),
     backgroundColor: 'transparent'
@@ -194,13 +194,13 @@ const styles = StyleSheet.create({
   signupLabel: {
     color: '#959595',
     fontSize: wp('4.53%'),
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY,
     marginRight: 4
   },
   signupLink: {
     color: '#fff',
     fontSize: wp('4.53%'),
-    fontFamily: FONT_FAMILY_REGULAR
+    fontFamily: FONT_FAMILY
   },
   buttonContainer: {
     alignSelf: 'center'
@@ -220,7 +220,7 @@ const buttonStyles = {
   },
   loginText: {
     fontSize: wp('5.33%'),
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY_MEDIUM,
     paddingTop: 0,
     paddingBottom: 0
   }

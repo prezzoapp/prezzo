@@ -45,7 +45,6 @@ class Explore extends PureComponent<Props> {
   }
 
   componentDidMount() {
-    console.log("Component Did Mount Called!");
     let activeFilters = [];
     this.props.filters.map(item => {
         if(item.on) {
@@ -64,6 +63,7 @@ class Explore extends PureComponent<Props> {
               }
             };
           }, () => {
+            console.log(this.state.customRegion);
             this.props.listVendors(
               this.state.customRegion.latitude,
               this.state.customRegion.longitude,
@@ -87,7 +87,7 @@ class Explore extends PureComponent<Props> {
     return (
       <LinearGradient
         testID="linearGradient"
-        colors={['rgb(0,0,0)', 'transparent', 'transparent']}
+        colors={['transparent', 'transparent', 'transparent']}
         style={styles.container}
         locations={[0, 0.5, 0.5]}
       >

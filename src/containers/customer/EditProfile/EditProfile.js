@@ -20,9 +20,10 @@ import ProfileTextInput from '../../../components/ProfileTextInput';
 import { getTimeStampString } from '../../../services/commonFunctions';
 import {
   FONT_FAMILY,
-  FONT_FAMILY_MEDIUM,
+  FONT_FAMILY_REGULAR,
   COLOR_BLACK,
-  COLOR_GREEN
+  COLOR_GREEN,
+  COLOR_WHITE
 } from '../../../services/constants';
 import {
   widthPercentageToDP as wp,
@@ -41,19 +42,23 @@ type State = {
 
 class EditProfile extends Component<Props, State> {
   static navigationOptions = ({ navigation }) => ({
-    title: 'My Information',
+    headerTitle: (
+      <Text
+        style={{
+          width: wp('50%'),
+          fontSize: wp('6.4%'),
+          fontFamily: FONT_FAMILY_REGULAR,
+          color: COLOR_WHITE,
+          textAlign: 'center'
+        }}
+        numberOfLines={1}
+      >
+        My Information
+      </Text>
+    ),
     headerTintColor: 'white',
-    headerTitleStyle: {
-      fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
-      fontSize: wp('6.4%')
-    },
     headerStyle: {
-      //position: 'absolute',
       backgroundColor: COLOR_BLACK,
-      //zIndex: 100,
-      //top: 0,
-      //left: 0,
-      //right: 0,
       shadowColor: 'transparent',
       borderBottomWidth: 0
     },

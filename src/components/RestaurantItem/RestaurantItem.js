@@ -4,8 +4,6 @@ import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-import { Feather } from '../VectorIcons';
-
 import { LinearGradient } from 'expo';
 
 import Swiper from 'react-native-swiper';
@@ -17,11 +15,17 @@ import {
 
 import styles from './styles';
 
+import { Feather } from '../VectorIcons';
+
 import RatingBar from '../RatingBar';
 
 import Button from '../Button';
 
-import { FONT_FAMILY, COLOR_WHITE } from '../../services/constants';
+import {
+  COLOR_WHITE,
+  SF_PRO_TEXT_REGULAR,
+  FONT_FAMILY_MEDIUM
+} from '../../services/constants';
 
 export default class RestaurantItem extends Component {
   constructor(props) {
@@ -53,7 +57,9 @@ export default class RestaurantItem extends Component {
             <Text style={styles.itemTitle}>
               {this.props.item.title} - ${this.props.item.price}
             </Text>
-            <Text style={styles.itemIngradients}>{this.props.item.description}</Text>
+            <Text style={styles.itemIngradients}>
+              {this.props.item.description}
+            </Text>
           </View>
           <View style={styles.rightSideContainer}>
             {(() => {
@@ -89,7 +95,12 @@ export default class RestaurantItem extends Component {
                     <Feather name="minus" size={22} color="green" />
                   </TouchableOpacity>
 
-                  <Text style={[styles.itemTitle, { top: -3 }]}>
+                  <Text
+                    style={[
+                      styles.itemTitle,
+                      { top: -3, fontFamily: SF_PRO_TEXT_REGULAR }
+                    ]}
+                  >
                     {this.props.item.quantity}
                   </Text>
 
@@ -191,14 +202,7 @@ export default class RestaurantItem extends Component {
           </View>
 
           <View>
-            <RatingBar
-              disable={true}
-              // itemRating={this.props.item.rating}
-              itemRating={3}
-              // changeItemRating={rating =>
-              //   this.props.changeItemRating(this.props.item._id, rating)
-              // }
-            />
+            <RatingBar disable itemRating={3} />
           </View>
         </View>
       </View>
@@ -220,7 +224,7 @@ const itemOrderBtnStyles = {
   },
   commonBtnText: {
     fontSize: wp('3.73%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
     paddingTop: 0,
     paddingBottom: 0,

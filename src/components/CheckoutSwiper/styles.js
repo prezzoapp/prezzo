@@ -8,7 +8,9 @@ import {
 import {
   FONT_FAMILY,
   COLOR_WHITE,
-  FONT_FAMILY_MEDIUM
+  FONT_FAMILY_MEDIUM,
+  SF_PRO_TEXT_LIGHT,
+  SF_PRO_TEXT_REGULAR
 } from '../../services/constants';
 
 const styles = StyleSheet.create({
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
 
   reviewOrderText: {
     fontSize: wp('4.5%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: SF_PRO_TEXT_LIGHT,
     color: COLOR_WHITE,
     textAlign: 'center',
     paddingTop: wp('1%')
@@ -87,7 +89,8 @@ const styles = StyleSheet.create({
   quantity: {
     fontSize: wp('4.5%'),
     paddingHorizontal: wp('5%'),
-    color: COLOR_WHITE
+    color: COLOR_WHITE,
+    fontFamily: SF_PRO_TEXT_REGULAR
   },
 
   quantityBtn: {
@@ -168,7 +171,8 @@ const styles = StyleSheet.create({
 
   paymentInfoTitle: {
     fontSize: wp('4.8%'),
-    color: COLOR_WHITE
+    color: COLOR_WHITE,
+    fontFamily: FONT_FAMILY_MEDIUM
   },
 
   backBtn: {

@@ -141,17 +141,25 @@ export default class AccountInfo extends React.Component {
       selectedOpeningTime: '10:00',
       upload: null,
       website: vendor.get('website') || '',
-      filters: [],
+      filters: vendor.get('filters').toJS() || [],
       email: ''
     };
-
-    console.log(this.state);
 
     this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
     this.constructor.currentContext = this;
+
+    const newCategories = this.state.temp_restaurantCategories
+    .filter(val => !this.state.categories.includes(val));
+
+    this.setState(() => {
+      return {
+        temp_restaurantCategories: newCategories,
+        selectedCategory: newCategories[0]
+      }
+    })
   }
 
   showAvatarActionSheet = () => {
@@ -489,9 +497,11 @@ export default class AccountInfo extends React.Component {
       this.state.filters.push(name);
     }
 
-    this.setState(() => ({
-      filters: this.state.filters
-    }));
+    this.setState(() => {
+      return {
+        filters: this.state.filters
+      }
+    }, () => console.log(this.state.filters));
   }
 
   render() {

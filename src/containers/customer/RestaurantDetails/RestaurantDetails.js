@@ -29,7 +29,7 @@ import RestaurantItem from '../../../components/RestaurantItem';
 
 import Button from '../../../components/Button';
 
-import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
+import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 
 import Checkout from '../Checkout';
 
@@ -161,8 +161,6 @@ export default class RestaurantDetails extends Component {
        });
      }
     });
-
-  //  console.log(cartItems);
 
     try {
       if(this.paymentMethodId === '') {
@@ -560,6 +558,7 @@ export default class RestaurantDetails extends Component {
             title="Congratulations!"
             message="Please show the table code to your server.!"
             otherInfo="9192"
+            image={require('../../../../assets/images/custom_modal_icons/thumbs_up_icon.png')}
             onDismiss={() => {
               this.setState({ modalVisible: false });
             }}
@@ -599,7 +598,7 @@ const buttonStyles = {
   },
   btnText: {
     fontSize: wp('3.73%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
     paddingTop: 0,
     paddingBottom: 0,

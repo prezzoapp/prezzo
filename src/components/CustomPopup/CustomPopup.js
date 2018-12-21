@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 
 import Button from '../Button';
 
-import { COLOR_WHITE, FONT_FAMILY } from '../../services/constants';
+import { COLOR_WHITE, SF_PRO_TEXT_BOLD } from '../../services/constants';
 
 import styles from './styles';
 
@@ -21,24 +21,23 @@ const CustomPopup = props => (
     transparent
     visible={props.modalVisible}
     onRequestClose={() => {
-      alert('Modal has been closed.');
+      props.onDismiss()
     }}>
     <View style={styles.container}>
       <View style={styles.modalView}>
         <Expo.BlurView style={styles.blurView} tint="dark" intensity={100} />
-        <Image
-          source={require('../../../assets/images/custom_modal_icons/thumbs_up_icon.png')}
-          style={styles.imageIcon}
-        />
-        <Text style={styles.title}>{props.title}!</Text>
-        <Text
-          style={[
-            styles.message,
-            { paddingBottom: props.otherInfo ? 0 : wp('5.33%') }
-          ]}
-        >
-          {props.message}
-        </Text>
+        <Image source={props.image} style={styles.imageIcon} />
+        <Text style={styles.title}>{props.title}</Text>
+        {!(props.otherInfo && props.otherInfo === '') && (
+          <Text
+            style={[
+              styles.message,
+              { paddingBottom: props.otherInfo ? 0 : wp('5.33%') }
+            ]}
+          >
+            {props.message}
+          </Text>
+        )}
         {props.otherInfo&& (
           <Text style={styles.tableCode}>{props.otherInfo}</Text>
         )}
@@ -68,7 +67,7 @@ const customPopupBtnStyles = {
   },
   commonBtnText: {
     fontSize: wp('4.8%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: SF_PRO_TEXT_BOLD,
     color: COLOR_WHITE,
     paddingVertical: wp('4.8%'),
     justifyContent: 'center'
@@ -76,7 +75,17 @@ const customPopupBtnStyles = {
 };
 
 CustomPopup.propTypes = {
-  modalVisible: PropTypes.bool.isRequired
+  modalVisible: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+  otherInfo: PropTypes.string,
+  image: PropTypes.number,
+  onDismiss: PropTypes.func.isRequired
+};
+
+CustomPopup.defaultProps = {
+  otherInfo: '',
+  image: null
 };
 
 export default CustomPopup;

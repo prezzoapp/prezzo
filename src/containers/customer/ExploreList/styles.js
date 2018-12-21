@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Constants } from 'expo';
 
 import {
   FONT_FAMILY_BOLD,
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
   },
 
   flatListStyle: {
-    marginTop: hp('20.68%')
+    marginTop: Constants.statusBarHeight + hp('15.5%')
   }
 });
 

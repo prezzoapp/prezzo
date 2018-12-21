@@ -1,6 +1,10 @@
 import { StyleSheet } from 'react-native';
 
-import { FONT_FAMILY, COLOR_WHITE } from '../../services/constants';
+import {
+  FONT_FAMILY,
+  COLOR_WHITE,
+  FONT_FAMILY_MEDIUM
+} from '../../services/constants';
 
 const styles = StyleSheet.create({
   filteredRestaurantsBottomCardHolder: {
@@ -43,15 +47,16 @@ const styles = StyleSheet.create({
 
   status: {
     color: 'rgb(46,214,116)',
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     paddingLeft: 15,
     position: 'relative',
-    top: -4
+    top: -5
   },
 
   statusHolder: {
     flexDirection: 'row',
-    paddingTop: 10
+    paddingTop: 10,
+    alignItems: 'center'
   },
 
   separator: {
@@ -100,7 +105,7 @@ const styles = StyleSheet.create({
 
   vendorAddress: {
     color: COLOR_WHITE,
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: 15,
     lineHeight: 22,
     top: -2,

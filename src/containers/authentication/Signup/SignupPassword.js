@@ -19,7 +19,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { uploadImage } from '../../../modules/upload';
 import { updateUser } from '../../../modules/user';
 import { updateAvatarURL, updatePassword, signup } from '../../../modules/Signup';
-import { FONT_FAMILY, FONT_FAMILY_BOLD, FONT_FAMILY_REGULAR } from '../../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD, FONT_FAMILY_REGULAR } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import FacebookButton from '../../../components/FacebookButton';
 import Button from '../../../components/Button';
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: wp('9.6%'),
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
     marginBottom: hp('2.83%'),
     backgroundColor: 'transparent'
@@ -109,14 +109,14 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: wp('5.33%'),
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
     marginBottom: hp('1.72%'),
     backgroundColor: 'transparent'
   },
   email: {
     fontSize: wp('4.53%'),
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY,
     color: '#959595',
     backgroundColor: 'transparent'
   },
@@ -211,7 +211,6 @@ class SignupPassword extends React.Component<Props, State> {
           this.requestCameraPermission();
         } else if (buttonIndex === 1) {
           this.requestPhotoLibraryPermission();
-
         }
       });
   }

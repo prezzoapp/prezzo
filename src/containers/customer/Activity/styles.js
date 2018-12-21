@@ -6,9 +6,11 @@ import {
 import { Constants } from 'expo';
 import { Header } from 'react-navigation';
 
-import { FONT_FAMILY } from '../../../services/constants';
-
-// console.log(Header.HEIGHT);
+import {
+  FONT_FAMILY_MEDIUM,
+  SF_PRO_DISPLAY_BOLD,
+  SF_PRO_TEXT_LIGHT
+} from '../../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
     color: 'white',
     width: wp('24.33%'),
     textAlign: 'center',
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('3.46%')
   },
 
@@ -76,13 +78,13 @@ const styles = StyleSheet.create({
     width: wp('16%'),
     textAlign: 'center',
     backgroundColor: 'transparent',
-    fontFamily: FONT_FAMILY
+    fontFamily: FONT_FAMILY_MEDIUM
   },
 
   headerText: {
     fontSize: wp('8.8%'),
     color: 'white',
-    fontFamily: FONT_FAMILY,
+    fontFamily: SF_PRO_DISPLAY_BOLD,
     paddingLeft: wp('6.93%')
   }
 });

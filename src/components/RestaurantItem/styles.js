@@ -18,13 +18,13 @@ const styles = StyleSheet.create({
 
   itemTitle: {
     color: COLOR_GREEN,
-    fontFamily: FONT_FAMILY_MEDIUM,
+    fontFamily: FONT_FAMILY,
     fontSize: 20
   },
 
   itemIngradients: {
     color: COLOR_WHITE,
-    fontFamily: FONT_FAMILY_MEDIUM,
+    fontFamily: FONT_FAMILY,
     fontSize: 20
   },
 
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   quantityTextStyleInPhotoMode: {
     fontSize: 16,
     color: COLOR_WHITE,
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     paddingHorizontal: 7
   }
 });

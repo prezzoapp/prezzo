@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 
   status: {
     fontSize: wp('3.46%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE
   },
 

@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: wp('9.6%'),
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
     marginBottom: hp('5.04%'),
     backgroundColor: 'transparent'
@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
   checkbox: {
     width: checkboxSize,
     height: checkboxSize,
-    marginRight: 20
+    marginRight: 20,
+    resizeMode: 'contain'
   },
   promotionalText: {
     fontSize: wp('4.53%'),

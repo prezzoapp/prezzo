@@ -94,21 +94,21 @@ const styles = StyleSheet.create({
     color: '#959595',
     fontSize: wp('4.53%'),
     fontWeight: '600',
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY,
     paddingBottom: hp('1.23%')
   },
   togglePasswordVisibility: {
     color: '#959595',
     fontSize: wp('4.53%'),
     fontWeight: '600',
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY,
     paddingBottom: 10
   },
   input: {
     color: 'white',
     fontSize: wp('5.33%'),
     fontWeight: '600',
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY_MEDIUM,
     paddingBottom: 10
   }
 });

@@ -2,7 +2,11 @@ import { StyleSheet } from 'react-native';
 
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { COLOR_WHITE, FONT_FAMILY } from '../../services/constants';
+import {
+  COLOR_WHITE,
+  FONT_FAMILY,
+  FONT_FAMILY_MEDIUM
+} from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,7 +42,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: wp('9.6%'),
     color: COLOR_WHITE,
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     textAlign: 'center'
   },
 

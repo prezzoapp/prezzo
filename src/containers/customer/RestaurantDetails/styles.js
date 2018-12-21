@@ -10,7 +10,8 @@ import {
 import {
   FONT_FAMILY,
   COLOR_WHITE,
-  FONT_FAMILY_MEDIUM
+  FONT_FAMILY_MEDIUM,
+  SF_PRO_TEXT_SEMI_BOLD
 } from '../../../services/constants';
 
 const styles = StyleSheet.create({
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
   },
 
   headerTitleText: {
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
     fontSize: 20,
     lineHeight: 22
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   listHeaderText: {
     fontSize: 30,
     color: COLOR_WHITE,
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     paddingBottom: 10
   },
 
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
 
   headerBtnText: {
     color: 'white',
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: 14
   },
 
@@ -179,7 +180,8 @@ const styles = StyleSheet.create({
 
   headerLeftBtnText: {
     fontSize: wp('5.33%'),
-    color: 'white'
+    color: 'white',
+    fontFamily: SF_PRO_TEXT_SEMI_BOLD
   }
 });
 

@@ -6,6 +6,8 @@ import Button from '../Button';
 
 import styles from './styles';
 
+import { SF_PRO_TEXT_SEMI_BOLD } from '../../services/constants';
+
 class FilteredVendorBottomCard extends Component {
   constructor() {
     super();
@@ -122,7 +124,8 @@ const buttonStyles = {
     borderRadius: 8
   },
   goBtnText: {
-    fontSize: 15
+    fontSize: 15,
+    fontFamily: SF_PRO_TEXT_SEMI_BOLD
   }
 };
 

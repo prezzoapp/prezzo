@@ -79,6 +79,7 @@ export default class ExploreSearchInput extends Component {
   };
 
   cancelAction() {
+    this.searchInput.blur();
     this.setState(() => {
         return {
           searchInputValue: '',
@@ -86,7 +87,6 @@ export default class ExploreSearchInput extends Component {
         };
       }, () => {
         this.props.clearTimer();
-        this.searchInput.blur();
         this.props.showList(false);
       }
     );

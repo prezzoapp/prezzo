@@ -11,7 +11,7 @@ import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {updateFirstName, updateLastName} from '../../../modules/Signup';
-import {FONT_FAMILY_REGULAR} from '../../../services/constants';
+import {FONT_FAMILY_MEDIUM} from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import NextButton from './NextButton';
 
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: wp('9.6%'),
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
     marginBottom: hp('5.04%'),
     backgroundColor: 'transparent'

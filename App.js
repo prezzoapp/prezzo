@@ -33,6 +33,21 @@ class Prezzo extends Component {
         'ClearSans-Medium': require('./assets/fonts/clear-sans/ClearSans-Medium.ttf'),
         'ClearSans-Bold': require('./assets/fonts/clear-sans/ClearSans-Bold.ttf'),
         'ClearSans-Regular': require('./assets/fonts/clear-sans/ClearSans-Regular.ttf'),
+
+        'SFProDisplay-Thin': require('./assets/fonts/sfpro-display/SFProDisplay-Thin.ttf'),
+        'SFProDisplay-Light': require('./assets/fonts/sfpro-display/SFProDisplay-Light.ttf'),
+        'SFProDisplay-UltraLight': require('./assets/fonts/sfpro-display/SFProDisplay-UltraLight.ttf'),
+        'SFProDisplay-Regular': require('./assets/fonts/sfpro-display/SFProDisplay-Regular.ttf'),
+        'SFProDisplay-Medium': require('./assets/fonts/sfpro-display/SFProDisplay-Medium.ttf'),
+        'SFProDisplay-Bold': require('./assets/fonts/sfpro-display/SFProDisplay-Bold.ttf'),
+        'SFProDisplay-SemiBold': require('./assets/fonts/sfpro-display/SFProDisplay-Semibold.ttf'),
+
+        'SFProText-Light': require('./assets/fonts/sfpro-text/SFProText-Light.ttf'),
+        'SFProText-Regular': require('./assets/fonts/sfpro-text/SFProText-Regular.ttf'),
+        'SFProText-Medium': require('./assets/fonts/sfpro-text/SFProText-Medium.ttf'),
+        'SFProText-Bold': require('./assets/fonts/sfpro-text/SFProText-Bold.ttf'),
+        'SFProText-SemiBold': require('./assets/fonts/sfpro-text/SFProText-SemiBold.ttf'),
+
         'material': require('@expo/vector-icons/fonts/MaterialIcons.ttf'),
         'ionicons': require('@expo/vector-icons/fonts/Ionicons.ttf'),
         'entypo': require('@expo/vector-icons/fonts/Entypo.ttf'),
@@ -43,8 +58,7 @@ class Prezzo extends Component {
         'material-community': require('@expo/vector-icons/fonts/MaterialCommunityIcons.ttf'),
         'octicons': require('@expo/vector-icons/fonts/Octicons.ttf'),
         'zocial': require('@expo/vector-icons/fonts/Zocial.ttf'),
-        'simple-line-icons': require('@expo/vector-icons/fonts/SimpleLineIcons.ttf'),
-
+        'simple-line-icons': require('@expo/vector-icons/fonts/SimpleLineIcons.ttf')
       });
 
       this.setState({ didFontsLoad: true });

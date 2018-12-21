@@ -5,9 +5,9 @@ import {
 } from 'react-native-responsive-screen';
 
 import {
-  FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
-  FONT_FAMILY
+  FONT_FAMILY,
+  SF_PRO_TEXT_LIGHT
 } from '../../../services/constants';
 
 const styles = StyleSheet.create({
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 
   tableCode: {
     color: COLOR_WHITE,
-    fontFamily: FONT_FAMILY_MEDIUM,
+    fontFamily: SF_PRO_TEXT_LIGHT,
     fontSize: wp('9.33%'),
     textAlign: 'center',
     paddingTop: hp('1%'),

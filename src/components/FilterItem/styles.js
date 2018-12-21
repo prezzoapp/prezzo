@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { SF_PRO_TEXT_REGULAR } from '../../services/constants';
 
 const styles = StyleSheet.create({
   item: {
@@ -20,7 +21,8 @@ const styles = StyleSheet.create({
     color: 'rgb(255,251,245)',
     fontSize: 11,
     textAlign: 'center',
-    paddingTop: 3
+    paddingTop: 3,
+    fontFamily: SF_PRO_TEXT_REGULAR
   }
 });
 

@@ -9,7 +9,7 @@ import { EvilIcons } from '../../../components/VectorIcons';
 import FilterItem from '../../../components/FilterItem';
 import styles from './styles';
 import {NetInfo} from 'react-native';
-import { COLOR_GREEN, FONT_FAMILY_MEDIUM } from '../../../services/constants';
+import { COLOR_GREEN, FONT_FAMILY_MEDIUM, SF_PRO_DISPLAY_REGULAR } from '../../../services/constants';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
@@ -135,9 +135,9 @@ export default class ExploreScreenHeader extends PureComponent {
   };
 
   handleConnectionChange = (isConnected) => {
-      this.setState({ status: isConnected });
-      console.log(`is connected: ${this.state.status}`);
-    }
+    this.setState({ status: isConnected });
+    console.log(`is connected: ${this.state.status}`);
+  }
 
   render() {
     const { filters } = this.props;
@@ -146,7 +146,6 @@ export default class ExploreScreenHeader extends PureComponent {
       <View style={styles.header}>
         <LinearGradient
           colors={['rgb(0,0,0)', 'transparent']}
-          style={styles.LinearGradientStyle}
         >
           <View style={styles.filterPanel}>
             <Text style={styles.nearMeText}>Near Me</Text>
@@ -160,7 +159,7 @@ export default class ExploreScreenHeader extends PureComponent {
                   }
                 >
                   <Text style={styles.filter}> Filter</Text>
-                  <EvilIcons name="chevron-down" size={25} color="#fafafa" style={styles.dropArrowIcon} />
+                  <EvilIcons name="chevron-down" size={wp('6.66%')} color="#fafafa" style={styles.dropArrowIcon} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.6}
@@ -275,7 +274,7 @@ export default class ExploreScreenHeader extends PureComponent {
                             fontSize: wp('3.2%'),
                             width: wp('13.33%'),
                             height: 20,
-                            fontFamily: FONT_FAMILY_MEDIUM
+                            fontFamily: SF_PRO_DISPLAY_REGULAR
                           }}
                         >
                           $
@@ -314,7 +313,7 @@ export default class ExploreScreenHeader extends PureComponent {
                               height: 20,
                               textAlign: 'center',
                               width: wp('13.33%'),
-                              fontFamily: FONT_FAMILY_MEDIUM
+                              fontFamily: SF_PRO_DISPLAY_REGULAR
                             },
                             {
                               color:
@@ -361,7 +360,7 @@ export default class ExploreScreenHeader extends PureComponent {
                               marginLeft: 2,
                               textAlign: 'center',
                               width: wp('13.33%'),
-                              fontFamily: FONT_FAMILY_MEDIUM
+                              fontFamily: SF_PRO_DISPLAY_REGULAR
                             },
                             {
                               color:
@@ -407,7 +406,7 @@ export default class ExploreScreenHeader extends PureComponent {
                               height: 20,
                               textAlign: 'center',
                               width: wp('13.33%'),
-                              fontFamily: FONT_FAMILY_MEDIUM
+                              fontFamily: SF_PRO_DISPLAY_REGULAR
                             },
                             {
                               color:

@@ -6,8 +6,9 @@ import {
 import { Constants } from 'expo';
 
 import {
-  FONT_FAMILY_BOLD,
-  FONT_FAMILY_MEDIUM
+  SF_PRO_TEXT_SEMI_BOLD,
+  SF_PRO_DISPLAY_SEMI_BOLD,
+  SF_PRO_DISPLAY_REGULAR
 } from '../../../services/constants';
 
 const styles = StyleSheet.create({
@@ -20,45 +21,47 @@ const styles = StyleSheet.create({
   },
 
   nearMeText: {
-    fontSize: 15,
+    fontSize: wp('4%'),
     color: 'rgb(50, 209, 119)',
-    fontFamily: FONT_FAMILY_MEDIUM,
-    backgroundColor: 'transparent'
+    fontFamily: SF_PRO_TEXT_SEMI_BOLD,
+    backgroundColor: 'transparent',
+    position: 'relative',
+    top: -hp('0.5%')
   },
 
   filterPanel: {
-    paddingHorizontal: wp('4.26%'),
-    marginTop: Constants.statusBarHeight + hp('6.5%')
+    marginHorizontal: wp('4.26%'),
+    marginTop: Constants.statusBarHeight + hp('6.5%'),
+    height: hp('9%'),
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(46, 213, 115, 0.3)',
+    justifyContent: 'center'
   },
 
   filter: {
     color: '#fafafa',
-    fontSize: 13,
-    backgroundColor: 'transparent'
-  },
-
-  dropArrowIcon: {
-    backgroundColor: 'transparent'
+    fontSize: wp('3.46%'),
+    backgroundColor: 'transparent',
+    fontFamily: SF_PRO_TEXT_SEMI_BOLD
   },
 
   locationPin: {
-    width: 30,
-    height: 30
+    width: wp('8%'),
+    height: wp('8%')
   },
 
   mainTitleFilterAndMapIconHolder: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderBottomWidth: 2,
-    borderBottomColor: 'rgb(36, 49, 42)',
-    paddingBottom: hp('1.8%')
+    position: 'relative',
+    top: -hp('0.5%')
   },
 
   restaurantTitle: {
-    fontFamily: FONT_FAMILY_BOLD,
+    fontFamily: SF_PRO_DISPLAY_SEMI_BOLD,
     color: 'white',
-    fontSize: 25,
+    fontSize: wp('8%'),
     backgroundColor: 'transparent'
   },
 
@@ -89,7 +92,8 @@ const styles = StyleSheet.create({
 
   sliderTitleText: {
     color: 'rgb(255,251,245)',
-    fontSize: 11
+    fontSize: 11,
+    fontFamily: SF_PRO_DISPLAY_REGULAR
   },
 
   sliderTitleHolder: {

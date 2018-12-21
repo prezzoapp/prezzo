@@ -1,13 +1,14 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Constants } from 'expo';
 import TutorialScreen from './TutorialScreen';
 import Button from '../../../components/Button';
 import FacebookButton from '../../../components/FacebookButton';
-import { FONT_FAMILY } from '../../../services/constants';
+import { FONT_FAMILY_REGULAR } from '../../../services/constants';
 import { getUserInfo } from '../../../services/facebook';
 
 const images = {
@@ -40,8 +41,6 @@ class Tutorial extends React.Component {
       }
 
       try {
-        // update info so signup screens have access to facebook info
-        // const { email, firstName, lastName, avatarURL } = await getUserInfo();
         const { email, firstName, lastName, avatarURL } = await getUserInfo(accessToken);
 
         if (email) {
@@ -108,6 +107,7 @@ class Tutorial extends React.Component {
         <Swiper
           testID="swiper"
           loop={false}
+          paginationStyle={{ bottom: hp('1.72%') }}
           dotColor="rgba(255, 255, 255, 0.5)"
           activeDotColor="#0DD24A"
         >
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   header: {
     position: 'absolute',
-    top: '5%',
+    top: Constants.statusBarHeight + hp('3%') - (Platform.OS === 'ios' ? 20 : 0),
     right: 0,
     width: '100%',
     height: '20%'
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   login: {
     fontSize: wp('5.33%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_REGULAR,
     letterSpacing: 0,
     marginRight: wp('5.33%'),
     color: '#fff',

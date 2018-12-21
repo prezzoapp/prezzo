@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
 
   seperator: {
-    backgroundColor: '#2ED573',
+    backgroundColor: 'rgba(46, 213, 115, 0.3)',
     height: 1,
     marginTop: 15
   }

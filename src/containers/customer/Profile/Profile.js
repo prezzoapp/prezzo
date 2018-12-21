@@ -6,16 +6,23 @@ import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
-import { FONT_FAMILY, FONT_FAMILY_MEDIUM, COLOR_BLACK } from '../../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_REGULAR, COLOR_BLACK, COLOR_WHITE } from '../../../services/constants';
 
 class Profile extends Component {
   static navigationOptions = {
-    title: 'My Profile',
+    headerTitle: (
+      <Text
+        style={{
+          width: wp('50%'),
+          fontSize: wp('6.4%'),
+          fontFamily: FONT_FAMILY_REGULAR,
+          color: COLOR_WHITE,
+          textAlign: 'center'
+        }}
+        numberOfLines={1}>My Profile
+      </Text>
+    ),
     headerBackTitle: null,
-    headerTitleStyle: {
-      fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
-      fontSize: wp('6.4%')
-    },
     headerStyle: {
       backgroundColor: '#2B2C2C',
       shadowColor: 'transparent',
