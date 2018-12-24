@@ -3,9 +3,9 @@ import { StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import {
   FONT_FAMILY,
-  FONT_FAMILY_BOLD,
   COLOR_BLACK,
-  COLOR_GREEN
+  COLOR_GREEN,
+  SF_PRO_TEXT_BOLD
 } from '../../../services/constants';
 
 export default StyleSheet.create({
@@ -81,7 +81,7 @@ export default StyleSheet.create({
 
   submitBtnText: {
     color: 'white',
-    fontFamily: FONT_FAMILY_BOLD,
+    fontFamily: SF_PRO_TEXT_BOLD,
     fontSize: 15
   },
 

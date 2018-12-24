@@ -3,6 +3,9 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import { Entypo } from '../VectorIcons';
+import {
+  FONT_FAMILY_MEDIUM
+} from '../../services/constants';
 
 const OpenTableItem = props => {
   const { item, index } = props.data;
@@ -10,8 +13,8 @@ const OpenTableItem = props => {
     <TouchableOpacity
       style={styles.container}
       onPress={() =>
-        props.showReviewModal
-          ? props.showReviewModal()
+        props.onPress
+          ? props.onPress()
           : props.navigate&& props.navigate({
             routeName:
               props.tabName === 'tables'
@@ -23,9 +26,7 @@ const OpenTableItem = props => {
                   ? `${item.creator.fullName} - 9192`
                   : `${item.userName}`,
               userImage: item.creator.avatarURL,
-              item: item,
-              changeOrderStatus: props.tabName === 'tables' ? props.changeOrderStatus : null,
-              makePaymentAndCompleteOrder: props.tabName === 'tables' ? props.makePaymentAndCompleteOrder : null
+              item: item
           }
         })
       }
@@ -73,7 +74,7 @@ const OpenTableItem = props => {
               >
                 {props.innerTabName !== 'photoReview'
                   ? ' •  Waiter Reqested'
-                  : `- ${item.items.length} Photos`}
+                  : <Text style={{ fontFamily: FONT_FAMILY_MEDIUM }}>- {item.items.length} Photo(s)</Text>}
               </Text>
             </View>
           );

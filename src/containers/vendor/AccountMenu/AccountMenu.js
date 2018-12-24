@@ -18,7 +18,7 @@ export default class AccountMenu extends React.Component {
       borderBottomWidth: 0
     },
     headerTitleStyle: {
-      fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
+      fontFamily: FONT_FAMILY_MEDIUM,
       fontSize: wp('6.4%')
     },
     headerBackTitle: null,

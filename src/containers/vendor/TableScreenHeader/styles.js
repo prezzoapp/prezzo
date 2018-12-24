@@ -6,7 +6,9 @@ import {
 } from 'react-native-responsive-screen';
 import {
   FONT_FAMILY_BOLD,
-  FONT_FAMILY_MEDIUM
+  FONT_FAMILY_MEDIUM,
+  SF_PRO_TEXT_SEMI_BOLD,
+  SF_PRO_DISPLAY_SEMI_BOLD
 } from '../../../services/constants';
 
 const styles = StyleSheet.create({
@@ -38,12 +40,12 @@ const styles = StyleSheet.create({
   vendorName: {
     fontSize: wp('4%'),
     color: 'rgb(50, 209, 119)',
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM).fontFamily,
+    fontFamily: SF_PRO_TEXT_SEMI_BOLD,
     backgroundColor: 'transparent',
     flex: 1
   },
   category: {
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_BOLD).fontFamily,
+    fontFamily: SF_PRO_DISPLAY_SEMI_BOLD,
     color: 'white',
     fontSize: wp('6.6%'),
     backgroundColor: 'transparent',

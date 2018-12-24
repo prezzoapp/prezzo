@@ -36,12 +36,11 @@ const styles = {
     flexDirection: 'row',
     height: 0.1 * screenWidth,
     marginTop: 5
-    //width: 0.83 * screenWidth
   },
   currentValueContainer: {
     flexDirection: 'row',
-    flex: 1
-    //width: 0.49 * screenWidth
+    flex: 1,
+    alignItems: 'center'
   },
   label: {
     color: labelTextColor,

@@ -1,7 +1,6 @@
 // @flow
 import { StyleSheet } from 'react-native';
-// import { Header } from 'react-navigation';
-import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
+import { FONT_FAMILY_MEDIUM, COLOR_BLACK } from '../../../services/constants';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default StyleSheet.create({
@@ -44,7 +43,7 @@ export default StyleSheet.create({
   },
   footerText: {
     color: 'white',
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: 18
   },
   headerContainer: {

@@ -34,16 +34,16 @@ const styles = StyleSheet.create({
   },
   userName: {
     color: 'white',
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
+    fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: 20
   },
   tableId: {
     color: 'white',
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
+    fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: 14
   },
   statusText: {
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY)
+    fontFamily: FONT_FAMILY
   },
   statusContainer: {
     flexDirection: 'row',

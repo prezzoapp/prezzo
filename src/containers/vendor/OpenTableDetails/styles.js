@@ -4,7 +4,12 @@ import {
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
 
-import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
+import {
+  FONT_FAMILY,
+  COLOR_WHITE,
+  FONT_FAMILY_MEDIUM,
+  SF_PRO_DISPLAY_BOLD
+} from '../../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,7 +45,7 @@ const styles = StyleSheet.create({
     color: 'white',
     width: wp('14%'),
     textAlign: 'center',
-    fontFamily: FONT_FAMILY
+    fontFamily: FONT_FAMILY_MEDIUM
   },
 
   paymentTabStyle: {
@@ -53,7 +58,7 @@ const styles = StyleSheet.create({
     width: wp('20%'),
     textAlign: 'center',
     backgroundColor: 'transparent',
-    fontFamily: FONT_FAMILY
+    fontFamily: FONT_FAMILY_MEDIUM
   },
 
   price: {
@@ -73,6 +78,13 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     fontSize: 20,
     textAlign: 'center'
+  },
+
+  headerText: {
+    fontSize: wp('6.93%'),
+    color: 'white',
+    flex: 1,
+    fontFamily: SF_PRO_DISPLAY_BOLD
   }
 });
 

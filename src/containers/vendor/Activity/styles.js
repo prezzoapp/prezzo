@@ -6,7 +6,8 @@ import {
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
-  COLOR_WHITE
+  COLOR_WHITE,
+  FONT_FAMILY_REGULAR
 } from '../../../services/constants';
 
 const styles = StyleSheet.create({
@@ -23,9 +24,10 @@ const styles = StyleSheet.create({
   },
 
   subTitle: {
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_REGULAR,
     fontSize: wp('3.73%'),
-    color: 'white'
+    color: 'white',
+    paddingTop: hp('2.46%')
   },
 
   tabBarUnderLineStyle: {

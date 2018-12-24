@@ -23,7 +23,11 @@ export default class VendorAdminActivityDetails extends Component {
     return {
       headerLeft: (
         <View
-          style={{ flexDirection: 'row', width: wp('90%'), alignItems: 'center' }}
+          style={{
+            flexDirection: 'row',
+            width: wp('90%'),
+            alignItems: 'center'
+          }}
         >
           <TouchableOpacity
             onPress={() => navigation.goBack()}
@@ -57,14 +61,7 @@ export default class VendorAdminActivityDetails extends Component {
               }
             />
           </TouchableOpacity>
-          <Text
-            style={{
-              fontSize: wp('6.93%'),
-              color: 'white',
-              flex: 1
-            }}
-            numberOfLines={1}
-          >
+          <Text style={styles.headerText} numberOfLines={1}>
             {navigation.state.params.userName}
           </Text>
         </View>

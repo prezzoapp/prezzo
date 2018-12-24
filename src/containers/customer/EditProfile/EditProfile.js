@@ -20,7 +20,7 @@ import ProfileTextInput from '../../../components/ProfileTextInput';
 import { getTimeStampString } from '../../../services/commonFunctions';
 import {
   FONT_FAMILY,
-  FONT_FAMILY_REGULAR,
+  FONT_FAMILY_MEDIUM,
   COLOR_BLACK,
   COLOR_GREEN,
   COLOR_WHITE
@@ -47,7 +47,7 @@ class EditProfile extends Component<Props, State> {
         style={{
           width: wp('50%'),
           fontSize: wp('6.4%'),
-          fontFamily: FONT_FAMILY_REGULAR,
+          fontFamily: FONT_FAMILY_MEDIUM,
           color: COLOR_WHITE,
           textAlign: 'center'
         }}

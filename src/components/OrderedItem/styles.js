@@ -3,7 +3,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import { FONT_FAMILY } from '../../services/constants';
+import { FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 
   itemName: {
     color: '#fff',
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('4%'),
     paddingRight: 5,
     flex: 1
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   quantity: {
     marginLeft: 13,
     color: '#fff',
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: 15
   },
 

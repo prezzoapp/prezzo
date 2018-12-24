@@ -44,7 +44,10 @@ const TableGridItem = props => {
               : require('../../../assets/images/etc/default-avatar.png')
           }
         />
-        <Text style={styles.userName}>{item.creator.fullName} - Table 9192</Text>
+        <Text style={styles.userName}>
+          {item.creator.fullName} -{' '}
+          <Text style={styles.tableId}>Table 9192</Text>
+        </Text>
         {tableType === 1 ? (
           <View style={styles.buttonContainer}>
             <TouchableOpacity

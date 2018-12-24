@@ -119,65 +119,65 @@ class PaymentMenu extends Component {
           <ScrollView style={styles.scrollViewStyle}>
             {this.props.data &&
             this.props.data.map((item, key) => (
-              <View
+                <View
                 key={key}
-                style={{
-                  flexDirection: 'row',
-                  height: 0.2 * 0.85 * Dimensions.get('window').width
-                }}
-              >
-                <EditableListItem
-                  text={item.readableIdentifier}
-                  expDate={item.expDate}
-                  onRemove={() => this.removeCardAtIndex(item._id)}
-                  leftIcon={(() => {
+                  style={{
+                    flexDirection: 'row',
+                    height: 0.2 * 0.85 * Dimensions.get('window').width
+                  }}
+                >
+                  <EditableListItem
+                    text={item.readableIdentifier}
+                    expDate={item.expDate}
+                    onRemove={() => this.removeCardAtIndex(item._id)}
+                    leftIcon={(() => {
                     if (item.type === 'braintree-visa') {
                       return (
-                        <Image
-                          source={require('../../../../assets/images/icons/stp_card_visa.png')}
-                          style={{
-                            width: 35,
-                            resizeMode: 'contain',
-                            marginLeft: 10,
-                            marginRight: 15
-                          }}
-                        />
-                      );
+                          <Image
+                            source={require('../../../../assets/images/icons/stp_card_visa.png')}
+                            style={{
+                              width: 35,
+                              resizeMode: 'contain',
+                              marginLeft: 10,
+                              marginRight: 15
+                            }}
+                          />
+                        );
                     } else if (item.type === 'braintree-mastercard') {
                       return (
-                        <Image
-                          source={require('../../../../assets/images/icons/stp_card_mastercard.png')}
-                          style={{
-                            width: 35,
-                            resizeMode: 'contain',
-                            marginLeft: 10,
-                            marginRight: 15
-                          }}
-                        />
-                      );
+                          <Image
+                            source={require('../../../../assets/images/icons/stp_card_mastercard.png')}
+                            style={{
+                              width: 35,
+                              resizeMode: 'contain',
+                              marginLeft: 10,
+                              marginRight: 15
+                            }}
+                          />
+                        );
                     } else if (item.type === 'braintree-discover') {
-                      return (
-                        <Image
-                          source={require('../../../../assets/images/icons/stp_card_discover.png')}
-                          style={{
-                            width: 35,
-                            resizeMode: 'contain',
-                            marginLeft: 10,
-                            marginRight: 15
-                          }}
-                        />
-                      );
-                    } else if (item.type === 'braintree-jcb') {
-                      return (
-                        <Image
-                          source={require('../../../../assets/images/icons/stp_card_jcb.png')}
-                          style={{
-                            width: 35,
-                            resizeMode: 'contain',
-                            marginLeft: 10,
-                            marginRight: 15
-                          }}
-                        />
+                        return (
+                          <Image
+                            source={require('../../../../assets/images/icons/stp_card_discover.png')}
+                            style={{
+                              width: 35,
+                              resizeMode: 'contain',
+                              marginLeft: 10,
+                              marginRight: 15
+                            }}
+                          />
+                        );
+                      } else if (item.type === 'braintree-jcb') {
+                        return (
+                          <Image
+                            source={require('../../../../assets/images/icons/stp_card_jcb.png')}
+                            style={{
+                              width: 35,
+                              resizeMode: 'contain',
+                              marginLeft: 10,
+                              marginRight: 15
+                            }}
+                          />
                       );
                     }
                   })()}

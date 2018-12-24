@@ -22,7 +22,7 @@ import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
 
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
+import { FONT_FAMILY, COLOR_WHITE, SF_PRO_TEXT_BOLD } from '../../../services/constants';
 import Button from '../../../components/Button';
 import ReviewUserPhoto from '../../../components/ReviewUserPhoto';
 import VendorSearch from '../VendorSearch';
@@ -44,7 +44,7 @@ const buttonStyles = {
 
   submitReviewBtnText: {
     fontSize: wp('3.46%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: SF_PRO_TEXT_BOLD,
     color: COLOR_WHITE,
     paddingTop: 0,
     paddingBottom: 0,
@@ -239,7 +239,6 @@ class Activity extends Component {
       <Text style={styles.message}>Tap to select the user submitted</Text>
       <Text style={styles.message}>photos you approve and then hit</Text>
       <Text style={styles.message}>Save To Menu</Text>
-      <Text style={styles.message} />
       <Text style={styles.subTitle}>Tap and hold to view full screen.</Text>
     </View>
   );
@@ -281,7 +280,7 @@ class Activity extends Component {
             data={rowData}
             tabName="activity"
             innerTabName="photoReview"
-            showReviewModal={() => this.show()}
+            onPress={() => this.show()}
           />
         )}
       />

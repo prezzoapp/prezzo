@@ -3,7 +3,8 @@ import {
   FONT_FAMILY,
   COLOR_BLACK,
   COLOR_GREEN,
-  COLOR_DANGER
+  COLOR_DANGER,
+  FONT_FAMILY_MEDIUM
 } from '../../services/constants';
 
 export default StyleSheet.create({
@@ -19,7 +20,7 @@ export default StyleSheet.create({
 
   sectionHeaderText: {
     color: '#fff',
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: 20,
     flex: 1,
     paddingRight: 10

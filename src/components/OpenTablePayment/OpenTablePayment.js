@@ -7,7 +7,7 @@ import {
 import { LinearGradient } from 'expo';
 import {
   COLOR_GREEN,
-  FONT_FAMILY,
+  FONT_FAMILY_MEDIUM,
   COLOR_WHITE
 } from '../../services/constants';
 
@@ -30,26 +30,6 @@ const OpenTablePayment = props => {
     .reduce((previous, next) => {
         return parseFloat(previous + next);
   });
-
-  // completeOrder = (subtotal) => {
-  //   if(props.data[0].paymentType === 'card') {
-  //     props.makePaymentAndCompleteOrder(
-  //       props.data._id,
-  //       props.data.paymentMethod.token,
-  //       parseFloat(((subTotal * TAX) / 100 + subTotal).toFixed(2)),
-  //       'card',
-  //       'complete'
-  //     )
-  //   } else {
-  //     props.makePaymentAndCompleteOrder(
-  //       props.data._id,
-  //       '',
-  //       parseFloat(((subTotal * TAX) / 100 + subTotal).toFixed(2)),
-  //       'cash',
-  //       'complete'
-  //     )
-  //   }
-  // }
 
   return (
     <View style={styles.container}>
@@ -83,10 +63,8 @@ const OpenTablePayment = props => {
                     height: hp('6.15%')
                 }}
               >
-                <Text style={styles.text}>{item.title}</Text>
-                  <Text style={[styles.text, { textAlign: 'right' }]}>
-                  ${item.price}
-                </Text>
+                <Text style={styles.name}>{item.title}</Text>
+                  <Text style={[styles.price]}>${item.price}</Text>
               </View>
               )
             }
@@ -114,8 +92,8 @@ const OpenTablePayment = props => {
             height: 30
           }}
         >
-          <Text style={styles.text}>Subtotal</Text>
-          <Text style={[styles.text, { textAlign: 'right' }]}>{subTotal}</Text>
+          <Text style={styles.subTotalTaxLabel}>Subtotal</Text>
+          <Text style={styles.subTotalTaxValue}>{subTotal}</Text>
         </View>
 
         <View
@@ -127,8 +105,8 @@ const OpenTablePayment = props => {
             height: 30
           }}
         >
-          <Text style={styles.text}>TAX</Text>
-          <Text style={[styles.text, { textAlign: 'right' }]}>+ ${TAX}</Text>
+          <Text style={styles.subTotalTaxLabel}>TAX</Text>
+          <Text style={styles.subTotalTaxValue}>+ ${TAX}</Text>
         </View>
       </View>
 
@@ -240,12 +218,7 @@ const OpenTablePayment = props => {
                   Request
                 </Button>
 
-                <Text
-                  style={[
-                    styles.price,
-                    { textAlign: 'right', marginRight: wp('5.33%') }
-                  ]}
-                >
+                <Text style={styles.total}>
                   Total ${((subTotal * TAX) / 100 + subTotal).toFixed(2)}
                 </Text>
               </LinearGradient>
@@ -270,7 +243,7 @@ const buttonStyles = {
 
   requestBtnText: {
     fontSize: wp('3.46%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
     paddingTop: 0,
     paddingBottom: 0,

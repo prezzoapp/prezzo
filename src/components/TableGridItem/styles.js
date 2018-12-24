@@ -3,7 +3,11 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import { FONT_FAMILY } from '../../services/constants';
+import {
+  FONT_FAMILY,
+  SF_PRO_TEXT_BOLD,
+  SF_PRO_TEXT_MEDIUM
+} from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +33,7 @@ const styles = StyleSheet.create({
   userName: {
     color: '#fff',
     fontSize: 17,
-    fontFamily: FONT_FAMILY,
+    fontFamily: SF_PRO_TEXT_BOLD,
     paddingLeft: 10,
     flex: 1
   },
@@ -37,7 +41,7 @@ const styles = StyleSheet.create({
   tableId: {
     color: '#fff',
     fontSize: 14,
-    fontFamily: FONT_FAMILY
+    fontFamily: SF_PRO_TEXT_MEDIUM
   },
 
   arrow: {

@@ -1,6 +1,6 @@
 // @flow
 import { StyleSheet } from 'react-native';
-import { FONT_FAMILY, COLOR_GREEN } from '../../services/constants';
+import { FONT_FAMILY, COLOR_GREEN, FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 export default StyleSheet.create({
   menuItem: {
@@ -47,7 +47,6 @@ export default StyleSheet.create({
     color: '#fff',
     fontFamily: FONT_FAMILY,
     minHeight: 50,
-    // backgroundColor: 'red',
     textAlignVertical: 'top',
     padding: 0
   },

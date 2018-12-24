@@ -3,7 +3,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import { FONT_FAMILY } from '../../services/constants';
+import { FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
   selectedTab: {
@@ -19,14 +19,14 @@ const styles = StyleSheet.create({
   selectedText: {
     color: 'white',
     fontSize: wp('3.46%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     paddingVertical: wp('1.33%')
   },
 
   unselectedText: {
     color: '#FAFAFA',
     fontSize: wp('3.46%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     marginVertical: hp('0.61%')
   },
 

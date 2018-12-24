@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, FlatList, Alert, Modal, ActivityIndicator } from 'react-native';
+import { View, FlatList, Alert, Modal, ActivityIndicator, NetInfo, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import styles from './styles';
@@ -13,8 +13,6 @@ import TableGridItem from '../../../components/TableGridItem';
 import ClosedTableTabs from '../../../components/ClosedTableTabs';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
 import { get } from '../../../utils/api';
-import {NetInfo} from 'react-native';
-import {AsyncStorage} from 'react-native';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 class Tables extends Component {
@@ -80,9 +78,7 @@ class Tables extends Component {
       )
       });
     }
-
     });
-
   }
 
   handleConnectionChange = (isConnected) => {
@@ -102,54 +98,6 @@ class Tables extends Component {
     .then(() => {
         this.checkResponseMessage();
     });
-
-    // this.props.checkQueueOrderStatus(orderId).then(() => {
-    //     if(
-    //       this.props.openOrderFinalStatus === 'active' ||
-    //       this.props.openOrderFinalStatus === 'complete' ||
-    //       this.props.openOrderFinalStatus === 'denied'
-    //     ) {
-    //       // console.log(this.props.openOrderFinalStatus);
-    //       //showAlert(`Order is already ${this.props.openOrderFinalStatus}`, 300);
-    //     } else {
-    //       this.props.changeOrderStatus(orderId, status)
-    //       .then(() => {
-    //         //showAlert(`Order is ${this.props.openOrderFinalStatus}`, 300);
-    //       })
-    //       .catch(e => console.log(e));
-    //     }
-    // });
-
-//     this.props.checkQueueOrderStatus(orderId).then(() => {
-//         if(
-//           this.props.openOrderFinalStatus === 'active' ||
-//           this.props.openOrderFinalStatus === 'complete' ||
-//           this.props.openOrderFinalStatus === 'denied'
-//         ) {
-//           this.showAlert(`Order is already ${this.props.openOrderFinalStatus}`, 300);
-//         } else {
-//           this.props.changeOrderStatus(orderId, status)
-//           .then(() => {
-//             this.showAlert(`Order is ${this.props.openOrderFinalStatus}`, 300);
-//           })
-//           .catch(e => console.log(e));
-//         }
-//     });
-
-//     // try {
-    //   const response = await get(`v1/order/${orderId}`);
-    //   if(response.order[0].status === 'active') {
-    //     Alert.alert('', 'This item has been already activated!');
-    //   } else if(response.order[0].status === 'denied') {
-    //     Alert.alert('', 'This item has been already denied!');
-    //   } else if(response.order[0].status === 'complete') {
-    //     Alert.alert('', 'This item has been already completed!');
-    //   } else {
-    //     this.props.changeOrderStatus(orderId, status);
-    //   }
-    // } catch(e) {
-    //   console.log(e);
-    // }
   }
 
   onSectionChange = index => {
@@ -227,8 +175,8 @@ class Tables extends Component {
             }
             return (
               <TableGridItem
-              tableType={this.props.section}
-              data={rowData}
+                tableType={this.props.section}
+                data={rowData}
               />
             );
           }}

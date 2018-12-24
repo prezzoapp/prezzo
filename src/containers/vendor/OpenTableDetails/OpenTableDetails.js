@@ -17,7 +17,6 @@ import OpenTablePayment from '../../../components/OpenTablePayment';
 import styles from './styles';
 import { Feather } from '../../../components/VectorIcons';
 import { TAX } from '../../../services/constants';
-import LoadingComponent from '../../../components/LoadingComponent';
 
 export default class OpenTableDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -57,14 +56,7 @@ export default class OpenTableDetails extends Component {
             }
           />
         </TouchableOpacity>
-        <Text
-          style={{
-            fontSize: wp('6.93%'),
-            color: 'white',
-            flex: 1
-          }}
-          numberOfLines={1}
-        >
+        <Text style={styles.headerText} numberOfLines={1}>
           {navigation.state.params.userName}
         </Text>
       </View>

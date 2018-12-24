@@ -13,15 +13,9 @@ class ReviewUserPhoto extends Component {
   }
 
   componentWillReceiveProps() {
-    // console.log('components will receive props', this.props);
-    this.setState(
-      () => ({
-        images: this.props.item.images
-      }),
-      () => {
-        // console.log(this.state.data)
-      }
-    );
+    this.setState(() => ({
+      images: this.props.item.images
+    }));
   }
 
   addImageComponent(itemIndex, imageIndex) {
@@ -33,12 +27,7 @@ class ReviewUserPhoto extends Component {
 
     return (
       <View style={styles.item}>
-        <Text
-          style={styles.addPhotoText}
-          onPress={() => this.addImageComponent(0, 0)}
-        >
-          {this.props.item.name}
-        </Text>
+        <Text style={styles.addPhotoText}>{this.props.item.name}</Text>
 
         <View style={{ backgroundColor: 'transparent' }}>
           <FlatList

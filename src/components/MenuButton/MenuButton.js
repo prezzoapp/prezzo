@@ -3,7 +3,7 @@ import React from 'react';
 import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '../VectorIcons';
 import PropTypes from 'prop-types'
-import { FONT_FAMILY } from '../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 const buttonBlack = '#424242';
 const shadowColor = 'black';
@@ -71,7 +71,7 @@ const styles = {
   },
   buttonTitle: {
     color: textColor,
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
+    fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: 18
   }
 };
