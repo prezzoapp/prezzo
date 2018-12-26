@@ -155,8 +155,8 @@ class Login extends React.Component<Props, State> {
   }
 }
 
-const containerPaddingLeftRight: number = 40;
-const containerPaddingTopBottom: number = 80;
+const containerPaddingLeftRight: number = wp('10.66%');
+const containerPaddingTopBottom: number = hp('9.85%');
 
 const styles = StyleSheet.create({
   container: {
@@ -167,33 +167,35 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingTop: hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0))
+    paddingTop: hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0))
   },
   headerText: {
-    fontSize: wp('9.6%'),
+    fontSize: wp('10.16%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
     backgroundColor: 'transparent',
-    paddingTop: hp('1.72%')
+    paddingTop: hp('0%')
   },
   subHeaderText: {
-    fontSize: wp('6.4%'),
+    fontSize: wp('6.13%'),
     fontFamily: FONT_FAMILY,
     color: '#fff',
-    marginBottom: hp('5.66%'),
-    backgroundColor: 'transparent'
+    marginBottom: hp('4.92%'),
+    backgroundColor: 'transparent',
+    marginTop: 5
   },
   signupLabelContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: 40,
+    marginBottom: 50,
+    marginTop: 10,
     backgroundColor: 'transparent',
     flexDirection: 'row',
     display: 'flex'
   },
   signupLabel: {
     color: '#959595',
-    fontSize: wp('4.53%'),
+    fontSize: wp('4.26%'),
     fontFamily: FONT_FAMILY,
     marginRight: 4
   },

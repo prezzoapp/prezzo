@@ -110,6 +110,7 @@ class Tutorial extends React.Component {
           paginationStyle={{ bottom: hp('1.72%') }}
           dotColor="rgba(255, 255, 255, 0.5)"
           activeDotColor="#0DD24A"
+          paginationStyle={{ bottom: hp('1.84%') }}
         >
           <TutorialScreen image={images.tutorial1} />
           <TutorialScreen image={images.tutorial2} />
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     position: 'absolute',
-    bottom: hp('7%'),
+    bottom: hp('4.31%'),
     left: 0,
     right: 0,
     width: '100%'
