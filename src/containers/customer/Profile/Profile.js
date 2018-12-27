@@ -47,7 +47,7 @@ class Profile extends Component {
     try {
       await this.props.userLogout();
       await snapshot.clearSnapshot();
-      this.props.navigate({ routeName: 'Authentication' });
+      //this.props.navigate({ routeName: 'Authentication' });
     } catch(e) {
         console.log("Logout Error!");
     }

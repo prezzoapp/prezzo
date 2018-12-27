@@ -1,6 +1,7 @@
 // @flow
 import { bindActionCreators } from 'redux';
 import {
+  createMenu,
   addCategory,
   updateCategory,
   deleteCategory,
@@ -27,6 +28,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+  createMenu: bindActionCreators(createMenu, dispatch),
   addCategory: bindActionCreators(addCategory, dispatch),
   updateCategory: bindActionCreators(updateCategory, dispatch),
   deleteCategory: bindActionCreators(deleteCategory, dispatch),

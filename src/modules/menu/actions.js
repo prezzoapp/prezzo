@@ -36,7 +36,7 @@ import { post, del, put } from '../../utils/api';
 export const createMenu = async () => async dispatch => {
   dispatch({ type: MENU_CREATE_REQUEST });
   try {
-    const { menu } = await post('/v1/menus');
+    const menu = await post('/v1/menus');
 
     return dispatch({
       type: MENU_CREATE_SUCCESS,
@@ -59,6 +59,7 @@ export const addCategory = async (
   dispatch({ type: MENU_ADD_CATEGORY_REQUEST });
 
   try {
+    console.log("Menu ID: ", menuId);
     const data = await post(`/v1/menus/${menuId}/categories`, {
       title
     });

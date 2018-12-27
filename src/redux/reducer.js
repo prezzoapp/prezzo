@@ -8,6 +8,7 @@ import UserReducer from '../modules/user';
 import SignupReducer from '../modules/Signup';
 import SessionStateReducer from '../modules/session';
 import { RESET_STATE } from '../modules/session/types';
+import { USER_LOGOUT_SUCCESS } from '../modules/auth/types';
 import VendorReducer from '../modules/vendor';
 import ExploreReducer from '../modules/explore';
 import RestaurantDetails from '../modules/restaurant';
@@ -49,9 +50,19 @@ const namespacedReducer = combineReducers(
 );
 
 export default function mainReducer(state, action) {
-  const [nextState, effects] = action.type === RESET_STATE
-    ? namespacedReducer(action.payload, action)
-    : namespacedReducer(state || void 0, action);
-
+  if(action.type === RESET_STATE) {
+    const [nextState, effects] = namespacedReducer(action.payload, action);
+    return loop(fromJS(nextState), effects);
+  } else if(action.type === USER_LOGOUT_SUCCESS) {
+    const [nextState, effects] = namespacedReducer(undefined, action);
+    const newState = nextState.updateIn(['session isReady'], () => true);
+    return loop(fromJS(newState), effects);
+  }
+  const [nextState, effects] = namespacedReducer(state || void 0, action);
   return loop(fromJS(nextState), effects);
+  // const [nextState, effects] = action.type === RESET_STATE
+  //   ? namespacedReducer(action.payload, action)
+  //     : action.type === USER_LOGOUT_SUCCESS
+  //     ? namespacedReducer(undefined || void 0, action)
+  //     : namespacedReducer(state || void 0, action)
 }

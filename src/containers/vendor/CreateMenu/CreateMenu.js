@@ -4,7 +4,8 @@ import {
   SectionList,
   Text,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  InteractionManager
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -62,8 +63,16 @@ export default class CreateMenu extends Component<Props> {
     )
   });
 
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      if(!this.props.menu)
+        this.props.createMenu();
+    });
+  }
+
   addCategory(length) {
     const categoryName = `Category # ${length + 1}`;
+    console.log(this.props.menu);
     const tempArray = this.props.menu
      ? this.props.menu.get('categories') &&
        this.props.menu.get('categories').toJS()
@@ -89,6 +98,7 @@ export default class CreateMenu extends Component<Props> {
             ? this.props.menu.get('categories') &&
               this.props.menu.get('categories').toJS()
             : [];
+          console.log(tempArray.length);
           this.addCategory(tempArray.length);
         }}
       >
@@ -201,7 +211,9 @@ export default class CreateMenu extends Component<Props> {
           </View>
         </View>
 
-        <LoadingComponent visible={this.props.isBusy || this.props.uploadIsBusy} />
+        <LoadingComponent
+          visible={this.props.isBusy || this.props.uploadIsBusy}
+        />
       </KeyboardAvoidingView>
     );
   }

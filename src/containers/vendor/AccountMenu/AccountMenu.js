@@ -61,8 +61,6 @@ export default class AccountMenu extends React.Component {
 
   createMenu(vendor, menu) {
     if(vendor) {
-      if (!menu) this.props.createMenu();
-
       this.props.navigate({ routeName: 'CreateMenu' });
     } else {
       Alert.alert(

@@ -1,7 +1,6 @@
 // @flow
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { createMenu } from '../../../modules/menu';
 import { userLogout } from '../../../modules/auth';
 
 export const mapStateToProps = state => {
@@ -17,6 +16,5 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => ({
   navigate: bindActionCreators(NavigationActions.navigate, dispatch),
-  createMenu: bindActionCreators(createMenu, dispatch),
   userLogout: bindActionCreators(userLogout, dispatch)
 });

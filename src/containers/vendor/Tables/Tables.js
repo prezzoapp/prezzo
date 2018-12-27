@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, FlatList, Alert, Modal, ActivityIndicator, NetInfo, AsyncStorage } from 'react-native';
+import { View, FlatList, Alert, Modal, ActivityIndicator, NetInfo, AsyncStorage, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import styles from './styles';
@@ -64,18 +64,18 @@ class Tables extends Component {
 
   checkResponseMessage(){
     AsyncStorage.getItem('response_code').then((code) => {
-    console.log("response message is -----------------",code);
-    if(code !== '200'){
+    //console.log("response message is -----------------",code);
+    if(code !== '200') {
       AsyncStorage.getItem('response_message').then((msg) => {
-      console.log("response message is -----------------",msg);
-      Alert.alert(
-       'Prezzo',
-        msg,
-        [
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        { cancelable: false }
-      )
+        //console.log("response message is -----------------",msg);
+        // Alert.alert(
+        //  'Prezzo',
+        //   msg,
+        //   [
+        //     {text: 'OK', onPress: () => console.log('OK Pressed')},
+        //   ],
+        //   { cancelable: false }
+        // )
       });
     }
     });
@@ -143,12 +143,21 @@ class Tables extends Component {
     return this.renderClosedTable();
   };
 
+  listEmptyComponent() {
+    return (
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.message}>No items found!</Text>
+      </View>
+    );
+  }
+
   renderOpenTable() {
     return (
       <View style={{ flex: 1 }}>
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={this.listEmptyComponent}
           ItemSeparatorComponent={() => {
             if(this.props.layout !== 'list') {
               return (
@@ -159,7 +168,7 @@ class Tables extends Component {
           }}
           onRefresh={() => this.onRefresh()}
           refreshing={this.state.isFetching}
-          contentContainerStyle={styles.flatListStyle}
+          contentContainerStyle={[styles.flatListStyle, { flexGrow: 1, justifyContent: (this.props.openTableList.size === 0) ? 'center' : null }]}
           data={this.props.openTableList.length !== 0 ? this.props.openTableList.toJS() : []}
           renderItem={rowData => {
             if (this.props.layout === 'list') {
@@ -187,10 +196,11 @@ class Tables extends Component {
 
   renderQueueTable() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={this.listEmptyComponent}
           ItemSeparatorComponent={() => {
             if(this.props.layout !== 'list') {
               return (
@@ -201,8 +211,8 @@ class Tables extends Component {
           }}
           onRefresh={() => this.onRefresh()}
           refreshing={this.state.isFetching}
-          contentContainerStyle={styles.flatListStyle}
-          data={this.props.queuedTableList.length !== 0 ? this.props.queuedTableList.toJS() : []}
+          contentContainerStyle={[styles.flatListStyle, { flexGrow: 1, justifyContent: (this.props.queuedTableList.size === 0) ? 'center' : null }]}
+          data={this.props.queuedTableList.size !== 0 ? this.props.queuedTableList.toJS() : []}
           renderItem={rowData => {
             if (this.props.layout === 'list') {
               return (
@@ -242,6 +252,7 @@ class Tables extends Component {
           <FlatList
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
+            ListEmptyComponent={this.listEmptyComponent}
             ItemSeparatorComponent={() => {
               if(this.props.layout !== 'list') {
                 return (
@@ -252,7 +263,7 @@ class Tables extends Component {
             }}
             onRefresh={() => this.onRefresh()}
             refreshing={this.state.isFetching}
-            contentContainerStyle={styles.flatListStyle}
+            contentContainerStyle={[styles.flatListStyle, { flexGrow: 1, justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
             data={this.props.closedTableList.length !== 0 ? this.props.closedTableList.toJS() : []}
             renderItem={rowData => {
               if (this.props.layout === 'list') {

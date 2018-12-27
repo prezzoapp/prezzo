@@ -237,7 +237,6 @@ export default (state = INITIAL_STATE, action) => {
 
   switch (action.type) {
     case MENU_CREATE_REQUEST:
-      return state.update('isBusy', () => false);
     case MENU_ADD_CATEGORY_REQUEST:
     case MENU_UPDATE_CATEGORY_REQUEST:
     case MENU_DELETE_CATEGORY_REQUEST:
@@ -246,7 +245,7 @@ export default (state = INITIAL_STATE, action) => {
     case MENU_DELETE_ITEM_REQUEST:
     case MENU_ADD_IMAGE_REQUEST:
     case MENU_DELETE_IMAGE_REQUEST:
-      return state.set('isBusy', true);
+      return state.update('isBusy', () => true);
 
     case MENU_CREATE_SUCCESS:
       return state

@@ -40,6 +40,11 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#2ED573',
     width: '100%'
+  },
+
+  message: {
+    color: 'white',
+    fontSize: 20
   }
 });
 

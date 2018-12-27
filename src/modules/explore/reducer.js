@@ -17,20 +17,6 @@ import {
 
 const restaurants = [];
 
-// for (let i = 0; i < 5; i += 1) {
-//   restaurants.push({
-//     _id: i,
-//     imagePath: require('../../../assets/images/exploreRestaurantItem.png'),
-//     likes: 0,
-//     name: 'True Food',
-//     city: 'Santa Monica',
-//     distance: 2,
-//     status: 'Open Now',
-//     latitude: 28.006447,
-//     longitude: 73.3204479
-//   });
-// }
-
 const INITIAL_STATE = fromJS({
   isBusy: false,
   filters: [
@@ -38,7 +24,7 @@ const INITIAL_STATE = fromJS({
       _id: 0,
       filterType: 'openNow',
       name: 'Open Now',
-      on: true,
+      on: false,
       image: require('../../../assets/images/filters/realtime-protection.png')
     },
     {

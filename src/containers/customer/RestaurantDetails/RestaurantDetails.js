@@ -428,8 +428,8 @@ export default class RestaurantDetails extends Component {
           {(() => {
             if (this.props.data.data) {
               if(
-                this.props.navigation.state.params.item.menu !== undefined &&
-                this.props.navigation.state.params.item.menu.categories !== undefined &&
+                this.props.navigation.state.params.item.menu &&
+                this.props.navigation.state.params.item.menu.categories &&
                 this.props.navigation.state.params.item.menu.categories.length > 0) {
                 return (
                   <View style={styles.toggleBtnsSection}>

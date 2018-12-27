@@ -9,13 +9,11 @@ import {
   ActivityIndicator,
   Modal,
   AsyncStorage,
-  TouchableOpacity
+  TouchableOpacity,
+  InteractionManager
 } from 'react-native';
 import { PropTypes } from 'prop-types';
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import MenuButton from '../../../components/MenuButton';
 import { Feather } from '../../../components/VectorIcons';
 import EditableListItem from '../../../components/EditableListItem';
@@ -64,14 +62,16 @@ class PaymentMenu extends Component {
   static displayName = 'Payment Methods';
 
   componentDidMount() {
-    console.log(this.props.data);
-    this.props.listCreditCards().then(() => {
-        this.checkResponseMessage();
-      })
+    InteractionManager.runAfterInteractions(() => {
+      this.props.listCreditCards().then(() => {
+          this.checkResponseMessage();
+        })
       .catch(e => {
         this.showAlert(e.message, 300);
       });
+    });
   }
+
   showAlert(message, duration) {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
@@ -80,10 +80,11 @@ class PaymentMenu extends Component {
   }
 
   checkResponseMessage() {
-    AsyncStorage.getItem('response_message').then((msg) => {
+    AsyncStorage.getItem('response_message').then(msg => {
       console.log('response message is -----------------', msg);
     });
   }
+
   removeCardAtIndex(id) {
     Alert.alert(
       null,
