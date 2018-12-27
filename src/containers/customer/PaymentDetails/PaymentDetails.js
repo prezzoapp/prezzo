@@ -23,20 +23,29 @@ import styles from './styles';
 import Button from '../../../components/Button';
 import { get, post } from '../../../utils/api';
 
-import { FONT_FAMILY_MEDIUM } from '../../../services/constants';
+import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.state.params.title,
+      headerTitle: (
+        <Text
+          style={{
+            width: wp('70%'),
+            fontSize: wp('6.4%'),
+            fontFamily: FONT_FAMILY_MEDIUM,
+            color: COLOR_WHITE,
+            textAlign: 'center'
+          }}
+          numberOfLines={1}
+        >
+          {navigation.state.params.title}
+        </Text>
+      ),
       headerStyle: {
         backgroundColor: '#2B2C2C',
         shadowColor: 'transparent',
         borderBottomWidth: 0
-      },
-      headerTitleStyle: {
-        fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
-        fontSize: wp('6.4%')
       },
       headerTintColor: '#fff',
       headerBackTitle: 'Hello',

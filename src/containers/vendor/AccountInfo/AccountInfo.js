@@ -23,7 +23,7 @@ import ProfileDataField from '../../../components/ProfileDataField';
 import EditableListItem from '../../../components/EditableListItem';
 import showGenericAlert from '../../../components/GenericAlert';
 import { restaurantCategories, COLOR_GREEN } from '../../../services/constants';
-import styles, { stylesRaw } from './styles';
+import styles, { stylesRaw, avatarShadowProps } from './styles';
 import FilterItem from '../../../components/FilterItem';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
@@ -35,12 +35,26 @@ const price4Indicator = wp('85%') * 0.99 - wp('9.5%');
 import {
   FONT_FAMILY_MEDIUM,
   FONT_FAMILY,
-  COLOR_BLACK
+  COLOR_BLACK,
+  COLOR_WHITE
 } from '../../../services/constants';
 
 export default class AccountInfo extends React.Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Vendor Account',
+    headerTitle: (
+      <Text
+        style={{
+          width: wp('70%'),
+          fontSize: wp('6.4%'),
+          fontFamily: FONT_FAMILY_MEDIUM,
+          color: COLOR_WHITE,
+          textAlign: 'center'
+        }}
+        numberOfLines={1}
+      >
+        Vendor Account
+      </Text>
+    ),
     headerStyle: {
       position: 'relative',
       backgroundColor: '#2B2C2C',
@@ -573,7 +587,8 @@ export default class AccountInfo extends React.Component {
           </View>
 
           <View style={styles.header}>
-            <BoxShadow setting={{ x: 0, y: 4, width: 80, height: 80, color: '#000', border: 2, radius: 10, opacity: 0.5 }}>
+            <BoxShadow setting={avatarShadowProps}
+            >
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.avatarWrap}

@@ -140,12 +140,10 @@ class Login extends React.Component<Props, State> {
               <View style={styles.buttonContainer}>
                 <Button
                   style={buttonStyles.login}
-                  textStyle={buttonStyles.loginText}
                   onPress={() => this.login()}
                 >
                   Sign In
                 </Button>
-
               </View>
             </ScrollView>
           </ImageBackground>
@@ -205,7 +203,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY
   },
   buttonContainer: {
-    alignSelf: 'center'
+    alignItems: 'center'
   },
   headerLeftBtn: {
     marginLeft: wp('4.4%')
@@ -218,7 +216,8 @@ const buttonStyles = {
     height: hp('6.65%'),
     backgroundColor: '#0DD24A',
     borderColor: '#0DD24A',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    position: 'absolute'
   },
   loginText: {
     fontSize: wp('5.33%'),
@@ -227,5 +226,17 @@ const buttonStyles = {
     paddingBottom: 0
   }
 };
+
+// const buttonShadowProps = {
+//   x: 0,
+//   y: 10,
+//   width: 127,
+//   height: 43,
+//   color: '#2ED573',
+//   radius: 27,
+//   border: 10,
+//   opacity: 0.4,
+//   style: {borderRadius: 27}
+// };
 
 export default Login;

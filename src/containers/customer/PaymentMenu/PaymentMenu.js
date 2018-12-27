@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
+  Text,
   Image,
   Alert,
   ScrollView,
@@ -19,16 +20,26 @@ import MenuButton from '../../../components/MenuButton';
 import { Feather } from '../../../components/VectorIcons';
 import EditableListItem from '../../../components/EditableListItem';
 import styles from './styles';
-import { FONT_FAMILY_MEDIUM } from '../../../services/constants';
+import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 
 class PaymentMenu extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Payment Methods',
+    headerTitle: (
+      <Text
+        style={{
+          width: wp('70%'),
+          fontSize: wp('6.4%'),
+          fontFamily: FONT_FAMILY_MEDIUM,
+          color: COLOR_WHITE,
+          textAlign: 'center',
+          justifyContent: 'center'
+        }}
+        numberOfLines={1}
+      >
+        Payment Methods
+      </Text>
+    ),
     headerBackTitle: null,
-    headerTitleStyle: {
-      fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
-      fontSize: wp('6.4%')
-    },
     headerStyle: {
       backgroundColor: '#2B2C2C',
       shadowColor: 'transparent',

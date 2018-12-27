@@ -39,6 +39,14 @@ export default class ExploreScreenHeader extends PureComponent {
     this.activeFilters = [];
   }
 
+  componentDidMount() { 
+    this.props.filters.map(item => {
+      if(item.on) {
+        this.activeFilters.push(item.filterType);
+      }
+    });
+  }
+
   hideFilterPanel() {
     this.setState(() => {
       return {
@@ -61,6 +69,7 @@ export default class ExploreScreenHeader extends PureComponent {
   }
 
   updatePrice(price) {
+    console.log("Pricing: ", price);
     this.props.updatePrice(price).then(() => {
       this.props.listVendors(
         this.props.currentLatitude,
@@ -96,42 +105,22 @@ export default class ExploreScreenHeader extends PureComponent {
 
       NetInfo.isConnected.fetch().done(
         (isConnected) => { console.log(isConnected);
-         if(isConnected)
-         {
-           this.props.navigate({ routeName: 'MapScreen' });
+         if(isConnected) {
+            this.props.navigate({ routeName: 'MapScreen' });
          }
-         else{
-
-              Alert.alert(
-               'Prezzo',
-                'Please check your internet connection and try again later.',
-                [
-                  {text: 'OK', onPress: () => console.log('OK Pressed')},
-                ],
-                { cancelable: false }
-              )
+         else {
+            Alert.alert(
+             'Prezzo',
+              'Please check your internet connection and try again later.',
+              [
+                {text: 'OK', onPress: () => console.log('OK Pressed')},
+              ],
+              { cancelable: false }
+            )
          }
 
         }
       );
-
-
-
-    // let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    // const { locationServicesEnabled } = await Location.getProviderStatusAsync({});
-    // if (locationServicesEnabled === false || status !== 'granted') {
-    //   Alert.alert(
-    //     'Prezzo',
-    //     'Uh oh! Location service Unavailable.',
-    //     [
-    //       {text: 'OK', onPress: () => console.log('OK Pressed')},
-    //     ],
-    //     { cancelable: false }
-    //   )
-    // }
-    //else{
-    //  this.props.navigate({ routeName: 'MapScreen' });
-    //}
   };
 
   handleConnectionChange = (isConnected) => {
@@ -141,7 +130,7 @@ export default class ExploreScreenHeader extends PureComponent {
 
   render() {
     const { filters } = this.props;
-    console.log("Explore screen Header component.");
+    console.log("Props pricing: ", this.props.pricing);
     return (
       <View style={styles.header}>
         <LinearGradient
@@ -239,7 +228,7 @@ export default class ExploreScreenHeader extends PureComponent {
                           position: 'absolute',
                           left: 0,
                           right: 0,
-                          bottom: -13.5
+                          bottom: -hp('1.66%')
                         }}
                       >
                         <Slider
@@ -249,12 +238,10 @@ export default class ExploreScreenHeader extends PureComponent {
                           minimumTrackTintColor="rgb(47,212,117)"
                           maximumTrackTintColor="rgb(230,230,230)"
                           thumbTintColor="rgb(255,254,255)"
-                          thumbStyle={{ height: 18, width: 18 }}
-                          value={this.state.pricing}
-                          onSlidingComplete={value =>
-                            this.setState({ pricing: value })
-                          }
-                          trackStyle={{ height: 3 }}
+                          thumbStyle={{ height: wp('4.8%'), width: wp('4.8%') }}
+                          value={this.props.pricing - 1}
+                          onSlidingComplete={value => this.updatePrice(value)}
+                          trackStyle={{ height: hp('0.36%') }}
                         />
                       </View>
 
@@ -262,7 +249,7 @@ export default class ExploreScreenHeader extends PureComponent {
                         pointerEvents="none"
                         style={{
                           width: wp('13.33%'),
-                          height: 47,
+                          height: hp('5.78%'),
                           flexDirection: 'column',
                           justifyContent: 'space-between',
                           zIndex: 1
@@ -273,7 +260,7 @@ export default class ExploreScreenHeader extends PureComponent {
                             color: COLOR_GREEN,
                             fontSize: wp('3.2%'),
                             width: wp('13.33%'),
-                            height: 20,
+                            height: hp('2.46'),
                             fontFamily: SF_PRO_DISPLAY_REGULAR
                           }}
                         >

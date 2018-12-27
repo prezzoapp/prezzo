@@ -45,7 +45,7 @@ class EditProfile extends Component<Props, State> {
     headerTitle: (
       <Text
         style={{
-          width: wp('50%'),
+          width: wp('70%'),
           fontSize: wp('6.4%'),
           fontFamily: FONT_FAMILY_MEDIUM,
           color: COLOR_WHITE,

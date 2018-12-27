@@ -43,8 +43,6 @@ export const loginWithEmail = async (email: string, password: string) => async (
 
   try {
     const type = Platform.OS;
-    // console.log('Email: ', email);
-    // console.log('Password: ', password);
     const user = await post('/v1/auth/login', {
       email,
       password,

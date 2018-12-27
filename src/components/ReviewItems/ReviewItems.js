@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Modal, View, Image, Text, FlatList } from 'react-native';
-// import { BlurView } from 'react-native-blur';
 import { BlurView } from 'expo';
 import PropTypes from 'prop-types';
 import {
@@ -11,7 +10,12 @@ import styles from './styles';
 import AddReviewListItem from '../AddReviewListItem';
 import Button from '../Button';
 
-import { COLOR_WHITE, FONT_FAMILY } from '../../services/constants';
+import {
+  COLOR_WHITE,
+  FONT_FAMILY,
+  FONT_FAMILY_MEDIUM,
+  SF_PRO_TEXT_BOLD
+} from '../../services/constants';
 
 class ReviewItems extends Component {
   renderHeader = () => (
@@ -87,7 +91,7 @@ const buttonStyles = {
 
   submitReviewBtnText: {
     fontSize: wp('3.46%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: SF_PRO_TEXT_BOLD,
     color: COLOR_WHITE,
     paddingTop: 0,
     paddingBottom: 0,
@@ -106,7 +110,7 @@ const buttonStyles = {
 
   closeReviewBtnText: {
     fontSize: wp('5.33%'),
-    fontFamily: FONT_FAMILY,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: 'rgba(255,255,255,0.5)',
     paddingTop: 0,
     paddingBottom: 0,

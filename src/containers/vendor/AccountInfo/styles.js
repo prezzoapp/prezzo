@@ -47,7 +47,8 @@ export default StyleSheet.create({
     height: AVATAR_SIZE,
     position: 'relative',
     width: AVATAR_SIZE,
-    backgroundColor: COLOR_BLACK
+    backgroundColor: COLOR_BLACK,
+    borderRadius: 8
   },
   categoriesContainer: {
     paddingHorizontal: wp('7.46%'),
@@ -219,4 +220,15 @@ export const stylesRaw = {
     right: 14,
     top: 60
   }
+};
+
+export const avatarShadowProps = {
+  x: 0,
+  y: 4,
+  width: 80,
+  height: 80,
+  color: '#000000',
+  radius: 8,
+  border: 12,
+  opacity: 0.35
 };

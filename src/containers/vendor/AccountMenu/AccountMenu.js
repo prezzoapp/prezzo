@@ -8,23 +8,39 @@ import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
 import styles from './styles';
 import {
-  FONT_FAMILY_MEDIUM
+  FONT_FAMILY_MEDIUM,
+  COLOR_WHITE,
+  COLOR_BLACK
 } from '../../../services/constants';
 
 export default class AccountMenu extends React.Component {
-  static navigationOptions = {
-    headerStyle: {
-      backgroundColor: '#2B2C2C',
-      borderBottomWidth: 0
-    },
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: (
+      <Text
+        style={{
+          width: wp('70%'),
+          fontSize: wp('6.4%'),
+          fontFamily: FONT_FAMILY_MEDIUM,
+          color: COLOR_WHITE,
+          textAlign: 'center'
+        }}
+        numberOfLines={1}
+      >
+        Vendor Account
+      </Text>
+    ),
     headerTitleStyle: {
       fontFamily: FONT_FAMILY_MEDIUM,
       fontSize: wp('6.4%')
     },
     headerBackTitle: null,
     headerTintColor: '#fff',
-    title: 'Vendor Account'
-  };
+    headerStyle: {
+      backgroundColor: COLOR_BLACK,
+      shadowColor: 'transparent',
+      borderBottomWidth: 0
+    }
+  });
 
   static displayName = 'Profile';
 

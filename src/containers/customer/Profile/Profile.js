@@ -17,7 +17,7 @@ class Profile extends Component {
     headerTitle: (
       <Text
         style={{
-          width: wp('50%'),
+          width: wp('70%'),
           fontSize: wp('6.4%'),
           fontFamily: FONT_FAMILY_MEDIUM,
           color: COLOR_WHITE,
@@ -44,9 +44,13 @@ class Profile extends Component {
   };
 
   async logout() {
-    this.props.navigate({ routeName: 'Authentication' });
-    await this.props.userLogout();
-    await snapshot.clearSnapshot();
+    try {
+      await this.props.userLogout();
+      await snapshot.clearSnapshot();
+      this.props.navigate({ routeName: 'Authentication' });
+    } catch(e) {
+        console.log("Logout Error!");
+    }
   }
 
   navigateToEditProfile() {

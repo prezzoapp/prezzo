@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
-    paddingBottom: 10
+    paddingBottom: 10,
+    textAlign: 'center'
   },
 
   logo: {

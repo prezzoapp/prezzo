@@ -10,14 +10,31 @@ import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import MenuItem from '../../../components/MenuItem';
-import { COLOR_BLACK, FONT_FAMILY_MEDIUM } from '../../../services/constants';
+import {
+  COLOR_BLACK,
+  FONT_FAMILY_MEDIUM,
+  COLOR_WHITE
+} from '../../../services/constants';
 import styles from './styles';
 import MenuListCategoriesHeader from '../../../components/MenuListCategoriesHeader';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 export default class CreateMenu extends Component<Props> {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Create Menu',
+    headerTitle: (
+      <Text
+        style={{
+          width: wp('70%'),
+          fontSize: wp('6.4%'),
+          fontFamily: FONT_FAMILY_MEDIUM,
+          color: COLOR_WHITE,
+          textAlign: 'center'
+        }}
+        numberOfLines={1}
+      >
+        Create Menu
+      </Text>
+    ),
     headerTintColor: 'white',
     headerStyle: {
       backgroundColor: COLOR_BLACK,

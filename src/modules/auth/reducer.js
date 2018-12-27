@@ -37,6 +37,7 @@ const reducer = (state: State = INITIAL_STATE, action) => {
     case SET_AUTHENTICATION_TOKEN:
       return state.update('token', () => action.payload);
     case USER_LOGOUT_SUCCESS:
+      return INITIAL_STATE;
     case USER_LOGOUT_FAILURE:
       return state.update('isBusy', () => false);
       case LOGIN_WITH_EMAIL_FAILURE:
