@@ -24,20 +24,17 @@ const INITIAL_STATE: State = Map({
 const reducer = (state: State = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOGIN_WITH_EMAIL_REQUEST:
-
     case USER_LOGOUT_REQUEST:
       return state.update('isBusy', () => true);
     case SIGNUP_SUCCESS:
     case LOGIN_WITH_EMAIL_SUCCESS:
-
     case LOGIN_WITH_FACEBOOK_SUCCESS:
       return loop(
-        state,
+        state.update('isBusy', () => false),
         Effects.promise(setAuthenticationToken, action.payload));
     case SET_AUTHENTICATION_TOKEN:
       return state.update('token', () => action.payload);
     case USER_LOGOUT_SUCCESS:
-      return INITIAL_STATE;
     case USER_LOGOUT_FAILURE:
       return state.update('isBusy', () => false);
       case LOGIN_WITH_EMAIL_FAILURE:

@@ -73,7 +73,6 @@ export default class MapScreen extends Component {
   }
 
   componentDidMount() {
-    this._isMounted = true;
     this.activeFilters = '';
     const activatedFiltersArray = [];
     this.props.filters.map(item => {
@@ -130,6 +129,7 @@ export default class MapScreen extends Component {
   }
 
   onRegionChangeComplete(region) {
+    console.log('isFirstLoad: ', this.isFirstLoad);
     if (this.btnClicked === false && this.isFirstLoad === false) {
       this.setState(
         () => ({
@@ -153,6 +153,7 @@ export default class MapScreen extends Component {
         }
       );
     } else {
+      console.log('Only moved !');
       this.btnClicked = false;
       this.isFirstLoad = false;
     }
@@ -160,7 +161,6 @@ export default class MapScreen extends Component {
 
   getIPLocation(ip) {
     const commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
-    console.log('location url is ------ ', commonHtml);
     fetch(commonHtml)
       .then(response => response.json())
       .then(responseJson => {
@@ -173,11 +173,8 @@ export default class MapScreen extends Component {
               latitudeDelta: 0.00922,
               longitudeDelta: 0.00422
             },
-            isGetLocation: true,
-            countryName: responseJson.country_name,
-            regionName: responseJson.region_name
+            isGetLocation: true
           });
-          console.log('location ip  --- ', this.state.customRegion);
           this.props
             .listVendors(
               this.state.customRegion.latitude,
@@ -212,14 +209,22 @@ export default class MapScreen extends Component {
   }
 
   moveToPosition(coordinates) {
-    this.btnClicked = true;
+    //if(this.btnClicked === false) {
+      //console.log("Btn Clicked Before: ", this.btnClicked);
+      this.btnClicked = true;
+      //console.log("Btn Clicked After: ", this.btnClicked);
 
-    this.mapView.animateToRegion({
-      latitude: coordinates[1],
-      longitude: coordinates[0],
-      latitudeDelta: 0.00922,
-      longitudeDelta: 0.00422
-    });
+      this.mapView.animateToRegion({
+        latitude: coordinates[1],
+        longitude: coordinates[0],
+        latitudeDelta: 0.00922,
+        longitudeDelta: 0.00422
+      });
+    //} else {
+      //console.log("Btn Clicked Before: ", this.btnClicked);
+      //this.btnClicked = false;
+      //console.log("Btn Clicked After: ", this.btnClicked);
+    //}
   }
 
   moveMapPositionOnSearch(lat, lon) {

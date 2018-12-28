@@ -39,7 +39,7 @@ const reducers = {
 // initial state, accessor and mutator for supporting root-level
 // immutable data with redux-loop reducer combinator
 const immutableStateContainer = Map();
-const getImmutable = (child, key) => child ? child.get(key) : void 0;
+const getImmutable = (child, key) => (child ? child.get(key) : void 0);
 const setImmutable = (child, key, value) => child.set(key, value);
 
 const namespacedReducer = combineReducers(
@@ -54,15 +54,11 @@ export default function mainReducer(state, action) {
     const [nextState, effects] = namespacedReducer(action.payload, action);
     return loop(fromJS(nextState), effects);
   } else if(action.type === USER_LOGOUT_SUCCESS) {
-    const [nextState, effects] = namespacedReducer(undefined, action);
-    const newState = nextState.updateIn(['session isReady'], () => true);
-    return loop(fromJS(newState), effects);
+    const { session } = state.toJS();
+    state = { session };
+    const [nextState, effects] = namespacedReducer(fromJS(state), action);
+    return loop(fromJS(nextState), effects);
   }
   const [nextState, effects] = namespacedReducer(state || void 0, action);
   return loop(fromJS(nextState), effects);
-  // const [nextState, effects] = action.type === RESET_STATE
-  //   ? namespacedReducer(action.payload, action)
-  //     : action.type === USER_LOGOUT_SUCCESS
-  //     ? namespacedReducer(undefined || void 0, action)
-  //     : namespacedReducer(state || void 0, action)
 }

@@ -8,7 +8,9 @@ import {
 } from '../../../modules/userActivity';
 
 export const mapStateToProps = state => {
-  const data = state
+  const data =
+    state.get('userActivity').get('data') &&
+    state
     .get('userActivity')
     .get('data')
     .toJS();

@@ -19,9 +19,9 @@ import {
 
 import PropTypes from 'prop-types';
 
-import { Feather } from '../../../components/VectorIcons';
-
 import { LinearGradient, BlurView } from 'expo';
+
+import { Feather } from '../../../components/VectorIcons';
 
 import styles from './styles';
 

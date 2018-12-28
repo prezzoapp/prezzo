@@ -47,6 +47,10 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     fontSize: 20,
     textAlign: 'center'
+  },
+
+  flatListContentContainerStyle: {
+    flexGrow: 1
   }
 });
 

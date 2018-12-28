@@ -65,7 +65,7 @@ export default class ExploreList extends PureComponent {
 
   checkResponseMessage(){
     AsyncStorage.getItem('response_message').then((msg) => {
-    console.log("response message is -----------------",msg);
+      console.log("response message is -----------------",msg);
     });
   }
 
@@ -110,8 +110,6 @@ export default class ExploreList extends PureComponent {
       }
     });
 
-    console.log(activeFilters);
-
     this.watchID = navigator.geolocation.getCurrentPosition(
       position => {
         this.setState(() => {
@@ -135,9 +133,6 @@ export default class ExploreList extends PureComponent {
               .catch(e => {
                 this.showAlert(e.message, 300);
               });
-              // .catch(e => this.showAlert(e.message, 300));
-
-
           }
         );
       },
@@ -164,17 +159,14 @@ export default class ExploreList extends PureComponent {
   getIPLocation(ip)
   {
      console.log("location ip is ------ ",ip);
-     var commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
+     let commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
      console.log("location url is ------ ",commonHtml);
        fetch(commonHtml)
          .then((response) => response.json())
          .then((responseJson) => {
            console.log(responseJson);
-           if(responseJson.latitude){
-
-
-
-           this.setState({
+           if(responseJson.latitude) {
+            this.setState({
              // countryName: responseJson.country_name,
              // regionName: responseJson.region_name,
              customRegion: {
@@ -183,14 +175,12 @@ export default class ExploreList extends PureComponent {
                latitudeDelta: 0.00922,
                longitudeDelta: 0.00422
              }
-           });
-           console.log('location ip  --- ',this.state.customRegion);
+            });
+            console.log('location ip  --- ',this.state.customRegion);
 
             this.props.listVendors(
                responseJson.latitude,
                responseJson.longitude,
-            //  this.state.customRegion.latitude,
-            //  this.state.customRegion.longitude,
               this.props.distance,
               this.props.filters.map(item => {
                 if(item.on) {
@@ -203,51 +193,35 @@ export default class ExploreList extends PureComponent {
           else{
             // show error message
           }
-
-
          })
          .catch((error) => {
          });
   }
 
+  listEmptyComponent() {
+    return (
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.message}>Oops, No Restaurants found!</Text>
+      </View>
+    );
+  }
+
   render(){
     const { restaurants } = this.props;
-    if(this.props.isBusy === false && restaurants.length !== 0) {
-      return (
-        <FlatList
-          contentContainerStyle={styles.flatListContentContainerStyle}
-          style={styles.flatListStyle}
-          initialNumToRender={10}
-          onRefresh={() => this.onRefresh()}
-          refreshing={this.state.isFetching}
-          keyExtractor={(item, index) => index.toString()}
-          data={restaurants}
-          renderItem={({ item }) => (
-            <ExploreListItem item={item} navigate={this.props.navigate} />
-          )}
-        />
-      );
-    } else {
-      return (
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          <View style={[styles.notFoundHolder, {position: 'absolute', backgroundColor: 'transparent', right: 0, left: 0}]}>
-            {this.props.isBusy ? null : (
-              <Text style={styles.message}>
-                Oops, No Restaurants found.
-              </Text>
-            )}
-          </View>
-
-          <FlatList
-            contentContainerStyle={styles.flatListContentContainerStyle}
-            style={styles.flatListStyle}
-            onRefresh={() => this.onRefresh()}
-            refreshing={this.state.isFetching}
-            data={[]}
-            renderItem={({ item }) => null}
-          />
-        </View>
-      );
-    }
+    return (
+      <FlatList
+        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: restaurants.length === 0 ? 'center' : null }]}
+        style={styles.flatListStyle}
+        initialNumToRender={10}
+        ListEmptyComponent={this.listEmptyComponent}
+        onRefresh={() => this.onRefresh()}
+        refreshing={this.state.isFetching}
+        keyExtractor={(item, index) => index.toString()}
+        data={restaurants}
+        renderItem={({ item }) => (
+          <ExploreListItem item={item} navigate={this.props.navigate} />
+        )}
+      />
+    );
   }
 }

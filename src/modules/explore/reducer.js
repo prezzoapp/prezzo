@@ -12,7 +12,8 @@ import {
   UPDATE_DISTANCE_FAILURE,
   UPDATE_PRICE_FILTER_REQUEST,
   UPDATE_PRICE_FILTER_SUCCESS,
-  UPDATE_PRICE_FILTER_FAILURE
+  UPDATE_PRICE_FILTER_FAILURE,
+  DISABLE_VENDOR_LIST_ITEM
 } from './types';
 
 const restaurants = [];
@@ -94,9 +95,8 @@ export default (state = INITIAL_STATE, action) => {
 
       return state.set('filters', immutableFilters);
     case LIST_VENDORS_SUCCESS:
-      console.log("List Vendors API SUCCESS Called!");
-      return state.update('isBusy', () => false).update('restaurants', () => payload);
-      // return state;
+      const updatedRestaurants = payload.map(ele => ele.set('disable', false));
+      return state.update('isBusy', () => false).update('restaurants', () => updatedRestaurants);
     case UPDATE_DISTANCE_SUCCESS:
       return state
         .set('distance', payload)
@@ -105,6 +105,14 @@ export default (state = INITIAL_STATE, action) => {
         return state
         .update('pricing', () => payload)
         .update('isBusy', () => false);
+    case DISABLE_VENDOR_LIST_ITEM:
+      const updatedRest = state.get('restaurants').map(ele => {
+        if(ele.get('_id') === payload) {
+          return ele.get('disable', true);
+        }
+      });
+      console.log(updatedRest.toJS());
+      return state.update('restaurants', () => payload);
     default:
       return state;
   }

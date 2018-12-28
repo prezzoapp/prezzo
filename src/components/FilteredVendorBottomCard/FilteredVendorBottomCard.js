@@ -3,6 +3,7 @@ import { View, FlatList, Text, Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { Feather } from '../VectorIcons';
 import Button from '../Button';
+import FilteredVendorBottomCardItem from './FilteredVendorBottomCardItem';
 
 import styles from './styles';
 
@@ -12,7 +13,7 @@ class FilteredVendorBottomCard extends Component {
   constructor() {
     super();
 
-    this.state = { showVendorInfo: false, item: {} };
+    this.state = { showVendorInfo: false, item: {}, disabled: false };
 
     this.callMethod = this.callMethod.bind(this);
   }
@@ -26,6 +27,10 @@ class FilteredVendorBottomCard extends Component {
         }
       });
     }
+  }
+
+  moveToPosition() {
+    this.props.moveToPosition([...item.location.coordinates])
   }
 
   renderSeparator = () => <View style={styles.separator} />;
@@ -44,26 +49,7 @@ class FilteredVendorBottomCard extends Component {
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={this.renderSeparator}
             renderItem={({ item }) =>
-              <TouchableOpacity
-                activeOpacity={0.6}
-                style={styles.listItemBtn}
-                onPress={() =>
-                  this.props.moveToPosition([...item.location.coordinates])
-                }
-              >
-                <View style={styles.titleHolder}>
-                  <Text style={styles.name}>{item.name}</Text>
-                  <Text style={styles.distance}>{item.distance} miles</Text>
-                </View>
-
-                <View style={styles.statusHolder}>
-                  <Image
-                    source={require("../../../assets/images/open_restaurant_status.png")}
-                    style={styles.statusImage}
-                  />
-                  <Text style={styles.status}>{item.status}</Text>
-                </View>
-              </TouchableOpacity>
+              <FilteredVendorBottomCardItem item={item} />
             }
           />
         ) : (

@@ -12,7 +12,8 @@ import {
   UPDATE_DISTANCE_FAILURE,
   UPDATE_PRICE_FILTER_REQUEST,
   UPDATE_PRICE_FILTER_SUCCESS,
-  UPDATE_PRICE_FILTER_FAILURE
+  UPDATE_PRICE_FILTER_FAILURE,
+  DISABLE_VENDOR_LIST_ITEM
 } from './types';
 import { get } from '../../utils/api';
 
@@ -114,4 +115,11 @@ export const updatePrice = async (pricing: number) => async dispatch => {
     console.warn('e', e);
     dispatch({ type: UPDATE_PRICE_FILTER_FAILURE });
   }
+}
+
+export const disableVendorListItem = id => {
+  disaptch({
+    type: DISABLE_VENDOR_LIST_ITEM,
+    payload: id
+  })
 }

@@ -235,79 +235,89 @@ class ActivityOpenOrder extends Component {
       });
   }
 
-  renderHeader() {
-    return <Text style={styles.tableCode}>Table 9192</Text>;
+  listEmptyComponent() {
+    return (
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.message}>No pending order. You can create new one!</Text>
+      </View>
+    );
+  }
+
+  renderHeader(data) {
+    if (data.length !== 0 && data[0].items.length !== 0) {
+      return <Text style={styles.tableCode}>Table 9192</Text>;
+    }
+    return null;
   }
 
   render() {
-    console.log("This Props.Data :");
-    console.log(this.props.data);
-    const subTotal =
-      this.props.data && this.props.data.length !== 0
-        ? this.props.data[0].items
-            .map(item => item.price)
-            .reduce((previous, next) => {
-              return parseFloat(previous + next);
-            })
-        : 0;
-
+    // console.log("Props.Data");
+    // console.log(this.props.data);
     return (
       <View style={styles.container}>
-        {(() => {
-          if (this.props.data && this.props.data.length === 0) {
-            return (
-              <View style={styles.notFoundHolder}>
-                <Text style={styles.message}>
-                  No pending order. You can create new one.
-                </Text>
-              </View>
-            )
-          }
-          return (
-            <View style={{ flex: 1 }}>
-              <FlatList
-                keyExtractor={(item, index) => index.toString()}
-                showsVerticalScrollIndicator={false}
-                data={
-                  this.props.data && this.props.data.length !== 0
-                    ? this.props.data[0].items
-                    : []
+        <View style={{ flex: 1 }}>
+          <FlatList
+            ListEmptyComponent={this.listEmptyComponent}
+            contentContainerStyle={[
+              styles.flatListContentContainerStyle,
+              {
+                justifyContent:
+                  this.props.data &&
+                  this.props.data.length !== 0 &&
+                  this.props.data[0].items.length !== 0
+                    ? null
+                    : 'center'
+            }]}
+            keyExtractor={item => item._id.toString()}
+            showsVerticalScrollIndicator={false}
+            data={
+              this.props.data && this.props.data.length !== 0
+                ? this.props.data[0].items
+                : []
+            }
+            renderItem={({ item }) => (
+              <ActivityListItem
+                item={item}
+                orderId={this.props.data && this.props.data[0]._id}
+                checkStatusAndCancelItem={(orderId, itemId) =>
+                  this.checkStatusAndCancelItem(orderId, itemId)
                 }
-                renderItem={({ item }) => (
-                  <ActivityListItem
-                    item={item}
-                    orderId={this.props.data && this.props.data[0]._id}
-                    checkStatusAndCancelItem={(orderId, itemId) =>
-                      this.checkStatusAndCancelItem(orderId, itemId)
-                    }
-                  />
-                )}
-                onRefresh={() => this.onRefresh()}
-                refreshing={this.state.isFetching}
-                ListHeaderComponent={this.renderHeader}
-                stickyHeaderIndices={[0]}
               />
-              <View style={styles.footerContainer}>
-                <Button
-                  style={buttonStyles.callWaiterBtn}
-                  textStyle={buttonStyles.callWaiterBtnText}
-                  onPress={() => null}
-                >
-                  Call Waiter
-                </Button>
+            )}
+            onRefresh={() => this.onRefresh()}
+            refreshing={this.state.isFetching}
+            ListHeaderComponent={() => this.renderHeader(this.props.data)}
+            stickyHeaderIndices={[0]}
+          />
+          {(() => {
+            if (this.props.data &&
+              this.props.data.length !== 0 &&
+              this.props.data[0].items.length !== 0
+            ) {
+              return (
+                <View style={styles.footerContainer}>
+                  <Button
+                    style={buttonStyles.callWaiterBtn}
+                    textStyle={buttonStyles.callWaiterBtnText}
+                    onPress={() => null}
+                  >
+                    Call Waiter
+                  </Button>
 
-                <Button
-                  style={buttonStyles.closeTableBtn}
-                  textStyle={buttonStyles.closeTableBtnText}
-                  onPress={() => this.completeOrder(this.props.data[0]._id)}
-                >
-                  Close Table
-                </Button>
-              </View>
-            </View>
-          );
-        })()}
+                  <Button
+                    style={buttonStyles.closeTableBtn}
+                    textStyle={buttonStyles.closeTableBtnText}
+                    onPress={() => this.completeOrder(this.props.data[0]._id)}
+                  >
+                    Close Table
+                  </Button>
+                </View>
+              );
+            }
+            return null;
+          })()}
 
+        </View>
         {this.props.isBusy && <LoadingComponent />}
       </View>
     );
@@ -354,7 +364,7 @@ const buttonStyles = {
 };
 
 ActivityOpenOrder.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
   listOpenOrders: PropTypes.func.isRequired
 };
 

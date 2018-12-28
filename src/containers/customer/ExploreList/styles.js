@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
   flatListContentContainerStyle: {
     marginHorizontal: 15,
     paddingTop: hp('2%'),
-    paddingBottom: hp('9%')
+    paddingBottom: hp('9%'),
+    flexGrow: 1
   },
 
   flatListStyle: {

@@ -54,9 +54,12 @@ export default class AccountMenu extends React.Component {
   };
 
   async logout() {
-    await this.props.userLogout();
-    await snapshot.clearSnapshot();
-    this.props.navigate({ routeName: 'Authentication' });
+    try {
+      await this.props.userLogout();
+      await snapshot.clearSnapshot();
+    } catch(e) {
+      console.log("Logout Error!");
+    }
   }
 
   createMenu(vendor, menu) {

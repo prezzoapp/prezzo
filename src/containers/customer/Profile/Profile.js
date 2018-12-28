@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
+import LoadingComponent from '../../../components/LoadingComponent';
 import {
   FONT_FAMILY,
   COLOR_BLACK,
@@ -47,9 +48,8 @@ class Profile extends Component {
     try {
       await this.props.userLogout();
       await snapshot.clearSnapshot();
-      //this.props.navigate({ routeName: 'Authentication' });
     } catch(e) {
-        console.log("Logout Error!");
+      console.log("Logout Error!");
     }
   }
 
@@ -59,6 +59,7 @@ class Profile extends Component {
 
   render() {
     const { avatarURL } = this.props;
+    console.log(this.props.logoutIsBusy);
 
     return (
       <View style={styles.parent}>
@@ -110,6 +111,8 @@ class Profile extends Component {
             </TouchableOpacity>
           </View>
         </View>
+
+        <LoadingComponent visible={this.props.logoutIsBusy} />
       </View>
     );
   }
