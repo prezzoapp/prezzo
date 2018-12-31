@@ -29,13 +29,14 @@ class FilteredVendorBottomCard extends Component {
     }
   }
 
-  moveToPosition() {
-    this.props.moveToPosition([...item.location.coordinates])
+  moveToPosition(item) {
+    this.props.moveToPosition(item._id, item.location.coordinates)
   }
 
   renderSeparator = () => <View style={styles.separator} />;
 
   render() {
+    console.log("Render Called!");
     return (
       <View style={styles.filteredRestaurantsBottomCardHolder}>
         {!this.state.showVendorInfo ? (
@@ -49,7 +50,10 @@ class FilteredVendorBottomCard extends Component {
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={this.renderSeparator}
             renderItem={({ item }) =>
-              <FilteredVendorBottomCardItem item={item} />
+              <FilteredVendorBottomCardItem
+                item={item}
+                moveToPosition={() => this.moveToPosition(item)}
+              />
             }
           />
         ) : (

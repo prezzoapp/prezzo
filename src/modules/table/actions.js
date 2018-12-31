@@ -91,6 +91,62 @@ export const listQueuedTable = async (vendorId: string) => async dispatch => {
   }
 };
 
+export const listClosedTable = async (vendorId: string) => async dispatch => {
+  dispatch({ type: LIST_CLOSED_TABLE_REQUEST });
+
+  try {
+    const order = await get(
+      `v1/vendors/${vendorId}/orders?status=complete&type=table&page=1`
+    );
+
+    return dispatch({
+      type: LIST_CLOSED_TABLE_SUCCESS,
+      payload: fromJS(order)
+    });
+  } catch (e) {
+    dispatch({
+      type: LIST_CLOSED_TABLE_FAILURE,
+      payload: e && e.message ? e.message : e
+    });
+
+    throw e;
+  }
+};
+
+export const checkOpenOrderStatus = async (
+  orderId: string
+) => async dispatch => {
+  dispatch({ type: CHECK_OPEN_ORDER_STATUS_REQUEST });
+
+  try {
+    const updatedOrder = await get(`v1/order/${orderId}?status=complete`);
+
+    return dispatch({
+      type: CHECK_OPEN_ORDER_STATUS_SUCCESS,
+      payload: fromJS(updatedOrder)
+    });
+  } catch (e) {
+    dispatch({ type: CHECK_OPEN_ORDER_STATUS_FAILURE });
+  }
+};
+
+export const checkQueueOrderStatus = async (
+  orderId: string
+) => async dispatch => {
+  dispatch({ type: CHECK_QUEUE_ORDER_STATUS_REQUEST });
+
+  try {
+    const updatedOrder = await get(`v1/order/${orderId}`);
+
+    return dispatch({
+      type: CHECK_QUEUE_ORDER_STATUS_SUCCESS,
+      payload: fromJS(updatedOrder)
+    });
+  } catch (e) {
+    dispatch({ type: CHECK_QUEUE_ORDER_STATUS_FAILURE });
+  }
+};
+
 export const makePaymentAndCompleteOrder = async (
   order: string,
   token: string,
@@ -132,56 +188,11 @@ export const changeOrderStatus = async (
       type: CHANGE_ORDER_STATUS_SUCCESS,
       payload: fromJS(updatedOrder)
     });
-    // if(updatedOrder.status === 'active') {
-    //   let timer;
-    //   clearTimeout(timer);
-    //   timer = setTimeout(() => {
-    //     dispatch(showAlert('Order has been successfully activated!'));
-    //   }, 300);
-    //
-    //   return dispatch({
-    //     type: CHANGE_ORDER_STATUS_SUCCESS,
-    //     payload: { orderId, status }
-    //   });
-    // } else if(updatedOrder.status === 'denied') {
-    //   let timer;
-    //   clearTimeout(timer);
-    //   timer = setTimeout(() => {
-    //     dispatch(showAlert('Order has been successfully denied!'));
-    //   }, 300);
-    //
-    //   return dispatch({
-    //     type: CHANGE_ORDER_STATUS_SUCCESS,
-    //     payload: { orderId, status }
-    //   });
-    // }
   } catch (e) {
     dispatch({
       type: CHANGE_ORDER_STATUS_FAILURE,
       payload: e && e.message ? e.message : e
     });
-  }
-};
-
-export const listClosedTable = async (vendorId: string) => async dispatch => {
-  dispatch({ type: LIST_CLOSED_TABLE_REQUEST });
-
-  try {
-    const order = await get(
-      `v1/vendors/${vendorId}/orders?status=complete&type=table&page=1`
-    );
-
-    return dispatch({
-      type: LIST_CLOSED_TABLE_SUCCESS,
-      payload: fromJS(order)
-    });
-  } catch (e) {
-    dispatch({
-      type: LIST_CLOSED_TABLE_FAILURE,
-      payload: e && e.message ? e.message : e
-    });
-
-    throw e;
   }
 };
 
@@ -215,67 +226,6 @@ export const checkStatusAndCancelItem = async (
     dispatch({ type: CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_FAILURE });
   }
 };
-
-export const checkOpenOrderStatus = async (
-  orderId: string
-) => async dispatch => {
-  dispatch({ type: CHECK_OPEN_ORDER_STATUS_REQUEST });
-
-  try {
-    const updatedOrder = await get(`v1/order/${orderId}?status=complete`);
-
-    return dispatch({
-      type: CHECK_OPEN_ORDER_STATUS_SUCCESS,
-      payload: fromJS(updatedOrder)
-    });
-  } catch (e) {
-    dispatch({ type: CHECK_OPEN_ORDER_STATUS_FAILURE });
-  }
-};
-
-export const checkQueueOrderStatus = async (
-  orderId: string
-) => async dispatch => {
-  dispatch({ type: CHECK_QUEUE_ORDER_STATUS_REQUEST });
-
-  try {
-    const updatedOrder = await get(`v1/order/${orderId}`);
-
-    return dispatch({
-      type: CHECK_QUEUE_ORDER_STATUS_SUCCESS,
-      payload: fromJS(updatedOrder)
-    });
-
-    // if(
-    //   updatedOrder.order[0].status === 'active' ||
-    //   updatedOrder.order[0].status === 'complete' ||
-    //   updatedOrder.order[0].status === 'denied'
-    // ) {
-    //   let timer;
-    //   clearTimeout(timer);
-    //   timer = setTimeout(() => {
-    //     dispatch(
-    //       showAlert(`This order is already ${updatedOrder.order[0].status}!`)
-    //     );
-    //   }, 300);
-    //
-    //   return dispatch({
-    //     type: CHECK_QUEUE_ORDER_STATUS_SUCCESS,
-    //     payload: fromJS(updatedOrder)
-    //   });
-    // }
-    //dispatch(changeOrderStatus(orderId, status));
-  } catch (e) {
-    dispatch({ type: CHECK_QUEUE_ORDER_STATUS_FAILURE });
-  }
-};
-
-showAlert = message => {
-  Alert.alert('', message);
-  return {
-    type: SHOW_ALERT
-  }
-}
 
 export const acceptQueuedRequest = (queueList: any, requestId: string) => {
   const queuedList = queueList.filter(element => element.id != requestId);

@@ -117,8 +117,8 @@ export const updatePrice = async (pricing: number) => async dispatch => {
   }
 }
 
-export const disableVendorListItem = id => {
-  disaptch({
+export const disableVendorListItem = id => dispatch => {
+  dispatch({
     type: DISABLE_VENDOR_LIST_ITEM,
     payload: id
   })

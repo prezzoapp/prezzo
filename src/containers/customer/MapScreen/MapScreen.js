@@ -104,7 +104,20 @@ export default class MapScreen extends Component {
                 this.activeFilters,
                 this.props.pricing
               )
-              .then(() => {})
+              .then(() => {
+                if (this.props.data && this.props.data.length !== 0) {
+                  this.props.data.map(item => {
+                    if (
+                      item.location.coordinates[1] ===
+                        this.state.customRegion.latitude &&
+                      item.location.coordinates[0] ===
+                        this.state.customRegion.longitude
+                    ) {
+                      this.props.disableVendorListItem(item._id);
+                    }
+                  })
+                }
+              })
               .catch(e => {
                 showGenericAlert('Uh-oh!', e.message || e);
               });
@@ -129,7 +142,6 @@ export default class MapScreen extends Component {
   }
 
   onRegionChangeComplete(region) {
-    console.log('isFirstLoad: ', this.isFirstLoad);
     if (this.btnClicked === false && this.isFirstLoad === false) {
       this.setState(
         () => ({
@@ -140,6 +152,11 @@ export default class MapScreen extends Component {
           }
         }),
         () => {
+          console.log(
+            'Custom Region Lat / Log In onRegionChangeComplete: ',
+            this.state.customRegion.latitude,
+            this.state.customRegion.longitude
+          );
           this.props.listVendors(
             this.state.customRegion.latitude,
             this.state.customRegion.longitude,
@@ -208,23 +225,17 @@ export default class MapScreen extends Component {
       });
   }
 
-  moveToPosition(coordinates) {
-    //if(this.btnClicked === false) {
-      //console.log("Btn Clicked Before: ", this.btnClicked);
-      this.btnClicked = true;
-      //console.log("Btn Clicked After: ", this.btnClicked);
+  moveToPosition(id, coordinates) {
+    this.btnClicked = true;
 
-      this.mapView.animateToRegion({
-        latitude: coordinates[1],
-        longitude: coordinates[0],
-        latitudeDelta: 0.00922,
-        longitudeDelta: 0.00422
-      });
-    //} else {
-      //console.log("Btn Clicked Before: ", this.btnClicked);
-      //this.btnClicked = false;
-      //console.log("Btn Clicked After: ", this.btnClicked);
-    //}
+    this.props.disableVendorListItem(id);
+
+    this.mapView.animateToRegion({
+      latitude: coordinates[1],
+      longitude: coordinates[0],
+      latitudeDelta: 0.00922,
+      longitudeDelta: 0.00422
+    });
   }
 
   moveMapPositionOnSearch(lat, lon) {
@@ -359,7 +370,9 @@ export default class MapScreen extends Component {
           ref={filteredListRef => {
             this.filteredListRef = filteredListRef;
           }}
-          moveToPosition={coordinates => this.moveToPosition(coordinates)}
+          moveToPosition={(id, coordinates) =>
+            this.moveToPosition(id, coordinates)
+          }
         />
       </View>
     );
@@ -368,5 +381,9 @@ export default class MapScreen extends Component {
 
 MapScreen.propTypes = {
   data: PropTypes.array.isRequired,
-  listVendors: PropTypes.func.isRequired
+  listVendors: PropTypes.func.isRequired,
+  filters: PropTypes.array.isRequired,
+  distance: PropTypes.number.isRequired,
+  pricing: PropTypes.number.isRequired,
+  disableVendorListItem: PropTypes.func.isRequired
 };

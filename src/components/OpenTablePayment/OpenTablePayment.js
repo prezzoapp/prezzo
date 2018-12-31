@@ -207,13 +207,11 @@ const OpenTablePayment = props => {
                   alignItems: 'center',
                   justifyContent: 'space-between'
                 }}
-                pointerEvents="none"
               >
                 <Button
                   style={buttonStyles.requestBtn}
                   textStyle={buttonStyles.requestBtnText}
-                  onPress={() => null}
-                  // onPress={() => props.changeOrderStatus(props.data._id, 'complete')}
+                  onPress={() => props.completeOrder()}
                 >
                   Request
                 </Button>

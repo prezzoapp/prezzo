@@ -202,8 +202,6 @@ export default class OpenTableDetails extends Component {
     this.props
       .checkStatusAndCancelItem(orderId, itemId)
       .then(() => {
-        // console.log("Open Selected Item: ");
-        // console.log(this.props.openTableSelectedItem);
         if(this.props.openOrderFinalStatus === 'complete') {
           this.showAlert('Order has been completed.', 300);
         } else {
@@ -216,12 +214,6 @@ export default class OpenTableDetails extends Component {
             }
           }
         }
-        // if (this.props.openTableSelectedItem.message) {
-        //   clearTimeout(this.timer);
-        //   this.timer = setTimeout(() => {
-        //     alert(this.props.openTableSelectedItem.message);
-        //   }, 300);
-        // }
       })
       .catch(err => {
         console.log(err);
@@ -267,9 +259,7 @@ export default class OpenTableDetails extends Component {
                   checkStatusAndCancelItem={(orderId, itemId) =>
                     this.checkStatusAndCancelItem(orderId, itemId)
                   }
-                  completeOrder={orderId => {
-                    this.completeOrder(orderId)
-                  }}
+                  completeOrder={() => this.completeOrder(selectedItem._id)}
                   tabName="openOrder"
                 />
               </Tab>
@@ -284,25 +274,7 @@ export default class OpenTableDetails extends Component {
                 <OpenTablePayment
                   data={selectedItem}
                   tabName="payment"
-                  makePaymentAndCompleteOrder={(
-                    order,
-                    token,
-                    amount,
-                    paymentType,
-                    status
-                  ) =>
-                    this.props.navigation.state.params.makePaymentAndCompleteOrder(
-                      order,
-                      token,
-                      amount,
-                      paymentType,
-                      status,
-                      'open'
-                    )
-                  }
-                  changeOrderStatus={(orderId, status) =>
-                    this.props.navigation.state.params.changeOrderStatus(orderId, status)
-                  }
+                  completeOrder={() => this.completeOrder(selectedItem._id)}
                 />
               </Tab>
             </Tabs>
