@@ -155,10 +155,12 @@ class Activity extends Component {
   };
 
   componentDidMount() {
-    if (this.props.section === 0) {
-      this.props.listWaiterRequestTable(this.props.vendorData.get('_id'));
-    } else {
-      this.props.listPhotoReviewTable();
+    if(this.props.vendorData) {
+      if (this.props.section === 0) {
+        this.props.listWaiterRequestTable(this.props.vendorData.get('_id'));
+      } else {
+        this.props.listPhotoReviewTable();
+      }
     }
   }
 
@@ -295,82 +297,95 @@ class Activity extends Component {
 
     return (
       <View style={styles.container}>
-        <Animated.View
-          style={[
-            styles.box1,
-            {
-              transform: [{ translateY: animatedValue }]
-            }
-          ]}
-        >
-          <View style={styles.box2}>
-            <BlurView style={styles.blurView} tint="dark" intensity={95} />
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                paddingBottom: 5
-              }}
-            >
-              <View style={{ position: 'absolute', left: 10 }}>
-                <TouchableOpacity onPress={() => this.hide()}>
-                  <Feather
-                    title="Add More"
-                    name="chevron-left"
-                    color="white"
-                    size={wp('8%')}
-                    style={{ marginLeft: 0 }}
-                  />
-                </TouchableOpacity>
-              </View>
-              <Text style={styles.Title}>Victor Franco</Text>
-              <Text style={styles.subTitle}>Table 5932 - 3 Photos</Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flex: 1
-              }}
-            >
-              <FlatList
-                keyExtractor={(item, index) => index.toString()}
-                showsVerticalScrollIndicator={false}
-                data={this.state.data}
-                ListHeaderComponent={() => this.renderHeader()}
-                ListFooterComponent={() => this.renderFooter()}
-                renderItem={({ item }) => (
-                  <ReviewUserPhoto
-                    item={item}
-                    callbackFromParent={(itemIndex, imageIndex) =>
-                      this.myCallback(itemIndex, imageIndex)
+        {(() => {
+          if(this.props.vendorData) {
+            return (
+              <View style={{ flex: 1, alignItems: 'center', backgroundColor: 'transparent' }}>
+                <Animated.View
+                  style={[
+                    styles.box1,
+                    {
+                      transform: [{ translateY: animatedValue }]
                     }
-                  />
-                )}
-              />
-            </View>
-          </View>
-        </Animated.View>
+                  ]}
+                >
+                  <View style={styles.box2}>
+                    <BlurView style={styles.blurView} tint="dark" intensity={95} />
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative',
+                        paddingBottom: 5
+                      }}
+                    >
+                      <View style={{ position: 'absolute', left: 10 }}>
+                        <TouchableOpacity onPress={() => this.hide()}>
+                          <Feather
+                            title="Add More"
+                            name="chevron-left"
+                            color="white"
+                            size={wp('8%')}
+                            style={{ marginLeft: 0 }}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                      <Text style={styles.Title}>Victor Franco</Text>
+                      <Text style={styles.subTitle}>Table 5932 - 3 Photos</Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flex: 1
+                      }}
+                    >
+                      <FlatList
+                        keyExtractor={(item, index) => index.toString()}
+                        showsVerticalScrollIndicator={false}
+                        data={this.state.data}
+                        ListHeaderComponent={() => this.renderHeader()}
+                        ListFooterComponent={() => this.renderFooter()}
+                        renderItem={({ item }) => (
+                          <ReviewUserPhoto
+                            item={item}
+                            callbackFromParent={(itemIndex, imageIndex) =>
+                              this.myCallback(itemIndex, imageIndex)
+                            }
+                          />
+                        )}
+                      />
+                    </View>
+                  </View>
+                </Animated.View>
 
-        <TableScreenHeader
-          vendorData={this.props.vendorData}
-          tableSection={this.props.section}
-          tabName="activity"
-        />
-        <View style={styles.innerContainer}>
-          <TableListHeader
-            currentTab={this.props.section}
-            screenName="activity"
-            currentLayout={this.props.layout}
-            tabNames={['Waiter Request', 'Photo Review']}
-            onChangeLayout={layout => this.props.changeLayout(layout)}
-            onListTypeSelection={index => this.onSectionChange(index)}
-          />
-          {this.renderSection()}
-        </View>
-        <VendorSearch />
+                <TableScreenHeader
+                  vendorData={this.props.vendorData}
+                  tableSection={this.props.section}
+                  tabName="activity"
+                />
+                <View style={styles.innerContainer}>
+                  <TableListHeader
+                    currentTab={this.props.section}
+                    screenName="activity"
+                    currentLayout={this.props.layout}
+                    tabNames={['Waiter Request', 'Photo Review']}
+                    onChangeLayout={layout => this.props.changeLayout(layout)}
+                    onListTypeSelection={index => this.onSectionChange(index)}
+                  />
+                  {this.renderSection()}
+                </View>
+                <VendorSearch />
+              </View>
+            )
+          }
+          return (
+            <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={styles.message}>Vendor Account not Found!</Text>
+            </View>
+          );
+        })()}
       </View>
     );
   }

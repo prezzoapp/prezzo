@@ -13,7 +13,6 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     backgroundColor: '#2B2C2C'
   },
 
@@ -130,6 +129,7 @@ const styles = StyleSheet.create({
     opacity: 0.9,
     borderRadius: 10
   },
+
   blurView: {
     position: 'absolute',
     top: 0,
