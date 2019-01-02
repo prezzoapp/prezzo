@@ -227,11 +227,12 @@ export default class OpenTableDetails extends Component {
       <Container style={styles.container}>
         {(() => {
           if(!selectedItem) {
-            return (
-              <View style={styles.notFoundHolder}>
-                <Text style={styles.message}>Order has been completed.</Text>
-              </View>
-            )
+            return null;
+            // return (
+            //   <View style={styles.notFoundHolder}>
+            //     <Text style={styles.message}>Order has been completed.</Text>
+            //   </View>
+            // )
           }
 
           return (
