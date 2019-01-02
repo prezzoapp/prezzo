@@ -11,7 +11,7 @@ const FilteredVendorBottomCardItem = props => {
     >
       <View style={styles.titleHolder}>
         <Text style={styles.name}>{props.item.name}</Text>
-        <Text style={styles.distance}>{props.item.distance} miles</Text>
+        <Text style={styles.distance}>{props.getDistanceFromCurrentLocation(props.item.location.coordinates)}</Text>
       </View>
 
       <View style={styles.statusHolder}>
