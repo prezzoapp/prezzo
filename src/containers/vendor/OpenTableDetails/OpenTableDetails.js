@@ -228,11 +228,6 @@ export default class OpenTableDetails extends Component {
         {(() => {
           if(!selectedItem) {
             return null;
-            // return (
-            //   <View style={styles.notFoundHolder}>
-            //     <Text style={styles.message}>Order has been completed.</Text>
-            //   </View>
-            // )
           }
 
           return (
@@ -260,24 +255,34 @@ export default class OpenTableDetails extends Component {
                   checkStatusAndCancelItem={(orderId, itemId) =>
                     this.checkStatusAndCancelItem(orderId, itemId)
                   }
-                  completeOrder={() => this.completeOrder(selectedItem._id)}
-                  tabName="openOrder"
+                  completeOrder={orderId => {
+                    this.completeOrder(orderId)
+                  }}
+                  innerTab={this.props.navigation.state.params.innerTab}
                 />
               </Tab>
-              <Tab
-                heading="Payment"
-                tabStyle={styles.paymentTabStyle}
-                activeTabStyle={styles.paymentTabStyle}
-                textStyle={styles.paymentTabTextStyle}
-                activeTextStyle={styles.paymentTabTextStyle}
-                style={styles.tabStyle}
-              >
-                <OpenTablePayment
-                  data={selectedItem}
-                  tabName="payment"
-                  completeOrder={() => this.completeOrder(selectedItem._id)}
-                />
-              </Tab>
+              {(() => {
+                if(this.props.navigation.state.params.innerTab !== 'queue') {
+                  return (
+                    <Tab
+                      heading="Payment"
+                      tabStyle={styles.paymentTabStyle}
+                      activeTabStyle={styles.paymentTabStyle}
+                      textStyle={styles.paymentTabTextStyle}
+                      activeTextStyle={styles.paymentTabTextStyle}
+                      style={styles.tabStyle}
+                    >
+                      <OpenTablePayment
+                        data={selectedItem}
+                        innerTab={this.props.navigation.state.params.innerTab}
+                        completeOrder={() =>
+                          this.completeOrder(selectedItem._id)
+                        }
+                      />
+                    </Tab>
+                  );
+                }
+              })()}
             </Tabs>
           );
         })()}

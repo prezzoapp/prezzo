@@ -31,8 +31,6 @@ const TableGridItem = props => {
     );
   }
 
-
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -61,12 +59,30 @@ const TableGridItem = props => {
             </TouchableOpacity>
           </View>
         ) : (
-          <Entypo
-            name="chevron-right"
-            size={30}
-            color="white"
-            style={styles.arrow}
-          />
+          <TouchableOpacity
+            style={styles.arrowBtn}
+            onPress={() =>
+              props.onPress
+                ? props.onPress()
+                : props.navigate&& props.navigate({
+                    routeName:
+                      props.tabName === 'tables'
+                      ? 'OpenTableDetails'
+                        : 'VendorAdminActivityDetails',
+                  params: {
+                      userName:
+                      props.tabName !== 'delivery'
+                        ? `${item.creator.fullName} - 9192`
+                          : `${item.userName}`,
+                      userImage: item.creator.avatarURL,
+                    item,
+                      innerTab: props.innerTab
+                    }
+              })
+            }
+          >
+            <Entypo name="chevron-right" size={30} color="white" />
+          </TouchableOpacity>
         )}
       </View>
       <FlatList

@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_TEXT_MEDIUM
   },
 
-  arrow: {
+  arrowBtn: {
     position: 'absolute',
     right: 0
   },

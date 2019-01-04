@@ -13,13 +13,13 @@ class FilteredVendorBottomCard extends Component {
   constructor() {
     super();
 
-    this.state = { showVendorInfo: false, item: {}, disabled: false };
+    this.state = { showVendorInfo: false, item: {} };
 
     this.callMethod = this.callMethod.bind(this);
   }
 
   callMethod(item) {
-    if(!this.state.showVendorInfo) {
+    if (!this.state.showVendorInfo) {
       this.setState(() => {
         return {
           item,
@@ -29,14 +29,9 @@ class FilteredVendorBottomCard extends Component {
     }
   }
 
-  moveToPosition(item) {
-    this.props.moveToPosition(item._id, item.location.coordinates)
-  }
-
   renderSeparator = () => <View style={styles.separator} />;
 
   render() {
-    console.log("Render Called!");
     return (
       <View style={styles.filteredRestaurantsBottomCardHolder}>
         {!this.state.showVendorInfo ? (
@@ -52,7 +47,13 @@ class FilteredVendorBottomCard extends Component {
             renderItem={({ item }) =>
               <FilteredVendorBottomCardItem
                 item={item}
-                moveToPosition={() => this.moveToPosition(item)}
+                customRegion={this.props.customRegion}
+                moveToPosition={() =>
+                  this.props.moveToPosition(item._id, item.location.coordinates)
+                }
+                getDistanceFromCurrentLocation={
+                  this.props.getDistanceFromCurrentLocation
+                }
               />
             }
           />
@@ -93,7 +94,7 @@ class FilteredVendorBottomCard extends Component {
                 onPress={() => this.callMethod(this.state.item)}
               >
                 Go
-              </Button>
+            </Button>
             </View>
           </View>
         )}
