@@ -84,7 +84,7 @@ export default class ExploreList extends PureComponent {
            setTimeout(() => {
              Alert.alert(
               'Prezzo',
-               'Please check your internet connection and try again later.',
+               'Please check your internet connection and try again.',
                [
                  {text: 'OK', onPress: () => console.log('OK Pressed')},
                ],
@@ -110,39 +110,57 @@ export default class ExploreList extends PureComponent {
       }
     });
 
-    this.watchID = navigator.geolocation.getCurrentPosition(
-      position => {
-        this.setState(() => {
-          return {
-              customRegion: {
-                ...this.state.customRegion,
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              }
-            };
-          }, () => {
-            this.props.listVendors(
-              this.state.customRegion.latitude,
-              this.state.customRegion.longitude,
-              this.props.distance,
-              activeFilters.join(','),
-              this.props.pricing
-            ).then(() => {
-                this.checkResponseMessage();
-              })
-              .catch(e => {
-                this.showAlert(e.message, 300);
-              });
-          }
-        );
-      },
-      error =>  this.getNetworkIP(),
-      {
-        enableHighAccuracy: false,
-        timeout: 200000,
-        maximumAge: 1000
-      }
-    );
+    this.props.getUserCurrentLocation().then(coords => {
+      console.log(coords);
+      this.props.listVendors(
+        coords.latitude,
+        coords.longitude,
+        this.props.distance,
+        activeFilters.join(','),
+        this.props.pricing
+      ).then(() => {
+          this.checkResponseMessage();
+        })
+        .catch(e => {
+          this.showAlert(e.message, 300);
+        });
+    }).catch(err => {
+      this.showAlert(err.message, 300);
+    });
+
+    // this.watchID = navigator.geolocation.getCurrentPosition(
+    //   position => {
+    //     this.setState(() => {
+    //       return {
+    //           customRegion: {
+    //             ...this.state.customRegion,
+    //             latitude: position.coords.latitude,
+    //             longitude: position.coords.longitude
+    //           }
+    //         };
+    //       }, () => {
+    //         this.props.listVendors(
+    //           this.state.customRegion.latitude,
+    //           this.state.customRegion.longitude,
+    //           this.props.distance,
+    //           activeFilters.join(','),
+    //           this.props.pricing
+    //         ).then(() => {
+    //             this.checkResponseMessage();
+    //           })
+    //           .catch(e => {
+    //             this.showAlert(e.message, 300);
+    //           });
+    //       }
+    //     );
+    //   },
+    //   error => this.getNetworkIP(),
+    //   {
+    //     enableHighAccuracy: false,
+    //     timeout: 200000,
+    //     maximumAge: 1000
+    //   }
+    // );
   }
 
   getNetworkIP()

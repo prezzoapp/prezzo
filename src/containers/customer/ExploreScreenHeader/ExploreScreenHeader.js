@@ -23,8 +23,6 @@ export default class ExploreScreenHeader extends PureComponent {
     toggleFilter: PropTypes.func.isRequired,
     filters: PropTypes.array.isRequired,
     updateDistance: PropTypes.func.isRequired,
-    currentLatitude: PropTypes.number.isRequired,
-    currentLongitude: PropTypes.number.isRequired,
     maxDistance: PropTypes.number.isRequired,
     minDistance: PropTypes.number.isRequired,
     distance: PropTypes.number.isRequired
@@ -39,7 +37,7 @@ export default class ExploreScreenHeader extends PureComponent {
     this.activeFilters = [];
   }
 
-  componentDidMount() { 
+  componentDidMount() {
     this.props.filters.map(item => {
       if(item.on) {
         this.activeFilters.push(item.filterType);
@@ -55,29 +53,31 @@ export default class ExploreScreenHeader extends PureComponent {
     });
   }
 
-  updateDistance(distance) {
-    const newDistance = parseFloat(distance.toFixed(1));
-    this.props.updateDistance(newDistance).then(() => {
+  getLocationAndVendorsList() {
+    this.props.getUserCurrentLocation().then(coords => {
       this.props.listVendors(
-        this.props.currentLatitude,
-        this.props.currentLongitude,
+        coords.latitude,
+        coords.longitude,
         this.props.distance,
         this.activeFilters.join(','),
         this.props.pricing
       );
+    }).catch(err => {
+      console.warn(err);
+    });
+  }
+
+  updateDistance(distance) {
+    const newDistance = parseFloat(distance.toFixed(1));
+    this.props.updateDistance(newDistance).then(() => {
+      this.getLocationAndVendorsList();
     });
   }
 
   updatePrice(price) {
     console.log("Pricing: ", price);
     this.props.updatePrice(price).then(() => {
-      this.props.listVendors(
-        this.props.currentLatitude,
-        this.props.currentLongitude,
-        this.props.distance,
-        this.activeFilters.join(','),
-        this.props.pricing
-      );
+      this.getLocationAndVendorsList();
     });
   }
 
@@ -90,13 +90,7 @@ export default class ExploreScreenHeader extends PureComponent {
           }
       });
 
-      this.props.listVendors(
-        this.props.currentLatitude,
-        this.props.currentLongitude,
-        this.props.distance,
-        this.activeFilters.join(','),
-        this.props.pricing
-      );
+      this.getLocationAndVendorsList();
     });
   }
 

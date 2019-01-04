@@ -33,54 +33,56 @@ class Explore extends PureComponent<Props> {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      customRegion: {
-        latitude: 0,
-        longitude: 0,
-        latitudeDelta: 0.00922,
-        longitudeDelta: 0.00422
-      }
-    };
   }
 
   componentDidMount() {
     let activeFilters = [];
     this.props.filters.map(item => {
-        if(item.on) {
-          activeFilters.push(item.filterType);
-        }
+      if(item.on) {
+        activeFilters.push(item.filterType);
+      }
     });
 
-    this.watchID = navigator.geolocation.getCurrentPosition(
-      position => {
-        this.setState(() => {
-          return {
-              customRegion: {
-                ...this.state.customRegion,
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              }
-            };
-          }, () => {
-            console.log(this.state.customRegion);
-            this.props.listVendors(
-              this.state.customRegion.latitude,
-              this.state.customRegion.longitude,
-              this.props.distance,
-              activeFilters.join(','),
-              this.props.pricing
-            );
-          }
-        );
-      },
-      error => console.log(error.message),
-      {
-        enableHighAccuracy: false,
-        timeout: 200000,
-        maximumAge: 1000
-      }
-    );
+    this.props.getUserCurrentLocation().then(coords => {
+      this.props.listVendors(
+        coords.latitude,
+        coords.longitude,
+        this.props.distance,
+        activeFilters.join(','),
+        this.props.pricing
+      );
+    }).catch(err => {
+      // showGenericAlert('Location Services are not ');
+    });
+
+    // this.watchID = navigator.geolocation.getCurrentPosition(
+    //   position => {
+    //     this.setState(() => {
+    //       return {
+    //           customRegion: {
+    //             ...this.state.customRegion,
+    //             latitude: position.coords.latitude,
+    //             longitude: position.coords.longitude
+    //           }
+    //         };
+    //       }, () => {
+    //         this.props.listVendors(
+    //           this.state.customRegion.latitude,
+    //           this.state.customRegion.longitude,
+    //           this.props.distance,
+    //           activeFilters.join(','),
+    //           this.props.pricing
+    //         );
+    //       }
+    //     );
+    //   },
+    //   error => console.log(error.message),
+    //   {
+    //     enableHighAccuracy: false,
+    //     timeout: 200000,
+    //     maximumAge: 1000
+    //   }
+    // );
   }
 
   render() {
@@ -95,8 +97,8 @@ class Explore extends PureComponent<Props> {
           <ExploreList testID="exploreList" />
           <ExploreScreenHeader
             testID="exploreHeader"
-            currentLatitude={this.state.customRegion.latitude}
-            currentLongitude={this.state.customRegion.longitude}
+            currentLatitude={this.props.currentLocation&& this.props.currentLocation.latitude}
+            currentLongitude={this.props.currentLocation&& this.props.currentLocation.longitude}
           />
           <ExploreSearch testID="exploreSearch"/>
         </View>

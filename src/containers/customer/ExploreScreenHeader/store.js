@@ -1,7 +1,7 @@
 // @flow
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { toggleFilter, updateDistance, updatePrice, listVendors } from '../../../modules/explore';
+import { toggleFilter, updateDistance, updatePrice, listVendors, getUserCurrentLocation } from '../../../modules/explore';
 
 export const mapStateToProps = state => {
   const filters = state
@@ -12,13 +12,16 @@ export const mapStateToProps = state => {
   const maxDistance = state.get('explore').get('maxDistance');
   const distance = state.get('explore').get('distance');
   const pricing = state.get('explore').get('pricing');
+  // const currentLocation = state.get('explore').get('currentLocation') &&
+  //   state.get('explore').get('currentLocation').toJS();
 
   return {
     filters,
     minDistance,
     maxDistance,
     distance,
-    pricing
+    pricing,
+    // currentLocation
   };
 };
 
@@ -27,5 +30,6 @@ export const mapDispatchToProps = dispatch => ({
   toggleFilter: bindActionCreators(toggleFilter, dispatch),
   updateDistance: bindActionCreators(updateDistance, dispatch),
   updatePrice: bindActionCreators(updatePrice, dispatch),
-  listVendors: bindActionCreators(listVendors, dispatch)
+  listVendors: bindActionCreators(listVendors, dispatch),
+  getUserCurrentLocation: bindActionCreators(getUserCurrentLocation, dispatch)
 });

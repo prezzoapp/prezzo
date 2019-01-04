@@ -29,7 +29,7 @@ class FilteredVendorBottomCard extends Component {
     }
   }
 
-  moveToPosition() {
+  moveToPosition(item) {
     this.props.moveToPosition([...item.location.coordinates])
   }
 
@@ -49,7 +49,10 @@ class FilteredVendorBottomCard extends Component {
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={this.renderSeparator}
             renderItem={({ item }) =>
-              <FilteredVendorBottomCardItem item={item} />
+              <FilteredVendorBottomCardItem
+                item={item}
+                moveToPosition={() => this.moveToPosition(item)}
+              />
             }
           />
         ) : (

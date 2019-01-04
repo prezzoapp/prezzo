@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  InteractionManager
+} from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
@@ -30,7 +36,7 @@ export default class MapScreen extends Component {
           }}
           numberOfLines={1}
         >
-          My Profile
+          Local Search
         </Text>
       ),
       headerTintColor: 'white',
@@ -83,49 +89,78 @@ export default class MapScreen extends Component {
 
     this.activeFilters = activatedFiltersArray.join(',');
 
-    this.watchID = navigator.geolocation.getCurrentPosition(
-      position => {
-        this.setState(
-          () => ({
+    InteractionManager.runAfterInteractions(() => {
+      this.props.getUserCurrentLocation().then(coords => {
+          this.setState({
+            isGetLocation: true,
             customRegion: {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              latitudeDelta: 0.00922,
-              longitudeDelta: 0.00422
-            },
-            isGetLocation: true
-          }),
-          () => {
-            this.props
-              .listVendors(
-                this.state.customRegion.latitude,
-                this.state.customRegion.longitude,
-                this.props.distance,
-                this.activeFilters,
-                this.props.pricing
-              )
-              .then(() => {})
-              .catch(e => {
-                showGenericAlert('Uh-oh!', e.message || e);
-              });
+                latitude: coords.latitude,
+                longitude: coords.longitude,
+                latitudeDelta: 0.00922,
+                longitudeDelta: 0.00422
+              }
+            }, () => {
+              this.props
+                .listVendors(
+                  coords.latitude,
+                  coords.longitude,
+                  this.props.distance,
+                  this.activeFilters,
+                  this.props.pricing
+                )
+                .then(() => {
+                  console.log('First Time API Called!');
+                })
+                .catch(err => {
+                  this.showAlert('Uh-oh!', err.message, 300);
+                });
+            }
+          );
+        })
+        .catch(err => {
+          this.showAlert('Uh-oh!', err.message, 300);
+      });
+    });
 
-            console.log('After Getting Correct Coordinates: ');
-            console.log(this.state.customRegion);
-            console.log('First Time API Called!');
-          }
-        );
-      },
-      error => this.getNetworkIP(),
-      {
-        enableHighAccuracy: false,
-        timeout: 200000,
-        maximumAge: 1000
-      }
-    );
-  }
-
-  componentWillUnmount() {
-    this.watchID = null;
+    // this.watchID = navigator.geolocation.getCurrentPosition(
+    //   position => {
+    //     this.setState(
+    //       () => ({
+    //         customRegion: {
+    //           latitude: position.coords.latitude,
+    //           longitude: position.coords.longitude,
+    //           latitudeDelta: 0.00922,
+    //           longitudeDelta: 0.00422
+    //         },
+    //         isGetLocation: true
+    //       }),
+    //       () => {
+    //         this.props
+    //           .listVendors(
+    //             this.state.customRegion.latitude,
+    //             this.state.customRegion.longitude,
+    //             this.props.distance,
+    //             this.activeFilters,
+    //             this.props.pricing
+    //           )
+    //           .then(() => {})
+    //           .catch(e => {
+    //             showGenericAlert('Uh-oh!', e.message || e);
+    //           });
+    //
+    //         console.log('After Getting Correct Coordinates: ');
+    //         console.log(this.state.customRegion);
+    //         console.log('First Time API Called!');
+    //       }
+    //     );
+    //   },
+    //   error => this.getNetworkIP(),
+    //   {
+    //     enableHighAccuracy: false,
+    //     timeout: 200000,
+    //     maximumAge: 1000
+    //   }
+    // );
   }
 
   onRegionChangeComplete(region) {
@@ -149,11 +184,11 @@ export default class MapScreen extends Component {
           );
           this.isFirstLoad = false;
 
-          console.log('API called !');
+          console.log('API Called!');
         }
       );
     } else {
-      console.log('Only moved !');
+      console.log('Only Moving!');
       this.btnClicked = false;
       this.isFirstLoad = false;
     }
@@ -208,32 +243,27 @@ export default class MapScreen extends Component {
       });
   }
 
-  moveToPosition(coordinates) {
-    //if(this.btnClicked === false) {
-      //console.log("Btn Clicked Before: ", this.btnClicked);
-      this.btnClicked = true;
-      //console.log("Btn Clicked After: ", this.btnClicked);
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
 
-      this.mapView.animateToRegion({
-        latitude: coordinates[1],
-        longitude: coordinates[0],
-        latitudeDelta: 0.00922,
-        longitudeDelta: 0.00422
-      });
-    //} else {
-      //console.log("Btn Clicked Before: ", this.btnClicked);
-      //this.btnClicked = false;
-      //console.log("Btn Clicked After: ", this.btnClicked);
-    //}
+  moveToPosition(coordinates) {
+    this.btnClicked = true;
+    this.moveMapPositionOnSearch(coordinates[1], coordinates[0]);
   }
 
   moveMapPositionOnSearch(lat, lon) {
-    this.mapView.animateToRegion({
-      latitude: lat,
-      longitude: lon,
-      latitudeDelta: 0.00922,
-      longitudeDelta: 0.00422
-    });
+    if(this.mapView) {
+      this.mapView.animateToRegion({
+        latitude: lat,
+        longitude: lon,
+        latitudeDelta: 0.00922,
+        longitudeDelta: 0.00422
+      });
+    }
   }
 
   render() {

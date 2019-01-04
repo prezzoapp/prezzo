@@ -7,7 +7,7 @@ const FilteredVendorBottomCardItem = props => {
     <TouchableOpacity
       activeOpacity={0.6}
       style={styles.listItemBtn}
-      onPress={() => this.moveToPosition()}
+      onPress={() => props.moveToPosition()}
     >
       <View style={styles.titleHolder}>
         <Text style={styles.name}>{props.item.name}</Text>
