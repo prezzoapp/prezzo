@@ -208,23 +208,14 @@ export default class MapScreen extends Component {
       });
   }
 
-  moveToPosition(coordinates) {
-    //if(this.btnClicked === false) {
-      //console.log("Btn Clicked Before: ", this.btnClicked);
-      this.btnClicked = true;
-      //console.log("Btn Clicked After: ", this.btnClicked);
-
-      this.mapView.animateToRegion({
-        latitude: coordinates[1],
-        longitude: coordinates[0],
-        latitudeDelta: 0.00922,
-        longitudeDelta: 0.00422
-      });
-    //} else {
-      //console.log("Btn Clicked Before: ", this.btnClicked);
-      //this.btnClicked = false;
-      //console.log("Btn Clicked After: ", this.btnClicked);
-    //}
+  /**
+   * 
+   * @param  {array} coordinates - [lon ,lat]
+   * Move to given coordinates on map.
+   */
+  moveToPosition = (coordinates) => {
+    this.btnClicked = true;
+    this.moveMapPositionOnSearch(coordinates[1], coordinates[0]);
   }
 
   moveMapPositionOnSearch(lat, lon) {
@@ -359,7 +350,7 @@ export default class MapScreen extends Component {
           ref={filteredListRef => {
             this.filteredListRef = filteredListRef;
           }}
-          moveToPosition={coordinates => this.moveToPosition(coordinates)}
+          moveToPosition={this.moveToPosition}
         />
       </View>
     );
