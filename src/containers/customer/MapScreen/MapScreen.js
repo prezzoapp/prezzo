@@ -104,7 +104,7 @@ export default class MapScreen extends Component {
                 this.activeFilters,
                 this.props.pricing
               )
-              .then(() => {})
+              .then(() => { })
               .catch(e => {
                 showGenericAlert('Uh-oh!', e.message || e);
               });
@@ -183,7 +183,7 @@ export default class MapScreen extends Component {
               this.activeFilters,
               this.props.pricing
             )
-            .then(() => {})
+            .then(() => { })
             .catch(e => {
               showGenericAlert('Uh-oh!', e.message || e);
             });
@@ -195,7 +195,7 @@ export default class MapScreen extends Component {
           // show error message
         }
       })
-      .catch(error => {});
+      .catch(error => { });
   }
 
   getNetworkIP() {
@@ -209,7 +209,7 @@ export default class MapScreen extends Component {
   }
 
   /**
-   * 
+   *
    * @param  {array} coordinates - [lon ,lat]
    * Move to given coordinates on map.
    */
@@ -225,6 +225,30 @@ export default class MapScreen extends Component {
       latitudeDelta: 0.00922,
       longitudeDelta: 0.00422
     });
+  }
+  /**
+   * @param  {Array} coordinates [lat,long]
+   * return distance in miles from user cureent location
+   * if user cureent loc is not available will reurn empty string
+   */
+  getDistanceFromCurrentLocation = (coordinates) => {
+    if (this.state.customRegion) {
+      const userCurrentLat = this.state.customRegion.latitude;
+      const userCurrentLong = this.state.customRegion.longitude;
+
+      var radlat1 = Math.PI * userCurrentLat / 180
+      var radlat2 = Math.PI * coordinates[1] / 180
+      var theta = userCurrentLong - coordinates[0]
+      var radtheta = Math.PI * theta / 180
+      var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      dist = Math.acos(dist)
+      dist = dist * 180 / Math.PI
+      dist = dist * 60 * 1.1515
+      return Math.round(dist * 0.8684 * 1.15078) + ' miles';
+
+    } else {
+      return '';
+    }
   }
 
   render() {
@@ -351,6 +375,7 @@ export default class MapScreen extends Component {
             this.filteredListRef = filteredListRef;
           }}
           moveToPosition={this.moveToPosition}
+          getDistanceFromCurrentLocation={this.getDistanceFromCurrentLocation}
         />
       </View>
     );

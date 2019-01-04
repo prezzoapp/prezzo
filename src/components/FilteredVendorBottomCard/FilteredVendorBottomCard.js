@@ -46,7 +46,8 @@ class FilteredVendorBottomCard extends Component {
             ItemSeparatorComponent={this.renderSeparator}
             renderItem={({ item }) =>
               <FilteredVendorBottomCardItem item={item}
-                moveToPosition={this.props.moveToPosition} />
+                moveToPosition={this.props.moveToPosition}
+                getDistanceFromCurrentLocation={this.props.getDistanceFromCurrentLocation} />
             }
           />
         ) : (
