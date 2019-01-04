@@ -270,41 +270,47 @@ export default class OpenTableDetails extends Component {
                   completeOrder={orderId => {
                     this.completeOrder(orderId)
                   }}
-                  tabName="openOrder"
+                  innerTab={this.props.navigation.state.params.innerTab}
                 />
               </Tab>
-              <Tab
-                heading="Payment"
-                tabStyle={styles.paymentTabStyle}
-                activeTabStyle={styles.paymentTabStyle}
-                textStyle={styles.paymentTabTextStyle}
-                activeTextStyle={styles.paymentTabTextStyle}
-                style={styles.tabStyle}
-              >
-                <OpenTablePayment
-                  data={selectedItem}
-                  tabName="payment"
-                  makePaymentAndCompleteOrder={(
-                    order,
-                    token,
-                    amount,
-                    paymentType,
-                    status
-                  ) =>
-                    this.props.navigation.state.params.makePaymentAndCompleteOrder(
-                      order,
-                      token,
-                      amount,
-                      paymentType,
-                      status,
-                      'open'
-                    )
-                  }
-                  changeOrderStatus={(orderId, status) =>
-                    this.props.navigation.state.params.changeOrderStatus(orderId, status)
-                  }
-                />
-              </Tab>
+              {(() => {
+                if(this.props.navigation.state.params.innerTab !== 'queue') {
+                  return (
+                    <Tab
+                      heading="Payment"
+                      tabStyle={styles.paymentTabStyle}
+                      activeTabStyle={styles.paymentTabStyle}
+                      textStyle={styles.paymentTabTextStyle}
+                      activeTextStyle={styles.paymentTabTextStyle}
+                      style={styles.tabStyle}
+                    >
+                      <OpenTablePayment
+                        data={selectedItem}
+                        innerTab={this.props.navigation.state.params.innerTab}
+                        makePaymentAndCompleteOrder={(
+                          order,
+                          token,
+                          amount,
+                          paymentType,
+                          status
+                        ) =>
+                          this.props.navigation.state.params.makePaymentAndCompleteOrder(
+                            order,
+                            token,
+                            amount,
+                            paymentType,
+                            status,
+                            'open'
+                          )
+                        }
+                        changeOrderStatus={(orderId, status) =>
+                          this.props.navigation.state.params.changeOrderStatus(orderId, status)
+                        }
+                      />
+                    </Tab>
+                  );
+                }
+              })()}
             </Tabs>
           );
         })()}

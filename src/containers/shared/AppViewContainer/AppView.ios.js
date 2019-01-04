@@ -28,8 +28,6 @@ class AppView extends Component {
 
       store.subscribe(() => {
         snapshotUtil.saveSnapshot(store.getState());
-        console.log("Store State: ");
-        console.log(store.getState().toJS());
       });
     });
   }

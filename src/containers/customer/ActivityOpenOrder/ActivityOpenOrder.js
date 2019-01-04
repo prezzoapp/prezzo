@@ -278,6 +278,7 @@ class ActivityOpenOrder extends Component {
             renderItem={({ item }) => (
               <ActivityListItem
                 item={item}
+                innerTab="open"
                 orderId={this.props.data && this.props.data[0]._id}
                 checkStatusAndCancelItem={(orderId, itemId) =>
                   this.checkStatusAndCancelItem(orderId, itemId)
