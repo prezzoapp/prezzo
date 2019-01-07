@@ -86,10 +86,13 @@ export default class OpenTableDetails extends Component {
   }
 
   finalizeOrder(price) {
-    if(this.props.openTableSelectedItem.paymentType === 'card' && price !== 0) {
+    if (
+      this.props.openTableSelectedItem.paymentType === 'card' &&
+      price !== 0
+    ) {
       this.props.makePaymentAndCompleteOrder(
-        this.props.openTableSelectedItem._id,
-        this.props.openTableSelectedItem.paymentMethod.token,
+          this.props.openTableSelectedItem._id,
+          this.props.openTableSelectedItem.paymentMethod.token,
           price
         )
       .then(() => {
@@ -97,13 +100,13 @@ export default class OpenTableDetails extends Component {
             this.showAlert('Order has been completed.', 300);
           }
         })
-      .catch(e => console.log(e));
+        .catch(e => console.log(e));
     } else if(this.props.openTableSelectedItem.paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(
           this.props.openTableSelectedItem._id,
           '',
           price
-      )
+        )
       .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
             this.showAlert('Order has been completed.', 300);

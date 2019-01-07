@@ -366,6 +366,8 @@ const reducer = (state = INITIAL_STATE, action) => {
           ? null
           : action.payload.first();
 
+      console.log(action.payload.toJS());
+
       if(updatedStateAfterOrderStatusCheck !== null) {
         const itemIndex =
           state.get('openTableList').findIndex(ele =>
@@ -385,7 +387,7 @@ const reducer = (state = INITIAL_STATE, action) => {
           .update('openTableList', () =>
             state.get('openTableList').filter(ele => ele.get('_id') !== action.payload.first().get('_id')))
           .update('openTableSelectedItem', () => null)
-          .update('openOrderFinalStatus', () => action.payload.get('status'))
+          .update('openOrderFinalStatus', () => action.payload.first().get('status'))
           .update('isBusy', () => false);
       }
 

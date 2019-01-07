@@ -41,8 +41,21 @@ export const listVendors = async (
   dispatch({ type: LIST_VENDORS_REQUEST });
 
   try {
+    let priceParam = false;
+    if(activeFilters !== '') {
+      const filtersArray = activeFilters.split(',');
+      for(const index in filtersArray) {
+        if(filtersArray[index] === 'price') {
+          priceParam = true;
+          break;
+        }
+      }
+    }
+
     const vendors = await get(
-      `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=200000000&activeFilters=${activeFilters}&pricing=${pricing}`
+      priceParam
+        ? `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=200000000&activeFilters=${activeFilters}&pricing=${pricing}`
+        : `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=200000000&activeFilters=${activeFilters}`
     );
 
     dispatch({

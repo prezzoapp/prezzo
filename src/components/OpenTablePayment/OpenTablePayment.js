@@ -25,7 +25,7 @@ const OpenTablePayment = props => {
         if (item.status !== 'denied') {
           return item.price;
         }
-        return null;
+        return parseFloat(0);
       })
     .reduce((previous, next) => {
         return parseFloat(previous + next);
