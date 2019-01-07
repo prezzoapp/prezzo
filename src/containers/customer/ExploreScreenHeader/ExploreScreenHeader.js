@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity, Image, FlatList, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, FlatList, Alert, NetInfo } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Slider from 'react-native-slider';
@@ -8,7 +8,7 @@ import { LinearGradient, BlurView, Location, Permissions } from 'expo';
 import { EvilIcons } from '../../../components/VectorIcons';
 import FilterItem from '../../../components/FilterItem';
 import styles from './styles';
-import {NetInfo} from 'react-native';
+import showGenericAlert from '../../../components/GenericAlert';
 import { COLOR_GREEN, FONT_FAMILY_MEDIUM, SF_PRO_DISPLAY_REGULAR } from '../../../services/constants';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
@@ -37,6 +37,14 @@ export default class ExploreScreenHeader extends PureComponent {
     this.activeFilters = [];
   }
 
+  componentWillMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectionChange);
+  }
+
   componentDidMount() {
     this.props.filters.map(item => {
       if(item.on) {
@@ -53,6 +61,13 @@ export default class ExploreScreenHeader extends PureComponent {
     });
   }
 
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
+
   getLocationAndVendorsList() {
     this.props.getUserCurrentLocation().then(coords => {
       this.props.listVendors(
@@ -61,10 +76,9 @@ export default class ExploreScreenHeader extends PureComponent {
         this.props.distance,
         this.activeFilters.join(','),
         this.props.pricing
-      );
-    }).catch(err => {
-      console.warn(err);
-    });
+      ).then(() => {})
+        .catch(err => this.showAlert('Uh-oh!', err.message, 300));
+    }).catch(err => this.showAlert('Uh-oh!', err.message, 300));
   }
 
   updateDistance(distance) {
@@ -75,7 +89,6 @@ export default class ExploreScreenHeader extends PureComponent {
   }
 
   updatePrice(price) {
-    console.log("Pricing: ", price);
     this.props.updatePrice(price).then(() => {
       this.getLocationAndVendorsList();
     });
@@ -94,27 +107,25 @@ export default class ExploreScreenHeader extends PureComponent {
     });
   }
 
-  _getLocationAsync = async () => {
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+  _getLocationAsync() {
+    NetInfo.isConnected.fetch().done(
+      (isConnected) => { console.log(isConnected);
+       if(isConnected) {
+          this.props.navigate({ routeName: 'MapScreen' });
+       }
+       else {
+          Alert.alert(
+           'Uh-oh!',
+            'Please check your internet connection and try again later.',
+            [
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            { cancelable: false }
+          )
+       }
 
-      NetInfo.isConnected.fetch().done(
-        (isConnected) => { console.log(isConnected);
-         if(isConnected) {
-            this.props.navigate({ routeName: 'MapScreen' });
-         }
-         else {
-            Alert.alert(
-             'Prezzo',
-              'Please check your internet connection and try again later.',
-              [
-                {text: 'OK', onPress: () => console.log('OK Pressed')},
-              ],
-              { cancelable: false }
-            )
-         }
-
-        }
-      );
+      }
+    );
   };
 
   handleConnectionChange = (isConnected) => {
@@ -179,30 +190,27 @@ export default class ExploreScreenHeader extends PureComponent {
             />
 
             <View>
+              <View style={styles.slidersHolder}>
+                <View style={styles.sliderTitleHolder}>
+                  <Text style={styles.sliderTitleText}>Distance</Text>
+                  <Text style={styles.sliderTitleText}>
+                    {this.props.maxDistance}mi
+                  </Text>
+                </View>
+                <Slider
+                  minimumValue={this.props.minDistance}
+                  maximumValue={this.props.maxDistance}
+                  minimumTrackTintColor="rgb(47,212,117)"
+                  maximumTrackTintColor="rgb(230,230,230)"
+                  thumbTintColor="rgb(255,254,255)"
+                  thumbStyle={{ height: 18, width: 18 }}
+                  value={this.props.distance}
+                  trackStyle={{ height: 3 }}
+                  onSlidingComplete={value => this.updateDistance(value)}
+                />
+              </View>
               {filters.map(item => {
-                if (item.filterType === 'openNow' && item.on === true) {
-                  return (
-                    <View key={item._id} style={styles.slidersHolder}>
-                      <View style={styles.sliderTitleHolder}>
-                        <Text style={styles.sliderTitleText}>Distance</Text>
-                        <Text style={styles.sliderTitleText}>
-                          {this.props.maxDistance}mi
-                        </Text>
-                      </View>
-                      <Slider
-                        minimumValue={this.props.minDistance}
-                        maximumValue={this.props.maxDistance}
-                        minimumTrackTintColor="rgb(47,212,117)"
-                        maximumTrackTintColor="rgb(230,230,230)"
-                        thumbTintColor="rgb(255,254,255)"
-                        thumbStyle={{ height: 18, width: 18 }}
-                        value={this.props.distance}
-                        trackStyle={{ height: 3 }}
-                        onSlidingComplete={value => this.updateDistance(value)}
-                      />
-                    </View>
-                  );
-                } else if (item.filterType === 'price' && item.on === true) {
+                if (item.filterType === 'price' && item.on === true) {
                   return (
                     <View
                       key={item._id}

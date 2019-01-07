@@ -5,13 +5,17 @@ import styles from './styles';
 const FilteredVendorBottomCardItem = props => {
   return (
     <TouchableOpacity
+      disabled={props.item.disable}
       activeOpacity={0.6}
       style={styles.listItemBtn}
-      onPress={() => props.moveToPosition()}
+      onPress={() => !props.item.disable && props.moveToPosition()}
     >
       <View style={styles.titleHolder}>
         <Text style={styles.name}>{props.item.name}</Text>
-        <Text style={styles.distance}>{props.item.distance} miles</Text>
+        <Text style={styles.distance}>{
+          props.getDistanceFromCurrentLocation(
+            props.item.location.coordinates)}
+        </Text>
       </View>
 
       <View style={styles.statusHolder}>

@@ -9,8 +9,9 @@ Here is a quick start guide:
 ```
 git clone git@github.com:odotan/prezzo.git
 cd prezzo
-yarn install
-react-native run-ios
+npm install -g expo-cli
+npm install
+npm start
 ```
 
 For further setup instructions please see our [Getting Started](#getting-started) section.
@@ -72,13 +73,13 @@ To learn how to structure your application and use the Redux application archite
 
 ##### Start the application in iOS simulator
 ```
-$ react-native run-ios
+$ npm run ios
 ```
 
 ##### Start the application in Android simulator
 (If using the stock emulator, the emulator must be running)
 ```
-$ react-native run-android
+$ npm run android
 ```
 
 ##### Run unit tests

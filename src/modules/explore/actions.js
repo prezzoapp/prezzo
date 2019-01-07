@@ -91,7 +91,7 @@ export const updatePrice = async (pricing: number) => async dispatch => {
   }
 }
 
-export const disableVendorListItem = id => {
+export const disableVendorListItem = id => dispatch => {
   dispatch({
     type: DISABLE_VENDOR_LIST_ITEM,
     payload: id
@@ -118,7 +118,7 @@ export const getUserCurrentLocation = async () => async dispatch => {
       const { locationServicesEnabled } = await Location.getProviderStatusAsync();
       if(locationServicesEnabled) {
         const location = await Location.getCurrentPositionAsync({});
-        if(!location) {
+        if(location) {
           dispatch({
             type: GET_USER_CURRENT_LOCATION_SUCCESS,
             payload: fromJS(location.coords)

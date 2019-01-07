@@ -7,6 +7,7 @@ import ExploreSearch from '../ExploreSearch';
 import ExploreScreenHeader from '../ExploreScreenHeader';
 import ExploreList from '../ExploreList';
 import styles from './styles';
+import showGenericAlert from '../../../components/GenericAlert';
 
 type Props = {
   listVendors: Function
@@ -35,6 +36,13 @@ class Explore extends PureComponent<Props> {
     super(props);
   }
 
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
+
   componentDidMount() {
     let activeFilters = [];
     this.props.filters.map(item => {
@@ -50,9 +58,12 @@ class Explore extends PureComponent<Props> {
         this.props.distance,
         activeFilters.join(','),
         this.props.pricing
-      );
+      ).then(() => {})
+        .catch(err => {
+          this.showAlert('Uh-oh!', err.message, 300);
+        });
     }).catch(err => {
-      // showGenericAlert('Location Services are not ');
+      this.showAlert('Uh-oh!', err.message, 300);
     });
 
     // this.watchID = navigator.geolocation.getCurrentPosition(

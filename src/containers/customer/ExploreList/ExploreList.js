@@ -56,10 +56,10 @@ export default class ExploreList extends PureComponent {
     );
   }
 
-  showAlert(message, duration) {
+  showAlert(title, message, duration) {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-      alert(message);
+      showGenericAlert(title, message);
     }, duration);
   }
 
@@ -122,10 +122,10 @@ export default class ExploreList extends PureComponent {
           this.checkResponseMessage();
         })
         .catch(e => {
-          this.showAlert(e.message, 300);
+          this.showAlert('Uh-oh!', e.message, 300);
         });
     }).catch(err => {
-      this.showAlert(err.message, 300);
+      this.showAlert('Uh-oh!', err.message, 300);
     });
 
     // this.watchID = navigator.geolocation.getCurrentPosition(

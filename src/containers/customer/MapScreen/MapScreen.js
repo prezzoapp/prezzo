@@ -218,7 +218,7 @@ export default class MapScreen extends Component {
               this.activeFilters,
               this.props.pricing
             )
-            .then(() => {})
+            .then(() => { })
             .catch(e => {
               showGenericAlert('Uh-oh!', e.message || e);
             });
@@ -230,7 +230,7 @@ export default class MapScreen extends Component {
           // show error message
         }
       })
-      .catch(error => {});
+      .catch(error => { });
   }
 
   getNetworkIP() {
@@ -243,6 +243,31 @@ export default class MapScreen extends Component {
       });
   }
 
+  /**
+   * @param  {Array} coordinates [lat,long]
+   * return distance in miles from user cureent location
+   * if user cureent loc is not available will reurn empty string
+   */
+  getDistanceFromCurrentLocation = (coordinates) => {
+    if (this.state.customRegion) {
+      const userCurrentLat = this.state.customRegion.latitude;
+      const userCurrentLong = this.state.customRegion.longitude;
+
+      const radlat1 = (Math.PI * userCurrentLat) / 180;
+      const radlat2 = (Math.PI * coordinates[1]) / 180;
+      const theta = userCurrentLong - coordinates[0]
+      const radtheta = (Math.PI * theta) / 180;
+      let dist =
+        Math.sin(radlat1) * Math.sin(radlat2) +
+        Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      dist = Math.acos(dist)
+      dist = (dist * 180) / Math.PI;
+      dist = dist * 60 * 1.1515
+      return `${Math.round(dist * 0.8684 * 1.15078)} miles`;
+    }
+    return '';
+  }
+
   showAlert(title, message, duration) {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
@@ -250,8 +275,14 @@ export default class MapScreen extends Component {
     }, duration);
   }
 
-  moveToPosition(coordinates) {
+  /**
+   *
+   * @param  {array} coordinates - [lon ,lat]
+   * Move to given coordinates on map.
+   */
+  moveToPosition = (id, coordinates) => {
     this.btnClicked = true;
+    this.props.disableVendorListItem(id);
     this.moveMapPositionOnSearch(coordinates[1], coordinates[0]);
   }
 
@@ -389,7 +420,10 @@ export default class MapScreen extends Component {
           ref={filteredListRef => {
             this.filteredListRef = filteredListRef;
           }}
-          moveToPosition={coordinates => this.moveToPosition(coordinates)}
+          moveToPosition={(id, coordinates) =>
+            this.moveToPosition(id, coordinates)
+          }
+          getDistanceFromCurrentLocation={this.getDistanceFromCurrentLocation}
         />
       </View>
     );

@@ -177,6 +177,7 @@ class Tables extends Component {
                   data={rowData}
                   navigate={this.props.navigate}
                   tabName="tables"
+                  innerTab="open"
                   makePaymentAndCompleteOrder={(orderId, token, amount, paymentType, status) => this.props.makePaymentAndCompleteOrder(orderId, token, amount, paymentType, status, 'queued')}
                   changeOrderStatus={(orderId, status) => this.props.changeOrderStatus(orderId, status)}
                 />
@@ -185,7 +186,10 @@ class Tables extends Component {
             return (
               <TableGridItem
                 tableType={this.props.section}
+                navigate={this.props.navigate}
                 data={rowData}
+                tabName="tables"
+                innerTab="open"
               />
             );
           }}
@@ -218,8 +222,10 @@ class Tables extends Component {
               return (
                 <QueuedTableItem
                   handleQueuedTableItem={this.handleQueuedTableItem}
-                  user={rowData}
+                  navigate={this.props.navigate}
+                  data={rowData}
                   tabName="tables"
+                  innerTab="queue"
                   checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
                   listQueuedTable={this.props.listQueuedTable}
                 />
@@ -228,10 +234,13 @@ class Tables extends Component {
             return (
               <TableGridItem
                 tableType={this.props.section}
+                navigate={this.props.navigate}
                 handleQueuedTableItem={this.handleQueuedTableItem}
                 data={rowData}
                 checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
                 listQueuedTable={this.props.listQueuedTable}
+                innerTab="closed"
+                tabName="tables"
               />
             );
           }}
@@ -267,10 +276,23 @@ class Tables extends Component {
             data={this.props.closedTableList.length !== 0 ? this.props.closedTableList.toJS() : []}
             renderItem={rowData => {
               if (this.props.layout === 'list') {
-                return <OpenTableItem data={rowData} tabName="tables"/>;
+                return (
+                  <OpenTableItem
+                    data={rowData}
+                    navigate={this.props.navigate}
+                    tabName="tables"
+                    innerTab="closed"
+                  />
+                );
               }
               return (
-                <TableGridItem tableType={this.props.section} data={rowData} />
+                <TableGridItem
+                  tableType={this.props.section}
+                  navigate={this.props.navigate}
+                  data={rowData}
+                  innerTab="closed"
+                  tabName="tables"
+                />
               );
             }}
           />

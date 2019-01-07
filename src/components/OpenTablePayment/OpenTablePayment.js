@@ -182,33 +182,33 @@ const OpenTablePayment = props => {
         </View>
       </View>
       {(() => {
-        if(props.tabName === 'payment') {
-          return (
-            <View
+        return (
+          <View
+            style={{
+              width: wp('100%'),
+              alignItems: 'center',
+              height: hp('10.16%'),
+              borderTopColor: COLOR_GREEN,
+              borderTopWidth: 2,
+              backgroundColor: 'black'
+            }}
+          >
+            <LinearGradient
+              colors={['transparent', '#2B2C2C']}
+              start={[0.3, 0]}
               style={{
-                width: wp('100%'),
+                flexDirection: 'row',
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                left: 0,
+                bottom: 0,
                 alignItems: 'center',
-                height: hp('10.16%'),
-                borderTopColor: COLOR_GREEN,
-                borderTopWidth: 2,
-                backgroundColor: 'black'
+                justifyContent: props.innerTab !== 'closed' ? 'space-between' : 'center'
               }}
+              pointerEvents="none"
             >
-              <LinearGradient
-                colors={['transparent', '#2B2C2C']}
-                start={[0.3, 0]}
-                style={{
-                  flexDirection: 'row',
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  left: 0,
-                  bottom: 0,
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-                pointerEvents="none"
-              >
+              {props.innerTab !== 'closed' && (
                 <Button
                   style={buttonStyles.requestBtn}
                   textStyle={buttonStyles.requestBtnText}
@@ -217,14 +217,21 @@ const OpenTablePayment = props => {
                 >
                   Request
                 </Button>
+              )}
 
-                <Text style={styles.total}>
-                  Total ${((subTotal * TAX) / 100 + subTotal).toFixed(2)}
-                </Text>
-              </LinearGradient>
-            </View>
-          );
-        }
+              <Text
+                style={[
+                  styles.total,
+                  {
+                    paddingRight: props.innerTab !== 'closed' ? wp('5.33%') : 0
+                  }
+                ]}
+              >
+                Total ${((subTotal * TAX) / 100 + subTotal).toFixed(2)}
+              </Text>
+            </LinearGradient>
+          </View>
+        );
       })()}
     </View>
   );

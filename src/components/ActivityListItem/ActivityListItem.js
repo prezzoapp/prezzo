@@ -56,7 +56,7 @@ const ActivityListItem = props => {
           props.item.notes !== null ? (
             <Text style={styles.info}>{props.item.notes}</Text>
           ) : null}
-          {props.item.status === 'pending' ? (
+          {props.item.status === 'pending' && props.innerTab === 'open' ? (
             <TouchableOpacity
               activeOpacity={0.6}
               style={styles.editBtn}

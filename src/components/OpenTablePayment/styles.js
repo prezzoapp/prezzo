@@ -69,8 +69,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('4.8%'),
     color: 'white',
-    textAlign: 'right',
-    marginRight: wp('5.33%')
+    textAlign: 'right'
   }
 });
 
