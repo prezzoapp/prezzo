@@ -9,7 +9,6 @@ import {connect} from 'react-redux';
 import { Feather } from '../../../components/VectorIcons';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {updateFirstName, updateLastName} from '../../../modules/Signup';
 import {FONT_FAMILY_MEDIUM} from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: containerPaddingTopBottom,
+    paddingBottom: hp('5%'),
     paddingTop: hp('3.50%')
   },
   headerText: {
@@ -64,9 +63,7 @@ const styles = StyleSheet.create({
 });
 
 const nextButtonStyle = {
-  alignSelf: 'flex-end',
-  position: 'relative',
-  top: -hp('0.98%')
+  alignSelf: 'flex-end'
 };
 
 class SignupName extends React.Component<Props, State> {
@@ -111,31 +108,35 @@ class SignupName extends React.Component<Props, State> {
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.png')}
       >
-        <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 50 }} style={[{ backgroundColor: 'transparent' }, styles.scrollView]}>
-          <Text style={styles.headerText}>
-            What's your name?
-          </Text>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+          <ScrollView
+            bounces={false}
+            contentContainerStyle={styles.scrollView}>
+            <Text style={styles.headerText}>
+              What's your name?
+            </Text>
 
-          <LoginTextInput
-            type='name'
-            label='First Name'
-            value={firstName}
-            onChange={val => this.props.updateFirstName(val)}
-          />
+            <LoginTextInput
+              type='name'
+              label='First Name'
+              value={firstName}
+              onChange={val => this.props.updateFirstName(val)}
+            />
 
-          <LoginTextInput
-            type='name'
-            label='Last Name'
-            value={lastName}
-            onChange={val => this.props.updateLastName(val)}
-          />
+            <LoginTextInput
+              type='name'
+              label='Last Name'
+              value={lastName}
+              onChange={val => this.props.updateLastName(val)}
+            />
 
-          <NextButton
-            style={nextButtonStyle}
-            onPress={() => this.navigateToSignupEmail()}
-            disabled={!this.isFormValid()}
-          />
-        </KeyboardAwareScrollView>
+            <NextButton
+              style={nextButtonStyle}
+              onPress={() => this.navigateToSignupEmail()}
+              disabled={!this.isFormValid()}
+            />
+          </ScrollView>
+        </KeyboardAvoidingView>
       </ImageBackground>
     );
   }

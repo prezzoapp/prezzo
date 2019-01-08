@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
   Platform
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -46,8 +48,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4A4A4A',
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingTop: hp('3.50%') + (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0)),
-    paddingBottom: containerPaddingTopBottom
+    paddingTop: hp('3.50%') + (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0))
   },
   headerText: {
     fontSize: wp('9.6%'),
@@ -94,8 +95,7 @@ const styles = StyleSheet.create({
 
 const nextButtonStyle = {
   alignSelf: 'flex-end',
-  position: 'relative',
-  top: -hp('0.98%')
+  marginBottom: hp('5%')
 };
 
 class SignupEmail extends React.Component<Props> {
@@ -152,37 +152,44 @@ class SignupEmail extends React.Component<Props> {
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.png')}
       >
-        <Text style={styles.headerText}>And your email?</Text>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+          contentContainerStyle={styles.scrollView}>
+          <Text style={styles.headerText}>And your email?</Text>
 
-        <LoginTextInput
-          type="email"
-          label="Email Address"
-          value={email}
-          onChange={value => this.props.updateEmail(value)}
-        />
+          <LoginTextInput
+            type="email"
+            label="Email Address"
+            value={email}
+            onChange={value => this.props.updateEmail(value)}
+          />
 
-        <TouchableOpacity
-          style={styles.promotionsContainer}
-          onPress={() => this.toggleSubscription()}
-        >
-          <Image style={styles.checkbox} source={this.getCheckboxImage()} />
-          <Text style={styles.promotionalText}>
-            I'd like to receive promotional communications.
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.promotionsContainer}
+            onPress={() => this.toggleSubscription()}
+          >
+            <Image style={styles.checkbox} source={this.getCheckboxImage()} />
+            <Text style={styles.promotionalText}>
+              I'd like to receive promotional communications.
+            </Text>
+          </TouchableOpacity>
 
-        <NextButton
-          style={nextButtonStyle}
-          disabled={!this.isFormValid()}
-          validate={async () => {
-            const user = await findUser(email);
-            if (user) {
-              throw Error('This email is taken.');
-            }
-          }}
-          onPress={() => this.navigateToPassword()}
-          onError={e => alert('Uh-oh!', e.message || e)}
-        />
+          <NextButton
+            style={nextButtonStyle}
+            disabled={!this.isFormValid()}
+            validate={async () => {
+              const user = await findUser(email);
+              if (user) {
+                throw Error('This email is taken.');
+              }
+            }}
+            onPress={() => this.navigateToPassword()}
+            onError={e => alert('Uh-oh!', e.message || e)}
+          />
+        </ScrollView>
+        </KeyboardAvoidingView>
       </ImageBackground>
     );
   }

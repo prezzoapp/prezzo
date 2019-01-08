@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: containerPaddingTopBottom,
+    paddingBottom: hp('5%'),
     paddingTop: hp('3.50%')
   },
   headerText: {
@@ -313,6 +313,9 @@ class SignupPassword extends React.Component<Props, State> {
         >
           <ScrollView
             contentContainerStyle={styles.scrollView}>
+            <Text style={styles.headerText}>
+              Awesome, you're almost done!
+            </Text>
           <Text style={styles.headerText}>
             Awesome, you're almost done!
           </Text>

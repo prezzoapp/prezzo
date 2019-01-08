@@ -61,10 +61,7 @@ class Login extends React.Component<Props, State> {
     email: '',
     password: ''
   };
-  componentDidMount()
-  {
-    console.log("isBusy value --- ",this.props.isBusy);
-  }
+
   navigateToSignup() {
     this.props.navigate({ routeName: 'SignupName' });
   }
@@ -104,6 +101,8 @@ class Login extends React.Component<Props, State> {
             source={require('../../../../assets/images/bg/authentication.png')}
           >
             <ScrollView
+              ref={scrollView => this.scrollView = scrollView}
+              bounces={false}
               contentContainerStyle={styles.scrollView}>
               <Text testID="welcomeText" style={styles.headerText}>
                 Welcome back!
@@ -140,6 +139,7 @@ class Login extends React.Component<Props, State> {
               <View style={styles.buttonContainer}>
                 <Button
                   style={buttonStyles.login}
+                  textStyle={buttonStyles.loginText}
                   onPress={() => this.login()}
                 >
                   Sign In
@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
+    paddingBottom: hp('5%'),
     paddingTop: hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0))
   },
   headerText: {
@@ -217,7 +218,7 @@ const buttonStyles = {
     backgroundColor: '#0DD24A',
     borderColor: '#0DD24A',
     justifyContent: 'center',
-    position: 'absolute'
+    padding: 0
   },
   loginText: {
     fontSize: wp('5.33%'),
