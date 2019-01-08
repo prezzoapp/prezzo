@@ -33,7 +33,8 @@ class Button extends React.Component<Props> {
     const { type, token } = await Facebook.logInWithReadPermissionsAsync(
       '2029030444036230',
       {
-        permissions: ['public_profile', 'email']
+        permissions: ['public_profile', 'email'],
+        behavior: 'native'
       }
     );
     if (type === 'success') {
