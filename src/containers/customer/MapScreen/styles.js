@@ -29,16 +29,16 @@ const styles = StyleSheet.create({
   },
 
   spotText: {
-    fontSize: 22,
+    fontSize: wp('5.86%'),
     color: 'white',
     fontFamily: FONT_FAMILY_MEDIUM,
-    paddingBottom: 10,
+    paddingBottom: hp('1.23%'),
     paddingHorizontal: wp('4.26%')
   },
 
   markerStyle: {
-    width: 30,
-    height: 30,
+    width: wp('8%'),
+    height: wp('8%'),
     resizeMode: 'contain'
   },
 

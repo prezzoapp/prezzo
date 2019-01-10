@@ -30,6 +30,8 @@ type State = {
   password: string
 };
 
+const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+
 class Login extends React.Component<Props, State> {
   static navigationOptions = ({ navigation }) => ({
     headerStyle: {
@@ -96,59 +98,60 @@ class Login extends React.Component<Props, State> {
     const { email, password } = this.state;
 
     return (
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior='padding'>
-          <ImageBackground
-            style={styles.container}
-            source={require('../../../../assets/images/bg/authentication.png')}
-          >
-            <ScrollView
-              contentContainerStyle={styles.scrollView}>
-              <Text testID="welcomeText" style={styles.headerText}>
-                Welcome back!
-              </Text>
+      <ImageBackground
+        style={styles.container}
+        source={require('../../../../assets/images/bg/authentication.png')}
+      >
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior='padding'>
+          <ScrollView
+            contentContainerStyle={styles.scrollView}>
+            <Text testID="welcomeText" style={styles.headerText}>
+              Welcome back!
+            </Text>
 
-              <Text testID="signinText" style={styles.subHeaderText}>
-                Sign In To Continue
-              </Text>
+            <Text testID="signinText" style={styles.subHeaderText}>
+              Sign In To Continue
+            </Text>
 
-              <LoginTextInput
-                type="email"
-                label="Email Address"
-                value={email}
-                onChange={email => this.setState({ email })}
-              />
+            <LoginTextInput
+              type="email"
+              label="Email Address"
+              value={email}
+              onChange={email => this.setState({ email })}
+            />
 
-              <LoginTextInput
-                type="password"
-                label="Password"
-                value={password}
-                onChange={password => this.setState({ password })}
-              />
+            <LoginTextInput
+              type="password"
+              label="Password"
+              value={password}
+              onChange={password => this.setState({ password })}
+            />
 
-              <TouchableOpacity
-                testID="signupButton"
-                style={styles.signupLabelContainer}
-                onPress={() => this.navigateToSignup()}
+            <TouchableOpacity
+              testID="signupButton"
+              style={styles.signupLabelContainer}
+              onPress={() => this.navigateToSignup()}
+            >
+              <Text style={styles.signupLabel}>Don't have an account?</Text>
+
+              <Text style={styles.signupLink}>Sign Up</Text>
+            </TouchableOpacity>
+
+            <View style={styles.buttonContainer}>
+              <Button
+                style={buttonStyles.login}
+                textStyle={buttonStyles.loginText}
+                onPress={() => this.login()}
               >
-                <Text style={styles.signupLabel}>Don't have an account?</Text>
-
-                <Text style={styles.signupLink}>Sign Up</Text>
-              </TouchableOpacity>
-
-              <View style={styles.buttonContainer}>
-                <Button
-                  style={buttonStyles.login}
-                  onPress={() => this.login()}
-                >
-                  Sign In
-                </Button>
-              </View>
-            </ScrollView>
-          </ImageBackground>
-          <LoadingComponent visible={this.props.isBusy} />
-      </KeyboardAvoidingView>
+                Sign In
+              </Button>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+        <LoadingComponent visible={this.props.isBusy} />
+      </ImageBackground>
     );
   }
 }
@@ -165,7 +168,8 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingTop: hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0))
+    paddingTop: SCROLL_VIEW_TOP_PADDING,
+    paddingBottom: hp('5%')
   },
   headerText: {
     fontSize: wp('10.16%'),
@@ -216,8 +220,7 @@ const buttonStyles = {
     height: hp('6.65%'),
     backgroundColor: '#0DD24A',
     borderColor: '#0DD24A',
-    justifyContent: 'center',
-    position: 'absolute'
+    justifyContent: 'center'
   },
   loginText: {
     fontSize: wp('5.33%'),

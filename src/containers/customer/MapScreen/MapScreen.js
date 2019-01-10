@@ -4,7 +4,10 @@ import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
 import publicIP from 'react-native-public-ip';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
@@ -348,15 +351,15 @@ export default class MapScreen extends Component {
               textInput: {
                 marginLeft: 0,
                 marginRight: 0,
-                height: 38,
-                fontSize: 16,
+                height: hp('5.03%'),
+                fontSize: wp('4.26%'),
                 backgroundColor: '#414141',
                 color: 'white',
                 fontFamily: SF_PRO_TEXT_REGULAR
               },
               listView: {
                 zIndex: 99999,
-                top: 38,
+                top: hp('5.03%'),
                 position: 'absolute',
                 marginHorizontal: wp('4.26%'),
                 backgroundColor: '#414141'

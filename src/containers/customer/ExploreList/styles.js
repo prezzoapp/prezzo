@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import { Constants } from 'expo';
 
 import {
@@ -10,13 +13,13 @@ import {
 
 const styles = StyleSheet.create({
   threeDotsImage: {
-    width: 20,
-    height: 20,
+    width: wp('5%'),
+    height: wp('4%'),
     resizeMode: 'contain'
   },
 
   headerStyle: {
-    padding: 15,
+    padding: wp('4%'),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -25,7 +28,7 @@ const styles = StyleSheet.create({
 
   headerTextStyle: {
     color: 'white',
-    fontSize: 17,
+    fontSize: wp('4.53%'),
     fontFamily: FONT_FAMILY_BOLD
   },
 
@@ -38,12 +41,12 @@ const styles = StyleSheet.create({
   message: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
-    fontSize: 20,
+    fontSize: wp('5.33%'),
     textAlign: 'center'
   },
 
   flatListContentContainerStyle: {
-    marginHorizontal: 15,
+    marginHorizontal: wp('4%'),
     paddingTop: hp('2%'),
     paddingBottom: hp('9%'),
     flexGrow: 1
