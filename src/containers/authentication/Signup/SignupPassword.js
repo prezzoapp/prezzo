@@ -10,7 +10,10 @@ import {
   ActionSheetIOS,
   ScrollView,
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Keyboard,
+  UIManager,
+  findNodeHandle
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -49,6 +52,8 @@ const containerPaddingLeftRight: number = 40;
 const containerPaddingTopBottom: number = 80;
 const avatarSize: number = wp('17.33%');
 
+const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -59,7 +64,7 @@ const styles = StyleSheet.create({
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
     paddingBottom: hp('5%'),
-    paddingTop: hp('3.50%')
+    paddingTop: SCROLL_VIEW_TOP_PADDING
   },
   headerText: {
     fontSize: wp('9.6%'),
@@ -195,8 +200,33 @@ class SignupPassword extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+
     if (this.props.facebookId) {
       this.setState({ showPassword: true });
+    }
+  }
+
+  _keyboardDidShow = (event) => {
+    if(this.scrollView && this.child) {
+      this.scrollView.scrollTo({
+        y: this.titleHeight + SCROLL_VIEW_TOP_PADDING,
+        animated: true
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+  }
+
+  calculateLayout() {
+    if(this.child && this.parent) {
+      UIManager.measure(findNodeHandle(this.child), (
+        originX, originY, width, height, pageX, pageY
+      ) => {
+        this.titleHeight = height;
+      })
     }
   }
 
@@ -306,51 +336,57 @@ class SignupPassword extends React.Component<Props, State> {
     return (
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : null}>
+        behavior='padding'
+        ref={parent => this.parent = parent}
+      >
         <ImageBackground
           style={styles.container}
           source={require('../../../../assets/images/bg/authentication.png')}
         >
           <ScrollView
-            contentContainerStyle={styles.scrollView}>
-            <Text style={styles.headerText}>
-              Awesome, you're almost done!
-            </Text>
-          <Text style={styles.headerText}>
-            Awesome, you're almost done!
-          </Text>
-
-          <View style={styles.profileContainer}>
-            <TouchableOpacity
-              style={styles.avatarContainer}
-              onPress={() => this.showAvatarActionSheet()}
+            ref={scrollView => this.scrollView = scrollView}
+            contentContainerStyle={styles.scrollView}
+          >
+            <View
+              ref={child => this.child = child}
+              onLayout={() => this.calculateLayout()}
             >
-              <Image
-                style={styles.avatar}
-                source={
-                  avatarURL
-                    ? { uri: avatarURL }
-                    : require('../../../../assets/images/etc/default-avatar.png')
-                }
-              />
-              <Image
-                style={styles.editAvatarIcon}
-                source={require('../../../../assets/images/icons/edit.png')}
-              />
-            </TouchableOpacity>
-
-            <View style={styles.nameAndEmailContainer}>
-              <Text style={styles.name}>
-                {firstName}
-              </Text>
-
-              <Text style={styles.email}>
-                {email}
+              <Text style={styles.headerText}>
+                Awesome, you're almost done!
               </Text>
             </View>
-          </View>
 
-          {
+            <View style={styles.profileContainer}>
+              <TouchableOpacity
+                style={styles.avatarContainer}
+                onPress={() => this.showAvatarActionSheet()}
+              >
+                <Image
+                  style={styles.avatar}
+                  source={
+                    avatarURL
+                      ? { uri: avatarURL }
+                      : require('../../../../assets/images/etc/default-avatar.png')
+                  }
+                />
+                <Image
+                  style={styles.editAvatarIcon}
+                  source={require('../../../../assets/images/icons/edit.png')}
+                />
+              </TouchableOpacity>
+
+              <View style={styles.nameAndEmailContainer}>
+                <Text style={styles.name}>
+                  {firstName}
+                </Text>
+
+                <Text style={styles.email}>
+                  {email}
+                </Text>
+              </View>
+            </View>
+
+            {
             !showPassword && (
               <View style={styles.buttonsContainer}>
                 <FacebookButton
@@ -373,7 +409,7 @@ class SignupPassword extends React.Component<Props, State> {
             )
           }
 
-          {
+            {
             showPassword && (
               <View style={styles.passwordContainer}>
                 <LoginTextInput
@@ -386,7 +422,7 @@ class SignupPassword extends React.Component<Props, State> {
             )
           }
 
-          {
+            {
             showPassword && !isBusy && (
               <NextButton
                 style={buttonStyles.next}

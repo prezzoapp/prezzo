@@ -5,10 +5,14 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  View,
   StyleSheet,
   KeyboardAvoidingView,
   ScrollView,
-  Platform
+  Platform,
+  findNodeHandle,
+  UIManager,
+  Keyboard
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -42,13 +46,19 @@ const containerPaddingLeftRight: number = 40;
 const containerPaddingTopBottom: number = 80;
 const checkboxSize: number = 25;
 
+const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4A4A4A',
+    paddingTop: Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0)
+  },
+  scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingTop: hp('3.50%') + (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0))
+    paddingBottom: hp('5%'),
+    paddingTop: SCROLL_VIEW_TOP_PADDING
   },
   headerText: {
     fontSize: wp('9.6%'),
@@ -124,6 +134,33 @@ class SignupEmail extends React.Component<Props> {
     )
   });
 
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+  }
+
+  _keyboardDidShow = (event) => {
+    if(this.scrollView && this.child) {
+      this.scrollView.scrollTo({
+        y: this.titleHeight + SCROLL_VIEW_TOP_PADDING,
+        animated: true
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+  }
+
+  calculateLayout() {
+    if(this.child && this.parent) {
+      UIManager.measure(findNodeHandle(this.child), (
+        originX, originY, width, height, pageX, pageY
+      ) => {
+        this.titleHeight = height;
+      })
+    }
+  }
+
   isFormValid() {
     const { email } = this.props;
     return email && isValidEmail(email) ? true : false;
@@ -151,44 +188,49 @@ class SignupEmail extends React.Component<Props> {
       <ImageBackground
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.png')}
+        ref={parent => this.parent = parent}
       >
         <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
           <ScrollView
-            showsVerticalScrollIndicator={false}
-            bounces={false}
-          contentContainerStyle={styles.scrollView}>
-          <Text style={styles.headerText}>And your email?</Text>
+            ref={scrollView => this.scrollView = scrollView}
+            contentContainerStyle={styles.scrollView}>
+            <View
+              ref={child => this.child = child}
+              onLayout={() => this.calculateLayout()}
+              style={{ backgroundColor: 'transparent' }}
+            >
+              <Text style={styles.headerText}>And your email?</Text>
+            </View>
+            <LoginTextInput
+              type="email"
+              label="Email Address"
+              value={email}
+              onChange={value => this.props.updateEmail(value)}
+            />
 
-          <LoginTextInput
-            type="email"
-            label="Email Address"
-            value={email}
-            onChange={value => this.props.updateEmail(value)}
-          />
+            <TouchableOpacity
+              style={styles.promotionsContainer}
+              onPress={() => this.toggleSubscription()}
+            >
+              <Image style={styles.checkbox} source={this.getCheckboxImage()} />
+              <Text style={styles.promotionalText}>
+                I'd like to receive promotional communications.
+              </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.promotionsContainer}
-            onPress={() => this.toggleSubscription()}
-          >
-            <Image style={styles.checkbox} source={this.getCheckboxImage()} />
-            <Text style={styles.promotionalText}>
-              I'd like to receive promotional communications.
-            </Text>
-          </TouchableOpacity>
-
-          <NextButton
-            style={nextButtonStyle}
-            disabled={!this.isFormValid()}
-            validate={async () => {
-              const user = await findUser(email);
-              if (user) {
-                throw Error('This email is taken.');
-              }
-            }}
-            onPress={() => this.navigateToPassword()}
-            onError={e => alert('Uh-oh!', e.message || e)}
-          />
-        </ScrollView>
+            <NextButton
+              style={nextButtonStyle}
+              disabled={!this.isFormValid()}
+              validate={async () => {
+                const user = await findUser(email);
+                if (user) {
+                  throw Error('This email is taken.');
+                }
+              }}
+              onPress={() => this.navigateToPassword()}
+              onError={e => alert('Uh-oh!', e.message || e)}
+            />
+          </ScrollView>
         </KeyboardAvoidingView>
       </ImageBackground>
     );

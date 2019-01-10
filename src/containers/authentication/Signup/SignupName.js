@@ -1,6 +1,18 @@
 // @flow
 import React from 'react';
-import {ImageBackground, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, TouchableOpacity} from 'react-native';
+import {
+  ImageBackground,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  View,
+  TouchableOpacity,
+  findNodeHandle,
+  UIManager,
+  Keyboard
+} from 'react-native';
 import { Header } from 'react-navigation';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Constants } from 'expo';
@@ -28,6 +40,8 @@ type State = {
 const containerPaddingLeftRight: number = 40;
 const containerPaddingTopBottom: number = 80;
 
+const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -38,7 +52,7 @@ const styles = StyleSheet.create({
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
     paddingBottom: hp('5%'),
-    paddingTop: hp('3.50%')
+    paddingTop: SCROLL_VIEW_TOP_PADDING
   },
   headerText: {
     fontSize: wp('9.6%'),
@@ -101,20 +115,54 @@ class SignupName extends React.Component<Props, State> {
     this.props.navigate({routeName: 'SignupEmail'});
   }
 
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+  }
+
+  _keyboardDidShow = (event) => {
+    if(this.scrollView && this.child) {
+      this.scrollView.scrollTo({
+        y: this.titleHeight + SCROLL_VIEW_TOP_PADDING,
+        animated: true
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+  }
+
+  calculateLayout() {
+    if(this.child && this.parent) {
+      UIManager.measure(findNodeHandle(this.child), (
+        originX, originY, width, height, pageX, pageY
+      ) => {
+        this.titleHeight = height;
+      })
+    }
+  }
+
   render() {
     const {firstName, lastName} = this.props;
     return (
       <ImageBackground
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.png')}
+        ref={parent => this.parent = parent}
       >
         <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
           <ScrollView
-            bounces={false}
+            ref={scrollView => this.scrollView = scrollView}
             contentContainerStyle={styles.scrollView}>
-            <Text style={styles.headerText}>
-              What's your name?
-            </Text>
+            <View
+              ref={child => this.child = child}
+              onLayout={() => this.calculateLayout()}
+              style={{ backgroundColor: 'transparent' }}
+            >
+              <Text style={styles.headerText}>
+                What's your name?
+              </Text>
+            </View>
 
             <LoginTextInput
               type='name'
