@@ -47,7 +47,9 @@ type State = {
 
 const containerPaddingLeftRight: number = 40;
 const containerPaddingTopBottom: number = 80;
-const avatarSize: number = wp('17.33%');
+const avatarSize: number = wp('18.66%');
+
+const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
 
 const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
 
@@ -63,12 +65,20 @@ const styles = StyleSheet.create({
     paddingBottom: hp('5%'),
     paddingTop: SCROLL_VIEW_TOP_PADDING
   },
-  headerText: {
+  headerTextLine1: {
     fontSize: wp('9.6%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
-    marginBottom: hp('2.83%'),
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    lineHeight: 41
+  },
+  headerTextLine2: {
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_BOLD,
+    color: '#fff',
+    marginBottom: hp('4.55%'),
+    backgroundColor: 'transparent',
+    lineHeight: 41
   },
   profileContainer: {
     width: '100%',
@@ -311,16 +321,15 @@ class SignupPassword extends React.Component<Props, State> {
       >
         <KeyboardAvoidingView
           style={{ flex: 1 }}
-          behavior='padding'
-        >
+          behavior="padding">
           <ScrollView
-            contentContainerStyle={styles.scrollView}
-          >
-            <View>
-              <Text style={styles.headerText}>
-                Awesome, you're almost done!
-              </Text>
-            </View>
+            contentContainerStyle={styles.scrollView}>
+            <Text style={styles.headerTextLine1}>
+              Awesome, you're
+            </Text>
+            <Text style={styles.headerTextLine2}>
+              almost done!
+            </Text>
 
             <View style={styles.profileContainer}>
               <TouchableOpacity
@@ -353,50 +362,50 @@ class SignupPassword extends React.Component<Props, State> {
             </View>
 
             {
-            !showPassword && (
-              <View style={styles.buttonsContainer}>
-                <FacebookButton
-                  disabled={isBusy}
-                  onStart={() => this.setState({ isBusy: true })}
-                  onFailure={() => this.setState({ isBusy: false })}
-                  onCancel={() => this.setState({ isBusy: false })}
-                  onSuccess={(facebookId, accessToken) => {
-                    console.log('facebook info', facebookId, accessToken);
-                  }}
-                />
+              !showPassword && (
+                <View style={styles.buttonsContainer}>
+                  <FacebookButton
+                    disabled={isBusy}
+                    onStart={() => this.setState({ isBusy: true })}
+                    onFailure={() => this.setState({ isBusy: false })}
+                    onCancel={() => this.setState({ isBusy: false })}
+                    onSuccess={(facebookId, accessToken) => {
+                      console.log('facebook info', facebookId, accessToken);
+                    }}
+                  />
 
-                <Button
-                  style={buttonStyles.password}
-                  onPress={() => this.setState({ showPassword: true })}
-                >
-                  Create Password
-                </Button>
-              </View>
-            )
-          }
-
-            {
-            showPassword && (
-              <View style={styles.passwordContainer}>
-                <LoginTextInput
-                  type='password'
-                  label='Password'
-                  value={password}
-                  onChange={value => this.props.updatePassword(value)}
-                />
-              </View>
-            )
-          }
+                  <Button
+                    style={buttonStyles.password}
+                    onPress={() => this.setState({ showPassword: true })}
+                  >
+                    Create Password
+                  </Button>
+                </View>
+              )
+            }
 
             {
-            showPassword && !isBusy && (
-              <NextButton
-                style={buttonStyles.next}
-                disabled={!this.isFormValid()}
-                onPress={() => this.signup()}
-              />
-            )
-          }
+              showPassword && (
+                <View style={styles.passwordContainer}>
+                  <LoginTextInput
+                    type='password'
+                    label='Password'
+                    value={password}
+                    onChange={value => this.props.updatePassword(value)}
+                  />
+                </View>
+              )
+            }
+
+            {
+              showPassword && !isBusy && (
+                <NextButton
+                  style={buttonStyles.next}
+                  disabled={!this.isFormValid()}
+                  onPress={() => this.signup()}
+                />
+              )
+            }
           </ScrollView>
         </KeyboardAvoidingView>
       </ImageBackground>

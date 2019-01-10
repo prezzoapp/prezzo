@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   Animated,
   InteractionManager,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from 'react-native';
 
 import {
@@ -19,7 +20,9 @@ import {
 
 import PropTypes from 'prop-types';
 
-import { LinearGradient, BlurView } from 'expo';
+import { LinearGradient, BlurView, Constants } from 'expo';
+
+import { Header } from 'react-navigation';
 
 import { Feather } from '../../../components/VectorIcons';
 
@@ -355,26 +358,24 @@ export default class RestaurantDetails extends Component {
         borderBottomWidth: 1,
         borderBottomColor: 'white',
         backgroundColor: 'transparent',
-        bottom: 0
+        paddingTop: hp('2.46%')
       }}
     >
       <Text style={[styles.transparent, styles.listHeaderText]}>
         {section.title}
       </Text>
     </View>
-  )
+  );
 
   render() {
-    console.log(this.props.data);
-
     const animatedHeader = this.scrollAnimatedValue.interpolate({
-      inputRange: [0, 190],
-      outputRange: [190, 0],
+      inputRange: [0, 159],
+      outputRange: [159, 0],
       extrapolate: 'clamp'
     });
 
     const animatedOpacity = this.scrollAnimatedValue.interpolate({
-      inputRange: [0, 190],
+      inputRange: [0, 159],
       outputRange: [1, 0]
     });
 
@@ -411,13 +412,13 @@ export default class RestaurantDetails extends Component {
                 {this.props.navigation.state.params.item.location.postalCode}
               </Text>
               <View style={styles.headerContentTextContainer}>
-                <Feather name="package" size={22} color="white" />
+                <Feather name="package" size={wp('6.4%')} color="white" />
                 <Text style={[styles.transparent, styles.headerContentText]}>
                   Delivery
                 </Text>
               </View>
               <View style={styles.headerContentTextContainer}>
-                <Feather name="clock" size={22} color="white" />
+                <Feather name="clock" size={wp('6.4%')} color="white" />
                 <Text style={[styles.transparent, styles.headerContentText]}>
                   8 Mins Wait Time
                 </Text>
@@ -451,7 +452,7 @@ export default class RestaurantDetails extends Component {
                       <View
                         style={[
                           styles.toggleView,
-                          { left: this.state.showText ? 80 : 0 }
+                          { left: this.state.showText ? wp('21.33%') : 0 }
                         ]}
                       >
                         <LinearGradient

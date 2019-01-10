@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const styles = StyleSheet.create({
   btn: {
@@ -10,8 +11,8 @@ const styles = StyleSheet.create({
   },
 
   starImage: {
-    width: 20,
-    height: 20,
+    width: wp('5.33%'),
+    height: wp('5.33%'),
     resizeMode: 'cover',
     tintColor: '#FFD64D'
   }

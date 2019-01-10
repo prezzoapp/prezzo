@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 import {
   COLOR_WHITE,
@@ -13,42 +16,42 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 10
+    paddingVertical: wp('2.66%')
   },
 
   itemTitle: {
     color: COLOR_GREEN,
     fontFamily: FONT_FAMILY,
-    fontSize: 20
+    fontSize: wp('5.33%')
   },
 
   itemIngradients: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
-    fontSize: 20
+    fontSize: wp('5.33%')
   },
 
   leftSideContainer: {
-    paddingRight: 55,
+    paddingRight: wp('14.66%'),
     flex: 1
   },
 
   rightSideContainer: {
-    paddingRight: 10
+    paddingRight: wp('2.66%')
   },
 
   itemTitleInPhotoMode: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: 18,
-    paddingTop: 15,
-    paddingBottom: 10,
-    paddingHorizontal: 20
+    fontSize: wp('4.8%'),
+    paddingTop: hp('1.84%'),
+    paddingBottom: hp('1.23%'),
+    paddingHorizontal: wp('5.33%')
   },
 
   itemImage: {
     flex: 1,
-    height: 250,
+    height: hp('44.55%'),
     marginHorizontal: 10,
     borderRadius: 13,
     overflow: 'hidden',
@@ -56,7 +59,7 @@ const styles = StyleSheet.create({
   },
 
   itemContainer: {
-    height: 250
+    height: hp('44.55%')
   },
 
   itemImageLinearGradient: {
@@ -74,7 +77,7 @@ const styles = StyleSheet.create({
   },
 
   controlButtons: {
-    paddingHorizontal: 13,
+    paddingHorizontal: wp('3.2%'),
     height: hp('4.55%'),
     backgroundColor: 'rgba(46,213,115, 0.7)',
     borderRadius: 8,
@@ -84,7 +87,7 @@ const styles = StyleSheet.create({
   },
 
   quantityTextStyleInPhotoMode: {
-    fontSize: 16,
+    fontSize: wp('4.26%'),
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
     paddingHorizontal: 7

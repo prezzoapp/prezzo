@@ -37,7 +37,7 @@ type State = {
 const containerPaddingLeftRight: number = 40;
 const containerPaddingTopBottom: number = 80;
 
-const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
 
 const styles = StyleSheet.create({
   container: {
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     fontSize: wp('9.6%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
+    lineHeight: 41,
     marginBottom: hp('5.04%'),
     backgroundColor: 'transparent'
   },
@@ -119,16 +120,14 @@ class SignupName extends React.Component<Props, State> {
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.png')}
       >
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior='padding'>
           <ScrollView
             contentContainerStyle={styles.scrollView}>
-            <View
-              style={{ backgroundColor: 'transparent' }}
-            >
-              <Text style={styles.headerText}>
-                What's your name?
-              </Text>
-            </View>
+            <Text style={styles.headerText}>
+              What's your name?
+            </Text>
 
             <LoginTextInput
               type='name'

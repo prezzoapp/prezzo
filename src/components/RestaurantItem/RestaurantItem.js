@@ -81,7 +81,7 @@ export default class RestaurantItem extends Component {
               return (
                 <View style={{
                     flexDirection: 'row',
-                    alignItems: 'flex-start'
+                    alignItems: 'center'
                 }}>
                   <TouchableOpacity
                     activeOpacity={0.6}
@@ -98,7 +98,7 @@ export default class RestaurantItem extends Component {
                   <Text
                     style={[
                       styles.itemTitle,
-                      { top: -3, fontFamily: SF_PRO_TEXT_REGULAR }
+                      { fontFamily: SF_PRO_TEXT_REGULAR }
                     ]}
                   >
                     {this.props.item.quantity}

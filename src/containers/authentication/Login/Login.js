@@ -101,22 +101,16 @@ class Login extends React.Component<Props, State> {
       >
         <KeyboardAvoidingView
           style={{ flex: 1 }}
-          behavior='padding'
-        >
+          behavior='padding'>
           <ScrollView
-            contentContainerStyle={styles.scrollView}
-          >
-            <View
-              style={{ backgroundColor: 'transparent' }}
-            >
-              <Text testID="welcomeText" style={styles.headerText}>
-                Welcome back!
-              </Text>
+            contentContainerStyle={styles.scrollView}>
+            <Text testID="welcomeText" style={styles.headerText}>
+              Welcome back!
+            </Text>
 
-              <Text testID="signinText" style={styles.subHeaderText}>
-                Sign In To Continue
-              </Text>
-            </View>
+            <Text testID="signinText" style={styles.subHeaderText}>
+              Sign In To Continue
+            </Text>
 
             <LoginTextInput
               type="email"
@@ -171,9 +165,8 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: hp('5%'),
     paddingTop: SCROLL_VIEW_TOP_PADDING,
-    backgroundColor: 'transparent'
+    paddingBottom: hp('5%')
   },
   headerText: {
     fontSize: wp('10.16%'),
@@ -224,8 +217,7 @@ const buttonStyles = {
     height: hp('6.65%'),
     backgroundColor: '#0DD24A',
     borderColor: '#0DD24A',
-    justifyContent: 'center',
-    padding: 0
+    justifyContent: 'center'
   },
   loginText: {
     fontSize: wp('5.33%'),
