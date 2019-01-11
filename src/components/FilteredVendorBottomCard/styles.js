@@ -14,7 +14,7 @@ import {
 const styles = StyleSheet.create({
   filteredRestaurantsBottomCardHolder: {
     backgroundColor: 'rgb(51,51,51)',
-    flex: 0.4,
+    height: hp('30.54%'),
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingTop: 5

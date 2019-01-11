@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
-    minHeight: hp('78.81%'),
+    height: hp('78.81%'),
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     overflow: 'hidden'
@@ -36,23 +36,24 @@ const styles = StyleSheet.create({
   tabBarIconsHolder: {
     width: wp('100%'),
     alignItems: 'center',
-    paddingVertical: wp('5%')
+    paddingTop: wp('5%'),
+    paddingBottom: hp('3.32%')
   },
 
   bottom_arrow: {
-    width: wp('8%'),
+    width: wp('8.38%'),
     height: wp('5%'),
     resizeMode: 'contain'
   },
 
   bottomArrowIconContainer: {
     alignItems: 'center',
-    paddingTop: wp('2.5%')
+    paddingTop: wp('2.33%')
   },
 
   icon: {
-    height: 30,
-    width: 30,
+    height: wp('8%'),
+    width: wp('8%'),
     resizeMode: 'contain'
   }
 });
