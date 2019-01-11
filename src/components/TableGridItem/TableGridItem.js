@@ -88,6 +88,8 @@ const TableGridItem = props => {
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         data={item.items}
+        contentContainerStyle={{ paddingHorizontal: wp('4.26%') }}
+        style={{ marginHorizontal: -wp('4.26%') }}
         showsHorizontalScrollIndicator={false}
         horizontal
         renderItem={({ item }) => <OrderedItem data={item} />}

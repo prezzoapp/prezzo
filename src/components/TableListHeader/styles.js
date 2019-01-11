@@ -6,13 +6,17 @@ import {
 import { FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: wp('4.26%')
+  },
+
   selectedTab: {
-    borderBottomWidth: 2,
+    borderBottomWidth: hp('0.24%'),
     borderBottomColor: '#2ED573'
   },
 
   unselectedTab: {
-    borderBottomWidth: 2,
+    borderBottomWidth: hp('0.24%'),
     borderBottomColor: 'transparent'
   },
 
@@ -20,14 +24,14 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: wp('3.46%'),
     fontFamily: FONT_FAMILY_MEDIUM,
-    paddingVertical: wp('1.33%')
+    paddingBottom: hp('0.36%')
   },
 
   unselectedText: {
     color: '#FAFAFA',
     fontSize: wp('3.46%'),
     fontFamily: FONT_FAMILY_MEDIUM,
-    marginVertical: hp('0.61%')
+    paddingBottom: hp('0.36%')
   },
 
   listSection: {
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
   seperator: {
     backgroundColor: 'rgba(46, 213, 115, 0.3)',
     height: 1,
-    marginTop: 15
+    marginTop: hp('2.58%')
   }
 });
 
