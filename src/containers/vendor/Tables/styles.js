@@ -21,13 +21,14 @@ const styles = StyleSheet.create({
 
   innerContainer: {
     marginTop: hp('20.68%'),
-    width: wp('91.46%'),
+    width: '100%',
     flex: 1
   },
 
   flatListStyle: {
-    paddingTop: hp('0.61%'),
-    paddingBottom: hp('11%')
+    paddingTop: hp('0.65%'),
+    paddingBottom: hp('11%'),
+    paddingHorizontal: wp('4.26%')
   },
   loaderView: {
     flex: 1,

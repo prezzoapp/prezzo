@@ -1,21 +1,23 @@
 // @flow
 import { StyleSheet } from 'react-native';
 import { FONT_FAMILY_MEDIUM, COLOR_BLACK } from '../../../services/constants';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp
+} from 'react-native-responsive-screen';
 export default StyleSheet.create({
   avatar: {
     alignSelf: 'flex-end',
     borderColor: 'white',
-    borderRadius: 51,
+    borderRadius: wp('13.6%'),
     borderWidth: 2,
-    height: 102,
+    height: wp('27.2%'),
     resizeMode: 'cover',
-    width: 102
+    width: wp('27.2%')
   },
   avatarContainer: {
-    height: 102,
-    width: 102
+    height: wp('27.2%'),
+    width: wp('27.2%')
   },
   bodyContainer: {
     alignItems: 'center',
@@ -25,31 +27,38 @@ export default StyleSheet.create({
   container: {
     alignItems: 'center',
     flex: 1,
-    marginHorizontal: 25,
-    marginBottom: hp('9%')
+    marginHorizontal: wp('6.66%'),
+    marginBottom: hp('1.23%')
   },
   footerContainer: {
     alignSelf: 'stretch',
     justifyContent: 'space-between',
-    flexDirection: 'row',
     height: 'auto',
-    marginTop: 20
+    marginTop: hp('2.46%'),
+    alignItems: 'flex-end',
+
+    flexDirection: 'row',
+    flex: 1
   },
   footerLeft: {
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
+    marginLeft: 5,
+    marginBottom: hp('10%')
   },
   footerRight: {
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    marginRight: 5,
+    marginBottom: hp('10%')
   },
   footerText: {
     color: 'white',
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: 18
+    fontSize: wp('5.33%')
   },
   headerContainer: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: hp('3.20%'),
+    marginTop: hp('2.38%'),
     marginBottom: hp('3.44%')
   },
   parent: {

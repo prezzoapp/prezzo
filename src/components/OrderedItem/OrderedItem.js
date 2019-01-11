@@ -5,7 +5,6 @@ import styles from './styles';
 import { FontAwesome, Entypo } from '../VectorIcons';
 
 const OrderedItem = props => {
-  console.log(props.data.imageURLs[0]);
   return (
     <View style={styles.container}>
       <Image style={styles.itemImage} source={{ uri: props.data.imageURLs[0] }} />

@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     marginHorizontal: wp('4%'),
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: Constants.statusBarHeight + hp('1%'),
+    marginTop: hp('5.17%'),
     position: 'absolute',
     top: 0,
     right: 0,

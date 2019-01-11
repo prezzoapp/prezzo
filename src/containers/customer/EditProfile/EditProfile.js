@@ -315,7 +315,7 @@ class EditProfile extends Component<Props, State> {
                 );
               }
               return (
-                <View style={[styles.bodyContainer,{position: 'relative'}]}>
+                <View style={[styles.bodyContainer2,{position: 'relative'}]}>
                   <ProfileDataField
                     label="First Name"
                     value={this.props.firstName}
@@ -333,7 +333,7 @@ class EditProfile extends Component<Props, State> {
                   <ProfileDataField label="Zip" value={this.props.zip} />
                   <ProfileDataField label="City" value={this.props.city} />
 
-                  <TouchableOpacity style={{position: 'absolute', right: 0, top: 5}} onPress={() => this.toggleEditing()}>
+                  <TouchableOpacity style={{position: 'absolute', right: 0, top: 10}} onPress={() => this.toggleEditing()}>
                       <View>
                       <Text style={styles.edit}>
                       {this.state.isEditing ? 'Save' : 'Edit'}
@@ -352,11 +352,11 @@ class EditProfile extends Component<Props, State> {
 const styles = StyleSheet.create({
   avatar: {
     borderColor: 'white',
-    borderRadius: 51,
+    borderRadius: wp('13.5%'),
     borderWidth: 2,
-    height: 102,
+    height: wp('27.2%'),
     resizeMode: 'cover',
-    width: 102
+    width: wp('27.2%')
   },
   avatarContainer: {
     alignItems: 'center',
@@ -367,9 +367,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column'
   },
+  bodyContainer2: {
+    flex: 1,
+    flexDirection: 'column',
+    marginTop: -5
+  },
   edit: {
     color: COLOR_GREEN,
-    fontSize: 18,
+    fontSize: wp('4.8%'),
     fontFamily: Expo.Font.processFontFamily(FONT_FAMILY)
   },
   editAvatar: {

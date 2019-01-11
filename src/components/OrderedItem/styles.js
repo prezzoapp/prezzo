@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
 
   itemImage: {
     height: wp('26.66%'),
+    width: wp('26.66%'),
     flex: 1,
     resizeMode: 'cover',
     borderRadius: 5
