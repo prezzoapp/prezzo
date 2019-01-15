@@ -11,15 +11,12 @@ export const mapStateToProps = state => {
   const distance = state.get('explore').get('distance');
   const pricing = state.get('explore').get('pricing');
   const isBusy = state.get('explore').get('isBusy');
-  // const currentLocation = state.get('explore').get('currentLocation') &&
-  //   state.get('explore').get('currentLocation').toJS()
 
   return {
     filters,
     distance,
     pricing,
-    isBusy,
-    // currentLocation
+    isBusy
   };
 };
 

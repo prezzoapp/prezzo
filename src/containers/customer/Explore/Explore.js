@@ -65,35 +65,6 @@ class Explore extends PureComponent<Props> {
     }).catch(err => {
       this.showAlert('Uh-oh!', err.message, 300);
     });
-
-    // this.watchID = navigator.geolocation.getCurrentPosition(
-    //   position => {
-    //     this.setState(() => {
-    //       return {
-    //           customRegion: {
-    //             ...this.state.customRegion,
-    //             latitude: position.coords.latitude,
-    //             longitude: position.coords.longitude
-    //           }
-    //         };
-    //       }, () => {
-    //         this.props.listVendors(
-    //           this.state.customRegion.latitude,
-    //           this.state.customRegion.longitude,
-    //           this.props.distance,
-    //           activeFilters.join(','),
-    //           this.props.pricing
-    //         );
-    //       }
-    //     );
-    //   },
-    //   error => console.log(error.message),
-    //   {
-    //     enableHighAccuracy: false,
-    //     timeout: 200000,
-    //     maximumAge: 1000
-    //   }
-    // );
   }
 
   render() {

@@ -11,7 +11,7 @@ import styles from './styles';
 
 const OpenOrdersList = props => {
   const closeTable = () => {
-    props.completeOrder(props.data._id);
+    props.completeOrder();
   };
 
   return (

@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo';
 import styles from './styles';
 
 const TableScreenHeader = props => {
+  console.log(props.vendorData);
   return (
     <View style={styles.header}>
       <LinearGradient

@@ -37,28 +37,30 @@ class Tables extends Component {
   }
 
   componentDidMount() {
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
-    if (this.props.section === 0) {
-      this.props.listOpenTable(this.props.vendorData.get('_id')).then(() => {
-          this.checkResponseMessage();
-        })
-        .catch(e => {
-          this.showAlert(e.message, 300);
-        });
-    } else if (this.props.section === 1) {
-      this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
-          this.checkResponseMessage();
-        })
-        .catch(e => {
-          this.showAlert(e.message, 300);
-        });
-    } else {
-      this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
-          this.checkResponseMessage();
-        })
-        .catch(e => {
-          this.showAlert(e.message, 300);
-        });
+    if(this.props.vendorData) {
+      NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+      if (this.props.section === 0) {
+        this.props.listOpenTable(this.props.vendorData.get('_id')).then(() => {
+            this.checkResponseMessage();
+          })
+          .catch(e => {
+            this.showAlert(e.message, 300);
+          });
+      } else if (this.props.section === 1) {
+        this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
+            this.checkResponseMessage();
+          })
+          .catch(e => {
+            this.showAlert(e.message, 300);
+          });
+      } else {
+        this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
+            this.checkResponseMessage();
+          })
+          .catch(e => {
+            this.showAlert(e.message, 300);
+          });
+      }
     }
   }
 
@@ -361,24 +363,38 @@ class Tables extends Component {
   }
 
   render() {
+    console.log(this.props.vendorData);
     return (
       <View style={styles.container}>
-        <TableScreenHeader
-          vendorData={this.props.vendorData}
-          tableSection={this.props.section}
-          tabName="tables"
-        />
-        <View style={styles.innerContainer}>
-          <TableListHeader
-            currentTab={this.props.section}
-            tabNames={['Open', 'Queue', 'Closed']}
-            currentLayout={this.props.layout}
-            onChangeLayout={layout => this.props.changeLayout(layout)}
-            onListTypeSelection={index => this.onSectionChange(index)}
-          />
-          {this.renderSection()}
-        </View>
-        <VendorSearch />
+        {(() => {
+          if(this.props.vendorData) {
+            return (
+              <View style={{ flex: 1, backgroundColor: 'transparent', alignItems: 'center' }}>
+                <TableScreenHeader
+                  vendorData={this.props.vendorData}
+                  tableSection={this.props.section}
+                  tabName="tables"
+                />
+                <View style={styles.innerContainer}>
+                  <TableListHeader
+                    currentTab={this.props.section}
+                    tabNames={['Open', 'Queue', 'Closed']}
+                    currentLayout={this.props.layout}
+                    onChangeLayout={layout => this.props.changeLayout(layout)}
+                    onListTypeSelection={index => this.onSectionChange(index)}
+                  />
+                  {this.renderSection()}
+                </View>
+                <VendorSearch />
+              </View>
+            )
+          }
+          return (
+            <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={styles.message}>Vendor Account not Found!</Text>
+            </View>
+          );
+        })()}
         <LoadingComponent visible={this.props.isBusy} />
       </View>
     );

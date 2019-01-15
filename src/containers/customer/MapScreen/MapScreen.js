@@ -121,50 +121,9 @@ export default class MapScreen extends Component {
           this.showAlert('Uh-oh!', err.message, 300);
       });
     });
-
-    // this.watchID = navigator.geolocation.getCurrentPosition(
-    //   position => {
-    //     this.setState(
-    //       () => ({
-    //         customRegion: {
-    //           latitude: position.coords.latitude,
-    //           longitude: position.coords.longitude,
-    //           latitudeDelta: 0.00922,
-    //           longitudeDelta: 0.00422
-    //         },
-    //         isGetLocation: true
-    //       }),
-    //       () => {
-    //         this.props
-    //           .listVendors(
-    //             this.state.customRegion.latitude,
-    //             this.state.customRegion.longitude,
-    //             this.props.distance,
-    //             this.activeFilters,
-    //             this.props.pricing
-    //           )
-    //           .then(() => {})
-    //           .catch(e => {
-    //             showGenericAlert('Uh-oh!', e.message || e);
-    //           });
-    //
-    //         console.log('After Getting Correct Coordinates: ');
-    //         console.log(this.state.customRegion);
-    //         console.log('First Time API Called!');
-    //       }
-    //     );
-    //   },
-    //   error => this.getNetworkIP(),
-    //   {
-    //     enableHighAccuracy: false,
-    //     timeout: 200000,
-    //     maximumAge: 1000
-    //   }
-    // );
   }
 
   onRegionChangeComplete(region) {
-    console.log('isFirstLoad: ', this.isFirstLoad);
     if (this.btnClicked === false && this.isFirstLoad === false) {
       this.setState(
         () => ({
@@ -175,6 +134,11 @@ export default class MapScreen extends Component {
           }
         }),
         () => {
+          console.log(
+            'Custom Region Lat / Log In onRegionChangeComplete: ',
+            this.state.customRegion.latitude,
+            this.state.customRegion.longitude
+          );
           this.props.listVendors(
             this.state.customRegion.latitude,
             this.state.customRegion.longitude,
@@ -248,7 +212,7 @@ export default class MapScreen extends Component {
    * return distance in miles from user cureent location
    * if user cureent loc is not available will reurn empty string
    */
-  getDistanceFromCurrentLocation = (coordinates) => {
+  getDistanceFromCurrentLocation = coordinates => {
     if (this.state.customRegion) {
       const userCurrentLat = this.state.customRegion.latitude;
       const userCurrentLong = this.state.customRegion.longitude;
@@ -432,5 +396,9 @@ export default class MapScreen extends Component {
 
 MapScreen.propTypes = {
   data: PropTypes.array.isRequired,
-  listVendors: PropTypes.func.isRequired
+  listVendors: PropTypes.func.isRequired,
+  filters: PropTypes.array.isRequired,
+  distance: PropTypes.number.isRequired,
+  pricing: PropTypes.number.isRequired,
+  disableVendorListItem: PropTypes.func.isRequired
 };
