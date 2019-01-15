@@ -130,7 +130,6 @@ export default class ExploreScreenHeader extends PureComponent {
 
   render() {
     const { filters } = this.props;
-    console.log("Props pricing: ", this.props.pricing);
     return (
       <View style={styles.header}>
         <LinearGradient
@@ -178,7 +177,6 @@ export default class ExploreScreenHeader extends PureComponent {
                   image={item.image}
                   name={item.name}
                   on={item.on}
-                  style={{ marginRight: 12 }}
                   toggleFilter={() => this.toggleFilter(item._id)}
                 />
               }
@@ -209,24 +207,10 @@ export default class ExploreScreenHeader extends PureComponent {
                   return (
                     <View
                       key={item._id}
-                      style={{
-                        flex: 1,
-                        marginVertical: hp('1.84%'),
-                        marginLeft: wp('8%'),
-                        marginRight: wp('10.4%'),
-                        position: 'relative',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between'
-                      }}
+                      style={styles.priceSliderContainer}
                     >
                       <View
-                        style={{
-                          flex: 1,
-                          position: 'absolute',
-                          left: 0,
-                          right: 0,
-                          bottom: -hp('1.66%')
-                        }}
+                        style={styles.priceSliderHolder}
                       >
                         <Slider
                           minimumValue={0}
@@ -235,10 +219,11 @@ export default class ExploreScreenHeader extends PureComponent {
                           minimumTrackTintColor="rgb(47,212,117)"
                           maximumTrackTintColor="rgb(230,230,230)"
                           thumbTintColor="rgb(255,254,255)"
-                          thumbStyle={{ height: wp('4.8%'), width: wp('4.8%') }}
+                          thumbStyle={{ height: 18, width: 18 }}
+                          style={{height: 40}}
                           value={this.props.pricing - 1}
                           onSlidingComplete={value => this.updatePrice(value)}
-                          trackStyle={{ height: hp('0.36%') }}
+                          trackStyle={{ height: 3 }}
                         />
                       </View>
 
@@ -246,7 +231,7 @@ export default class ExploreScreenHeader extends PureComponent {
                         pointerEvents="none"
                         style={{
                           width: wp('13.33%'),
-                          height: hp('5.78%'),
+                          height: 40,
                           flexDirection: 'column',
                           justifyContent: 'space-between',
                           zIndex: 1
@@ -255,9 +240,9 @@ export default class ExploreScreenHeader extends PureComponent {
                         <Text
                           style={{
                             color: COLOR_GREEN,
-                            fontSize: wp('3.2%'),
+                            fontSize: wp('2.66%'),
                             width: wp('13.33%'),
-                            height: hp('2.46'),
+                            height: 20,
                             fontFamily: SF_PRO_DISPLAY_REGULAR
                           }}
                         >
@@ -283,7 +268,7 @@ export default class ExploreScreenHeader extends PureComponent {
                           width: wp('13.33%'),
                           left: price2Indicator,
                           position: 'absolute',
-                          height: 47,
+                          height: 40,
                           flexDirection: 'column',
                           zIndex: 1,
                           justifyContent: 'space-between',
@@ -293,7 +278,7 @@ export default class ExploreScreenHeader extends PureComponent {
                         <Text
                           style={[
                             {
-                              fontSize: wp('3.2%'),
+                              fontSize: wp('2.66%'),
                               height: 20,
                               textAlign: 'center',
                               width: wp('13.33%'),
@@ -329,7 +314,7 @@ export default class ExploreScreenHeader extends PureComponent {
                           width: wp('13.33%'),
                           position: 'absolute',
                           left: price3Indicator,
-                          height: 47,
+                          height: 40,
                           flexDirection: 'column',
                           zIndex: 1,
                           justifyContent: 'space-between',
@@ -339,7 +324,7 @@ export default class ExploreScreenHeader extends PureComponent {
                         <Text
                           style={[
                             {
-                              fontSize: wp('3.2%'),
+                              fontSize: wp('2.66%'),
                               height: 20,
                               marginLeft: 2,
                               textAlign: 'center',
@@ -374,7 +359,7 @@ export default class ExploreScreenHeader extends PureComponent {
                         pointerEvents="none"
                         style={{
                           width: wp('13.33%'),
-                          height: 47,
+                          height: 40,
                           position: 'absolute',
                           left: price4Indicator,
                           flexDirection: 'column',
@@ -386,7 +371,7 @@ export default class ExploreScreenHeader extends PureComponent {
                         <Text
                           style={[
                             {
-                              fontSize: wp('3.2%'),
+                              fontSize: wp('2.66%'),
                               height: 20,
                               textAlign: 'center',
                               width: wp('13.33%'),

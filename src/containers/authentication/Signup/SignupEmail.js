@@ -6,7 +6,9 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  Platform
+  Platform,
+  KeyboardAvoidingView,
+  ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -39,21 +41,33 @@ type Props = {
 const containerPaddingLeftRight: number = 40;
 const containerPaddingTopBottom: number = 80;
 const checkboxSize: number = 25;
+const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4A4A4A',
+    paddingTop: Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0)
+  },
+  scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingTop: hp('3.50%') + (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0)),
-    paddingBottom: containerPaddingTopBottom
+    paddingBottom: hp('5%'),
+    paddingTop: SCROLL_VIEW_TOP_PADDING
   },
-  headerText: {
+  headerTextLine1: {
     fontSize: wp('9.6%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
-    marginBottom: hp('5.04%'),
+    lineHeight: 41,
+    backgroundColor: 'transparent'
+  },
+  headerTextLine2: {
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_REGULAR,
+    color: '#fff',
+    lineHeight: 41,
+    marginBottom: hp('4.55%'),
     backgroundColor: 'transparent'
   },
   navigation: {
@@ -150,39 +164,47 @@ class SignupEmail extends React.Component<Props> {
     return (
       <ImageBackground
         style={styles.container}
-        source={require('../../../../assets/images/bg/authentication.png')}
+        source={require('../../../../assets/images/bg/authentication.jpg')}
       >
-        <Text style={styles.headerText}>And your email?</Text>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior='padding'>
+          <ScrollView
+            contentContainerStyle={styles.scrollView}>
+            <Text style={styles.headerTextLine1}>And, your</Text>
+            <Text style={styles.headerTextLine2}>email?</Text>
 
-        <LoginTextInput
-          type="email"
-          label="Email Address"
-          value={email}
-          onChange={value => this.props.updateEmail(value)}
-        />
+            <LoginTextInput
+              type="email"
+              label="Email Address"
+              value={email}
+              onChange={value => this.props.updateEmail(value)}
+            />
 
-        <TouchableOpacity
-          style={styles.promotionsContainer}
-          onPress={() => this.toggleSubscription()}
-        >
-          <Image style={styles.checkbox} source={this.getCheckboxImage()} />
-          <Text style={styles.promotionalText}>
-            I'd like to receive promotional communications.
-          </Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.promotionsContainer}
+              onPress={() => this.toggleSubscription()}
+            >
+              <Image style={styles.checkbox} source={this.getCheckboxImage()} />
+              <Text style={styles.promotionalText}>
+                I'd like to receive promotional communications.
+              </Text>
+            </TouchableOpacity>
 
-        <NextButton
-          style={nextButtonStyle}
-          disabled={!this.isFormValid()}
-          validate={async () => {
-            const user = await findUser(email);
-            if (user) {
-              throw Error('This email is taken.');
-            }
-          }}
-          onPress={() => this.navigateToPassword()}
-          onError={e => alert('Uh-oh!', e.message || e)}
-        />
+            <NextButton
+              style={nextButtonStyle}
+              disabled={!this.isFormValid()}
+              validate={async () => {
+                const user = await findUser(email);
+                if (user) {
+                  throw Error('This email is taken.');
+                }
+              }}
+              onPress={() => this.navigateToPassword()}
+              onError={e => alert('Uh-oh!', e.message || e)}
+            />
+          </ScrollView>
+        </KeyboardAvoidingView>
       </ImageBackground>
     );
   }

@@ -8,7 +8,10 @@ const labelTextColor = '#A7A7A7';
 const screenWidth = Dimensions.get('window').width;
 const placeholderTextColor = '#A5A5A5';
 const valueTextColor = 'white';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 const ProfileTextInput = props => {
   const {
     onChange,
@@ -61,22 +64,26 @@ const styles = {
     width: 0.85 * screenWidth
   },
   currentValueContainer: {
-    flexDirection: 'row',
-    width: 0.49 * screenWidth
-  },
+    flexDirection: 'row'
+
+      },
   label: {
     color: labelTextColor,
     fontFamily: FONT_FAMILY,
-    fontSize: 15
+    fontSize: wp('4.53%')
   },
   labelContainer: {
     flex: 1,
-    paddingTop: 3
+    paddingTop: 0,
+    width: 0.3 * screenWidth
+
   },
   value: {
     color: valueTextColor,
     fontFamily: FONT_FAMILY,
-    fontSize: 18
+    fontSize: wp('5.33%'),
+    marginRight : 40
+
   },
   valueContainer: {
     borderBottomWidth: 2,

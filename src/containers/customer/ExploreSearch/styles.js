@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 
@@ -31,7 +34,7 @@ const styles = StyleSheet.create({
   message: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
-    fontSize: 20
+    fontSize: wp('5.33%')
   },
 
   flatListStyle: {

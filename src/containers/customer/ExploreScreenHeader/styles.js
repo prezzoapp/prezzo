@@ -40,9 +40,13 @@ const styles = StyleSheet.create({
 
   filter: {
     color: '#fafafa',
-    fontSize: wp('3.46%'),
+    fontSize: wp('4%'),
     backgroundColor: 'transparent',
     fontFamily: SF_PRO_TEXT_SEMI_BOLD
+  },
+
+  dropArrowIcon: {
+    backgroundColor: 'transparent'
   },
 
   locationPin: {
@@ -78,21 +82,21 @@ const styles = StyleSheet.create({
   },
 
   filtersHolder: {
-    paddingVertical: 15
+    paddingVertical: hp('1.84%')
   },
 
   filtersList: {
-    paddingLeft: 12
+    paddingLeft: wp('3.2%')
   },
 
   slidersHolder: {
-    paddingHorizontal: 30,
-    paddingTop: 15
+    paddingHorizontal: wp('8%'),
+    paddingTop: hp('1.84%')
   },
 
   sliderTitleText: {
     color: 'rgb(255,251,245)',
-    fontSize: 11,
+    fontSize: wp('2.93%'),
     fontFamily: SF_PRO_DISPLAY_REGULAR
   },
 
@@ -107,9 +111,30 @@ const styles = StyleSheet.create({
 
   priceBarIndicator: {
     width: 2,
-    height: hp('1.97%'),
+    height: 16,
     zIndex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    marginBottom: -2
+  },
+
+  priceSliderContainer: {
+    flex: 1,
+    height: 40,
+    marginVertical: hp('1.84%'),
+    marginLeft: wp('8%'),
+    marginRight: wp('10.4%'),
+    position: 'relative',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+
+  priceSliderHolder: {
+    flex: 1,
+    height: 40,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: -13.45
   }
 });
 

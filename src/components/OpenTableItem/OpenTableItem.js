@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import styles from './styles';
 import { Entypo } from '../VectorIcons';
 import {
@@ -82,7 +83,7 @@ const OpenTableItem = props => {
         })()}
       </View>
       <View style={styles.arrow}>
-        <Entypo name="chevron-right" size={30} color="white" />
+        <Entypo name="chevron-right" size={wp('8%')} color="white" />
       </View>
     </TouchableOpacity>
   );

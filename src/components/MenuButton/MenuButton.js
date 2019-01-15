@@ -4,6 +4,11 @@ import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '../VectorIcons';
 import PropTypes from 'prop-types'
 import { FONT_FAMILY, FONT_FAMILY_MEDIUM } from '../../services/constants';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+
 
 const buttonBlack = '#424242';
 const shadowColor = 'black';
@@ -28,7 +33,7 @@ const MenuButton = ({ leftIcon, icon, onPress, title, subtitle }: Props) => {
           {!!subtitle && <Text style={styles.buttonSubtitle}>{subtitle}</Text>}
         </View>
         <View style={styles.buttonActionContainer}>
-          <MaterialIcons name={icon} size={40} color='white'/>
+          <MaterialIcons name={icon} size={wp('10.66%')} color='white'/>
         </View>
       </View>
     </TouchableOpacity>
@@ -49,7 +54,7 @@ const styles = {
     height: 0.20 * 0.85 * Dimensions.get('window').width,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
+    marginTop: hp('1.23%'),
     shadowColor,
     shadowOffset: {
       width: 0,
@@ -67,12 +72,12 @@ const styles = {
   buttonSubtitle: {
     color: textColor,
     fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
-    fontSize: 12
+    fontSize: wp('3.2%')
   },
   buttonTitle: {
     color: textColor,
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: 18
+    fontSize: wp('4.8%')
   }
 };
 

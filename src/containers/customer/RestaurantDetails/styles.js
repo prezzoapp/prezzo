@@ -5,8 +5,6 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
-// import { Header } from 'react-navigation';
-
 import {
   FONT_FAMILY,
   COLOR_WHITE,
@@ -41,43 +39,43 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingBottom: 20
+    paddingBottom: hp('2.46%')
   },
 
   headerTextContainer: {
     flex: 1,
-    paddingLeft: 15
+    paddingLeft: wp('4%')
   },
 
   headerTitleText: {
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
-    fontSize: 20,
-    lineHeight: 22
+    fontSize: wp('5.33%'),
+    lineHeight: wp('5.86%')
   },
 
   headerContentTextContainer: {
     flexDirection: 'row',
-    paddingTop: 11
+    paddingTop: wp('2.93%')
   },
 
   headerContentText: {
     color: COLOR_WHITE,
-    fontSize: 18,
-    paddingLeft: 19
+    fontSize: wp('4.8%'),
+    paddingLeft: wp('5.06%')
   },
 
   listHeaderText: {
-    fontSize: 30,
+    fontSize: wp('8%'),
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
-    paddingBottom: 10,
+    paddingBottom: hp('1.23%'),
     textAlign: 'center'
   },
 
   logo: {
-    height: 110,
-    width: 110,
+    height: wp('29.33%'),
+    width: wp('29.33%'),
     borderRadius: 15
   },
 
@@ -102,7 +100,7 @@ const styles = StyleSheet.create({
   headerBtns: {
     paddingVertical: 3,
     alignItems: 'center',
-    width: 80,
+    width: wp('21.33%'),
     borderRadius: 15,
     justifyContent: 'center'
   },
@@ -110,14 +108,14 @@ const styles = StyleSheet.create({
   headerBtnText: {
     color: 'white',
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: 14
+    fontSize: wp('3.73%')
   },
 
   toggleView: {
     position: 'absolute',
     top: 0,
     bottom: 0,
-    width: 80,
+    width: wp('21.33%'),
     borderRadius: 15
   },
 
@@ -129,12 +127,12 @@ const styles = StyleSheet.create({
 
   selectedBtnText: {
     color: '#0DD24A',
-    fontSize: 14,
+    fontSize: wp('3.73%'),
     fontFamily: FONT_FAMILY
   },
 
   bottomViewHolder: {
-    paddingHorizontal: 15,
+    paddingHorizontal: wp('4.53%'),
     height: hp('8.62%'),
     position: 'absolute',
     left: 0,
@@ -152,7 +150,7 @@ const styles = StyleSheet.create({
     fontSize: wp('4.8%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
-    marginRight: wp('10.53%')
+    marginRight: wp('10.66%')
   },
 
   messageHolder: {
@@ -163,7 +161,7 @@ const styles = StyleSheet.create({
 
   message: {
     color: COLOR_WHITE,
-    fontSize: 20
+    fontSize: wp('5.33%')
   },
 
   bottomViewBlurContainer: {

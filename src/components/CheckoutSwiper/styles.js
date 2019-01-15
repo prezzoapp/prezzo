@@ -14,6 +14,11 @@ import {
 } from '../../services/constants';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingBottom: hp('8.62%')
+  },
+
   slide: {
     flex: 1,
     borderTopLeftRadius: 30,
@@ -23,7 +28,8 @@ const styles = StyleSheet.create({
   orderDetails: {
     borderTopWidth: 1,
     borderColor: 'rgba(255,255,255,0.5)',
-    marginHorizontal: wp('6.66%')
+    marginHorizontal: wp('6.66%'),
+    flex: 1
   },
 
   restaurantName: {
@@ -31,7 +37,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
     textAlign: 'center',
-    paddingTop: wp('2%')
+    paddingTop: hp('2.58%')
   },
 
   reviewOrderText: {
@@ -39,12 +45,13 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_TEXT_LIGHT,
     color: COLOR_WHITE,
     textAlign: 'center',
-    paddingTop: wp('1%')
+    paddingTop: hp('1.47%')
   },
 
   flatList: {
-    marginVertical: wp('10%'),
-    maxHeight: hp('20%')
+    marginTop: hp('6.15%')
+    // marginVertical: wp('10%'),
+    // height: hp('30%')
   },
 
   item: {
@@ -65,7 +72,9 @@ const styles = StyleSheet.create({
   reviewOrderFooter: {
     borderTopWidth: 1,
     borderColor: 'rgba(46,213,115, 0.5)',
-    marginHorizontal: wp('4.3%')
+    marginHorizontal: wp('4.3%'),
+    height: hp('16.33%'),
+    justifyContent: 'center'
   },
 
   reviewOrderFooterContainer: {
@@ -73,7 +82,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingHorizontal: wp('2.36%'),
-    paddingTop: wp('4%')
+    paddingTop: hp('2.95%')
   },
 
   reviewOrderFooterText: {
@@ -136,8 +145,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: wp('7%'),
-    paddingBottom: wp('6%')
+    paddingTop: hp('4.80%'),
+    paddingBottom: hp('3.69%')
   },
 
   paymentBtnHolder: {
@@ -166,7 +175,7 @@ const styles = StyleSheet.create({
   },
 
   paymentInfoContainer: {
-    marginHorizontal: wp('6.66%')
+    // marginHorizontal: wp('6.66%')
   },
 
   paymentInfoTitle: {
@@ -179,7 +188,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 99999,
     left: wp('5%'),
-    top: wp('1%'),
+    top: hp('2.29%'),
     padding: 5
   },
 

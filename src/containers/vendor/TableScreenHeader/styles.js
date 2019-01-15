@@ -25,8 +25,9 @@ const styles = StyleSheet.create({
     width: wp('15.73%')
   },
   detailContainer: {
-    paddingTop: Constants.statusBarHeight + hp('7.15%'),
+    paddingTop: hp('11.33%'),
     flexDirection: 'row',
+    paddingBottom: hp('2.09%'),
     paddingHorizontal: wp('4.26%')
   },
   nameContainer: {
@@ -40,14 +41,18 @@ const styles = StyleSheet.create({
     color: 'rgb(50, 209, 119)',
     fontFamily: SF_PRO_TEXT_SEMI_BOLD,
     backgroundColor: 'transparent',
-    flex: 1
+    flex: 1,
+    lineHeight: hp('2.46%'),
+    position: 'relative',
+    bottom: -2
   },
   category: {
     fontFamily: SF_PRO_DISPLAY_SEMI_BOLD,
     color: 'white',
     fontSize: wp('6.6%'),
     backgroundColor: 'transparent',
-    flex: 1
+    flex: 1,
+    lineHeight: hp('5.04%')
   }
 });
 

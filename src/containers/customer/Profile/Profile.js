@@ -18,7 +18,7 @@ class Profile extends Component {
     headerTitle: (
       <Text
         style={{
-          width: wp('70%'),
+          width: wp('50%'),
           fontSize: wp('6.4%'),
           fontFamily: FONT_FAMILY_MEDIUM,
           color: COLOR_WHITE,
@@ -122,15 +122,15 @@ const styles = StyleSheet.create({
   avatar: {
     alignSelf: 'flex-end',
     borderColor: 'white',
-    borderRadius: 51,
+    borderRadius: wp('13.6%'),
     borderWidth: 2,
-    height: 102,
+    height: wp('27.2%'),
     resizeMode: 'cover',
-    width: 102
+    width: wp('27.2%')
   },
   avatarContainer: {
-    height: 102,
-    width: 102
+    height: wp('27.2%'),
+    width: wp('27.2%')
   },
   bodyContainer: {
     alignItems: 'center',
@@ -140,31 +140,35 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flex: 1,
-    marginHorizontal: 25,
-    marginBottom: 10
+    marginHorizontal: wp('6.66%'),
+    marginBottom: hp('1.23%')
   },
   footerContainer: {
     alignSelf: 'stretch',
     justifyContent: 'space-between',
+    alignItems: 'flex-end',
     flexDirection: 'row',
-    height: 'auto',
-    marginTop: 20
+    flex: 1
   },
   footerLeft: {
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
+    marginLeft: 5,
+    marginBottom: hp('10%')
   },
   footerRight: {
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    marginRight: 5,
+    marginBottom: hp('10%')
   },
   footerText: {
     color: 'white',
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: 18
+    fontSize: wp('5.33%')
   },
   headerContainer: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: hp('3.20%'),
+    marginTop: hp('2.38%'),
     marginBottom: hp('3.44%')
   },
   parent: {

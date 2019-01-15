@@ -12,8 +12,6 @@ export default class RatingBar extends Component {
     super(props);
 
     this.state = { itemRating: props.itemRating };
-
-    //this.changeRating = this.changeRating.bind(this);
   }
 
   changeRating(rating) {

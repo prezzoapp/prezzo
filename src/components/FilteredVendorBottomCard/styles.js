@@ -1,6 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+
+import {
   FONT_FAMILY,
   COLOR_WHITE,
   FONT_FAMILY_MEDIUM
@@ -9,30 +14,31 @@ import {
 const styles = StyleSheet.create({
   filteredRestaurantsBottomCardHolder: {
     backgroundColor: 'rgb(51,51,51)',
-    flex: 0.4,
+    height: hp('30.54%'),
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingTop: 5
   },
 
   listItemBtn: {
-    paddingHorizontal: 15,
-    paddingVertical: 15
+    paddingHorizontal: wp('4%'),
+    paddingVertical: hp('1.84%')
   },
 
   titleHolder: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
 
   statusImage: {
-    height: 18,
-    width: 18,
+    height: wp('4.8%'),
+    width: wp('4.8%'),
     resizeMode: 'contain'
   },
 
   name: {
-    fontSize: 20,
+    fontSize: wp('5.33%'),
     fontFamily: FONT_FAMILY,
     color: 'white',
     flex: 1,
@@ -40,7 +46,7 @@ const styles = StyleSheet.create({
   },
 
   distance: {
-    fontSize: 18,
+    fontSize: wp('4.8%'),
     fontFamily: FONT_FAMILY,
     color: 'white'
   },
@@ -55,7 +61,7 @@ const styles = StyleSheet.create({
 
   statusHolder: {
     flexDirection: 'row',
-    paddingTop: 10,
+    paddingTop: wp('2.66%'),
     alignItems: 'center'
   },
 
@@ -67,17 +73,17 @@ const styles = StyleSheet.create({
 
   vendorInfoHolder: {
     flex: 1,
-    padding: 15
+    padding: wp('4%')
   },
 
   contentHolder: {
     flexDirection: 'row',
-    paddingHorizontal: 15
+    paddingHorizontal: wp('4%')
   },
 
   vendorIconHolder: {
-    height: 48,
-    width: 48,
+    height: wp('12.8%'),
+    width: wp('12.8%'),
     borderColor: '#979797',
     borderWidth: 1,
     borderRadius: 5
@@ -91,30 +97,30 @@ const styles = StyleSheet.create({
   },
 
   vendorContentHolder: {
-    paddingLeft: 30,
+    paddingLeft: wp('8%'),
     flex: 1
   },
 
   vendorName: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
-    fontSize: 25,
-    lineHeight: 30,
+    fontSize: wp('6.66%'),
+    lineHeight: hp('3.69%'),
     top: -5
   },
 
   vendorAddress: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: 15,
-    lineHeight: 22,
+    fontSize: wp('4%'),
+    lineHeight: hp('2.70%'),
     top: -2,
     padding: 0,
     margin: 0
   },
 
   vendorInfoSectionSeparator: {
-    marginVertical: 15,
+    marginVertical: wp('4%'),
     alignSelf: 'stretch',
     height: 1,
     backgroundColor: 'rgb(59,97,74)'
@@ -122,7 +128,7 @@ const styles = StyleSheet.create({
 
   milesText: {
     color: '#959595',
-    paddingLeft: 10,
+    paddingLeft: wp('2.66%'),
     fontFamily: FONT_FAMILY,
     fontSize: 17
   },

@@ -195,7 +195,7 @@ class SignupMergeFacebook extends React.Component<Props, State> {
     return (
       <ImageBackground
         style={styles.container}
-        source={require('../../../../assets/images/bg/authentication.png')}
+        source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <Text style={styles.headerText}>
           You're already here!

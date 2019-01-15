@@ -164,7 +164,7 @@ export default class CheckoutSwiper extends Component {
         .reduce((a, v) => [...a, ...v], []);
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         {(() => {
           if (this.index > 0) {
             return (
@@ -188,52 +188,47 @@ export default class CheckoutSwiper extends Component {
           index={0}
         >
           <View style={styles.slide}>
-            <View>
-              <View style={styles.orderDetails}>
-                <Text style={styles.restaurantName}>
-                  {this.props.restaurantName}
-                </Text>
+            <View style={styles.orderDetails}>
+              <Text style={styles.restaurantName}>
+                {this.props.restaurantName}
+              </Text>
 
-                <Text style={styles.reviewOrderText}>Review Order</Text>
-                {(() => {
-                  if (this.props.data.data.menu) {
-                    return (
-                      <FlatList
-                        data={this.cartItems}
-                        showsVerticalScrollIndicator={false}
-                        style={styles.flatList}
-                        keyExtractor={item => item._id}
-                        renderItem={({ item }) => this.renderItem(item)}
-                      />
-                    );
-                  }
-                })()}
+              <Text style={styles.reviewOrderText}>Review Order</Text>
+              {(() => {
+                if (this.props.data.data.menu) {
+                  return (
+                    <FlatList
+                      data={this.cartItems}
+                      showsVerticalScrollIndicator={false}
+                      style={styles.flatList}
+                      contentContainerStyle={{ flexGrow: 1 }}
+                      keyExtractor={item => item._id}
+                      renderItem={({ item }) => this.renderItem(item)}
+                    />
+                  );
+                }
+              })()}
+            </View>
+
+            <View style={styles.reviewOrderFooter}>
+              <View
+                style={[styles.reviewOrderFooterContainer, { paddingTop: 0 }]}
+              >
+                <Text style={styles.reviewOrderFooterText}>SUBTOTAL</Text>
+                <Text
+                  style={[styles.reviewOrderFooterText, { textAlign: 'right' }]}
+                >
+                  ${this.props.data.totalPrice}
+                </Text>
               </View>
 
-              <View style={styles.reviewOrderFooter}>
-                <View style={styles.reviewOrderFooterContainer}>
-                  <Text style={styles.reviewOrderFooterText}>SUBTOTAL</Text>
-                  <Text
-                    style={[
-                      styles.reviewOrderFooterText,
-                      { textAlign: 'right' }
-                    ]}
-                  >
-                    ${this.props.data.totalPrice}
-                  </Text>
-                </View>
-
-                <View style={styles.reviewOrderFooterContainer}>
-                  <Text style={styles.reviewOrderFooterText}>TAX</Text>
-                  <Text
-                    style={[
-                      styles.reviewOrderFooterText,
-                      { textAlign: 'right' }
-                    ]}
-                  >
-                    + $2.43
-                  </Text>
-                </View>
+              <View style={styles.reviewOrderFooterContainer}>
+                <Text style={styles.reviewOrderFooterText}>TAX</Text>
+                <Text
+                  style={[styles.reviewOrderFooterText, { textAlign: 'right' }]}
+                >
+                  + $2.43
+                </Text>
               </View>
             </View>
           </View>
@@ -284,11 +279,8 @@ export default class CheckoutSwiper extends Component {
           </View> */}
 
           <View style={styles.slide}>
-            <View>
-              <View style={styles.orderDetails}>
-                <Text style={styles.restaurantName}>PAYMENT METHOD</Text>
-              </View>
-
+            <View style={styles.orderDetails}>
+              <Text style={styles.restaurantName}>PAYMENT METHOD</Text>
               <View style={styles.paymentScreenContainer}>
                 <View style={styles.paymentScreenBtnsContainer}>
                   <View style={styles.paymentBtnHolder}>
@@ -308,11 +300,7 @@ export default class CheckoutSwiper extends Component {
                       if (this.state.selectedPaymentType === CREDIT_CARD) {
                         return (
                           <View style={styles.checkMarkIconHolder}>
-                            <Feather
-                              name="check"
-                              size={wp('4%')}
-                              color="white"
-                            />
+                            <Feather name="check" size={wp('4%')} color="white" />
                           </View>
                         );
                       }
