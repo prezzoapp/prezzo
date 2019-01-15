@@ -12,10 +12,10 @@ import { FONT_FAMILY_REGULAR } from '../../../services/constants';
 import { getUserInfo } from '../../../services/facebook';
 
 const images = {
-  tutorial1: require('../../../../assets/images/tutorial/tutorial-1.png'),
-  tutorial2: require('../../../../assets/images/tutorial/tutorial-2.png'),
-  tutorial3: require('../../../../assets/images/tutorial/tutorial-3.png'),
-  tutorial4: require('../../../../assets/images/tutorial/tutorial-4.png')
+  tutorial1: require('../../../../assets/images/tutorial/tutorial-1.jpg'),
+  tutorial2: require('../../../../assets/images/tutorial/tutorial-2.jpg'),
+  tutorial3: require('../../../../assets/images/tutorial/tutorial-3.jpg'),
+  tutorial4: require('../../../../assets/images/tutorial/tutorial-4.jpg')
 };
 
 class Tutorial extends React.Component {

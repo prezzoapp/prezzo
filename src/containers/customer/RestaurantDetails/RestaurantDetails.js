@@ -382,7 +382,7 @@ export default class RestaurantDetails extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground
-          source={require('../../../../assets/images/photo_back.png')}
+          source={require('../../../../assets/images/photo_back.jpg')}
           style={styles.photo_back}>
           <LinearGradient
             colors={['transparent', 'black']}

@@ -29,12 +29,13 @@ const styles = StyleSheet.create({
 
   statusImage: {
     resizeMode: 'contain',
-    width: wp('8%'),
-    height: wp('8%')
+    width: wp('12%'),
+    height: wp('12%')
   },
 
   status: {
-    fontSize: wp('3.46%'),
+    fontSize: wp('4%'),
+    marginTop: 1.5,
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE
   },

@@ -33,11 +33,13 @@ const styles = StyleSheet.create({
   },
 
   tabsContainerStyle: {
-    width: wp('49.86%')
+    width: wp('49.86%'),
+    height: 30
   },
 
   orderTabStyle: {
     width: wp('14%'),
+    height: 30,
     backgroundColor: 'transparent'
   },
 
