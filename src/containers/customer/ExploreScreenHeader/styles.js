@@ -3,7 +3,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
 
 import {
   SF_PRO_TEXT_SEMI_BOLD,
@@ -26,13 +25,14 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_TEXT_SEMI_BOLD,
     backgroundColor: 'transparent',
     position: 'relative',
-    top: -hp('0.5%')
+    lineHeight: hp('2.46%')
+    // top: -hp('0.5%')
   },
 
   filterPanel: {
     marginHorizontal: wp('4.26%'),
-    marginTop: Constants.statusBarHeight + hp('6.5%'),
-    height: hp('9%'),
+    marginTop: hp('10.59%'),
+    paddingBottom: hp('0.98%'),
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(46, 213, 115, 0.3)',
     justifyContent: 'center'
@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_DISPLAY_SEMI_BOLD,
     color: 'white',
     fontSize: wp('8%'),
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    lineHeight: hp('5.04%')
   },
 
   filterButtonAndMapIconHolder: {

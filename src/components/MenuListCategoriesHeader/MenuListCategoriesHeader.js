@@ -49,6 +49,7 @@ export default class MenuListCategoriesHeader extends Component {
   render() {
     return (
       <View style={styles.sectionHeader}>
+        <View style={styles.separator} />
         {this.state.editMode ? (
           <TextInput
             style={styles.textInput}

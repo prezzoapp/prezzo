@@ -8,17 +8,22 @@ import {
   InteractionManager
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import MenuItem from '../../../components/MenuItem';
 import {
   COLOR_BLACK,
   FONT_FAMILY_MEDIUM,
-  COLOR_WHITE
+  COLOR_WHITE,
+  SF_PRO_TEXT_BOLD
 } from '../../../services/constants';
 import styles from './styles';
 import MenuListCategoriesHeader from '../../../components/MenuListCategoriesHeader';
 import LoadingComponent from '../../../components/LoadingComponent';
+import Button from '../../../components/Button';
 
 export default class CreateMenu extends Component<Props> {
   static navigationOptions = ({ navigation }) => ({
@@ -65,14 +70,12 @@ export default class CreateMenu extends Component<Props> {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      if(!this.props.menu)
-        this.props.createMenu();
+      if (!this.props.menu) this.props.createMenu();
     });
   }
 
   addCategory(length) {
     const categoryName = `Category # ${length + 1}`;
-    console.log(this.props.menu);
     const tempArray = this.props.menu
      ? this.props.menu.get('categories') &&
        this.props.menu.get('categories').toJS()
@@ -91,7 +94,7 @@ export default class CreateMenu extends Component<Props> {
   renderListFooter = () => (
     <View style={styles.listFooterHolder}>
       <TouchableOpacity
-        style={styles.addAnotherCommonBtn}
+        style={[styles.addAnotherCommonBtn, { paddingBottom: 0 }]}
         activeOpacity={0.6}
         onPress={() => {
           const tempArray = this.props.menu
@@ -205,9 +208,13 @@ export default class CreateMenu extends Component<Props> {
           />
 
           <View style={styles.footerSection}>
-            <TouchableOpacity activeOpacity={0.6} style={styles.submitMenuBtn}>
-              <Text style={styles.submitBtnText}>Submit Menu</Text>
-            </TouchableOpacity>
+            <Button
+              style={submitBtnVendor.styles}
+              textStyle={submitBtnVendor.textStyles}
+              onPress={() => null}
+            >
+              Submit Menu
+            </Button>
           </View>
         </View>
 
@@ -218,6 +225,27 @@ export default class CreateMenu extends Component<Props> {
     );
   }
 }
+
+const submitBtnVendor = {
+  styles: {
+    width: wp('53.33%'),
+    height: hp('4.43'),
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: 'rgb(15,209,74)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent'
+  },
+  textStyles: {
+    color: 'white',
+    fontFamily: SF_PRO_TEXT_BOLD,
+    fontSize: wp('3.46%'),
+    paddingTop: 0,
+    paddingBottom: 0,
+    textAlign: 'center'
+  }
+};
 
 CreateMenu.propTypes = {
   addCategory: PropTypes.func.isRequired,

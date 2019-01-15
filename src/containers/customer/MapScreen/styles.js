@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     bottom:
-      Dimensions.get('window').height - Dimensions.get('window').height * 0.75
+      Dimensions.get('window').height - Dimensions.get('window').height * 0.8
   },
 
   spotText: {

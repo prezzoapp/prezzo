@@ -1,18 +1,25 @@
 // @flow
 import { StyleSheet } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FONT_FAMILY, COLOR_GREEN, FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 export default StyleSheet.create({
   menuItem: {
-    marginBottom: 8
+    marginBottom: hp('3.69%'),
+    marginHorizontal: wp('7.33%')
   },
   twoLineIconBtn: {
     paddingLeft: 10,
     paddingRight: 15,
     paddingVertical: 10
   },
+  twoLineIconBtnImage: {
+    width: wp('5.86%'),
+    height: hp('1.23%'),
+    resizeMode: 'contain'
+  },
   itemContainer: {
-    paddingHorizontal: 15,
+    paddingHorizontal: wp('3.2%'),
     backgroundColor: '#404040',
     borderRadius: 8,
     shadowColor: '#000',
@@ -23,13 +30,12 @@ export default StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 10,
     elevation: 5,
-    paddingBottom: 15
+    paddingVertical: wp('3.2%')
   },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'baseline',
-    paddingTop: 10
+    alignItems: 'flex-start'
   },
   sectionHeaderText: {
     color: '#fff',
@@ -57,17 +63,18 @@ export default StyleSheet.create({
     fontFamily: FONT_FAMILY
   },
   paddingBottom_10: {
-    paddingBottom: 10
+    paddingBottom: hp('2.58%')
   },
   itemImagesWrapper: {
     flexDirection: 'row',
     flexWrap: 'wrap'
-  }, itemImagePickerBtn: {
+  },
+  itemImagePickerBtn: {
     borderRadius: 8,
-    marginRight: 15,
-    width: 81,
-    height: 81,
-    marginTop: 15,
+    marginRight: wp('2.66%'),
+    width: wp('18.66%'),
+    height: wp('18.66%'),
+    marginTop: hp('1.84%'),
     justifyContent: 'center',
     alignItems: 'center'
   },

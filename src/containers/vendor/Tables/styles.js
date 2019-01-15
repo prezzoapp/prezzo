@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 
   separator: {
     height: 1,
-    backgroundColor: '#2ED573',
+    backgroundColor: 'rgba(46, 213, 115, 0.3)',
     width: '100%'
   },
 

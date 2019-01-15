@@ -188,10 +188,17 @@ const styles = StyleSheet.create({
 const buttonStyles = {
   explore: {
     width: '50%',
-    alignSelf: 'center',
+    height: hp('6.65%'),
+    justifyContent: 'center',
     backgroundColor: '#0DD24A',
-    borderColor: '#0DD24A',
-    fontFamily: SF_PRO_TEXT_SEMI_BOLD
+    borderColor: '#0DD24A'
+  },
+
+  exploreText: {
+    fontFamily: SF_PRO_TEXT_SEMI_BOLD,
+    fontSize: wp('5.33%'),
+    paddingTop: 0,
+    paddingBottom: 0
   }
 };
 
@@ -225,6 +232,7 @@ class SignupComplete extends React.Component<Props> {
 
         <Button
           style={buttonStyles.explore}
+          textStyle={buttonStyles.exploreText}
           onPress={() => this.navigateToHome()}
         >
           Explore

@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { TouchableOpacity, Image, View, ActionSheetIOS } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ImagePicker, Permissions } from 'expo';
 import PropTypes from 'prop-types';
 import { Ionicons } from '../VectorIcons';
@@ -126,8 +127,8 @@ export default class ItemImagePicker extends Component {
               title="Delete"
               name="md-close"
               color="black"
-              size={14}
-              style={styles.closeBtnIcon}
+              size={wp('3%')}
+              style={{ padding: 0, top: wp('0.17%'), position: 'relative', left: wp('0.13%') }}
             />
           </TouchableOpacity>
         )}
