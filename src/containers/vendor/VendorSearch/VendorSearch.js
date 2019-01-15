@@ -99,7 +99,7 @@ class VendorSearch extends Component {
                 }
                 return (
                   <View style={styles.loaderView}>
-                    <Text style={styles.message}>No restaurant found.</Text>
+                    <Text style={styles.message}>No orders found.</Text>
                   </View>
                 );
               })()}

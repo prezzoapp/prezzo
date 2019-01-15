@@ -13,7 +13,7 @@ class FilteredVendorBottomCard extends Component {
   constructor() {
     super();
 
-    this.state = { showVendorInfo: false, item: {}, disabled: false };
+    this.state = { showVendorInfo: false, item: {} };
 
     this.callMethod = this.callMethod.bind(this);
   }
@@ -45,52 +45,59 @@ class FilteredVendorBottomCard extends Component {
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={this.renderSeparator}
             renderItem={({ item }) =>
-              <FilteredVendorBottomCardItem item={item}
-                moveToPosition={this.props.moveToPosition}
-                getDistanceFromCurrentLocation={this.props.getDistanceFromCurrentLocation} />
+              <FilteredVendorBottomCardItem
+                item={item}
+                customRegion={this.props.customRegion}
+                moveToPosition={() =>
+                  this.props.moveToPosition(item._id, item.location.coordinates)
+                }
+                getDistanceFromCurrentLocation={
+                  this.props.getDistanceFromCurrentLocation
+                }
+              />
             }
           />
         ) : (
-            <View style={styles.vendorInfoHolder}>
-              <View style={styles.contentHolder}>
-                <View style={styles.vendorIconHolder}>
-                  <Image
-                    source={{ uri: this.state.item.avatarURL }}
-                    style={styles.vendorIcon}
-                  />
-                </View>
-                <View style={styles.vendorContentHolder}>
-                  <Text numberOfLines={1} style={styles.vendorName}>
-                    {this.state.item.name}
-                  </Text>
-                  <Text style={styles.vendorAddress}>
-                    {this.state.item.location.city}, {this.state.item.location.region}
-                  </Text>
-                </View>
+          <View style={styles.vendorInfoHolder}>
+            <View style={styles.contentHolder}>
+              <View style={styles.vendorIconHolder}>
+                <Image
+                  source={{ uri: this.state.item.avatarURL }}
+                  style={styles.vendorIcon}
+                />
               </View>
-
-              <View style={styles.vendorInfoSectionSeparator} />
-
-              <View
-                style={[
-                  styles.contentHolder,
-                  { justifyContent: 'space-between' }
-                ]}>
-                <View style={styles.iconTextHolder}>
-                  <Feather name="corner-up-right" size={20} color="white" />
-                  <Text style={styles.milesText}>0.32 miles away</Text>
-                </View>
-
-                <Button
-                  style={buttonStyles.goBtn}
-                  textStyle={buttonStyles.goBtnText}
-                  onPress={() => this.callMethod(this.state.item)}
-                >
-                  Go
-              </Button>
+              <View style={styles.vendorContentHolder}>
+                <Text numberOfLines={1} style={styles.vendorName}>
+                  {this.state.item.name}
+                </Text>
+                <Text style={styles.vendorAddress}>
+                  {this.state.item.location.city}, {this.state.item.location.region}
+                </Text>
               </View>
             </View>
-          )}
+
+            <View style={styles.vendorInfoSectionSeparator} />
+
+            <View
+              style={[
+                styles.contentHolder,
+                { justifyContent: 'space-between' }
+              ]}>
+              <View style={styles.iconTextHolder}>
+                <Feather name="corner-up-right" size={20} color="white" />
+                <Text style={styles.milesText}>0.32 miles away</Text>
+              </View>
+
+              <Button
+                style={buttonStyles.goBtn}
+                textStyle={buttonStyles.goBtnText}
+                onPress={() => this.callMethod(this.state.item)}
+              >
+                Go
+            </Button>
+            </View>
+          </View>
+        )}
       </View>
     );
   }

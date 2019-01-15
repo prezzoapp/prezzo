@@ -358,15 +358,7 @@ const reducer = (state = INITIAL_STATE, action) => {
 
     case CHECK_OPEN_ORDER_STATUS_SUCCESS:
     case CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_SUCCESS:
-      // const updatedStateAfterOrderStatusCheck =
-      //   (action.payload.get('finalStatus') === 'complete' ||
-      //   action.payload.get('finalStatus') === 'denied')
-      //     ? action.payload.update('order', () => [])
-      //     : action.payload;
-      //
-      // return state
-      //   .update('openTableSelectedItem', () => updatedStateAfterOrderStatusCheck)
-      //   .update('isBusy', () => false);
+      let newlyStateAfterStatusCheck = state;
 
       const updatedStateAfterOrderStatusCheck =
         (action.payload.first().get('status') === 'complete' ||
@@ -374,13 +366,32 @@ const reducer = (state = INITIAL_STATE, action) => {
           ? null
           : action.payload.first();
 
-      console.log("Action.Payload: ");
       console.log(action.payload.toJS());
 
-      return state
-        .update('openTableSelectedItem', () => updatedStateAfterOrderStatusCheck)
-        .update('openOrderFinalStatus', () => action.payload.first().get('status'))
-        .update('isBusy', () => false);
+      if(updatedStateAfterOrderStatusCheck !== null) {
+        const itemIndex =
+          state.get('openTableList').findIndex(ele =>
+            ele.get('_id') === updatedStateAfterOrderStatusCheck.get('_id')
+          );
+
+        const newState = (itemIndex !== -1)
+          ? state.updateIn(['openTableList', itemIndex], () => updatedStateAfterOrderStatusCheck)
+          : state;
+
+        newlyStateAfterStatusCheck = newState
+          .update('openTableSelectedItem', () => updatedStateAfterOrderStatusCheck)
+          .update('openOrderFinalStatus', () => action.payload.first().get('status'))
+          .update('isBusy', () => false);
+      } else {
+        newlyStateAfterStatusCheck = state
+          .update('openTableList', () =>
+            state.get('openTableList').filter(ele => ele.get('_id') !== action.payload.first().get('_id')))
+          .update('openTableSelectedItem', () => null)
+          .update('openOrderFinalStatus', () => action.payload.first().get('status'))
+          .update('isBusy', () => false);
+      }
+
+      return newlyStateAfterStatusCheck;
 
     case CHECK_QUEUE_ORDER_STATUS_SUCCESS:
       if(
@@ -391,35 +402,48 @@ const reducer = (state = INITIAL_STATE, action) => {
         console.log(newQueuedList.toJS());
         return state
           .update('queuedTableList', () => newQueuedList)
-          .update('openOrderFinalStatus', () => action.payload.first().get('status'))
+          .update('openOrderFinalStatus', () => action.payload.get('status'))
           .update('isBusy', () => false);
       }
       return state
-        .update('openOrderFinalStatus', () => action.payload.first().get('status'))
+        .update('openOrderFinalStatus', () => action.payload.get('status'))
         .update('isBusy', () => false);
 
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS:
-      // const updatedStateAfterPayment =
-      //   (action.payload.get('finalStatus') === 'complete')
-      //     ? action.payload.update('order', () => [])
-      //     : action.payload;
-      //
-      // return state
-      //   .update('openTableSelectedItem', () => updatedStateAfterPayment)
-      //   .update('isBusy', () => false);
-
-      console.log("After Payment:");
-      console.log(action.payload.toJS());
+      let newlyStateAfterPayment = state;
 
       const updatedStateAfterPayment =
         (action.payload.get('status') === 'complete')
           ? null
-          : action.payload.first();
+          : action.payload;
 
-      return state
-        .update('openTableSelectedItem', () => updatedStateAfterPayment)
-        .update('openOrderFinalStatus', () => action.payload.get('status'))
-        .update('isBusy', () => false);
+      console.log('Action.Payload After Payment: ');
+      console.log(action.payload.toJS());
+
+      if(updatedStateAfterPayment !== null) {
+        const itemIndex =
+          state.get('openTableList').findIndex(ele =>
+            ele.get('_id') === updatedStateAfterPayment.get('_id')
+          );
+
+        const newState = (itemIndex !== -1)
+          ? state.updateIn(['openTableList', itemIndex], () => updatedStateAfterPayment)
+          : state;
+
+        newlyStateAfterPayment = newState
+          .update('openTableSelectedItem', () => updatedStateAfterPayment)
+          .update('openOrderFinalStatus', () => action.payload.get('status'))
+          .update('isBusy', () => false);
+      } else {
+        newlyStateAfterPayment = state
+          .update('openTableList', () =>
+            state.get('openTableList').filter(ele => ele.get('_id') !== action.payload.get('_id')))
+          .update('openTableSelectedItem', () => null)
+          .update('openOrderFinalStatus', () => action.payload.get('status'))
+          .update('isBusy', () => false);
+      }
+
+      return newlyStateAfterPayment;
 
     case CHANGE_ORDER_STATUS_SUCCESS:
       // console.log(action.payload.toJS());

@@ -39,7 +39,7 @@ export default class ExploreScreenHeader extends PureComponent {
     this.activeFilters = [];
   }
 
-  componentDidMount() { 
+  componentDidMount() {
     this.props.filters.map(item => {
       if(item.on) {
         this.activeFilters.push(item.filterType);
@@ -185,30 +185,27 @@ export default class ExploreScreenHeader extends PureComponent {
             />
 
             <View>
+              <View style={styles.slidersHolder}>
+                <View style={styles.sliderTitleHolder}>
+                  <Text style={styles.sliderTitleText}>Distance</Text>
+                  <Text style={styles.sliderTitleText}>
+                    {this.props.maxDistance}mi
+                  </Text>
+                </View>
+                <Slider
+                  minimumValue={this.props.minDistance}
+                  maximumValue={this.props.maxDistance}
+                  minimumTrackTintColor="rgb(47,212,117)"
+                  maximumTrackTintColor="rgb(230,230,230)"
+                  thumbTintColor="rgb(255,254,255)"
+                  thumbStyle={{ height: 18, width: 18 }}
+                  value={this.props.distance}
+                  trackStyle={{ height: 3 }}
+                  onSlidingComplete={value => this.updateDistance(value)}
+                />
+              </View>
               {filters.map(item => {
-                if (item.filterType === 'openNow' && item.on === true) {
-                  return (
-                    <View key={item._id} style={styles.slidersHolder}>
-                      <View style={styles.sliderTitleHolder}>
-                        <Text style={styles.sliderTitleText}>Distance</Text>
-                        <Text style={styles.sliderTitleText}>
-                          {this.props.maxDistance}mi
-                        </Text>
-                      </View>
-                      <Slider
-                        minimumValue={this.props.minDistance}
-                        maximumValue={this.props.maxDistance}
-                        minimumTrackTintColor="rgb(47,212,117)"
-                        maximumTrackTintColor="rgb(230,230,230)"
-                        thumbTintColor="rgb(255,254,255)"
-                        thumbStyle={{ height: 18, width: 18 }}
-                        value={this.props.distance}
-                        trackStyle={{ height: 3 }}
-                        onSlidingComplete={value => this.updateDistance(value)}
-                      />
-                    </View>
-                  );
-                } else if (item.filterType === 'price' && item.on === true) {
+                if (item.filterType === 'price' && item.on === true) {
                   return (
                     <View
                       key={item._id}

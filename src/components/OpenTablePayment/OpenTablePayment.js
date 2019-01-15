@@ -25,7 +25,7 @@ const OpenTablePayment = props => {
         if (item.status !== 'denied') {
           return item.price;
         }
-        return null;
+        return parseFloat(0);
       })
     .reduce((previous, next) => {
         return parseFloat(previous + next);
@@ -206,14 +206,12 @@ const OpenTablePayment = props => {
                 alignItems: 'center',
                 justifyContent: props.innerTab !== 'closed' ? 'space-between' : 'center'
               }}
-              pointerEvents="none"
             >
               {props.innerTab !== 'closed' && (
                 <Button
                   style={buttonStyles.requestBtn}
                   textStyle={buttonStyles.requestBtnText}
-                  onPress={() => null}
-                  // onPress={() => props.changeOrderStatus(props.data._id, 'complete')}
+                  onPress={() => props.completeOrder()}
                 >
                   Request
                 </Button>

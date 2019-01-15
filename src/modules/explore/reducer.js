@@ -108,11 +108,12 @@ export default (state = INITIAL_STATE, action) => {
     case DISABLE_VENDOR_LIST_ITEM:
       const updatedRest = state.get('restaurants').map(ele => {
         if(ele.get('_id') === payload) {
-          return ele.get('disable', true);
+          return ele.update('disable', () => true);
         }
+        return ele.update('disable', () => false);
       });
       console.log(updatedRest.toJS());
-      return state.update('restaurants', () => payload);
+      return state.update('restaurants', () => updatedRest);
     default:
       return state;
   }
