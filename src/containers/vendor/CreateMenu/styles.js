@@ -11,8 +11,7 @@ import {
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLOR_BLACK,
-    paddingHorizontal: wp('7.46%')
+    backgroundColor: COLOR_BLACK
   },
 
   sectionListStyle: {
@@ -54,7 +53,7 @@ export default StyleSheet.create({
   },
 
   addAnotherCommonBtn: {
-    paddingVertical: 10,
+    paddingBottom: hp('2.21%'),
     alignSelf: 'flex-start'
   },
 
@@ -65,24 +64,13 @@ export default StyleSheet.create({
   },
 
   footerSection: {
-    padding: 15,
-    justifyContent: 'center'
+    paddingVertical: hp('2.77%'),
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
-  submitMenuBtn: {
-    alignSelf: 'center',
-    paddingHorizontal: 40,
-    paddingVertical: 8,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: 'rgb(15,209,74)',
-    elevation: 2
-  },
-
-  submitBtnText: {
-    color: 'white',
-    fontFamily: SF_PRO_TEXT_BOLD,
-    fontSize: 15
+  sectionListStyle: {
+    paddingBottom: hp('2.77%')
   },
 
   controlBtnsPanel: {
@@ -109,5 +97,13 @@ export default StyleSheet.create({
   innerContainer: {
     flex: 1,
     marginBottom: hp('9%')
+  },
+
+  listFooterHolder: {
+    paddingHorizontal: wp('7.33%')
+  },
+
+  sectionFooterHolder: {
+    paddingHorizontal: wp('7.33%')
   }
 });

@@ -47,13 +47,13 @@ const styles = StyleSheet.create({
 
   flatListContentContainerStyle: {
     marginHorizontal: wp('4%'),
-    paddingTop: hp('2%'),
+    // paddingTop: hp('2%'),
     paddingBottom: hp('9%'),
     flexGrow: 1
   },
 
   flatListStyle: {
-    marginTop: Constants.statusBarHeight + hp('15.5%')
+    marginTop: hp('19.45%')
   }
 });
 

@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { FONT_FAMILY, FONT_FAMILY_MEDIUM } from '../../services/constants';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+import { FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -9,7 +12,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 15,
+    marginTop: hp('1.84%'),
     marginHorizontal: 1,
     shadowOffset: { width: 1, height: 6 },
     shadowColor: 'black',
@@ -30,18 +33,13 @@ const styles = StyleSheet.create({
   },
   userName: {
     color: 'white',
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),
+    fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('5.33%')
   },
   tableId: {
     color: 'white',
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
+    fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('3.73%')
-  },
-  statusText: {
-    color: '#2ED573',
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
-    marginLeft: 5
   },
   statusContainer: {
     flexDirection: 'row',

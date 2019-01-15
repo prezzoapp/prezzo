@@ -123,9 +123,6 @@ export default class MenuItem extends Component {
 
   render() {
     const itemImages = this.state.imageArray;
-    // const { active } = this.props;
-    //
-    // console.log(this.state);
 
     return (
       <View style={styles.menuItem}>
@@ -161,7 +158,7 @@ export default class MenuItem extends Component {
           <TouchableOpacity activeOpacity={0.6} style={styles.twoLineIconBtn}>
             <Image
               source={require('../../../assets/images/two-lines-icon.png')}
-              style={{ width: 30, height: 10 }}
+              style={styles.twoLineIconBtnImage}
             />
           </TouchableOpacity>
         </View>
@@ -170,7 +167,7 @@ export default class MenuItem extends Component {
           <View
             style={[
               styles.sectionHeader,
-              !this.state.editItem && { paddingBottom: 10 }
+              !this.state.editItem && styles.paddingBottom_10
             ]}
           >
             {this.state.editItem ? (
@@ -235,20 +232,20 @@ export default class MenuItem extends Component {
 
           <View style={[styles.itemImagesWrapper]}>
             {itemImages && itemImages.map((item, index) => (
-                <MenuItemImage
-                  key={index}
-                  editable={this.state.editItem}
-                  image={item}
-                  addNewImageComponent={imageURL =>
-                    this.props.addNewImageComponent(imageURL)
-                  }
-                  deleteImageComponent={imageURL =>
-                    this.props.deleteImageComponent(imageURL)
-                  }
-                  uploadImage={(uri, size, mime, name, type, acl) =>
-                    this.props.uploadImage(uri, size, mime, name, type, acl)
-                  }
-                />
+              <MenuItemImage
+                key={index}
+                editable={this.state.editItem}
+                image={item}
+                addNewImageComponent={imageURL =>
+                  this.props.addNewImageComponent(imageURL)
+                }
+                deleteImageComponent={imageURL =>
+                  this.props.deleteImageComponent(imageURL)
+                }
+                uploadImage={(uri, size, mime, name, type, acl) =>
+                  this.props.uploadImage(uri, size, mime, name, type, acl)
+                }
+              />
             ))}
 
             <TouchableOpacity

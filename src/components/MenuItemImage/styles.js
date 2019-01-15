@@ -1,37 +1,35 @@
 // @flow
 import { StyleSheet } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 export default StyleSheet.create({
   itemImagePickerBtn: {
     borderRadius: 12,
-    marginRight: 15,
+    marginRight: wp('2.66%'),
     elevation: 5,
-    width: 81,
-    height: 81,
-    marginTop: 15
+    width: wp('18.66%'),
+    height: wp('18.66%'),
+    marginTop: hp('1.84%')
   },
   itemImage: {
     resizeMode: 'cover',
     borderRadius: 8,
-    width: 81,
-    height: 81,
+    width: wp('18.66%'),
+    height: wp('18.66%'),
     borderWidth: 1,
     borderColor: 'rgb(164,164,164)'
   },
   closeBtn: {
-    width: 18,
-    height: 18,
-    borderRadius: 10,
+    width: wp('4%'),
+    height: wp('4%'),
+    borderRadius: wp('2%'),
     backgroundColor: 'white',
     position: 'absolute',
-    top: 8,
-    right: 8,
+    top: 4,
+    right: 4,
     zIndex: 9999,
     elevation: 5,
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  closeBtnIcon: {
-    fontWeight: 'bold'
   }
 });
