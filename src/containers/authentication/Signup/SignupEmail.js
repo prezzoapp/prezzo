@@ -164,7 +164,7 @@ class SignupEmail extends React.Component<Props> {
     return (
       <ImageBackground
         style={styles.container}
-        source={require('../../../../assets/images/bg/authentication.png')}
+        source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
           style={{ flex: 1 }}

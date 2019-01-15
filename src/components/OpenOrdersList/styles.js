@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
 
   footerContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
     height: hp('12.80%')
   }
 });

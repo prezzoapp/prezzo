@@ -100,7 +100,7 @@ class Login extends React.Component<Props, State> {
     return (
       <ImageBackground
         style={styles.container}
-        source={require('../../../../assets/images/bg/authentication.png')}
+        source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
           style={{ flex: 1 }}

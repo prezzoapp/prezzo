@@ -8,15 +8,15 @@ export default StyleSheet.create({
   avatar: {
     alignSelf: 'flex-end',
     borderColor: 'white',
-    borderRadius: 51,
+    borderRadius: wp('13.5%'),
     borderWidth: 2,
-    height: 102,
+    height: wp('27.2%'),
     resizeMode: 'cover',
-    width: 102
+    width: wp('27.2%')
   },
   avatarContainer: {
-    height: 102,
-    width: 102
+    height: wp('27.2%'),
+    width: wp('27.2%')
   },
   bodyContainer: {
     alignItems: 'center',
@@ -27,14 +27,14 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginBottom: hp('9%'),
     marginTop: hp('6%'),
-    marginHorizontal: 25
+    marginHorizontal: wp('6.66%')
   },
   footerContainer: {
     alignSelf: 'stretch',
     justifyContent: 'space-between',
     flexDirection: 'row',
     height: 'auto',
-    marginTop: 20
+    marginTop: hp('2.46%')
   },
   footerLeft: {
     alignSelf: 'flex-start'
@@ -45,14 +45,14 @@ export default StyleSheet.create({
   footerText: {
     color: 'white',
     fontFamily: FONT_FAMILY,
-    fontSize: 18
+    fontSize: wp('4.8%')
   },
   headerContainer: {
     alignItems: 'center',
     justifyContent: 'space-between',
     // marginTop: Header.HEIGHT + 10,
-    marginTop: 10,
-    marginBottom: 20
+    marginTop: hp('1.23%'),
+    marginBottom: hp('2.46%')
   },
   parent: {
     alignItems: 'center',
