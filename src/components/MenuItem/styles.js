@@ -6,7 +6,7 @@ import { FONT_FAMILY, COLOR_GREEN, FONT_FAMILY_MEDIUM } from '../../services/con
 export default StyleSheet.create({
   menuItem: {
     marginBottom: hp('3.69%'),
-    marginHorizontal: wp('7.33%')
+    marginHorizontal: wp('7.73%')
   },
   twoLineIconBtn: {
     paddingLeft: 10,

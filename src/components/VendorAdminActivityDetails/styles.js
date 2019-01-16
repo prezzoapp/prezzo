@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2B2C2C',
-    paddingBottom: hp('9%')
+    paddingBottom: hp('9%'),
+    paddingTop: hp('1.97%')
   },
 
   tabBarUnderlineStyle: {
@@ -26,9 +27,9 @@ const styles = StyleSheet.create({
   scrollableTabStyle: {
     width: wp('49.86%'),
     marginHorizontal: wp('100%') / 4,
-    backgroundColor: 'transparent',
-    height: hp('6.03%'),
-    borderWidth: 0
+    height: 23,
+    borderWidth: 0,
+    backgroundColor: 'transparent'
   },
 
   tabsContainerStyle: {
@@ -44,7 +45,9 @@ const styles = StyleSheet.create({
     color: 'white',
     width: wp('14%'),
     textAlign: 'center',
-    fontFamily: FONT_FAMILY_MEDIUM
+    fontFamily: FONT_FAMILY_MEDIUM,
+    fontSize: wp('3.46%'),
+    top: -hp('0.49%')
   },
 
   paymentTabStyle: {
@@ -57,7 +60,9 @@ const styles = StyleSheet.create({
     width: wp('20%'),
     textAlign: 'center',
     backgroundColor: 'transparent',
-    fontFamily: FONT_FAMILY_MEDIUM
+    fontFamily: FONT_FAMILY_MEDIUM,
+    fontSize: wp('3.46%'),
+    top: -hp('0.49%')
   },
 
   footerContainer: {

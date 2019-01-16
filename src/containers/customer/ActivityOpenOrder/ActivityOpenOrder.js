@@ -238,21 +238,25 @@ class ActivityOpenOrder extends Component {
   listEmptyComponent() {
     return (
       <View style={{ alignItems: 'center' }}>
-        <Text style={styles.message}>No pending order. You can create new one!</Text>
+        <Text style={styles.message}>
+          No pending order. You can create new one!
+        </Text>
       </View>
     );
   }
 
   renderHeader(data) {
     if (data.length !== 0 && data[0].items.length !== 0) {
-      return <Text style={styles.tableCode}>Table 9192</Text>;
+      return (
+        <View style={styles.listHeaderHolder}>
+          <Text style={styles.tableCode}>Table 9192</Text>
+        </View>
+      );
     }
     return null;
   }
 
   render() {
-    // console.log("Props.Data");
-    // console.log(this.props.data);
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
@@ -267,7 +271,8 @@ class ActivityOpenOrder extends Component {
                   this.props.data[0].items.length !== 0
                     ? null
                     : 'center'
-            }]}
+              }
+            ]}
             keyExtractor={item => item._id.toString()}
             showsVerticalScrollIndicator={false}
             data={
@@ -332,7 +337,7 @@ const buttonStyles = {
     width: wp('37.33%'),
     height: hp('4.92%'),
     justifyContent: 'center',
-    borderRadius: 8
+    borderRadius: wp('2.66%')
   },
 
   callWaiterBtnText: {

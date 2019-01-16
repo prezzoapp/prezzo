@@ -8,19 +8,14 @@ import { Header } from 'react-navigation';
 
 import {
   FONT_FAMILY_MEDIUM,
-  SF_PRO_DISPLAY_BOLD,
-  SF_PRO_TEXT_LIGHT
+  SF_PRO_DISPLAY_BOLD
 } from '../../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2B2C2C',
-    paddingBottom: hp('9%'),
-    paddingTop:
-      Header.HEIGHT +
-      Constants.statusBarHeight -
-      (Platform.OS === 'ios' ? 20 : 0)
+    paddingBottom: hp('9%')
   },
 
   absoluteView: {
@@ -35,15 +30,14 @@ const styles = StyleSheet.create({
   tabBarUnderlineStyle: {
     backgroundColor: '#2ED573',
     borderRadius: 5,
-    height: 2,
-    bottom: hp('0.6%')
+    height: 2
   },
 
   scrollableTabStyle: {
     width: wp('49.86%'),
     marginHorizontal: wp('100%') / 4,
     backgroundColor: 'transparent',
-    height: hp('6.03%'),
+    height: 23,
     borderWidth: 0
   },
 
@@ -65,7 +59,8 @@ const styles = StyleSheet.create({
     width: wp('24.33%'),
     textAlign: 'center',
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: wp('3.46%')
+    fontSize: wp('3.46%'),
+    top: -hp('0.49%')
   },
 
   historyTabStyle: {
@@ -78,11 +73,13 @@ const styles = StyleSheet.create({
     width: wp('16%'),
     textAlign: 'center',
     backgroundColor: 'transparent',
-    fontFamily: FONT_FAMILY_MEDIUM
+    fontFamily: FONT_FAMILY_MEDIUM,
+    top: -hp('0.49%'),
+    fontSize: wp('3.46%')
   },
 
   headerText: {
-    fontSize: wp('8.8%'),
+    fontSize: wp('9.6%'),
     color: 'white',
     fontFamily: SF_PRO_DISPLAY_BOLD,
     paddingLeft: wp('6.93%')

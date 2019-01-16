@@ -16,17 +16,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#2B2C2C'
   },
 
-  Title: {
+  listHeaderContainer: {
+    paddingTop: hp('1.97%')
+  },
+
+  listHeaderTitle: {
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: wp('8%'),
-    color: 'white'
+    fontSize: wp('6.4%'),
+    color: 'white',
+    textAlign: 'center'
   },
 
   subTitle: {
     fontFamily: FONT_FAMILY_REGULAR,
     fontSize: wp('3.73%'),
     color: 'white',
-    paddingTop: hp('2.46%')
+    lineHeight: hp('2.7%'),
+    textAlign: 'center'
+  },
+
+  listHeaderSubtitle: {
+    fontFamily: FONT_FAMILY_REGULAR,
+    fontSize: wp('3.73%'),
+    color: 'white',
+    lineHeight: hp('2.7%'),
+    textAlign: 'center',
+    marginTop: hp('2.46%'),
+    marginBottom: hp('0.36%')
   },
 
   tabBarUnderLineStyle: {
@@ -39,20 +55,23 @@ const styles = StyleSheet.create({
 
   innerContainer: {
     marginTop: hp('20.68%'),
-    width: wp('91.46%')
+    width: '100%',
+    flex: 1
   },
 
   flatListStyle: {
     paddingTop: hp('0.61%'),
-    paddingBottom: hp('11%')
+    paddingBottom: hp('11%'),
+    paddingHorizontal: wp('4.26%')
   },
+
   title: {
-    fontSize: wp('6.4%'),
+    fontSize: wp('8%'),
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
     textAlign: 'center',
-    marginTop: hp('3.69%'),
-    marginBottom: hp('1.44%')
+    marginTop: hp('1.97%'),
+    marginBottom: hp('0.98%')
   },
 
   message: {
@@ -61,6 +80,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     textAlign: 'center'
   },
+
   listHeader: {
     alignItems: 'center'
   },
@@ -68,6 +88,7 @@ const styles = StyleSheet.create({
   listFooter: {
     alignItems: 'center'
   },
+
   submitReviewBtn: {
     backgroundColor: '#2ED573',
     borderColor: '#0DD24A',
@@ -106,6 +127,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     justifyContent: 'center'
   },
+
   box1: {
     position: 'absolute',
     justifyContent: 'center',
@@ -114,19 +136,16 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    zIndex: 9999,
-    opacity: 0.99
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    zIndex: 99
   },
 
   box2: {
     position: 'absolute',
-    top: 40,
+    top: hp('5.41%'),
     marginHorizontal: wp('3.73%'),
-    bottom: hp('11%'),
-    zIndex: 9999,
-    backgroundColor: 'grey',
-    opacity: 0.9,
+    bottom: hp('9.98%'),
+    zIndex: 100,
     borderRadius: 10
   },
 
@@ -137,6 +156,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     borderRadius: 10
+  },
+
+  backBtn: {
+    position: 'absolute',
+    top: hp('2.83%'),
+    left: wp('4.53%')
   }
 });
 
