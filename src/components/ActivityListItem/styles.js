@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    paddingBottom: hp('3.44%')
+    paddingBottom: hp('2.83%')
   },
 
   leftSide: {
@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
 
   statusImage: {
     resizeMode: 'contain',
-    width: wp('12%'),
-    height: wp('12%')
+    width: wp('9.33%'),
+    height: wp('9.33%')
   },
 
   status: {

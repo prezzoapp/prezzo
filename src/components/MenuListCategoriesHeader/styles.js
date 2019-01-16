@@ -18,7 +18,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     backgroundColor: COLOR_BLACK,
-    paddingHorizontal: wp('7.33%')
+    paddingHorizontal: wp('7.73%')
   },
 
   separator: {

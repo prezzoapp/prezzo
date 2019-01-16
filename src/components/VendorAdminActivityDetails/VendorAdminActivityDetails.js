@@ -69,7 +69,7 @@ export default class VendorAdminActivityDetails extends Component {
       headerTintColor: 'white',
       headerStyle: {
         backgroundColor: '#1F1F1F',
-        borderBottomColor: 'transparent',
+        borderBottomColor: '#2ED573',
         height: hp('10%')
       }
     }

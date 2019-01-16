@@ -38,8 +38,8 @@ const buttonStyles = {
     height: hp('4.92%'),
     justifyContent: 'center',
     borderRadius: 8,
-    marginTop: hp('5.78%'),
-    marginBottom: hp('3.81%')
+    marginTop: hp('3.69%'),
+    marginBottom: hp('3.30%')
   },
 
   submitReviewBtnText: {
@@ -62,7 +62,7 @@ const buttonStyles = {
   },
 
   closeReviewBtnText: {
-    fontSize: wp('5.33%'),
+    fontSize: wp('4.26%'),
     fontFamily: FONT_FAMILY,
     color: 'rgba(255,255,255,0.5)',
     paddingTop: 0,
@@ -231,17 +231,12 @@ class Activity extends Component {
   };
 
   renderHeader = () => (
-    <View
-      style={{
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      <Text style={styles.title}>Review User Photos</Text>
+    <View style={styles.listHeaderContainer}>
+      <Text style={styles.listHeaderTitle}>Review User Photos</Text>
       <Text style={styles.message}>Tap to select the user submitted</Text>
       <Text style={styles.message}>photos you approve and then hit</Text>
       <Text style={styles.message}>Save To Menu</Text>
-      <Text style={styles.subTitle}>Tap and hold to view full screen.</Text>
+      <Text style={styles.listHeaderSubtitle}>Tap and hold to view full screen.</Text>
     </View>
   );
 
@@ -310,7 +305,7 @@ class Activity extends Component {
                   ]}
                 >
                   <View style={styles.box2}>
-                    <BlurView style={styles.blurView} tint="dark" intensity={95} />
+                    <BlurView style={styles.blurView} tint="default" intensity={95} />
                     <View
                       style={{
                         alignItems: 'center',
@@ -319,7 +314,7 @@ class Activity extends Component {
                         paddingBottom: 5
                       }}
                     >
-                      <View style={{ position: 'absolute', left: 10 }}>
+                      <View style={styles.backBtn}>
                         <TouchableOpacity onPress={() => this.hide()}>
                           <Feather
                             title="Add More"
@@ -330,33 +325,24 @@ class Activity extends Component {
                           />
                         </TouchableOpacity>
                       </View>
-                      <Text style={styles.Title}>Victor Franco</Text>
+                      <Text style={styles.title}>Victor Franco</Text>
                       <Text style={styles.subTitle}>Table 5932 - 3 Photos</Text>
                     </View>
-                    <View
-                      style={{
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flex: 1
-                      }}
-                    >
-                      <FlatList
-                        keyExtractor={(item, index) => index.toString()}
-                        showsVerticalScrollIndicator={false}
-                        data={this.state.data}
-                        ListHeaderComponent={() => this.renderHeader()}
-                        ListFooterComponent={() => this.renderFooter()}
-                        renderItem={({ item }) => (
-                          <ReviewUserPhoto
-                            item={item}
-                            callbackFromParent={(itemIndex, imageIndex) =>
-                              this.myCallback(itemIndex, imageIndex)
-                            }
-                          />
-                        )}
-                      />
-                    </View>
+                    <FlatList
+                      keyExtractor={(item, index) => index.toString()}
+                      showsVerticalScrollIndicator={false}
+                      data={this.state.data}
+                      ListHeaderComponent={() => this.renderHeader()}
+                      ListFooterComponent={() => this.renderFooter()}
+                      renderItem={({ item }) => (
+                        <ReviewUserPhoto
+                          item={item}
+                          callbackFromParent={(itemIndex, imageIndex) =>
+                            this.myCallback(itemIndex, imageIndex)
+                          }
+                        />
+                      )}
+                    />
                   </View>
                 </Animated.View>
 

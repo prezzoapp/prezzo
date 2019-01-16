@@ -5,25 +5,20 @@ import {
 } from 'react-native-responsive-screen';
 
 import { COLOR_WHITE, FONT_FAMILY } from '../../services/constants';
-import { COLOR_GREEN } from '../../services/constants';
-
 
 const styles = StyleSheet.create({
   item: {
     backgroundColor: '#292828',
-    paddingTop: hp('1.47%'),
-    paddingBottom: hp('3.44%'),
-    paddingHorizontal: wp('3.44%'),
+    paddingTop: hp('1.97%'),
+    paddingBottom: wp('7.46%'),
+    paddingHorizontal: wp('7.46%'),
     marginTop: hp('3.07%'),
-    marginLeft: 16,
-    marginRight: 10
+    marginHorizontal: wp('3.73%'),
+    borderRadius: 8
   },
 
   bigImageHolder: {
-    height: wp('36%'),
-    backgroundColor: 'transparent',
-    width: wp('38%'),
-    marginTop: 10
+    marginTop: hp('3.57%')
   },
 
   linearGradient: {
@@ -34,10 +29,9 @@ const styles = StyleSheet.create({
     height: wp('32%'),
     width: wp('32%'),
     overflow: 'hidden',
-    justifyContent: 'flex-end',
     backgroundColor: 'transparent',
     marginTop: 10,
-    marginLeft: 11,
+    marginRight: wp('2.66%'),
     borderRadius: 8,
     resizeMode: 'cover'
   },
@@ -78,6 +72,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end'
+  },
+
+  checkImageContainer: {
+    height: wp('8%'),
+    width: wp('8%'),
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 0,
+    right: 0
+  },
+
+  checkImage: {
+    height: wp('8%'),
+    width: wp('8%'),
+    resizeMode: 'contain'
   }
 });
 

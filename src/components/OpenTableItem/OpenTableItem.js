@@ -10,6 +10,14 @@ import {
 
 const OpenTableItem = props => {
   const { item, index } = props.data;
+  let itemImagesLength = 0;
+
+  item.items.map(ele => {
+    ele.imageURLs.map(image => {
+      itemImagesLength += 1;
+    });
+  });
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -76,7 +84,7 @@ const OpenTableItem = props => {
               >
                 {props.innerTabName !== 'photoReview'
                   ? ' •  Waiter Reqested'
-                  : <Text style={{ fontFamily: FONT_FAMILY_MEDIUM }}>- {item.items.length} Photo(s)</Text>}
+                  : <Text style={{ fontFamily: FONT_FAMILY_MEDIUM }}>- {itemImagesLength} Photo(s)</Text>}
               </Text>
             </View>
           );
