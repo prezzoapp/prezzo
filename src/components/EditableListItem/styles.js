@@ -1,5 +1,6 @@
 // @flow
 import { StyleSheet } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FONT_FAMILY } from '../../services/constants';
 
 export default StyleSheet.create({
@@ -8,7 +9,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     height: 'auto',
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
+    marginBottom: hp('2.46%')
   },
   icon: {
     height: '100%',
@@ -25,9 +27,7 @@ export default StyleSheet.create({
     color: '#fff',
     flex: 1,
     fontFamily: FONT_FAMILY,
-    fontSize: 16,
-    marginBottom: 5,
-    marginTop: 5
+    fontSize: 16
   },
 
   expDate: {

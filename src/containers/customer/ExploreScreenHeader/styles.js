@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     position: 'relative',
     lineHeight: hp('2.46%')
-    // top: -hp('0.5%')
   },
 
   filterPanel: {
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
 
   priceBarIndicator: {
     width: 2,
-    height: 16,
+    height: 12,
     zIndex: 1,
     backgroundColor: 'white',
     marginBottom: -2
@@ -120,7 +119,7 @@ const styles = StyleSheet.create({
 
   priceSliderContainer: {
     flex: 1,
-    height: 40,
+    height: 31,
     marginVertical: hp('1.84%'),
     marginLeft: wp('8%'),
     marginRight: wp('10.4%'),
@@ -131,11 +130,11 @@ const styles = StyleSheet.create({
 
   priceSliderHolder: {
     flex: 1,
-    height: 40,
+    height: 31,
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: -13.45
+    bottom: -11.5
   }
 });
 

@@ -14,7 +14,7 @@ import ExploreReducer from '../modules/explore';
 import RestaurantDetails from '../modules/restaurant';
 import paymentMethods from '../modules/paymentMethods';
 import TableReducer from '../modules/table';
-import DeliveryReducer from '../modules/delivery';
+// import DeliveryReducer from '../modules/delivery';
 import VendorActivityReducer from '../modules/vendorActivity';
 import UserActivityReducer from '../modules/userActivity';
 
@@ -31,7 +31,7 @@ const reducers = {
   restaurant: RestaurantDetails,
   paymentMethods,
   table: TableReducer,
-  delivery: DeliveryReducer,
+  // delivery: DeliveryReducer,
   vendorActivity: VendorActivityReducer,
   userActivity: UserActivityReducer
 };

@@ -15,7 +15,6 @@ import { Picker, Spinner } from 'native-base';
 import Slider from 'react-native-slider';
 import { ImagePicker, Permissions } from 'expo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { BoxShadow } from 'expo-react-native-shadow';
 import { Ionicons, Feather } from '../../../components/VectorIcons';
 import { getTimeStampString } from '../../../services/commonFunctions';
 import ProfileTextInput from '../../../components/ProfileTextInput';
@@ -23,7 +22,7 @@ import ProfileDataField from '../../../components/ProfileDataField';
 import EditableListItem from '../../../components/EditableListItem';
 import showGenericAlert from '../../../components/GenericAlert';
 import { restaurantCategories, COLOR_GREEN } from '../../../services/constants';
-import styles, { stylesRaw, avatarShadowProps } from './styles';
+import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
@@ -36,7 +35,8 @@ import {
   FONT_FAMILY_MEDIUM,
   FONT_FAMILY,
   COLOR_BLACK,
-  COLOR_WHITE
+  COLOR_WHITE,
+  SF_PRO_DISPLAY_REGULAR
 } from '../../../services/constants';
 
 export default class AccountInfo extends React.Component {
@@ -587,27 +587,24 @@ export default class AccountInfo extends React.Component {
           </View>
 
           <View style={styles.header}>
-            <BoxShadow setting={avatarShadowProps}
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.avatarWrap}
+              onPress={() => this.showAvatarActionSheet()}
             >
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.avatarWrap}
-                onPress={() => this.showAvatarActionSheet()}
-              >
-                <Image
-                  style={styles.avatar}
-                  source={
-                    avatarURL
-                      ? { uri: avatarURL }
-                      : require('../../../../assets/images/etc/default-avatar.png')
-                  }
-                />
-                <Image
-                  style={styles.editAvatarIcon}
-                  source={require('../../../../assets/images/icons/edit.png')}
-                />
-              </TouchableOpacity>
-            </BoxShadow>
+              <Image
+                style={styles.avatar}
+                source={
+                  avatarURL
+                    ? { uri: avatarURL }
+                    : require('../../../../assets/images/etc/default-avatar.png')
+                }
+              />
+              <Image
+                style={styles.editAvatarIcon}
+                source={require('../../../../assets/images/icons/edit.png')}
+              />
+            </TouchableOpacity>
 
             <View style={styles.editInfoHolder}>
               <Text style={[styles.editText, { color: 'white' }]}>
@@ -651,8 +648,8 @@ export default class AccountInfo extends React.Component {
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionHeaderText}>Address</Text>
 
-              <TouchableOpacity onPress={() => this.navigateToMapView()}>
-                <Text style={styles.addText}>Edit</Text>
+              <TouchableOpacity onPress={() => this.navigateToMapView()} style={{ justifyContent: 'center' }}>
+                <Text style={styles.editBtnText}>Edit</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.sectionBody}>
@@ -668,7 +665,7 @@ export default class AccountInfo extends React.Component {
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionHeaderText}>Hours</Text>
             </View>
-            <View style={styles.hoursSectionBody}>
+            <View style={styles.sectionBody}>
               {hours.map((hour, index) => {
                 let {
                   dayOfWeek,
@@ -725,7 +722,7 @@ export default class AccountInfo extends React.Component {
                 );
               })}
 
-              <View style={styles.pickerContainer}>
+              <View style={[styles.pickerContainer, {flexDirection: 'row'}]}>
                 <Picker
                   mode="dropdown"
                   iosHeader="Select a day"
@@ -830,7 +827,7 @@ export default class AccountInfo extends React.Component {
                             style={stylesRaw.pickerIcon}
                           />
                         }
-                        style={styles.hoursPicker}
+                        style={[styles.hoursPicker, { width: '100%' }]}
                         textStyle={styles.hoursPickerText}
                         selectedValue={selectedCategory}
                         onValueChange={val =>
@@ -850,8 +847,9 @@ export default class AccountInfo extends React.Component {
 
                       <TouchableOpacity
                         onPress={() => this.addSelectedCategory()}
+                        style={{ justifyContent: 'center' }}
                       >
-                        <Text style={styles.addText}>Add Category</Text>
+                        <Text style={[styles.addText, { textAlign: 'right' }]}>Add Category</Text>
                       </TouchableOpacity>
                     </View>
                   );
@@ -908,25 +906,10 @@ export default class AccountInfo extends React.Component {
                 if (item === "price") {
                   return (
                     <View
-                      key={item}
-                      style={{
-                        flex: 1,
-                        marginRight: 14,
-                        marginTop: 10,
-                        marginBottom: 15,
-                        position: 'relative',
-                        flexDirection: 'row',
-                        alignItems: 'center'
-                      }}
+                      style={styles.priceSliderContainer}
                     >
                       <View
-                        style={{
-                          flex: 1,
-                          position: 'absolute',
-                          left: 0,
-                          right: 0,
-                          bottom: -13.5
-                        }}
+                        style={styles.priceSliderHolder}
                       >
                         <Slider
                           minimumValue={0}
@@ -936,11 +919,13 @@ export default class AccountInfo extends React.Component {
                           maximumTrackTintColor="rgb(230,230,230)"
                           thumbTintColor="rgb(255,254,255)"
                           thumbStyle={{ height: 18, width: 18 }}
+                          style={{height: 31}}
                           value={this.state.pricing}
                           onSlidingComplete={value =>
                             this.setState({ pricing: value })
                           }
                           trackStyle={{ height: 3 }}
+                          thumbStyle={{ height: 13, width: 13 }}
                         />
                       </View>
 
@@ -948,7 +933,7 @@ export default class AccountInfo extends React.Component {
                         pointerEvents="none"
                         style={{
                           width: wp('13.33%'),
-                          height: 47,
+                          height: 31,
                           flexDirection: 'column',
                           justifyContent: 'space-between',
                           zIndex: 1
@@ -957,10 +942,10 @@ export default class AccountInfo extends React.Component {
                         <Text
                           style={{
                             color: COLOR_GREEN,
-                            fontSize: wp('3.2%'),
+                            fontSize: wp('2.66%'),
                             width: wp('13.33%'),
                             height: 20,
-                            fontFamily: FONT_FAMILY_MEDIUM
+                            fontFamily: SF_PRO_DISPLAY_REGULAR
                           }}
                         >
                           $
@@ -985,7 +970,7 @@ export default class AccountInfo extends React.Component {
                           width: wp('13.33%'),
                           left: price2Indicator,
                           position: 'absolute',
-                          height: 47,
+                          height: 31,
                           flexDirection: 'column',
                           zIndex: 1,
                           justifyContent: 'space-between',
@@ -995,11 +980,11 @@ export default class AccountInfo extends React.Component {
                         <Text
                           style={[
                             {
-                              fontSize: wp('3.2%'),
+                              fontSize: wp('2.66%'),
                               height: 20,
                               textAlign: 'center',
                               width: wp('13.33%'),
-                              fontFamily: FONT_FAMILY_MEDIUM
+                              fontFamily: SF_PRO_DISPLAY_REGULAR
                             },
                             {
                               color:
@@ -1031,7 +1016,7 @@ export default class AccountInfo extends React.Component {
                           width: wp('13.33%'),
                           position: 'absolute',
                           left: price3Indicator,
-                          height: 47,
+                          height: 31,
                           flexDirection: 'column',
                           zIndex: 1,
                           justifyContent: 'space-between',
@@ -1041,12 +1026,12 @@ export default class AccountInfo extends React.Component {
                         <Text
                           style={[
                             {
-                              fontSize: wp('3.2%'),
+                              fontSize: wp('2.66%'),
                               height: 20,
                               marginLeft: 2,
                               textAlign: 'center',
                               width: wp('13.33%'),
-                              fontFamily: FONT_FAMILY_MEDIUM
+                              fontFamily: SF_PRO_DISPLAY_REGULAR
                             },
                             {
                               color:
@@ -1076,7 +1061,7 @@ export default class AccountInfo extends React.Component {
                         pointerEvents="none"
                         style={{
                           width: wp('13.33%'),
-                          height: 47,
+                          height: 31,
                           position: 'absolute',
                           left: price4Indicator,
                           flexDirection: 'column',
@@ -1088,11 +1073,11 @@ export default class AccountInfo extends React.Component {
                         <Text
                           style={[
                             {
-                              fontSize: wp('3.2%'),
+                              fontSize: wp('2.66%'),
                               height: 20,
                               textAlign: 'center',
                               width: wp('13.33%'),
-                              fontFamily: FONT_FAMILY_MEDIUM
+                              fontFamily: SF_PRO_DISPLAY_REGULAR
                             },
                             {
                               color:
@@ -1174,7 +1159,7 @@ export default class AccountInfo extends React.Component {
               placeholder=""
               keyboardType="email-address"
               type="name"
-              showInputBottomBorder
+              borderBottomWidth={1}
               borderBottomColor="rgba(255,255,255,0.53)"
               value={email}
             />

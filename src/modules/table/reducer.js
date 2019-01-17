@@ -44,248 +44,248 @@ import {
   CLOSED_TABLE_SECTION_CHANGE
 } from './types';
 
-function getDummyData() {
-  return [
-    {
-      id: '1',
-      userName: 'Danny',
-      tableId: 1221,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: false,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item2.png'),
-          itemName: 'Buffalo Cauliflower',
-          quantity: 2,
-          status: 1
-        },
-        {
-          imgUrl: require('../../../assets/images/item8.png'),
-          itemName: "Mac n' Cheese",
-          quantity: 3,
-          status: 2
-        },
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        },
-        {
-          imgUrl: require('../../../assets/images/item5.png'),
-          itemName: 'Mole Bowl',
-          quantity: 1,
-          status: 2
-        }
-      ]
-    },
-    {
-      id: '2',
-      userName: 'Robert',
-      tableId: 1242,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: true,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item2.png'),
-          itemName: 'Buffalo Cauliflower',
-          quantity: 2,
-          status: 2
-        },
-        {
-          imgUrl: require('../../../assets/images/item8.png'),
-          itemName: "Mac n' Cheese",
-          quantity: 3,
-          status: 2
-        },
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        }
-      ]
-    },
-    {
-      id: '3',
-      userName: 'Angelica',
-      tableId: 1223,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: true,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item8.png'),
-          itemName: "Mac n' Cheese",
-          quantity: 3,
-          status: 2
-        },
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        }
-      ]
-    },
-    {
-      id: '4',
-      userName: 'James',
-      tableId: 1341,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: true,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        },
-        {
-          imgUrl: require('../../../assets/images/item2.png'),
-          itemName: 'Buffalo Cauliflower',
-          quantity: 2,
-          status: 1
-        }
-      ]
-    },
-    {
-      id: '5',
-      userName: 'James',
-      tableId: 1341,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: true,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        },
-        {
-          imgUrl: require('../../../assets/images/item2.png'),
-          itemName: 'Buffalo Cauliflower',
-          quantity: 2,
-          status: 1
-        }
-      ]
-    },
-    {
-      id: '6',
-      userName: 'James',
-      tableId: 1341,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: true,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        },
-        {
-          imgUrl: require('../../../assets/images/item2.png'),
-          itemName: 'Buffalo Cauliflower',
-          quantity: 2,
-          status: 1
-        }
-      ]
-    },
-    {
-      id: '7',
-      userName: 'James',
-      tableId: 1341,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: true,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        },
-        {
-          imgUrl: require('../../../assets/images/item2.png'),
-          itemName: 'Buffalo Cauliflower',
-          quantity: 2,
-          status: 1
-        }
-      ]
-    },
-    {
-      id: '8',
-      userName: 'James',
-      tableId: 1341,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: true,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        },
-        {
-          imgUrl: require('../../../assets/images/item2.png'),
-          itemName: 'Buffalo Cauliflower',
-          quantity: 2,
-          status: 1
-        }
-      ]
-    },
-    {
-      id: '9',
-      userName: 'James',
-      tableId: 1341,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: true,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        },
-        {
-          imgUrl: require('../../../assets/images/item2.png'),
-          itemName: 'Buffalo Cauliflower',
-          quantity: 2,
-          status: 1
-        }
-      ]
-    },
-    {
-      id: '10',
-      userName: 'James',
-      tableId: 1341,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: true,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        },
-        {
-          imgUrl: require('../../../assets/images/item2.png'),
-          itemName: 'Buffalo Cauliflower',
-          quantity: 2,
-          status: 1
-        }
-      ]
-    }
-  ];
-}
+// function getDummyData() {
+//   return [
+//     {
+//       id: '1',
+//       userName: 'Danny',
+//       tableId: 1221,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: false,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item2.png'),
+//           itemName: 'Buffalo Cauliflower',
+//           quantity: 2,
+//           status: 1
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item8.png'),
+//           itemName: "Mac n' Cheese",
+//           quantity: 3,
+//           status: 2
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item5.png'),
+//           itemName: 'Mole Bowl',
+//           quantity: 1,
+//           status: 2
+//         }
+//       ]
+//     },
+//     {
+//       id: '2',
+//       userName: 'Robert',
+//       tableId: 1242,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: true,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item2.png'),
+//           itemName: 'Buffalo Cauliflower',
+//           quantity: 2,
+//           status: 2
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item8.png'),
+//           itemName: "Mac n' Cheese",
+//           quantity: 3,
+//           status: 2
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         }
+//       ]
+//     },
+//     {
+//       id: '3',
+//       userName: 'Angelica',
+//       tableId: 1223,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: true,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item8.png'),
+//           itemName: "Mac n' Cheese",
+//           quantity: 3,
+//           status: 2
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         }
+//       ]
+//     },
+//     {
+//       id: '4',
+//       userName: 'James',
+//       tableId: 1341,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: true,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item2.png'),
+//           itemName: 'Buffalo Cauliflower',
+//           quantity: 2,
+//           status: 1
+//         }
+//       ]
+//     },
+//     {
+//       id: '5',
+//       userName: 'James',
+//       tableId: 1341,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: true,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item2.png'),
+//           itemName: 'Buffalo Cauliflower',
+//           quantity: 2,
+//           status: 1
+//         }
+//       ]
+//     },
+//     {
+//       id: '6',
+//       userName: 'James',
+//       tableId: 1341,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: true,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item2.png'),
+//           itemName: 'Buffalo Cauliflower',
+//           quantity: 2,
+//           status: 1
+//         }
+//       ]
+//     },
+//     {
+//       id: '7',
+//       userName: 'James',
+//       tableId: 1341,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: true,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item2.png'),
+//           itemName: 'Buffalo Cauliflower',
+//           quantity: 2,
+//           status: 1
+//         }
+//       ]
+//     },
+//     {
+//       id: '8',
+//       userName: 'James',
+//       tableId: 1341,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: true,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item2.png'),
+//           itemName: 'Buffalo Cauliflower',
+//           quantity: 2,
+//           status: 1
+//         }
+//       ]
+//     },
+//     {
+//       id: '9',
+//       userName: 'James',
+//       tableId: 1341,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: true,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item2.png'),
+//           itemName: 'Buffalo Cauliflower',
+//           quantity: 2,
+//           status: 1
+//         }
+//       ]
+//     },
+//     {
+//       id: '10',
+//       userName: 'James',
+//       tableId: 1341,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: true,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item2.png'),
+//           itemName: 'Buffalo Cauliflower',
+//           quantity: 2,
+//           status: 1
+//         }
+//       ]
+//     }
+//   ];
+// }
 
 const INITIAL_STATE = fromJS({
   layout: 'list',
