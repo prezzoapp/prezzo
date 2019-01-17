@@ -196,6 +196,7 @@ export default class ExploreScreenHeader extends PureComponent {
                   thumbStyle={{ height: 18, width: 18 }}
                   value={this.props.distance}
                   trackStyle={{ height: 3 }}
+                  thumbStyle={{ height: 13, width: 13 }}
                   onSlidingComplete={value => this.updateDistance(value)}
                 />
               </View>
@@ -217,10 +218,11 @@ export default class ExploreScreenHeader extends PureComponent {
                           maximumTrackTintColor="rgb(230,230,230)"
                           thumbTintColor="rgb(255,254,255)"
                           thumbStyle={{ height: 18, width: 18 }}
-                          style={{height: 40}}
+                          style={{height: 31}}
                           value={this.props.pricing - 1}
                           onSlidingComplete={value => this.updatePrice(value)}
                           trackStyle={{ height: 3 }}
+                          thumbStyle={{ height: 13, width: 13 }}
                         />
                       </View>
 
@@ -228,7 +230,7 @@ export default class ExploreScreenHeader extends PureComponent {
                         pointerEvents="none"
                         style={{
                           width: wp('13.33%'),
-                          height: 40,
+                          height: 31,
                           flexDirection: 'column',
                           justifyContent: 'space-between',
                           zIndex: 1
@@ -251,7 +253,7 @@ export default class ExploreScreenHeader extends PureComponent {
                             styles.priceBarIndicator,
                             {
                               backgroundColor:
-                                this.state.pricing > 0.0
+                                this.props.pricing - 1 > 0.0
                                   ? 'rgba(255,255,255,1.0)'
                                   : null
                             }
@@ -265,7 +267,7 @@ export default class ExploreScreenHeader extends PureComponent {
                           width: wp('13.33%'),
                           left: price2Indicator,
                           position: 'absolute',
-                          height: 40,
+                          height: 31,
                           flexDirection: 'column',
                           zIndex: 1,
                           justifyContent: 'space-between',
@@ -283,7 +285,7 @@ export default class ExploreScreenHeader extends PureComponent {
                             },
                             {
                               color:
-                                this.state.pricing >= 1
+                                this.props.pricing - 1 >= 1
                                   ? COLOR_GREEN
                                   : 'rgba(255,255,255,1.0)'
                             }
@@ -297,7 +299,7 @@ export default class ExploreScreenHeader extends PureComponent {
                             styles.priceBarIndicator,
                             {
                               backgroundColor:
-                                this.state.pricing === 1
+                                this.props.pricing - 1 === 1
                                   ? null
                                   : 'rgba(255,255,255,1.0)'
                             }
@@ -311,7 +313,7 @@ export default class ExploreScreenHeader extends PureComponent {
                           width: wp('13.33%'),
                           position: 'absolute',
                           left: price3Indicator,
-                          height: 40,
+                          height: 31,
                           flexDirection: 'column',
                           zIndex: 1,
                           justifyContent: 'space-between',
@@ -330,7 +332,7 @@ export default class ExploreScreenHeader extends PureComponent {
                             },
                             {
                               color:
-                                this.state.pricing >= 2
+                                this.props.pricing - 1 >= 2
                                   ? COLOR_GREEN
                                   : 'rgba(255,255,255,1.0)'
                             }
@@ -344,7 +346,7 @@ export default class ExploreScreenHeader extends PureComponent {
                             styles.priceBarIndicator,
                             {
                               backgroundColor:
-                                this.state.pricing === 2
+                                this.props.pricing - 1 === 2
                                   ? null
                                   : 'rgba(255,255,255,1.0)'
                             }
@@ -356,7 +358,7 @@ export default class ExploreScreenHeader extends PureComponent {
                         pointerEvents="none"
                         style={{
                           width: wp('13.33%'),
-                          height: 40,
+                          height: 31,
                           position: 'absolute',
                           left: price4Indicator,
                           flexDirection: 'column',
@@ -376,7 +378,7 @@ export default class ExploreScreenHeader extends PureComponent {
                             },
                             {
                               color:
-                                this.state.pricing >= 3
+                                this.props.pricing - 1 >= 3
                                   ? COLOR_GREEN
                                   : 'rgba(255,255,255,1.0)'
                             }
@@ -390,7 +392,7 @@ export default class ExploreScreenHeader extends PureComponent {
                             styles.priceBarIndicator,
                             {
                               backgroundColor:
-                                this.state.pricing >= 3
+                                this.props.pricing - 1 >= 3
                                   ? null
                                   : 'rgba(255,255,255,1.0)'
                             }

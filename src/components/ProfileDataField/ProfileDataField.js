@@ -24,7 +24,7 @@ const ProfileDataField = ({ label, value }: Props) => {
           <Text style={styles.label}>{label}</Text>
         </View>
         <View style={styles.valueContainer}>
-          <Text style={styles.value} numberOfLines={2}>{value}</Text>
+          <Text style={styles.value} numberOfLines={1}>{value}</Text>
         </View>
       </View>
     </View>
@@ -34,8 +34,8 @@ const ProfileDataField = ({ label, value }: Props) => {
 const styles = {
   container: {
     flexDirection: 'row',
-    height: 0.1 * screenWidth,
-    marginTop: 5
+    marginBottom: hp('3.07%'),
+    alignItems: 'center'
   },
   currentValueContainer: {
     flexDirection: 'row',
@@ -48,9 +48,11 @@ const styles = {
     fontSize: wp('4.53%')
   },
   labelContainer: {
-    width: 0.3 * screenWidth
+    width: wp('31.33%'),
+    marginRight: wp('1.86%')
   },
   value: {
+    flex: 1,
     color: valueTextColor,
     fontFamily: FONT_FAMILY,
     fontSize: wp('5.33%')

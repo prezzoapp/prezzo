@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, Text, StyleSheet } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
@@ -102,54 +103,63 @@ class EnableNotificationsView extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
-    padding: 20,
+    flex: 1,
+    paddingHorizontal: wp('5.6%'),
+    paddingTop: hp('9.11%'),
     backgroundColor: '#fff'
   },
   chatIcon: {
-    width: 50,
-    height: 50,
-    marginTop: 20,
-    marginBottom: 20,
+    width: wp('13.33%'),
+    height: wp('13.33%'),
+    marginBottom: hp('3.94%'),
     resizeMode: 'contain'
   },
   headerText: {
-    fontSize: 30,
+    fontSize: wp('8%'),
     fontFamily: FONT_FAMILY_BOLD,
     color: '#484848',
-    marginBottom: 20
+    marginBottom: hp('3.57%')
   },
   regularText: {
     fontSize: 20,
     fontFamily: FONT_FAMILY,
     color: '#484848',
-    marginBottom: 40
+    marginBottom: hp('6.15%')
   }
 });
 
 const buttonStyles = {
   notify: {
-    width: '50%',
+    height: hp('6.15%'),
+    width: wp('46.66%'),
     marginLeft: 0,
     marginRight: 0,
-    marginBottom: 20,
+    marginBottom: hp('1.97%'),
     backgroundColor: '#0DD24A',
-    borderColor: '#0DD24A'
+    borderColor: '#0DD24A',
+    justifyContent: 'center'
   },
   notifyText: {
-    fontFamily: FONT_FAMILY_MEDIUM
+    fontFamily: FONT_FAMILY_MEDIUM,
+    paddingTop: 0,
+    paddingBottom: 0,
+    fontSize: wp('4.8%')
   },
   skip: {
-    width: '30%',
+    width: wp('26.66%'),
+    height: hp('6.15%'),
     marginLeft: 0,
     marginRight: 0,
     backgroundColor: '#fff',
-    borderColor: '#0DD24A'
+    borderColor: '#0DD24A',
+    justifyContent: 'center'
   },
   skipText: {
     color: '#0DD24A',
-    fontFamily: FONT_FAMILY_MEDIUM
+    fontFamily: FONT_FAMILY_MEDIUM,
+    paddingTop: 0,
+    paddingBottom: 0,
+    fontSize: wp('4.8%')
   }
 };
 

@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     marginHorizontal: wp('100%') / 4,
     backgroundColor: 'transparent',
     height: 23,
+    marginTop: hp('2.09%'),
     borderWidth: 0
   },
 

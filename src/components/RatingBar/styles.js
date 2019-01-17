@@ -13,8 +13,7 @@ const styles = StyleSheet.create({
   starImage: {
     width: wp('5.33%'),
     height: wp('5.33%'),
-    resizeMode: 'cover',
-    tintColor: '#FFD64D'
+    resizeMode: 'cover'
   }
 });
 

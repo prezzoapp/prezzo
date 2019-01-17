@@ -9,7 +9,6 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
-
 const buttonBlack = '#424242';
 const shadowColor = 'black';
 const textColor = 'white';

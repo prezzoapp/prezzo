@@ -29,7 +29,9 @@ const ProfileTextInput = props => {
   const valueContainerStyle = {
     ...styles.valueContainer,
     ...{
-      borderBottomColor: props.borderBottomColor
+      paddingBottom: props.borderBottomWidth !== 0 ? hp('1.35%') : 0,
+      borderBottomColor: props.borderBottomColor,
+      borderBottomWidth: props.borderBottomWidth
     }
   };
 
@@ -59,35 +61,30 @@ const ProfileTextInput = props => {
 const styles = {
   container: {
     flexDirection: 'row',
-    height: 0.1 * screenWidth,
-    marginTop: 5,
-    width: 0.85 * screenWidth
+    alignItems: 'center',
+    marginBottom: hp('3.07%'),
+    alignSelf: 'stretch'
   },
   currentValueContainer: {
     flexDirection: 'row'
-
-      },
+  },
   label: {
     color: labelTextColor,
     fontFamily: FONT_FAMILY,
     fontSize: wp('4.53%')
   },
   labelContainer: {
-    flex: 1,
     paddingTop: 0,
-    width: 0.3 * screenWidth
-
+    width: wp('31.33%'),
+    marginRight: wp('1.86%')
   },
   value: {
     color: valueTextColor,
     fontFamily: FONT_FAMILY,
-    fontSize: wp('5.33%'),
-    marginRight : 40
-
+    fontSize: wp('5.33%')
   },
   valueContainer: {
-    borderBottomWidth: 2,
-    flex: 1.8
+    flex: 1
   }
 };
 
@@ -101,6 +98,7 @@ ProfileTextInput.propTypes = {
   value: PropTypes.string,
   showLabel: PropTypes.bool,
   borderBottomColor: PropTypes.string,
+  borderBottomWidth: PropTypes.number,
   keyboardType: PropTypes.string
 };
 
@@ -110,6 +108,7 @@ ProfileTextInput.defaultProps = {
   value: '',
   showLabel: true,
   borderBottomColor: 'transparent',
+  borderBottomWidth: 0,
   keyboardType: 'default'
 };
 

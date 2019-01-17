@@ -224,7 +224,7 @@ class EditProfile extends Component<Props, State> {
       <KeyboardAvoidingView
         style={styles.parent}
         behavior='padding'>
-          <ScrollView contentContainerStyle={{ paddingHorizontal: 31, paddingBottom: hp('9%') }}>
+          <ScrollView contentContainerStyle={styles.scrollViewStyle}>
             <View style={styles.headerContainer}>
               <View style={styles.avatarContainer}>
                 {(() => {
@@ -244,7 +244,7 @@ class EditProfile extends Component<Props, State> {
                         />
 
                         <Image
-                          style={{width: 34, height: 34, position: 'absolute', right:0}}
+                          style={styles.editBtnImage}
                           source={
                            require('../../../../assets/images/etc/EditIcon.png')
                           }
@@ -257,92 +257,86 @@ class EditProfile extends Component<Props, State> {
                 })()}
               </View>
             </View>
-            {(() => {
-              if (this.state.isEditing) {
+            <View style={styles.bodyContainer}>
+              {(() => {
+                if (this.state.isEditing) {
+                  return (
+                    <View>
+                      <ProfileTextInput
+                        type="name"
+                        label="First Name"
+                        placeholder="John"
+                        onChange={firstName => this.setState({ firstName })}
+                        value={firstName}
+                      />
+
+                      <ProfileTextInput
+                        type="name"
+                        label="Last Name"
+                        placeholder="Doe"
+                        onChange={lastName => this.setState({ lastName })}
+                        value={lastName}
+                      />
+                      <ProfileTextInput
+                        type="number"
+                        label="Phone"
+                        placeholder="(123) 456-7890"
+                        onChange={phone => this.setState({ phone })}
+                        value={phone}
+                      />
+                      <ProfileTextInput
+                        type="name"
+                        label="Address"
+                        placeholder="123 Main St"
+                        onChange={address => this.setState({ address })}
+                        value={address}
+                      />
+                      <ProfileTextInput
+                        type="number"
+                        label="Zip"
+                        placeholder="12345"
+                        onChange={zip => this.setState({ zip })}
+                        value={zip}
+                      />
+                      <ProfileTextInput
+                        type="name"
+                        label="City"
+                        placeholder="New York"
+                        onChange={city => this.setState({ city })}
+                        value={city}
+                      />
+                    </View>
+                  );
+                }
                 return (
-                  <View style={[styles.bodyContainer,{position: 'relative'}]}>
-                    <ProfileTextInput
-                      type="name"
+                  <View>
+                    <ProfileDataField
                       label="First Name"
-                      placeholder="John"
-                      onChange={firstName => this.setState({ firstName })}
-                      value={firstName}
+                      value={this.props.firstName}
                     />
 
-                    <ProfileTextInput
-                      type="name"
+                    <ProfileDataField
                       label="Last Name"
-                      placeholder="Doe"
-                      onChange={lastName => this.setState({ lastName })}
-                      value={lastName}
+                      value={this.props.lastName}
                     />
-                    <ProfileTextInput
-                      type="number"
-                      label="Phone"
-                      placeholder="(123) 456-7890"
-                      onChange={phone => this.setState({ phone })}
-                      value={phone}
-                    />
-                    <ProfileTextInput
-                      type="name"
+                    <ProfileDataField label="Phone" value={this.props.phone} />
+                    <ProfileDataField
                       label="Address"
-                      placeholder="123 Main St"
-                      onChange={address => this.setState({ address })}
-                      value={address}
+                      value={this.props.address}
                     />
-                    <ProfileTextInput
-                      type="number"
-                      label="Zip"
-                      placeholder="12345"
-                      onChange={zip => this.setState({ zip })}
-                      value={zip}
-                    />
-                    <ProfileTextInput
-                      type="name"
-                      label="City"
-                      placeholder="New York"
-                      onChange={city => this.setState({ city })}
-                      value={city}
-                    />
-                    <TouchableOpacity style={{position: 'absolute', right: 0, top: 5}} onPress={() => this.toggleEditing()}>
-                      <View>
-                        <Text style={styles.edit}>
-                          {this.state.isEditing ? 'Save' : 'Edit'}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
+                    <ProfileDataField label="Zip" value={this.props.zip} />
+                    <ProfileDataField label="City" value={this.props.city} />
                   </View>
                 );
-              }
-              return (
-                <View style={[styles.bodyContainer2,{position: 'relative'}]}>
-                  <ProfileDataField
-                    label="First Name"
-                    value={this.props.firstName}
-                  />
-
-                  <ProfileDataField
-                    label="Last Name"
-                    value={this.props.lastName}
-                  />
-                  <ProfileDataField label="Phone" value={this.props.phone} />
-                  <ProfileDataField
-                    label="Address"
-                    value={this.props.address}
-                  />
-                  <ProfileDataField label="Zip" value={this.props.zip} />
-                  <ProfileDataField label="City" value={this.props.city} />
-
-                  <TouchableOpacity style={{position: 'absolute', right: 0, top: 10}} onPress={() => this.toggleEditing()}>
-                      <View>
-                      <Text style={styles.edit}>
-                      {this.state.isEditing ? 'Save' : 'Edit'}
-                      </Text>
-                      </View>
-                  </TouchableOpacity>
+              })()}
+              <TouchableOpacity style={styles.toggleBtn} onPress={() => this.toggleEditing()}>
+                <View>
+                  <Text style={styles.edit}>
+                    {this.state.isEditing ? 'Save' : 'Edit'}
+                  </Text>
                 </View>
-              );
-            })()}
+              </TouchableOpacity>
+            </View>
           </ScrollView>
       </KeyboardAvoidingView>
     );
@@ -350,6 +344,10 @@ class EditProfile extends Component<Props, State> {
 }
 
 const styles = StyleSheet.create({
+  scrollViewStyle: {
+    paddingHorizontal: wp('8.26%'),
+    paddingBottom: hp('5%')
+  },
   avatar: {
     borderColor: 'white',
     borderRadius: wp('13.5%'),
@@ -360,40 +358,43 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     alignItems: 'center',
-    flex: 0.68,
     justifyContent: 'center'
   },
   bodyContainer: {
     flex: 1,
-    flexDirection: 'column'
-  },
-  bodyContainer2: {
-    flex: 1,
     flexDirection: 'column',
-    marginTop: -5
+    position: 'relative'
   },
   edit: {
     color: COLOR_GREEN,
     fontSize: wp('4.8%'),
     fontFamily: Expo.Font.processFontFamily(FONT_FAMILY)
   },
-  editAvatar: {
-    height: 28
-  },
   headerContainer: {
     alignItems: 'center',
     flex: 1,
     justifyContent: 'space-between',
     marginTop: hp('3.20%'),
-    marginBottom: hp('3.44%')
+    marginBottom: hp('4.67%')
   },
   parent: {
     backgroundColor: COLOR_BLACK,
-    flex: 1,
-    justifyContent: 'center'
+    flex: 1
   },
   headerLeftBtn: {
     marginLeft: wp('4.4%')
+  },
+  toggleBtn: {
+    position: 'absolute',
+    right: 0,
+    top: 0
+  },
+  editBtnImage: {
+    width: wp('7.46%'),
+    height: wp('7.46%'),
+    position: 'absolute',
+    right: 4,
+    top: 0
   }
 });
 
