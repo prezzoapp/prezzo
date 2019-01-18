@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   item: {
     backgroundColor: '#292828',
     paddingTop: hp('1.47%'),
-    paddingBottom: hp('3.44%'),
+    paddingBottom: hp('3.32%'),
     paddingHorizontal: wp('3.2%'),
     borderRadius: 8,
     marginTop: hp('3.07%')

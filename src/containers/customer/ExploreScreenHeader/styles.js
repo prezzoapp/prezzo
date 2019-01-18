@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     height: 31,
     marginVertical: hp('1.84%'),
     marginLeft: wp('8%'),
-    marginRight: wp('10.4%'),
+    marginRight: wp('10.66%'),
     position: 'relative',
     flexDirection: 'row',
     justifyContent: 'space-between'

@@ -50,13 +50,12 @@ const styles = StyleSheet.create({
   headerTitleText: {
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
-    fontSize: wp('5.33%'),
-    lineHeight: wp('5.86%')
+    fontSize: wp('5.33%')
   },
 
   headerContentTextContainer: {
     flexDirection: 'row',
-    paddingTop: wp('2.93%')
+    paddingTop: hp('1.23%')
   },
 
   headerContentText: {
@@ -98,11 +97,11 @@ const styles = StyleSheet.create({
   },
 
   headerBtns: {
-    paddingVertical: 3,
     alignItems: 'center',
     width: wp('21.33%'),
     borderRadius: 15,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    height: hp('2.95%')
   },
 
   headerBtnText: {

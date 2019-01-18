@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flex: 1,
-    marginHorizontal: wp('6.66%'),
+    marginHorizontal: wp('7.2%'),
     marginBottom: hp('1.23%')
   },
   footerContainer: {

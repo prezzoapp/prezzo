@@ -421,7 +421,8 @@ const paymentBtnStyles = {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,
-    paddingHorizontal: wp('3.46%')
+    paddingHorizontal: wp('3.46%'),
+    height: hp('6.15%')
   }
 };
 

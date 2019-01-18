@@ -78,7 +78,8 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 'auto',
-    marginBottom: hp('4.92%'),
+    // marginBottom: hp('4.92%'),
+    marginBottom: hp('3.94%'),
     borderBottomWidth: 2,
     borderBottomColor: '#0DD24A',
     backgroundColor: 'transparent'
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: wp('4.53%'),
     fontWeight: '600',
     fontFamily: FONT_FAMILY,
-    paddingBottom: hp('1.23%')
+    paddingBottom: hp('2.95%')
   },
   togglePasswordVisibility: {
     color: '#959595',
