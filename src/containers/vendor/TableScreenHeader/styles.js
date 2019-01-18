@@ -5,8 +5,6 @@ import {
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
 import {
-  FONT_FAMILY_BOLD,
-  FONT_FAMILY_MEDIUM,
   SF_PRO_TEXT_SEMI_BOLD,
   SF_PRO_DISPLAY_SEMI_BOLD
 } from '../../../services/constants';

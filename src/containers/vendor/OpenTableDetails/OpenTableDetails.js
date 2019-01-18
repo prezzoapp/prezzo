@@ -86,10 +86,13 @@ export default class OpenTableDetails extends Component {
   }
 
   finalizeOrder(price) {
-    if(this.props.openTableSelectedItem.paymentType === 'card' && price !== 0) {
+    if (
+      this.props.openTableSelectedItem.paymentType === 'card' &&
+      price !== 0
+    ) {
       this.props.makePaymentAndCompleteOrder(
-        this.props.openTableSelectedItem._id,
-        this.props.openTableSelectedItem.paymentMethod.token,
+          this.props.openTableSelectedItem._id,
+          this.props.openTableSelectedItem.paymentMethod.token,
           price
         )
       .then(() => {
@@ -97,13 +100,13 @@ export default class OpenTableDetails extends Component {
             this.showAlert('Order has been completed.', 300);
           }
         })
-      .catch(e => console.log(e));
+        .catch(e => console.log(e));
     } else if(this.props.openTableSelectedItem.paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(
           this.props.openTableSelectedItem._id,
           '',
           price
-      )
+        )
       .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
             this.showAlert('Order has been completed.', 300);
@@ -202,8 +205,6 @@ export default class OpenTableDetails extends Component {
     this.props
       .checkStatusAndCancelItem(orderId, itemId)
       .then(() => {
-        // console.log("Open Selected Item: ");
-        // console.log(this.props.openTableSelectedItem);
         if(this.props.openOrderFinalStatus === 'complete') {
           this.showAlert('Order has been completed.', 300);
         } else {
@@ -216,12 +217,6 @@ export default class OpenTableDetails extends Component {
             }
           }
         }
-        // if (this.props.openTableSelectedItem.message) {
-        //   clearTimeout(this.timer);
-        //   this.timer = setTimeout(() => {
-        //     alert(this.props.openTableSelectedItem.message);
-        //   }, 300);
-        // }
       })
       .catch(err => {
         console.log(err);
@@ -235,11 +230,7 @@ export default class OpenTableDetails extends Component {
       <Container style={styles.container}>
         {(() => {
           if(!selectedItem) {
-            return (
-              <View style={styles.notFoundHolder}>
-                <Text style={styles.message}>Order has been completed.</Text>
-              </View>
-            )
+            return null;
           }
 
           return (
@@ -287,24 +278,8 @@ export default class OpenTableDetails extends Component {
                       <OpenTablePayment
                         data={selectedItem}
                         innerTab={this.props.navigation.state.params.innerTab}
-                        makePaymentAndCompleteOrder={(
-                          order,
-                          token,
-                          amount,
-                          paymentType,
-                          status
-                        ) =>
-                          this.props.navigation.state.params.makePaymentAndCompleteOrder(
-                            order,
-                            token,
-                            amount,
-                            paymentType,
-                            status,
-                            'open'
-                          )
-                        }
-                        changeOrderStatus={(orderId, status) =>
-                          this.props.navigation.state.params.changeOrderStatus(orderId, status)
+                        completeOrder={() =>
+                          this.completeOrder(selectedItem._id)
                         }
                       />
                     </Tab>

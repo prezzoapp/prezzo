@@ -46,7 +46,6 @@ export default class AccountMenu extends React.Component {
 
   static propTypes = {
     navigate: PropTypes.func.isRequired,
-    createMenu: PropTypes.func.isRequired,
     avatarURL: PropTypes.string.isRequired,
     vendor: PropTypes.object.isRequired,
     menu: PropTypes.object.isRequired,
