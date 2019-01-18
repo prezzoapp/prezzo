@@ -1,18 +1,15 @@
 // @flow
 import React from 'react';
 import { Header } from 'react-navigation';
-import ReactNative, {
+import {
   ImageBackground,
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
-  Keyboard,
   ScrollView,
-  Platform,
-  findNodeHandle,
-  UIManager
+  Platform
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -67,23 +64,6 @@ class Login extends React.Component<Props, State> {
     password: ''
   };
 
-  componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
-  }
-
-  _keyboardDidShow = (event) => {
-    if(this.scrollView && this.child) {
-      this.scrollView.scrollTo({
-        y: this.titleHeight + SCROLL_VIEW_TOP_PADDING,
-        animated: true
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-  }
-
   navigateToSignup() {
     this.props.navigate({ routeName: 'SignupName' });
   }
@@ -111,24 +91,6 @@ class Login extends React.Component<Props, State> {
 
   }
 
-  calculateLayout() {
-    if(this.child && this.parent) {
-      // this.child.measureLayout(
-      //   ReactNative.findNodeHandle(this.parent),
-      //   (xPos, yPos, Width, Height) => {
-      //     this.titleHeight = Height;
-      //   }
-      // );
-
-      UIManager.measure(findNodeHandle(this.child), (
-        originX, originY, width, height, pageX, pageY
-      ) => {
-        // console.log(pageX, pageY, width, height);
-        this.titleHeight = height;
-      })
-    }
-  }
-
   render() {
     const { email, password } = this.state;
 
@@ -136,19 +98,15 @@ class Login extends React.Component<Props, State> {
       <ImageBackground
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.png')}
-        ref={parent => this.parent = parent}
       >
         <KeyboardAvoidingView
           style={{ flex: 1 }}
           behavior='padding'
         >
           <ScrollView
-            ref={scrollView => this.scrollView = scrollView}
             contentContainerStyle={styles.scrollView}
           >
             <View
-              ref={child => this.child = child}
-              onLayout={() => this.calculateLayout()}
               style={{ backgroundColor: 'transparent' }}
             >
               <Text testID="welcomeText" style={styles.headerText}>

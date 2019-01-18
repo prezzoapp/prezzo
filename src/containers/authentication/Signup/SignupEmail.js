@@ -9,10 +9,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   ScrollView,
-  Platform,
-  findNodeHandle,
-  UIManager,
-  Keyboard
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -44,7 +41,7 @@ type Props = {
 
 const containerPaddingLeftRight: number = 40;
 const containerPaddingTopBottom: number = 80;
-const checkboxSize: number = 25;
+const checkboxSize: number = wp('6.66%');
 
 const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
 
@@ -104,8 +101,7 @@ const styles = StyleSheet.create({
 });
 
 const nextButtonStyle = {
-  alignSelf: 'flex-end',
-  marginBottom: hp('5%')
+  alignSelf: 'flex-end'
 };
 
 class SignupEmail extends React.Component<Props> {
@@ -134,33 +130,6 @@ class SignupEmail extends React.Component<Props> {
     )
   });
 
-  componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
-  }
-
-  _keyboardDidShow = (event) => {
-    if(this.scrollView && this.child) {
-      this.scrollView.scrollTo({
-        y: this.titleHeight + SCROLL_VIEW_TOP_PADDING,
-        animated: true
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-  }
-
-  calculateLayout() {
-    if(this.child && this.parent) {
-      UIManager.measure(findNodeHandle(this.child), (
-        originX, originY, width, height, pageX, pageY
-      ) => {
-        this.titleHeight = height;
-      })
-    }
-  }
-
   isFormValid() {
     const { email } = this.props;
     return email && isValidEmail(email) ? true : false;
@@ -188,15 +157,11 @@ class SignupEmail extends React.Component<Props> {
       <ImageBackground
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.png')}
-        ref={parent => this.parent = parent}
       >
         <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
           <ScrollView
-            ref={scrollView => this.scrollView = scrollView}
             contentContainerStyle={styles.scrollView}>
             <View
-              ref={child => this.child = child}
-              onLayout={() => this.calculateLayout()}
               style={{ backgroundColor: 'transparent' }}
             >
               <Text style={styles.headerText}>And your email?</Text>

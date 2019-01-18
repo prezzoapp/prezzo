@@ -10,10 +10,7 @@ import {
   ActionSheetIOS,
   ScrollView,
   Platform,
-  KeyboardAvoidingView,
-  Keyboard,
-  UIManager,
-  findNodeHandle
+  KeyboardAvoidingView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -157,8 +154,7 @@ const buttonStyles = {
   },
   next: {
     alignSelf: 'flex-end',
-    position: 'relative',
-    top: -hp('0.98%')
+    position: 'relative'
   }
 };
 
@@ -200,33 +196,8 @@ class SignupPassword extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
-
     if (this.props.facebookId) {
       this.setState({ showPassword: true });
-    }
-  }
-
-  _keyboardDidShow = (event) => {
-    if(this.scrollView && this.child) {
-      this.scrollView.scrollTo({
-        y: this.titleHeight + SCROLL_VIEW_TOP_PADDING,
-        animated: true
-      });
-    }
-  }
-
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-  }
-
-  calculateLayout() {
-    if(this.child && this.parent) {
-      UIManager.measure(findNodeHandle(this.child), (
-        originX, originY, width, height, pageX, pageY
-      ) => {
-        this.titleHeight = height;
-      })
     }
   }
 
@@ -334,23 +305,18 @@ class SignupPassword extends React.Component<Props, State> {
     const { firstName, email, password, avatarURL } = this.props;
 
     return (
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior='padding'
-        ref={parent => this.parent = parent}
+      <ImageBackground
+        style={styles.container}
+        source={require('../../../../assets/images/bg/authentication.png')}
       >
-        <ImageBackground
-          style={styles.container}
-          source={require('../../../../assets/images/bg/authentication.png')}
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior='padding'
         >
           <ScrollView
-            ref={scrollView => this.scrollView = scrollView}
             contentContainerStyle={styles.scrollView}
           >
-            <View
-              ref={child => this.child = child}
-              onLayout={() => this.calculateLayout()}
-            >
+            <View>
               <Text style={styles.headerText}>
                 Awesome, you're almost done!
               </Text>
@@ -432,8 +398,8 @@ class SignupPassword extends React.Component<Props, State> {
             )
           }
           </ScrollView>
-        </ImageBackground>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     );
   }
 }
