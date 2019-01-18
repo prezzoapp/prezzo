@@ -27,7 +27,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     marginBottom: hp('9%'),
     marginTop: hp('6%'),
-    marginHorizontal: wp('6.66%')
+    paddingHorizontal: wp('7.2%')
   },
   footerContainer: {
     alignSelf: 'stretch',
@@ -55,12 +55,11 @@ export default StyleSheet.create({
     marginBottom: hp('2.46%')
   },
   parent: {
-    alignItems: 'center',
     backgroundColor: COLOR_BLACK,
-    flex: 1,
-    justifyContent: 'center'
+    flex: 1
   },
   scrollViewStyle: {
+    marginTop: hp('2.58%'),
     backgroundColor: COLOR_BLACK,
     width: '100%'
   },
@@ -72,5 +71,11 @@ export default StyleSheet.create({
   },
   headerLeftBtn: {
     marginLeft: wp('4.4%')
+  },
+  ccIcon: {
+    width: wp('11.2%'),
+    height: hp('3.44%'),
+    resizeMode: 'contain',
+    marginRight: wp('5.33%')
   }
 });

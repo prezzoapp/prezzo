@@ -25,7 +25,7 @@ type State = {
   lastName: string
 };
 
-const containerPaddingLeftRight: number = 40;
+const containerPaddingLeftRight: number = wp('10.66%');
 const containerPaddingTopBottom: number = 80;
 
 const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));

@@ -33,7 +33,7 @@ export default class MapScreen extends Component {
           }}
           numberOfLines={1}
         >
-          My Profile
+          Local Search
         </Text>
       ),
       headerTintColor: 'white',

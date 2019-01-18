@@ -1,19 +1,22 @@
 // @flow
 import React from 'react';
-import { ImageBackground, View, Text, Image, StyleSheet } from 'react-native';
+import { ImageBackground, View, Text, Image, StyleSheet, Platform, KeyboardAvoidingView, ScrollView, TouchableOpacity} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, Header } from 'react-navigation';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Constants } from 'expo';
 import { uploadImage } from '../../../modules/upload';
 import { updateFacebookAccount } from '../../../modules/user';
 import { loginWithEmail } from '../../../modules/auth';
 import { updateAvatarURL, updatePassword } from '../../../modules/Signup';
-import { FONT_FAMILY, FONT_FAMILY_BOLD } from '../../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_MEDIUM } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import FacebookButton from '../../../components/FacebookButton';
 import Button from '../../../components/Button';
 import alert from '../../../components/GenericAlert';
 import NextButton from './NextButton';
+import { Feather } from '../../../components/VectorIcons';
 
 type Props = {
   firstName: string,
@@ -32,36 +35,47 @@ type State = {
   showPassword: boolean
 };
 
-const containerPaddingLeftRight: number = 40;
+const containerPaddingLeftRight: number = wp('10.66%');
 const containerPaddingTopBottom: number = 80;
-const avatarSize: number = 70;
+const avatarSize: number = wp('18.66%');
+
+const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#4A4A4A',
+    paddingTop: Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0)
+  },
+  scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingTop: containerPaddingTopBottom,
-    paddingBottom: containerPaddingTopBottom
+    paddingBottom: hp('5%'),
+    paddingTop: SCROLL_VIEW_TOP_PADDING
   },
-  headerText: {
-    fontSize: 30,
-    fontFamily: FONT_FAMILY_BOLD,
+  headerTextLine1: {
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
-    marginBottom: 30,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    lineHeight: 41
+  },
+  headerTextLine2: {
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_MEDIUM,
+    color: '#fff',
+    marginBottom: hp('4.55%'),
+    backgroundColor: 'transparent',
+    lineHeight: 41
   },
   profileContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: 40,
-    flexDirection: 'row',
-    justifyContent: 'center'
+    marginBottom: hp('6.40'),
+    flexDirection: 'row'
   },
   avatarContainer: {
     alignItems: 'center',
-    flex: 2,
     height: avatarSize * 1.2,
     justifyContent: 'center',
     position: 'relative',
@@ -71,34 +85,35 @@ const styles = StyleSheet.create({
     width: avatarSize,
     height: avatarSize,
     alignSelf: 'center',
-    borderWidth: 4,
+    borderWidth: 2,
     borderColor: '#fff',
     borderRadius: avatarSize / 2,
     resizeMode: 'cover'
   },
   editAvatarIcon: {
-    width: avatarSize / 2.5,
-    height: avatarSize / 2.5,
+    width: wp('5.66%'),
+    height: wp('5.66%'),
     position: 'absolute',
-    top: 0,
-    right: 0,
-    borderWidth: 2,
+    top: hp('0.5%'),
+    right: wp('2%'),
+    borderWidth: 1,
     borderColor: '#fff',
-    borderRadius: avatarSize / 5,
+    borderRadius: wp('5.66%') / 2,
     backgroundColor: '#484848'
   },
   nameAndEmailContainer: {
-    flex: 5,
-    paddingLeft: 20
+    paddingLeft: wp('6.4%'),
+    justifyContent: 'center'
   },
   name: {
-    fontSize: 24,
-    fontFamily: FONT_FAMILY_BOLD,
+    fontSize: wp('5.33%'),
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
+    marginBottom: hp('1.72%'),
     backgroundColor: 'transparent'
   },
   email: {
-    fontSize: 20,
+    fontSize: wp('4.53%'),
     fontFamily: FONT_FAMILY,
     color: '#959595',
     backgroundColor: 'transparent'
@@ -121,6 +136,9 @@ const styles = StyleSheet.create({
     right: 0,
     shadowColor: 'transparent',
     borderBottomWidth: 0
+  },
+  headerLeftBtn: {
+    marginLeft: wp('4.4%')
   }
 });
 
@@ -131,15 +149,37 @@ const buttonStyles = {
     borderColor: '#fff'
   },
   next: {
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    position: 'relative',
+    marginTop: hp('0.73%')
   }
 };
 
 class SignupMergeFacebook extends React.Component<Props, State> {
-  static navigationOptions = {
-    headerStyle: styles.navigation,
-    headerTintColor: '#fff'
-  };
+  static navigationOptions = ({ navigation }) => ({
+    headerStyle: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      left: 0,
+      backgroundColor: 'transparent',
+      borderBottomColor: 'transparent'
+    },
+    headerTintColor: '#fff',
+    headerLeft: (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.goBack()}
+        style={styles.headerLeftBtn}>
+        <Feather
+          title="Back"
+          name="chevron-left"
+          color="white"
+          size={wp('8%')}
+        />
+      </TouchableOpacity>
+    )
+  });
 
   state = {
     isBusy: false,
@@ -197,77 +237,83 @@ class SignupMergeFacebook extends React.Component<Props, State> {
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
-        <Text style={styles.headerText}>
-          You're already here!
-        </Text>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior='padding'>
+          <ScrollView
+            contentContainerStyle={styles.scrollView}>
+            <Text style={styles.headerTextLine1}>You're already</Text>
+            <Text style={styles.headerTextLine2}>here!</Text>
 
-        <View style={styles.profileContainer}>
-          <Image
-            style={styles.avatar}
-            source={
-              avatarURL
-              ? {uri: avatarURL}
-              : require('../../../../assets/images/etc/default-avatar.png')
+            <View style={styles.profileContainer}>
+              <Image
+                style={styles.avatar}
+                source={
+                  avatarURL
+                  ? {uri: avatarURL}
+                  : require('../../../../assets/images/etc/default-avatar.png')
+                }
+              />
+
+              <View style={styles.nameAndEmailContainer}>
+                <Text style={styles.name}>
+                  {firstName}
+                </Text>
+
+                <Text style={styles.email}>
+                  {email}
+                </Text>
+              </View>
+            </View>
+
+            {
+              !showPassword && (
+                <View style={styles.buttonsContainer}>
+                  <FacebookButton
+                    disabled={isBusy}
+                    onStart={() => this.setState({isBusy: true})}
+                    onFailure={() => this.setState({isBusy: false})}
+                    onCancel={() => this.setState({isBusy: false})}
+                    onSuccess={(facebookId, accessToken) => {
+                      console.log('facebook info', facebookId, accessToken);
+                    }}
+                  />
+
+                  <Button
+                    style={buttonStyles.password}
+                    onPress={() => this.setState({showPassword: true})}
+                  >
+                    Create Password
+                  </Button>
+                </View>
+              )
             }
-          />
 
-          <View style={styles.nameAndEmailContainer}>
-            <Text style={styles.name}>
-              {firstName}
-            </Text>
+            {
+              showPassword && (
+                <View style={styles.passwordContainer}>
+                  <LoginTextInput
+                    type='password'
+                    label='Password'
+                    value={password}
+                    onChange={value => this.props.updatePassword(value)}
+                  />
+                </View>
+              )
+            }
 
-            <Text style={styles.email}>
-              {email}
-            </Text>
-          </View>
-        </View>
-
-        {
-          !showPassword && (
-            <View style={styles.buttonsContainer}>
-              <FacebookButton
-                disabled={isBusy}
-                onStart={() => this.setState({isBusy: true})}
-                onFailure={() => this.setState({isBusy: false})}
-                onCancel={() => this.setState({isBusy: false})}
-                onSuccess={(facebookId, accessToken) => {
-                  console.log('facebook info', facebookId, accessToken);
-                }}
-              />
-
-              <Button
-                style={buttonStyles.password}
-                onPress={() => this.setState({showPassword: true})}
-              >
-                Create Password
-              </Button>
-            </View>
-          )
-        }
-
-        {
-          showPassword && (
-            <View style={styles.passwordContainer}>
-              <LoginTextInput
-                type='password'
-                label='Password'
-                value={password}
-                onChange={value => this.props.updatePassword(value)}
-              />
-            </View>
-          )
-        }
-
-        {
-          showPassword && (
-            <NextButton
-              style={buttonStyles.next}
-              disabled={!this.isFormValid()}
-              isBusy={isBusy}
-              onPress={() => this.loginAndUpdateFacebook()}
-            />
-          )
-        }
+            {
+              showPassword && (
+                <NextButton
+                  style={buttonStyles.next}
+                  disabled={!this.isFormValid()}
+                  isBusy={isBusy}
+                  onPress={() => this.loginAndUpdateFacebook()}
+                />
+              )
+            }
+          </ScrollView>
+        </KeyboardAvoidingView>
       </ImageBackground>
     );
   }

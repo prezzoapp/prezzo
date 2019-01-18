@@ -45,7 +45,7 @@ type State = {
   showPassword: boolean
 };
 
-const containerPaddingLeftRight: number = 40;
+const containerPaddingLeftRight: number = wp('10.66%');
 const containerPaddingTopBottom: number = 80;
 const avatarSize: number = wp('18.66%');
 
@@ -81,13 +81,11 @@ const styles = StyleSheet.create({
   profileContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: 40,
-    flexDirection: 'row',
-    justifyContent: 'center'
+    marginBottom: hp('6.40'),
+    flexDirection: 'row'
   },
   avatarContainer: {
     alignItems: 'center',
-    flex: 2,
     height: avatarSize * 1.2,
     justifyContent: 'center',
     position: 'relative',
@@ -114,8 +112,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#484848'
   },
   nameAndEmailContainer: {
-    flex: 5,
-    paddingLeft: 20
+    paddingLeft: wp('6.4%'),
+    justifyContent: 'center'
   },
   name: {
     fontSize: wp('5.33%'),
@@ -163,7 +161,7 @@ const buttonStyles = {
   next: {
     alignSelf: 'flex-end',
     position: 'relative',
-    top: -hp('0.98%')
+    marginTop: hp('0.73%')
   }
 };
 

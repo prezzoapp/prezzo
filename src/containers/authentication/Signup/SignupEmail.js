@@ -38,7 +38,7 @@ type Props = {
   navigate: Function
 };
 
-const containerPaddingLeftRight: number = 40;
+const containerPaddingLeftRight: number = wp('10.66%');
 const containerPaddingTopBottom: number = 80;
 const checkboxSize: number = 25;
 const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_REGULAR,
     color: '#fff',
     lineHeight: 41,
-    marginBottom: hp('4.55%'),
+    marginBottom: hp('5.04%'),
     backgroundColor: 'transparent'
   },
   navigation: {
@@ -83,20 +83,20 @@ const styles = StyleSheet.create({
   promotionsContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: 40,
+    marginBottom: hp('3.07%'),
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: hp('1.97%')
   },
   checkbox: {
     width: checkboxSize,
     height: checkboxSize,
-    marginRight: 20,
+    marginRight: wp('3.2%'),
     resizeMode: 'contain'
   },
   promotionalText: {
     fontSize: wp('4.53%'),
-    lineHeight: 30,
+    lineHeight: 27.51,
     fontFamily: FONT_FAMILY_REGULAR,
     color: '#fff',
     backgroundColor: 'transparent'

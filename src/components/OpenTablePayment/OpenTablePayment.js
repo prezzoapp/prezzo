@@ -59,7 +59,7 @@ const OpenTablePayment = props => {
 
       <View style={styles.middleContainer}>
         <View style={styles.middleTextContainer}>
-          <Text style={styles.subTotalTaxLabel}>Subtotal</Text>
+          <Text style={styles.subTotalTaxLabel}>SUBTOTAL</Text>
           <Text style={styles.subTotalTaxValue}>{subTotal}</Text>
         </View>
 

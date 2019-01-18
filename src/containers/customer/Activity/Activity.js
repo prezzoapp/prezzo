@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 import ActivityOpenOrder from '../ActivityOpenOrder';
-// import ActivityHistory from '../ActivityHistory';
+import ActivityHistory from '../ActivityHistory';
 
 import styles from './styles';
 
@@ -52,7 +52,7 @@ class Activity extends Component {
           >
             <ActivityOpenOrder />
           </Tab>
-          {/*<Tab
+          <Tab
             heading="History"
             tabStyle={styles.historyTabStyle}
             activeTabStyle={styles.historyTabStyle}
@@ -61,7 +61,7 @@ class Activity extends Component {
             style={styles.tabStyle}
           >
             <ActivityHistory />
-          </Tab>*/}
+          </Tab>
         </Tabs>
       </Container>
     );

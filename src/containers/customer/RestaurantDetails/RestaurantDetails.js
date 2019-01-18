@@ -369,13 +369,13 @@ export default class RestaurantDetails extends Component {
 
   render() {
     const animatedHeader = this.scrollAnimatedValue.interpolate({
-      inputRange: [0, 159],
-      outputRange: [159, 0],
+      inputRange: [0, hp('18.84%')],
+      outputRange: [hp('18.84%'), 0],
       extrapolate: 'clamp'
     });
 
     const animatedOpacity = this.scrollAnimatedValue.interpolate({
-      inputRange: [0, 159],
+      inputRange: [0, hp('18.84%')],
       outputRange: [1, 0]
     });
 
@@ -395,7 +395,8 @@ export default class RestaurantDetails extends Component {
             height: animatedHeader,
             overflow: 'hidden',
             opacity: animatedOpacity,
-            paddingHorizontal: 15
+            paddingHorizontal: 15,
+            justifyContent: 'space-between'
           }}
         >
           <View style={styles.contentContainer}>

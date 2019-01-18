@@ -18,24 +18,21 @@ export default StyleSheet.create({
     width: '100%'
   },
   iconContainer: {
-    height: 25,
-    marginRight: 5,
-    width: 25
+    height: wp('6.13%'),
+    width: wp('6.13%')
   },
   text: {
     alignItems: 'center',
     color: '#fff',
     flex: 1,
     fontFamily: FONT_FAMILY,
-    fontSize: 16
+    fontSize: wp('5.33%')
   },
 
   expDate: {
     color: '#fff',
     flex: 1,
     fontFamily: FONT_FAMILY,
-    fontSize: 16,
-    marginBottom: 5,
-    marginTop: 5
+    fontSize: wp('5.33%')
   }
 });

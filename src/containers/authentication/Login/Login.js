@@ -189,8 +189,7 @@ const styles = StyleSheet.create({
   signupLabelContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: 50,
-    marginTop: 10,
+    marginBottom: hp('8%'),
     backgroundColor: 'transparent',
     flexDirection: 'row',
     display: 'flex'
