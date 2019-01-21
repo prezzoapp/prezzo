@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingBottom: hp('2.46%')
+    paddingBottom: wp('6.13%')
   },
 
   headerTextContainer: {
@@ -50,12 +50,13 @@ const styles = StyleSheet.create({
   headerTitleText: {
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
-    fontSize: wp('5.33%')
+    fontSize: wp('5.33%'),
+    lineHeight: wp('5.86%')
   },
 
   headerContentTextContainer: {
     flexDirection: 'row',
-    paddingTop: hp('1.23%')
+    paddingTop: wp('2.66%')
   },
 
   headerContentText: {
@@ -98,10 +99,11 @@ const styles = StyleSheet.create({
 
   headerBtns: {
     alignItems: 'center',
-    width: wp('21.33%'),
+    width: wp('20.03%'),
     borderRadius: 15,
     justifyContent: 'center',
-    height: hp('2.95%')
+    height: wp('7.2%'),
+    margin: wp('0.8%')
   },
 
   headerBtnText: {
@@ -114,14 +116,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     bottom: 0,
-    width: wp('21.33%'),
+    width: wp('20.03%'),
     borderRadius: 15
   },
 
   linearGradientBtn: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderRadius: 15
   },
 
   selectedBtnText: {

@@ -37,7 +37,7 @@ type State = {
 
 const containerPaddingLeftRight: number = wp('10.66%');
 const containerPaddingTopBottom: number = 80;
-const avatarSize: number = wp('18.66%');
+const avatarSize: number = wp('17.33%');
 
 const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
 
@@ -71,15 +71,16 @@ const styles = StyleSheet.create({
   profileContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: hp('6.40'),
-    flexDirection: 'row'
+    marginBottom: wp('13.86%'),
+    flexDirection: 'row',
+    paddingLeft: wp('0.8%')
   },
   avatarContainer: {
     alignItems: 'center',
-    height: avatarSize * 1.2,
+    height: avatarSize,
     justifyContent: 'center',
     position: 'relative',
-    width: avatarSize * 1.2
+    width: avatarSize
   },
   avatar: {
     width: avatarSize,
@@ -94,8 +95,8 @@ const styles = StyleSheet.create({
     width: wp('5.66%'),
     height: wp('5.66%'),
     position: 'absolute',
-    top: hp('0.5%'),
-    right: wp('2%'),
+    top: 0,
+    right: 0,
     borderWidth: 1,
     borderColor: '#fff',
     borderRadius: wp('5.66%') / 2,
@@ -151,7 +152,7 @@ const buttonStyles = {
   next: {
     alignSelf: 'flex-end',
     position: 'relative',
-    marginTop: hp('0.73%')
+    marginTop: wp('1.6%')
   }
 };
 

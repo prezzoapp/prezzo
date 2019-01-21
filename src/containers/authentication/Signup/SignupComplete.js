@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   image: {
     aspectRatio: 0.8,
     marginTop: hp('17.85%'),
-    marginBottom: wp('6.93%'),
+    marginBottom: wp('6.75%'),
     alignSelf: 'center',
     resizeMode: 'contain'
   },
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_DISPLAY_BOLD,
     textAlign: 'center',
     color: '#fff',
-    marginBottom: hp('0.9%'),
+    marginBottom: wp('2.13%'),
     backgroundColor: 'transparent'
   },
   bodyText: {
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_DISPLAY_ULTRALIGHT,
     textAlign: 'center',
     color: '#fff',
-    marginBottom: hp('17.24%'),
+    marginBottom: wp('37.33%'),
     backgroundColor: 'transparent'
   },
   navigation: {
@@ -187,8 +187,8 @@ const styles = StyleSheet.create({
 
 const buttonStyles = {
   explore: {
-    width: '50%',
-    height: hp('6.65%'),
+    width: wp('42.66%'),
+    height: wp('14.4%'),
     justifyContent: 'center',
     backgroundColor: '#0DD24A',
     borderColor: '#0DD24A'

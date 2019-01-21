@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_REGULAR,
     color: '#fff',
     lineHeight: 41,
-    marginBottom: hp('5.04%'),
+    marginBottom: wp('10.93%'),
     backgroundColor: 'transparent'
   },
   navigation: {
@@ -84,10 +84,10 @@ const styles = StyleSheet.create({
   promotionsContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: hp('3.07%'),
+    marginBottom: wp('6.66%'),
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: hp('1.97%')
+    marginTop: wp('4.26%')
   },
   checkbox: {
     width: checkboxSize,
@@ -177,6 +177,7 @@ class SignupEmail extends React.Component<Props> {
               type="email"
               label="Email Address"
               value={email}
+              labelPaddingBottom={wp('5%')}
               onChange={value => this.props.updateEmail(value)}
             />
 

@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { TouchableOpacity, Image } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 type State = {
   isBusy: boolean
@@ -15,7 +16,7 @@ type Props = {
   style: object
 };
 
-const buttonSize: number = 40;
+const buttonSize: number = wp('11.73%');
 
 const styles = {
   button: {
