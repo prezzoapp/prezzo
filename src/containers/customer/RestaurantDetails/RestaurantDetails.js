@@ -10,7 +10,7 @@ import {
   Animated,
   InteractionManager,
   ActivityIndicator,
-  Platform
+  Dimensions
 } from 'react-native';
 
 import {
@@ -20,9 +20,7 @@ import {
 
 import PropTypes from 'prop-types';
 
-import { LinearGradient, BlurView, Constants } from 'expo';
-
-import { Header } from 'react-navigation';
+import { LinearGradient, BlurView } from 'expo';
 
 import { Feather } from '../../../components/VectorIcons';
 
@@ -42,6 +40,7 @@ import showGenericAlert from '../../../components/GenericAlert';
 import { post } from '../../../utils/api';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
+const headerHeight = wp('44.97%');
 
 export default class RestaurantDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -369,20 +368,22 @@ export default class RestaurantDetails extends Component {
 
   render() {
     const animatedHeader = this.scrollAnimatedValue.interpolate({
-      inputRange: [0, hp('18.84%')],
-      outputRange: [hp('18.84%'), 0],
+      inputRange: [0, headerHeight],
+      outputRange: [headerHeight, 0],
       extrapolate: 'clamp'
     });
 
     const animatedOpacity = this.scrollAnimatedValue.interpolate({
-      inputRange: [0, hp('18.84%')],
+      inputRange: [0, headerHeight],
       outputRange: [1, 0]
     });
 
     return (
       <View style={styles.container}>
         <ImageBackground
-          source={require('../../../../assets/images/photo_back.jpg')}
+          source={{
+            uri: this.props.navigation.state.params.item.avatarURL
+          }}
           style={styles.photo_back}>
           <LinearGradient
             colors={['transparent', 'black']}
@@ -395,15 +396,13 @@ export default class RestaurantDetails extends Component {
             height: animatedHeader,
             overflow: 'hidden',
             opacity: animatedOpacity,
-            paddingHorizontal: 15,
-            justifyContent: 'space-between'
+            paddingHorizontal: wp('4%'),
+            backgroundColor: 'lightgreen'
           }}
         >
           <View style={styles.contentContainer}>
             <Image
-              source={{
-                uri: this.props.navigation.state.params.item.avatarURL
-              }}
+              source={require('../../../../assets/images/item5.png')}
               style={styles.logo}
             />
             <View style={[styles.headerTextContainer, styles.transparent]}>
@@ -432,7 +431,9 @@ export default class RestaurantDetails extends Component {
               if(
                 this.props.navigation.state.params.item.menu &&
                 this.props.navigation.state.params.item.menu.categories &&
-                this.props.navigation.state.params.item.menu.categories.length > 0) {
+                this.props.navigation.state.params.item.menu.categories.length >
+                  0
+              ) {
                 return (
                   <View style={styles.toggleBtnsSection}>
                     <View style={styles.buttonHolder}>
@@ -453,12 +454,16 @@ export default class RestaurantDetails extends Component {
                       <View
                         style={[
                           styles.toggleView,
-                          { left: this.state.showText ? wp('21.33%') : 0 }
+                          styles.headerBtns,
+                          {
+                            left: this.state.showText ? null : 0,
+                            right: this.state.showText ? 0 : null
+                          }
                         ]}
                       >
                         <LinearGradient
                           colors={['#707070', '#1E1E1E']}
-                          style={[styles.headerBtns, styles.linearGradientBtn]}
+                          style={[styles.linearGradientBtn]}
                         >
                           <Text style={styles.selectedBtnText}>
                             {this.state.showText ? 'Text' : 'Photo'}

@@ -75,7 +75,7 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: hp('5.29%')
+    height: wp('11.46%')
   },
   text: {
     color: 'white',

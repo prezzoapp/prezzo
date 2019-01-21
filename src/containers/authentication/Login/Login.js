@@ -126,6 +126,8 @@ class Login extends React.Component<Props, State> {
               type="password"
               label="Password"
               value={password}
+              height={wp('16%')}
+              paddingBottom={0}
               onChange={password => this.setState({ password })}
             />
 
@@ -175,6 +177,7 @@ const styles = StyleSheet.create({
     fontSize: wp('10.16%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
+    letterSpacing: 0,
     backgroundColor: 'transparent',
     paddingTop: hp('0%')
   },
@@ -182,6 +185,7 @@ const styles = StyleSheet.create({
     fontSize: wp('6.13%'),
     fontFamily: FONT_FAMILY,
     color: '#fff',
+    letterSpacing: 0,
     marginBottom: hp('4.92%'),
     backgroundColor: 'transparent',
     marginTop: 5
@@ -189,7 +193,8 @@ const styles = StyleSheet.create({
   signupLabelContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: hp('8%'),
+    marginBottom: wp('17.33%'),
+    marginTop: wp('10.66%'),
     backgroundColor: 'transparent',
     flexDirection: 'row',
     display: 'flex'

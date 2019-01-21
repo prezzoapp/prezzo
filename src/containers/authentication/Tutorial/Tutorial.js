@@ -161,14 +161,14 @@ const styles = StyleSheet.create({
   },
   header: {
     position: 'absolute',
-    top: Constants.statusBarHeight + hp('3%') - (Platform.OS === 'ios' ? 20 : 0),
+    top: Constants.statusBarHeight,
     right: 0,
     width: '100%',
     height: '20%'
   },
   footer: {
     position: 'absolute',
-    bottom: hp('4.50%'),
+    bottom: wp('9.50%'),
     left: 0,
     right: 0,
     width: '100%'
@@ -179,7 +179,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     marginRight: wp('5.33%'),
     color: '#fff',
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    lineHeight: wp('5.86%')
   },
   dotStyle: {
     width: wp('1.6%'),
@@ -194,7 +195,7 @@ const buttonStyles = {
   },
   createAccountButton: {
     width: 'auto',
-    height: hp('5.29%'),
+    height: wp('11.46%'),
     marginLeft: wp('10.13%'),
     marginRight: wp('10.13%'),
     justifyContent: 'center',

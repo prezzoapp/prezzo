@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
     lineHeight: 41,
-    marginBottom: hp('5.04%'),
+    marginBottom: wp('10.93%'),
     backgroundColor: 'transparent'
   },
   navigation: {
@@ -67,8 +67,7 @@ const styles = StyleSheet.create({
 
 const nextButtonStyle = {
   alignSelf: 'flex-end',
-  position: 'relative',
-  top: -hp('0.98%')
+  position: 'relative'
 };
 
 class SignupName extends React.Component<Props, State> {

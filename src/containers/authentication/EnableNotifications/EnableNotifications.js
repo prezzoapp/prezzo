@@ -105,36 +105,38 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: wp('5.6%'),
-    paddingTop: hp('9.11%'),
+    paddingTop: wp('19.5%'),
     backgroundColor: '#fff'
   },
   chatIcon: {
     width: wp('13.33%'),
-    height: wp('13.33%'),
-    marginBottom: hp('3.94%'),
+    height: wp('10.3%'),
+    marginBottom: wp('9.53%'),
     resizeMode: 'contain'
   },
   headerText: {
-    fontSize: wp('8%'),
+    fontSize: wp('8.5%'),
     fontFamily: FONT_FAMILY_BOLD,
     color: '#484848',
-    marginBottom: hp('3.57%')
+    marginBottom: wp('4%'),
+    lineHeight: wp('8.26%')
   },
   regularText: {
-    fontSize: 20,
+    fontSize: wp('5.33%'),
     fontFamily: FONT_FAMILY,
     color: '#484848',
-    marginBottom: hp('6.15%')
+    marginBottom: wp('13.33%'),
+    lineHeight: wp('6.93%')
   }
 });
 
 const buttonStyles = {
   notify: {
-    height: hp('6.15%'),
+    height: wp('13.33%'),
     width: wp('46.66%'),
     marginLeft: 0,
     marginRight: 0,
-    marginBottom: hp('1.97%'),
+    marginBottom: wp('4.26%'),
     backgroundColor: '#0DD24A',
     borderColor: '#0DD24A',
     justifyContent: 'center'
@@ -147,7 +149,7 @@ const buttonStyles = {
   },
   skip: {
     width: wp('26.66%'),
-    height: hp('6.15%'),
+    height: wp('13.33%'),
     marginLeft: 0,
     marginRight: 0,
     backgroundColor: '#fff',
