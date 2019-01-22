@@ -14,15 +14,15 @@ import {
 const styles = StyleSheet.create({
   filteredRestaurantsBottomCardHolder: {
     backgroundColor: 'rgb(51,51,51)',
-    height: hp('30.54%'),
+    // height: hp('30.54%'),
+    height: wp('66.13%'),
     borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: 5
+    borderTopRightRadius: 30
+    // paddingTop: 5
   },
 
   listItemBtn: {
-    paddingHorizontal: wp('4%'),
-    paddingVertical: hp('1.84%')
+    paddingHorizontal: wp('4%')
   },
 
   titleHolder: {
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
   },
 
   statusImage: {
-    height: wp('4.8%'),
-    width: wp('4.8%'),
+    height: wp('3%'),
+    width: wp('3%'),
     resizeMode: 'contain'
   },
 
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     color: 'white',
     flex: 1,
-    paddingRight: 5
+    paddingRight: 5,
+    lineHeight: wp('10.35%')
   },
 
   distance: {
@@ -54,14 +55,16 @@ const styles = StyleSheet.create({
   status: {
     color: 'rgb(46,214,116)',
     fontFamily: FONT_FAMILY_MEDIUM,
-    paddingLeft: 15,
+    paddingLeft: wp('4.26%'),
     position: 'relative',
-    top: -5
+    fontSize: wp('2.93%'),
+    lineHeight: wp('3.46%'),
+    top: -wp('0.6%')
   },
 
   statusHolder: {
     flexDirection: 'row',
-    paddingTop: wp('2.66%'),
+    paddingBottom: wp('4.8%'),
     alignItems: 'center'
   },
 
@@ -73,7 +76,8 @@ const styles = StyleSheet.create({
 
   vendorInfoHolder: {
     flex: 1,
-    padding: wp('4%')
+    paddingTop: wp('9.6%'),
+    paddingHorizontal: wp('4.26%')
   },
 
   contentHolder: {
@@ -97,30 +101,31 @@ const styles = StyleSheet.create({
   },
 
   vendorContentHolder: {
-    paddingLeft: wp('8%'),
-    flex: 1
+    // paddingLeft: wp('4.26%'),
+    paddingLeft: wp('8.53%'),
+    flex: 1,
+    top: -wp('2.66%')
   },
 
   vendorName: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
-    fontSize: wp('6.66%'),
-    lineHeight: hp('3.69%'),
-    top: -5
+    fontSize: wp('8%'),
+    lineHeight: wp('10.35%')
   },
 
   vendorAddress: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('4%'),
-    lineHeight: hp('2.70%'),
-    top: -2,
+    // lineHeight: hp('2.70%'),
+    lineHeight: wp('5.86%'),
     padding: 0,
     margin: 0
   },
 
   vendorInfoSectionSeparator: {
-    marginVertical: wp('4%'),
+    marginBottom: wp('3.73%'),
     alignSelf: 'stretch',
     height: 1,
     backgroundColor: 'rgb(59,97,74)'
@@ -128,14 +133,37 @@ const styles = StyleSheet.create({
 
   milesText: {
     color: '#959595',
-    paddingLeft: wp('2.66%'),
+    paddingLeft: wp('4.26%'),
     fontFamily: FONT_FAMILY,
-    fontSize: 17
+    fontSize: wp('4.53%'),
+    flex: 1,
+    lineHeight: wp('5.86%'),
+    marginRight: wp('3%')
   },
 
   iconTextHolder: {
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    flex: 1
+  },
+
+  contentContainerStyle: {
+    paddingVertical: wp('3.73%'),
+    paddingHorizontal: wp('2.93%')
+  },
+
+  extraStatusHolderStyle: {
+    paddingTop: wp('2.13%'),
+    paddingBottom: 0
+  },
+
+  extraStatusStyle: {
+    paddingBottom: 0
+  },
+
+  extraContentHolderStyle: {
+    justifyContent: 'space-between',
+    paddingRight: 0
   }
 });
 

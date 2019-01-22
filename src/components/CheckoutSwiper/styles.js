@@ -16,7 +16,8 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: hp('8.62%')
+    // paddingBottom: hp('8.62%')
+    marginBottom: wp('18.66%')
   },
 
   slide: {
@@ -37,7 +38,9 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
     textAlign: 'center',
-    paddingTop: hp('2.58%')
+    lineHeight: wp('5.86%'),
+    // paddingTop: hp('2.58%')
+    paddingTop: wp('5.6%')
   },
 
   reviewOrderText: {
@@ -45,11 +48,14 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_TEXT_LIGHT,
     color: COLOR_WHITE,
     textAlign: 'center',
-    paddingTop: hp('1.47%')
+    lineHeight: wp('5.86%'),
+    // paddingTop: hp('1.47%')
+    paddingTop: wp('3.2%')
   },
 
   flatList: {
-    marginTop: hp('6.15%')
+    // marginTop: hp('6.15%')
+    paddingTop: wp('13.33%')
     // marginVertical: wp('10%'),
     // height: hp('30%')
   },
@@ -58,7 +64,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginVertical: wp('3%')
+    marginVertical: wp('3%'),
+    marginHorizontal: wp('2.13%')
   },
 
   itemName: {
@@ -66,14 +73,16 @@ const styles = StyleSheet.create({
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
     fontSize: wp('4.5%'),
-    paddingRight: wp('3%')
+    paddingRight: wp('3%'),
+    lineHeight: wp('5.86%')
   },
 
   reviewOrderFooter: {
     borderTopWidth: 1,
     borderColor: 'rgba(46,213,115, 0.5)',
     marginHorizontal: wp('4.3%'),
-    height: hp('16.33%'),
+    // height: hp('16.33%'),
+    height: wp('34.93%'),
     justifyContent: 'center'
   },
 
@@ -82,7 +91,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingHorizontal: wp('2.36%'),
-    paddingTop: hp('2.95%')
+    // paddingTop: hp('2.95%')
+    paddingTop: wp('8%')
   },
 
   reviewOrderFooterText: {
@@ -97,7 +107,9 @@ const styles = StyleSheet.create({
 
   quantity: {
     fontSize: wp('4.5%'),
-    paddingHorizontal: wp('5%'),
+    width: wp('16%'),
+    textAlign: 'center',
+    // paddingHorizontal: wp('5%'),
     color: COLOR_WHITE,
     fontFamily: SF_PRO_TEXT_REGULAR
   },
@@ -145,8 +157,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: hp('4.80%'),
-    paddingBottom: hp('3.69%')
+    // paddingTop: hp('4.80%'),
+    paddingVertical: wp('8%')
+    // paddingBottom: hp('3.69%')
   },
 
   paymentBtnHolder: {
@@ -188,7 +201,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 99999,
     left: wp('5%'),
-    top: hp('2.29%'),
+    top: wp('2.66%'),
     padding: 5
   },
 

@@ -3,7 +3,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
 
 import {
   FONT_FAMILY_BOLD,
@@ -53,7 +52,8 @@ const styles = StyleSheet.create({
   },
 
   flatListStyle: {
-    marginTop: hp('19.45%')
+    // marginTop: hp('19.45%')
+    marginTop: wp('45.33%')
   }
 });
 

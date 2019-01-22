@@ -1,9 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { Constants } from 'expo';
+import { Header } from 'react-navigation';
 
 import {
   FONT_FAMILY,
@@ -16,7 +18,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'black',
-    paddingTop: hp('11.48%')
+    paddingTop:
+      Constants.statusBarHeight +
+      Header.HEIGHT -
+      (Platform.OS === 'ios' ? 20 : 0)
+    // paddingTop: hp('11.48%')
   },
 
   transparent: {
@@ -69,8 +75,9 @@ const styles = StyleSheet.create({
     fontSize: wp('8%'),
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
-    paddingBottom: hp('1.23%'),
-    textAlign: 'center'
+    // paddingBottom: hp('1.23%'),
+    paddingBottom: wp('5.33%'),
+    lineHeight: wp('8%')
   },
 
   logo: {
@@ -136,7 +143,8 @@ const styles = StyleSheet.create({
 
   bottomViewHolder: {
     paddingHorizontal: wp('4.53%'),
-    height: hp('8.62%'),
+    // height: hp('8.62%'),
+    height: wp('18.66%'),
     position: 'absolute',
     left: 0,
     right: 0,
@@ -153,7 +161,7 @@ const styles = StyleSheet.create({
     fontSize: wp('4.8%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
-    marginRight: wp('10.66%')
+    marginRight: wp('12%')
   },
 
   messageHolder: {
@@ -177,13 +185,15 @@ const styles = StyleSheet.create({
 
   headerLeftBtn: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginLeft: wp('4.26%')
   },
 
   headerLeftBtnText: {
     fontSize: wp('5.33%'),
     color: 'white',
-    fontFamily: SF_PRO_TEXT_SEMI_BOLD
+    fontFamily: SF_PRO_TEXT_SEMI_BOLD,
+    lineHeight: wp('5.86%')
   }
 });
 

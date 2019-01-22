@@ -10,7 +10,7 @@ import {
   Animated,
   InteractionManager,
   ActivityIndicator,
-  Dimensions
+  Platform
 } from 'react-native';
 
 import {
@@ -20,7 +20,7 @@ import {
 
 import PropTypes from 'prop-types';
 
-import { LinearGradient, BlurView } from 'expo';
+import { LinearGradient, BlurView, Constants } from 'expo';
 
 import { Feather } from '../../../components/VectorIcons';
 
@@ -47,7 +47,6 @@ export default class RestaurantDetails extends Component {
     headerStyle: {
       position: 'absolute',
       backgroundColor: 'transparent',
-      zIndex: -1,
       top: 0,
       left: 0,
       right: 0,
@@ -250,7 +249,7 @@ export default class RestaurantDetails extends Component {
 
   listFooterComponent() {
     if(this.flag === 1) {
-      return <View style={{ height: hp('8.62%') }} />;
+      return <View style={{ height: wp('18.66%') }} />;
     }
     return null;
   }
@@ -310,10 +309,9 @@ export default class RestaurantDetails extends Component {
                       ]}
                       textStyle={buttonStyles.btnText}
                       disabled={
-                        this.state.currentSlideIndex === 1 &&
-                        !this.state.isSelectedPaymentType
-                          ? true
-                          : false
+                        !!(this.state.currentSlideIndex === 1 &&
+                          !this.state.isSelectedPaymentType
+                        )
                       }
                       onPress={this.onOrderBtnClick}
                     >
@@ -357,10 +355,16 @@ export default class RestaurantDetails extends Component {
         borderBottomWidth: 1,
         borderBottomColor: 'white',
         backgroundColor: 'transparent',
-        paddingTop: hp('2.46%')
+        // paddingTop: hp('2.46%')
       }}
     >
-      <Text style={[styles.transparent, styles.listHeaderText]}>
+      <Text
+        style={[
+          styles.transparent,
+          styles.listHeaderText,
+          { textAlign: this.state.showText ? 'left' : 'center' }
+        ]}
+      >
         {section.title}
       </Text>
     </View>
@@ -381,9 +385,7 @@ export default class RestaurantDetails extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground
-          source={{
-            uri: this.props.navigation.state.params.item.avatarURL
-          }}
+          source={require('../../../../assets/images/photo_back.jpg')}
           style={styles.photo_back}>
           <LinearGradient
             colors={['transparent', 'black']}
@@ -396,13 +398,14 @@ export default class RestaurantDetails extends Component {
             height: animatedHeader,
             overflow: 'hidden',
             opacity: animatedOpacity,
-            paddingHorizontal: wp('4%'),
-            backgroundColor: 'lightgreen'
+            paddingHorizontal: wp('4%')
           }}
         >
           <View style={styles.contentContainer}>
             <Image
-              source={require('../../../../assets/images/item5.png')}
+              source={{
+                uri: this.props.navigation.state.params.item.avatarURL
+              }}
               style={styles.logo}
             />
             <View style={[styles.headerTextContainer, styles.transparent]}>
@@ -501,6 +504,32 @@ export default class RestaurantDetails extends Component {
                 <AnimatedSectionList
                   bounces={false}
                   stickySectionHeadersEnabled
+                  SectionSeparatorComponent={({ leadingItem, section }) =>
+                    leadingItem ? (
+                      <View
+                        style={{
+                          paddingBottom: !this.state.showText
+                            ? wp('5.33%')
+                            : wp('14.4%')
+                        }}
+                      />
+                    ) : (
+                      <View
+                        style={{
+                          paddingBottom: wp('5.33%')
+                        }}
+                      />
+                    )
+                  }
+                  ItemSeparatorComponent={() =>
+                    <View
+                      style={{
+                        paddingBottom: this.state.showText
+                          ? wp('8.8%')
+                          : wp('9.4%')
+                      }}
+                    />
+                  }
                   keyExtractor={item => item._id.toString()}
                   onScroll={Animated.event([
                     {
@@ -509,8 +538,16 @@ export default class RestaurantDetails extends Component {
                       }
                     }]
                   )}
+                  style={{
+                    paddingTop: wp('5.33%'),
+                    marginBottom: !this.state.showText
+                      ? -wp('5.33%')
+                      : -wp('14.4%')
+                  }}
                   contentContainerStyle={{
-                    paddingBottom: 15,
+                    paddingBottom: !this.state.showText
+                      ? wp('5.33%')
+                      : wp('14.4%'),
                     paddingHorizontal: 15
                   }}
                   ListFooterComponent={() => this.listFooterComponent()}
@@ -599,7 +636,8 @@ const buttonStyles = {
     backgroundColor: '#2ED573',
     borderColor: '#0DD24A',
     width: wp('40%'),
-    height: hp('4.55%'),
+    // height: hp('4.55%'),
+    height: wp('9.86%'),
     justifyContent: 'center',
     borderRadius: 8
   },

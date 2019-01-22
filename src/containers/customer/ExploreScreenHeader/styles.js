@@ -25,13 +25,16 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_TEXT_SEMI_BOLD,
     backgroundColor: 'transparent',
     position: 'relative',
-    lineHeight: hp('2.46%')
+    // lineHeight: hp('2.46%')
+    lineHeight: wp('5.33%')
   },
 
   filterPanel: {
     marginHorizontal: wp('4.26%'),
-    marginTop: hp('10.59%'),
-    paddingBottom: hp('0.98%'),
+    // marginTop: hp('10.59%'),
+    marginTop: wp('22.93%'),
+    // paddingBottom: hp('0.98%'),
+    paddingBottom: wp('2.13%'),
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(46, 213, 115, 0.3)',
     justifyContent: 'center'
@@ -57,8 +60,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    position: 'relative',
-    top: -hp('0.5%')
+    position: 'relative'
+    // top: -hp('0.5%')
   },
 
   restaurantTitle: {
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: wp('8%'),
     backgroundColor: 'transparent',
-    lineHeight: hp('5.04%')
+    lineHeight: wp('10.93%')
   },
 
   filterButtonAndMapIconHolder: {
@@ -82,11 +85,11 @@ const styles = StyleSheet.create({
   },
 
   filtersHolder: {
-    paddingVertical: hp('1.84%')
+    paddingVertical: wp('5.33%')
   },
 
   filtersList: {
-    paddingLeft: wp('3.2%')
+    paddingLeft: wp('4.53%')
   },
 
   slidersHolder: {

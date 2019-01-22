@@ -29,11 +29,12 @@ const styles = StyleSheet.create({
   },
 
   spotText: {
-    fontSize: wp('5.86%'),
+    fontSize: wp('9.6%'),
     color: 'white',
     fontFamily: FONT_FAMILY_MEDIUM,
     paddingBottom: hp('1.23%'),
-    paddingHorizontal: wp('4.26%')
+    paddingHorizontal: wp('4.26%'),
+    lineHeight: wp('10.93%')
   },
 
   markerStyle: {
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
   },
 
   headerLeftBtn: {
-    paddingLeft: wp('2%')
+    paddingLeft: wp('4.4%')
   }
 });
 

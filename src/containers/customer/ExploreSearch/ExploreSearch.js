@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, FlatList, Text, ActivityIndicator } from 'react-native';
+import { View, FlatList, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { BlurView } from 'expo';
 import PropTypes from 'prop-types';
 import SearchVendorListItem from '../../../components/SearchVendorListItem';
@@ -84,18 +84,27 @@ class ExploreSearch extends Component {
                   );
                 } else if(this.state.filteredData.length !== 0) {
                   return (
-                    <FlatList
-                      keyExtractor={item => item._id}
-                      data={this.state.filteredData}
-                      contentContainerStyle={styles.flatListStyle}
-                      ItemSeparatorComponent={() => this.renderSeparator()}
-                      renderItem={({ item }) => (
-                        <SearchVendorListItem
-                          item={item}
-                          navigate={this.props.navigate}
-                        />
-                      )}
-                    />
+                    <View style={{ flex: 1 }}>
+                      <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={() => null}
+                        style={styles.closeByBtn}
+                      >
+                        <Text style={styles.closeByBtnText}>Close By</Text>
+                      </TouchableOpacity>
+                      <FlatList
+                        keyExtractor={item => item._id}
+                        data={this.state.filteredData}
+                        contentContainerStyle={styles.flatListStyle}
+                        ItemSeparatorComponent={() => this.renderSeparator()}
+                        renderItem={({ item }) => (
+                          <SearchVendorListItem
+                            item={item}
+                            navigate={this.props.navigate}
+                          />
+                        )}
+                      />
+                    </View>
                   );
                 }
                 return (
