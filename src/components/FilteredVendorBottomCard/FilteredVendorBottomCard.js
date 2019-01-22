@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, FlatList, Text, Image, TouchableOpacity } from 'react-native';
+import { View, FlatList, Text, Image } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { Feather } from '../VectorIcons';
 import Button from '../Button';
@@ -36,10 +37,7 @@ class FilteredVendorBottomCard extends Component {
       <View style={styles.filteredRestaurantsBottomCardHolder}>
         {!this.state.showVendorInfo ? (
           <FlatList
-            contentContainerStyle={{
-              paddingVertical: 5,
-              paddingHorizontal: 15
-            }}
+            contentContainerStyle={styles.contentContainerStyle}
             keyExtractor={item => item._id}
             data={this.props.data}
             showsVerticalScrollIndicator={false}
@@ -73,19 +71,22 @@ class FilteredVendorBottomCard extends Component {
                 <Text style={styles.vendorAddress}>
                   {this.state.item.location.city}, {this.state.item.location.region}
                 </Text>
+                <View style={[styles.statusHolder, styles.extraStatusHolderStyle]}>
+                  <Image
+                    source={require("../../../assets/images/open_restaurant_status.png")}
+                    style={styles.statusImage}
+                  />
+                  <Text style={[styles.status, styles.extraStatusStyle]}>Open Now</Text>
+                </View>
               </View>
             </View>
 
             <View style={styles.vendorInfoSectionSeparator} />
 
-            <View
-              style={[
-                styles.contentHolder,
-                { justifyContent: 'space-between' }
-              ]}>
+            <View style={[styles.contentHolder, styles.extraContentHolderStyle]}>
               <View style={styles.iconTextHolder}>
-                <Feather name="corner-up-right" size={20} color="white" />
-                <Text style={styles.milesText}>0.32 miles away</Text>
+                <Feather name="corner-up-right" size={wp('6.4%')} color="white" />
+                <Text style={styles.milesText} numberOfLines={1}>0.32 miles away</Text>
               </View>
 
               <Button
@@ -94,7 +95,7 @@ class FilteredVendorBottomCard extends Component {
                 onPress={() => this.callMethod(this.state.item)}
               >
                 Go
-            </Button>
+              </Button>
             </View>
           </View>
         )}
@@ -111,12 +112,16 @@ const buttonStyles = {
   goBtn: {
     backgroundColor: '#0DD24A',
     borderColor: '#0DD24A',
-    width: 100,
-    borderRadius: 8
+    width: wp('29.86%'),
+    height: wp('11.73%'),
+    borderRadius: 8,
+    justifyContent: 'center'
   },
   goBtnText: {
-    fontSize: 15,
-    fontFamily: SF_PRO_TEXT_SEMI_BOLD
+    fontSize: wp('4%'),
+    fontFamily: SF_PRO_TEXT_SEMI_BOLD,
+    paddingTop: 0,
+    paddingBottom: 0
   }
 };
 

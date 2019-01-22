@@ -9,8 +9,9 @@ import { FONT_FAMILY } from '../../services/constants';
 const styles = StyleSheet.create({
   listItem: {
     flexDirection: 'row',
-    paddingVertical: hp('3.07%'),
-    paddingHorizontal: wp('6.66%'),
+    paddingTop: wp('6.66%'),
+    paddingBottom: wp('7.2%'),
+    paddingHorizontal: wp('5.33%'),
     backgroundColor: 'rgba(255,255,255,0.15)'
   },
 
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     height: wp('18.66%'),
     resizeMode: 'cover',
     borderRadius: 8,
-    marginRight: wp('6.66%')
+    marginRight: wp('5.33%')
   },
 
   infoHolder: {
@@ -29,14 +30,17 @@ const styles = StyleSheet.create({
   name: {
     fontSize: wp('5.33%'),
     color: 'rgba(255,255,255,0.7)',
-    fontFamily: FONT_FAMILY
+    fontFamily: FONT_FAMILY,
+    lineHeight: wp('7.2%')
   },
 
   address: {
     fontSize: wp('4.26%'),
     color: 'rgba(255,255,255,0.7)',
     fontFamily: FONT_FAMILY,
-    paddingVertical: hp('1.23%')
+    paddingTop: wp('1.86%'),
+    paddingBottom: wp('2.66%'),
+    lineHeight: wp('5.6%')
   },
 
   ratingHolder: {

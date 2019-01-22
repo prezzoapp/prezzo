@@ -19,7 +19,7 @@ export default class ExploreListItem extends Component {
     const { avatarURL, name, location } = this.props.item;
 
     return (
-      <View style={{ marginBottom: 16 }}>
+      <View style={styles.itemContainer}>
         <TouchableOpacity
           activeOpacity={0.6}
           onPress={() => this.moveToDetails(this.props.item)}

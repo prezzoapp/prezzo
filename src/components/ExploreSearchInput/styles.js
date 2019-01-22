@@ -4,7 +4,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
 
 import { SF_PRO_DISPLAY_REGULAR } from '../../services/constants';
 
@@ -13,12 +12,12 @@ const styles = StyleSheet.create({
     marginHorizontal: wp('4%'),
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: hp('5.17%'),
+    marginTop: wp('11.2%'),
     position: 'absolute',
     top: 0,
     right: 0,
     left: 0,
-    height: hp('3.69%')
+    height: wp('8%')
   },
 
   searchTextInput: {
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
   },
 
   LinearGradientStyle: {
-    height: hp('3.69%'),
+    height: wp('8%'),
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -60,7 +59,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     backgroundColor: 'transparent',
-    height: hp('3.44%'),
     justifyContent: 'center'
   },
 

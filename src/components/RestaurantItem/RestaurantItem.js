@@ -134,16 +134,16 @@ export default class RestaurantItem extends Component {
           loop={false}
           showsPagination={false}>
           {this.props.item.imageURLs && this.props.item.imageURLs.map(image => (
-            <ImageBackground
-              key={image}
-              source={{ uri: image }}
-              style={styles.itemImage}
-            >
-              <LinearGradient
-                colors={['transparent', '#1E1E1E']}
-                locations={[0, 0.95]}
-                style={styles.itemImageLinearGradient}
-              />
+              <ImageBackground
+                key={image}
+                source={{ uri: image }}
+                style={styles.itemImage}
+              >
+                <LinearGradient
+                  colors={['transparent', '#1E1E1E']}
+                  locations={[0, 0.95]}
+                  style={styles.itemImageLinearGradient}
+                />
             </ImageBackground>
           ))}
         </Swiper>
@@ -220,7 +220,8 @@ const itemOrderBtnStyles = {
     alignItems: 'center',
     borderRadius: 8,
     padding: 0,
-    height: hp('4.55%')
+    // height: hp('4.55%')
+    height: wp('9.86%')
   },
   commonBtnText: {
     fontSize: wp('3.73%'),

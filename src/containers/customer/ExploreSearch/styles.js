@@ -39,6 +39,18 @@ const styles = StyleSheet.create({
 
   flatListStyle: {
     paddingBottom: hp('9%')
+  },
+
+  closeByBtn: {
+    marginLeft: wp('5.33%'),
+    marginBottom: wp('2.93%')
+  },
+
+  closeByBtnText: {
+    color: 'rgba(255, 255, 255, 0.5)',
+    fontFamily: FONT_FAMILY,
+    fontSize: wp('5.33%'),
+    lineHeight: wp('7.2%')
   }
 });
 
