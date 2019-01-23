@@ -57,7 +57,7 @@ export default class MenuListCategoriesHeader extends Component {
             onChangeText={text => this.onChangeTitle(text)}
           />
         ) : (
-          <Text style={styles.sectionHeaderText} numberOfLines={1}>
+          <Text style={styles.sectionHeaderText} numberOfLines={5}>
             {this.state.title}
           </Text>
         )}

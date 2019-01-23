@@ -13,7 +13,6 @@ import Button from '../../../components/Button';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 import {
-  FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
   SF_PRO_TEXT_BOLD,
