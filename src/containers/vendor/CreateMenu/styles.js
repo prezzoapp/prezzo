@@ -15,7 +15,11 @@ export default StyleSheet.create({
   },
 
   sectionListStyle: {
-    paddingTop: hp('2%')
+    // paddingTop: hp('2%')
+  },
+
+  sectionListContentContainerStyle: {
+    paddingBottom: hp('2.77%')
   },
 
   spinnerView: {
@@ -69,10 +73,6 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
 
-  sectionListStyle: {
-    paddingBottom: hp('2.77%')
-  },
-
   controlBtnsPanel: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
@@ -96,7 +96,9 @@ export default StyleSheet.create({
 
   innerContainer: {
     flex: 1,
-    marginBottom: hp('9%')
+    marginBottom: hp('9%'),
+    backgroundColor: COLOR_BLACK,
+    paddingTop: wp('6%')
   },
 
   listFooterHolder: {

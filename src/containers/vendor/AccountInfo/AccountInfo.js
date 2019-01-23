@@ -615,7 +615,7 @@ export default class AccountInfo extends React.Component {
                 onPress={() => {}}
                 style={styles.editBtn}
               >
-                <Text style={styles.editText}>Edit Info</Text>
+                <Text style={[styles.editText, { paddingTop: wp('2.13%') }]}>Edit Info</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -648,7 +648,7 @@ export default class AccountInfo extends React.Component {
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionHeaderText}>Address</Text>
 
-              <TouchableOpacity onPress={() => this.navigateToMapView()} style={{ justifyContent: 'center' }}>
+              <TouchableOpacity onPress={() => this.navigateToMapView()}>
                 <Text style={styles.editBtnText}>Edit</Text>
               </TouchableOpacity>
             </View>
@@ -665,7 +665,7 @@ export default class AccountInfo extends React.Component {
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionHeaderText}>Hours</Text>
             </View>
-            <View style={styles.sectionBody}>
+            <View style={[styles.sectionBody, styles.extra4Padding]}>
               {hours.map((hour, index) => {
                 let {
                   dayOfWeek,
@@ -806,7 +806,7 @@ export default class AccountInfo extends React.Component {
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionHeaderText}>Categories</Text>
             </View>
-            <View style={styles.categoriesSectionBody}>
+            <View style={[styles.sectionBody, styles.extra4Padding]}>
               {categories.map((category, index) => (
                 <EditableListItem
                   key={index}
@@ -863,7 +863,7 @@ export default class AccountInfo extends React.Component {
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionHeaderText}>Search Filters</Text>
             </View>
-            <Text style={styles.sectionSubHeaderText}>
+            <Text style={[styles.sectionSubHeaderText, styles.extra4Padding]}>
               Select the options your location offers
             </Text>
 

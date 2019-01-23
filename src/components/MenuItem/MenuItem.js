@@ -138,14 +138,14 @@ export default class MenuItem extends Component {
                     this.state.description
                   )
                 }
-                style={styles.twoLineIconBtn}
+                style={[styles.twoLineIconBtn, styles.controlBtnsStyle]}
               >
                 <Text style={styles.addText}>Save</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
                 activeOpacity={0.6}
-                style={styles.twoLineIconBtn}
+                style={[styles.twoLineIconBtn, styles.controlBtnsStyle]}
                 onPress={() => this.props.deleteItem()}
               >
                 <Text style={[styles.addText, { color: COLOR_DANGER }]}>
@@ -167,7 +167,7 @@ export default class MenuItem extends Component {
           <View
             style={[
               styles.sectionHeader,
-              !this.state.editItem && styles.paddingBottom_10
+              !this.state.editItem && styles.paddingBottom_21
             ]}
           >
             {this.state.editItem ? (
@@ -175,11 +175,14 @@ export default class MenuItem extends Component {
                 autoFocus
                 underlineColorAndroid="transparent"
                 value={this.state.title}
-                style={styles.textInput}
+                style={[styles.textInput, styles.paddingBottom_21]}
                 onChangeText={text => this.updateEntries('TITLE', text)}
               />
             ) : (
-              <Text style={styles.sectionHeaderText}>{this.state.title}</Text>
+              <Text
+                style={styles.sectionHeaderText}
+                numberOfLines={2}
+              >{this.state.title}</Text>
             )}
 
             {!this.state.editItem &&
@@ -196,7 +199,7 @@ export default class MenuItem extends Component {
               }}
             >
               <Text
-                style={[styles.sectionHeaderText, { flex: 0, paddingRight: 2 }]}
+                style={[styles.sectionHeaderText, { flex: 0, paddingRight: 2 }, styles.paddingBottom_21]}
               >
                 $
               </Text>
@@ -205,12 +208,12 @@ export default class MenuItem extends Component {
                   underlineColorAndroid="transparent"
                   value={this.state.price.toString()}
                   keyboardType="numeric"
-                  style={styles.textInput}
+                  style={[styles.textInput, styles.paddingBottom_21]}
                   onChangeText={text => this.updateEntries('PRICE', text)}
                 />
               ) : (
                 <Text
-                  style={[styles.sectionHeaderText, styles.paddingBottom_10]}
+                  style={[styles.sectionHeaderText, styles.paddingBottom_21]}
                 >
                   {this.state.price}
                 </Text>
@@ -220,11 +223,14 @@ export default class MenuItem extends Component {
               <TextInput
                 underlineColorAndroid="transparent"
                 value={this.state.description}
-                style={styles.otherInfoTextInput}
+                style={[styles.otherInfoTextInput, styles.paddingBottom_21]}
                 onChangeText={text => this.updateEntries('DESC', text)}
               />
             ) : (
-              <Text style={[styles.otherInfoText, styles.paddingBottom_10]}>
+              <Text
+                style={[styles.otherInfoText, styles.paddingBottom_21]}
+                numberOfLines={3}
+              >
                 {this.state.description}
               </Text>
             )}

@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
     marginHorizontal: wp('100%') / 4,
     backgroundColor: 'transparent',
     height: 23,
-    marginTop: hp('2.09%'),
+    // marginTop: hp('2.09%'),
+    marginTop: wp('4.53%'),
     borderWidth: 0
   },
 
@@ -61,7 +62,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('3.46%'),
-    top: -hp('0.49%')
+    top: -hp('0.49%'),
+    lineHeight: wp('4.8%')
   },
 
   historyTabStyle: {
@@ -83,7 +85,8 @@ const styles = StyleSheet.create({
     fontSize: wp('9.6%'),
     color: 'white',
     fontFamily: SF_PRO_DISPLAY_BOLD,
-    paddingLeft: wp('6.93%')
+    paddingLeft: wp('6.93%'),
+    lineHeight: wp('10.93%')
   }
 });
 

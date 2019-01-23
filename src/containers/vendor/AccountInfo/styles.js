@@ -16,19 +16,22 @@ const SECTION_WIDTH: number = Dimensions.get('window').width - wp('7.46%');
 
 export default StyleSheet.create({
   addressContainer: {
-    paddingHorizontal: wp('7.46%'),
+    paddingHorizontal: wp('8.53%'),
     width: '100%'
   },
   addText: {
     color: COLOR_GREEN,
     marginTop: hp('1.72%'),
     fontFamily: FONT_FAMILY,
-    fontSize: wp('4.53%')
+    fontSize: wp('4.53%'),
+    lineHeight: wp('5.86%')
   },
   editBtnText: {
     color: COLOR_GREEN,
     fontFamily: FONT_FAMILY,
-    fontSize: wp('4.53%')
+    fontSize: wp('4.53%'),
+    lineHeight: wp('5.86%'),
+    marginBottom: wp('3.2%')
   },
   addTextContainer: {
     alignSelf: 'flex-end'
@@ -65,23 +68,23 @@ export default StyleSheet.create({
     resizeMode: 'contain'
   },
   header: {
-    marginTop: 20,
-    marginVertical: 30,
-    paddingHorizontal: wp('7.46%'),
+    marginTop: wp('4.53%'),
+    marginBottom: wp('12%'),
+    paddingHorizontal: wp('8.53%'),
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center'
   },
   categoriesContainer: {
-    paddingHorizontal: wp('7.46%'),
+    paddingHorizontal: wp('8.53%'),
     width: '100%'
   },
-  categoriesSectionBody: {
-    paddingBottom: 5,
-    paddingTop: 5
-  },
+  // categoriesSectionBody: {
+  //   paddingBottom: 5,
+  //   paddingTop: 5
+  // },
   contactContainer: {
-    paddingHorizontal: wp('7.46%'),
+    paddingHorizontal: wp('8.53%'),
     width: '100%'
   },
   container: {
@@ -95,7 +98,7 @@ export default StyleSheet.create({
   },
   hoursContainer: {
     marginBottom: 25,
-    paddingHorizontal: wp('7.46%'),
+    paddingHorizontal: wp('8.53%'),
     width: '100%'
   },
   hoursPicker: {
@@ -121,12 +124,13 @@ export default StyleSheet.create({
     width: '100%'
   },
   sectionBody: {
-    paddingBottom: hp('0.61%')
+    // paddingBottom: hp('0.61%')
   },
   sectionHeader: {
     borderBottomColor: '#fff',
     borderBottomWidth: 1,
-    marginBottom: hp('2.58%'),
+    // marginBottom: hp('2.58%'),
+    marginBottom: wp('4.5%'),
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
@@ -135,19 +139,22 @@ export default StyleSheet.create({
     color: '#fff',
     fontFamily: FONT_FAMILY,
     fontSize: wp('5.33%'),
-    marginBottom: hp('0.98%')
+    lineHeight: wp('5.86%'),
+    // marginBottom: hp('0.98%')
+    marginBottom: wp('3.2%')
   },
 
   filtersContainer: {
     paddingTop: 30,
-    paddingHorizontal: wp('7.46%'),
+    paddingHorizontal: wp('8.53%'),
     width: '100%'
   },
 
   sectionSubHeaderText: {
     color: 'rgba(255,255,255,0.5)',
     fontFamily: FONT_FAMILY,
-    fontSize: wp('4.53%')
+    fontSize: wp('4.53%'),
+    lineHeight: wp('5.86%')
   },
 
   commonFilterPanel: {
@@ -183,7 +190,7 @@ export default StyleSheet.create({
   },
 
   editInfoHolder: {
-    marginLeft: 30
+    marginLeft: wp('9.33%')
   },
 
   editBtn: {
@@ -192,8 +199,9 @@ export default StyleSheet.create({
 
   editText: {
     fontFamily: FONT_FAMILY,
-    fontSize: 16,
-    color: COLOR_GREEN
+    fontSize: wp('5.33%'),
+    color: COLOR_GREEN,
+    lineHeight: wp('5.86%')
   },
 
   priceBarIndicator: {
@@ -218,8 +226,8 @@ export default StyleSheet.create({
   priceSliderContainer: {
     flex: 1,
     height: 31,
-    marginTop: hp('1.84%'),
-    marginRight: wp('3.73%'),
+    marginTop: wp('4.26%'),
+    marginRight: wp('1.6%'),
     position: 'relative',
     flexDirection: 'row',
     justifyContent: 'space-between'
@@ -240,6 +248,10 @@ export default StyleSheet.create({
     width: wp('13.33%'),
     height: 20,
     fontFamily: SF_PRO_DISPLAY_REGULAR
+  },
+
+  extra4Padding: {
+    paddingTop: wp('1.06%')
   }
 });
 

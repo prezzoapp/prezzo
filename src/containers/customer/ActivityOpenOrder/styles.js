@@ -1,8 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import {
   COLOR_WHITE,
@@ -18,13 +15,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#2B2C2C',
     borderTopColor: '#2ED573',
     borderTopWidth: 1,
-    marginTop: hp('2.58%')
+    // marginTop: hp('2.58%')
+    marginTop: wp('5.6%')
   },
 
   listHeaderHolder: {
     justifyContent: 'center',
-    paddingTop: hp('3.06%'),
-    paddingBottom: hp('3.2%'),
+    // paddingTop: hp('3%'),
+    // paddingBottom: hp('3.2%'),
+    paddingTop: wp('5.70%'),
+    paddingBottom: wp('6.30%'),
     backgroundColor: '#2B2C2C'
   },
 
@@ -33,13 +33,17 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_TEXT_LIGHT,
     fontSize: wp('9.33%'),
     textAlign: 'center',
+    lineHeight: wp('9.5%'),
     backgroundColor: 'transparent'
   },
 
   footerContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-    height: hp('16%')
+    // justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: wp('4%'),
+    // height: hp('16%')
+    height: wp('37.33%')
   },
 
   notFoundHolder: {

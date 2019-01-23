@@ -5,18 +5,23 @@ import { FONT_FAMILY, COLOR_GREEN, FONT_FAMILY_MEDIUM } from '../../services/con
 
 export default StyleSheet.create({
   menuItem: {
-    marginBottom: hp('3.69%'),
+    // marginBottom: hp('3.69%'),
+    marginBottom: wp('3.86%'),
     marginHorizontal: wp('7.73%')
   },
   twoLineIconBtn: {
-    paddingLeft: 10,
-    paddingRight: 15,
-    paddingVertical: 10
+    paddingLeft: wp('2.66%'),
+    paddingRight: wp('4%'),
+    // paddingTop: wp('4.13%'),
+    // paddingBottom: wp('4.66%')
   },
   twoLineIconBtnImage: {
     width: wp('5.86%'),
     height: hp('1.23%'),
     resizeMode: 'contain'
+  },
+  controlBtnsStyle: {
+    lineHeight: wp('5.86%')
   },
   itemContainer: {
     paddingHorizontal: wp('3.2%'),
@@ -52,7 +57,8 @@ export default StyleSheet.create({
     fontSize: 15,
     color: '#fff',
     fontFamily: FONT_FAMILY,
-    minHeight: 50,
+    minHeight: wp('6.13%'),
+    // minHeight: 50,
     textAlignVertical: 'top',
     padding: 0
   },
@@ -62,8 +68,9 @@ export default StyleSheet.create({
     fontSize: 15,
     fontFamily: FONT_FAMILY
   },
-  paddingBottom_10: {
-    paddingBottom: hp('2.58%')
+  paddingBottom_21: {
+    // paddingBottom: hp('2.58%')
+    paddingBottom: wp('5.6%')
   },
   itemImagesWrapper: {
     flexDirection: 'row',
@@ -81,10 +88,11 @@ export default StyleSheet.create({
   controlBtnsPanel: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: wp('11.36%')
   },
   textInput: {
-    minHeight: 35,
+    minHeight: wp('6.13%'),
     padding: 0,
     flex: 1,
     fontFamily: FONT_FAMILY,

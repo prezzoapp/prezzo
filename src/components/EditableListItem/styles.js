@@ -26,7 +26,8 @@ export default StyleSheet.create({
     color: '#fff',
     flex: 1,
     fontFamily: FONT_FAMILY,
-    fontSize: wp('5.33%')
+    fontSize: wp('5.33%'),
+    lineHeight: wp('5.86%')
   },
 
   expDate: {
