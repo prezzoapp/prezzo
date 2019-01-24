@@ -24,14 +24,16 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: wp('3.46%'),
     fontFamily: FONT_FAMILY_MEDIUM,
-    paddingBottom: hp('0.36%')
+    paddingBottom: hp('0.36%'),
+    lineHeight: wp('4.8%')
   },
 
   unselectedText: {
     color: '#FAFAFA',
     fontSize: wp('3.46%'),
     fontFamily: FONT_FAMILY_MEDIUM,
-    paddingBottom: hp('0.36%')
+    paddingBottom: hp('0.36%'),
+    lineHeight: wp('4.8%')
   },
 
   listSection: {
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
 
   icons: {
     flexDirection: 'column',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     alignItems: 'flex-end'
   },
 

@@ -30,6 +30,10 @@ const OpenTablePayment = props => {
         return parseFloat(previous + next);
   });
 
+  itemSeparator = () => {
+    return <View style={styles.separator} />;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -37,7 +41,9 @@ const OpenTablePayment = props => {
           keyExtractor={item => item._id.toString()}
           data={props.data !== null ? props.data.items : []}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.listStyle}
+          ItemSeparatorComponent={this.itemSeparator}
+          contentContainerStyle={styles.flatListContentContainerStyle}
+          style={styles.flatListStyle}
           renderItem={({ item }) =>
             item.status !== 'denied' && (
               <View
@@ -45,12 +51,11 @@ const OpenTablePayment = props => {
                   flex: 1,
                   flexDirection: 'row',
                   justifyContent: 'space-between',
-                  alignItems: 'center',
-                  height: hp('6.15%')
+                  alignItems: 'center'
               }}
             >
               <Text style={styles.name}>{item.title}</Text>
-                <Text style={[styles.price]}>${item.price}</Text>
+                <Text style={styles.price}>${item.price}</Text>
             </View>
             )
           }
@@ -139,7 +144,7 @@ const OpenTablePayment = props => {
                 left: 0,
                 bottom: 0,
                 alignItems: 'center',
-                justifyContent: props.innerTab !== 'closed' ? 'space-between' : 'center'
+                justifyContent: props.innerTab !== 'closed' ? 'flex-start' : 'center'
               }}
             >
               {props.innerTab !== 'closed' && (
@@ -156,7 +161,7 @@ const OpenTablePayment = props => {
                 style={[
                   styles.total,
                   {
-                    paddingRight: props.innerTab !== 'closed' ? wp('5.33%') : 0
+                    paddingLeft: props.innerTab !== 'closed' ? wp('11.46%') : 0
                   }
                 ]}
               >

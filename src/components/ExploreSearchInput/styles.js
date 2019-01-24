@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: wp('11.2%'),
+    // marginTop: hp('5.17%'),
     position: 'absolute',
     top: 0,
     right: 0,

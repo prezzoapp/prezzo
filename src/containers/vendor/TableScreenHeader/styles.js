@@ -25,9 +25,10 @@ const styles = StyleSheet.create({
     width: wp('15.73%')
   },
   detailContainer: {
-    paddingTop: hp('11.33%'),
+    // paddingTop: hp('11.33%'),
+    paddingTop: wp('24.53%'),
     flexDirection: 'row',
-    paddingBottom: hp('2.09%'),
+    // paddingBottom: hp('2.09%'),
     paddingHorizontal: wp('4.26%')
   },
   nameContainer: {

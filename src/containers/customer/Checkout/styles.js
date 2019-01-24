@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
 
   modalView: {
     height: hp('78.81%'),
+    // height: wp('170.66%'),
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     overflow: 'hidden'

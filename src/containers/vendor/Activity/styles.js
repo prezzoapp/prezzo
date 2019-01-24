@@ -17,14 +17,15 @@ const styles = StyleSheet.create({
   },
 
   listHeaderContainer: {
-    paddingTop: hp('1.97%')
+    paddingTop: hp('0.5%')
   },
 
   listHeaderTitle: {
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('6.4%'),
     color: 'white',
-    textAlign: 'center'
+    textAlign: 'center',
+    lineHeight: hp('5.04%')
   },
 
   subTitle: {
@@ -54,7 +55,8 @@ const styles = StyleSheet.create({
   },
 
   innerContainer: {
-    marginTop: hp('20.68%'),
+    // marginTop: hp('20.68%'),
+    marginTop: wp('44.8%'),
     width: '100%',
     flex: 1
   },
@@ -70,11 +72,19 @@ const styles = StyleSheet.create({
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
     textAlign: 'center',
-    marginTop: hp('1.97%'),
-    marginBottom: hp('0.98%')
+    marginTop: hp('1.97%')
+    // marginBottom: hp('0.98%')
   },
 
   message: {
+    fontSize: wp('5.33%'),
+    color: COLOR_WHITE,
+    fontFamily: FONT_FAMILY,
+    textAlign: 'center'
+  },
+
+  listHeaderMessage: {
+    lineHeight: hp('3.69%'),
     fontSize: wp('5.33%'),
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
