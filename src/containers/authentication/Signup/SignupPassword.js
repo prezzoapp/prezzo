@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
   profileContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: wp('13.86%'),
     flexDirection: 'row',
     paddingLeft: wp('0.8%')
   },
@@ -132,11 +131,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   buttonsContainer: {
+    marginTop: wp('13.33%'),
     width: '100%',
-    height: 'auto',
-    marginBottom: 20
+    height: 'auto'
   },
   passwordContainer: {
+    marginTop: wp('13.86%'),
     width: '100%',
     height: 'auto'
   },
@@ -157,14 +157,24 @@ const styles = StyleSheet.create({
 
 const buttonStyles = {
   password: {
-    marginTop: 10,
+    marginTop: wp('3.73%'),
     backgroundColor: 'transparent',
-    borderColor: '#fff'
+    borderColor: '#fff',
+    height: wp('11.46%'),
+    justifyContent: 'center'
   },
   next: {
     alignSelf: 'flex-end',
     position: 'relative',
     marginTop: wp('1.6%')
+  },
+  facebookButton: {
+    width: '100%',
+    height: wp('11.46%')
+  },
+  textStyle: {
+    paddingTop: 0,
+    paddingBottom: 0
   }
 };
 
@@ -366,6 +376,7 @@ class SignupPassword extends React.Component<Props, State> {
                 <View style={styles.buttonsContainer}>
                   <FacebookButton
                     disabled={isBusy}
+                    style={buttonStyles.facebookButton}
                     onStart={() => this.setState({ isBusy: true })}
                     onFailure={() => this.setState({ isBusy: false })}
                     onCancel={() => this.setState({ isBusy: false })}
@@ -376,6 +387,7 @@ class SignupPassword extends React.Component<Props, State> {
 
                   <Button
                     style={buttonStyles.password}
+                    textStyle={buttonStyles.textStyle}
                     onPress={() => this.setState({ showPassword: true })}
                   >
                     Create Password

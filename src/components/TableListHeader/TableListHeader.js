@@ -56,12 +56,12 @@ export default class TableListHeader extends Component {
               onPress={() => this.onChangeLayout('list')}
               style={[
                 styles.icons,
-                { alignItems: 'flex-end', marginRight: wp('5%') }
+                { marginRight: wp('9.33%'), marginTop: -2.5 }
               ]}
             >
               <Feather
                 name="list"
-                size={wp('8%')}
+                size={wp('6.93%')}
                 style={{
                   color: this.props.screenName === 'activity'
                       ? 'transparent'
@@ -78,7 +78,7 @@ export default class TableListHeader extends Component {
             >
               <Ionicons
                 name="ios-keypad"
-                size={wp('7%')}
+                size={wp('5.6%')}
                 style={{
                   color: this.props.screenName === 'activity'
                       ? 'transparent'

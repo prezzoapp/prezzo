@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 import {
   COLOR_WHITE,
@@ -42,8 +45,8 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     justifyContent: 'flex-start',
     paddingTop: wp('4%'),
-    // height: hp('16%')
-    height: wp('37.33%')
+    height: hp('17.24%')
+    // height: wp('37.33%')
   },
 
   notFoundHolder: {

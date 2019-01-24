@@ -47,7 +47,9 @@ const styles = StyleSheet.create({
     width: wp('14%'),
     textAlign: 'center',
     fontFamily: FONT_FAMILY_MEDIUM,
-    top: -hp('0.49%')
+    // top: -hp('0.49%'),
+    lineHeight: wp('4.8%'),
+    fontSize: wp('3.46%')
   },
 
   paymentTabStyle: {
@@ -61,7 +63,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     backgroundColor: 'transparent',
     fontFamily: FONT_FAMILY_MEDIUM,
-    top: -hp('0.49%')
+    // top: -hp('0.49%'),
+    fontSize: wp('3.46%'),
+    lineHeight: wp('4.8%')
   },
 
   price: {
@@ -87,7 +91,28 @@ const styles = StyleSheet.create({
     fontSize: wp('6.93%'),
     color: 'white',
     flex: 1,
-    fontFamily: SF_PRO_DISPLAY_BOLD
+    fontFamily: SF_PRO_DISPLAY_BOLD,
+    lineHeight: wp('10.93%')
+  },
+
+  backBtn: {
+    marginRight: wp('4%')
+  },
+
+  headerImage: {
+    width: wp('11.73%'),
+    height: wp('11.73%'),
+    borderColor: 'white',
+    marginRight: wp('4%'),
+    borderWidth: 1,
+    borderRadius: wp('5.86%')
+  },
+
+  customHeaderContainer: {
+    flexDirection: 'row',
+    width: wp('90%'),
+    alignItems: 'center',
+    paddingLeft: wp('2.93%')
   }
 });
 

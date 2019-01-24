@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 
   bigImageHolder: {
-    marginTop: hp('3.57%')
+    marginTop: hp('2.15%')
   },
 
   linearGradient: {
@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY,
     fontSize: wp('5.33%'),
     backgroundColor: 'transparent',
-    textAlign: 'center'
+    textAlign: 'center',
+    lineHeight: wp('5.86%')
   },
 
   itemImagesHolder: {

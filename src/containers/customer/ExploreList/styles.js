@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
 
   flatListContentContainerStyle: {
     marginHorizontal: wp('4%'),
+    marginTop: wp('2%'),
     // paddingTop: hp('2%'),
     paddingBottom: hp('9%'),
     flexGrow: 1
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
 
   flatListStyle: {
     // marginTop: hp('19.45%')
-    marginTop: wp('45.33%')
+    marginTop: wp('42%')
   }
 });
 

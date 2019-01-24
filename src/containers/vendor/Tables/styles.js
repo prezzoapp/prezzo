@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
   },
 
   innerContainer: {
-    marginTop: hp('20.68%'),
+    // marginTop: hp('20.68%'),
+    marginTop: wp('44.8%'),
     width: '100%',
     flex: 1
   },

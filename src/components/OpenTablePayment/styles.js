@@ -59,8 +59,12 @@ const styles = StyleSheet.create({
     paddingTop: hp('2.95%')
   },
 
-  listStyle: {
-    paddingTop: hp('4.55%'),
+  flatListStyle: {
+    paddingTop: hp('2%')
+  },
+
+  flatListContentContainerStyle: {
+    paddingTop: hp('2.43%'),
     paddingHorizontal: wp('4.27%')
   },
 
@@ -81,14 +85,16 @@ const styles = StyleSheet.create({
   name: {
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('4.8%'),
-    color: 'white'
+    color: 'white',
+    lineHeight: wp('5.86%')
   },
 
   price: {
     fontFamily: SF_PRO_TEXT_REGULAR,
     fontSize: wp('4.8%'),
     color: 'white',
-    textAlign: 'right'
+    textAlign: 'right',
+    lineHeight: wp('5.86%')
   },
 
   cardTitle: {
@@ -120,6 +126,10 @@ const styles = StyleSheet.create({
     fontSize: wp('4.8%'),
     color: 'white',
     textAlign: 'right'
+  },
+
+  separator: {
+    height: hp('4.18%')
   }
 });
 

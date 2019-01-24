@@ -7,7 +7,8 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: wp('6.66'),
+    paddingRight: wp('6.66'),
+    paddingLeft: wp('5.86%'),
     backgroundColor: '#2B2C2C',
     paddingTop: hp('4.92%')
   },

@@ -233,9 +233,9 @@ class Activity extends Component {
   renderHeader = () => (
     <View style={styles.listHeaderContainer}>
       <Text style={styles.listHeaderTitle}>Review User Photos</Text>
-      <Text style={styles.message}>Tap to select the user submitted</Text>
-      <Text style={styles.message}>photos you approve and then hit</Text>
-      <Text style={styles.message}>Save To Menu</Text>
+      <Text style={styles.listHeaderMessage}>
+        Tap to select the user submitted{"\n"}photos you approve and then hit{"\n"}Save To Menu
+      </Text>
       <Text style={styles.listHeaderSubtitle}>Tap and hold to view full screen.</Text>
     </View>
   );
@@ -311,7 +311,7 @@ class Activity extends Component {
                         alignItems: 'center',
                         justifyContent: 'center',
                         position: 'relative',
-                        paddingBottom: 5
+                        paddingBottom: hp('1%')
                       }}
                     >
                       <View style={styles.backBtn}>
