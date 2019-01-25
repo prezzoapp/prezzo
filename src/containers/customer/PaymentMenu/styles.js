@@ -26,7 +26,8 @@ export default StyleSheet.create({
   container: {
     alignItems: 'center',
     marginBottom: hp('9%'),
-    marginTop: wp('16.84%'),
+    // marginTop: wp('16.84%'),
+    marginTop: hp('7.75%'),
     paddingHorizontal: wp('7.2%')
   },
   footerContainer: {

@@ -1,5 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import {
   FONT_FAMILY,
   COLOR_BLACK,
@@ -15,7 +18,8 @@ export default StyleSheet.create({
     // justifyContent: 'space-between',
     alignItems: 'center',
     // paddingVertical: 10,
-    paddingBottom: wp('4.4%'),
+    // paddingBottom: wp('4.4%'),
+    paddingBottom: hp('2.58%'),
     backgroundColor: COLOR_BLACK,
     paddingHorizontal: wp('7.73%'),
     paddingTop: wp('1.8%')

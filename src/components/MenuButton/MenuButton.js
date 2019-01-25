@@ -20,7 +20,7 @@ const MenuButton = ({ leftIcon, icon, onPress, title, subtitle }: Props) => {
         {(() => {
           if(leftIcon) {
             return (
-              <View style={[styles.buttonActionContainer,{ marginLeft: 10 }]}>
+              <View style={[styles.buttonActionContainer, { paddingLeft: wp('3.2%') }]}>
                 {leftIcon}
               </View>
             );
@@ -28,11 +28,11 @@ const MenuButton = ({ leftIcon, icon, onPress, title, subtitle }: Props) => {
           return null;
         })()}
         <View style={styles.buttonTextContainer}>
-          <Text style={styles.buttonTitle}>{title}</Text>
+          <Text style={styles.buttonTitle} numberOfLines={1}>{title}</Text>
           {!!subtitle && <Text style={styles.buttonSubtitle}>{subtitle}</Text>}
         </View>
-        <View style={styles.buttonActionContainer}>
-          <MaterialIcons name={icon} size={wp('10.66%')} color='white'/>
+        <View style={[styles.buttonActionContainer, { paddingRight: wp('2.13%') }]}>
+          <MaterialIcons name={icon} size={wp('8%')} color='white'/>
         </View>
       </View>
     </TouchableOpacity>
@@ -46,13 +46,13 @@ const styles = {
     justifyContent: 'center'
   },
   buttonContainer: {
-    // width: 0.85 * Dimensions.get('window').width,
     width: '100%',
     backgroundColor: buttonBlack,
     borderRadius: 6,
     height: 0.20 * 0.85 * Dimensions.get('window').width,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: hp('1.23%'),
     shadowColor,
     shadowOffset: {
@@ -66,7 +66,7 @@ const styles = {
     flex: 0.85,
     flexDirection: 'column',
     justifyContent: 'center',
-    paddingLeft: 10
+    paddingLeft: wp('3.46%')
   },
   buttonSubtitle: {
     color: textColor,
@@ -76,7 +76,8 @@ const styles = {
   buttonTitle: {
     color: textColor,
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: wp('4.8%')
+    fontSize: wp('5.33%'),
+    lineHeight: wp('5.86%')
   }
 };
 

@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 import {
   COLOR_WHITE,
@@ -56,13 +59,14 @@ const styles = StyleSheet.create({
 
   swiper: {
     flex: 1,
-    height: wp('93.33%')
+    // height: wp('93.33%')
+    height: hp('44.55%')
   },
 
   itemImage: {
     flex: 1,
-    // height: hp('44.55%'),
-    height: wp('93.33%'),
+    height: hp('44.55%'),
+    // height: wp('93.33%'),
     marginHorizontal: 10,
     borderRadius: 13,
     overflow: 'hidden',

@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     color: COLOR_WHITE,
     textAlign: 'center',
     lineHeight: wp('5.86%'),
-    // paddingTop: hp('2.58%')
-    paddingTop: wp('5.6%')
+    paddingTop: hp('2.58%')
+    // paddingTop: wp('5.6%')
   },
 
   reviewOrderText: {
@@ -49,13 +49,14 @@ const styles = StyleSheet.create({
     color: COLOR_WHITE,
     textAlign: 'center',
     lineHeight: wp('5.86%'),
-    // paddingTop: hp('1.47%')
-    paddingTop: wp('3.2%')
+    paddingTop: hp('1.47%')
+    // paddingTop: wp('3.2%')
   },
 
   flatList: {
-    // marginTop: hp('6.15%')
-    paddingTop: wp('13.33%')
+    // paddingTop: hp('6.15%')
+    paddingTop: hp('3.15%')
+    // paddingTop: wp('13.33%')
     // marginVertical: wp('10%'),
     // height: hp('30%')
   },
@@ -81,8 +82,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: 'rgba(46,213,115, 0.5)',
     marginHorizontal: wp('4.3%'),
-    // height: hp('16.33%'),
-    height: wp('34.93%'),
+    height: hp('16.33%'),
     justifyContent: 'center'
   },
 
@@ -91,8 +91,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingHorizontal: wp('2.36%'),
-    // paddingTop: hp('2.95%')
-    paddingTop: wp('8%')
+    paddingTop: hp('2.95%')
   },
 
   reviewOrderFooterText: {
@@ -201,8 +200,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 99999,
     left: wp('5%'),
-    top: wp('2.66%'),
-    padding: 5
+    top: hp('1.97%')
   },
 
   cardPicker: {

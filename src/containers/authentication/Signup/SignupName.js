@@ -42,7 +42,22 @@ const styles = StyleSheet.create({
     paddingBottom: hp('5%'),
     paddingTop: SCROLL_VIEW_TOP_PADDING
   },
-  headerText: {
+  // headerText: {
+  //   fontSize: wp('9.6%'),
+  //   fontFamily: FONT_FAMILY_MEDIUM,
+  //   color: '#fff',
+  //   lineHeight: 41,
+  //   marginBottom: wp('10.93%'),
+  //   backgroundColor: 'transparent'
+  // },
+  headerTextLine1: {
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_MEDIUM,
+    color: '#fff',
+    lineHeight: 41,
+    backgroundColor: 'transparent'
+  },
+  headerTextLine2: {
     fontSize: wp('9.6%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
@@ -117,9 +132,8 @@ class SignupName extends React.Component<Props, State> {
           behavior='padding'>
           <ScrollView
             contentContainerStyle={styles.scrollView}>
-            <Text style={styles.headerText}>
-              What's your name?
-            </Text>
+            <Text style={styles.headerTextLine1}>What's your</Text>
+            <Text style={styles.headerTextLine2}>name?</Text>
 
             <LoginTextInput
               type='name'

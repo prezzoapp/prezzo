@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   headerTextLine2: {
     fontSize: wp('9.6%'),
-    fontFamily: FONT_FAMILY_REGULAR,
+    fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
     lineHeight: 41,
     marginBottom: wp('10.93%'),
