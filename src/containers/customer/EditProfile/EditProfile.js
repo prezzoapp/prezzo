@@ -268,6 +268,7 @@ class EditProfile extends Component<Props, State> {
                         placeholder="John"
                         onChange={firstName => this.setState({ firstName })}
                         value={firstName}
+                        extraStyle={{ paddingRight: wp('13.33%') }}
                       />
 
                       <ProfileTextInput
@@ -313,6 +314,7 @@ class EditProfile extends Component<Props, State> {
                     <ProfileDataField
                       label="First Name"
                       value={this.props.firstName}
+                      extraStyle={{ paddingRight: wp('13.33%') }}
                     />
 
                     <ProfileDataField
@@ -345,6 +347,7 @@ class EditProfile extends Component<Props, State> {
 
 const styles = StyleSheet.create({
   scrollViewStyle: {
+    paddingTop: hp('3.20%'),
     paddingHorizontal: wp('8.26%'),
     paddingBottom: hp('5%')
   },
@@ -361,20 +364,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   bodyContainer: {
-    flex: 1,
+    flexGrow: 1,
     flexDirection: 'column',
     position: 'relative'
   },
   edit: {
     color: COLOR_GREEN,
     fontSize: wp('4.8%'),
-    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY)
+    fontFamily: Expo.Font.processFontFamily(FONT_FAMILY),
+    lineHeight: wp('5.86%')
   },
   headerContainer: {
     alignItems: 'center',
     flex: 1,
     justifyContent: 'space-between',
-    marginTop: hp('3.20%'),
     marginBottom: hp('4.67%')
   },
   parent: {

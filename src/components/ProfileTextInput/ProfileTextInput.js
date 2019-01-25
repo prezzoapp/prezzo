@@ -20,7 +20,8 @@ const ProfileTextInput = props => {
     type,
     value,
     style,
-    keyboardType
+    keyboardType,
+    extraStyle
   } = props;
   const containerStyle = {
     ...styles.container,
@@ -31,7 +32,7 @@ const ProfileTextInput = props => {
     ...{
       paddingBottom: props.borderBottomWidth !== 0 ? hp('1.35%') : 0,
       borderBottomColor: props.borderBottomColor,
-      borderBottomWidth: props.borderBottomWidth
+      borderBottomWidth: props.borderBottomWidth,
     }
   };
 
@@ -44,7 +45,7 @@ const ProfileTextInput = props => {
       ) : null}
       <View style={valueContainerStyle}>
         <TextInput
-          style={styles.value}
+          style={[styles.value, { ...extraStyle }]}
           autoCapitalize={type === 'name' ? 'words' : 'none'}
           onChangeText={text => onChange && onChange(text)}
           autoCorrect={false}
@@ -61,7 +62,7 @@ const ProfileTextInput = props => {
 const styles = {
   container: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: hp('3.07%'),
     alignSelf: 'stretch'
   },
@@ -71,7 +72,9 @@ const styles = {
   label: {
     color: labelTextColor,
     fontFamily: FONT_FAMILY,
-    fontSize: wp('4.53%')
+    fontSize: wp('4.53%'),
+    paddingTop: 2
+    // lineHeight: wp('6%')
   },
   labelContainer: {
     paddingTop: 0,
@@ -84,7 +87,8 @@ const styles = {
     fontSize: wp('5.33%')
   },
   valueContainer: {
-    flex: 1
+    flex: 1,
+    // minHeight: wp('6%')
   }
 };
 
@@ -99,7 +103,8 @@ ProfileTextInput.propTypes = {
   showLabel: PropTypes.bool,
   borderBottomColor: PropTypes.string,
   borderBottomWidth: PropTypes.number,
-  keyboardType: PropTypes.string
+  keyboardType: PropTypes.string,
+  extraStyle: PropTypes.object
 };
 
 ProfileTextInput.defaultProps = {
@@ -109,7 +114,8 @@ ProfileTextInput.defaultProps = {
   showLabel: true,
   borderBottomColor: 'transparent',
   borderBottomWidth: 0,
-  keyboardType: 'default'
+  keyboardType: 'default',
+  extraStyle: {}
 };
 
 export default ProfileTextInput;
