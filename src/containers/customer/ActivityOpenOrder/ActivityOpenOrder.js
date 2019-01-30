@@ -334,7 +334,8 @@ const buttonStyles = {
     backgroundColor: '#2ED573',
     borderColor: '#0DD24A',
     width: wp('37.33%'),
-    height: hp('4.92%'),
+    // height: hp('4.92%'),
+    height: wp('10.66%'),
     justifyContent: 'center',
     borderRadius: wp('2.66%')
   },
@@ -352,7 +353,7 @@ const buttonStyles = {
     backgroundColor: 'transparent',
     borderColor: 'transparent',
     width: wp('37.33%'),
-    height: hp('4.92%'),
+    height: wp('10.66%'),
     justifyContent: 'center',
     borderRadius: 8,
     marginTop: hp('1%')

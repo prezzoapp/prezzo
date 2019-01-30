@@ -4,6 +4,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 import {
   FONT_FAMILY,
   COLOR_BLACK,
@@ -89,7 +90,7 @@ export default StyleSheet.create({
   },
   container: {
     backgroundColor: '#2B2C2C',
-    paddingBottom: hp('7.51%')
+    paddingBottom: getBottomSpace() + 49
   },
   containerContentStyle: {
     alignItems: 'center',

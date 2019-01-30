@@ -4,7 +4,7 @@ import { FlatList, View, Text, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import ExploreListItem from '../../../components/ExploreListItem';
 import styles from './styles';
-import {NetInfo} from 'react-native';
+import { NetInfo } from 'react-native';
 import publicIP from 'react-native-public-ip';
 import {AsyncStorage} from 'react-native';
 import showGenericAlert from '../../../components/GenericAlert';
@@ -188,12 +188,19 @@ export default class ExploreList extends PureComponent {
     );
   }
 
+  itemSeparator = () => {
+    return (
+      <View style={styles.seperator} />
+    );
+  }
+
   render(){
     const { restaurants } = this.props;
     return (
       <FlatList
         contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: restaurants.length === 0 ? 'center' : null }]}
         style={styles.flatListStyle}
+        ItemSeparatorComponent={this.itemSeparator}
         initialNumToRender={10}
         ListEmptyComponent={this.listEmptyComponent}
         onRefresh={() => this.onRefresh()}

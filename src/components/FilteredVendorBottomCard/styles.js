@@ -14,8 +14,8 @@ import {
 const styles = StyleSheet.create({
   filteredRestaurantsBottomCardHolder: {
     backgroundColor: 'rgb(51,51,51)',
-    // height: hp('30.54%'),
-    height: wp('66.13%'),
+    height: hp('30.54%'),
+    // height: wp('66.13%'),
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30
     // paddingTop: 5
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   statusImage: {
     height: wp('3%'),
     width: wp('3%'),
-    resizeMode: 'contain'
+    resizeMode: 'cover'
   },
 
   name: {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     borderRadius: 5,
-    resizeMode: 'cover'
+    resizeMode: 'contain'
   },
 
   vendorContentHolder: {
@@ -110,15 +110,13 @@ const styles = StyleSheet.create({
   vendorName: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
-    fontSize: wp('8%'),
-    lineHeight: wp('10.35%')
+    fontSize: wp('8%')
   },
 
   vendorAddress: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('4%'),
-    // lineHeight: hp('2.70%'),
     lineHeight: wp('5.86%'),
     padding: 0,
     margin: 0

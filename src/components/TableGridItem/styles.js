@@ -7,7 +7,7 @@ import { SF_PRO_TEXT_BOLD, SF_PRO_TEXT_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: hp('1.84%')
+    // marginTop: hp('1.84%')
   },
 
   header: {

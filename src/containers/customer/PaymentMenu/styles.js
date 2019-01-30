@@ -1,8 +1,8 @@
 // @flow
 import { StyleSheet } from 'react-native';
-// import { Header } from 'react-navigation';
 import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default StyleSheet.create({
   avatar: {
@@ -25,8 +25,7 @@ export default StyleSheet.create({
   },
   container: {
     alignItems: 'center',
-    marginBottom: hp('9%'),
-    // marginTop: wp('16.84%'),
+    paddingBottom: getBottomSpace() + 49,
     marginTop: hp('7.75%'),
     paddingHorizontal: wp('7.2%')
   },

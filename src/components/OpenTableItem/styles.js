@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: hp('1.84%'),
+    // marginTop: hp('1.84%'),
     marginHorizontal: 1,
     shadowOffset: { width: 1, height: 6 },
     shadowColor: 'black',

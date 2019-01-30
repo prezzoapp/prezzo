@@ -1,10 +1,10 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
 import { Header } from 'react-navigation';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 import {
   FONT_FAMILY_MEDIUM,
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2B2C2C',
-    paddingBottom: hp('9%')
+    paddingBottom: getBottomSpace() + 49
   },
 
   absoluteView: {

@@ -9,8 +9,7 @@ export default class FilterItems extends Component {
     toggleFilter: PropTypes.func.isRequired,
     on: PropTypes.bool,
     image: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    style: PropTypes.object.isRequired
+    name: PropTypes.string.isRequired
   };
 
   constructor(props) {

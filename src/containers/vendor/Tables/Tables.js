@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import { View, FlatList, Alert, Modal, ActivityIndicator, NetInfo, AsyncStorage, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { LinearGradient } from 'expo';
 import styles from './styles';
 import TableScreenHeader from '../TableScreenHeader';
+import ExploreSearchInput from '../../../components/ExploreSearchInput';
 import VendorSearch from '../VendorSearch';
 import OpenTableItem from '../../../components/OpenTableItem';
 import QueuedTableItem from '../../../components/QueuedTableItem';
@@ -30,10 +32,14 @@ class Tables extends Component {
   constructor() {
     super();
     this.state = {
-     isFetching: false
+     isFetching: false,
+     showList: false,
+     filteredData: [],
+     showLoader: false
     }
 
     this.timer = null;
+    this.timeOutVar = -1;
   }
 
   componentDidMount() {
@@ -163,14 +169,16 @@ class Tables extends Component {
           ItemSeparatorComponent={() => {
             if(this.props.layout !== 'list') {
               return (
-                <View style={styles.separator}/>
+                <View style={styles.gridSeparator}/>
               );
             }
-            return null;
+            return (
+              <View style={styles.separator}/>
+            );
           }}
           onRefresh={() => this.onRefresh()}
           refreshing={this.state.isFetching}
-          contentContainerStyle={[styles.flatListStyle, { flexGrow: 1, justifyContent: (this.props.openTableList.size === 0) ? 'center' : null }]}
+          contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.openTableList.size === 0) ? 'center' : null }]}
           data={this.props.openTableList.length !== 0 ? this.props.openTableList.toJS() : []}
           renderItem={rowData => {
             if (this.props.layout === 'list') {
@@ -210,14 +218,16 @@ class Tables extends Component {
           ItemSeparatorComponent={() => {
             if(this.props.layout !== 'list') {
               return (
-                <View style={styles.separator}/>
+                <View style={styles.gridSeparator}/>
               );
             }
-            return null;
+            return (
+              <View style={styles.separator}/>
+            );
           }}
           onRefresh={() => this.onRefresh()}
           refreshing={this.state.isFetching}
-          contentContainerStyle={[styles.flatListStyle, { flexGrow: 1, justifyContent: (this.props.queuedTableList.size === 0) ? 'center' : null }]}
+          contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.queuedTableList.size === 0) ? 'center' : null }]}
           data={this.props.queuedTableList.size !== 0 ? this.props.queuedTableList.toJS() : []}
           renderItem={rowData => {
             if (this.props.layout === 'list') {
@@ -267,14 +277,16 @@ class Tables extends Component {
             ItemSeparatorComponent={() => {
               if(this.props.layout !== 'list') {
                 return (
-                  <View style={styles.separator}/>
+                  <View style={styles.gridSeparator}/>
                 );
               }
-              return null;
+              return (
+                <View style={styles.separator}/>
+              );
             }}
             onRefresh={() => this.onRefresh()}
             refreshing={this.state.isFetching}
-            contentContainerStyle={[styles.flatListStyle, { flexGrow: 1, justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
+            contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
             data={this.props.closedTableList.length !== 0 ? this.props.closedTableList.toJS() : []}
             renderItem={rowData => {
               if (this.props.layout === 'list') {
@@ -302,6 +314,7 @@ class Tables extends Component {
       </View>
     );
   }
+
   onRefresh() {
     NetInfo.isConnected.fetch().done(
       (isConnected) => { console.log(isConnected);
@@ -362,31 +375,92 @@ class Tables extends Component {
     });
   }
 
+  onTextChange(text) {
+    if(this.state.showLoader === false) {
+      this.setState(() => {
+        return {
+          showLoader: true
+        }
+      });
+    }
+    this.clearTimer();
+    this.timeOutVar = setTimeout(() => {
+      this.callWebService(text);
+    }, 2000);
+  }
+
+  clearTimer() {
+    clearTimeout(this.timeOutVar);
+    this.timeOutVar = -1;
+  }
+
+  async callWebService(text) {
+    try {
+      await get(`/v1/vendors?name=${text}`).then(response => {
+        this.setState(() => {
+          return {
+            filteredData: response,
+            showLoader: false
+          }
+        });
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+
+  showList(value) {
+    console.log("Show List function Called!");
+    this.setState(() => {
+      return {
+        showList: value
+      }
+    });
+  }
+
   render() {
-    console.log(this.props.vendorData);
     return (
       <View style={styles.container}>
         {(() => {
           if(this.props.vendorData) {
             return (
-              <View style={{ flex: 1, backgroundColor: 'transparent', alignItems: 'center' }}>
-                <TableScreenHeader
-                  vendorData={this.props.vendorData}
-                  tableSection={this.props.section}
-                  tabName="tables"
-                />
-                <View style={styles.innerContainer}>
-                  <TableListHeader
-                    currentTab={this.props.section}
-                    tabNames={['Open', 'Queue', 'Closed']}
-                    currentLayout={this.props.layout}
-                    onChangeLayout={layout => this.props.changeLayout(layout)}
-                    onListTypeSelection={index => this.onSectionChange(index)}
+              <LinearGradient
+                testID="linearGradient"
+                colors={['rgb(0,0,0)', 'transparent', 'transparent', 'transparent', 'transparent']}
+                locations={[0.1, 0.3, 0.3, 0.3, 0.3]}
+                style={{ flex: 1 }}
+              >
+                <View style={{ flex: 1 }}>
+                  <ExploreSearchInput
+                    showList={value => this.showList(value)}
+                    showListValue={this.state.showList}
+                    onTextChange={text => this.onTextChange(text)}
+                    clearTimer={() => this.clearTimer()}
                   />
-                  {this.renderSection()}
+                  <TableScreenHeader
+                    vendorData={this.props.vendorData}
+                    tableSection={this.props.section}
+                    tabName="tables"
+                  />
+                  <View style={styles.innerContainer}>
+                    <TableListHeader
+                      currentTab={this.props.section}
+                      tabNames={['Open', 'Queue', 'Closed']}
+                      currentLayout={this.props.layout}
+                      onChangeLayout={layout => this.props.changeLayout(layout)}
+                      onListTypeSelection={index => this.onSectionChange(index)}
+                    />
+                    {this.renderSection()}
+                  </View>
+
+                  {this.state.showList &&
+                    <VendorSearch
+                      showLoader={this.state.showLoader}
+                      filteredData={this.state.filteredData}
+                    />
+                  }
                 </View>
-                <VendorSearch />
-              </View>
+              </LinearGradient>
             )
           }
           return (

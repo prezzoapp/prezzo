@@ -123,8 +123,6 @@ class Login extends React.Component<Props, State> {
               type="password"
               label="Password"
               value={password}
-              height={wp('16%')}
-              labelPaddingBottom={0}
               onChange={password => this.setState({ password })}
             />
 

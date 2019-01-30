@@ -1,8 +1,7 @@
 import { StyleSheet } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+
+import { ifIphoneX, getBottomSpace } from 'react-native-iphone-x-helper';
 
 import {
   FONT_FAMILY_BOLD,
@@ -47,14 +46,23 @@ const styles = StyleSheet.create({
   flatListContentContainerStyle: {
     marginHorizontal: wp('4%'),
     marginTop: wp('2%'),
-    // paddingTop: hp('2%'),
-    paddingBottom: hp('9%'),
+    paddingBottom: getBottomSpace() + 49 + wp('5%'),
     flexGrow: 1
   },
 
   flatListStyle: {
-    // marginTop: hp('19.45%')
-    marginTop: wp('42%')
+    // ...ifIphoneX(
+    //   {
+    //     marginTop: wp('41.6%')
+    //   },
+    //   {
+    //     marginTop: wp('35.2%')
+    //   }
+    // )
+  },
+
+  seperator: {
+    paddingBottom: wp('6.66%')
   }
 });
 

@@ -21,7 +21,7 @@ export default StyleSheet.create({
     resizeMode: 'contain'
   },
   controlBtnsStyle: {
-    lineHeight: wp('5.86%')
+    // lineHeight: wp('5.86%')
   },
   itemContainer: {
     paddingHorizontal: wp('3.2%'),
@@ -45,16 +45,16 @@ export default StyleSheet.create({
   sectionHeaderText: {
     color: '#fff',
     fontFamily: FONT_FAMILY,
-    fontSize: 17,
+    fontSize: wp('5.33%'),
     flex: 1
   },
   otherInfoText: {
-    fontSize: 15,
+    fontSize: wp('5.33%'),
     color: '#fff',
     fontFamily: FONT_FAMILY
   },
   otherInfoTextInput: {
-    fontSize: 15,
+    fontSize: wp('5.33%'),
     color: '#fff',
     fontFamily: FONT_FAMILY,
     minHeight: wp('6.13%'),
@@ -65,9 +65,10 @@ export default StyleSheet.create({
 
   addText: {
     color: COLOR_GREEN,
-    fontSize: 15,
+    fontSize: wp('4.53%'),
     fontFamily: FONT_FAMILY
   },
+
   paddingBottom_21: {
     // paddingBottom: hp('2.58%')
     paddingBottom: wp('5.6%')
@@ -96,7 +97,7 @@ export default StyleSheet.create({
     padding: 0,
     flex: 1,
     fontFamily: FONT_FAMILY,
-    fontSize: 17,
+    fontSize: wp('5.33%'),
     color: 'white',
     marginVertical: 0,
     textAlignVertical: 'top'

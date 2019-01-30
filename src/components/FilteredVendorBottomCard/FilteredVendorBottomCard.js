@@ -68,7 +68,7 @@ class FilteredVendorBottomCard extends Component {
                 <Text numberOfLines={1} style={styles.vendorName}>
                   {this.state.item.name}
                 </Text>
-                <Text style={styles.vendorAddress}>
+                <Text style={styles.vendorAddress} numberOfLines={1}>
                   {this.state.item.location.city}, {this.state.item.location.region}
                 </Text>
                 <View style={[styles.statusHolder, styles.extraStatusHolderStyle]}>

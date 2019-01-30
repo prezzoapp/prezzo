@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     color: COLOR_WHITE,
     textAlign: 'center',
     lineHeight: wp('5.86%'),
-    paddingTop: hp('2.58%')
-    // paddingTop: wp('5.6%')
+    // marginTop: hp('2.58%'),
+    marginTop: wp('5.6%')
   },
 
   reviewOrderText: {
@@ -101,16 +101,17 @@ const styles = StyleSheet.create({
   },
 
   actionBtnsHolder: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'center'
   },
 
   quantity: {
     fontSize: wp('4.5%'),
     width: wp('16%'),
     textAlign: 'center',
-    // paddingHorizontal: wp('5%'),
     color: COLOR_WHITE,
-    fontFamily: SF_PRO_TEXT_REGULAR
+    fontFamily: SF_PRO_TEXT_REGULAR,
+    lineHeight: wp('5.86%')
   },
 
   quantityBtn: {
@@ -200,7 +201,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 99999,
     left: wp('5%'),
-    top: hp('1.97%')
+    // marginTop: hp('2.58%')
+    marginTop: wp('4.53%')
   },
 
   cardPicker: {

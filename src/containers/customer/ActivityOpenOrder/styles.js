@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     justifyContent: 'flex-start',
     paddingTop: wp('4%'),
-    height: hp('17.24%')
+    height: hp('19%')
     // height: wp('37.33%')
   },
 

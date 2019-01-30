@@ -185,6 +185,7 @@ export default class CheckoutSwiper extends Component {
           }}
           onIndexChanged={index => this.onIndexChanged(index, this.props)}
           loop={false}
+          scrollEnabled={false}
           index={0}
         >
           <View style={styles.slide}>

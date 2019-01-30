@@ -1,9 +1,8 @@
 import { StyleSheet } from 'react-native';
 
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+
+import { ifIphoneX, getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 import { SF_PRO_DISPLAY_REGULAR } from '../../services/constants';
 
@@ -12,13 +11,20 @@ const styles = StyleSheet.create({
     marginHorizontal: wp('4%'),
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: wp('11.2%'),
-    // marginTop: hp('5.17%'),
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    left: 0,
-    height: wp('8%')
+    ...ifIphoneX(
+      {
+        marginTop: getStatusBarHeight(['safe'])
+      },
+      {
+        marginTop: getStatusBarHeight() + wp('1%')
+      }
+    ),
+    // position: 'absolute',
+    // top: 0,
+    // right: 0,
+    // left: 0,
+    height: wp('8%'),
+    zIndex: 99
   },
 
   searchTextInput: {
