@@ -4,10 +4,21 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
+import { getBottomSpace } from 'react-native-iphone-x-helper';
+
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: getBottomSpace() + 49,
+    left: 0,
+    zIndex: 2
+  },
+
+  blurView: {
     position: 'absolute',
     top: 0,
     right: 0,
@@ -17,7 +28,7 @@ const styles = StyleSheet.create({
 
   listHolder: {
     flex: 1,
-    marginTop: hp('11.57%')
+    marginTop: hp('11.82%')
   },
 
   listSeparator: {
@@ -38,7 +49,7 @@ const styles = StyleSheet.create({
   },
 
   flatListStyle: {
-    paddingBottom: hp('9%')
+    paddingBottom: getBottomSpace() + 49 + wp('5%')
   },
 
   closeByBtn: {

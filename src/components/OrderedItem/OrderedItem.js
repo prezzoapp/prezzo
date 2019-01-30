@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { View, Text, Image } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import styles from './styles';
 import { FontAwesome, Entypo } from '../VectorIcons';
 
@@ -11,7 +12,7 @@ const OrderedItem = props => {
       <View style={styles.itemTextContainer}>
         <FontAwesome
           name={props.data.status === 2 ? 'circle' : 'circle-o'}
-          size={props.data.status === 2 ? 11 : 12}
+          size={props.data.status === 2 ? wp('2.93%') : wp('3.2%')}
           style={styles.dot}
         />
         <Text style={styles.itemName} numberOfLines={3}>{props.data.title}</Text>

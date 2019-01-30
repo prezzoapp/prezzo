@@ -9,20 +9,22 @@ const VendorTabBar = props => {
     <View {...props} style={styles.tabBarHolder}>
       <BlurView style={styles.innerContainer} tint="default" intensity={97}>
         <LinearGradient
-          style={styles.innerContainer}
+          style={styles.linearGradient}
           colors={['transparent', '#2B2C2C']}
         >
-          <BottomTabBar
-            {...props}
-            style={{
-              left: 0,
-              right: 0,
-              position: 'absolute',
-              backgroundColor: 'transparent',
-              borderTopColor: 'transparent',
-              alignItems: 'center'
-            }}
-          />
+          <View style={styles.tabBarContainer}>
+            <BottomTabBar
+              {...props}
+              style={{
+                left: 0,
+                right: 0,
+                position: 'absolute',
+                backgroundColor: 'transparent',
+                borderTopColor: 'transparent',
+                alignItems: 'center'
+              }}
+            />
+          </View>
         </LinearGradient>
       </BlurView>
     </View>

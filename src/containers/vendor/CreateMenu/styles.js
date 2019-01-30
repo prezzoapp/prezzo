@@ -1,6 +1,7 @@
 // @flow
 import { StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 import {
   FONT_FAMILY,
   COLOR_BLACK,
@@ -96,7 +97,7 @@ export default StyleSheet.create({
 
   innerContainer: {
     flex: 1,
-    marginBottom: hp('9%'),
+    paddingBottom: getBottomSpace() + 49,
     backgroundColor: COLOR_BLACK,
     paddingTop: wp('6%')
   },

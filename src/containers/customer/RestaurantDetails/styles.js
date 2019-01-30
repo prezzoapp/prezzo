@@ -1,9 +1,6 @@
 import { StyleSheet, Platform } from 'react-native';
 
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Constants } from 'expo';
 import { Header } from 'react-navigation';
 
@@ -22,7 +19,6 @@ const styles = StyleSheet.create({
       Constants.statusBarHeight +
       Header.HEIGHT -
       (Platform.OS === 'ios' ? 20 : 0)
-    // paddingTop: hp('11.48%')
   },
 
   transparent: {
@@ -62,13 +58,15 @@ const styles = StyleSheet.create({
 
   headerContentTextContainer: {
     flexDirection: 'row',
-    paddingTop: wp('2.66%')
+    paddingTop: wp('2.66%'),
+    alignItems: 'center'
   },
 
   headerContentText: {
     color: COLOR_WHITE,
     fontSize: wp('4.8%'),
-    paddingLeft: wp('5.06%')
+    paddingLeft: wp('5.06%'),
+    lineHeight: wp('5.86%')
   },
 
   listHeaderText: {

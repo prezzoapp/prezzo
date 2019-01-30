@@ -400,9 +400,9 @@ class SignupPassword extends React.Component<Props, State> {
                   <LoginTextInput
                     type='password'
                     label='Password'
-                    height={wp('19.46%')}
+                    // height={wp('19.46%')}
                     value={password}
-                    labelPaddingBottom={wp('4%')}
+                    // labelPaddingBottom={wp('4%')}
                     onChange={value => this.props.updatePassword(value)}
                   />
                 </View>

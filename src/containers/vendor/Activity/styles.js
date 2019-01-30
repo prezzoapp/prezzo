@@ -3,6 +3,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
@@ -55,16 +56,16 @@ const styles = StyleSheet.create({
   },
 
   innerContainer: {
-    // marginTop: hp('20.68%'),
-    marginTop: wp('44.8%'),
     width: '100%',
-    flex: 1
+    flex: 1,
+    paddingTop: wp('4.53%')
   },
 
-  flatListStyle: {
-    paddingTop: hp('0.61%'),
-    paddingBottom: hp('11%'),
-    paddingHorizontal: wp('4.26%')
+  flatListContentContainerStyle: {
+    paddingTop: wp('6.66%'),
+    paddingBottom: getBottomSpace() + 49 + wp('5%'),
+    paddingHorizontal: wp('4.26%'),
+    flexGrow: 1
   },
 
   title: {
@@ -147,14 +148,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     backgroundColor: 'rgba(0,0,0,0.55)',
-    zIndex: 99
+    zIndex: 999
   },
 
   box2: {
     position: 'absolute',
     top: hp('5.41%'),
     marginHorizontal: wp('3.73%'),
-    bottom: hp('9.98%'),
+    bottom: getBottomSpace() + 49 + wp('2.13%'),
     zIndex: 100,
     borderRadius: 10
   },

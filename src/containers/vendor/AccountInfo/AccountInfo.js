@@ -907,6 +907,7 @@ export default class AccountInfo extends React.Component {
                   return (
                     <View
                       style={styles.priceSliderContainer}
+                      key={item}
                     >
                       <View
                         style={styles.priceSliderHolder}
