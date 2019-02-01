@@ -12,15 +12,8 @@ import {
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLOR_BLACK
-  },
-
-  sectionListStyle: {
-    // paddingTop: hp('2%')
-  },
-
-  sectionListContentContainerStyle: {
-    paddingBottom: hp('2.77%')
+    backgroundColor: COLOR_BLACK,
+    paddingTop: wp('6%')
   },
 
   spinnerView: {
@@ -33,6 +26,14 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+
+  // sectionListContentContainerStyle: {
+  //   paddingBottom: 150
+  // },
+  //
+  // sectionListStyle: {
+  //   marginBottom: getBottomSpace() + 49
+  // },
 
   sectionHeader: {
     borderBottomColor: 'rgb(157,157,157)',
@@ -65,11 +66,11 @@ export default StyleSheet.create({
   addAnotherCommonBtnText: {
     color: 'rgb(147,147,147)',
     fontFamily: FONT_FAMILY,
-    fontSize: 18
+    fontSize: wp('4.53%')
   },
 
   footerSection: {
-    paddingVertical: hp('2.77%'),
+    paddingVertical: wp('5.86%'),
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -97,13 +98,14 @@ export default StyleSheet.create({
 
   innerContainer: {
     flex: 1,
-    paddingBottom: getBottomSpace() + 49,
     backgroundColor: COLOR_BLACK,
-    paddingTop: wp('6%')
+    position: 'relative',
+    paddingBottom: getBottomSpace() + 49
   },
 
   listFooterHolder: {
-    paddingHorizontal: wp('7.33%')
+    paddingHorizontal: wp('7.33%'),
+    // paddingBottom: getBottomSpace() + wp('21.32%') + 49
   },
 
   sectionFooterHolder: {

@@ -116,7 +116,7 @@ export default class ItemImagePicker extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.holder}>
         {this.props.editable && (
           <TouchableOpacity
             style={styles.closeBtn}

@@ -80,6 +80,10 @@ export default StyleSheet.create({
     paddingHorizontal: wp('8.53%'),
     width: '100%'
   },
+
+  bottomSeparator: {
+    height: getBottomSpace() + 49
+  },
   // categoriesSectionBody: {
   //   paddingBottom: 5,
   //   paddingTop: 5
@@ -89,13 +93,11 @@ export default StyleSheet.create({
     width: '100%'
   },
   container: {
-    backgroundColor: '#2B2C2C',
-    paddingBottom: getBottomSpace() + 49
+    backgroundColor: '#2B2C2C'
   },
   containerContentStyle: {
     alignItems: 'center',
-    paddingTop: hp('2%'),
-    paddingBottom: hp('11%')
+    paddingTop: hp('2%')
   },
   hoursContainer: {
     marginBottom: 25,

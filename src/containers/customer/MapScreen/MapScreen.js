@@ -4,7 +4,8 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  InteractionManager
+  InteractionManager,
+  Platform
 } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -28,20 +29,17 @@ import {
 export default class MapScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: (
-        <Text
-          style={{
-            width: wp('50%'),
-            fontSize: wp('6.4%'),
-            fontFamily: FONT_FAMILY_MEDIUM,
-            color: COLOR_WHITE,
-            textAlign: 'center'
-          }}
-          numberOfLines={1}
-        >
-          Local Search
-        </Text>
-      ),
+      title: 'Local Search',
+      headerTitleStyle: {
+        color: COLOR_WHITE,
+        fontFamily: FONT_FAMILY_MEDIUM,
+        fontSize: wp('6.4%'),
+        backgroundColor: 'transparent',
+        alignSelf: 'center',
+        flex: 1,
+        textAlign: 'center',
+        left: Platform.OS === 'android' ? -wp('7.73%') : null
+      },
       headerTintColor: 'white',
       headerStyle: {
         position: 'absolute',
@@ -49,7 +47,8 @@ export default class MapScreen extends Component {
         right: 0,
         left: 0,
         borderBottomWidth: 0,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        elevation: 0
       },
       headerLeft: (
         <TouchableOpacity
