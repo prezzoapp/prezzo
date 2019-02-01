@@ -103,7 +103,8 @@ class SignupName extends React.Component<Props, State> {
       top: 0,
       right: 0,
       left: 0,
-      borderBottomColor: 'transparent'
+      borderBottomColor: 'transparent',
+      elevation: 0
     },
     headerLeft: (
       <TouchableOpacity

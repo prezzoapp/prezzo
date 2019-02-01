@@ -52,6 +52,7 @@ export default class MenuListCategoriesHeader extends Component {
         <View style={styles.separator} />
         {this.state.editMode ? (
           <TextInput
+            underlineColorAndroid="transparent"
             style={styles.textInput}
             value={this.state.title}
             onChangeText={text => this.onChangeTitle(text)}
@@ -65,7 +66,7 @@ export default class MenuListCategoriesHeader extends Component {
           <View style={styles.controlBtnsPanel}>
             <TouchableOpacity
               activeOpacity={0.6}
-              style={styles.twoLineIconBtn}
+              style={styles.editBtn}
               onPress={this.saveAndUpdateCategory}
             >
               <Text style={styles.addText}>Save</Text>
@@ -73,14 +74,18 @@ export default class MenuListCategoriesHeader extends Component {
 
             <TouchableOpacity
               activeOpacity={0.6}
-              style={styles.twoLineIconBtn}
+              style={styles.editBtn}
               onPress={this.deleteCategory}
             >
               <Text style={[styles.addText, styles.colorDanger]}>Delete</Text>
             </TouchableOpacity>
           </View>
         ) : (
-          <TouchableOpacity activeOpacity={0.6} onPress={this.enableEditMode}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={this.enableEditMode}
+            style={styles.editBtn}
+          >
             <Text style={styles.addText}>Edit</Text>
           </TouchableOpacity>
         )}

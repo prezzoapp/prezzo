@@ -6,18 +6,33 @@ import {
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
 export default StyleSheet.create({
+  // avatar: {
+  //   alignSelf: 'flex-end',
+  //   borderColor: 'white',
+  //   borderRadius: wp('13.6%'),
+  //   borderWidth: 2,
+  //   height: wp('27.2%'),
+  //   resizeMode: 'cover',
+  //   width: wp('27.2%')
+  // },
+  // avatarContainer: {
+  //   height: wp('27.2%'),
+  //   width: wp('27.2%')
+  // },
   avatar: {
-    alignSelf: 'flex-end',
-    borderColor: 'white',
     borderRadius: wp('13.6%'),
-    borderWidth: 2,
-    height: wp('27.2%'),
+    height: wp('26.66%'),
     resizeMode: 'cover',
-    width: wp('27.2%')
+    width: wp('26.66%')
   },
   avatarContainer: {
-    height: wp('27.2%'),
-    width: wp('27.2%')
+    height: wp('27.73%'),
+    width: wp('27.73%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'white',
+    borderWidth: 2,
+    borderRadius: wp('13.6%')
   },
   bodyContainer: {
     alignItems: 'center',

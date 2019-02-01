@@ -59,7 +59,8 @@ export default class AccountInfo extends React.Component {
       position: 'relative',
       backgroundColor: '#2B2C2C',
       shadowColor: 'transparent',
-      borderBottomWidth: 0
+      borderBottomWidth: 0,
+      elevation: 0
     },
     headerTitleStyle: {
       fontFamily: Expo.Font.processFontFamily(FONT_FAMILY_MEDIUM),

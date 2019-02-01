@@ -427,7 +427,7 @@ class Tables extends Component {
               <LinearGradient
                 testID="linearGradient"
                 colors={['rgb(0,0,0)', 'transparent', 'transparent', 'transparent', 'transparent']}
-                locations={[0.1, 0.3, 0.3, 0.3, 0.3]}
+                locations={[0.1, 0.4, 0.4, 0.4, 0.4]}
                 style={{ flex: 1 }}
               >
                 <View style={{ flex: 1 }}>
