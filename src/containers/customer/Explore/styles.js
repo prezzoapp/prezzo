@@ -64,12 +64,10 @@ export default StyleSheet.create({
     width: 2,
     height: 12,
     zIndex: 1,
-    backgroundColor: 'white',
-    marginBottom: -2
+    backgroundColor: 'white'
   },
 
   priceSliderContainer: {
-    flex: 1,
     height: 31,
     marginVertical: hp('1.84%'),
     marginLeft: wp('8%'),
@@ -80,11 +78,10 @@ export default StyleSheet.create({
   },
 
   priceSliderHolder: {
-    flex: 1,
     height: 31,
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: -11.5
+    bottom: -10.25
   }
 });

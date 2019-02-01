@@ -22,17 +22,20 @@ import {
 export default class MapScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Local Search',
-      headerTitleStyle: {
-        color: COLOR_WHITE,
-        fontFamily: FONT_FAMILY_MEDIUM,
-        fontSize: wp('6.4%'),
-        backgroundColor: 'transparent',
-        alignSelf: 'center',
-        flex: 1,
-        textAlign: 'center',
-        left: Platform.OS === 'android' ? -wp('7.73%') : null
-      },
+      headerTitle: (
+        <Text
+          style={{
+            width: wp('70%'),
+            fontSize: wp('6.4%'),
+            fontFamily: FONT_FAMILY_MEDIUM,
+            color: COLOR_WHITE,
+            textAlign: 'center'
+          }}
+          numberOfLines={1}
+        >
+          Local Search
+        </Text>
+      ),
       headerTintColor: 'white',
       headerStyle: {
         position: 'absolute',

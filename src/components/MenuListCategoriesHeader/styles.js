@@ -35,21 +35,28 @@ export default StyleSheet.create({
     color: '#fff',
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('5.33%'),
-    flex: 1,
+    // flex: 1,
     paddingRight: wp('2.66%'),
     height: wp('9%')
+  },
+
+  editBtn: {
+    height: wp('9%'),
+    justifyContent: 'center',
+    top: -2
   },
 
   addText: {
     color: COLOR_GREEN,
     fontSize: wp('4.53%'),
     paddingRight: wp('3.46%'),
-    fontFamily: FONT_FAMILY,
-    top: -2
+    fontFamily: FONT_FAMILY
+    // height: wp('9%')
+    // top: -2
+    // lineHeight: wp('5.86%')
   },
 
   textInput: {
-    // height: hp('4.31%'),
     height: wp('9%'),
     padding: 0,
     flex: 1,
@@ -57,7 +64,7 @@ export default StyleSheet.create({
     fontSize: wp('5.33%'),
     color: 'white',
     marginVertical: 0,
-    textAlignVertical: 'top',
+    textAlignVertical: 'center',
     paddingRight: wp('2.66%'),
     top: -3
   },

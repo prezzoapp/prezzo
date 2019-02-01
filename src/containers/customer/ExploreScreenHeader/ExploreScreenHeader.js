@@ -52,7 +52,9 @@ class ExploreScreenHeader extends Component {
     return (
       <View style={styles.header}
         ref={parent => this.parent = parent}
-        onLayout={() => this.measureLayout()}
+        onLayout={(event) =>
+          this.props.setFilterPanelPosition(event.nativeEvent.layout.y, event.nativeEvent.layout.height)
+        }
       >
         <LinearGradient
           colors={['rgb(0,0,0)', 'transparent']}

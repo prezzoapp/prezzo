@@ -13,7 +13,8 @@ class Activity extends Component {
     headerTintColor: 'white',
     headerStyle: {
       backgroundColor: '#1f1f1f',
-      borderBottomColor: 'transparent'
+      borderBottomColor: 'transparent',
+      elevation: 0
     },
     headerLeft: (
       <Text style={styles.headerText}>Activity</Text>

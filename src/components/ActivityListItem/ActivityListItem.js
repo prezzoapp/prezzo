@@ -28,16 +28,18 @@ const ActivityListItem = props => {
     return (
       <View style={styles.item}>
         <View style={styles.leftSide}>
-          <Image
-            source={
-              props.item.status === 'complete'
-                ? require('../../../assets/images/icons/active_status.png')
-                : props.item.status === 'denied'
-                  ? null
-                  : require('../../../assets/images/icons/green_in_progress.png')
-            }
-            style={styles.statusImage}
-          />
+          <View style={styles.statusIconHolder}>
+            <Image
+              source={
+                props.item.status === 'complete'
+                  ? require('../../../assets/images/icons/active_status.png')
+                  : props.item.status === 'denied'
+                    ? null
+                    : require('../../../assets/images/icons/green_in_progress.png')
+              }
+              style={styles.statusImage}
+            />
+          </View>
           <View style={styles.sideBorder} />
         </View>
 

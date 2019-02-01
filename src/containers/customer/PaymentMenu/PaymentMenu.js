@@ -43,7 +43,8 @@ class PaymentMenu extends Component {
     headerStyle: {
       backgroundColor: '#2B2C2C',
       shadowColor: 'transparent',
-      borderBottomWidth: 0
+      borderBottomWidth: 0,
+      elevation: 0
     },
     headerLeft: (
       <TouchableOpacity
