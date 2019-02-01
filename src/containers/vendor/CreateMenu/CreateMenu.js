@@ -41,7 +41,8 @@ export default class CreateMenu extends Component<Props> {
     headerTintColor: 'white',
     headerStyle: {
       backgroundColor: COLOR_BLACK,
-      borderBottomWidth: 0
+      borderBottomWidth: 0,
+      elevation: 0
     },
     headerTitleStyle: {
       fontFamily: FONT_FAMILY_MEDIUM,

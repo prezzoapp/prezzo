@@ -174,7 +174,8 @@ class SignupMergeFacebook extends React.Component<Props, State> {
       right: 0,
       left: 0,
       backgroundColor: 'transparent',
-      borderBottomColor: 'transparent'
+      borderBottomColor: 'transparent',
+      elevation: 0
     },
     headerTintColor: '#fff',
     headerLeft: (

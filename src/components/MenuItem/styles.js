@@ -46,7 +46,8 @@ export default StyleSheet.create({
     color: '#fff',
     fontFamily: FONT_FAMILY,
     fontSize: wp('5.33%'),
-    flex: 1
+    flex: 1,
+    lineHeight: wp('5.86%')
   },
   otherInfoText: {
     fontSize: wp('5.33%'),
@@ -66,7 +67,8 @@ export default StyleSheet.create({
   addText: {
     color: COLOR_GREEN,
     fontSize: wp('4.53%'),
-    fontFamily: FONT_FAMILY
+    fontFamily: FONT_FAMILY,
+    lineHeight: wp('5.86%')
   },
 
   paddingBottom_21: {

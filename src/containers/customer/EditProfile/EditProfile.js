@@ -60,7 +60,8 @@ class EditProfile extends Component<Props, State> {
     headerStyle: {
       backgroundColor: COLOR_BLACK,
       shadowColor: 'transparent',
-      borderBottomWidth: 0
+      borderBottomWidth: 0,
+      elevation: 0
     },
     headerLeft: (
       <TouchableOpacity

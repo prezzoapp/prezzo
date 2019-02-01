@@ -53,6 +53,7 @@ export default class VendorAdminActivityDetails extends Component {
         backgroundColor: '#1F1F1F',
         borderBottomColor: '#2ED573',
         borderBottomWidth: 1,
+        elevation: 0,
         height: hp('9%')
       }
     }

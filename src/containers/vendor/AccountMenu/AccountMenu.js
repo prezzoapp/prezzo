@@ -14,33 +14,28 @@ import {
 } from '../../../services/constants';
 
 export default class AccountMenu extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = {
     headerTitle: (
       <Text
         style={{
-          width: wp('70%'),
+          flex: 1,
           fontSize: wp('6.4%'),
           fontFamily: FONT_FAMILY_MEDIUM,
           color: COLOR_WHITE,
           textAlign: 'center'
         }}
-        numberOfLines={1}
-      >
-        Vendor Account
+        numberOfLines={1}>Vendor Account
       </Text>
     ),
-    headerTitleStyle: {
-      fontFamily: FONT_FAMILY_MEDIUM,
-      fontSize: wp('6.4%')
-    },
     headerBackTitle: null,
-    headerTintColor: '#fff',
     headerStyle: {
-      backgroundColor: COLOR_BLACK,
+      backgroundColor: '#2B2C2C',
       shadowColor: 'transparent',
-      borderBottomWidth: 0
-    }
-  });
+      borderBottomWidth: 0,
+      elevation: 0
+    },
+    headerTintColor: '#fff'
+  };
 
   static displayName = 'Profile';
 

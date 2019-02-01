@@ -18,7 +18,7 @@ class Profile extends Component {
     headerTitle: (
       <Text
         style={{
-          width: wp('50%'),
+          flex: 1,
           fontSize: wp('6.4%'),
           fontFamily: FONT_FAMILY_MEDIUM,
           color: COLOR_WHITE,
@@ -31,7 +31,8 @@ class Profile extends Component {
     headerStyle: {
       backgroundColor: '#2B2C2C',
       shadowColor: 'transparent',
-      borderBottomWidth: 0
+      borderBottomWidth: 0,
+      elevation: 0
     },
     headerTintColor: '#fff'
   };
@@ -120,17 +121,19 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
   avatar: {
-    alignSelf: 'flex-end',
-    borderColor: 'white',
     borderRadius: wp('13.6%'),
-    borderWidth: 2,
-    height: wp('27.2%'),
+    height: wp('26.66%'),
     resizeMode: 'cover',
-    width: wp('27.2%')
+    width: wp('26.66%')
   },
   avatarContainer: {
-    height: wp('27.2%'),
-    width: wp('27.2%')
+    height: wp('27.73%'),
+    width: wp('27.73%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'white',
+    borderWidth: 2,
+    borderRadius: wp('13.6%')
   },
   bodyContainer: {
     alignItems: 'center',

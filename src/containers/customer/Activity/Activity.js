@@ -9,17 +9,16 @@ import ActivityOpenOrder from '../ActivityOpenOrder';
 import styles from './styles';
 
 class Activity extends Component {
-  static navigationOptions = ({navigationOptions}) => {
-    return {
-      headerTintColor: 'white',
-      headerStyle: {
-        backgroundColor: '#1f1f1f',
-        borderBottomColor: 'transparent'
-      },
-      headerLeft: (
-        <Text style={styles.headerText}>Activity</Text>
-      )
-    }
+  static navigationOptions = {
+    headerTintColor: 'white',
+    headerStyle: {
+      backgroundColor: '#1f1f1f',
+      borderBottomColor: 'transparent',
+      elevation: 0
+    },
+    headerLeft: (
+      <Text style={styles.headerText}>Activity</Text>
+    )
   };
 
   static displayName = 'Activity';
