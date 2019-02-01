@@ -572,7 +572,7 @@ export default class AccountInfo extends React.Component {
     ];
 
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
+      <KeyboardAvoidingView style={[styles.container, { flex: 1 }]} behavior='padding' keyboardVerticalOffset={1}>
         <ScrollView
           contentContainerStyle={styles.containerContentStyle}
           style={styles.container}
@@ -1155,7 +1155,7 @@ export default class AccountInfo extends React.Component {
             <ProfileTextInput
               showLabel={false}
               label=""
-              style={{ marginTop: 20 }}
+              style={{ marginVertical: wp('5.33%') }}
               onChange={val => this.setState({ email: val })}
               placeholder=""
               keyboardType="email-address"
@@ -1166,6 +1166,7 @@ export default class AccountInfo extends React.Component {
             />
           </View>
         </ScrollView>
+        <View style={styles.bottomSeparator} />
       </KeyboardAvoidingView>
     );
   }

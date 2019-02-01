@@ -8,10 +8,7 @@ import {
   InteractionManager
 } from 'react-native';
 import PropTypes from 'prop-types';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import MenuItem from '../../../components/MenuItem';
 import {
@@ -151,7 +148,7 @@ export default class CreateMenu extends Component<Props> {
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.innerContainer}>
           <SectionList
-            showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator
             extraData={array}
             contentContainerStyle={styles.sectionListContentContainerStyle}
             style={styles.sectionListStyle}
@@ -230,7 +227,7 @@ export default class CreateMenu extends Component<Props> {
 const submitBtnVendor = {
   styles: {
     width: wp('53.33%'),
-    height: hp('4.43'),
+    height: wp('9.6%'),
     borderRadius: 8,
     borderWidth: 2,
     borderColor: 'rgb(15,209,74)',
