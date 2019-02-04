@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  ActionSheetIOS,
   KeyboardAvoidingView,
   Keyboard,
   ScrollView
 } from 'react-native';
+import { ActionSheet } from 'native-base';
 import { ImagePicker, Permissions } from 'expo';
 import PropTypes from 'prop-types';
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
@@ -156,11 +156,11 @@ class EditProfile extends Component<Props, State> {
   }
 
   showAvatarActionSheet() {
-    ActionSheetIOS.showActionSheetWithOptions(
+    ActionSheet.show(
       {
         options: ['Take Photo', 'Choose from Library', 'Cancel'],
         cancelButtonIndex: 2,
-        title: 'Select an avatar'
+        title: "Select an avatar"
       },
       buttonIndex => {
         if (buttonIndex === 0) {
@@ -235,14 +235,16 @@ class EditProfile extends Component<Props, State> {
                        style= {{position: 'relative'}}
                         onPress={() => this.showAvatarActionSheet()}
                       >
-                        <Image
-                          style={styles.avatar}
-                          source={
-                            avatarURL
-                              ? { uri: avatarURL }
-                              : require('../../../../assets/images/etc/default-avatar.png')
-                          }
-                        />
+                        <View style={styles.imageHolder}>
+                          <Image
+                            style={styles.avatar}
+                            source={
+                              avatarURL
+                                ? { uri: avatarURL }
+                                : require('../../../../assets/images/etc/default-avatar.png')
+                            }
+                          />
+                        </View>
 
                         <Image
                           style={styles.editBtnImage}
@@ -353,16 +355,17 @@ const styles = StyleSheet.create({
     paddingBottom: hp('5%')
   },
   avatar: {
-    borderColor: 'white',
-    borderRadius: wp('13.5%'),
-    borderWidth: 2,
-    height: wp('27.2%'),
     resizeMode: 'cover',
-    width: wp('27.2%')
+    height: '100%',
+    width: '100%'
   },
-  avatarContainer: {
-    alignItems: 'center',
-    justifyContent: 'center'
+  imageHolder: {
+    height: wp('27.2%'),
+    width: wp('27.2%'),
+    borderColor: 'white',
+    borderWidth: 2,
+    borderRadius: wp('13.5%'),
+    overflow: 'hidden'
   },
   bodyContainer: {
     flexGrow: 1,
@@ -397,7 +400,7 @@ const styles = StyleSheet.create({
     width: wp('7.46%'),
     height: wp('7.46%'),
     position: 'absolute',
-    right: 4,
+    right: 5,
     top: 0
   }
 });

@@ -8,7 +8,9 @@ import { FontAwesome, Entypo } from '../VectorIcons';
 const OrderedItem = props => {
   return (
     <View style={styles.container}>
-      <Image style={styles.itemImage} source={{ uri: props.data.imageURLs[0] }} />
+      <View style={styles.itemImageContainer}>
+        <Image style={styles.itemImage} source={{ uri: props.data.imageURLs[0] }} />
+      </View>
       <View style={styles.itemTextContainer}>
         <FontAwesome
           name={props.data.status === 2 ? 'circle' : 'circle-o'}

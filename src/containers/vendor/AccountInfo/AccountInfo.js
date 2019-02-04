@@ -1,17 +1,15 @@
 // // @flow
 import * as React from 'react';
 import {
-  Button,
   Image,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
-  ActionSheetIOS,
   KeyboardAvoidingView
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { Picker, Spinner } from 'native-base';
+import { Picker, Spinner, ActionSheet } from 'native-base';
 import Slider from 'react-native-slider';
 import { ImagePicker, Permissions } from 'expo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -24,10 +22,12 @@ import showGenericAlert from '../../../components/GenericAlert';
 import { restaurantCategories, COLOR_GREEN } from '../../../services/constants';
 import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
+import Button from '../../../components/Button';
+import LoadingComponent from '../../../components/LoadingComponent';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
-const price3Indicator = wp('85%') * 0.66 - wp('9.5%');
+const price3Indicator = wp('85%') * 0.66 - wp('9%');
 
 const price4Indicator = wp('85%') * 0.99 - wp('9.5%');
 
@@ -44,7 +44,7 @@ export default class AccountInfo extends React.Component {
     headerTitle: (
       <Text
         style={{
-          width: wp('70%'),
+          width: wp('65%'),
           fontSize: wp('6.4%'),
           fontFamily: FONT_FAMILY_MEDIUM,
           color: COLOR_WHITE,
@@ -69,10 +69,10 @@ export default class AccountInfo extends React.Component {
     headerTintColor: '#fff',
     headerRight: (
       <Button
-        color="#fff"
         onPress={() => AccountInfo.currentContext.save()}
-        title="Save"
-      />
+        style={buttonStyles.saveBtn}
+        textStyle={buttonStyles.saveBtnText}
+      >Save</Button>
     ),
     headerLeft: (
       <TouchableOpacity
@@ -178,11 +178,11 @@ export default class AccountInfo extends React.Component {
   }
 
   showAvatarActionSheet = () => {
-    ActionSheetIOS.showActionSheetWithOptions(
+    ActionSheet.show(
       {
         options: ['Take Photo', 'Choose from Library', 'Cancel'],
         cancelButtonIndex: 2,
-        title: 'Select an avatar'
+        title: "Select an avatar"
       },
       buttonIndex => {
         if (buttonIndex === 0) {
@@ -192,6 +192,21 @@ export default class AccountInfo extends React.Component {
         }
       }
     );
+
+    // ActionSheetIOS.showActionSheetWithOptions(
+    //   {
+    //     options: ['Take Photo', 'Choose from Library', 'Cancel'],
+    //     cancelButtonIndex: 2,
+    //     title: 'Select an avatar'
+    //   },
+    //   buttonIndex => {
+    //     if (buttonIndex === 0) {
+    //       this.requestCameraPermission();
+    //     } else if (buttonIndex === 1) {
+    //       this.requestPhotoLibraryPermission();
+    //     }
+    //   }
+    // );
   }
 
   requestPhotoLibraryPermission = async () => {
@@ -578,14 +593,14 @@ export default class AccountInfo extends React.Component {
           contentContainerStyle={styles.containerContentStyle}
           style={styles.container}
         >
-          <View
+          {/*<View
             style={{
               ...stylesRaw.spinnerContainer,
               ...(isBusy ? {} : { display: 'none' })
             }}
           >
             <Spinner color="red" />
-          </View>
+          </View>*/}
 
           <View style={styles.header}>
             <TouchableOpacity
@@ -593,17 +608,19 @@ export default class AccountInfo extends React.Component {
               style={styles.avatarWrap}
               onPress={() => this.showAvatarActionSheet()}
             >
-              <Image
-                style={styles.avatar}
-                source={
-                  avatarURL
-                    ? { uri: avatarURL }
-                    : require('../../../../assets/images/etc/default-avatar.png')
-                }
-              />
+              <View style={styles.imageHolder}>
+                <Image
+                  style={styles.avatar}
+                  source={
+                    avatarURL
+                      ? { uri: avatarURL }
+                      : require('../../../../assets/images/etc/default-avatar.png')
+                  }
+                />
+              </View>
               <Image
                 style={styles.editAvatarIcon}
-                source={require('../../../../assets/images/icons/edit.png')}
+                source={require('../../../../assets/images/etc/EditIcon.png')}
               />
             </TouchableOpacity>
 
@@ -893,221 +910,215 @@ export default class AccountInfo extends React.Component {
                   toggleFilter={() => this.toggle('wifi')}
                   on={this.state.filters.find(x => x === "wifi") ? true : false}
                 />
-
-                {/*<FilterItem
-                  name="Delivery"
-                  image={require('../../../../assets/images/filters/delivery.png')}
-                  style={{ marginBottom: 8 }}
-                  toggleFilter={() => this.toggle('delivery')}
-                  on={this.state.filters.find(x => x === "delivery") ? true : false}
-                />*/}
               </View>
 
-              {this.state.filters.map(item => {
-                if (item === "price") {
-                  return (
-                    <View
-                      style={styles.priceSliderContainer}
-                      key={item}
-                    >
+              <View style={styles.slidersHolder}>
+                {this.state.filters.map(item => {
+                  if (item === "price") {
+                    return (
                       <View
-                        style={styles.priceSliderHolder}
+                        style={styles.priceSliderContainer}
+                        key={item}
                       >
-                        <Slider
-                          minimumValue={0}
-                          maximumValue={3}
-                          step={1}
-                          minimumTrackTintColor="rgb(47,212,117)"
-                          maximumTrackTintColor="rgb(230,230,230)"
-                          thumbTintColor="rgb(255,254,255)"
-                          thumbStyle={{ height: 18, width: 18 }}
-                          style={{height: 31}}
-                          value={this.state.pricing}
-                          onSlidingComplete={value =>
-                            this.setState({ pricing: value })
-                          }
-                          trackStyle={{ height: 3 }}
-                          thumbStyle={{ height: 13, width: 13 }}
-                        />
-                      </View>
+                        <View
+                          style={styles.priceSliderHolder}
+                        >
+                          <Slider
+                            minimumValue={0}
+                            maximumValue={3}
+                            step={1}
+                            minimumTrackTintColor="rgb(47,212,117)"
+                            maximumTrackTintColor="rgb(230,230,230)"
+                            thumbTintColor="rgb(255,254,255)"
+                            thumbStyle={{ height: 18, width: 18 }}
+                            style={{height: 31}}
+                            value={this.state.pricing}
+                            onSlidingComplete={value =>
+                              this.setState({ pricing: value })
+                            }
+                            trackStyle={{ height: 3 }}
+                            thumbStyle={{ height: 13, width: 13 }}
+                          />
+                        </View>
 
-                      <View
-                        pointerEvents="none"
-                        style={{
-                          width: wp('13.33%'),
-                          height: 31,
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
-                          zIndex: 1
-                        }}
-                      >
-                        <Text
+                        <View
+                          pointerEvents="none"
                           style={{
-                            color: COLOR_GREEN,
-                            fontSize: wp('2.66%'),
                             width: wp('13.33%'),
-                            height: 20,
-                            fontFamily: SF_PRO_DISPLAY_REGULAR
+                            height: 31,
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            zIndex: 1
                           }}
                         >
-                          $
-                        </Text>
-
-                        <View
-                          style={[
-                            styles.priceBarIndicator,
-                            {
-                              backgroundColor:
-                                this.state.pricing > 0.0
-                                  ? 'rgba(255,255,255,1.0)'
-                                  : null
-                            }
-                          ]}
-                        />
-                      </View>
-
-                      <View
-                        pointerEvents="none"
-                        style={{
-                          width: wp('13.33%'),
-                          left: price2Indicator,
-                          position: 'absolute',
-                          height: 31,
-                          flexDirection: 'column',
-                          zIndex: 1,
-                          justifyContent: 'space-between',
-                          alignItems: 'center'
-                        }}
-                      >
-                        <Text
-                          style={[
-                            {
+                          <Text
+                            style={{
+                              color: COLOR_GREEN,
                               fontSize: wp('2.66%'),
-                              height: 20,
-                              textAlign: 'center',
                               width: wp('13.33%'),
+                              height: 20,
                               fontFamily: SF_PRO_DISPLAY_REGULAR
-                            },
-                            {
-                              color:
-                                this.state.pricing >= 1
-                                  ? COLOR_GREEN
-                                  : 'rgba(255,255,255,1.0)'
-                            }
-                          ]}
-                        >
-                          $$
-                        </Text>
+                            }}
+                          >
+                            $
+                          </Text>
+
+                          <View
+                            style={[
+                              styles.priceBarIndicator,
+                              {
+                                backgroundColor:
+                                  this.state.pricing > 0.0
+                                    ? 'rgba(255,255,255,1.0)'
+                                    : null
+                              }
+                            ]}
+                          />
+                        </View>
 
                         <View
-                          style={[
-                            styles.priceBarIndicator,
-                            {
-                              backgroundColor:
-                                this.state.pricing === 1
-                                  ? null
-                                  : 'rgba(255,255,255,1.0)'
-                            }
-                          ]}
-                        />
-                      </View>
-
-                      <View
-                        pointerEvents="none"
-                        style={{
-                          width: wp('13.33%'),
-                          position: 'absolute',
-                          left: price3Indicator,
-                          height: 31,
-                          flexDirection: 'column',
-                          zIndex: 1,
-                          justifyContent: 'space-between',
-                          alignItems: 'center'
-                        }}
-                      >
-                        <Text
-                          style={[
-                            {
-                              fontSize: wp('2.66%'),
-                              height: 20,
-                              marginLeft: 2,
-                              textAlign: 'center',
-                              width: wp('13.33%'),
-                              fontFamily: SF_PRO_DISPLAY_REGULAR
-                            },
-                            {
-                              color:
-                                this.state.pricing >= 2
-                                  ? COLOR_GREEN
-                                  : 'rgba(255,255,255,1.0)'
-                            }
-                          ]}
+                          pointerEvents="none"
+                          style={{
+                            width: wp('13.33%'),
+                            left: price2Indicator,
+                            position: 'absolute',
+                            height: 31,
+                            flexDirection: 'column',
+                            zIndex: 1,
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                          }}
                         >
-                          $$$
-                        </Text>
+                          <Text
+                            style={[
+                              {
+                                fontSize: wp('2.66%'),
+                                height: 20,
+                                textAlign: 'center',
+                                width: wp('13.33%'),
+                                fontFamily: SF_PRO_DISPLAY_REGULAR
+                              },
+                              {
+                                color:
+                                  this.state.pricing >= 1
+                                    ? COLOR_GREEN
+                                    : 'rgba(255,255,255,1.0)'
+                              }
+                            ]}
+                          >
+                            $$
+                          </Text>
+
+                          <View
+                            style={[
+                              styles.priceBarIndicator,
+                              {
+                                backgroundColor:
+                                  this.state.pricing === 1
+                                    ? null
+                                    : 'rgba(255,255,255,1.0)'
+                              }
+                            ]}
+                          />
+                        </View>
 
                         <View
-                          style={[
-                            styles.priceBarIndicator,
-                            {
-                              backgroundColor:
-                                this.state.pricing === 2
-                                  ? null
-                                  : 'rgba(255,255,255,1.0)'
-                            }
-                          ]}
-                        />
-                      </View>
-
-                      <View
-                        pointerEvents="none"
-                        style={{
-                          width: wp('13.33%'),
-                          height: 31,
-                          position: 'absolute',
-                          left: price4Indicator,
-                          flexDirection: 'column',
-                          zIndex: 1,
-                          justifyContent: 'space-between',
-                          alignItems: 'center'
-                        }}
-                      >
-                        <Text
-                          style={[
-                            {
-                              fontSize: wp('2.66%'),
-                              height: 20,
-                              textAlign: 'center',
-                              width: wp('13.33%'),
-                              fontFamily: SF_PRO_DISPLAY_REGULAR
-                            },
-                            {
-                              color:
-                                this.state.pricing >= 3
-                                  ? COLOR_GREEN
-                                  : 'rgba(255,255,255,1.0)'
-                            }
-                          ]}
+                          pointerEvents="none"
+                          style={{
+                            width: wp('13.33%'),
+                            position: 'absolute',
+                            left: price3Indicator,
+                            height: 31,
+                            flexDirection: 'column',
+                            zIndex: 1,
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                          }}
                         >
-                          $$$$
-                        </Text>
+                          <Text
+                            style={[
+                              {
+                                fontSize: wp('2.66%'),
+                                height: 20,
+                                marginLeft: 2,
+                                textAlign: 'center',
+                                width: wp('13.33%'),
+                                fontFamily: SF_PRO_DISPLAY_REGULAR
+                              },
+                              {
+                                color:
+                                  this.state.pricing >= 2
+                                    ? COLOR_GREEN
+                                    : 'rgba(255,255,255,1.0)'
+                              }
+                            ]}
+                          >
+                            $$$
+                          </Text>
+
+                          <View
+                            style={[
+                              styles.priceBarIndicator,
+                              {
+                                backgroundColor:
+                                  this.state.pricing === 2
+                                    ? null
+                                    : 'rgba(255,255,255,1.0)'
+                              }
+                            ]}
+                          />
+                        </View>
 
                         <View
-                          style={[
-                            styles.priceBarIndicator,
-                            {
-                              backgroundColor:
-                                this.state.pricing >= 3
-                                  ? null
-                                  : 'rgba(255,255,255,1.0)'
-                            }
-                          ]}
-                        />
+                          pointerEvents="none"
+                          style={{
+                            width: wp('13.33%'),
+                            height: 31,
+                            position: 'absolute',
+                            left: price4Indicator,
+                            flexDirection: 'column',
+                            zIndex: 1,
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <Text
+                            style={[
+                              {
+                                fontSize: wp('2.66%'),
+                                height: 20,
+                                textAlign: 'center',
+                                width: wp('13.33%'),
+                                fontFamily: SF_PRO_DISPLAY_REGULAR
+                              },
+                              {
+                                color:
+                                  this.state.pricing >= 3
+                                    ? COLOR_GREEN
+                                    : 'rgba(255,255,255,1.0)'
+                              }
+                            ]}
+                          >
+                            $$$$
+                          </Text>
+
+                          <View
+                            style={[
+                              styles.priceBarIndicator,
+                              {
+                                backgroundColor:
+                                  this.state.pricing >= 3
+                                    ? null
+                                    : 'rgba(255,255,255,1.0)'
+                              }
+                            ]}
+                          />
+                        </View>
                       </View>
-                    </View>
-                  );
-                }
-              })}
+                    );
+                  }
+                })}
+              </View>
 
               {/*<View style={styles.commonFilterPanel}>
                 <FilterItem
@@ -1168,7 +1179,26 @@ export default class AccountInfo extends React.Component {
           </View>
         </ScrollView>
         <View style={styles.bottomSeparator} />
+        <LoadingComponent visible={isBusy} />
       </KeyboardAvoidingView>
     );
   }
 }
+
+const buttonStyles = {
+  saveBtn: {
+    backgroundColor: 'transparent',
+    width: wp('14.66%'),
+    height: wp('10.13%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 0,
+    borderColor: 'transparent'
+  },
+  saveBtnText: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    fontFamily: FONT_FAMILY,
+    fontSize: wp('4.5%')
+  }
+};
