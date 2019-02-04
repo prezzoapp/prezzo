@@ -1,5 +1,6 @@
 // @flow
 import { fromJS } from 'immutable';
+import { Location, Permissions } from 'expo';
 import {
   TOGGLE_FILTER_REQUEST,
   TOGGLE_FILTER_SUCCESS,
@@ -13,7 +14,10 @@ import {
   UPDATE_PRICE_FILTER_REQUEST,
   UPDATE_PRICE_FILTER_SUCCESS,
   UPDATE_PRICE_FILTER_FAILURE,
-  DISABLE_VENDOR_LIST_ITEM
+  DISABLE_VENDOR_LIST_ITEM,
+  GET_USER_CURRENT_LOCATION_REQUEST,
+  GET_USER_CURRENT_LOCATION_SUCCESS,
+  GET_USER_CURRENT_LOCATION_FAILURE
 } from './types';
 import { get } from '../../utils/api';
 
@@ -72,31 +76,6 @@ export const listVendors = async (
   }
 };
 
-// export const updateDistance = async (
-//   latitude: string,
-//   longitude: string,
-//   distance: string
-// ) => async dispatch => {
-//   dispatch({ type: UPDATE_DISTANCE_REQUEST });
-//
-//   try {
-//     const vendors = await get(
-//       `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=${distance}`
-//     );
-//
-//     const vendorsData = fromJS(vendors);
-//     const updatedDistance = fromJS(distance);
-//
-//     dispatch({
-//       type: UPDATE_DISTANCE_SUCCESS,
-//       payload: { vendorsData, updatedDistance }
-//     });
-//   } catch (e) {
-//     console.warn('e', e);
-//     dispatch({ type: UPDATE_DISTANCE_FAILURE });
-//   }
-// };
-
 export const updateDistance = async ( distance: string ) => async dispatch => {
   dispatch({ type: UPDATE_DISTANCE_REQUEST });
 
@@ -115,11 +94,6 @@ export const updatePrice = async (pricing: number) => async dispatch => {
   dispatch({ type: UPDATE_PRICE_FILTER_REQUEST });
 
   try {
-    // const vendors = await get(`/v1/vendors?pricing=${pricing + 1}`);
-    //
-    // const updatedVendors = fromJS(vendors);
-    // const pricing = fromJS(pricing);
-
     dispatch({
       type: UPDATE_PRICE_FILTER_SUCCESS,
       payload: fromJS(pricing + 1)
@@ -135,4 +109,56 @@ export const disableVendorListItem = id => dispatch => {
     type: DISABLE_VENDOR_LIST_ITEM,
     payload: id
   })
+}
+
+getCurrentPosition = () => {
+  const geolocation = navigator.geolocation;
+  return new Promise((resolve, reject) => {
+    geolocation.getCurrentPosition(resolve, reject, {
+      enableHighAccuracy: false,
+      timeout: 200000,
+      maximumAge: 1000
+    });
+  });
+}
+
+export const getUserCurrentLocation = async () => async dispatch => {
+  dispatch({ type: GET_USER_CURRENT_LOCATION_REQUEST });
+
+  try {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === 'granted') {
+      const { locationServicesEnabled } = await Location.getProviderStatusAsync();
+      if(locationServicesEnabled) {
+        const location = await Location.getCurrentPositionAsync({});
+        if(location) {
+          dispatch({
+            type: GET_USER_CURRENT_LOCATION_SUCCESS,
+            payload: fromJS(location.coords)
+          });
+
+          return location.coords;
+        } else {
+          throw new Error('Error while fetching location!');
+        }
+      }
+    } else {
+      throw new Error('Location services unavailable!');
+    }
+
+    //const position = await getCurrentPosition();
+
+    // dispatch({
+    //   type: GET_USER_CURRENT_LOCATION_SUCCESS,
+    //   payload: fromJS(position.coords)
+    // });
+
+    //return position.coords;
+  } catch (err) {
+    dispatch({
+      type: GET_USER_CURRENT_LOCATION_FAILURE
+    });
+
+    throw err;
+  }
 }

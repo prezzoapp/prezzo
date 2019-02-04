@@ -13,7 +13,10 @@ import {
   UPDATE_PRICE_FILTER_REQUEST,
   UPDATE_PRICE_FILTER_SUCCESS,
   UPDATE_PRICE_FILTER_FAILURE,
-  DISABLE_VENDOR_LIST_ITEM
+  DISABLE_VENDOR_LIST_ITEM,
+  GET_USER_CURRENT_LOCATION_REQUEST,
+  GET_USER_CURRENT_LOCATION_SUCCESS,
+  GET_USER_CURRENT_LOCATION_FAILURE
 } from './types';
 
 const restaurants = [];
@@ -42,20 +45,6 @@ const INITIAL_STATE = fromJS({
       on: false,
       image: require('../../../assets/images/filters/wifi-icon.png')
     }
-    // {
-    //   _id: 3,
-    //   filterType: 'delivery',
-    //   name: 'Delivery',
-    //   on: false,
-    //   image: require('../../../assets/images/filters/delivery.png')
-    // },
-    // {
-    //   _id: 4,
-    //   filterType: 'breakfast',
-    //   name: 'Breakfast',
-    //   on: false,
-    //   image: require('../../../assets/images/filters/breakfast.png')
-    // }
   ],
   restaurants,
   minDistance: 1,
@@ -75,11 +64,14 @@ export default (state = INITIAL_STATE, action) => {
     case LIST_VENDORS_REQUEST:
     case UPDATE_DISTANCE_REQUEST:
     case UPDATE_PRICE_FILTER_REQUEST:
+    case GET_USER_CURRENT_LOCATION_REQUEST:
       return state.set('isBusy', true);
     case TOGGLE_FILTER_FAILURE:
     case LIST_VENDORS_FAILURE:
     case UPDATE_DISTANCE_FAILURE:
     case UPDATE_PRICE_FILTER_FAILURE:
+    case GET_USER_CURRENT_LOCATION_FAILURE:
+    case GET_USER_CURRENT_LOCATION_SUCCESS:
       return state.set('isBusy', false);
     case TOGGLE_FILTER_SUCCESS:
       oldFilters = state.get('filters').toJS();

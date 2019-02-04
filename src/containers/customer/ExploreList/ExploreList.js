@@ -56,10 +56,10 @@ export default class ExploreList extends PureComponent {
     );
   }
 
-  showAlert(message, duration) {
+  showAlert(title, message, duration) {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-      alert(message);
+      showGenericAlert(title, message);
     }, duration);
   }
 
@@ -84,7 +84,7 @@ export default class ExploreList extends PureComponent {
            setTimeout(() => {
              Alert.alert(
               'Prezzo',
-               'Please check your internet connection and try again later.',
+               'Please check your internet connection and try again.',
                [
                  {text: 'OK', onPress: () => console.log('OK Pressed')},
                ],
@@ -110,93 +110,75 @@ export default class ExploreList extends PureComponent {
       }
     });
 
-    this.watchID = navigator.geolocation.getCurrentPosition(
-      position => {
-        this.setState(() => {
-          return {
-              customRegion: {
-                ...this.state.customRegion,
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              }
-            };
-          }, () => {
-            this.props.listVendors(
-              this.state.customRegion.latitude,
-              this.state.customRegion.longitude,
-              this.props.distance,
-              activeFilters.join(','),
-              this.props.pricing
-            ).then(() => {
-                this.checkResponseMessage();
-              })
-              .catch(e => {
-                this.showAlert(e.message, 300);
-              });
-          }
-        );
-      },
-      error =>  this.getNetworkIP(),
-      {
-        enableHighAccuracy: false,
-        timeout: 200000,
-        maximumAge: 1000
-      }
-    );
+    this.props.getUserCurrentLocation().then(coords => {
+      this.props.listVendors(
+        coords.latitude,
+        coords.longitude,
+        this.props.distance,
+        activeFilters.join(','),
+        this.props.pricing
+      ).then(() => {
+          this.checkResponseMessage();
+        })
+        .catch(e => {
+          this.showAlert('Uh-oh!', e.message, 300);
+        });
+    }).catch(err => {
+      this.showAlert('Uh-oh!', err.message, 300);
+    });
   }
 
-  getNetworkIP()
-  {
-    publicIP()
-      .then(ip => {
-        this.getIPLocation(ip);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  getIPLocation(ip)
-  {
-     console.log("location ip is ------ ",ip);
-     let commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
-     console.log("location url is ------ ",commonHtml);
-       fetch(commonHtml)
-         .then((response) => response.json())
-         .then((responseJson) => {
-           console.log(responseJson);
-           if(responseJson.latitude) {
-            this.setState({
-             // countryName: responseJson.country_name,
-             // regionName: responseJson.region_name,
-             customRegion: {
-               latitude: responseJson.latitude,
-               longitude: responseJson.longitude,
-               latitudeDelta: 0.00922,
-               longitudeDelta: 0.00422
-             }
-            });
-            console.log('location ip  --- ',this.state.customRegion);
-
-            this.props.listVendors(
-               responseJson.latitude,
-               responseJson.longitude,
-              this.props.distance,
-              this.props.filters.map(item => {
-                if(item.on) {
-                  return item.filterType
-                }
-              }).join(','),
-              this.props.pricing
-            );
-          }
-          else{
-            // show error message
-          }
-         })
-         .catch((error) => {
-         });
-  }
+  // PLEASE DON'T DELETE THE BELOW FUNCTIONS. MAY BE I'LL USE IT LATER.
+  // getNetworkIP() {
+  //   publicIP()
+  //     .then(ip => {
+  //       this.getIPLocation(ip);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }
+  //
+  // getIPLocation(ip) {
+  //    console.log("location ip is ------ ",ip);
+  //    let commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
+  //    console.log("location url is ------ ",commonHtml);
+  //      fetch(commonHtml)
+  //        .then((response) => response.json())
+  //        .then((responseJson) => {
+  //          console.log(responseJson);
+  //          if(responseJson.latitude) {
+  //           this.setState({
+  //            // countryName: responseJson.country_name, // PLEASE DON'T DELETE IT. MAY BE I'LL REQUIRE THIS LATER.
+  //            // regionName: responseJson.region_name, // PLEASE DON'T DELETE IT. MAY BE I'LL REQUIRE THIS LATER.
+  //            customRegion: {
+  //              latitude: responseJson.latitude,
+  //              longitude: responseJson.longitude,
+  //              latitudeDelta: 0.00922,
+  //              longitudeDelta: 0.00422
+  //            }
+  //           });
+  //           console.log('location ip  --- ',this.state.customRegion);
+  //
+  //           this.props.listVendors(
+  //              responseJson.latitude,
+  //              responseJson.longitude,
+  //             this.props.distance,
+  //             this.props.filters.map(item => {
+  //               if(item.on) {
+  //                 return item.filterType
+  //               }
+  //             }).join(','),
+  //             this.props.pricing
+  //           );
+  //         }
+  //         else{
+  //           // show error message
+  //         }
+  //        })
+  //        .catch((error) => {
+  //        });
+  // }
 
   listEmptyComponent() {
     return (

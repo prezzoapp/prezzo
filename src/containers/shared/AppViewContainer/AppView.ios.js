@@ -26,9 +26,11 @@ class AppView extends Component {
         dispatch(SessionStateActions.initializeSessionState());
       }
 
-      store.subscribe(() => {
-        snapshotUtil.saveSnapshot(store.getState());
-      });
+      // store.subscribe(() => {
+      //   snapshotUtil.saveSnapshot(store.getState());
+      //   console.log("Store State: ");
+      //   console.log(store.getState().toJS());
+      // });
     });
   }
 

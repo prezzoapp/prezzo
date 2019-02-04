@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  InteractionManager
+} from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
@@ -30,7 +36,7 @@ export default class MapScreen extends Component {
           }}
           numberOfLines={1}
         >
-          My Profile
+          Local Search
         </Text>
       ),
       headerTintColor: 'white',
@@ -83,62 +89,38 @@ export default class MapScreen extends Component {
 
     this.activeFilters = activatedFiltersArray.join(',');
 
-    this.watchID = navigator.geolocation.getCurrentPosition(
-      position => {
-        this.setState(
-          () => ({
+    InteractionManager.runAfterInteractions(() => {
+      this.props.getUserCurrentLocation().then(coords => {
+          this.setState({
+            isGetLocation: true,
             customRegion: {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              latitudeDelta: 0.00922,
-              longitudeDelta: 0.00422
-            },
-            isGetLocation: true
-          }),
-          () => {
-            this.props
-              .listVendors(
-                this.state.customRegion.latitude,
-                this.state.customRegion.longitude,
-                this.props.distance,
-                this.activeFilters,
-                this.props.pricing
-              )
-              .then(() => {
-                if (this.props.data && this.props.data.length !== 0) {
-                  this.props.data.map(item => {
-                    if (
-                      item.location.coordinates[1] ===
-                        this.state.customRegion.latitude &&
-                      item.location.coordinates[0] ===
-                        this.state.customRegion.longitude
-                    ) {
-                      this.props.disableVendorListItem(item._id);
-                    }
-                  })
-                }
-              })
-              .catch(e => {
-                showGenericAlert('Uh-oh!', e.message || e);
-              });
-
-            console.log('After Getting Correct Coordinates: ');
-            console.log(this.state.customRegion);
-            console.log('First Time API Called!');
-          }
-        );
-      },
-      error => this.getNetworkIP(),
-      {
-        enableHighAccuracy: false,
-        timeout: 200000,
-        maximumAge: 1000
-      }
-    );
-  }
-
-  componentWillUnmount() {
-    this.watchID = null;
+                latitude: coords.latitude,
+                longitude: coords.longitude,
+                latitudeDelta: 0.00922,
+                longitudeDelta: 0.00422
+              }
+            }, () => {
+              this.props
+                .listVendors(
+                  coords.latitude,
+                  coords.longitude,
+                  this.props.distance,
+                  this.activeFilters,
+                  this.props.pricing
+                )
+                .then(() => {
+                  console.log('First Time API Called!');
+                })
+                .catch(err => {
+                  this.showAlert('Uh-oh!', err.message, 300);
+                });
+            }
+          );
+        })
+        .catch(err => {
+          this.showAlert('Uh-oh!', err.message, 300);
+      });
+    });
   }
 
   onRegionChangeComplete(region) {
@@ -166,11 +148,11 @@ export default class MapScreen extends Component {
           );
           this.isFirstLoad = false;
 
-          console.log('API called !');
+          console.log('API Called!');
         }
       );
     } else {
-      console.log('Only moved !');
+      console.log('Only Moving!');
       this.btnClicked = false;
       this.isFirstLoad = false;
     }
@@ -250,6 +232,13 @@ export default class MapScreen extends Component {
     return '';
   }
 
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
+
   /**
    *
    * @param  {array} coordinates - [lon ,lat]
@@ -262,12 +251,14 @@ export default class MapScreen extends Component {
   }
 
   moveMapPositionOnSearch(lat, lon) {
-    this.mapView.animateToRegion({
-      latitude: lat,
-      longitude: lon,
-      latitudeDelta: 0.00922,
-      longitudeDelta: 0.00422
-    });
+    if(this.mapView) {
+      this.mapView.animateToRegion({
+        latitude: lat,
+        longitude: lon,
+        latitudeDelta: 0.00922,
+        longitudeDelta: 0.00422
+      });
+    }
   }
 
   render() {
@@ -393,7 +384,6 @@ export default class MapScreen extends Component {
           ref={filteredListRef => {
             this.filteredListRef = filteredListRef;
           }}
-          customRegion={this.state.customRegion}
           moveToPosition={(id, coordinates) =>
             this.moveToPosition(id, coordinates)
           }

@@ -8,10 +8,7 @@ const FilteredVendorBottomCardItem = props => {
       disabled={props.item.disable}
       activeOpacity={0.6}
       style={styles.listItemBtn}
-      onPress={() =>
-        !props.item.disable &&
-        props.moveToPosition(props.item.location.coordinates)
-      }
+      onPress={() => !props.item.disable && props.moveToPosition()}
     >
       <View style={styles.titleHolder}>
         <Text style={styles.name}>{props.item.name}</Text>
