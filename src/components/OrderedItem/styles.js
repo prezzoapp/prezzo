@@ -8,12 +8,17 @@ const styles = StyleSheet.create({
     width: wp('26.66%')
   },
 
-  itemImage: {
+  itemImageContainer: {
     height: wp('26.66%'),
     width: wp('26.66%'),
-    flex: 1,
-    resizeMode: 'cover',
+    overflow: 'hidden',
     borderRadius: 5
+  },
+
+  itemImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
   },
 
   itemName: {

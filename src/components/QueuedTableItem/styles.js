@@ -18,12 +18,18 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 0.7
   },
-  userImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  userImageContainer: {
+    width: wp('10.66%'),
+    height: wp('10.66%'),
+    borderRadius: wp('5.33%'),
     borderWidth: 1,
-    borderColor: 'white'
+    borderColor: 'white',
+    overflow: 'hidden'
+  },
+  userImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
   },
   textContainer: {
     flexDirection: 'column',

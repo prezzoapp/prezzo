@@ -41,14 +41,16 @@ const OpenTableItem = props => {
         })
       }
     >
-      <Image
-        style={styles.userImage}
-        source={
-          item.creator.avatarURL !== ''
-            ? { uri: item.creator.avatarURL }
-            : require('../../../assets/images/etc/default-avatar.png')
-        }
-      />
+      <View style={styles.userImageContainer}>
+        <Image
+          style={styles.userImage}
+          source={
+            item.creator.avatarURL !== ''
+              ? { uri: item.creator.avatarURL }
+              : require('../../../assets/images/etc/default-avatar.png')
+          }
+        />
+      </View>
       <View style={styles.textContainer}>
         <Text style={styles.userName}>{item.creator.fullName}</Text>
         {(() => {
