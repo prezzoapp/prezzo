@@ -31,19 +31,19 @@ function getDummyData() {
       status: false,
       items: [
         {
-          imgUrl: require('../../../assets/images/item2.png'),
+          imgUrl: require('../../../assets/images/item5.png'),
           itemName: 'Buffalo Cauliflower',
           quantity: 2,
           status: 1
         },
         {
-          imgUrl: require('../../../assets/images/item8.png'),
+          imgUrl: require('../../../assets/images/item5.png'),
           itemName: "Mac n' Cheese",
           quantity: 3,
           status: 2
         },
         {
-          imgUrl: require('../../../assets/images/item6.png'),
+          imgUrl: require('../../../assets/images/item5.png'),
           itemName: 'BBQ Pinapple',
           quantity: 2,
           status: 1
@@ -65,19 +65,19 @@ function getDummyData() {
       status: true,
       items: [
         {
-          imgUrl: require('../../../assets/images/item2.png'),
+          imgUrl: require('../../../assets/images/item5.png'),
           itemName: 'Buffalo Cauliflower',
           quantity: 2,
           status: 2
         },
         {
-          imgUrl: require('../../../assets/images/item8.png'),
+          imgUrl: require('../../../assets/images/item5.png'),
           itemName: "Mac n' Cheese",
           quantity: 3,
           status: 2
         },
         {
-          imgUrl: require('../../../assets/images/item6.png'),
+          imgUrl: require('../../../assets/images/item5.png'),
           itemName: 'BBQ Pinapple',
           quantity: 2,
           status: 1
@@ -93,13 +93,13 @@ function getDummyData() {
       status: true,
       items: [
         {
-          imgUrl: require('../../../assets/images/item8.png'),
+          imgUrl: require('../../../assets/images/item5.png'),
           itemName: "Mac n' Cheese",
           quantity: 3,
           status: 2
         },
         {
-          imgUrl: require('../../../assets/images/item6.png'),
+          imgUrl: require('../../../assets/images/item5.png'),
           itemName: 'BBQ Pinapple',
           quantity: 2,
           status: 1
@@ -115,13 +115,13 @@ function getDummyData() {
       status: true,
       items: [
         {
-          imgUrl: require('../../../assets/images/item6.png'),
+          imgUrl: require('../../../assets/images/item5.png'),
           itemName: 'BBQ Pinapple',
           quantity: 2,
           status: 1
         },
         {
-          imgUrl: require('../../../assets/images/item2.png'),
+          imgUrl: require('../../../assets/images/item5.png'),
           itemName: 'Buffalo Cauliflower',
           quantity: 2,
           status: 1

@@ -28,14 +28,11 @@ class AppView extends Component {
 
       store.subscribe(() => {
         snapshotUtil.saveSnapshot(store.getState());
-        console.log("Store State: ");
-        console.log(store.getState().toJS());
       });
     });
   }
 
   render() {
-    console.log('AppView Render!');
     if (!this.props.isReady) {
       return (
         <View style={{ flex: 1 }}>

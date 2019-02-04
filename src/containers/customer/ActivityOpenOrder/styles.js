@@ -14,10 +14,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: wp('6.66'),
+    paddingLeft: wp('5%'),
     backgroundColor: '#2B2C2C',
     borderTopColor: '#2ED573',
     borderTopWidth: 1,
-    marginTop: hp('2.58%')
+    // marginTop: hp('2.58%')
+    marginTop: wp('5.6%')
+  },
+
+  listHeaderHolder: {
+    justifyContent: 'center',
+    // paddingTop: hp('3%'),
+    // paddingBottom: hp('3.2%'),
+    paddingTop: wp('5.70%'),
+    paddingBottom: wp('6.30%'),
+    backgroundColor: '#2B2C2C'
   },
 
   tableCode: {
@@ -25,15 +36,17 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_TEXT_LIGHT,
     fontSize: wp('9.33%'),
     textAlign: 'center',
-    paddingTop: hp('1%'),
-    paddingBottom: hp('2%'),
-    backgroundColor: '#2B2C2C'
+    lineHeight: wp('9.5%'),
+    backgroundColor: 'transparent'
   },
 
   footerContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-    height: hp('16%')
+    // justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: wp('4%'),
+    height: hp('19%')
+    // height: wp('37.33%')
   },
 
   notFoundHolder: {
@@ -45,7 +58,7 @@ const styles = StyleSheet.create({
   message: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
-    fontSize: 20,
+    fontSize: wp('5.33%'),
     textAlign: 'center'
   },
 

@@ -22,45 +22,27 @@ export default class VendorAdminActivityDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerLeft: (
-        <View
-          style={{
-            flexDirection: 'row',
-            width: wp('90%'),
-            alignItems: 'center'
-          }}
-        >
+        <View style={styles.customHeaderContainer}>
           <TouchableOpacity
             onPress={() => navigation.goBack()}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              alignItems: 'center'
-            }}
+            style={styles.backBtn}
           >
             <Feather
               title="Add More"
               name="chevron-left"
               color="white"
               size={wp('8%')}
-              style={styles.closeBtnIcon}
-            />
-
-            <Image
-              style={{
-                width: wp('11.73%'),
-                height: wp('11.73%'),
-                borderColor: 'white',
-                marginRight: wp('2.5%'),
-                borderWidth: 1,
-                borderRadius: wp('5.86%')
-              }}
-              source={
-                navigation.state.params.userImage === ''
-                  ? require('../../../assets/images/etc/default-avatar.png')
-                  : { uri: navigation.state.params.userImage }
-              }
             />
           </TouchableOpacity>
+
+          <Image
+            style={styles.headerImage}
+            source={
+              navigation.state.params.userImage === ''
+                ? require('../../../assets/images/etc/default-avatar.png')
+                : { uri: navigation.state.params.userImage }
+            }
+          />
           <Text style={styles.headerText} numberOfLines={1}>
             {navigation.state.params.userName}
           </Text>
@@ -69,8 +51,9 @@ export default class VendorAdminActivityDetails extends Component {
       headerTintColor: 'white',
       headerStyle: {
         backgroundColor: '#1F1F1F',
-        borderBottomColor: 'transparent',
-        height: hp('10%')
+        borderBottomColor: '#2ED573',
+        borderBottomWidth: 1,
+        height: hp('9%')
       }
     }
   };

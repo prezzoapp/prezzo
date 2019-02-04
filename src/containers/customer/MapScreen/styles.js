@@ -25,20 +25,21 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     bottom:
-      Dimensions.get('window').height - Dimensions.get('window').height * 0.75
+      Dimensions.get('window').height - Dimensions.get('window').height * 0.8
   },
 
   spotText: {
-    fontSize: 22,
+    fontSize: wp('9.6%'),
     color: 'white',
     fontFamily: FONT_FAMILY_MEDIUM,
-    paddingBottom: 10,
-    paddingHorizontal: wp('4.26%')
+    paddingBottom: hp('1.23%'),
+    paddingHorizontal: wp('4.26%'),
+    lineHeight: wp('10.93%')
   },
 
   markerStyle: {
-    width: 30,
-    height: 30,
+    width: wp('8%'),
+    height: wp('8%'),
     resizeMode: 'contain'
   },
 
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
   },
 
   headerLeftBtn: {
-    paddingLeft: wp('2%')
+    paddingLeft: wp('4.4%')
   }
 });
 

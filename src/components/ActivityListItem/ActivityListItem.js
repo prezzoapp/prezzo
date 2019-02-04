@@ -38,7 +38,7 @@ const ActivityListItem = props => {
             }
             style={styles.statusImage}
           />
-          <View style={{ flex: 1, width: 1, backgroundColor: '#EFEFF4' }} />
+          <View style={styles.sideBorder} />
         </View>
 
         <View
@@ -56,7 +56,7 @@ const ActivityListItem = props => {
           props.item.notes !== null ? (
             <Text style={styles.info}>{props.item.notes}</Text>
           ) : null}
-          {props.item.status === 'pending' ? (
+          {props.item.status === 'pending' && props.innerTab === 'open' ? (
             <TouchableOpacity
               activeOpacity={0.6}
               style={styles.editBtn}

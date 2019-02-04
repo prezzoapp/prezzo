@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   AsyncStorage
 } from 'react-native';
-import { BlurView } from 'expo';
+import { BlurView, LinearGradient } from 'expo';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import TableScreenHeader from '../TableScreenHeader';
@@ -25,7 +25,9 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FONT_FAMILY, COLOR_WHITE, SF_PRO_TEXT_BOLD } from '../../../services/constants';
 import Button from '../../../components/Button';
 import ReviewUserPhoto from '../../../components/ReviewUserPhoto';
+import ExploreSearchInput from '../../../components/ExploreSearchInput';
 import VendorSearch from '../VendorSearch';
+import { get } from '../../../utils/api';
 
 const SECTION_WIDTH: number = 0.85 * Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -38,8 +40,8 @@ const buttonStyles = {
     height: hp('4.92%'),
     justifyContent: 'center',
     borderRadius: 8,
-    marginTop: hp('5.78%'),
-    marginBottom: hp('3.81%')
+    marginTop: hp('3.69%'),
+    marginBottom: hp('3.30%')
   },
 
   submitReviewBtnText: {
@@ -62,7 +64,7 @@ const buttonStyles = {
   },
 
   closeReviewBtnText: {
-    fontSize: wp('5.33%'),
+    fontSize: wp('4.26%'),
     fontFamily: FONT_FAMILY,
     color: 'rgba(255,255,255,0.5)',
     paddingTop: 0,
@@ -83,6 +85,8 @@ class Activity extends Component {
     this.state = {
       viewMarginTop: hp('100%'),
       selected: false,
+      showList: false,
+      filteredData: [],
       data: [
         {
           index: 0,
@@ -125,6 +129,8 @@ class Activity extends Component {
         }
       ]
     };
+
+    this.timeOutVar = -1;
   }
 
   renderFooter = () => (
@@ -155,10 +161,12 @@ class Activity extends Component {
   };
 
   componentDidMount() {
-    if (this.props.section === 0) {
-      this.props.listWaiterRequestTable(this.props.vendorData.get('_id'));
-    } else {
-      this.props.listPhotoReviewTable();
+    if(this.props.vendorData) {
+      if (this.props.section === 0) {
+        this.props.listWaiterRequestTable(this.props.vendorData.get('_id'));
+      } else {
+        this.props.listPhotoReviewTable();
+      }
     }
   }
 
@@ -229,17 +237,12 @@ class Activity extends Component {
   };
 
   renderHeader = () => (
-    <View
-      style={{
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      <Text style={styles.title}>Review User Photos</Text>
-      <Text style={styles.message}>Tap to select the user submitted</Text>
-      <Text style={styles.message}>photos you approve and then hit</Text>
-      <Text style={styles.message}>Save To Menu</Text>
-      <Text style={styles.subTitle}>Tap and hold to view full screen.</Text>
+    <View style={styles.listHeaderContainer}>
+      <Text style={styles.listHeaderTitle}>Review User Photos</Text>
+      <Text style={styles.listHeaderMessage}>
+        Tap to select the user submitted{"\n"}photos you approve and then hit{"\n"}Save To Menu
+      </Text>
+      <Text style={styles.listHeaderSubtitle}>Tap and hold to view full screen.</Text>
     </View>
   );
 
@@ -248,14 +251,23 @@ class Activity extends Component {
       return this.renderWaiterRequestTable();
     }
     return this.renderPhotoReviewTable();
-  };
+  }
+
+  listEmptyComponent() {
+    return (
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.message}>No items found!</Text>
+      </View>
+    );
+  }
 
   renderWaiterRequestTable() {
     return (
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.flatListStyle}
+        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
+        ListEmptyComponent={this.listEmptyComponent}
         data={this.props.openTableList.size !== 0 ? this.props.openTableList.toJS() : []}
         renderItem={rowData => (
           <OpenTableItem
@@ -273,7 +285,8 @@ class Activity extends Component {
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.flatListStyle}
+        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
+        ListEmptyComponent={this.listEmptyComponent}
         data={this.props.openTableList.size !== 0 ? this.props.openTableList.toJS() : []}
         renderItem={rowData => (
           <OpenTableItem
@@ -287,6 +300,49 @@ class Activity extends Component {
     );
   }
 
+  onTextChange(text) {
+    if(this.state.showLoader === false) {
+      this.setState(() => {
+        return {
+          showLoader: true
+        }
+      });
+    }
+    this.clearTimer();
+    this.timeOutVar = setTimeout(() => {
+      this.callWebService(text);
+    }, 2000);
+  }
+
+  clearTimer() {
+    clearTimeout(this.timeOutVar);
+    this.timeOutVar = -1;
+  }
+
+  async callWebService(text) {
+    try {
+      await get(`/v1/vendors?name=${text}`).then(response => {
+        this.setState(() => {
+          return {
+            filteredData: response,
+            showLoader: false
+          }
+        });
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+
+  showList(value) {
+    console.log("Show List function Called!");
+    this.setState(() => {
+      return {
+        showList: value
+      }
+    });
+  }
+
   render() {
     const animatedValue = this.showModalAnimatedValue.interpolate({
       inputRange: [0, 1],
@@ -295,82 +351,105 @@ class Activity extends Component {
 
     return (
       <View style={styles.container}>
-        <Animated.View
-          style={[
-            styles.box1,
-            {
-              transform: [{ translateY: animatedValue }]
-            }
-          ]}
-        >
-          <View style={styles.box2}>
-            <BlurView style={styles.blurView} tint="dark" intensity={95} />
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                paddingBottom: 5
-              }}
-            >
-              <View style={{ position: 'absolute', left: 10 }}>
-                <TouchableOpacity onPress={() => this.hide()}>
-                  <Feather
-                    title="Add More"
-                    name="chevron-left"
-                    color="white"
-                    size={wp('8%')}
-                    style={{ marginLeft: 0 }}
-                  />
-                </TouchableOpacity>
-              </View>
-              <Text style={styles.Title}>Victor Franco</Text>
-              <Text style={styles.subTitle}>Table 5932 - 3 Photos</Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flex: 1
-              }}
-            >
-              <FlatList
-                keyExtractor={(item, index) => index.toString()}
-                showsVerticalScrollIndicator={false}
-                data={this.state.data}
-                ListHeaderComponent={() => this.renderHeader()}
-                ListFooterComponent={() => this.renderFooter()}
-                renderItem={({ item }) => (
-                  <ReviewUserPhoto
-                    item={item}
-                    callbackFromParent={(itemIndex, imageIndex) =>
-                      this.myCallback(itemIndex, imageIndex)
-                    }
-                  />
-                )}
-              />
-            </View>
-          </View>
-        </Animated.View>
+        {(() => {
+          if(this.props.vendorData) {
+            return (
+              <LinearGradient
+                testID="linearGradient"
+                colors={['rgb(0,0,0)', 'transparent', 'transparent', 'transparent', 'transparent']}
+                locations={[0.1, 0.3, 0.3, 0.3, 0.3]}
+                style={{ flex: 1 }}
+              >
+                <View style={{ flex: 1 }}>
+                  <Animated.View
+                    style={[
+                      styles.box1,
+                      {
+                        transform: [{ translateY: animatedValue }]
+                      }
+                    ]}
+                  >
+                    <View style={styles.box2}>
+                      <BlurView style={styles.blurView} tint="default" intensity={95} />
+                      <View
+                        style={{
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          position: 'relative',
+                          paddingBottom: hp('1%')
+                        }}
+                      >
+                        <View style={styles.backBtn}>
+                          <TouchableOpacity onPress={() => this.hide()}>
+                            <Feather
+                              title="Add More"
+                              name="chevron-left"
+                              color="white"
+                              size={wp('8%')}
+                              style={{ marginLeft: 0 }}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                        <Text style={styles.title}>Victor Franco</Text>
+                        <Text style={styles.subTitle}>Table 5932 - 3 Photos</Text>
+                      </View>
+                      <FlatList
+                        keyExtractor={(item, index) => index.toString()}
+                        showsVerticalScrollIndicator={false}
+                        data={this.state.data}
+                        ListHeaderComponent={() => this.renderHeader()}
+                        ListFooterComponent={() => this.renderFooter()}
+                        renderItem={({ item }) => (
+                          <ReviewUserPhoto
+                            item={item}
+                            callbackFromParent={(itemIndex, imageIndex) =>
+                              this.myCallback(itemIndex, imageIndex)
+                            }
+                          />
+                        )}
+                      />
+                    </View>
+                  </Animated.View>
 
-        <TableScreenHeader
-          vendorData={this.props.vendorData}
-          tableSection={this.props.section}
-          tabName="activity"
-        />
-        <View style={styles.innerContainer}>
-          <TableListHeader
-            currentTab={this.props.section}
-            screenName="activity"
-            currentLayout={this.props.layout}
-            tabNames={['Waiter Request', 'Photo Review']}
-            onChangeLayout={layout => this.props.changeLayout(layout)}
-            onListTypeSelection={index => this.onSectionChange(index)}
-          />
-          {this.renderSection()}
-        </View>
-        <VendorSearch />
+                  <ExploreSearchInput
+                    showList={value => this.showList(value)}
+                    showListValue={this.state.showList}
+                    onTextChange={text => this.onTextChange(text)}
+                    clearTimer={() => this.clearTimer()}
+                  />
+
+                  <TableScreenHeader
+                    vendorData={this.props.vendorData}
+                    tableSection={this.props.section}
+                    tabName="activity"
+                  />
+                  <View style={styles.innerContainer}>
+                    <TableListHeader
+                      currentTab={this.props.section}
+                      screenName="activity"
+                      currentLayout={this.props.layout}
+                      tabNames={['Waiter Request', 'Photo Review']}
+                      onChangeLayout={layout => this.props.changeLayout(layout)}
+                      onListTypeSelection={index => this.onSectionChange(index)}
+                    />
+                    {this.renderSection()}
+                  </View>
+                  {this.state.showList &&
+                    <VendorSearch
+                      showLoader={this.state.showLoader}
+                      filteredData={this.state.filteredData}
+                    />
+                  }
+                </View>
+              </LinearGradient>
+            )
+          }
+          return (
+            <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={styles.message}>Vendor Account not Found!</Text>
+            </View>
+          );
+        })()}
       </View>
     );
   }

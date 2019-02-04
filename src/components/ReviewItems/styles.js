@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
     fontSize: wp('5.33%'),
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
-    textAlign: 'center'
+    textAlign: 'center',
+    paddingHorizontal: wp('14.93%')
   }
 });
 

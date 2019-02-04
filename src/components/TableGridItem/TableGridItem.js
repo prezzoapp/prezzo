@@ -1,11 +1,17 @@
 import React from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  Alert
+} from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import PropTypes from 'prop-types';
 import { Entypo, FontAwesome, MaterialIcons } from '../VectorIcons';
 import styles from './styles';
 import OrderedItem from '../../components/OrderedItem';
-import PropTypes from 'prop-types';
-import { DELETE_ORDER, ACCEPT_ORDER } from '../../services/constants';
 
 const TableGridItem = props => {
   const { item, index } = props.data;
@@ -30,8 +36,6 @@ const TableGridItem = props => {
       { cancelable: false }
     );
   }
-
-
 
   return (
     <View style={styles.container}>
@@ -61,17 +65,37 @@ const TableGridItem = props => {
             </TouchableOpacity>
           </View>
         ) : (
-          <Entypo
-            name="chevron-right"
-            size={30}
-            color="white"
-            style={styles.arrow}
-          />
+          <TouchableOpacity
+            style={styles.arrowBtn}
+            onPress={() =>
+              props.onPress
+                ? props.onPress()
+                : props.navigate&& props.navigate({
+                    routeName:
+                      props.tabName === 'tables'
+                      ? 'OpenTableDetails'
+                        : 'VendorAdminActivityDetails',
+                  params: {
+                      userName:
+                      props.tabName !== 'delivery'
+                        ? `${item.creator.fullName} - 9192`
+                          : `${item.userName}`,
+                      userImage: item.creator.avatarURL,
+                    item,
+                      innerTab: props.innerTab
+                    }
+              })
+            }
+          >
+            <Entypo name="chevron-right" size={30} color="white" />
+          </TouchableOpacity>
         )}
       </View>
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         data={item.items}
+        contentContainerStyle={{ paddingHorizontal: wp('4.26%') }}
+        style={{ marginHorizontal: -wp('4.26%') }}
         showsHorizontalScrollIndicator={false}
         horizontal
         renderItem={({ item }) => <OrderedItem data={item} />}

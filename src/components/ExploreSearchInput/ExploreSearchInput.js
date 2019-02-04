@@ -10,6 +10,8 @@ import {
   Easing
 } from 'react-native';
 
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 import { LinearGradient } from 'expo';
 
 import PropTypes from 'prop-types';
@@ -95,7 +97,7 @@ export default class ExploreSearchInput extends Component {
   render() {
     const textInputWidthAnimation = this.animatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [windowWidth - 30, windowWidth - 90]
+      outputRange: [windowWidth - wp('8%'), windowWidth - wp('24%')]
     });
 
     return (
@@ -107,7 +109,7 @@ export default class ExploreSearchInput extends Component {
           >
             {!this.props.showListValue &&
               <View style={styles.placeholder}>
-                <EvilIcons name="search" size={21} color="rgb(151, 151, 151)" />
+                <EvilIcons name="search" size={wp('5.26%')} color="rgb(151, 151, 151)" />
                 <Text style={styles.searchText}>Search</Text>
               </View>
             }

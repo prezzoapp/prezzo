@@ -20,7 +20,7 @@ export const mapStateToProps = state => ({
   layout: state.get('table').get('layout'),
   section: state.get('table').get('section'),
   openTableList: state.get('table').get('openTableList'),
-  queuedTableList: state.get('table').get('queuedTableList')&& state.get('table').get('queuedTableList'),
+  queuedTableList: state.get('table').get('queuedTableList'),
   closedTableSection: state.get('table').get('closedTableSection'),
   closedTableList: state.get('table').get('closedTableList'),
   vendorData: state.get('vendor').get('data'),

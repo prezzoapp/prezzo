@@ -27,11 +27,17 @@ class LoginTextInput extends Component<Props, State> {
     onChange: PropTypes.func.isRequired,
     label: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    value: PropTypes.string
+    value: PropTypes.string,
+    height: PropTypes.number,
+    labelPaddingBottom: PropTypes.number,
+    textInputPaddingBottom: PropTypes.number
   };
 
   static defaultProps = {
-    value: ''
+    value: '',
+    height: null,
+    labelPaddingBottom: wp('3%'),
+    textInputPaddingBottom: wp('3%')
   };
 
   state = {
@@ -44,13 +50,13 @@ class LoginTextInput extends Component<Props, State> {
   }
 
   render() {
-    const { onChange, label, type, value } = this.props;
+    const { onChange, label, type, value, height, labelPaddingBottom, textInputPaddingBottom } = this.props;
     const { isShowingPassword } = this.state;
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { height }]}>
         <View style={styles.labelContainer}>
-          <Text style={styles.label}>{label}</Text>
+          <Text style={[styles.label, { paddingBottom: labelPaddingBottom }]}>{label}</Text>
           {type === 'password' && (
             <TouchableOpacity onPress={() => this.togglePasswordVisibility()}>
               <Text style={styles.togglePasswordVisibility}>
@@ -62,7 +68,7 @@ class LoginTextInput extends Component<Props, State> {
 
         <TextInput
           testID={'loginTextInput'}
-          style={styles.input}
+          style={[styles.input, { paddingBottom: textInputPaddingBottom }]}
           secureTextEntry={type === 'password' && !isShowingPassword}
           autoCapitalize={type === 'name' ? 'words' : 'none'}
           onChangeText={text => onChange && onChange(text)}
@@ -78,7 +84,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 'auto',
-    marginBottom: hp('4.92%'),
+    marginBottom: wp('8.53%'),
     borderBottomWidth: 2,
     borderBottomColor: '#0DD24A',
     backgroundColor: 'transparent'
@@ -95,21 +101,19 @@ const styles = StyleSheet.create({
     fontSize: wp('4.53%'),
     fontWeight: '600',
     fontFamily: FONT_FAMILY,
-    paddingBottom: hp('1.23%')
+    lineHeight: wp('5.86%')
   },
   togglePasswordVisibility: {
     color: '#959595',
     fontSize: wp('4.53%'),
     fontWeight: '600',
-    fontFamily: FONT_FAMILY,
-    paddingBottom: 10
+    fontFamily: FONT_FAMILY
   },
   input: {
     color: 'white',
     fontSize: wp('5.33%'),
     fontWeight: '600',
-    fontFamily: FONT_FAMILY_MEDIUM,
-    paddingBottom: 10
+    fontFamily: FONT_FAMILY_MEDIUM
   }
 });
 

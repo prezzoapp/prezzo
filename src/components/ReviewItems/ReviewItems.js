@@ -12,7 +12,6 @@ import Button from '../Button';
 
 import {
   COLOR_WHITE,
-  FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
   SF_PRO_TEXT_BOLD
 } from '../../services/constants';
@@ -61,7 +60,7 @@ class ReviewItems extends Component {
       >
         <View style={styles.container}>
           <View style={styles.modalHolder}>
-            <BlurView style={styles.blurView} tint="light" intensity={50} />
+            <BlurView style={styles.blurView} tint="default" intensity={95} />
             <FlatList
               keyExtractor={item => item.id.toString()}
               showsVerticalScrollIndicator={false}

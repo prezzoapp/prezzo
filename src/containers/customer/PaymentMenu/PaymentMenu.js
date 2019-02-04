@@ -5,7 +5,6 @@ import {
   Image,
   Alert,
   ScrollView,
-  Dimensions,
   ActivityIndicator,
   Modal,
   AsyncStorage,
@@ -13,7 +12,10 @@ import {
   InteractionManager
 } from 'react-native';
 import { PropTypes } from 'prop-types';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import MenuButton from '../../../components/MenuButton';
 import { Feather } from '../../../components/VectorIcons';
 import EditableListItem from '../../../components/EditableListItem';
@@ -66,7 +68,7 @@ class PaymentMenu extends Component {
       this.props.listCreditCards().then(() => {
           this.checkResponseMessage();
         })
-      .catch(e => {
+        .catch(e => {
         this.showAlert(e.message, 300);
       });
     });
@@ -121,7 +123,8 @@ class PaymentMenu extends Component {
               <Image
                 source={require('../../../../assets/images/Credit-Card.png')}
                 style={{
-                  width: 28,
+                  width: wp('7.46%'),
+                  height: hp('2.33%'),
                   resizeMode: 'contain'
                 }}
               />
@@ -131,13 +134,7 @@ class PaymentMenu extends Component {
           <ScrollView style={styles.scrollViewStyle}>
             {this.props.data &&
             this.props.data.map((item, key) => (
-                <View
-                key={key}
-                  style={{
-                    flexDirection: 'row',
-                    height: 0.2 * 0.85 * Dimensions.get('window').width
-                  }}
-                >
+                <View key={item._id}>
                   <EditableListItem
                     text={item.readableIdentifier}
                     expDate={item.expDate}
@@ -147,48 +144,28 @@ class PaymentMenu extends Component {
                       return (
                           <Image
                             source={require('../../../../assets/images/icons/stp_card_visa.png')}
-                            style={{
-                              width: 35,
-                              resizeMode: 'contain',
-                              marginLeft: 10,
-                              marginRight: 15
-                            }}
+                            style={styles.ccIcon}
                           />
                         );
                     } else if (item.type === 'braintree-mastercard') {
-                      return (
+                        return (
                           <Image
                             source={require('../../../../assets/images/icons/stp_card_mastercard.png')}
-                            style={{
-                              width: 35,
-                              resizeMode: 'contain',
-                              marginLeft: 10,
-                              marginRight: 15
-                            }}
+                            style={styles.ccIcon}
                           />
                         );
-                    } else if (item.type === 'braintree-discover') {
+                      } else if (item.type === 'braintree-discover') {
                         return (
                           <Image
                             source={require('../../../../assets/images/icons/stp_card_discover.png')}
-                            style={{
-                              width: 35,
-                              resizeMode: 'contain',
-                              marginLeft: 10,
-                              marginRight: 15
-                            }}
+                            style={styles.ccIcon}
                           />
                         );
                       } else if (item.type === 'braintree-jcb') {
                         return (
                           <Image
                             source={require('../../../../assets/images/icons/stp_card_jcb.png')}
-                            style={{
-                              width: 35,
-                              resizeMode: 'contain',
-                              marginLeft: 10,
-                              marginRight: 15
-                            }}
+                            style={styles.ccIcon}
                           />
                       );
                     }

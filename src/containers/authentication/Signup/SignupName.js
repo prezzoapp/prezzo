@@ -9,7 +9,6 @@ import {connect} from 'react-redux';
 import { Feather } from '../../../components/VectorIcons';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {updateFirstName, updateLastName} from '../../../modules/Signup';
 import {FONT_FAMILY_MEDIUM} from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
@@ -26,8 +25,10 @@ type State = {
   lastName: string
 };
 
-const containerPaddingLeftRight: number = 40;
+const containerPaddingLeftRight: number = wp('10.66%');
 const containerPaddingTopBottom: number = 80;
+
+const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
 
 const styles = StyleSheet.create({
   container: {
@@ -38,14 +39,30 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: containerPaddingTopBottom,
-    paddingTop: hp('3.50%')
+    paddingBottom: hp('5%'),
+    paddingTop: SCROLL_VIEW_TOP_PADDING
   },
-  headerText: {
+  // headerText: {
+  //   fontSize: wp('9.6%'),
+  //   fontFamily: FONT_FAMILY_MEDIUM,
+  //   color: '#fff',
+  //   lineHeight: 41,
+  //   marginBottom: wp('10.93%'),
+  //   backgroundColor: 'transparent'
+  // },
+  headerTextLine1: {
     fontSize: wp('9.6%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
-    marginBottom: hp('5.04%'),
+    lineHeight: 41,
+    backgroundColor: 'transparent'
+  },
+  headerTextLine2: {
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_MEDIUM,
+    color: '#fff',
+    lineHeight: 41,
+    marginBottom: wp('10.93%'),
     backgroundColor: 'transparent'
   },
   navigation: {
@@ -65,8 +82,7 @@ const styles = StyleSheet.create({
 
 const nextButtonStyle = {
   alignSelf: 'flex-end',
-  position: 'relative',
-  top: -hp('0.98%')
+  position: 'relative'
 };
 
 class SignupName extends React.Component<Props, State> {
@@ -109,33 +125,37 @@ class SignupName extends React.Component<Props, State> {
     return (
       <ImageBackground
         style={styles.container}
-        source={require('../../../../assets/images/bg/authentication.png')}
+        source={require('../../../../assets/images/bg/authentication.jpg')}
       >
-        <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 50 }} style={[{ backgroundColor: 'transparent' }, styles.scrollView]}>
-          <Text style={styles.headerText}>
-            What's your name?
-          </Text>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior='padding'>
+          <ScrollView
+            contentContainerStyle={styles.scrollView}>
+            <Text style={styles.headerTextLine1}>What's your</Text>
+            <Text style={styles.headerTextLine2}>name?</Text>
 
-          <LoginTextInput
-            type='name'
-            label='First Name'
-            value={firstName}
-            onChange={val => this.props.updateFirstName(val)}
-          />
+            <LoginTextInput
+              type='name'
+              label='First Name'
+              value={firstName}
+              onChange={val => this.props.updateFirstName(val)}
+            />
 
-          <LoginTextInput
-            type='name'
-            label='Last Name'
-            value={lastName}
-            onChange={val => this.props.updateLastName(val)}
-          />
+            <LoginTextInput
+              type='name'
+              label='Last Name'
+              value={lastName}
+              onChange={val => this.props.updateLastName(val)}
+            />
 
-          <NextButton
-            style={nextButtonStyle}
-            onPress={() => this.navigateToSignupEmail()}
-            disabled={!this.isFormValid()}
-          />
-        </KeyboardAwareScrollView>
+            <NextButton
+              style={nextButtonStyle}
+              onPress={() => this.navigateToSignupEmail()}
+              disabled={!this.isFormValid()}
+            />
+          </ScrollView>
+        </KeyboardAvoidingView>
       </ImageBackground>
     );
   }

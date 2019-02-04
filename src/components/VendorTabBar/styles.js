@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 const styles = StyleSheet.create({
   tabBarHolder: {
@@ -7,13 +7,21 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'transparent',
-    height: hp('9%')
+    backgroundColor: 'transparent'
   },
 
   innerContainer: {
     flex: 1,
     justifyContent: 'flex-start'
+  },
+
+  linearGradient: {
+    flex: 1,
+    paddingBottom: getBottomSpace()
+  },
+
+  tabBarContainer: {
+    height: 49
   }
 });
 

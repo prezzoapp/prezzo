@@ -1,22 +1,22 @@
 // @flow
 import { StyleSheet } from 'react-native';
-// import { Header } from 'react-navigation';
 import { FONT_FAMILY, COLOR_BLACK } from '../../../services/constants';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default StyleSheet.create({
   avatar: {
     alignSelf: 'flex-end',
     borderColor: 'white',
-    borderRadius: 51,
+    borderRadius: wp('13.5%'),
     borderWidth: 2,
-    height: 102,
+    height: wp('27.2%'),
     resizeMode: 'cover',
-    width: 102
+    width: wp('27.2%')
   },
   avatarContainer: {
-    height: 102,
-    width: 102
+    height: wp('27.2%'),
+    width: wp('27.2%')
   },
   bodyContainer: {
     alignItems: 'center',
@@ -25,16 +25,16 @@ export default StyleSheet.create({
   },
   container: {
     alignItems: 'center',
-    marginBottom: hp('9%'),
-    marginTop: hp('6%'),
-    marginHorizontal: 25
+    paddingBottom: getBottomSpace() + 49,
+    marginTop: hp('7.75%'),
+    paddingHorizontal: wp('7.2%')
   },
   footerContainer: {
     alignSelf: 'stretch',
     justifyContent: 'space-between',
     flexDirection: 'row',
     height: 'auto',
-    marginTop: 20
+    marginTop: hp('2.46%')
   },
   footerLeft: {
     alignSelf: 'flex-start'
@@ -45,22 +45,21 @@ export default StyleSheet.create({
   footerText: {
     color: 'white',
     fontFamily: FONT_FAMILY,
-    fontSize: 18
+    fontSize: wp('4.8%')
   },
   headerContainer: {
     alignItems: 'center',
     justifyContent: 'space-between',
     // marginTop: Header.HEIGHT + 10,
-    marginTop: 10,
-    marginBottom: 20
+    marginTop: hp('1.23%'),
+    marginBottom: hp('2.46%')
   },
   parent: {
-    alignItems: 'center',
     backgroundColor: COLOR_BLACK,
-    flex: 1,
-    justifyContent: 'center'
+    flex: 1
   },
   scrollViewStyle: {
+    marginTop: hp('2.58%'),
     backgroundColor: COLOR_BLACK,
     width: '100%'
   },
@@ -72,5 +71,11 @@ export default StyleSheet.create({
   },
   headerLeftBtn: {
     marginLeft: wp('4.4%')
+  },
+  ccIcon: {
+    width: wp('11.2%'),
+    height: hp('3.44%'),
+    resizeMode: 'contain',
+    marginRight: wp('5.33%')
   }
 });

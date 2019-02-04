@@ -23,116 +23,116 @@ const INITIAL_STATE = fromJS({
   deliveredTableList: []
 });
 
-function getDummyData() {
-  return [
-    {
-      id: '1',
-      userName: 'Danny',
-      tableId: 1221,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: false,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item2.png'),
-          itemName: 'Buffalo Cauliflower',
-          quantity: 2,
-          status: 1
-        },
-        {
-          imgUrl: require('../../../assets/images/item8.png'),
-          itemName: "Mac n' Cheese",
-          quantity: 3,
-          status: 2
-        },
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        },
-        {
-          imgUrl: require('../../../assets/images/item5.png'),
-          itemName: 'Mole Bowl',
-          quantity: 1,
-          status: 2
-        }
-      ]
-    },
-    {
-      id: '2',
-      userName: 'Robert',
-      tableId: 1221,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: true,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item2.png'),
-          itemName: 'Buffalo Cauliflower',
-          quantity: 2,
-          status: 2
-        },
-        {
-          imgUrl: require('../../../assets/images/item8.png'),
-          itemName: "Mac n' Cheese",
-          quantity: 3,
-          status: 2
-        },
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        }
-      ]
-    },
-    {
-      id: '3',
-      userName: 'Angelica',
-      tableId: 1221,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: true,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item8.png'),
-          itemName: "Mac n' Cheese",
-          quantity: 3,
-          status: 2
-        },
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        }
-      ]
-    },
-    {
-      id: '3',
-      userName: 'James',
-      tableId: 1221,
-      userImg:
-        'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-      status: true,
-      items: [
-        {
-          imgUrl: require('../../../assets/images/item6.png'),
-          itemName: 'BBQ Pinapple',
-          quantity: 2,
-          status: 1
-        },
-        {
-          imgUrl: require('../../../assets/images/item2.png'),
-          itemName: 'Buffalo Cauliflower',
-          quantity: 2,
-          status: 1
-        }
-      ]
-    }
-  ];
-}
+// function getDummyData() {
+//   return [
+//     {
+//       id: '1',
+//       userName: 'Danny',
+//       tableId: 1221,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: false,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item2.png'),
+//           itemName: 'Buffalo Cauliflower',
+//           quantity: 2,
+//           status: 1
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item8.png'),
+//           itemName: "Mac n' Cheese",
+//           quantity: 3,
+//           status: 2
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item5.png'),
+//           itemName: 'Mole Bowl',
+//           quantity: 1,
+//           status: 2
+//         }
+//       ]
+//     },
+//     {
+//       id: '2',
+//       userName: 'Robert',
+//       tableId: 1221,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: true,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item2.png'),
+//           itemName: 'Buffalo Cauliflower',
+//           quantity: 2,
+//           status: 2
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item8.png'),
+//           itemName: "Mac n' Cheese",
+//           quantity: 3,
+//           status: 2
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         }
+//       ]
+//     },
+//     {
+//       id: '3',
+//       userName: 'Angelica',
+//       tableId: 1221,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: true,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item8.png'),
+//           itemName: "Mac n' Cheese",
+//           quantity: 3,
+//           status: 2
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         }
+//       ]
+//     },
+//     {
+//       id: '3',
+//       userName: 'James',
+//       tableId: 1221,
+//       userImg:
+//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
+//       status: true,
+//       items: [
+//         {
+//           imgUrl: require('../../../assets/images/item6.png'),
+//           itemName: 'BBQ Pinapple',
+//           quantity: 2,
+//           status: 1
+//         },
+//         {
+//           imgUrl: require('../../../assets/images/item2.png'),
+//           itemName: 'Buffalo Cauliflower',
+//           quantity: 2,
+//           status: 1
+//         }
+//       ]
+//     }
+//   ];
+// }
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -143,8 +143,8 @@ const reducer = (state = INITIAL_STATE, action) => {
     case LIST_OPEN_TABLE_SUCCESS:
       return state.update('openTableList', () => action.payload).update('isBusy', () => false);
 
-    case LIST_QUEUED_TABLE_REQUEST:
-      return state.update('queuedTableList', () => getDummyData());
+    // case LIST_QUEUED_TABLE_REQUEST:
+    //   return state.update('queuedTableList', () => getDummyData());
 
     case ACCEPT_QUEUED_REQUEST:
       return state.update('queuedTableList', () => action.payload);
@@ -161,8 +161,8 @@ const reducer = (state = INITIAL_STATE, action) => {
     case CLOSED_TABLE_SECTION_CHANGE:
       return state.update('deliveredTableSection', () => action.payload);
 
-    case LIST_DELIVERED_TABLE_REQUEST:
-      return state.update('deliveredTableList', () => getDummyData());
+    // case LIST_DELIVERED_TABLE_REQUEST:
+    //   return state.update('deliveredTableList', () => getDummyData());
     default:
       return state;
   }

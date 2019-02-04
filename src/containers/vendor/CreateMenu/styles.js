@@ -1,6 +1,7 @@
 // @flow
 import { StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 import {
   FONT_FAMILY,
   COLOR_BLACK,
@@ -12,11 +13,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLOR_BLACK,
-    paddingHorizontal: wp('7.46%')
-  },
-
-  sectionListStyle: {
-    paddingTop: hp('2%')
+    paddingTop: wp('6%')
   },
 
   spinnerView: {
@@ -29,6 +26,14 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+
+  // sectionListContentContainerStyle: {
+  //   paddingBottom: 150
+  // },
+  //
+  // sectionListStyle: {
+  //   marginBottom: getBottomSpace() + 49
+  // },
 
   sectionHeader: {
     borderBottomColor: 'rgb(157,157,157)',
@@ -54,35 +59,20 @@ export default StyleSheet.create({
   },
 
   addAnotherCommonBtn: {
-    paddingVertical: 10,
+    paddingBottom: hp('2.21%'),
     alignSelf: 'flex-start'
   },
 
   addAnotherCommonBtnText: {
     color: 'rgb(147,147,147)',
     fontFamily: FONT_FAMILY,
-    fontSize: 18
+    fontSize: wp('4.53%')
   },
 
   footerSection: {
-    padding: 15,
-    justifyContent: 'center'
-  },
-
-  submitMenuBtn: {
-    alignSelf: 'center',
-    paddingHorizontal: 40,
-    paddingVertical: 8,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: 'rgb(15,209,74)',
-    elevation: 2
-  },
-
-  submitBtnText: {
-    color: 'white',
-    fontFamily: SF_PRO_TEXT_BOLD,
-    fontSize: 15
+    paddingVertical: wp('5.86%'),
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
   controlBtnsPanel: {
@@ -108,6 +98,17 @@ export default StyleSheet.create({
 
   innerContainer: {
     flex: 1,
-    marginBottom: hp('9%')
+    backgroundColor: COLOR_BLACK,
+    position: 'relative',
+    paddingBottom: getBottomSpace() + 49
+  },
+
+  listFooterHolder: {
+    paddingHorizontal: wp('7.33%'),
+    // paddingBottom: getBottomSpace() + wp('21.32%') + 49
+  },
+
+  sectionFooterHolder: {
+    paddingHorizontal: wp('7.33%')
   }
 });

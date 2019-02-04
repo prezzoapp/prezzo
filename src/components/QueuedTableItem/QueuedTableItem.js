@@ -7,7 +7,8 @@ import { FontAwesome, MaterialIcons } from '../VectorIcons';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../services/constants';
 
 const QueuedTableItem = props => {
-  const { item, index } = props.user;
+  const { item, index } = props.data;
+  console.log(item);
 
   function showAcceptDeniedAlert(status) {
     Alert.alert(
@@ -28,7 +29,17 @@ const QueuedTableItem = props => {
   }
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => props.navigate &&
+        props.navigate({ routeName: 'OpenTableDetails',
+        params: {
+          userName: `${item.creator.fullName} - 9192`,
+          userImage: item.creator.avatarURL,
+          innerTab: props.innerTab,
+          item: item
+      }})}
+    >
       <Image
         style={styles.userImage}
         source={
@@ -69,7 +80,7 @@ const QueuedTableItem = props => {
       >
         <MaterialIcons name="add" size={wp('5%')} color="white" />
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 };
 

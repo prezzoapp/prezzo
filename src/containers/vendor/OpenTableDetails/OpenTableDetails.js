@@ -21,41 +21,27 @@ import { TAX } from '../../../services/constants';
 export default class OpenTableDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
-      <View
-        style={{ flexDirection: 'row', width: wp('90%'), alignItems: 'center' }}
-      >
+      <View style={styles.customHeaderContainer}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'center'
-          }}
+          style={styles.backBtn}
         >
           <Feather
             title="Add More"
             name="chevron-left"
             color="white"
             size={wp('8%')}
-            style={styles.closeBtnIcon}
-          />
-
-          <Image
-            style={{
-              width: wp('11.73%'),
-              height: wp('11.73%'),
-              borderColor: 'white',
-              marginRight: wp('2.5%'),
-              borderWidth: 1,
-              borderRadius: wp('5.86%')
-            }}
-            source={
-              navigation.state.params.userImage === ''
-                ? require('../../../../assets/images/etc/default-avatar.png')
-                : { uri: navigation.state.params.userImage }
-            }
           />
         </TouchableOpacity>
+
+        <Image
+          style={styles.headerImage}
+          source={
+            navigation.state.params.userImage === ''
+              ? require('../../../../assets/images/etc/default-avatar.png')
+              : { uri: navigation.state.params.userImage }
+          }
+        />
         <Text style={styles.headerText} numberOfLines={1}>
           {navigation.state.params.userName}
         </Text>
@@ -66,7 +52,8 @@ export default class OpenTableDetails extends Component {
     headerStyle: {
       backgroundColor: '#1F1F1F',
       borderBottomColor: '#2ED573',
-      height: hp('10%')
+      borderBottomWidth: 1,
+      height: hp('9%')
     }
   });
 
@@ -86,10 +73,13 @@ export default class OpenTableDetails extends Component {
   }
 
   finalizeOrder(price) {
-    if(this.props.openTableSelectedItem.paymentType === 'card' && price !== 0) {
+    if (
+      this.props.openTableSelectedItem.paymentType === 'card' &&
+      price !== 0
+    ) {
       this.props.makePaymentAndCompleteOrder(
-        this.props.openTableSelectedItem._id,
-        this.props.openTableSelectedItem.paymentMethod.token,
+          this.props.openTableSelectedItem._id,
+          this.props.openTableSelectedItem.paymentMethod.token,
           price
         )
       .then(() => {
@@ -97,13 +87,13 @@ export default class OpenTableDetails extends Component {
             this.showAlert('Order has been completed.', 300);
           }
         })
-      .catch(e => console.log(e));
+        .catch(e => console.log(e));
     } else if(this.props.openTableSelectedItem.paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(
           this.props.openTableSelectedItem._id,
           '',
           price
-      )
+        )
       .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
             this.showAlert('Order has been completed.', 300);
@@ -202,8 +192,6 @@ export default class OpenTableDetails extends Component {
     this.props
       .checkStatusAndCancelItem(orderId, itemId)
       .then(() => {
-        // console.log("Open Selected Item: ");
-        // console.log(this.props.openTableSelectedItem);
         if(this.props.openOrderFinalStatus === 'complete') {
           this.showAlert('Order has been completed.', 300);
         } else {
@@ -216,12 +204,6 @@ export default class OpenTableDetails extends Component {
             }
           }
         }
-        // if (this.props.openTableSelectedItem.message) {
-        //   clearTimeout(this.timer);
-        //   this.timer = setTimeout(() => {
-        //     alert(this.props.openTableSelectedItem.message);
-        //   }, 300);
-        // }
       })
       .catch(err => {
         console.log(err);
@@ -235,11 +217,7 @@ export default class OpenTableDetails extends Component {
       <Container style={styles.container}>
         {(() => {
           if(!selectedItem) {
-            return (
-              <View style={styles.notFoundHolder}>
-                <Text style={styles.message}>Order has been completed.</Text>
-              </View>
-            )
+            return null;
           }
 
           return (
@@ -270,41 +248,31 @@ export default class OpenTableDetails extends Component {
                   completeOrder={orderId => {
                     this.completeOrder(orderId)
                   }}
-                  tabName="openOrder"
+                  innerTab={this.props.navigation.state.params.innerTab}
                 />
               </Tab>
-              <Tab
-                heading="Payment"
-                tabStyle={styles.paymentTabStyle}
-                activeTabStyle={styles.paymentTabStyle}
-                textStyle={styles.paymentTabTextStyle}
-                activeTextStyle={styles.paymentTabTextStyle}
-                style={styles.tabStyle}
-              >
-                <OpenTablePayment
-                  data={selectedItem}
-                  tabName="payment"
-                  makePaymentAndCompleteOrder={(
-                    order,
-                    token,
-                    amount,
-                    paymentType,
-                    status
-                  ) =>
-                    this.props.navigation.state.params.makePaymentAndCompleteOrder(
-                      order,
-                      token,
-                      amount,
-                      paymentType,
-                      status,
-                      'open'
-                    )
-                  }
-                  changeOrderStatus={(orderId, status) =>
-                    this.props.navigation.state.params.changeOrderStatus(orderId, status)
-                  }
-                />
-              </Tab>
+              {(() => {
+                if(this.props.navigation.state.params.innerTab !== 'queue') {
+                  return (
+                    <Tab
+                      heading="Payment"
+                      tabStyle={styles.paymentTabStyle}
+                      activeTabStyle={styles.paymentTabStyle}
+                      textStyle={styles.paymentTabTextStyle}
+                      activeTextStyle={styles.paymentTabTextStyle}
+                      style={styles.tabStyle}
+                    >
+                      <OpenTablePayment
+                        data={selectedItem}
+                        innerTab={this.props.navigation.state.params.innerTab}
+                        completeOrder={() =>
+                          this.completeOrder(selectedItem._id)
+                        }
+                      />
+                    </Tab>
+                  );
+                }
+              })()}
             </Tabs>
           );
         })()}

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Platform } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
 import publicIP from 'react-native-public-ip';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
@@ -19,20 +22,17 @@ import {
 export default class MapScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: (
-        <Text
-          style={{
-            width: wp('50%'),
-            fontSize: wp('6.4%'),
-            fontFamily: FONT_FAMILY_MEDIUM,
-            color: COLOR_WHITE,
-            textAlign: 'center'
-          }}
-          numberOfLines={1}
-        >
-          My Profile
-        </Text>
-      ),
+      title: 'Local Search',
+      headerTitleStyle: {
+        color: COLOR_WHITE,
+        fontFamily: FONT_FAMILY_MEDIUM,
+        fontSize: wp('6.4%'),
+        backgroundColor: 'transparent',
+        alignSelf: 'center',
+        flex: 1,
+        textAlign: 'center',
+        left: Platform.OS === 'android' ? -wp('7.73%') : null
+      },
       headerTintColor: 'white',
       headerStyle: {
         position: 'absolute',
@@ -40,7 +40,8 @@ export default class MapScreen extends Component {
         right: 0,
         left: 0,
         borderBottomWidth: 0,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        elevation: 0
       },
       headerLeft: (
         <TouchableOpacity
@@ -104,7 +105,20 @@ export default class MapScreen extends Component {
                 this.activeFilters,
                 this.props.pricing
               )
-              .then(() => {})
+              .then(() => {
+                if (this.props.data && this.props.data.length !== 0) {
+                  this.props.data.map(item => {
+                    if (
+                      item.location.coordinates[1] ===
+                        this.state.customRegion.latitude &&
+                      item.location.coordinates[0] ===
+                        this.state.customRegion.longitude
+                    ) {
+                      this.props.disableVendorListItem(item._id);
+                    }
+                  })
+                }
+              })
               .catch(e => {
                 showGenericAlert('Uh-oh!', e.message || e);
               });
@@ -129,7 +143,6 @@ export default class MapScreen extends Component {
   }
 
   onRegionChangeComplete(region) {
-    console.log('isFirstLoad: ', this.isFirstLoad);
     if (this.btnClicked === false && this.isFirstLoad === false) {
       this.setState(
         () => ({
@@ -140,6 +153,11 @@ export default class MapScreen extends Component {
           }
         }),
         () => {
+          console.log(
+            'Custom Region Lat / Log In onRegionChangeComplete: ',
+            this.state.customRegion.latitude,
+            this.state.customRegion.longitude
+          );
           this.props.listVendors(
             this.state.customRegion.latitude,
             this.state.customRegion.longitude,
@@ -183,7 +201,7 @@ export default class MapScreen extends Component {
               this.activeFilters,
               this.props.pricing
             )
-            .then(() => {})
+            .then(() => { })
             .catch(e => {
               showGenericAlert('Uh-oh!', e.message || e);
             });
@@ -195,7 +213,7 @@ export default class MapScreen extends Component {
           // show error message
         }
       })
-      .catch(error => {});
+      .catch(error => { });
   }
 
   getNetworkIP() {
@@ -208,23 +226,40 @@ export default class MapScreen extends Component {
       });
   }
 
-  moveToPosition(coordinates) {
-    //if(this.btnClicked === false) {
-      //console.log("Btn Clicked Before: ", this.btnClicked);
-      this.btnClicked = true;
-      //console.log("Btn Clicked After: ", this.btnClicked);
+  /**
+   * @param  {Array} coordinates [lat,long]
+   * return distance in miles from user cureent location
+   * if user cureent loc is not available will reurn empty string
+   */
+  getDistanceFromCurrentLocation = coordinates => {
+    if (this.state.customRegion) {
+      const userCurrentLat = this.state.customRegion.latitude;
+      const userCurrentLong = this.state.customRegion.longitude;
 
-      this.mapView.animateToRegion({
-        latitude: coordinates[1],
-        longitude: coordinates[0],
-        latitudeDelta: 0.00922,
-        longitudeDelta: 0.00422
-      });
-    //} else {
-      //console.log("Btn Clicked Before: ", this.btnClicked);
-      //this.btnClicked = false;
-      //console.log("Btn Clicked After: ", this.btnClicked);
-    //}
+      const radlat1 = (Math.PI * userCurrentLat) / 180;
+      const radlat2 = (Math.PI * coordinates[1]) / 180;
+      const theta = userCurrentLong - coordinates[0]
+      const radtheta = (Math.PI * theta) / 180;
+      let dist =
+        Math.sin(radlat1) * Math.sin(radlat2) +
+        Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      dist = Math.acos(dist)
+      dist = (dist * 180) / Math.PI;
+      dist = dist * 60 * 1.1515
+      return `${Math.round(dist * 0.8684 * 1.15078)} miles`;
+    }
+    return '';
+  }
+
+  /**
+   *
+   * @param  {array} coordinates - [lon ,lat]
+   * Move to given coordinates on map.
+   */
+  moveToPosition = (id, coordinates) => {
+    this.btnClicked = true;
+    this.props.disableVendorListItem(id);
+    this.moveMapPositionOnSearch(coordinates[1], coordinates[0]);
   }
 
   moveMapPositionOnSearch(lat, lon) {
@@ -333,15 +368,15 @@ export default class MapScreen extends Component {
               textInput: {
                 marginLeft: 0,
                 marginRight: 0,
-                height: 38,
-                fontSize: 16,
+                height: hp('5.03%'),
+                fontSize: wp('4.26%'),
                 backgroundColor: '#414141',
                 color: 'white',
                 fontFamily: SF_PRO_TEXT_REGULAR
               },
               listView: {
                 zIndex: 99999,
-                top: 38,
+                top: hp('5.03%'),
                 position: 'absolute',
                 marginHorizontal: wp('4.26%'),
                 backgroundColor: '#414141'
@@ -359,7 +394,11 @@ export default class MapScreen extends Component {
           ref={filteredListRef => {
             this.filteredListRef = filteredListRef;
           }}
-          moveToPosition={coordinates => this.moveToPosition(coordinates)}
+          customRegion={this.state.customRegion}
+          moveToPosition={(id, coordinates) =>
+            this.moveToPosition(id, coordinates)
+          }
+          getDistanceFromCurrentLocation={this.getDistanceFromCurrentLocation}
         />
       </View>
     );
@@ -368,5 +407,9 @@ export default class MapScreen extends Component {
 
 MapScreen.propTypes = {
   data: PropTypes.array.isRequired,
-  listVendors: PropTypes.func.isRequired
+  listVendors: PropTypes.func.isRequired,
+  filters: PropTypes.array.isRequired,
+  distance: PropTypes.number.isRequired,
+  pricing: PropTypes.number.isRequired,
+  disableVendorListItem: PropTypes.func.isRequired
 };

@@ -1,5 +1,6 @@
 // @flow
 import { StyleSheet } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FONT_FAMILY } from '../../services/constants';
 
 export default StyleSheet.create({
@@ -8,7 +9,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
     height: 'auto',
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
+    marginBottom: hp('2.46%')
   },
   icon: {
     height: '100%',
@@ -16,26 +18,22 @@ export default StyleSheet.create({
     width: '100%'
   },
   iconContainer: {
-    height: 25,
-    marginRight: 5,
-    width: 25
+    height: wp('6.13%'),
+    width: wp('6.13%')
   },
   text: {
     alignItems: 'center',
     color: '#fff',
     flex: 1,
     fontFamily: FONT_FAMILY,
-    fontSize: 16,
-    marginBottom: 5,
-    marginTop: 5
+    fontSize: wp('5.33%'),
+    lineHeight: wp('5.86%')
   },
 
   expDate: {
     color: '#fff',
     flex: 1,
     fontFamily: FONT_FAMILY,
-    fontSize: 16,
-    marginBottom: 5,
-    marginTop: 5
+    fontSize: wp('5.33%')
   }
 });

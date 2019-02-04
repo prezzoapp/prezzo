@@ -11,7 +11,7 @@ import styles from './styles';
 
 const OpenOrdersList = props => {
   const closeTable = () => {
-    props.completeOrder(props.data._id);
+    props.completeOrder();
   };
 
   return (
@@ -30,6 +30,7 @@ const OpenOrdersList = props => {
               item={item}
               orderId={props.data._id}
               type="vendor"
+              innerTab={props.innerTab}
               checkStatusAndCancelItem={(orderId, itemId) =>
                 props.checkStatusAndCancelItem(orderId, itemId)
               }
@@ -37,7 +38,7 @@ const OpenOrdersList = props => {
           )}
         />
         {(() => {
-          if (props.tabName === 'openOrder') {
+          if (props.innerTab === 'open') {
             return (
               <View style={styles.footerContainer}>
                 <Button

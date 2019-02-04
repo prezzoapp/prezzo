@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import {
   FONT_FAMILY,
   COLOR_BLACK,
@@ -9,40 +10,56 @@ import {
 
 export default StyleSheet.create({
   sectionHeader: {
-    borderBottomColor: 'rgb(157,157,157)',
-    borderBottomWidth: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
+    // justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 10,
-    backgroundColor: COLOR_BLACK
+    // paddingVertical: 10,
+    paddingBottom: wp('4.4%'),
+    // paddingBottom: wp('2.58%'),
+    backgroundColor: COLOR_BLACK,
+    paddingHorizontal: wp('7.73%'),
+    paddingTop: wp('1.8%')
+  },
+
+  separator: {
+    position: 'absolute',
+    left: wp('7.33%'),
+    right: wp('7.33%'),
+    height: 1,
+    bottom: 0,
+    backgroundColor: 'rgb(157,157,157)'
   },
 
   sectionHeaderText: {
     color: '#fff',
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: 20,
+    fontSize: wp('5.33%'),
     flex: 1,
-    paddingRight: 10
+    paddingRight: wp('2.66%'),
+    height: wp('9%')
   },
 
   addText: {
     color: COLOR_GREEN,
-    fontSize: 16,
-    paddingRight: 13,
-    fontFamily: FONT_FAMILY
+    fontSize: wp('4.53%'),
+    paddingRight: wp('3.46%'),
+    fontFamily: FONT_FAMILY,
+    top: -2
   },
 
   textInput: {
-    minHeight: 35,
+    // height: hp('4.31%'),
+    height: wp('9%'),
     padding: 0,
     flex: 1,
-    fontFamily: FONT_FAMILY,
-    fontSize: 20,
+    fontFamily: FONT_FAMILY_MEDIUM,
+    fontSize: wp('5.33%'),
     color: 'white',
     marginVertical: 0,
     textAlignVertical: 'top',
-    paddingRight: 10
+    paddingRight: wp('2.66%'),
+    top: -3
   },
 
   controlBtnsPanel: {

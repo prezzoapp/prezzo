@@ -1,12 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { Constants } from 'expo';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 import {
-  FONT_FAMILY_BOLD,
-  FONT_FAMILY_MEDIUM,
   SF_PRO_TEXT_SEMI_BOLD,
   SF_PRO_DISPLAY_SEMI_BOLD
 } from '../../../services/constants';
@@ -14,10 +12,7 @@ import {
 const styles = StyleSheet.create({
   header: {
     alignSelf: 'stretch',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0
+    paddingTop: wp('5.33%')
   },
   linearGradientStyle: {
     paddingTop: 0
@@ -27,29 +22,27 @@ const styles = StyleSheet.create({
     width: wp('15.73%')
   },
   detailContainer: {
-    paddingTop: Constants.statusBarHeight + hp('7.15%'),
     flexDirection: 'row',
     paddingHorizontal: wp('4.26%')
   },
   nameContainer: {
     paddingHorizontal: wp('3%'),
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between'
+    flex: 1
   },
   vendorName: {
     fontSize: wp('4%'),
     color: 'rgb(50, 209, 119)',
     fontFamily: SF_PRO_TEXT_SEMI_BOLD,
     backgroundColor: 'transparent',
-    flex: 1
+    lineHeight: wp('5.33%'),
+    position: 'relative'
   },
   category: {
     fontFamily: SF_PRO_DISPLAY_SEMI_BOLD,
     color: 'white',
     fontSize: wp('6.6%'),
     backgroundColor: 'transparent',
-    flex: 1
+    lineHeight: wp('10.93%')
   }
 });
 

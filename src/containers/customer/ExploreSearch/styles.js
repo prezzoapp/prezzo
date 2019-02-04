@@ -1,10 +1,24 @@
 import { StyleSheet } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 import { FONT_FAMILY, COLOR_WHITE } from '../../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: getBottomSpace() + 49,
+    left: 0,
+    zIndex: 2
+  },
+
+  blurView: {
     position: 'absolute',
     top: 0,
     right: 0,
@@ -14,7 +28,7 @@ const styles = StyleSheet.create({
 
   listHolder: {
     flex: 1,
-    marginTop: hp('11.57%')
+    marginTop: hp('11.82%')
   },
 
   listSeparator: {
@@ -31,11 +45,23 @@ const styles = StyleSheet.create({
   message: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
-    fontSize: 20
+    fontSize: wp('5.33%')
   },
 
   flatListStyle: {
-    paddingBottom: hp('9%')
+    paddingBottom: getBottomSpace() + 49 + wp('5%')
+  },
+
+  closeByBtn: {
+    marginLeft: wp('5.33%'),
+    marginBottom: wp('2.93%')
+  },
+
+  closeByBtnText: {
+    color: 'rgba(255, 255, 255, 0.5)',
+    fontFamily: FONT_FAMILY,
+    fontSize: wp('5.33%'),
+    lineHeight: wp('7.2%')
   }
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -14,7 +14,6 @@ import {
 import styles from './styles';
 import Button from '../Button';
 
-const SECTION_WIDTH: number = 0.85 * Dimensions.get('window').width;
 const TAX = 5.95;
 
 const OpenTablePayment = props => {
@@ -25,108 +24,63 @@ const OpenTablePayment = props => {
         if (item.status !== 'denied') {
           return item.price;
         }
-        return null;
+        return parseFloat(0);
       })
     .reduce((previous, next) => {
         return parseFloat(previous + next);
   });
 
+  itemSeparator = () => {
+    return <View style={styles.separator} />;
+  }
+
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flex: 1,
-          marginTop: 0,
-          borderBottomColor: COLOR_GREEN,
-          borderBottomWidth: 1
-        }}
-      >
-        <View
-          style={{
-            marginTop: 20,
-            marginBottom: 20
-          }}
-        >
-          <FlatList
-            keyExtractor={item => item._id.toString()}
-            data={props.data !== null ? props.data.items : []}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item }) =>
-              item.status !== 'denied' && (
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    width: SECTION_WIDTH,
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    height: hp('6.15%')
-                }}
-              >
-                <Text style={styles.name}>{item.title}</Text>
-                  <Text style={[styles.price]}>${item.price}</Text>
-              </View>
-              )
-            }
-          />
-        </View>
+      <View style={styles.topContainer}>
+        <FlatList
+          keyExtractor={item => item._id.toString()}
+          data={props.data !== null ? props.data.items : []}
+          showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={this.itemSeparator}
+          contentContainerStyle={styles.flatListContentContainerStyle}
+          style={styles.flatListStyle}
+          renderItem={({ item }) =>
+            item.status !== 'denied' && (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+              }}
+            >
+              <Text style={styles.name}>{item.title}</Text>
+                <Text style={styles.price}>${item.price}</Text>
+            </View>
+            )
+          }
+        />
       </View>
 
-      <View
-        style={{
-          flexDirection: 'column',
-          width: SECTION_WIDTH,
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: hp('16.37%'),
-          borderBottomColor: COLOR_GREEN,
-          borderBottomWidth: 1
-        }}
-      >
-        <View
-          style={{
-            flexDirection: 'row',
-            width: SECTION_WIDTH,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            height: 30
-          }}
-        >
-          <Text style={styles.subTotalTaxLabel}>Subtotal</Text>
+      <View style={styles.middleContainer}>
+        <View style={styles.middleTextContainer}>
+          <Text style={styles.subTotalTaxLabel}>SUBTOTAL</Text>
           <Text style={styles.subTotalTaxValue}>{subTotal}</Text>
         </View>
 
         <View
-          style={{
-            flexDirection: 'row',
-            width: SECTION_WIDTH,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            height: 30
-          }}
+          style={[
+            styles.middleTextContainer,
+            styles.extraStyleForMiddleTextContainer
+          ]}
         >
           <Text style={styles.subTotalTaxLabel}>TAX</Text>
           <Text style={styles.subTotalTaxValue}>+ ${TAX}</Text>
         </View>
       </View>
 
-      <View
-        style={{
-          flexDirection: 'column',
-          width: SECTION_WIDTH,
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: hp('23.52%')
-        }}
-      >
-        <View
-          style={{
-            flexDirection: 'row',
-            width: SECTION_WIDTH,
-            alignItems: 'center',
-            height: 40
-          }}
-        >
+      <View style={styles.bottomContainer}>
+        <View style={styles.bottomTextContainer}>
           <Text style={[styles.cardTitle, { width: wp('30.93%') }]}>
             Card Number
           </Text>
@@ -135,14 +89,7 @@ const OpenTablePayment = props => {
           </Text>
         </View>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            width: SECTION_WIDTH,
-            alignItems: 'center',
-            height: 40
-          }}
-        >
+        <View style={styles.bottomTextContainer}>
           <Text style={[styles.cardTitle, { width: wp('30.93%') }]}>
             Exp Date
           </Text>
@@ -155,7 +102,7 @@ const OpenTablePayment = props => {
               flex: 1,
               alignItems: 'center',
               justifyContent: 'flex-end',
-              height: 40
+              paddingVertical: hp('3.20%')
             }}
           >
             <Text style={styles.cardTitle}>CVV</Text>
@@ -165,14 +112,7 @@ const OpenTablePayment = props => {
           </View>
         </View>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            width: SECTION_WIDTH,
-            alignItems: 'center',
-            height: 40
-          }}
-        >
+        <View style={styles.bottomTextContainer}>
           <Text style={[styles.cardTitle, { width: wp('30.93%') }]}>
             Cardholder
           </Text>
@@ -182,49 +122,54 @@ const OpenTablePayment = props => {
         </View>
       </View>
       {(() => {
-        if(props.tabName === 'payment') {
-          return (
-            <View
+        return (
+          <View
+            style={{
+              width: wp('100%'),
+              alignItems: 'center',
+              height: hp('10.16%'),
+              borderTopColor: COLOR_GREEN,
+              borderTopWidth: 2,
+              backgroundColor: 'black'
+            }}
+          >
+            <LinearGradient
+              colors={['transparent', '#2B2C2C']}
+              start={[0.3, 0]}
               style={{
-                width: wp('100%'),
+                flexDirection: 'row',
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                left: 0,
+                bottom: 0,
                 alignItems: 'center',
-                height: hp('10.16%'),
-                borderTopColor: COLOR_GREEN,
-                borderTopWidth: 2,
-                backgroundColor: 'black'
+                justifyContent: props.innerTab !== 'closed' ? 'flex-start' : 'center'
               }}
             >
-              <LinearGradient
-                colors={['transparent', '#2B2C2C']}
-                start={[0.3, 0]}
-                style={{
-                  flexDirection: 'row',
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                  left: 0,
-                  bottom: 0,
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-                pointerEvents="none"
-              >
+              {props.innerTab !== 'closed' && (
                 <Button
                   style={buttonStyles.requestBtn}
                   textStyle={buttonStyles.requestBtnText}
-                  onPress={() => null}
-                  // onPress={() => props.changeOrderStatus(props.data._id, 'complete')}
+                  onPress={() => props.completeOrder()}
                 >
                   Request
                 </Button>
+              )}
 
-                <Text style={styles.total}>
-                  Total ${((subTotal * TAX) / 100 + subTotal).toFixed(2)}
-                </Text>
-              </LinearGradient>
-            </View>
-          );
-        }
+              <Text
+                style={[
+                  styles.total,
+                  {
+                    paddingLeft: props.innerTab !== 'closed' ? wp('11.46%') : 0
+                  }
+                ]}
+              >
+                Total ${((subTotal * TAX) / 100 + subTotal).toFixed(2)}
+              </Text>
+            </LinearGradient>
+          </View>
+        );
       })()}
     </View>
   );
