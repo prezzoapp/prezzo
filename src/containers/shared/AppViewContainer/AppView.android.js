@@ -22,20 +22,19 @@ class AppView extends Component {
   }
 
   componentDidMount() {
-    snapshotUtil.resetSnapshot()
-      .then(snapshot => {
-        const {dispatch} = this.props;
+    snapshotUtil.resetSnapshot().then(snapshot => {
+      const {dispatch} = this.props;
 
-        if (snapshot) {
-          dispatch(SessionStateActions.resetSessionStateFromSnapshot(snapshot));
-        } else {
-          dispatch(SessionStateActions.initializeSessionState());
-        }
+      if (snapshot) {
+        dispatch(SessionStateActions.resetSessionStateFromSnapshot(snapshot));
+      } else {
+        dispatch(SessionStateActions.initializeSessionState());
+      }
 
-        store.subscribe(() => {
-          snapshotUtil.saveSnapshot(store.getState());
-        });
+      store.subscribe(() => {
+        snapshotUtil.saveSnapshot(store.getState());
       });
+    });
   }
 
   navigateBack() {

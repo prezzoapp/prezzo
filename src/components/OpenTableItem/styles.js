@@ -1,8 +1,5 @@
 import { StyleSheet } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FONT_FAMILY, FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
@@ -19,12 +16,18 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 0.7
   },
-  userImage: {
+  userImageContainer: {
     width: wp('10.66%'),
     height: wp('10.66%'),
     borderRadius: wp('5.33%'),
     borderWidth: 1,
-    borderColor: 'white'
+    borderColor: 'white',
+    overflow: 'hidden'
+  },
+  userImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
   },
   textContainer: {
     flexDirection: 'column',

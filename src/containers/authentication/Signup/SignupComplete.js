@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { ImageBackground, Text, Image, StyleSheet } from 'react-native';
+import { ImageBackground, Text, Image, StyleSheet, BackHandler } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -95,7 +95,19 @@ class SignupComplete extends React.Component<Props> {
   };
 
   navigateToHome() {
-    this.props.navigate({routeName: 'Customer'});
+    this.props.navigate({ routeName: 'Customer' });
+  }
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+  handleBackPress = () => {
+    return true;
   }
 
   render() {

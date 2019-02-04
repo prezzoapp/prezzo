@@ -90,17 +90,6 @@ const styles = StyleSheet.create({
     borderRadius: avatarSize / 2,
     resizeMode: 'cover'
   },
-  editAvatarIcon: {
-    width: wp('5.66%'),
-    height: wp('5.66%'),
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    borderWidth: 1,
-    borderColor: '#fff',
-    borderRadius: wp('5.66%') / 2,
-    backgroundColor: '#484848'
-  },
   nameAndEmailContainer: {
     paddingLeft: wp('6.4%'),
     justifyContent: 'center'

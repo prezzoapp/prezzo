@@ -38,34 +38,37 @@ export default StyleSheet.create({
     alignSelf: 'flex-end'
   },
   avatarWrap: {
-    alignItems: 'center',
-    height: AVATAR_SIZE,
-    position: 'relative',
-    width: AVATAR_SIZE,
+    alignItems: 'flex-start',
+    height: wp('24.06%'),
+    width: wp('24.06%'),
     backgroundColor: COLOR_BLACK,
     borderRadius: 8,
-    position: 'relative'
+    position: 'relative',
+    justifyContent: 'flex-end'
+  },
+  imageHolder: {
+    borderColor: 'white',
+    borderWidth: 2,
+    borderRadius: 8,
+    height: AVATAR_SIZE,
+    width: AVATAR_SIZE,
+    overflow: 'hidden'
   },
   avatar: {
-    alignSelf: 'flex-start',
-    borderColor: 'white',
-    borderRadius: 10,
-    borderWidth: 2,
-    height: AVATAR_SIZE,
     resizeMode: 'cover',
-    width: AVATAR_SIZE
+    width: '100%',
+    height: '100%'
   },
   editAvatarIcon: {
     width: wp('7.46%'),
     height: wp('7.46%'),
     position: 'absolute',
-    top: -8,
-    right: -8,
-    borderWidth: 1,
-    borderColor: '#6A696A',
-    borderRadius: AVATAR_SIZE / 6,
-    backgroundColor: '#E1E1E1',
-    tintColor: '#6A696A',
+    top: 0,
+    right: 0,
+    // borderWidth: 1,
+    // borderColor: '#6A696A',
+    // borderRadius: AVATAR_SIZE / 6,
+    // tintColor: '#6A696A',
     resizeMode: 'contain'
   },
   header: {
@@ -193,7 +196,7 @@ export default StyleSheet.create({
   },
 
   editInfoHolder: {
-    marginLeft: wp('9.33%')
+    marginLeft: wp('6.13%')
   },
 
   editBtn: {
@@ -207,42 +210,37 @@ export default StyleSheet.create({
     lineHeight: wp('5.86%')
   },
 
-  priceBarIndicator: {
-    width: 2,
-    height: hp('1.97%'),
-    zIndex: 1,
-    backgroundColor: 'white'
-  },
-
   headerLeftBtn: {
     marginLeft: wp('4.4%')
+  },
+
+  slidersHolder: {
+    position: 'relative'
   },
 
   priceBarIndicator: {
     width: 2,
     height: 12,
     zIndex: 1,
-    backgroundColor: 'white',
-    marginBottom: -2
+    backgroundColor: 'white'
   },
 
   priceSliderContainer: {
-    flex: 1,
     height: 31,
     marginTop: wp('4.26%'),
     marginRight: wp('1.6%'),
+    // marginRight: wp('10.66%'),
     position: 'relative',
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
 
   priceSliderHolder: {
-    flex: 1,
     height: 31,
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: -11.5
+    bottom: -10.5
   },
 
   dollarTextStyle: {

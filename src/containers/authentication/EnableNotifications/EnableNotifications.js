@@ -29,10 +29,6 @@ class EnableNotificationsView extends React.Component<Props, State> {
     notificationPermission: 'undetermined'
   };
 
-  componentDidMount() {
-    this.checkNotificationPermission();
-  }
-
   async checkNotificationPermission() {
     const { Permissions } = Expo;
     const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);

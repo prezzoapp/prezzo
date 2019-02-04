@@ -48,7 +48,8 @@ export const uploadImage = async(
     method: 'post',
     body: form,
     headers: {
-      'Content-Type': mime
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data'
     }
   });
 
