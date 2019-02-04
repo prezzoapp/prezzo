@@ -1,6 +1,15 @@
 // @flow
 import React from 'react';
-import {ImageBackground, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, TouchableOpacity} from 'react-native';
+import {
+  ImageBackground,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  View,
+  TouchableOpacity
+} from 'react-native';
 import { Header } from 'react-navigation';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Constants } from 'expo';
@@ -9,7 +18,6 @@ import {connect} from 'react-redux';
 import { Feather } from '../../../components/VectorIcons';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {updateFirstName, updateLastName} from '../../../modules/Signup';
 import {FONT_FAMILY_MEDIUM} from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
@@ -29,6 +37,8 @@ type State = {
 const containerPaddingLeftRight: number = 40;
 const containerPaddingTopBottom: number = 80;
 
+const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -38,8 +48,8 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: containerPaddingTopBottom,
-    paddingTop: hp('3.50%')
+    paddingBottom: hp('5%'),
+    paddingTop: SCROLL_VIEW_TOP_PADDING
   },
   headerText: {
     fontSize: wp('9.6%'),
@@ -64,9 +74,7 @@ const styles = StyleSheet.create({
 });
 
 const nextButtonStyle = {
-  alignSelf: 'flex-end',
-  position: 'relative',
-  top: -hp('0.98%')
+  alignSelf: 'flex-end'
 };
 
 class SignupName extends React.Component<Props, State> {
@@ -111,31 +119,38 @@ class SignupName extends React.Component<Props, State> {
         style={styles.container}
         source={require('../../../../assets/images/bg/authentication.png')}
       >
-        <KeyboardAwareScrollView contentContainerStyle={{ paddingBottom: 50 }} style={[{ backgroundColor: 'transparent' }, styles.scrollView]}>
-          <Text style={styles.headerText}>
-            What's your name?
-          </Text>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+          <ScrollView
+            contentContainerStyle={styles.scrollView}>
+            <View
+              style={{ backgroundColor: 'transparent' }}
+            >
+              <Text style={styles.headerText}>
+                What's your name?
+              </Text>
+            </View>
 
-          <LoginTextInput
-            type='name'
-            label='First Name'
-            value={firstName}
-            onChange={val => this.props.updateFirstName(val)}
-          />
+            <LoginTextInput
+              type='name'
+              label='First Name'
+              value={firstName}
+              onChange={val => this.props.updateFirstName(val)}
+            />
 
-          <LoginTextInput
-            type='name'
-            label='Last Name'
-            value={lastName}
-            onChange={val => this.props.updateLastName(val)}
-          />
+            <LoginTextInput
+              type='name'
+              label='Last Name'
+              value={lastName}
+              onChange={val => this.props.updateLastName(val)}
+            />
 
-          <NextButton
-            style={nextButtonStyle}
-            onPress={() => this.navigateToSignupEmail()}
-            disabled={!this.isFormValid()}
-          />
-        </KeyboardAwareScrollView>
+            <NextButton
+              style={nextButtonStyle}
+              onPress={() => this.navigateToSignupEmail()}
+              disabled={!this.isFormValid()}
+            />
+          </ScrollView>
+        </KeyboardAvoidingView>
       </ImageBackground>
     );
   }

@@ -71,13 +71,15 @@ class Button extends Component<State, Props> {
       ...styles.button,
       ...style,
       ...{
-        display: disabled ? 'none' : 'flex',
+        // display: disabled ? 'none' : 'flex',
+        opacity: disabled ? 0 : 1,
         backgroundColor: !isBusy ? styles.button.backgroundColor : '#DFE2E5'
       }
     };
 
     return (
       <TouchableOpacity
+        disabled={disabled}
         onPress={() => !disabled && !isBusy && this._onPress()}
         activeOpacity={disabled ? 0.5 : 0.7}
         style={containerStyle}

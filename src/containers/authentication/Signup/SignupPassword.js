@@ -49,6 +49,8 @@ const containerPaddingLeftRight: number = 40;
 const containerPaddingTopBottom: number = 80;
 const avatarSize: number = wp('17.33%');
 
+const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -58,8 +60,8 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: containerPaddingTopBottom,
-    paddingTop: hp('3.50%')
+    paddingBottom: hp('5%'),
+    paddingTop: SCROLL_VIEW_TOP_PADDING
   },
   headerText: {
     fontSize: wp('9.6%'),
@@ -152,8 +154,7 @@ const buttonStyles = {
   },
   next: {
     alignSelf: 'flex-end',
-    position: 'relative',
-    top: -hp('0.98%')
+    position: 'relative'
   }
 };
 
@@ -304,50 +305,54 @@ class SignupPassword extends React.Component<Props, State> {
     const { firstName, email, password, avatarURL } = this.props;
 
     return (
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : null}>
-        <ImageBackground
-          style={styles.container}
-          source={require('../../../../assets/images/bg/authentication.png')}
+      <ImageBackground
+        style={styles.container}
+        source={require('../../../../assets/images/bg/authentication.png')}
+      >
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior='padding'
         >
           <ScrollView
-            contentContainerStyle={styles.scrollView}>
-          <Text style={styles.headerText}>
-            Awesome, you're almost done!
-          </Text>
-
-          <View style={styles.profileContainer}>
-            <TouchableOpacity
-              style={styles.avatarContainer}
-              onPress={() => this.showAvatarActionSheet()}
-            >
-              <Image
-                style={styles.avatar}
-                source={
-                  avatarURL
-                    ? { uri: avatarURL }
-                    : require('../../../../assets/images/etc/default-avatar.png')
-                }
-              />
-              <Image
-                style={styles.editAvatarIcon}
-                source={require('../../../../assets/images/icons/edit.png')}
-              />
-            </TouchableOpacity>
-
-            <View style={styles.nameAndEmailContainer}>
-              <Text style={styles.name}>
-                {firstName}
-              </Text>
-
-              <Text style={styles.email}>
-                {email}
+            contentContainerStyle={styles.scrollView}
+          >
+            <View>
+              <Text style={styles.headerText}>
+                Awesome, you're almost done!
               </Text>
             </View>
-          </View>
 
-          {
+            <View style={styles.profileContainer}>
+              <TouchableOpacity
+                style={styles.avatarContainer}
+                onPress={() => this.showAvatarActionSheet()}
+              >
+                <Image
+                  style={styles.avatar}
+                  source={
+                    avatarURL
+                      ? { uri: avatarURL }
+                      : require('../../../../assets/images/etc/default-avatar.png')
+                  }
+                />
+                <Image
+                  style={styles.editAvatarIcon}
+                  source={require('../../../../assets/images/icons/edit.png')}
+                />
+              </TouchableOpacity>
+
+              <View style={styles.nameAndEmailContainer}>
+                <Text style={styles.name}>
+                  {firstName}
+                </Text>
+
+                <Text style={styles.email}>
+                  {email}
+                </Text>
+              </View>
+            </View>
+
+            {
             !showPassword && (
               <View style={styles.buttonsContainer}>
                 <FacebookButton
@@ -370,7 +375,7 @@ class SignupPassword extends React.Component<Props, State> {
             )
           }
 
-          {
+            {
             showPassword && (
               <View style={styles.passwordContainer}>
                 <LoginTextInput
@@ -383,7 +388,7 @@ class SignupPassword extends React.Component<Props, State> {
             )
           }
 
-          {
+            {
             showPassword && !isBusy && (
               <NextButton
                 style={buttonStyles.next}
@@ -393,8 +398,8 @@ class SignupPassword extends React.Component<Props, State> {
             )
           }
           </ScrollView>
-        </ImageBackground>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     );
   }
 }
