@@ -35,7 +35,7 @@ export default StyleSheet.create({
     color: '#fff',
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('5.33%'),
-    // flex: 1,
+    flex: 1,
     paddingRight: wp('2.66%'),
     height: wp('9%')
   },
