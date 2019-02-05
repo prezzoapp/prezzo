@@ -51,8 +51,6 @@ const avatarSize: number = wp('17.33%');
 
 const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
 
-const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
