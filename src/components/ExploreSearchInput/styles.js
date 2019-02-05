@@ -19,10 +19,6 @@ const styles = StyleSheet.create({
         marginTop: getStatusBarHeight() + wp('1%')
       }
     ),
-    // position: 'absolute',
-    // top: 0,
-    // right: 0,
-    // left: 0,
     height: wp('8%'),
     zIndex: 99
   },

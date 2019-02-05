@@ -46,15 +46,14 @@ class Explore extends PureComponent<Props> {
 
   constructor(props) {
     super(props);
-  }
 
     this.state = {
-      customRegion: {
-        latitude: 0,
-        longitude: 0,
-        latitudeDelta: 0.00922,
-        longitudeDelta: 0.00422
-      },
+      // customRegion: {
+      //   latitude: 0,
+      //   longitude: 0,
+      //   latitudeDelta: 0.00922,
+      //   longitudeDelta: 0.00422
+      // },
       showList: false,
       filteredData: [],
       showLoader: false,
@@ -71,7 +70,7 @@ class Explore extends PureComponent<Props> {
   componentDidMount() {
     this.props.filters.map(item => {
       if(item.on) {
-        activeFilters.push(item.filterType);
+        this.activeFilters.push(item.filterType);
       }
     });
 
@@ -80,7 +79,7 @@ class Explore extends PureComponent<Props> {
         coords.latitude,
         coords.longitude,
         this.props.distance,
-        activeFilters.join(','),
+        this.activeFilters.join(','),
         this.props.pricing
       ).then(() => {})
         .catch(err => {

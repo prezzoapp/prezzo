@@ -45,12 +45,11 @@ class ExploreScreenHeader extends Component {
   render() {
     return (
       <View style={styles.header}
-        ref={parent => this.parent = parent}
         onLayout={(event) =>
           this.props.setFilterPanelPosition(
             event.nativeEvent.layout.y,
             event.nativeEvent.layout.height
-          );
+          )
         }
       >
         <LinearGradient
