@@ -16,7 +16,9 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import PropTypes from 'prop-types';
 
-import { LinearGradient, BlurView } from 'expo';
+import { Header } from 'react-navigation';
+
+import { LinearGradient, BlurView, Constants } from 'expo';
 
 import { Feather } from '../../../components/VectorIcons';
 
@@ -417,7 +419,15 @@ export default class RestaurantDetails extends Component {
             height: animatedHeader,
             overflow: 'hidden',
             opacity: animatedOpacity,
-            paddingHorizontal: wp('4%')
+            paddingHorizontal: wp('4%'),
+            position: 'absolute',
+            top:
+              Header.HEIGHT +
+              Constants.statusBarHeight -
+              (Platform.OS === 'ios' ? 20 : 0),
+            left: 0,
+            right: 0,
+            zIndex: 99
           }}
         >
           <View style={styles.contentContainer}>
@@ -567,7 +577,8 @@ export default class RestaurantDetails extends Component {
                     paddingBottom: !this.state.showText
                       ? wp('5.33%')
                       : wp('14.4%'),
-                    paddingHorizontal: 15
+                    paddingHorizontal: 15,
+                    paddingTop: headerHeight
                   }}
                   ListFooterComponent={() => this.listFooterComponent()}
                   sections={
