@@ -13,12 +13,18 @@ const styles = StyleSheet.create({
     paddingRight: wp('18.66%')
   },
 
-  userImage: {
+  userImageContainer: {
     width: wp('8.53%'),
     height: wp('8.53%'),
-    borderRadius: wp('4.26%'),
+    borderRadius: wp('5.33%'),
     borderWidth: 1,
-    borderColor: '#fff'
+    borderColor: 'white',
+    overflow: 'hidden'
+  },
+  userImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
   },
 
   userName: {

@@ -40,14 +40,16 @@ const TableGridItem = props => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image
-          style={styles.userImage}
-          source={
-            item.creator.avatarURL !== ''
-              ? { uri: item.userImg }
-              : require('../../../assets/images/etc/default-avatar.png')
-          }
-        />
+        <View style={styles.userImageContainer}>
+          <Image
+            style={styles.userImage}
+            source={
+              item.creator.avatarURL !== ''
+                ? { uri: item.userImg }
+                : require('../../../assets/images/etc/default-avatar.png')
+            }
+          />
+        </View>
         <Text style={styles.userName}>
           {item.creator.fullName} -{' '}
           <Text style={styles.tableId}>Table 9192</Text>

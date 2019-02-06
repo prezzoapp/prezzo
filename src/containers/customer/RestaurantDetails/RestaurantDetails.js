@@ -13,12 +13,11 @@ import {
   Platform
 } from 'react-native';
 
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import PropTypes from 'prop-types';
+
+import { Header } from 'react-navigation';
 
 import { LinearGradient, BlurView, Constants } from 'expo';
 
@@ -192,8 +191,6 @@ export default class RestaurantDetails extends Component {
         }
       );
     } catch(e) {
-      console.log("error");
-      console.log(e);
       showGenericAlert('Uh-oh!', e.message || e);
     }
   }
@@ -398,7 +395,15 @@ export default class RestaurantDetails extends Component {
             height: animatedHeader,
             overflow: 'hidden',
             opacity: animatedOpacity,
-            paddingHorizontal: wp('4%')
+            paddingHorizontal: wp('4%'),
+            position: 'absolute',
+            top:
+              Header.HEIGHT +
+              Constants.statusBarHeight -
+              (Platform.OS === 'ios' ? 20 : 0),
+            left: 0,
+            right: 0,
+            zIndex: 99
           }}
         >
           <View style={styles.contentContainer}>
@@ -504,7 +509,7 @@ export default class RestaurantDetails extends Component {
                 <AnimatedSectionList
                   bounces={false}
                   stickySectionHeadersEnabled
-                  SectionSeparatorComponent={({ leadingItem, section }) =>
+                  SectionSeparatorComponent={({ leadingItem }) =>
                     leadingItem ? (
                       <View
                         style={{
@@ -548,7 +553,8 @@ export default class RestaurantDetails extends Component {
                     paddingBottom: !this.state.showText
                       ? wp('5.33%')
                       : wp('14.4%'),
-                    paddingHorizontal: 15
+                    paddingHorizontal: 15,
+                    paddingTop: headerHeight
                   }}
                   ListFooterComponent={() => this.listFooterComponent()}
                   sections={

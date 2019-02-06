@@ -1,12 +1,7 @@
 import React, {Component} from 'react';
 import * as snapshot from '../../utils/snapshot';
 
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 /**
  * Simple developer menu, which allows e.g. to clear the app state.
@@ -77,11 +72,11 @@ class DeveloperMenu extends Component {
 const styles = StyleSheet.create({
   circle: {
     position: 'absolute',
-    bottom: 5,
-    right: 5,
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+    bottom: 10,
+    right: 10,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     backgroundColor: '#fff'
   },
   menu: {
