@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+
+import { ifIphoneX, getBottomSpace } from 'react-native-iphone-x-helper';
 
 import {
   FONT_FAMILY_BOLD,
@@ -10,13 +11,13 @@ import {
 
 const styles = StyleSheet.create({
   threeDotsImage: {
-    width: 20,
-    height: 20,
+    width: wp('5%'),
+    height: wp('4%'),
     resizeMode: 'contain'
   },
 
   headerStyle: {
-    padding: 15,
+    padding: wp('4%'),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
 
   headerTextStyle: {
     color: 'white',
-    fontSize: 17,
+    fontSize: wp('4.53%'),
     fontFamily: FONT_FAMILY_BOLD
   },
 
@@ -38,19 +39,30 @@ const styles = StyleSheet.create({
   message: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
-    fontSize: 20,
+    fontSize: wp('5.33%'),
     textAlign: 'center'
   },
 
   flatListContentContainerStyle: {
-    marginHorizontal: 15,
-    paddingTop: hp('2%'),
-    paddingBottom: hp('9%'),
+    marginHorizontal: wp('4%'),
+    marginTop: wp('2%'),
+    paddingBottom: getBottomSpace() + 49 + wp('5%'),
     flexGrow: 1
   },
 
   flatListStyle: {
-    marginTop: Constants.statusBarHeight + hp('15.5%')
+    // ...ifIphoneX(
+    //   {
+    //     marginTop: wp('41.6%')
+    //   },
+    //   {
+    //     marginTop: wp('35.2%')
+    //   }
+    // )
+  },
+
+  seperator: {
+    paddingBottom: wp('6.66%')
   }
 });
 

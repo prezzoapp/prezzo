@@ -3,7 +3,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+
 import { Constants } from 'expo';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 
 import {
   SF_PRO_TEXT_SEMI_BOLD,
@@ -14,35 +16,48 @@ import {
 const styles = StyleSheet.create({
   header: {
     alignSelf: 'stretch',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0
+    paddingTop: wp('3.73%')
+    // position: 'absolute',
+    // top: 0,
+    // left: 0,
+    // right: 0
   },
 
   nearMeText: {
     fontSize: wp('4%'),
     color: 'rgb(50, 209, 119)',
     fontFamily: SF_PRO_TEXT_SEMI_BOLD,
-    backgroundColor: 'transparent',
-    position: 'relative',
-    top: -hp('0.5%')
+    backgroundColor: 'transparent'
+    // lineHeight: hp('2.46%')
+    // lineHeight: wp('5.33%')
   },
 
   filterPanel: {
     marginHorizontal: wp('4.26%'),
-    marginTop: Constants.statusBarHeight + hp('6.5%'),
-    height: hp('9%'),
+    // paddingTop: Constants.statusBarHeight + wp('8%') + wp('3.73%'),
+    paddingBottom: wp('2.13%'),
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(46, 213, 115, 0.3)',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    // ...ifIphoneX(
+    //   {
+    //     height: wp('41.6%')
+    //   },
+    //   {
+    //     height: wp('35.2%')
+    //   }
+    // )
   },
 
   filter: {
     color: '#fafafa',
-    fontSize: wp('3.46%'),
+    fontSize: wp('4%'),
     backgroundColor: 'transparent',
     fontFamily: SF_PRO_TEXT_SEMI_BOLD
+  },
+
+  dropArrowIcon: {
+    backgroundColor: 'transparent'
   },
 
   locationPin: {
@@ -54,8 +69,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    position: 'relative',
-    top: -hp('0.5%')
+    position: 'relative'
   },
 
   restaurantTitle: {
@@ -78,21 +92,21 @@ const styles = StyleSheet.create({
   },
 
   filtersHolder: {
-    paddingVertical: 15
+    paddingVertical: wp('5.33%')
   },
 
   filtersList: {
-    paddingLeft: 12
+    paddingLeft: wp('4.53%')
   },
 
   slidersHolder: {
-    paddingHorizontal: 30,
-    paddingTop: 15
+    paddingHorizontal: wp('8%'),
+    paddingTop: hp('1.84%')
   },
 
   sliderTitleText: {
     color: 'rgb(255,251,245)',
-    fontSize: 11,
+    fontSize: wp('2.93%'),
     fontFamily: SF_PRO_DISPLAY_REGULAR
   },
 
@@ -107,9 +121,30 @@ const styles = StyleSheet.create({
 
   priceBarIndicator: {
     width: 2,
-    height: hp('1.97%'),
+    height: 12,
     zIndex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    marginBottom: -2
+  },
+
+  priceSliderContainer: {
+    flex: 1,
+    height: 31,
+    marginVertical: hp('1.84%'),
+    marginLeft: wp('8%'),
+    marginRight: wp('10.66%'),
+    position: 'relative',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+
+  priceSliderHolder: {
+    flex: 1,
+    height: 31,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: -11.5
   }
 });
 

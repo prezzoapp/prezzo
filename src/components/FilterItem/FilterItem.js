@@ -9,8 +9,7 @@ export default class FilterItems extends Component {
     toggleFilter: PropTypes.func.isRequired,
     on: PropTypes.bool,
     image: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    style: PropTypes.object.isRequired
+    name: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -21,11 +20,13 @@ export default class FilterItems extends Component {
   toggleFilter = () => {
     this.setState(() => {
       return {
-        active: !this.state.active
+          active: !this.state.active
+        };
+      },
+      () => {
+        this.props.toggleFilter();
       }
-    }, () => {
-      this.props.toggleFilter();
-    });
+    );
   };
 
   render() {
@@ -39,9 +40,9 @@ export default class FilterItems extends Component {
     const inactiveFilterStyle = {
       backgroundColor: '#757575'
     }
-    // console.log('Toggle Rendering Called!');
+
     return (
-      <View style={this.props.style}>
+      <View style={styles.filterItem}>
         <TouchableOpacity
           activeOpacity={0.6}
           style={[

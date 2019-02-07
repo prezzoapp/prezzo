@@ -7,22 +7,22 @@ import { FONT_FAMILY, FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
+    padding: wp('2.66%'),
     flex: 1,
     backgroundColor: '#3A3A3A',
     borderRadius: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: hp('1.84%'),
+    // marginTop: hp('1.84%'),
     marginHorizontal: 1,
     shadowOffset: { width: 1, height: 6 },
     shadowColor: 'black',
     shadowOpacity: 0.7
   },
   userImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: wp('10.66%'),
+    height: wp('10.66%'),
+    borderRadius: wp('5.33%'),
     borderWidth: 1,
     borderColor: 'white'
   },
@@ -35,15 +35,16 @@ const styles = StyleSheet.create({
   userName: {
     color: 'white',
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: 20
+    fontSize: wp('5.33%')
   },
   tableId: {
     color: 'white',
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: 14
+    fontSize: wp('3.73%')
   },
   statusText: {
-    fontFamily: FONT_FAMILY
+    fontFamily: FONT_FAMILY,
+    fontSize: wp('3.73%')
   },
   statusContainer: {
     flexDirection: 'row',

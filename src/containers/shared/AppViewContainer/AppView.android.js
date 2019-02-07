@@ -1,13 +1,18 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {View, StyleSheet, StatusBar, ActivityIndicator, BackHandler} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  StatusBar,
+  ActivityIndicator,
+  BackHandler
+} from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import NavigatorViewContainer from '../../shared/Navigator/NavigatorViewContainer';
 import * as snapshotUtil from '../../../utils/snapshot';
 import * as SessionStateActions from '../../../modules/session';
 import store from '../../../redux/store';
 import DeveloperMenu from '../../../components/DeveloperMenu';
-
-import {NavigationActions} from 'react-navigation';
 
 class AppView extends Component {
   static displayName = 'AppView';
@@ -22,20 +27,19 @@ class AppView extends Component {
   }
 
   componentDidMount() {
-    snapshotUtil.resetSnapshot()
-      .then(snapshot => {
-        const {dispatch} = this.props;
+    snapshotUtil.resetSnapshot().then(snapshot => {
+      const { dispatch } = this.props;
 
-        if (snapshot) {
-          dispatch(SessionStateActions.resetSessionStateFromSnapshot(snapshot));
-        } else {
-          dispatch(SessionStateActions.initializeSessionState());
-        }
+      if (snapshot) {
+        dispatch(SessionStateActions.resetSessionStateFromSnapshot(snapshot));
+      } else {
+        dispatch(SessionStateActions.initializeSessionState());
+      }
 
-        store.subscribe(() => {
-          snapshotUtil.saveSnapshot(store.getState());
-        });
+      store.subscribe(() => {
+        snapshotUtil.saveSnapshot(store.getState());
       });
+    });
   }
 
   navigateBack() {
@@ -64,7 +68,7 @@ class AppView extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <StatusBar backgroundColor='#455a64' barStyle='light-content' />
+        <StatusBar backgroundColor="#455a64" barStyle="light-content" />
         <NavigatorViewContainer />
         {__DEV__ && <DeveloperMenu />}
       </View>

@@ -8,6 +8,7 @@ import { ACCEPT_ORDER, DELETE_ORDER } from '../../services/constants';
 
 const QueuedTableItem = props => {
   const { item, index } = props.data;
+  console.log(item);
 
   function showAcceptDeniedAlert(status) {
     Alert.alert(

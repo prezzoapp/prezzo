@@ -27,7 +27,7 @@ const SearchVendorListItem = props => {
           {props.item.location.postalCode}
         </Text>
         <View style={styles.ratingHolder}>
-          <RatingBar disable={true} itemRating={3}/>
+          <RatingBar disable itemRating={3}/>
           <Text style={styles.ratingText}>47 Ratings</Text>
         </View>
       </View>

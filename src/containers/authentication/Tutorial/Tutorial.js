@@ -12,10 +12,10 @@ import { FONT_FAMILY_REGULAR } from '../../../services/constants';
 import { getUserInfo } from '../../../services/facebook';
 
 const images = {
-  tutorial1: require('../../../../assets/images/tutorial/tutorial-1.png'),
-  tutorial2: require('../../../../assets/images/tutorial/tutorial-2.png'),
-  tutorial3: require('../../../../assets/images/tutorial/tutorial-3.png'),
-  tutorial4: require('../../../../assets/images/tutorial/tutorial-4.png')
+  tutorial1: require('../../../../assets/images/tutorial/tutorial-1.jpg'),
+  tutorial2: require('../../../../assets/images/tutorial/tutorial-2.jpg'),
+  tutorial3: require('../../../../assets/images/tutorial/tutorial-3.jpg'),
+  tutorial4: require('../../../../assets/images/tutorial/tutorial-4.jpg')
 };
 
 class Tutorial extends React.Component {
@@ -107,10 +107,11 @@ class Tutorial extends React.Component {
         <Swiper
           testID="swiper"
           loop={false}
+          dotStyle={styles.dotStyle}
+          activeDotStyle={styles.dotStyle}
           paginationStyle={{ bottom: hp('1.72%') }}
           dotColor="rgba(255, 255, 255, 0.5)"
           activeDotColor="#0DD24A"
-          paginationStyle={{ bottom: hp('1.84%') }}
         >
           <TutorialScreen image={images.tutorial1} />
           <TutorialScreen image={images.tutorial2} />
@@ -160,14 +161,14 @@ const styles = StyleSheet.create({
   },
   header: {
     position: 'absolute',
-    top: Constants.statusBarHeight + hp('3%') - (Platform.OS === 'ios' ? 20 : 0),
+    top: Constants.statusBarHeight,
     right: 0,
     width: '100%',
     height: '20%'
   },
   footer: {
     position: 'absolute',
-    bottom: hp('4.31%'),
+    bottom: wp('9.50%'),
     left: 0,
     right: 0,
     width: '100%'
@@ -178,7 +179,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     marginRight: wp('5.33%'),
     color: '#fff',
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    lineHeight: wp('5.86%')
+  },
+  dotStyle: {
+    width: wp('1.6%'),
+    height: wp('1.6%')
   }
 });
 
@@ -189,7 +195,7 @@ const buttonStyles = {
   },
   createAccountButton: {
     width: 'auto',
-    height: hp('5.29%'),
+    height: wp('11.46%'),
     marginLeft: wp('10.13%'),
     marginRight: wp('10.13%'),
     justifyContent: 'center',

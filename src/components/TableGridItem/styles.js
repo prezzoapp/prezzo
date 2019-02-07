@@ -3,44 +3,39 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import {
-  FONT_FAMILY,
-  SF_PRO_TEXT_BOLD,
-  SF_PRO_TEXT_MEDIUM
-} from '../../services/constants';
+import { SF_PRO_TEXT_BOLD, SF_PRO_TEXT_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 10
+    // marginTop: hp('1.84%')
   },
 
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: hp('1.23%'),
+    paddingBottom: hp('1.47%'),
     paddingRight: wp('18.66%')
   },
 
   userImage: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: wp('8.53%'),
+    height: wp('8.53%'),
+    borderRadius: wp('4.26%'),
     borderWidth: 1,
-    borderColor: '#fff',
-    paddingVertical: hp('1.47%')
+    borderColor: '#fff'
   },
 
   userName: {
     color: '#fff',
-    fontSize: 17,
+    fontSize: wp('4.53%'),
     fontFamily: SF_PRO_TEXT_BOLD,
-    paddingLeft: 10,
+    paddingLeft: wp('2.13%'),
     flex: 1
   },
 
   tableId: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: wp('3.73%'),
     fontFamily: SF_PRO_TEXT_MEDIUM
   },
 

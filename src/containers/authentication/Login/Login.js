@@ -97,26 +97,20 @@ class Login extends React.Component<Props, State> {
     return (
       <ImageBackground
         style={styles.container}
-        source={require('../../../../assets/images/bg/authentication.png')}
+        source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
           style={{ flex: 1 }}
-          behavior='padding'
-        >
+          behavior='padding'>
           <ScrollView
-            contentContainerStyle={styles.scrollView}
-          >
-            <View
-              style={{ backgroundColor: 'transparent' }}
-            >
-              <Text testID="welcomeText" style={styles.headerText}>
-                Welcome back!
-              </Text>
+            contentContainerStyle={styles.scrollView}>
+            <Text testID="welcomeText" style={styles.headerText}>
+              Welcome back!
+            </Text>
 
-              <Text testID="signinText" style={styles.subHeaderText}>
-                Sign In To Continue
-              </Text>
-            </View>
+            <Text testID="signinText" style={styles.subHeaderText}>
+              Sign In To Continue
+            </Text>
 
             <LoginTextInput
               type="email"
@@ -171,14 +165,14 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: hp('5%'),
     paddingTop: SCROLL_VIEW_TOP_PADDING,
-    backgroundColor: 'transparent'
+    paddingBottom: hp('5%')
   },
   headerText: {
     fontSize: wp('10.16%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
+    letterSpacing: 0,
     backgroundColor: 'transparent',
     paddingTop: hp('0%')
   },
@@ -186,6 +180,7 @@ const styles = StyleSheet.create({
     fontSize: wp('6.13%'),
     fontFamily: FONT_FAMILY,
     color: '#fff',
+    letterSpacing: 0,
     marginBottom: hp('4.92%'),
     backgroundColor: 'transparent',
     marginTop: 5
@@ -193,8 +188,8 @@ const styles = StyleSheet.create({
   signupLabelContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: 50,
-    marginTop: 10,
+    marginBottom: wp('17.33%'),
+    marginTop: wp('10.66%'),
     backgroundColor: 'transparent',
     flexDirection: 'row',
     display: 'flex'
@@ -224,8 +219,7 @@ const buttonStyles = {
     height: hp('6.65%'),
     backgroundColor: '#0DD24A',
     borderColor: '#0DD24A',
-    justifyContent: 'center',
-    padding: 0
+    justifyContent: 'center'
   },
   loginText: {
     fontSize: wp('5.33%'),

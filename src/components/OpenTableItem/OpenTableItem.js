@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import styles from './styles';
 import { Entypo } from '../VectorIcons';
 import {
@@ -9,6 +10,14 @@ import {
 
 const OpenTableItem = props => {
   const { item, index } = props.data;
+  let itemImagesLength = 0;
+
+  item.items.map(ele => {
+    ele.imageURLs.map(image => {
+      itemImagesLength += 1;
+    });
+  });
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -75,14 +84,14 @@ const OpenTableItem = props => {
               >
                 {props.innerTabName !== 'photoReview'
                   ? ' •  Waiter Reqested'
-                  : <Text style={{ fontFamily: FONT_FAMILY_MEDIUM }}>- {item.items.length} Photo(s)</Text>}
+                  : <Text style={{ fontFamily: FONT_FAMILY_MEDIUM }}>- {itemImagesLength} Photo(s)</Text>}
               </Text>
             </View>
           );
         })()}
       </View>
       <View style={styles.arrow}>
-        <Entypo name="chevron-right" size={30} color="white" />
+        <Entypo name="chevron-right" size={wp('8%')} color="white" />
       </View>
     </TouchableOpacity>
   );

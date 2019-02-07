@@ -13,8 +13,8 @@ type Props = {
   navigate: PropTypes.func.isRequired
 };
 
-const containerPaddingLeftRight: number = 40;
-const containerPaddingTopBottom: number = 80;
+const containerPaddingLeftRight: number = wp('10.66%');
+const containerPaddingTopBottom: number = hp('9.85%');
 
 const styles = StyleSheet.create({
   container: {
@@ -29,17 +29,17 @@ const styles = StyleSheet.create({
   },
   image: {
     aspectRatio: 0.8,
-    marginTop: 80,
-    marginBottom: 26,
+    marginTop: hp('17.85%'),
+    marginBottom: wp('6.75%'),
     alignSelf: 'center',
     resizeMode: 'contain'
   },
   headerText: {
-    fontSize: wp('9.6%'),
+    fontSize: wp('8.37%'),
     fontFamily: SF_PRO_DISPLAY_BOLD,
     textAlign: 'center',
     color: '#fff',
-    marginBottom: hp('0.98%'),
+    marginBottom: wp('2.13%'),
     backgroundColor: 'transparent'
   },
   bodyText: {
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_DISPLAY_ULTRALIGHT,
     textAlign: 'center',
     color: '#fff',
-    marginBottom: hp('17.24%'),
+    marginBottom: wp('37.33%'),
     backgroundColor: 'transparent'
   },
   navigation: {
@@ -64,17 +64,31 @@ const styles = StyleSheet.create({
 
 const buttonStyles = {
   explore: {
-    width: '50%',
-    alignSelf: 'center',
+    width: wp('42.66%'),
+    height: wp('14.4%'),
+    justifyContent: 'center',
     backgroundColor: '#0DD24A',
-    borderColor: '#0DD24A',
-    fontFamily: SF_PRO_TEXT_SEMI_BOLD
+    borderColor: '#0DD24A'
+  },
+
+  exploreText: {
+    fontFamily: SF_PRO_TEXT_SEMI_BOLD,
+    fontSize: wp('5.33%'),
+    paddingTop: 0,
+    paddingBottom: 0
   }
 };
 
 class SignupComplete extends React.Component<Props> {
   static navigationOptions = {
-    headerStyle: styles.navigation,
+    headerStyle: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      left: 0,
+      backgroundColor: 'transparent',
+      borderBottomColor: 'transparent'
+    },
     headerTintColor: '#fff',
     headerLeft: null
   };
@@ -87,7 +101,7 @@ class SignupComplete extends React.Component<Props> {
     return (
       <ImageBackground
         style={styles.container}
-        source={require('../../../../assets/images/bg/authentication.png')}
+        source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <Image
           style={styles.image}
@@ -102,6 +116,7 @@ class SignupComplete extends React.Component<Props> {
 
         <Button
           style={buttonStyles.explore}
+          textStyle={buttonStyles.exploreText}
           onPress={() => this.navigateToHome()}
         >
           Explore

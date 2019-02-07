@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import styles from './styles';
 
@@ -12,7 +13,7 @@ const EditableListItem = props => {
     style={[
         styles.container,
         {
-          paddingHorizontal: leftIcon != null ? 10 : 0
+          paddingHorizontal: leftIcon != null ? wp('2.93%') : 0
         }
       ]}
     >

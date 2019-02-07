@@ -1,11 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
-
-// import { Header } from 'react-navigation';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Constants } from 'expo';
+import { Header } from 'react-navigation';
 
 import {
   FONT_FAMILY,
@@ -18,7 +15,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'black',
-    paddingTop: hp('11.48%')
+    paddingTop:
+      Constants.statusBarHeight +
+      Header.HEIGHT -
+      (Platform.OS === 'ios' ? 20 : 0)
   },
 
   transparent: {
@@ -41,43 +41,46 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingBottom: 20
+    paddingBottom: wp('6.13%')
   },
 
   headerTextContainer: {
     flex: 1,
-    paddingLeft: 15
+    paddingLeft: wp('4%')
   },
 
   headerTitleText: {
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
-    fontSize: 20,
-    lineHeight: 22
+    fontSize: wp('5.33%'),
+    lineHeight: wp('5.86%')
   },
 
   headerContentTextContainer: {
     flexDirection: 'row',
-    paddingTop: 11
+    paddingTop: wp('2.66%'),
+    alignItems: 'center'
   },
 
   headerContentText: {
     color: COLOR_WHITE,
-    fontSize: 18,
-    paddingLeft: 19
+    fontSize: wp('4.8%'),
+    paddingLeft: wp('5.06%'),
+    lineHeight: wp('5.86%')
   },
 
   listHeaderText: {
-    fontSize: 30,
+    fontSize: wp('8%'),
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
-    paddingBottom: 10,
-    textAlign: 'center'
+    // paddingBottom: hp('1.23%'),
+    paddingBottom: wp('5.33%'),
+    lineHeight: wp('8%')
   },
 
   logo: {
-    height: 110,
-    width: 110,
+    height: wp('29.33%'),
+    width: wp('29.33%'),
     borderRadius: 15
   },
 
@@ -100,42 +103,46 @@ const styles = StyleSheet.create({
   },
 
   headerBtns: {
-    paddingVertical: 3,
     alignItems: 'center',
-    width: 80,
+    width: wp('20.03%'),
     borderRadius: 15,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    height: wp('7.2%'),
+    margin: wp('0.8%')
   },
 
   headerBtnText: {
     color: 'white',
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: 14
+    fontSize: wp('3.73%')
   },
 
   toggleView: {
     position: 'absolute',
     top: 0,
     bottom: 0,
-    width: 80,
+    width: wp('20.03%'),
     borderRadius: 15
   },
 
   linearGradientBtn: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderRadius: 15
   },
 
   selectedBtnText: {
     color: '#0DD24A',
-    fontSize: 14,
+    fontSize: wp('3.73%'),
     fontFamily: FONT_FAMILY
   },
 
   bottomViewHolder: {
-    paddingHorizontal: 15,
-    height: hp('8.62%'),
+    paddingHorizontal: wp('4.53%'),
+    // height: hp('8.62%'),
+    height: wp('18.66%'),
     position: 'absolute',
     left: 0,
     right: 0,
@@ -152,7 +159,7 @@ const styles = StyleSheet.create({
     fontSize: wp('4.8%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
-    marginRight: wp('10.53%')
+    marginRight: wp('12%')
   },
 
   messageHolder: {
@@ -163,7 +170,7 @@ const styles = StyleSheet.create({
 
   message: {
     color: COLOR_WHITE,
-    fontSize: 20
+    fontSize: wp('5.33%')
   },
 
   bottomViewBlurContainer: {
@@ -176,13 +183,15 @@ const styles = StyleSheet.create({
 
   headerLeftBtn: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginLeft: wp('4.26%')
   },
 
   headerLeftBtnText: {
     fontSize: wp('5.33%'),
     color: 'white',
-    fontFamily: SF_PRO_TEXT_SEMI_BOLD
+    fontFamily: SF_PRO_TEXT_SEMI_BOLD,
+    lineHeight: wp('5.86%')
   }
 });
 

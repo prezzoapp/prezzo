@@ -13,7 +13,6 @@ import Button from '../../../components/Button';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 import {
-  FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
   SF_PRO_TEXT_BOLD,
@@ -238,21 +237,25 @@ class ActivityOpenOrder extends Component {
   listEmptyComponent() {
     return (
       <View style={{ alignItems: 'center' }}>
-        <Text style={styles.message}>No pending order. You can create new one!</Text>
+        <Text style={styles.message}>
+          No pending order. You can create new one!
+        </Text>
       </View>
     );
   }
 
   renderHeader(data) {
     if (data.length !== 0 && data[0].items.length !== 0) {
-      return <Text style={styles.tableCode}>Table 9192</Text>;
+      return (
+        <View style={styles.listHeaderHolder}>
+          <Text style={styles.tableCode}>Table 9192</Text>
+        </View>
+      );
     }
     return null;
   }
 
   render() {
-    // console.log("Props.Data");
-    // console.log(this.props.data);
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
@@ -267,7 +270,8 @@ class ActivityOpenOrder extends Component {
                   this.props.data[0].items.length !== 0
                     ? null
                     : 'center'
-            }]}
+              }
+            ]}
             keyExtractor={item => item._id.toString()}
             showsVerticalScrollIndicator={false}
             data={
@@ -330,9 +334,10 @@ const buttonStyles = {
     backgroundColor: '#2ED573',
     borderColor: '#0DD24A',
     width: wp('37.33%'),
-    height: hp('4.92%'),
+    // height: hp('4.92%'),
+    height: wp('10.66%'),
     justifyContent: 'center',
-    borderRadius: 8
+    borderRadius: wp('2.66%')
   },
 
   callWaiterBtnText: {
@@ -348,7 +353,7 @@ const buttonStyles = {
     backgroundColor: 'transparent',
     borderColor: 'transparent',
     width: wp('37.33%'),
-    height: hp('4.92%'),
+    height: wp('10.66%'),
     justifyContent: 'center',
     borderRadius: 8,
     marginTop: hp('1%')

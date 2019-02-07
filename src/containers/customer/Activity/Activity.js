@@ -12,12 +12,7 @@ class Activity extends Component {
   static navigationOptions = {
     headerTintColor: 'white',
     headerStyle: {
-      position: 'absolute',
-      backgroundColor: 'transparent',
-      zIndex: 100,
-      top: 0,
-      left: 0,
-      right: 0,
+      backgroundColor: '#1f1f1f',
       borderBottomColor: 'transparent'
     },
     headerLeft: (

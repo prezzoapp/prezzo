@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, Text, StyleSheet } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
@@ -102,54 +103,65 @@ class EnableNotificationsView extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
-    padding: 20,
+    flex: 1,
+    paddingHorizontal: wp('5.6%'),
+    paddingTop: wp('19.5%'),
     backgroundColor: '#fff'
   },
   chatIcon: {
-    width: 50,
-    height: 50,
-    marginTop: 20,
-    marginBottom: 20,
+    width: wp('13.33%'),
+    height: wp('10.3%'),
+    marginBottom: wp('9.53%'),
     resizeMode: 'contain'
   },
   headerText: {
-    fontSize: 30,
+    fontSize: wp('8.5%'),
     fontFamily: FONT_FAMILY_BOLD,
     color: '#484848',
-    marginBottom: 20
+    marginBottom: wp('4%'),
+    lineHeight: wp('8.26%')
   },
   regularText: {
-    fontSize: 20,
+    fontSize: wp('5.33%'),
     fontFamily: FONT_FAMILY,
     color: '#484848',
-    marginBottom: 40
+    marginBottom: wp('13.33%'),
+    lineHeight: wp('6.93%')
   }
 });
 
 const buttonStyles = {
   notify: {
-    width: '50%',
+    height: wp('13.33%'),
+    width: wp('46.66%'),
     marginLeft: 0,
     marginRight: 0,
-    marginBottom: 20,
+    marginBottom: wp('4.26%'),
     backgroundColor: '#0DD24A',
-    borderColor: '#0DD24A'
+    borderColor: '#0DD24A',
+    justifyContent: 'center'
   },
   notifyText: {
-    fontFamily: FONT_FAMILY_MEDIUM
+    fontFamily: FONT_FAMILY_MEDIUM,
+    paddingTop: 0,
+    paddingBottom: 0,
+    fontSize: wp('4.8%')
   },
   skip: {
-    width: '30%',
+    width: wp('26.66%'),
+    height: wp('13.33%'),
     marginLeft: 0,
     marginRight: 0,
     backgroundColor: '#fff',
-    borderColor: '#0DD24A'
+    borderColor: '#0DD24A',
+    justifyContent: 'center'
   },
   skipText: {
     color: '#0DD24A',
-    fontFamily: FONT_FAMILY_MEDIUM
+    fontFamily: FONT_FAMILY_MEDIUM,
+    paddingTop: 0,
+    paddingBottom: 0,
+    fontSize: wp('4.8%')
   }
 };
 

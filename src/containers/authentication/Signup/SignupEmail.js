@@ -7,9 +7,9 @@ import {
   Image,
   View,
   StyleSheet,
+  Platform,
   KeyboardAvoidingView,
-  ScrollView,
-  Platform
+  ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -39,11 +39,10 @@ type Props = {
   navigate: Function
 };
 
-const containerPaddingLeftRight: number = 40;
+const containerPaddingLeftRight: number = wp('10.66%');
 const containerPaddingTopBottom: number = 80;
-const checkboxSize: number = wp('6.66%');
-
-const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+const checkboxSize: number = 25;
+const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
 
 const styles = StyleSheet.create({
   container: {
@@ -57,11 +56,19 @@ const styles = StyleSheet.create({
     paddingBottom: hp('5%'),
     paddingTop: SCROLL_VIEW_TOP_PADDING
   },
-  headerText: {
+  headerTextLine1: {
     fontSize: wp('9.6%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
-    marginBottom: hp('5.04%'),
+    lineHeight: 41,
+    backgroundColor: 'transparent'
+  },
+  headerTextLine2: {
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_MEDIUM,
+    color: '#fff',
+    lineHeight: 41,
+    marginBottom: wp('10.93%'),
     backgroundColor: 'transparent'
   },
   navigation: {
@@ -77,20 +84,20 @@ const styles = StyleSheet.create({
   promotionsContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: 40,
+    marginBottom: wp('6.66%'),
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: wp('4.26%')
   },
   checkbox: {
     width: checkboxSize,
     height: checkboxSize,
-    marginRight: 20,
+    marginRight: wp('3.2%'),
     resizeMode: 'contain'
   },
   promotionalText: {
     fontSize: wp('4.53%'),
-    lineHeight: 30,
+    lineHeight: 27.51,
     fontFamily: FONT_FAMILY_REGULAR,
     color: '#fff',
     backgroundColor: 'transparent'
@@ -156,20 +163,21 @@ class SignupEmail extends React.Component<Props> {
     return (
       <ImageBackground
         style={styles.container}
-        source={require('../../../../assets/images/bg/authentication.png')}
+        source={require('../../../../assets/images/bg/authentication.jpg')}
       >
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior='padding'>
           <ScrollView
             contentContainerStyle={styles.scrollView}>
-            <View
-              style={{ backgroundColor: 'transparent' }}
-            >
-              <Text style={styles.headerText}>And your email?</Text>
-            </View>
+            <Text style={styles.headerTextLine1}>And, your</Text>
+            <Text style={styles.headerTextLine2}>email?</Text>
+
             <LoginTextInput
               type="email"
               label="Email Address"
               value={email}
+              labelPaddingBottom={wp('5%')}
               onChange={value => this.props.updateEmail(value)}
             />
 

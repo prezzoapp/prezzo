@@ -1,6 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+
+import {
   FONT_FAMILY,
   COLOR_WHITE,
   FONT_FAMILY_MEDIUM
@@ -9,38 +14,40 @@ import {
 const styles = StyleSheet.create({
   filteredRestaurantsBottomCardHolder: {
     backgroundColor: 'rgb(51,51,51)',
-    flex: 0.4,
+    height: hp('30.54%'),
+    // height: wp('66.13%'),
     borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    paddingTop: 5
+    borderTopRightRadius: 30
+    // paddingTop: 5
   },
 
   listItemBtn: {
-    paddingHorizontal: 15,
-    paddingVertical: 15
+    paddingHorizontal: wp('4%')
   },
 
   titleHolder: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
 
   statusImage: {
-    height: 18,
-    width: 18,
-    resizeMode: 'contain'
+    height: wp('3%'),
+    width: wp('3%'),
+    resizeMode: 'cover'
   },
 
   name: {
-    fontSize: 20,
+    fontSize: wp('5.33%'),
     fontFamily: FONT_FAMILY,
     color: 'white',
     flex: 1,
-    paddingRight: 5
+    paddingRight: 5,
+    lineHeight: wp('10.35%')
   },
 
   distance: {
-    fontSize: 18,
+    fontSize: wp('4.8%'),
     fontFamily: FONT_FAMILY,
     color: 'white'
   },
@@ -48,14 +55,16 @@ const styles = StyleSheet.create({
   status: {
     color: 'rgb(46,214,116)',
     fontFamily: FONT_FAMILY_MEDIUM,
-    paddingLeft: 15,
+    paddingLeft: wp('4.26%'),
     position: 'relative',
-    top: -5
+    fontSize: wp('2.93%'),
+    lineHeight: wp('3.46%'),
+    top: -wp('0.6%')
   },
 
   statusHolder: {
     flexDirection: 'row',
-    paddingTop: 10,
+    paddingBottom: wp('4.8%'),
     alignItems: 'center'
   },
 
@@ -67,17 +76,18 @@ const styles = StyleSheet.create({
 
   vendorInfoHolder: {
     flex: 1,
-    padding: 15
+    paddingTop: wp('9.6%'),
+    paddingHorizontal: wp('4.26%')
   },
 
   contentHolder: {
     flexDirection: 'row',
-    paddingHorizontal: 15
+    paddingHorizontal: wp('4%')
   },
 
   vendorIconHolder: {
-    height: 48,
-    width: 48,
+    height: wp('12.8%'),
+    width: wp('12.8%'),
     borderColor: '#979797',
     borderWidth: 1,
     borderRadius: 5
@@ -87,34 +97,33 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     borderRadius: 5,
-    resizeMode: 'cover'
+    resizeMode: 'contain'
   },
 
   vendorContentHolder: {
-    paddingLeft: 30,
-    flex: 1
+    // paddingLeft: wp('4.26%'),
+    paddingLeft: wp('8.53%'),
+    flex: 1,
+    top: -wp('2.66%')
   },
 
   vendorName: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
-    fontSize: 25,
-    lineHeight: 30,
-    top: -5
+    fontSize: wp('8%')
   },
 
   vendorAddress: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: 15,
-    lineHeight: 22,
-    top: -2,
+    fontSize: wp('4%'),
+    lineHeight: wp('5.86%'),
     padding: 0,
     margin: 0
   },
 
   vendorInfoSectionSeparator: {
-    marginVertical: 15,
+    marginBottom: wp('3.73%'),
     alignSelf: 'stretch',
     height: 1,
     backgroundColor: 'rgb(59,97,74)'
@@ -122,14 +131,37 @@ const styles = StyleSheet.create({
 
   milesText: {
     color: '#959595',
-    paddingLeft: 10,
+    paddingLeft: wp('4.26%'),
     fontFamily: FONT_FAMILY,
-    fontSize: 17
+    fontSize: wp('4.53%'),
+    flex: 1,
+    lineHeight: wp('5.86%'),
+    marginRight: wp('3%')
   },
 
   iconTextHolder: {
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    flex: 1
+  },
+
+  contentContainerStyle: {
+    paddingVertical: wp('3.73%'),
+    paddingHorizontal: wp('2.93%')
+  },
+
+  extraStatusHolderStyle: {
+    paddingTop: wp('2.13%'),
+    paddingBottom: 0
+  },
+
+  extraStatusStyle: {
+    paddingBottom: 0
+  },
+
+  extraContentHolderStyle: {
+    justifyContent: 'space-between',
+    paddingRight: 0
   }
 });
 

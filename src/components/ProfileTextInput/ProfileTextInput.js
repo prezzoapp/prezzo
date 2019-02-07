@@ -8,7 +8,10 @@ const labelTextColor = '#A7A7A7';
 const screenWidth = Dimensions.get('window').width;
 const placeholderTextColor = '#A5A5A5';
 const valueTextColor = 'white';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 const ProfileTextInput = props => {
   const {
     onChange,
@@ -17,7 +20,8 @@ const ProfileTextInput = props => {
     type,
     value,
     style,
-    keyboardType
+    keyboardType,
+    extraStyle
   } = props;
   const containerStyle = {
     ...styles.container,
@@ -26,7 +30,9 @@ const ProfileTextInput = props => {
   const valueContainerStyle = {
     ...styles.valueContainer,
     ...{
-      borderBottomColor: props.borderBottomColor
+      paddingBottom: props.borderBottomWidth !== 0 ? hp('1.35%') : 0,
+      borderBottomColor: props.borderBottomColor,
+      borderBottomWidth: props.borderBottomWidth,
     }
   };
 
@@ -39,7 +45,7 @@ const ProfileTextInput = props => {
       ) : null}
       <View style={valueContainerStyle}>
         <TextInput
-          style={styles.value}
+          style={[styles.value, { ...extraStyle }]}
           autoCapitalize={type === 'name' ? 'words' : 'none'}
           onChangeText={text => onChange && onChange(text)}
           autoCorrect={false}
@@ -56,31 +62,33 @@ const ProfileTextInput = props => {
 const styles = {
   container: {
     flexDirection: 'row',
-    height: 0.1 * screenWidth,
-    marginTop: 5,
-    width: 0.85 * screenWidth
+    alignItems: 'flex-start',
+    marginBottom: hp('3.07%'),
+    alignSelf: 'stretch'
   },
   currentValueContainer: {
-    flexDirection: 'row',
-    width: 0.49 * screenWidth
+    flexDirection: 'row'
   },
   label: {
     color: labelTextColor,
     fontFamily: FONT_FAMILY,
-    fontSize: 15
+    fontSize: wp('4.53%'),
+    paddingTop: 2
+    // lineHeight: wp('6%')
   },
   labelContainer: {
-    flex: 1,
-    paddingTop: 3
+    paddingTop: 0,
+    width: wp('31.33%'),
+    marginRight: wp('1.86%')
   },
   value: {
     color: valueTextColor,
     fontFamily: FONT_FAMILY,
-    fontSize: 18
+    fontSize: wp('5.33%')
   },
   valueContainer: {
-    borderBottomWidth: 2,
-    flex: 1.8
+    flex: 1,
+    // minHeight: wp('6%')
   }
 };
 
@@ -94,7 +102,9 @@ ProfileTextInput.propTypes = {
   value: PropTypes.string,
   showLabel: PropTypes.bool,
   borderBottomColor: PropTypes.string,
-  keyboardType: PropTypes.string
+  borderBottomWidth: PropTypes.number,
+  keyboardType: PropTypes.string,
+  extraStyle: PropTypes.object
 };
 
 ProfileTextInput.defaultProps = {
@@ -103,7 +113,9 @@ ProfileTextInput.defaultProps = {
   value: '',
   showLabel: true,
   borderBottomColor: 'transparent',
-  keyboardType: 'default'
+  borderBottomWidth: 0,
+  keyboardType: 'default',
+  extraStyle: {}
 };
 
 export default ProfileTextInput;

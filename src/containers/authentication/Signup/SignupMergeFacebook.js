@@ -1,11 +1,11 @@
 // @flow
 import React from 'react';
-import { ImageBackground, View, Text, Image, StyleSheet, KeyboardAvoidingView, ScrollView, TouchableOpacity, Platform } from 'react-native';
+import { ImageBackground, View, Text, Image, StyleSheet, Platform, KeyboardAvoidingView, ScrollView, TouchableOpacity} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Constants } from 'expo';
 import { NavigationActions, Header } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Constants } from 'expo';
 import { uploadImage } from '../../../modules/upload';
 import { updateFacebookAccount } from '../../../modules/user';
 import { loginWithEmail } from '../../../modules/auth';
@@ -35,10 +35,11 @@ type State = {
   showPassword: boolean
 };
 
-const containerPaddingLeftRight: number = 40;
+const containerPaddingLeftRight: number = wp('10.66%');
 const containerPaddingTopBottom: number = 80;
-const avatarSize: number = 70;
-const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+const avatarSize: number = wp('17.33%');
+
+const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
 
 const styles = StyleSheet.create({
   container: {
@@ -52,33 +53,39 @@ const styles = StyleSheet.create({
     paddingBottom: hp('5%'),
     paddingTop: SCROLL_VIEW_TOP_PADDING
   },
-  headerText: {
+  headerTextLine1: {
     fontSize: wp('9.6%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
-    marginBottom: hp('2.83%'),
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    lineHeight: 41
+  },
+  headerTextLine2: {
+    fontSize: wp('9.6%'),
+    fontFamily: FONT_FAMILY_MEDIUM,
+    color: '#fff',
+    marginBottom: hp('4.55%'),
+    backgroundColor: 'transparent',
+    lineHeight: 41
   },
   profileContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: 40,
     flexDirection: 'row',
-    justifyContent: 'center'
+    paddingLeft: wp('0.8%')
   },
   avatarContainer: {
     alignItems: 'center',
-    flex: 2,
-    height: avatarSize * 1.2,
+    height: avatarSize,
     justifyContent: 'center',
     position: 'relative',
-    width: avatarSize * 1.2
+    width: avatarSize
   },
   avatar: {
     width: avatarSize,
     height: avatarSize,
     alignSelf: 'center',
-    borderWidth: 4,
+    borderWidth: 2,
     borderColor: '#fff',
     borderRadius: avatarSize / 2,
     resizeMode: 'cover'
@@ -87,16 +94,16 @@ const styles = StyleSheet.create({
     width: wp('5.66%'),
     height: wp('5.66%'),
     position: 'absolute',
-    top: hp('0.5%'),
-    right: wp('2%'),
+    top: 0,
+    right: 0,
     borderWidth: 1,
     borderColor: '#fff',
     borderRadius: wp('5.66%') / 2,
     backgroundColor: '#484848'
   },
   nameAndEmailContainer: {
-    flex: 5,
-    paddingLeft: 20
+    paddingLeft: wp('6.4%'),
+    justifyContent: 'center'
   },
   name: {
     fontSize: wp('5.33%'),
@@ -114,9 +121,10 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: 20
+    marginTop: wp('13.33%')
   },
   passwordContainer: {
+    marginTop: wp('13.86%'),
     width: '100%',
     height: 'auto'
   },
@@ -137,12 +145,24 @@ const styles = StyleSheet.create({
 
 const buttonStyles = {
   password: {
-    marginTop: 10,
+    marginTop: wp('3.73%'),
     backgroundColor: 'transparent',
-    borderColor: '#fff'
+    borderColor: '#fff',
+    height: wp('11.46%'),
+    justifyContent: 'center'
   },
   next: {
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
+    position: 'relative',
+    marginTop: wp('1.6%')
+  },
+  facebookButton: {
+    width: '100%',
+    height: wp('11.46%')
+  },
+  textStyle: {
+    paddingTop: 0,
+    paddingBottom: 0
   }
 };
 
@@ -221,18 +241,15 @@ class SignupMergeFacebook extends React.Component<Props, State> {
     return (
       <ImageBackground
         style={styles.container}
-        source={require('../../../../assets/images/bg/authentication.png')}
+        source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
           style={{ flex: 1 }}
-          behavior='padding'
-        >
+          behavior='padding'>
           <ScrollView
-            contentContainerStyle={styles.scrollView}
-          >
-            <Text style={styles.headerText}>
-              You're already here!
-            </Text>
+            contentContainerStyle={styles.scrollView}>
+            <Text style={styles.headerTextLine1}>You're already</Text>
+            <Text style={styles.headerTextLine2}>here!</Text>
 
             <View style={styles.profileContainer}>
               <Image
@@ -260,6 +277,7 @@ class SignupMergeFacebook extends React.Component<Props, State> {
                 <View style={styles.buttonsContainer}>
                   <FacebookButton
                     disabled={isBusy}
+                    style={buttonStyles.facebookButton}
                     onStart={() => this.setState({isBusy: true})}
                     onFailure={() => this.setState({isBusy: false})}
                     onCancel={() => this.setState({isBusy: false})}
@@ -270,6 +288,7 @@ class SignupMergeFacebook extends React.Component<Props, State> {
 
                   <Button
                     style={buttonStyles.password}
+                    textStyle={buttonStyles.textStyle}
                     onPress={() => this.setState({showPassword: true})}
                   >
                     Create Password

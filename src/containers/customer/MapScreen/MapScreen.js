@@ -4,13 +4,17 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  InteractionManager
+  InteractionManager,
+  Platform
 } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
 import publicIP from 'react-native-public-ip';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
@@ -25,20 +29,17 @@ import {
 export default class MapScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: (
-        <Text
-          style={{
-            width: wp('50%'),
-            fontSize: wp('6.4%'),
-            fontFamily: FONT_FAMILY_MEDIUM,
-            color: COLOR_WHITE,
-            textAlign: 'center'
-          }}
-          numberOfLines={1}
-        >
-          Local Search
-        </Text>
-      ),
+      title: 'Local Search',
+      headerTitleStyle: {
+        color: COLOR_WHITE,
+        fontFamily: FONT_FAMILY_MEDIUM,
+        fontSize: wp('6.4%'),
+        backgroundColor: 'transparent',
+        alignSelf: 'center',
+        flex: 1,
+        textAlign: 'center',
+        left: Platform.OS === 'android' ? -wp('7.73%') : null
+      },
       headerTintColor: 'white',
       headerStyle: {
         position: 'absolute',
@@ -46,7 +47,8 @@ export default class MapScreen extends Component {
         right: 0,
         left: 0,
         borderBottomWidth: 0,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        elevation: 0
       },
       headerLeft: (
         <TouchableOpacity
@@ -134,11 +136,6 @@ export default class MapScreen extends Component {
           }
         }),
         () => {
-          console.log(
-            'Custom Region Lat / Log In onRegionChangeComplete: ',
-            this.state.customRegion.latitude,
-            this.state.customRegion.longitude
-          );
           this.props.listVendors(
             this.state.customRegion.latitude,
             this.state.customRegion.longitude,
@@ -158,54 +155,54 @@ export default class MapScreen extends Component {
     }
   }
 
-  getIPLocation(ip) {
-    const commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
-    fetch(commonHtml)
-      .then(response => response.json())
-      .then(responseJson => {
-        console.log(responseJson);
-        if (responseJson.latitude) {
-          this.setState({
-            customRegion: {
-              latitude: responseJson.latitude,
-              longitude: responseJson.longitude,
-              latitudeDelta: 0.00922,
-              longitudeDelta: 0.00422
-            },
-            isGetLocation: true
-          });
-          this.props
-            .listVendors(
-              this.state.customRegion.latitude,
-              this.state.customRegion.longitude,
-              this.props.distance,
-              this.activeFilters,
-              this.props.pricing
-            )
-            .then(() => { })
-            .catch(e => {
-              showGenericAlert('Uh-oh!', e.message || e);
-            });
+  // getIPLocation(ip) {
+  //   const commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
+  //   fetch(commonHtml)
+  //     .then(response => response.json())
+  //     .then(responseJson => {
+  //       console.log(responseJson);
+  //       if (responseJson.latitude) {
+  //         this.setState({
+  //           customRegion: {
+  //             latitude: responseJson.latitude,
+  //             longitude: responseJson.longitude,
+  //             latitudeDelta: 0.00922,
+  //             longitudeDelta: 0.00422
+  //           },
+  //           isGetLocation: true
+  //         });
+  //         this.props
+  //           .listVendors(
+  //             this.state.customRegion.latitude,
+  //             this.state.customRegion.longitude,
+  //             this.props.distance,
+  //             this.activeFilters,
+  //             this.props.pricing
+  //           )
+  //           .then(() => { })
+  //           .catch(e => {
+  //             showGenericAlert('Uh-oh!', e.message || e);
+  //           });
+  //
+  //         console.log('After Getting Correct Coordinates: ');
+  //         console.log(this.state.customRegion);
+  //         console.log('First Time API Called!');
+  //       } else {
+  //         // show error message
+  //       }
+  //     })
+  //     .catch(error => { });
+  // }
 
-          console.log('After Getting Correct Coordinates: ');
-          console.log(this.state.customRegion);
-          console.log('First Time API Called!');
-        } else {
-          // show error message
-        }
-      })
-      .catch(error => { });
-  }
-
-  getNetworkIP() {
-    publicIP()
-      .then(ip => {
-        this.getIPLocation(ip);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+  // getNetworkIP() {
+  //   publicIP()
+  //   .then(ip => {
+  //       this.getIPLocation(ip);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }
 
   /**
    * @param  {Array} coordinates [lat,long]
@@ -358,15 +355,15 @@ export default class MapScreen extends Component {
               textInput: {
                 marginLeft: 0,
                 marginRight: 0,
-                height: 38,
-                fontSize: 16,
+                height: hp('5.03%'),
+                fontSize: wp('4.26%'),
                 backgroundColor: '#414141',
                 color: 'white',
                 fontFamily: SF_PRO_TEXT_REGULAR
               },
               listView: {
                 zIndex: 99999,
-                top: 38,
+                top: hp('5.03%'),
                 position: 'absolute',
                 marginHorizontal: wp('4.26%'),
                 backgroundColor: '#414141'
