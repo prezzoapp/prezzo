@@ -16,8 +16,6 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     justifyContent: 'space-between'
-    // paddingVertical: wp('2.66%')
-    // paddingBottom: wp('9.33%')
   },
 
   itemTitle: {
@@ -41,32 +39,25 @@ const styles = StyleSheet.create({
   },
 
   rightSideContainer: {
-    paddingRight: wp('2.66%'),
-    // paddingTop: wp('5.6%')
+    paddingRight: wp('2.66%')
   },
 
   itemTitleInPhotoMode: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('4.8%'),
-    // paddingTop: hp('1.84%'),
-    // paddingTop: wp('5.33%'),
-    // paddingBottom: hp('1.23%'),
     paddingBottom: wp('2.66%'),
     paddingHorizontal: wp('5.33%'),
     lineHeight: wp('6.4%')
   },
 
   swiper: {
-    flex: 1,
-    // height: wp('93.33%')
     height: hp('44.55%')
   },
 
   itemImage: {
     flex: 1,
     height: hp('44.55%'),
-    // height: wp('93.33%'),
     marginHorizontal: 10,
     borderRadius: 13,
     overflow: 'hidden',
@@ -74,8 +65,7 @@ const styles = StyleSheet.create({
   },
 
   itemContainer: {
-    // height: hp('44.55%')
-    // height: wp('106.93%')
+    flex: 1
   },
 
   itemImageLinearGradient: {
@@ -96,7 +86,6 @@ const styles = StyleSheet.create({
 
   controlButtons: {
     paddingHorizontal: wp('3.2%'),
-    // height: hp('4.55%'),
     height: wp('9.86%'),
     width: wp('23.73%'),
     backgroundColor: 'rgba(46,213,115, 0.7)',

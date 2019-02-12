@@ -44,6 +44,8 @@ import LocationSearch from '../../shared/LocationSearch';
 
 import VendorTabBar from '../../../components/VendorTabBar';
 
+import '../../../services/globalVars';
+
 const headerColor = '#2B2C2C';
 const activeColor = COLOR_GREEN;
 // const inactiveColor = '#919191';
@@ -78,6 +80,32 @@ const AuthenticationNavigator = createStackNavigator(
   }
 );
 
+const CustomerActivityNavigator = createStackNavigator({
+    CustomerActivity: { screen: CustomerActivity }
+  },
+  {
+    initialRouteName: 'CustomerActivity'
+  }
+);
+
+// DON'T DELETE THIS BELOW COMMENTED CODE.
+// CustomerActivityNavigator.navigationOptions = ({ navigation }) => {
+//   return {
+//     tabBarOnPress: ({ navigation, defaultHandler }) => {
+//       if(userActivityTabSelected === false) {
+//         userActivityTabSelected = true;
+//         defaultHandler();
+//         console.log(navigation.state.routes[0]);
+//         if(navigation.state.routes[0].params &&
+//           navigation.state.routes[0].params['onTabFocus'] !== undefined
+//         ) {
+//           //navigation.state.routes[0].params.onTabFocus();
+//         }
+//       }
+//     }
+//   };
+// }
+
 const CustomerProfileNavigator = createStackNavigator({
     Profile: { screen: Profile },
     EditProfile: { screen: EditProfile },
@@ -91,13 +119,23 @@ const CustomerProfileNavigator = createStackNavigator({
   }
 );
 
-const CustomerActivityNavigator = createStackNavigator({
-    CustomerActivity: { screen: CustomerActivity }
-  },
-  {
-    initialRouteName: 'CustomerActivity'
-  }
-);
+Explore.navigationOptions = ({ navigation }) => {
+  return {
+    tabBarOnPress: ({ navigation, defaultHandler }) => {
+      userActivityTabSelected = false;
+      defaultHandler();
+    }
+  };
+}
+
+CustomerProfileNavigator.navigationOptions = ({ navigation }) => {
+  return {
+    tabBarOnPress: ({ navigation, defaultHandler }) => {
+      userActivityTabSelected = false;
+      defaultHandler();
+    }
+  };
+}
 
 const CustomerSectionTabNavigator = createBottomTabNavigator(
   {
@@ -179,16 +217,6 @@ const VendorTablesNavigator = createStackNavigator(
   }
 );
 
-// const VendorDeliveryNavigator = createStackNavigator(
-//   {
-//     Delivery: { screen: Delivery },
-//     OpenDeliveryDetails: { screen: OpenDeliveryDetails }
-//   },
-//   {
-//     headerMode: 'screen'
-//   }
-// );
-
 const VendorActivityNavigator = createStackNavigator(
   {
     Activity: { screen: Activity },
@@ -199,7 +227,7 @@ const VendorActivityNavigator = createStackNavigator(
   }
 );
 
-const VendorNavigator = createBottomTabNavigator(
+const VendorSectionTabNavigator = createBottomTabNavigator(
   {
     VendorTablesNavigator: { screen: VendorTablesNavigator,
       navigationOptions: {
@@ -217,22 +245,6 @@ const VendorNavigator = createBottomTabNavigator(
         )
       }
     },
-
-    // VendorDeliveryNavigator: { screen: VendorDeliveryNavigator,
-    //   navigationOptions: {
-    //     title:'Delivery',
-    //     tabBarIcon: ({ focused }) => (
-    //       <Image
-    //         style={{
-    //           height: 24,
-    //           width: 24,
-    //           tintColor: focused ? activeColor : inactiveColor
-    //         }}
-    //         source={require('../../../../assets/images/icons/Delivery.png')}
-    //       />
-    //     )
-    //   }
-    // },
 
     VendorActivityNavigator: { screen: VendorActivityNavigator,
       navigationOptions: {
@@ -271,6 +283,17 @@ const VendorNavigator = createBottomTabNavigator(
     tabBarComponent: props => <VendorTabBar {...props} />
   }
 );
+
+const VendorNavigator = createStackNavigator({
+  VendorSectionTabNavigator: {
+    screen: VendorSectionTabNavigator,
+    navigationOptions: {
+      header: null
+    }
+  }
+}, {
+  headerMode: 'screen'
+});
 
 CustomerNavigator.navigationOptions = VendorNavigator.navigationOptions = {
   title: 'Prezzo',

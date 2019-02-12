@@ -35,6 +35,8 @@ import showGenericAlert from '../../../components/GenericAlert';
 
 import { post } from '../../../utils/api';
 
+// import '../../../services/globalVars';
+
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 const headerHeight = wp('44.97%');
 
@@ -188,7 +190,6 @@ export default class RestaurantDetails extends Component {
         }
       );
     } catch(e) {
-      console.log(e);
       showGenericAlert(
         'Uh-oh!',
         e.code === 401
@@ -198,7 +199,9 @@ export default class RestaurantDetails extends Component {
           ? [
               {
                 text: 'Take me to my order',
-                onPress: () => this.props.navigate({ routeName: 'CustomerActivity' })
+                onPress: () => {
+                  this.props.navigate({ routeName: 'CustomerActivity' });
+                }
               },
               {
                 text: 'Dismiss',

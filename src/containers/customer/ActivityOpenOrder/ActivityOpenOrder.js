@@ -20,14 +20,18 @@ import {
 } from '../../../services/constants';
 
 class ActivityOpenOrder extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = { isFetching: false }
 
     this.timer = -1;
 
     this.connectionStatus = null;
+
+    props.navigation.setParams({
+      onTabFocus: this.listOpenOrders
+    });
   }
 
   componentWillMount() {
@@ -46,9 +50,7 @@ class ActivityOpenOrder extends Component {
   }
 
   componentDidMount() {
-    this.props.listOpenOrders(this.props.userId, 'pending')
-      .then(() => {})
-      .catch(e => alert(e.message));
+    this.listOpenOrders();
   }
 
   componentWillUnmount() {
@@ -74,6 +76,12 @@ class ActivityOpenOrder extends Component {
         });
       }
     );
+  }
+
+  listOpenOrders = () => {
+    this.props.listOpenOrders(this.props.userId, 'pending')
+      .then(() => {})
+      .catch(e => alert(e.message));
   }
 
   showAlert(message, duration) {

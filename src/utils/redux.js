@@ -1,7 +1,8 @@
 // @flow
 import {
   createReactNavigationReduxMiddleware,
-  createReduxBoundAddListener
+  createReduxBoundAddListener,
+  createDidUpdateCallback
 } from 'react-navigation-redux-helpers';
 
 const middleware = createReactNavigationReduxMiddleware(

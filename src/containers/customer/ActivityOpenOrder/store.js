@@ -11,9 +11,9 @@ export const mapStateToProps = state => {
   const data =
     state.get('userActivity').get('data') &&
     state
-    .get('userActivity')
-    .get('data')
-    .toJS();
+      .get('userActivity')
+      .get('data')
+      .toJS();
 
   const userId = state
     .get('user')
