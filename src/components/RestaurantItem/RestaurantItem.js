@@ -55,9 +55,10 @@ export default class RestaurantItem extends Component {
         <View style={styles.item}>
           <View style={styles.leftSideContainer}>
             <Text style={styles.itemTitle}>
-              {this.props.item.title} - ${this.props.item.price}
+              <Text numberOfLines={2}>{this.props.item.title}</Text>
+              <Text> - ${this.props.item.price}</Text>
             </Text>
-            <Text style={styles.itemIngradients}>
+            <Text style={styles.itemIngradients} numberOfLines={3}>
               {this.props.item.description}
             </Text>
           </View>

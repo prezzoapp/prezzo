@@ -104,6 +104,7 @@ class Login extends React.Component<Props, State> {
           style={{ flex: 1 }}
           behavior='padding'>
           <ScrollView
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text testID="welcomeText" style={styles.headerText}>
               Welcome back!

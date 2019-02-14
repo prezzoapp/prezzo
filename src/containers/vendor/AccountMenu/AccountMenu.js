@@ -69,6 +69,17 @@ export default class AccountMenu extends React.Component {
     }
   }
 
+  acceptPayments(vendor) {
+    if(!vendor) {
+      Alert.alert(
+        '',
+        'You must create a Vendor account before creating a menu.',
+        [{ text: 'OK' }],
+        { cancelable: false }
+      )
+    }
+  }
+
   render() {
     const { avatarURL, vendor, menu } = this.props;
 
@@ -99,7 +110,7 @@ export default class AccountMenu extends React.Component {
               title={`${menu ? 'Update' : 'Create'} Menu`}
               icon="add"
             />
-            <MenuButton onPress={() => {}} title="Accept Payments" icon="add" />
+            <MenuButton onPress={() => this.acceptPayments(vendor)} title="Accept Payments" icon="add" />
             <MenuButton
               onPress={() =>
                 this.props.navigate({ routeName: 'CustomerProfileNavigator' })
