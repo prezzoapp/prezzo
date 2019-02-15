@@ -227,38 +227,36 @@ class EditProfile extends Component<Props, State> {
         behavior='padding'>
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
             <View style={styles.headerContainer}>
-              <View style={styles.avatarContainer}>
-                {(() => {
-                  if (1) {
-                    return (
-                      <TouchableOpacity
-                       style= {{position: 'relative'}}
-                        onPress={() => this.showAvatarActionSheet()}
-                      >
-                        <View style={styles.imageHolder}>
-                          <Image
-                            style={styles.avatar}
-                            source={
-                              avatarURL
-                                ? { uri: avatarURL }
-                                : require('../../../../assets/images/etc/default-avatar.png')
-                            }
-                          />
-                        </View>
-
+              {(() => {
+                if (1) {
+                  return (
+                    <TouchableOpacity
+                     style= {{position: 'relative'}}
+                      onPress={() => this.showAvatarActionSheet()}
+                    >
+                      <View style={styles.imageHolder}>
                         <Image
-                          style={styles.editBtnImage}
+                          style={styles.avatar}
                           source={
-                           require('../../../../assets/images/etc/EditIcon.png')
+                            avatarURL
+                              ? { uri: avatarURL }
+                              : require('../../../../assets/images/etc/default-avatar.png')
                           }
                         />
+                      </View>
 
-                      </TouchableOpacity>
-                    );
-                  }
+                      <Image
+                        style={styles.editBtnImage}
+                        source={
+                         require('../../../../assets/images/etc/EditIcon.png')
+                        }
+                      />
 
-                })()}
-              </View>
+                    </TouchableOpacity>
+                  );
+                }
+
+              })()}
             </View>
             <View style={styles.bodyContainer}>
               {(() => {

@@ -37,6 +37,10 @@ const TableGridItem = props => {
     );
   }
 
+  function itemSeparatorComponent() {
+    return <View style={styles.separator} />;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -96,8 +100,8 @@ const TableGridItem = props => {
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         data={item.items}
-        contentContainerStyle={{ paddingHorizontal: wp('4.26%') }}
-        style={{ marginHorizontal: -wp('4.26%') }}
+        ItemSeparatorComponent={() => itemSeparatorComponent()}
+        contentContainerStyle={styles.itemImagesListStyle}
         showsHorizontalScrollIndicator={false}
         horizontal
         renderItem={({ item }) => <OrderedItem data={item} />}

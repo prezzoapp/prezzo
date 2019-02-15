@@ -66,7 +66,7 @@ class Profile extends Component {
       <View style={styles.parent}>
         <View style={styles.container}>
           <View style={styles.headerContainer}>
-            <View style={styles.avatarContainer}>
+            <View style={styles.imageHolder}>
               <Image style={styles.avatar}
                 source={
                   avatarURL
@@ -121,19 +121,17 @@ class Profile extends Component {
 
 const styles = StyleSheet.create({
   avatar: {
-    borderRadius: wp('13.6%'),
-    height: wp('26.66%'),
     resizeMode: 'cover',
-    width: wp('26.66%')
+    height: '100%',
+    width: '100%'
   },
-  avatarContainer: {
-    height: wp('27.73%'),
-    width: wp('27.73%'),
-    justifyContent: 'center',
-    alignItems: 'center',
+  imageHolder: {
+    height: wp('27.2%'),
+    width: wp('27.2%'),
     borderColor: 'white',
     borderWidth: 2,
-    borderRadius: wp('13.6%')
+    borderRadius: wp('13.5%'),
+    overflow: 'hidden'
   },
   bodyContainer: {
     alignItems: 'center',

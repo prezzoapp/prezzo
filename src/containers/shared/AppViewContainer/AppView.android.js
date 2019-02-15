@@ -60,14 +60,14 @@ class AppView extends Component {
   render() {
     if (!this.props.isReady) {
       return (
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <ActivityIndicator style={styles.centered} />
         </View>
       );
     }
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <StatusBar backgroundColor="#455a64" barStyle="light-content" />
         <NavigatorViewContainer />
         {__DEV__ && <DeveloperMenu />}

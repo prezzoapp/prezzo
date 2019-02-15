@@ -111,17 +111,6 @@ export const disableVendorListItem = id => dispatch => {
   })
 }
 
-getCurrentPosition = () => {
-  const geolocation = navigator.geolocation;
-  return new Promise((resolve, reject) => {
-    geolocation.getCurrentPosition(resolve, reject, {
-      enableHighAccuracy: false,
-      timeout: 200000,
-      maximumAge: 1000
-    });
-  });
-}
-
 export const getUserCurrentLocation = async () => async dispatch => {
   dispatch({ type: GET_USER_CURRENT_LOCATION_REQUEST });
 
@@ -148,15 +137,6 @@ export const getUserCurrentLocation = async () => async dispatch => {
     } else {
       throw new Error('Please on location services!');
     }
-
-    //const position = await getCurrentPosition();
-
-    // dispatch({
-    //   type: GET_USER_CURRENT_LOCATION_SUCCESS,
-    //   payload: fromJS(position.coords)
-    // });
-
-    //return position.coords;
   } catch (err) {
     dispatch({
       type: GET_USER_CURRENT_LOCATION_FAILURE

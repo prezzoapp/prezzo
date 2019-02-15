@@ -4,7 +4,6 @@ import { FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
-    marginRight: wp('4%'),
     width: wp('26.66%')
   },
 

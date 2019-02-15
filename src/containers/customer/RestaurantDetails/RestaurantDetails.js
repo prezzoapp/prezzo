@@ -351,7 +351,7 @@ export default class RestaurantDetails extends Component {
       style={{
         borderBottomWidth: 1,
         borderBottomColor: 'white',
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent'
         // paddingTop: hp('2.46%')
       }}
     >
@@ -361,6 +361,7 @@ export default class RestaurantDetails extends Component {
           styles.listHeaderText,
           { textAlign: this.state.showText ? 'left' : 'center' }
         ]}
+        numberOfLines={1}
       >
         {section.title}
       </Text>
@@ -545,7 +546,7 @@ export default class RestaurantDetails extends Component {
                   )}
                   style={{
                     paddingTop: wp('5.33%'),
-                    marginBottom: !this.state.showText
+                    paddingBottom: !this.state.showText
                       ? -wp('5.33%')
                       : -wp('14.4%')
                   }}
