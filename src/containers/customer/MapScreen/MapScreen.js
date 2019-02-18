@@ -271,6 +271,7 @@ export default class MapScreen extends Component {
             }}
             provider={MapView.PROVIDER_GOOGLE}
             initialRegion={this.state.customRegion}
+            moveOnMarkerPress={false}
             onRegionChangeComplete={region =>
               this.onRegionChangeComplete(region)
             }
@@ -307,10 +308,7 @@ export default class MapScreen extends Component {
                   this.filteredListRef.callMethod(item);
                 }}
               >
-                <Image
-                  source={require('../../../../assets/images/map-pin.png')}
-                  style={styles.markerStyle}
-                />
+                <Feather name="map-pin" size={wp('8%')} color="white" />
               </MapView.Marker>
             ))}
           </MapView>

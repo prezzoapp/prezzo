@@ -29,6 +29,10 @@ class EnableNotificationsView extends React.Component<Props, State> {
     notificationPermission: 'undetermined'
   };
 
+  handleBackPress = () => {
+    return true;
+  }
+
   async checkNotificationPermission() {
     const { Permissions } = Expo;
     const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);

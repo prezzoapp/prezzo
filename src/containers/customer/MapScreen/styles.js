@@ -37,12 +37,6 @@ const styles = StyleSheet.create({
     lineHeight: wp('10.93%')
   },
 
-  markerStyle: {
-    width: wp('8%'),
-    height: wp('8%'),
-    resizeMode: 'contain'
-  },
-
   searchBarHolder: {
     paddingTop: hp('1.35%')
   },
