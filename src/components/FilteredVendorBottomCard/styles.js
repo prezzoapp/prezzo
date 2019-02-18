@@ -90,14 +90,14 @@ const styles = StyleSheet.create({
     width: wp('12.8%'),
     borderColor: '#979797',
     borderWidth: 1,
-    borderRadius: 5
+    borderRadius: 5,
+    overflow: 'hidden'
   },
 
   vendorIcon: {
     height: '100%',
     width: '100%',
-    borderRadius: 5,
-    resizeMode: 'contain'
+    resizeMode: 'cover'
   },
 
   vendorContentHolder: {

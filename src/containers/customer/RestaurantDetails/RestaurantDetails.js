@@ -50,7 +50,8 @@ export default class RestaurantDetails extends Component {
       left: 0,
       right: 0,
       shadowColor: 'transparent',
-      borderBottomWidth: 0
+      borderBottomWidth: 0,
+      elevation: 0
     },
     headerTintColor: '#fff',
     gesturesEnabled: false,
@@ -351,16 +352,13 @@ export default class RestaurantDetails extends Component {
       style={{
         borderBottomWidth: 1,
         borderBottomColor: 'white',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        alignItems: this.state.showText ? 'flex-start' : 'center'
         // paddingTop: hp('2.46%')
       }}
     >
       <Text
-        style={[
-          styles.transparent,
-          styles.listHeaderText,
-          { textAlign: this.state.showText ? 'left' : 'center' }
-        ]}
+        style={[styles.transparent, styles.listHeaderText]}
         numberOfLines={1}
       >
         {section.title}
