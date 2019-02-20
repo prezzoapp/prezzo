@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     justifyContent: 'flex-end',
-    backgroundColor: 'red',
+    backgroundColor: 'rgba(0,0,0,0.8)',
     zIndex: 999
   },
 

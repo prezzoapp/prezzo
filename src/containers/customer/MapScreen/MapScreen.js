@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  InteractionManager,
-  Platform
-} from 'react-native';
+import { View, Text, TouchableOpacity, InteractionManager } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
@@ -149,6 +142,7 @@ export default class MapScreen extends Component {
           this.isFirstLoad = false;
 
           console.log('API Called!');
+          console.log(this.state.customRegion);
         }
       );
     } else {
@@ -284,10 +278,9 @@ export default class MapScreen extends Component {
             }}
             style={styles.map}
           >
-            {this.state.customRegion.latitude !== null &&
+            {this.state.customRegion !== null &&
               this.state.customRegion.latitude !== 0 &&
-              (this.state.customRegion.longitude !== null &&
-                this.state.customRegion.longitude !== 0) && (
+              this.state.customRegion.longitude !== 0 && (
                 <MapView.Marker
                   coordinate={{
                     latitude: this.state.customRegion.latitude,
@@ -307,9 +300,8 @@ export default class MapScreen extends Component {
                 onPress={() => {
                   this.filteredListRef.callMethod(item);
                 }}
-              >
-                <Feather name="map-pin" size={wp('8%')} color="white" />
-              </MapView.Marker>
+                image={require('../../../../assets/images/map-pin.png')}
+              />
             ))}
           </MapView>
         )}
@@ -337,7 +329,15 @@ export default class MapScreen extends Component {
             nearbyPlacesAPI="GooglePlacesSearch"
             query={{
               key: 'AIzaSyBhuq8RXrtTXm7e0TewsesDWW9e9CGJNYw',
-              language: 'en'
+              language: 'en',
+              radius: '2000',
+              location: '28.002510, 73.322440',
+              types: 'establishment',
+              strictbounds: true
+            }}
+            GooglePlacesSearchQuery={{
+              rankby: 'distance',
+              types: 'restaurant'
             }}
             debounce={200}
             onPress={(data, details = null) => {

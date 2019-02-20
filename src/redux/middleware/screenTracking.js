@@ -45,13 +45,14 @@ const screenTracking = ({ getState }) => next => action => {
       action.type === NavigationActions.BACK) &&
     Platform.OS === 'android'
   ) {
-    // console.log('Current Route Name: ');
-    // console.log(nextRoute.routeName);
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
-  } else if(nextRoute.routeName !== 'EnableNotifications' &&
+  } else if (
+    nextRoute.routeName !== 'EnableNotifications' &&
     nextRoute.routeName !== 'SignupComplete' &&
     Platform.OS === 'android'
   ) {
+    // console.log('Current Route Name: ');
+    // console.log(nextRoute.routeName);
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
   }
 
