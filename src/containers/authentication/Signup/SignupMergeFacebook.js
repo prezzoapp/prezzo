@@ -237,6 +237,7 @@ class SignupMergeFacebook extends React.Component<Props, State> {
           style={{ flex: 1 }}
           behavior='padding'>
           <ScrollView
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text style={styles.headerTextLine1}>You're already</Text>
             <Text style={styles.headerTextLine2}>here!</Text>

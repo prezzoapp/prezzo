@@ -164,6 +164,7 @@ class SignupEmail extends React.Component<Props> {
           style={{ flex: 1 }}
           behavior='padding'>
           <ScrollView
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text style={styles.headerTextLine1}>And, your</Text>
             <Text style={styles.headerTextLine2}>email?</Text>

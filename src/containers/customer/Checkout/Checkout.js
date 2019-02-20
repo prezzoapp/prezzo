@@ -90,6 +90,10 @@ export default class Checkout extends Component {
     this.index = index;
   }
 
+  onLayout() {
+    if (this.child) this.calculateLayout();
+  }
+
   calculateLayout() {
     this.child.measureLayout(
       ReactNative.findNodeHandle(this.parent),
@@ -147,6 +151,7 @@ export default class Checkout extends Component {
             transform: [{ translateY: this.showModalAnimatedValue }]
           }
         ]}
+        onLayout={() => this.onLayout()}
       >
         <TouchableOpacity
           activeOpacity={1}

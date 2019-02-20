@@ -352,9 +352,8 @@ export default class RestaurantDetails extends Component {
       style={{
         borderBottomWidth: 1,
         borderBottomColor: 'white',
-        backgroundColor: 'transparent',
+        backgroundColor: 'black',
         alignItems: this.state.showText ? 'flex-start' : 'center'
-        // paddingTop: hp('2.46%')
       }}
     >
       <Text
