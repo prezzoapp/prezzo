@@ -1,5 +1,5 @@
 // @flow
-import { Platform } from 'react-native';
+import { Platform, NetInfo } from 'react-native';
 import { fromJS } from 'immutable';
 import { Buffer } from 'buffer';
 import {

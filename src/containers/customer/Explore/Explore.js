@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { View, ActivityIndicator, Text, Modal, Animated, FlatList } from 'react-native';
+import { View, ActivityIndicator, Text, Modal, Animated, FlatList, NetInfo } from 'react-native';
 import { LinearGradient, BlurView, Location, Permissions } from 'expo';
 import { MaterialIcons } from '../../../components/VectorIcons';
 import ExploreSearch from '../ExploreSearch';
@@ -13,7 +13,10 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import styles from './styles';
 import { get } from '../../../utils/api';
 import showGenericAlert from '../../../components/GenericAlert';
+import LoadingComponent from '../../../components/LoadingComponent';
 import { COLOR_GREEN, FONT_FAMILY_MEDIUM, SF_PRO_DISPLAY_REGULAR } from '../../../services/constants';
+
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
@@ -52,6 +55,10 @@ class Explore extends PureComponent<Props> {
       }
     });
 
+    this.hitAPI();
+  }
+
+  hitAPI() {
     this.props.getUserCurrentLocation().then(coords => {
       this.props.listVendors(
         coords.latitude,
@@ -60,12 +67,8 @@ class Explore extends PureComponent<Props> {
         this.activeFilters.join(','),
         this.props.pricing
       ).then(() => {})
-        .catch(err => {
-          this.showAlert('Uh-oh!', err.message, 300);
-        });
-    }).catch(err => {
-      this.showAlert('Uh-oh!', err.message, 300);
-    });
+        .catch(err => showAlertWithMessage('Uh-oh!', err));
+    }).catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
   onTextChange(text) {
@@ -76,10 +79,12 @@ class Explore extends PureComponent<Props> {
         }
       });
     }
-    this.clearTimer();
-    this.timeOutVar = setTimeout(() => {
-      this.callWebService(text);
-    }, 2000);
+    if(text !== '') {
+      this.clearTimer();
+      this.timeOutVar = setTimeout(() => {
+        this.callWebService(text);
+      }, 2000);
+    }
   }
 
   clearTimer() {
@@ -97,9 +102,11 @@ class Explore extends PureComponent<Props> {
           }
         });
       });
-    } catch (e) {
-      console.log(e.message);
-    }
+    } catch (err) {
+        this.setState({ showLoader: false }, () => {
+          showAlertWithMessage('Uh-oh!', err);
+        });
+      }
   }
 
   showList(value) {
@@ -120,49 +127,28 @@ class Explore extends PureComponent<Props> {
     this.setState({ showFilters: !this.state.showFilters });
   }
 
-  showAlert(title, message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      showGenericAlert(title, message);
-    }, duration);
-  }
-
-  getLocationAndVendorsList() {
-    this.props.getUserCurrentLocation().then(coords => {
-      this.props.listVendors(
-        coords.latitude,
-        coords.longitude,
-        this.props.distance,
-        this.activeFilters.join(','),
-        this.props.pricing
-      ).then(() => {})
-        .catch(err => this.showAlert('Uh-oh!', err.message, 300));
-    }).catch(err => this.showAlert('Uh-oh!', err.message, 300));
-  }
-
   updateDistance(distance) {
     const newDistance = parseFloat(distance.toFixed(1));
     this.props.updateDistance(newDistance).then(() => {
-      this.getLocationAndVendorsList();
+      this.hitAPI();
     });
   }
 
   updatePrice(price) {
     this.props.updatePrice(price).then(() => {
-      this.getLocationAndVendorsList();
+      this.hitAPI();
     });
   }
 
-  toggleFilter(id) {
+  toggleFilter = (id) => {
     this.activeFilters = [];
     this.props.toggleFilter(id).then(() => {
       this.props.filters.map(item => {
-          if(item.on) {
-            this.activeFilters.push(item.filterType);
-          }
+        if(item.on) {
+          this.activeFilters.push(item.filterType);
+        }
       });
-
-      this.getLocationAndVendorsList();
+      this.hitAPI();
     });
   }
 
@@ -449,17 +435,7 @@ class Explore extends PureComponent<Props> {
             />
           }
         </View>
-        <Modal
-          transparent
-          animationType="none"
-          visible={this.props.isBusy}>
-          <View style={styles.loaderContainer}>
-            <ActivityIndicator testID="activityIndicator" size="large" color="white" />
-            <Text testID="loadingText" style={styles.message}>
-              Please wait, While fetching restaurants.
-            </Text>
-          </View>
-        </Modal>
+        <LoadingComponent visible={this.props.isBusy} />
       </LinearGradient>
     );
   }
