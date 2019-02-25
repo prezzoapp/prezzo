@@ -47,6 +47,4 @@ export const restaurantCategories = [
   'Japanese'
 ];
 
-export const NETWORK_REQUEST_FAILED = 'Network request failed';
-export const INTERNET_NOT_CONNECTED = 'Please check your internet connection.';
-export const TIME_OUT = 200;
+export const INTERNET_NOT_CONNECTED = 'Please check your internet connection and try again.';

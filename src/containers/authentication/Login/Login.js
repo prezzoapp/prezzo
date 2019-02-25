@@ -14,17 +14,13 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import {
-  FONT_FAMILY,
-  FONT_FAMILY_REGULAR,
-  FONT_FAMILY_MEDIUM
-} from '../../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_REGULAR, FONT_FAMILY_MEDIUM, INTERNET_NOT_CONNECTED } from '../../../services/constants';
 import { Feather } from '../../../components/VectorIcons';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
 import { Constants } from 'expo';
 import LoadingComponent from '../../../components/LoadingComponent';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import showGenericAlert from '../../../components/GenericAlert';
 
 type Props = {
   loginWithEmail: Function,
@@ -71,6 +67,19 @@ class Login extends React.Component<Props, State> {
     password: ''
   };
 
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
+  }
+
+  handleConnectionChange = isConnected => {}
+
   navigateToSignup() {
     this.props.navigate({ routeName: 'SignupName' });
   }
@@ -83,12 +92,24 @@ class Login extends React.Component<Props, State> {
     this.navigateToMain();
   }
 
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
+
   login() {
     const { email, password } = this.state;
-
-    this.props.loginWithEmail(email, password)
-      .then(() => this.afterLogin())
-    .catch(e => showAlertWithMessage('Uh-oh!', e));
+    NetInfo.isConnected.fetch().done(isConnected => {
+      if(isConnected) {
+        this.props.loginWithEmail(email, password)
+          .then(() => this.afterLogin())
+        .catch(e => this.showAlert('Uh-oh!', e.message, 300));
+      } else {
+        this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+      }
+    });
   }
 
   render() {
