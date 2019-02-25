@@ -1,6 +1,10 @@
 // @flow
 import React, { PureComponent } from 'react';
+<<<<<<< HEAD
 import { View, ActivityIndicator, Text, Modal, Animated, FlatList, Platform, NetInfo } from 'react-native';
+=======
+import { View, ActivityIndicator, Text, Modal, Animated, FlatList, NetInfo } from 'react-native';
+>>>>>>> Add network availability validation.
 import { LinearGradient, BlurView, Location, Permissions } from 'expo';
 import { MaterialIcons } from '../../../components/VectorIcons';
 import ExploreSearch from '../ExploreSearch';
@@ -12,6 +16,7 @@ import Slider from 'react-native-slider';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import styles from './styles';
 import { get } from '../../../utils/api';
+<<<<<<< HEAD
 import LoadingComponent from '../../../components/LoadingComponent';
 import {
   COLOR_GREEN,
@@ -20,6 +25,11 @@ import {
 } from '../../../services/constants';
 
 import { showAlertWithMessage } from '../../../services/commonFunctions';
+=======
+import showGenericAlert from '../../../components/GenericAlert';
+import LoadingComponent from '../../../components/LoadingComponent';
+import { COLOR_GREEN, FONT_FAMILY_MEDIUM, SF_PRO_DISPLAY_REGULAR, INTERNET_NOT_CONNECTED } from '../../../services/constants';
+>>>>>>> Add network availability validation.
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
@@ -58,10 +68,15 @@ class Explore extends PureComponent<Props> {
       }
     });
 
+<<<<<<< HEAD
     this.hitAPI();
   }
 
   hitAPI() {
+=======
+    NetInfo.isConnected.addEventListener('connectionChange', this.connectionChange);
+
+>>>>>>> Add network availability validation.
     this.props.getUserCurrentLocation().then(coords => {
       this.props.listVendors(
         coords.latitude,
@@ -74,6 +89,12 @@ class Explore extends PureComponent<Props> {
     }).catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('connectionChange', this.connectionChange);
+  }
+
+  connectionChange = (isConnected) => {}
+
   onTextChange(text) {
     if(this.state.showLoader === false) {
       this.setState(() => {
@@ -82,12 +103,27 @@ class Explore extends PureComponent<Props> {
         }
       });
     }
+<<<<<<< HEAD
     if(text !== '') {
       this.clearTimer();
       this.timeOutVar = setTimeout(() => {
         this.callWebService(text);
       }, 2000);
     }
+=======
+    this.clearTimer();
+    this.timeOutVar = setTimeout(() => {
+      if(text !== '') {
+        this.checkNetworkConnectivity().then(isConnected => {
+          if(isConnected) {
+            this.callWebService(text);
+          } else {
+            this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+          }
+        });
+      }
+    }, 2000);
+>>>>>>> Add network availability validation.
   }
 
   clearTimer() {
@@ -129,16 +165,63 @@ class Explore extends PureComponent<Props> {
     this.setState({ showFilters: !this.state.showFilters });
   }
 
+<<<<<<< HEAD
   updateDistance(distance) {
     const newDistance = parseFloat(distance.toFixed(1));
     this.props.updateDistance(newDistance).then(() => {
       this.hitAPI();
+=======
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
+
+  getLocationAndVendorsList() {
+    this.props.getUserCurrentLocation().then(coords => {
+      this.props.listVendors(
+        coords.latitude,
+        coords.longitude,
+        this.props.distance,
+        this.activeFilters.join(','),
+        this.props.pricing
+      ).then(() => {})
+        .catch(err => this.showAlert('Uh-oh!', err.message, 300));
+    }).catch(err => this.showAlert('Uh-oh!', err.message, 300));
+  }
+
+  async checkNetworkConnectivity() {
+    return await NetInfo.isConnected.fetch();
+  }
+
+  updateDistance(distance) {
+    const newDistance = parseFloat(distance.toFixed(1));
+    this.props.updateDistance(newDistance).then(() => {
+      this.checkNetworkConnectivity().then(isConnected => {
+        if(isConnected) {
+          this.getLocationAndVendorsList();
+        } else {
+          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+        }
+      });
+>>>>>>> Add network availability validation.
     });
   }
 
   updatePrice(price) {
     this.props.updatePrice(price).then(() => {
+<<<<<<< HEAD
       this.hitAPI();
+=======
+      this.checkNetworkConnectivity().then(isConnected => {
+        if(isConnected) {
+          this.getLocationAndVendorsList();
+        } else {
+          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+        }
+      });
+>>>>>>> Add network availability validation.
     });
   }
 
@@ -150,7 +233,18 @@ class Explore extends PureComponent<Props> {
           this.activeFilters.push(item.filterType);
         }
       });
+<<<<<<< HEAD
       this.hitAPI();
+=======
+
+      this.checkNetworkConnectivity().then(isConnected => {
+        if(isConnected) {
+          this.getLocationAndVendorsList();
+        } else {
+          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+        }
+      });
+>>>>>>> Add network availability validation.
     });
   }
 

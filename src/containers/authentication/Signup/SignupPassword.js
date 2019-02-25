@@ -8,7 +8,8 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  NetInfo
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -18,6 +19,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { uploadImage } from '../../../modules/upload';
 import { updateUser } from '../../../modules/user';
 import { updateAvatarURL, updatePassword, signup } from '../../../modules/Signup';
+<<<<<<< HEAD
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
@@ -27,6 +29,9 @@ import {
   NETWORK_REQUEST_FAILED,
   TIME_OUT
 } from '../../../services/constants';
+=======
+import { FONT_FAMILY, FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD, FONT_FAMILY_REGULAR,INTERNET_NOT_CONNECTED } from '../../../services/constants';
+>>>>>>> Add network availability validation.
 import LoginTextInput from '../../../components/LoginTextInput';
 import FacebookButton from '../../../components/FacebookButton';
 import Button from '../../../components/Button';
@@ -36,7 +41,10 @@ import { getTimeStampString } from '../../../services/commonFunctions';
 import { Feather } from '../../../components/VectorIcons';
 import LoadingComponent from '../../../components/LoadingComponent';
 import showGenericAlert from '../../../components/GenericAlert';
+<<<<<<< HEAD
 import CacheImage from '../../../components/CacheImage';
+=======
+>>>>>>> Add network availability validation.
 
 type Props = {
   firstName: string,
@@ -231,9 +239,26 @@ class SignupPassword extends React.Component<Props, State> {
     // END PATCH
   };
 
+<<<<<<< HEAD
   constructor() {
     super();
+=======
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+    if (this.props.facebookId) {
+      this.setState({ showPassword: true });
+    }
+>>>>>>> Add network availability validation.
   }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
+  }
+
+  handleConnectionChange = isConnected => {}
 
   showAvatarActionSheet() {
     ActionSheet.show(
@@ -331,6 +356,7 @@ class SignupPassword extends React.Component<Props, State> {
   }
 
   signup() {
+<<<<<<< HEAD
     this.setState({ isBusy: true });
     this.props.signup()
       .then(() => this.uploadPhoto())
@@ -343,6 +369,20 @@ class SignupPassword extends React.Component<Props, State> {
         }
       })
       .finally(() => this.setState({ isBusy: false }));
+=======
+    NetInfo.isConnected.fetch().done(isConnected => {
+      if(isConnected) {
+        this.setState({ isBusy: true });
+        this.props.signup()
+          .then(() => this.uploadPhoto())
+          .then(() => this.navigateToSignupComplete())
+          .catch(e => console.log('error signing up', e))
+          .finally(() => this.setState({ isBusy: false }));
+      } else {
+        this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+      }
+    });
+>>>>>>> Add network availability validation.
   }
 
   navigateToSignupComplete() {
