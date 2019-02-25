@@ -14,7 +14,7 @@ import {
 import { ActionSheet } from 'native-base';
 import { ImagePicker, Permissions, ImageManipulator, FileSystem } from 'expo';
 import PropTypes from 'prop-types';
-import shorthash from 'shorthash';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
@@ -267,7 +267,10 @@ class EditProfile extends Component<Props, State> {
       <KeyboardAvoidingView
         style={styles.parent}
         behavior='padding'>
-          <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+          <ScrollView
+            contentContainerStyle={styles.scrollViewStyle}
+            keyboardShouldPersistTaps="handled"
+          >
             <View style={styles.headerContainer}>
               {(() => {
                 if (1) {
@@ -385,6 +388,7 @@ class EditProfile extends Component<Props, State> {
               </TouchableOpacity>
             </View>
           </ScrollView>
+          <View style={styles.bottomSeparator} />
       </KeyboardAvoidingView>
     );
   }
@@ -393,8 +397,7 @@ class EditProfile extends Component<Props, State> {
 const styles = StyleSheet.create({
   scrollViewStyle: {
     paddingTop: hp('3.20%'),
-    paddingHorizontal: wp('8.26%'),
-    paddingBottom: hp('5%')
+    paddingHorizontal: wp('8.26%')
   },
   avatar: {
     resizeMode: 'cover',
@@ -444,6 +447,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 5,
     top: 0
+  },
+  bottomSeparator: {
+    height: getBottomSpace() + 49
   }
 });
 

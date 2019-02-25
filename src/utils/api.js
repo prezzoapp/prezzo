@@ -72,9 +72,9 @@ export async function request(method, path, body, suppressRedBox) {
     return handleResponse(path, response);
   }
   catch (error) {
-    if (!suppressRedBox) {
-      logError(error, url(path), method);
-    }
+    // if (!suppressRedBox) {
+    //   logError(error, url(path), method);
+    // }
     throw error;
   }
 }
