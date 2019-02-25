@@ -603,10 +603,10 @@ export default class AccountInfo extends React.Component {
     ];
 
     return (
-      <KeyboardAvoidingView style={[styles.container, { flex: 1 }]} behavior='padding' keyboardVerticalOffset={1}>
+      <KeyboardAvoidingView style={[styles.container, { flex: 1 }]} behavior='padding'>
         <ScrollView
-          contentContainerStyle={styles.containerContentStyle}
-          style={styles.container}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={styles.scrollView}
         >
           <View style={styles.header}>
             <TouchableOpacity

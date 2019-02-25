@@ -8,7 +8,8 @@ import {
   StyleSheet,
   Platform,
   KeyboardAvoidingView,
-  ScrollView
+  ScrollView,
+  NetInfo
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -23,10 +24,12 @@ import {
   updateSubscriptionToPromotions
 } from '../../../modules/Signup';
 import { isValidEmail } from '../../../utils/validators';
+import showGenericAlert from '../../../components/GenericAlert';
 import {
   FONT_FAMILY_MEDIUM,
   FONT_FAMILY_BOLD,
-  FONT_FAMILY_REGULAR
+  FONT_FAMILY_REGULAR,
+  INTERNET_NOT_CONNECTED
 } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import alert from '../../../components/GenericAlert';
@@ -138,6 +141,19 @@ class SignupEmail extends React.Component<Props> {
     )
   });
 
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
+  }
+
+  handleConnectionChange = () => {}
+
   isFormValid() {
     const { email } = this.props;
     return email && isValidEmail(email) ? true : false;
@@ -152,9 +168,31 @@ class SignupEmail extends React.Component<Props> {
     this.props.navigate({ routeName: 'SignupPassword' });
   }
 
-  render() {
-    const { email, findUser } = this.props;
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
 
+  async checkEmailValidity() {
+    const isConnected = await NetInfo.isConnected.fetch();
+    if(isConnected === true) {
+      try {
+        const user = await this.props.findUser(this.props.email);
+        if(user) {
+          throw Error('This email is taken.');
+        }
+        this.navigateToPassword();
+      } catch(err) {
+        this.showAlert('Uh-oh!', err.message, 300);
+      }
+    } else {
+      this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+    }
+  }
+
+  render() {
     return (
       <CacheImage
         style={styles.container}
@@ -173,7 +211,7 @@ class SignupEmail extends React.Component<Props> {
             <LoginTextInput
               type="email"
               label="Email Address"
-              value={email}
+              value={this.props.email}
               labelPaddingBottom={wp('5%')}
               onChange={value => this.props.updateEmail(value)}
             />
@@ -197,13 +235,7 @@ class SignupEmail extends React.Component<Props> {
             <NextButton
               style={nextButtonStyle}
               disabled={!this.isFormValid()}
-              validate={async () => {
-                const user = await findUser(email);
-                if (user) {
-                  throw Error('This email is taken.');
-                }
-              }}
-              onPress={() => this.navigateToPassword()}
+              onPress={() => this.checkEmailValidity()}
               onError={e => alert('Uh-oh!', e.message || e)}
             />
           </ScrollView>
