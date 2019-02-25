@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { View, ActivityIndicator, Text, Modal, Animated, FlatList, Platform, NetInfo } from 'react-native';
+import { View, ActivityIndicator, Text, Modal, Animated, FlatList, NetInfo } from 'react-native';
 import { LinearGradient, BlurView, Location, Permissions } from 'expo';
 import { MaterialIcons } from '../../../components/VectorIcons';
 import ExploreSearch from '../ExploreSearch';
@@ -12,12 +12,9 @@ import Slider from 'react-native-slider';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import styles from './styles';
 import { get } from '../../../utils/api';
+import showGenericAlert from '../../../components/GenericAlert';
 import LoadingComponent from '../../../components/LoadingComponent';
-import {
-  COLOR_GREEN,
-  FONT_FAMILY_MEDIUM,
-  SF_PRO_DISPLAY_REGULAR
-} from '../../../services/constants';
+import { COLOR_GREEN, FONT_FAMILY_MEDIUM, SF_PRO_DISPLAY_REGULAR } from '../../../services/constants';
 
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 
