@@ -1,10 +1,9 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { FlatList, View, Text, Alert } from 'react-native';
+import { FlatList, View, Text, Alert, NetInfo } from 'react-native';
 import PropTypes from 'prop-types';
 import ExploreListItem from '../../../components/ExploreListItem';
 import styles from './styles';
-import { NetInfo } from 'react-native';
 import publicIP from 'react-native-public-ip';
 import {AsyncStorage} from 'react-native';
 import showGenericAlert from '../../../components/GenericAlert';

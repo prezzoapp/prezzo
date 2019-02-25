@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { View, ActivityIndicator, Text, Modal, Animated, FlatList } from 'react-native';
+import { View, ActivityIndicator, Text, Modal, Animated, FlatList, NetInfo } from 'react-native';
 import { LinearGradient, BlurView, Location, Permissions } from 'expo';
 import { MaterialIcons } from '../../../components/VectorIcons';
 import ExploreSearch from '../ExploreSearch';
@@ -13,7 +13,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import styles from './styles';
 import { get } from '../../../utils/api';
 import showGenericAlert from '../../../components/GenericAlert';
-import { COLOR_GREEN, FONT_FAMILY_MEDIUM, SF_PRO_DISPLAY_REGULAR } from '../../../services/constants';
+import LoadingComponent from '../../../components/LoadingComponent';
+import { COLOR_GREEN, FONT_FAMILY_MEDIUM, SF_PRO_DISPLAY_REGULAR, INTERNET_NOT_CONNECTED } from '../../../services/constants';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
@@ -52,6 +53,8 @@ class Explore extends PureComponent<Props> {
       }
     });
 
+    NetInfo.isConnected.addEventListener('connectionChange', this.connectionChange);
+
     this.props.getUserCurrentLocation().then(coords => {
       this.props.listVendors(
         coords.latitude,
@@ -68,6 +71,12 @@ class Explore extends PureComponent<Props> {
     });
   }
 
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('connectionChange', this.connectionChange);
+  }
+
+  connectionChange = (isConnected) => {}
+
   onTextChange(text) {
     if(this.state.showLoader === false) {
       this.setState(() => {
@@ -78,7 +87,15 @@ class Explore extends PureComponent<Props> {
     }
     this.clearTimer();
     this.timeOutVar = setTimeout(() => {
-      this.callWebService(text);
+      if(text !== '') {
+        this.checkNetworkConnectivity().then(isConnected => {
+          if(isConnected) {
+            this.callWebService(text);
+          } else {
+            this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+          }
+        });
+      }
     }, 2000);
   }
 
@@ -140,16 +157,32 @@ class Explore extends PureComponent<Props> {
     }).catch(err => this.showAlert('Uh-oh!', err.message, 300));
   }
 
+  async checkNetworkConnectivity() {
+    return await NetInfo.isConnected.fetch();
+  }
+
   updateDistance(distance) {
     const newDistance = parseFloat(distance.toFixed(1));
     this.props.updateDistance(newDistance).then(() => {
-      this.getLocationAndVendorsList();
+      this.checkNetworkConnectivity().then(isConnected => {
+        if(isConnected) {
+          this.getLocationAndVendorsList();
+        } else {
+          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+        }
+      });
     });
   }
 
   updatePrice(price) {
     this.props.updatePrice(price).then(() => {
-      this.getLocationAndVendorsList();
+      this.checkNetworkConnectivity().then(isConnected => {
+        if(isConnected) {
+          this.getLocationAndVendorsList();
+        } else {
+          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+        }
+      });
     });
   }
 
@@ -162,7 +195,13 @@ class Explore extends PureComponent<Props> {
           }
       });
 
-      this.getLocationAndVendorsList();
+      this.checkNetworkConnectivity().then(isConnected => {
+        if(isConnected) {
+          this.getLocationAndVendorsList();
+        } else {
+          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+        }
+      });
     });
   }
 
@@ -449,17 +488,7 @@ class Explore extends PureComponent<Props> {
             />
           }
         </View>
-        {/*<Modal
-          transparent
-          animationType="none"
-          visible={this.props.isBusy}>
-          <View style={styles.loaderContainer}>
-            <ActivityIndicator testID="activityIndicator" size="large" color="white" />
-            <Text testID="loadingText" style={styles.message}>
-              Please wait, While fetching restaurants.
-            </Text>
-          </View>
-        </Modal>*/}
+        <LoadingComponent visible={this.props.isBusy} />
       </LinearGradient>
     );
   }

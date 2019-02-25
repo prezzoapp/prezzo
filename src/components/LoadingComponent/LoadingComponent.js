@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, View, ActivityIndicator } from 'react-native';
+import { Modal, View, ActivityIndicator, Text } from 'react-native';
 import styles from './styles';
 
 const LoadingComponent = props => {
@@ -10,8 +10,13 @@ const LoadingComponent = props => {
       onRequestClose={() => null}
       visible={props.visible}
     >
-      <View style={styles.loadingView}>
-        <ActivityIndicator size="large" color="white" />
+      <View style={styles.container}>
+        <View style={styles.loadingView}>
+          <ActivityIndicator size="small" color="grey" />
+          <Text numberOfLines={1} style={styles.waitText}>
+            Please wait...
+          </Text>
+        </View>
       </View>
     </Modal>
   );
