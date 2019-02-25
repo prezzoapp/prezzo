@@ -1,12 +1,9 @@
-import {applyMiddleware, createStore, compose} from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import * as reduxLoop from 'redux-loop-symbol-ponyfill';
 import middleware from './middleware';
 import reducer from './reducer';
 
-const enhancers = [
-  applyMiddleware(...middleware),
-  reduxLoop.install()
-];
+const enhancers = [applyMiddleware(...middleware), reduxLoop.install()];
 
 /* Enable redux dev tools only in development.
  * We suggest using the standalone React Native Debugger extension:

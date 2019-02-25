@@ -519,7 +519,7 @@ class Explore extends PureComponent<Props> {
         <Modal
           transparent
           animationType="none"
-          visible={this.props.isBusy}>
+          visible={false}>
           <View style={styles.loaderContainer}>
             <ActivityIndicator testID="activityIndicator" size="large" color="white" />
             <Text testID="loadingText" style={styles.message}>

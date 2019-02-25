@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
+import { withNavigationFocus } from 'react-navigation';
 import ActivityOpenOrder from './ActivityOpenOrder';
 import { mapStateToProps, mapDispatchToProps } from './store';
 
-export default connect(
+export default withNavigationFocus(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ActivityOpenOrder);
+  )(ActivityOpenOrder)
+);

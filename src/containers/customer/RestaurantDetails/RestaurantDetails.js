@@ -9,18 +9,14 @@ import {
   TouchableOpacity,
   Animated,
   InteractionManager,
-  ActivityIndicator,
-  Platform
+  ActivityIndicator
 } from 'react-native';
 
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import PropTypes from 'prop-types';
 
-import { LinearGradient, BlurView, Constants } from 'expo';
+import { LinearGradient, BlurView } from 'expo';
 
 import { Feather } from '../../../components/VectorIcons';
 
@@ -38,6 +34,8 @@ import CustomPopup from '../../../components/CustomPopup';
 import showGenericAlert from '../../../components/GenericAlert';
 
 import { post } from '../../../utils/api';
+
+// import '../../../services/globalVars';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 const headerHeight = wp('44.97%');
@@ -192,9 +190,31 @@ export default class RestaurantDetails extends Component {
         }
       );
     } catch(e) {
-      console.log("error");
-      console.log(e);
-      showGenericAlert('Uh-oh!', e.message || e);
+      showGenericAlert(
+        'Uh-oh!',
+        e.code === 401
+          ? 'You already have an open order at another restaurant.'
+          : e.message || e,
+        e.code === 401
+          ? [
+              {
+                text: 'Take me to my order',
+                onPress: () => {
+                  this.props.navigate({ routeName: 'CustomerActivity' });
+                }
+              },
+              {
+                text: 'Dismiss',
+                onPress: () => null
+              }
+            ]
+          : [
+              {
+                text: 'OK',
+                onPress: () => null
+              }
+            ]
+      );
     }
   }
 
@@ -354,8 +374,7 @@ export default class RestaurantDetails extends Component {
       style={{
         borderBottomWidth: 1,
         borderBottomColor: 'white',
-        backgroundColor: 'transparent',
-        // paddingTop: hp('2.46%')
+        backgroundColor: 'transparent'
       }}
     >
       <Text
@@ -504,7 +523,7 @@ export default class RestaurantDetails extends Component {
                 <AnimatedSectionList
                   bounces={false}
                   stickySectionHeadersEnabled
-                  SectionSeparatorComponent={({ leadingItem, section }) =>
+                  SectionSeparatorComponent={({ leadingItem }) =>
                     leadingItem ? (
                       <View
                         style={{
@@ -613,8 +632,8 @@ export default class RestaurantDetails extends Component {
           if(this.props.data.data) {
             return (
               <Checkout
-                ref={modal => this.modal = modal}
-                setCurrentIndex={(index) => this.setIndex(index)}
+                ref={modal => (this.modal = modal)}
+                setCurrentIndex={index => this.setIndex(index)}
                 resetCurrentIndex={() => this.resetCurrentIndex()}
                 restaurantName={this.props.navigation.state.params.item.name}
                 showNextOrderBtn={() => this.showNextOrderBtn()}
@@ -636,7 +655,6 @@ const buttonStyles = {
     backgroundColor: '#2ED573',
     borderColor: '#0DD24A',
     width: wp('40%'),
-    // height: hp('4.55%'),
     height: wp('9.86%'),
     justifyContent: 'center',
     borderRadius: 8

@@ -1,7 +1,7 @@
 import { Alert } from 'react-native';
 
-const showGenericAlert = (title = null, message) => {
-  Alert.alert(title, message);
+const showGenericAlert = (title = null, message, buttonsArray = null) => {
+  Alert.alert(title, message, buttonsArray);
 };
 
 export default showGenericAlert;
