@@ -72,6 +72,19 @@ class Login extends React.Component<Props, State> {
     password: ''
   };
 
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
+  }
+
+  handleConnectionChange = isConnected => {}
+
   navigateToSignup() {
     this.props.navigate({ routeName: 'SignupName' });
   }

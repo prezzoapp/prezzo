@@ -22,6 +22,8 @@ import {
 
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 
+import { showAlertWithMessage } from '../../../services/commonFunctions';
+
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
 const price3Indicator = wp('85%') * 0.66 - wp('9.5%');

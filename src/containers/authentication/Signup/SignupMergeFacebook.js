@@ -205,6 +205,22 @@ class SignupMergeFacebook extends React.Component<Props, State> {
     }, duration);
   }
 
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
+  }
+
+  handleConnectionChange = isConnected => {}
+
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
+
   isFormValid() {
     const { password } = this.props;
     return password ? true : false;
