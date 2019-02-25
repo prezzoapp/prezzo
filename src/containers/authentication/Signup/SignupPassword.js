@@ -18,10 +18,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { uploadImage } from '../../../modules/upload';
 import { updateUser } from '../../../modules/user';
 import { updateAvatarURL, updatePassword, signup } from '../../../modules/Signup';
-<<<<<<< HEAD
 
-=======
->>>>>>> - Check network availability & handle API(s) errors for login, user activity, user profile, create order, payment methods, add credit card screen(s) and move some payment detail screen’s methods into redux from component level.
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,

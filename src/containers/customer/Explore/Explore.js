@@ -75,6 +75,12 @@ class Explore extends PureComponent<Props> {
     }).catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('connectionChange', this.connectionChange);
+  }
+
+  connectionChange = (isConnected) => {}
+
   onTextChange(text) {
     if(this.state.showLoader === false) {
       this.setState(() => {
