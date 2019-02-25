@@ -13,14 +13,9 @@ import Slider from 'react-native-slider';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import styles from './styles';
 import { get } from '../../../utils/api';
+import showGenericAlert from '../../../components/GenericAlert';
 import LoadingComponent from '../../../components/LoadingComponent';
-import {
-  COLOR_GREEN,
-  FONT_FAMILY_MEDIUM,
-  SF_PRO_DISPLAY_REGULAR
-} from '../../../services/constants';
-
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import { COLOR_GREEN, FONT_FAMILY_MEDIUM, SF_PRO_DISPLAY_REGULAR, INTERNET_NOT_CONNECTED } from '../../../services/constants';
 
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 
@@ -61,10 +56,8 @@ class Explore extends PureComponent<Props> {
       }
     });
 
-    this.hitAPI();
-  }
+    NetInfo.isConnected.addEventListener('connectionChange', this.connectionChange);
 
-  hitAPI() {
     this.props.getUserCurrentLocation().then(coords => {
       this.props.listVendors(
         coords.latitude,
@@ -77,6 +70,12 @@ class Explore extends PureComponent<Props> {
     }).catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('connectionChange', this.connectionChange);
+  }
+
+  connectionChange = (isConnected) => {}
+
   onTextChange(text) {
     if(this.state.showLoader === false) {
       this.setState(() => {
@@ -85,12 +84,18 @@ class Explore extends PureComponent<Props> {
         }
       });
     }
-    if(text !== '') {
-      this.clearTimer();
-      this.timeOutVar = setTimeout(() => {
-        this.callWebService(text);
-      }, 2000);
-    }
+    this.clearTimer();
+    this.timeOutVar = setTimeout(() => {
+      if(text !== '') {
+        this.checkNetworkConnectivity().then(isConnected => {
+          if(isConnected) {
+            this.callWebService(text);
+          } else {
+            this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+          }
+        });
+      }
+    }, 2000);
   }
 
   clearTimer() {
@@ -132,16 +137,52 @@ class Explore extends PureComponent<Props> {
     this.setState({ showFilters: !this.state.showFilters });
   }
 
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
+
+  getLocationAndVendorsList() {
+    this.props.getUserCurrentLocation().then(coords => {
+      this.props.listVendors(
+        coords.latitude,
+        coords.longitude,
+        this.props.distance,
+        this.activeFilters.join(','),
+        this.props.pricing
+      ).then(() => {})
+        .catch(err => this.showAlert('Uh-oh!', err.message, 300));
+    }).catch(err => this.showAlert('Uh-oh!', err.message, 300));
+  }
+
+  async checkNetworkConnectivity() {
+    return await NetInfo.isConnected.fetch();
+  }
+
   updateDistance(distance) {
     const newDistance = parseFloat(distance.toFixed(1));
     this.props.updateDistance(newDistance).then(() => {
-      this.hitAPI();
+      this.checkNetworkConnectivity().then(isConnected => {
+        if(isConnected) {
+          this.getLocationAndVendorsList();
+        } else {
+          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+        }
+      });
     });
   }
 
   updatePrice(price) {
     this.props.updatePrice(price).then(() => {
-      this.hitAPI();
+      this.checkNetworkConnectivity().then(isConnected => {
+        if(isConnected) {
+          this.getLocationAndVendorsList();
+        } else {
+          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+        }
+      });
     });
   }
 
@@ -153,7 +194,14 @@ class Explore extends PureComponent<Props> {
           this.activeFilters.push(item.filterType);
         }
       });
-      this.hitAPI();
+
+      this.checkNetworkConnectivity().then(isConnected => {
+        if(isConnected) {
+          this.getLocationAndVendorsList();
+        } else {
+          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+        }
+      });
     });
   }
 

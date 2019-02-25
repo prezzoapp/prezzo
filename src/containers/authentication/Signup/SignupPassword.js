@@ -8,7 +8,8 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  NetInfo
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -232,9 +233,21 @@ class SignupPassword extends React.Component<Props, State> {
     // END PATCH
   };
 
-  constructor() {
-    super();
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+    if (this.props.facebookId) {
+      this.setState({ showPassword: true });
+    }
   }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
+  }
+
+  handleConnectionChange = isConnected => {}
 
   showAvatarActionSheet() {
     ActionSheet.show(
@@ -332,18 +345,18 @@ class SignupPassword extends React.Component<Props, State> {
   }
 
   signup() {
-    this.setState({ isBusy: true });
-    this.props.signup()
-      .then(() => this.uploadPhoto())
-      .then(() => this.navigateToSignupComplete())
-      .catch(err => {
-        if(e.message === NETWORK_REQUEST_FAILED) {
-          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-        } else {
-          this.showAlert('Uh-oh!', e.message, TIME_OUT);
-        }
-      })
-      .finally(() => this.setState({ isBusy: false }));
+    NetInfo.isConnected.fetch().done(isConnected => {
+      if(isConnected) {
+        this.setState({ isBusy: true });
+        this.props.signup()
+          .then(() => this.uploadPhoto())
+          .then(() => this.navigateToSignupComplete())
+          .catch(e => console.log('error signing up', e))
+          .finally(() => this.setState({ isBusy: false }));
+      } else {
+        this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+      }
+    });
   }
 
   navigateToSignupComplete() {
