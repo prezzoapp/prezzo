@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, View, ActivityIndicator, Text } from 'react-native';
-import DeveloperMenu from '../DeveloperMenu';
 import styles from './styles';
 
 const LoadingComponent = props => {

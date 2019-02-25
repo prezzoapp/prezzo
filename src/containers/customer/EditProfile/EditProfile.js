@@ -392,7 +392,6 @@ class EditProfile extends Component<Props, State> {
             </View>
           </ScrollView>
           <View style={styles.bottomSeparator} />
-          <LoadingComponent visible={this.props.isBusy} />
       </KeyboardAvoidingView>
     );
   }
