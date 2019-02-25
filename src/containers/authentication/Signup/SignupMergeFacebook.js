@@ -194,9 +194,26 @@ class SignupMergeFacebook extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     if (this.props.facebookId) {
-      this.setState({showPassword: true});
+      this.setState({ showPassword: true });
     }
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
+  }
+
+  handleConnectionChange = isConnected => {}
+
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
   }
 
   isFormValid() {
@@ -212,12 +229,16 @@ class SignupMergeFacebook extends React.Component<Props, State> {
       facebookId,
       facebookToken
     } = this.props;
-    this.setState({ isBusy: true });
-    this.props.loginWithEmail(email, password)
-      .then(() => this.props.updateFacebookAccount(facebookId, facebookToken))
-      .then(() => this.navigateToMain())
-      .catch(error => alert('Uh-oh!', error.message || error))
-      .finally(() => this.setState({ isBusy: false }));
+    NetInfo.isConnected.fetch().done(isConnected => {
+      if(isConnected) {
+        this.setState({ isBusy: true });
+        this.props.loginWithEmail(email, password)
+          .then(() => this.props.updateFacebookAccount(facebookId, facebookToken))
+          .then(() => this.navigateToMain())
+          .catch(error => alert('Uh-oh!', error.message || error))
+          .finally(() => this.setState({ isBusy: false }));
+      }
+    });
   }
 
   navigateToMain() {

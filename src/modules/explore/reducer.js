@@ -60,11 +60,11 @@ export default (state = INITIAL_STATE, action) => {
   let immutableFilters;
 
   switch (type) {
-    case TOGGLE_FILTER_REQUEST:
+    // case TOGGLE_FILTER_REQUEST:
     case LIST_VENDORS_REQUEST:
     case UPDATE_DISTANCE_REQUEST:
     case UPDATE_PRICE_FILTER_REQUEST:
-    case GET_USER_CURRENT_LOCATION_REQUEST:
+    // case GET_USER_CURRENT_LOCATION_REQUEST:
       return state.set('isBusy', true);
     case TOGGLE_FILTER_FAILURE:
     case LIST_VENDORS_FAILURE:
