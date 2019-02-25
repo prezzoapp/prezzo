@@ -9,7 +9,8 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  NetInfo
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -19,7 +20,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { uploadImage } from '../../../modules/upload';
 import { updateUser } from '../../../modules/user';
 import { updateAvatarURL, updatePassword, signup } from '../../../modules/Signup';
-import { FONT_FAMILY, FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD, FONT_FAMILY_REGULAR } from '../../../services/constants';
+import { FONT_FAMILY, FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD, FONT_FAMILY_REGULAR,INTERNET_NOT_CONNECTED } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import FacebookButton from '../../../components/FacebookButton';
 import Button from '../../../components/Button';
@@ -27,6 +28,8 @@ import NextButton from './NextButton';
 import { ImagePicker, Permissions, Constants } from 'expo';
 import { getTimeStampString } from '../../../services/commonFunctions';
 import { Feather } from '../../../components/VectorIcons';
+import LoadingComponent from '../../../components/LoadingComponent';
+import showGenericAlert from '../../../components/GenericAlert';
 
 type Props = {
   firstName: string,
@@ -222,10 +225,20 @@ class SignupPassword extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     if (this.props.facebookId) {
       this.setState({ showPassword: true });
     }
   }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      this.handleConnectionChange
+    );
+  }
+
+  handleConnectionChange = isConnected => {}
 
   showAvatarActionSheet() {
     ActionSheet.show(
@@ -315,13 +328,26 @@ class SignupPassword extends React.Component<Props, State> {
     await updateUser(avatarURL);
   }
 
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
+
   signup() {
-    this.setState({ isBusy: true });
-    this.props.signup()
-      .then(() => this.uploadPhoto())
-      .then(() => this.navigateToSignupComplete())
-      .catch(e => console.log('error signing up', e))
-      .finally(() => this.setState({ isBusy: false }));
+    NetInfo.isConnected.fetch().done(isConnected => {
+      if(isConnected) {
+        this.setState({ isBusy: true });
+        this.props.signup()
+          .then(() => this.uploadPhoto())
+          .then(() => this.navigateToSignupComplete())
+          .catch(e => console.log('error signing up', e))
+          .finally(() => this.setState({ isBusy: false }));
+      } else {
+        this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+      }
+    });
   }
 
   navigateToSignupComplete() {

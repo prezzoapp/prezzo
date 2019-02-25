@@ -46,3 +46,5 @@ export const restaurantCategories = [
   'Korean',
   'Japanese'
 ];
+
+export const INTERNET_NOT_CONNECTED = 'Please check your internet connection and try again.';
