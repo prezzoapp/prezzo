@@ -72,7 +72,6 @@ export const listVendors = async (
       type: LIST_VENDORS_FAILURE,
       payload: e && e.message ? e.message : e
     });
-
     throw e;
   }
 };
@@ -145,3 +144,9 @@ export const getUserCurrentLocation = async () => async dispatch => {
     throw err;
   }
 }
+
+// export const hideLoadingIndicator = dispatch => {
+//   dispatch({
+//     type: HIDE_LOADING_INDICATOR
+//   })
+// }
