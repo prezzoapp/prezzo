@@ -41,7 +41,6 @@ const styles = {
     fontFamily: FONT_FAMILY,
     fontSize: wp('4.53%'),
     paddingTop: 2
-    // lineHeight: wp('6%')
   },
   labelContainer: {
     width: wp('31.33%'),
@@ -51,8 +50,7 @@ const styles = {
     flex: 1,
     color: valueTextColor,
     fontFamily: FONT_FAMILY,
-    fontSize: wp('5.33%'),
-    // lineHeight: wp('6%')
+    fontSize: wp('5.33%')
   },
   valueContainer: {
     flex: 1

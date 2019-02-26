@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   Animated,
   InteractionManager,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from 'react-native';
 
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -374,12 +375,12 @@ export default class RestaurantDetails extends Component {
 
   renderSectionHeader = section => (
     <View
-      style={{
-        borderBottomWidth: 1,
-        borderBottomColor: 'white',
-        backgroundColor: 'black',
-        alignItems: this.state.showText ? 'flex-start' : 'center'
-      }}
+      style={[
+        styles.menuCategoryHeaderTextContainer,
+        {
+          alignItems: this.state.showText ? 'flex-start' : 'center'
+        }
+      ]}
     >
       <Text
         style={[styles.transparent, styles.listHeaderText]}
@@ -537,14 +538,14 @@ export default class RestaurantDetails extends Component {
                       <View
                         style={{
                           paddingBottom: !this.state.showText
-                            ? wp('5.33%')
-                            : wp('14.4%')
+                            ? wp('3.33%')
+                            : wp('12.4%')
                         }}
                       />
                     ) : (
                       <View
                         style={{
-                          paddingBottom: wp('5.33%')
+                          paddingBottom: wp('3.33%')
                         }}
                       />
                     )
@@ -567,7 +568,7 @@ export default class RestaurantDetails extends Component {
                     }]
                   )}
                   style={{
-                    paddingTop: wp('5.33%'),
+                    // paddingTop: wp('5.33%'),
                     marginBottom: !this.state.showText
                       ? -wp('5.33%')
                       : -wp('14.4%')
@@ -576,8 +577,8 @@ export default class RestaurantDetails extends Component {
                     paddingBottom: !this.state.showText
                       ? wp('5.33%')
                       : wp('14.4%'),
-                    paddingHorizontal: 15,
-                    paddingTop: headerHeight
+                    paddingTop: headerHeight,
+                    paddingHorizontal: wp('4%')
                   }}
                   ListFooterComponent={() => this.listFooterComponent()}
                   sections={

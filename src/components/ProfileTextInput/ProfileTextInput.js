@@ -90,8 +90,7 @@ const styles = {
     fontSize: wp('5.33%')
   },
   valueContainer: {
-    flex: 1,
-    // minHeight: wp('6%')
+    flex: 1
   }
 };
 

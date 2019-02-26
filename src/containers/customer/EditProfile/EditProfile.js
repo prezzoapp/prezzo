@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
   toggleBtn: {
     position: 'absolute',
     right: 0,
-    top: 0
+    top: hp('0.6%')
   },
   editBtnImage: {
     width: wp('7.46%'),

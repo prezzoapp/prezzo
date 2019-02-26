@@ -31,19 +31,24 @@ export default StyleSheet.create({
     backgroundColor: 'rgb(157,157,157)'
   },
 
+  sectionHeaderView: {
+    height: wp('8%'),
+    justifyContent: 'center',
+    flex: 1
+  },
+
   sectionHeaderText: {
     color: '#fff',
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('5.33%'),
-    flex: 1,
     paddingRight: wp('2.66%'),
-    height: wp('9%')
+    lineHeight: wp('5.86%')
   },
 
   editBtn: {
-    height: wp('9%'),
+    height: wp('8%'),
     justifyContent: 'center',
-    top: -2
+    top: -wp('0.53%')
   },
 
   addText: {
@@ -57,7 +62,7 @@ export default StyleSheet.create({
   },
 
   textInput: {
-    height: wp('9%'),
+    height: wp('8%'),
     padding: 0,
     flex: 1,
     fontFamily: FONT_FAMILY_MEDIUM,

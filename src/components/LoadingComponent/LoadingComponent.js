@@ -4,7 +4,12 @@ import styles from './styles';
 
 const LoadingComponent = props => {
   return (
-    <Modal transparent animationType="none" visible={props.visible}>
+    <Modal
+      transparent
+      animationType="none"
+      onRequestClose={() => null}
+      visible={props.visible}
+    >
       <View style={styles.loadingView}>
         <ActivityIndicator size="large" color="white" />
       </View>
