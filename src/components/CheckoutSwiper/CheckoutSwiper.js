@@ -122,7 +122,9 @@ export default class CheckoutSwiper extends Component {
     if (item.quantity > 0) {
       return (
         <View style={styles.item}>
-          <Text style={styles.itemName}>{item.title}</Text>
+          <Text style={styles.itemName} numberOfLines={2}>
+            {item.title}
+          </Text>
           <View style={styles.actionBtnsHolder}>
             <TouchableOpacity
               activeOpacity={0.6}
@@ -301,7 +303,11 @@ export default class CheckoutSwiper extends Component {
                       if (this.state.selectedPaymentType === CREDIT_CARD) {
                         return (
                           <View style={styles.checkMarkIconHolder}>
-                            <Feather name="check" size={wp('4%')} color="white" />
+                            <Feather
+                              name="check"
+                              size={wp('4%')}
+                              color="white"
+                            />
                           </View>
                         );
                       }

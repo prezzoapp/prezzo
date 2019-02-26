@@ -90,10 +90,10 @@ const styles = StyleSheet.create({
     marginTop: wp('4.26%')
   },
   checkbox: {
-    width: checkboxSize,
-    height: checkboxSize,
+    //width: checkboxSize,
+    //height: checkboxSize,
     marginRight: wp('3.2%'),
-    resizeMode: 'contain'
+    //resizeMode: 'contain'
   },
   promotionalText: {
     fontSize: wp('4.53%'),
@@ -143,12 +143,6 @@ class SignupEmail extends React.Component<Props> {
     return email && isValidEmail(email) ? true : false;
   }
 
-  getCheckboxImage() {
-    return this.props.isSubscribedToPromotions
-      ? require('../../../../assets/images/icons/checkbox-checked.png')
-      : require('../../../../assets/images/icons/checkbox-unchecked.png');
-  }
-
   toggleSubscription() {
     const isSubscribedToPromotions = !this.props.isSubscribedToPromotions;
     this.props.updateSubscriptionToPromotions(isSubscribedToPromotions);
@@ -185,9 +179,15 @@ class SignupEmail extends React.Component<Props> {
 
             <TouchableOpacity
               style={styles.promotionsContainer}
+              activeOpacity={0.8}
               onPress={() => this.toggleSubscription()}
             >
-              <Image style={styles.checkbox} source={this.getCheckboxImage()} />
+              <Feather
+                style={styles.checkbox}
+                name={(this.props.isSubscribedToPromotions) ? 'square' : 'check-square'}
+                size={wp('7.2%')}
+                color='white'
+              />
               <Text style={styles.promotionalText}>
                 I'd like to receive promotional communications.
               </Text>

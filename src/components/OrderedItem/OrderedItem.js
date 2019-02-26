@@ -17,7 +17,7 @@ const OrderedItem = props => {
           size={props.data.status === 2 ? wp('2.93%') : wp('3.2%')}
           style={styles.dot}
         />
-        <Text style={styles.itemName} numberOfLines={3}>{props.data.title}</Text>
+        <Text style={styles.itemName} numberOfLines={2}>{props.data.title}</Text>
       </View>
     </View>
   );

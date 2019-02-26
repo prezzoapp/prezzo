@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
 
   leftSideContainer: {
     paddingRight: wp('14.66%'),
-    // paddingTop: wp('5.6%'),
     flex: 1
   },
 

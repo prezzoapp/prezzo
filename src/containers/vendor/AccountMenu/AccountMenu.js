@@ -73,7 +73,7 @@ export default class AccountMenu extends React.Component {
     if(!vendor) {
       Alert.alert(
         '',
-        'You must create a Vendor account before creating a menu.',
+        'You must create a Vendor account before accepting payments.',
         [{ text: 'OK' }],
         { cancelable: false }
       )

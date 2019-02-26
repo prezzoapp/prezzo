@@ -66,8 +66,7 @@ const styles = {
     alignItems: 'flex-start',
     marginBottom: hp('3.07%'),
     alignSelf: 'stretch',
-    backgroundColor: 'transparent',
-    alignItems: 'center'
+    backgroundColor: 'transparent'
   },
   currentValueContainer: {
     flexDirection: 'row'
@@ -87,7 +86,8 @@ const styles = {
   value: {
     color: valueTextColor,
     fontFamily: FONT_FAMILY,
-    fontSize: wp('5.33%')
+    fontSize: wp('5.33%'),
+    flex: 1
   },
   valueContainer: {
     flex: 1

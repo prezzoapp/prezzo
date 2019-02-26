@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   flatListStyle: {
     paddingTop: wp('6.66%'),
     paddingBottom: getBottomSpace() + 49 + wp('5%'),
-    paddingHorizontal: wp('4.26%'),
+    // paddingHorizontal: wp('4.26%'),
     flexGrow: 1
   },
 

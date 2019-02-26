@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
   },
   nameAndEmailContainer: {
     paddingLeft: wp('6.4%'),
+    flex: 1,
     justifyContent: 'center'
   },
   name: {
@@ -131,6 +132,7 @@ const styles = StyleSheet.create({
     fontSize: wp('4.53%'),
     fontFamily: FONT_FAMILY,
     color: '#959595',
+    flex: 1,
     backgroundColor: 'transparent'
   },
   buttonsContainer: {

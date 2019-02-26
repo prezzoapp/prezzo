@@ -30,14 +30,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: hp('16.25%'),
+    // height: hp('16.25%'),
+    height: wp('35.2%'),
     borderBottomColor: COLOR_GREEN,
     borderBottomWidth: 1,
     marginHorizontal: wp('4.26%')
   },
 
   bottomContainer: {
-    height: hp('23.39%'),
+    // height: hp('23.39%'),
+    height: wp('50.66%'),
     justifyContent: 'center',
     paddingHorizontal: wp('7.46%')
   },
@@ -56,7 +58,8 @@ const styles = StyleSheet.create({
   },
 
   extraStyleForMiddleTextContainer: {
-    paddingTop: hp('2.95%')
+    // paddingTop: hp('2.95%')
+    paddingTop: wp('6.4%')
   },
 
   flatListStyle: {
@@ -86,7 +89,9 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('4.8%'),
     color: 'white',
-    lineHeight: wp('5.86%')
+    lineHeight: wp('5.86%'),
+    flex: 1,
+    paddingRight: wp('5.33%')
   },
 
   price: {

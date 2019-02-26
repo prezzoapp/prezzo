@@ -1,16 +1,15 @@
 import { StyleSheet } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { SF_PRO_TEXT_BOLD, SF_PRO_TEXT_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: hp('1.47%'),
-    paddingRight: wp('18.66%')
+    // paddingBottom: hp('1.47%'),
+    paddingLeft: wp('4.26%'),
+    // paddingRight: wp('18.66%'),
+    paddingRight: wp('22.92%')
   },
 
   userImageContainer: {
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
 
   arrowBtn: {
     position: 'absolute',
-    right: 0
+    right: wp('2.93%')
   },
 
   seprator: {
@@ -54,12 +53,21 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     position: 'absolute',
-    right: 0,
+    right: wp('4.26%'),
     flexDirection: 'row'
   },
 
   delete: {
     marginRight: wp('5%')
+  },
+
+  itemImagesListStyle: {
+    paddingTop: wp('3.2%'),
+    paddingHorizontal: wp('4.26%')
+  },
+
+  separator: {
+    width: wp('4%')
   }
 });
 

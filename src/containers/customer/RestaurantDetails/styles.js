@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     fontSize: wp('4.8%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
-    marginRight: wp('12%')
+    // marginRight: wp('12%')
   },
 
   messageHolder: {
