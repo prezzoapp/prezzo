@@ -62,14 +62,14 @@ export default (state = INITIAL_STATE, action) => {
   switch (type) {
     // case TOGGLE_FILTER_REQUEST:
     case LIST_VENDORS_REQUEST:
-    case UPDATE_DISTANCE_REQUEST:
-    case UPDATE_PRICE_FILTER_REQUEST:
-    // case GET_USER_CURRENT_LOCATION_REQUEST:
+    // case UPDATE_DISTANCE_REQUEST:
+    // case UPDATE_PRICE_FILTER_REQUEST:
+    case GET_USER_CURRENT_LOCATION_REQUEST:
       return state.set('isBusy', true);
     case TOGGLE_FILTER_FAILURE:
     case LIST_VENDORS_FAILURE:
-    case UPDATE_DISTANCE_FAILURE:
-    case UPDATE_PRICE_FILTER_FAILURE:
+    // case UPDATE_DISTANCE_FAILURE:
+    // case UPDATE_PRICE_FILTER_FAILURE:
     case GET_USER_CURRENT_LOCATION_FAILURE:
     case GET_USER_CURRENT_LOCATION_SUCCESS:
       return state.set('isBusy', false);
@@ -92,11 +92,11 @@ export default (state = INITIAL_STATE, action) => {
     case UPDATE_DISTANCE_SUCCESS:
       return state
         .set('distance', payload)
-        .set('isBusy', false);
+        // .set('isBusy', false);
     case UPDATE_PRICE_FILTER_SUCCESS:
         return state
         .update('pricing', () => payload)
-        .update('isBusy', () => false);
+        // .update('isBusy', () => false);
     case DISABLE_VENDOR_LIST_ITEM:
       const updatedRest = state.get('restaurants').map(ele => {
         if(ele.get('_id') === payload) {

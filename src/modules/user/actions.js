@@ -29,10 +29,10 @@ export const findUser = async (id: string) => async (
     });
 
     return user;
-  } catch (e) {
+  } catch (err) {
     dispatch({
       type: FIND_USER_FAILURE,
-      payload: e
+      payload: err
     });
   }
 };

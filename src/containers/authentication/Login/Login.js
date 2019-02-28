@@ -14,7 +14,14 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { FONT_FAMILY, FONT_FAMILY_REGULAR, FONT_FAMILY_MEDIUM, INTERNET_NOT_CONNECTED } from '../../../services/constants';
+import {
+  FONT_FAMILY,
+  FONT_FAMILY_REGULAR,
+  FONT_FAMILY_MEDIUM,
+  NETWORK_REQUEST_FAILED,
+  INTERNET_NOT_CONNECTED,
+  TIME_OUT
+} from '../../../services/constants';
 import { Feather } from '../../../components/VectorIcons';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
@@ -22,6 +29,8 @@ import { Constants } from 'expo';
 import LoadingComponent from '../../../components/LoadingComponent';
 import CacheImage from '../../../components/CacheImage';
 import showGenericAlert from '../../../components/GenericAlert';
+import { checkInternetConnectivity } from '../../../services/commonFunctions';
+
 type Props = {
   loginWithEmail: Function,
   navigate: PropTypes.func.isRequired
@@ -67,19 +76,6 @@ class Login extends React.Component<Props, State> {
     password: ''
   };
 
-  componentDidMount() {
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
-  }
-
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      'connectionChange',
-      this.handleConnectionChange
-    );
-  }
-
-  handleConnectionChange = isConnected => {}
-
   navigateToSignup() {
     this.props.navigate({ routeName: 'SignupName' });
   }
@@ -101,20 +97,20 @@ class Login extends React.Component<Props, State> {
 
   login() {
     const { email, password } = this.state;
-    NetInfo.isConnected.fetch().done(isConnected => {
-      if(isConnected) {
-        this.props.loginWithEmail(email, password)
-          .then(() => this.afterLogin())
-        .catch(e => this.showAlert('Uh-oh!', e.message, 300));
+
+    this.props.loginWithEmail(email, password)
+      .then(() => this.afterLogin())
+    .catch(e => {
+      if(e.message === NETWORK_REQUEST_FAILED) {
+        this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
       } else {
-        this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+        this.showAlert('Uh-oh!', e.message, TIME_OUT);
       }
     });
   }
 
   render() {
     const { email, password } = this.state;
-
     return (
       <CacheImage
         style={styles.container}
@@ -251,17 +247,5 @@ const buttonStyles = {
     paddingBottom: 0
   }
 };
-
-// const buttonShadowProps = {
-//   x: 0,
-//   y: 10,
-//   width: 127,
-//   height: 43,
-//   color: '#2ED573',
-//   radius: 27,
-//   border: 10,
-//   opacity: 0.4,
-//   style: {borderRadius: 27}
-// };
 
 export default Login;

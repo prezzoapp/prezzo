@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, View, ActivityIndicator, Text } from 'react-native';
+import DeveloperMenu from '../DeveloperMenu';
 import styles from './styles';
 
 const LoadingComponent = props => {
@@ -18,6 +19,7 @@ const LoadingComponent = props => {
           </Text>
         </View>
       </View>
+      {__DEV__ && <DeveloperMenu />}
     </Modal>
   );
 };

@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginVertical: wp('3%'),
     marginHorizontal: wp('2.13%')
   },

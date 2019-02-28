@@ -49,7 +49,7 @@ export default class CheckoutSwiper extends Component {
 
   setPlaceOrderType(type) {
     if (type === 'delivery') {
-      showGenericAlert(null, "This feature isn't available yet");
+      showGenericAlert(null, "This feature isn't available yet.");
     }
     if (this.props.type !== type) {
       this.props.setType(type);

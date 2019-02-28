@@ -23,6 +23,7 @@ const INITIAL_STATE = fromJS({
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case GET_USER_OPEN_ORDER_REQUEST:
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST:
     case CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST:
     case GET_USER_OPEN_ORDER_REQUEST:
@@ -36,24 +37,11 @@ export default (state = INITIAL_STATE, action) => {
       return state.update('isBusy', () => false);
 
     case GET_USER_OPEN_ORDER_SUCCESS:
-      console.log('User Open Order: ');
-      console.log(action.payload.toJS());
       return state
         .update('data', () => action.payload)
         .update('isBusy', () => false);
     case CHANGE_STATUS_AND_CANCEL_ORDER_SUCCESS:
     case CHECK_ORDER_STATUS_SUCCESS:
-      // const updatedStateAfterOrderStatusCheck =
-      //   (action.payload.get('finalStatus') === 'complete' ||
-      //   action.payload.get('finalStatus') === 'denied')
-      //     ? action.payload.update('order', () => [])
-      //     : action.payload;
-
-      // console.log(action.payload.toJS());
-      // return state;
-      console.log('After Updation: ');
-      console.log(action.payload.toJS());
-
       const updatedStateAfterOrderStatusCheck =
         (action.payload.first().get('status') === 'complete' ||
         action.payload.first().get('status') === 'denied')

@@ -1,9 +1,9 @@
 // @flow
 import { connect } from 'react-redux';
 import Activity from './Activity';
-import { mapDispatchToProps } from './store';
+import { mapStateToProps, mapDispatchToProps } from './store';
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Activity);
