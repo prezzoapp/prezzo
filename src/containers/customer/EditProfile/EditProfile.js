@@ -15,10 +15,7 @@ import { ActionSheet } from 'native-base';
 import { ImagePicker, Permissions, ImageManipulator, FileSystem } from 'expo';
 import PropTypes from 'prop-types';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
-<<<<<<< HEAD
 import shorthash from 'shorthash';
-=======
->>>>>>> Add network availability validation.
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
@@ -397,10 +394,7 @@ class EditProfile extends Component<Props, State> {
             </View>
           </ScrollView>
           <View style={styles.bottomSeparator} />
-<<<<<<< HEAD
           <LoadingComponent visible={this.props.isBusy} />
-=======
->>>>>>> Add network availability validation.
       </KeyboardAvoidingView>
     );
   }
