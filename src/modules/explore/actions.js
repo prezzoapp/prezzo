@@ -30,7 +30,6 @@ export const toggleFilter = async (filterId: number) => async dispatch => {
       payload: filterId
     });
   } catch (e) {
-    console.warn('e', e);
     dispatch({ type: TOGGLE_FILTER_FAILURE });
   }
 };
@@ -62,6 +61,8 @@ export const listVendors = async (
         : `/v1/vendors?latitude=${latitude}&longitude=${longitude}&distance=200000000&activeFilters=${activeFilters}`
     );
 
+    // alert(JSON.stringify(vendors));
+
     dispatch({
       type: LIST_VENDORS_SUCCESS,
       payload: fromJS(vendors)
@@ -71,6 +72,7 @@ export const listVendors = async (
       type: LIST_VENDORS_FAILURE,
       payload: e && e.message ? e.message : e
     });
+
     throw e;
   }
 };
@@ -117,7 +119,6 @@ export const getUserCurrentLocation = async () => async dispatch => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === 'granted') {
       const { locationServicesEnabled } = await Location.getProviderStatusAsync();
-      console.log(locationServicesEnabled);
       if(locationServicesEnabled) {
         const location = await Location.getCurrentPositionAsync({});
         if(location) {
@@ -134,7 +135,7 @@ export const getUserCurrentLocation = async () => async dispatch => {
         throw new Error('Location services unavailable!');
       }
     } else {
-      throw new Error('Please on location services!');
+      throw new Error('Location services unavailable!');
     }
   } catch (err) {
     dispatch({
@@ -144,9 +145,3 @@ export const getUserCurrentLocation = async () => async dispatch => {
     throw err;
   }
 }
-
-// export const hideLoadingIndicator = dispatch => {
-//   dispatch({
-//     type: HIDE_LOADING_INDICATOR
-//   })
-// }

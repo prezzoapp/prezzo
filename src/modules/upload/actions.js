@@ -17,49 +17,48 @@ export const uploadImage = async(
   // first notify the server that we want to upload an asset
   // the server will create an object in the database
   // and return an upload url for S3
-  const config = await post(
-    `/v1/resources?acl=${acl || encodeURIComponent('public-read')}&addPolicy=true`, {
-      mime,
-    // name,
-      size,
-      type
+  try {
+    const config = await post(
+      `/v1/resources?acl=${acl || encodeURIComponent('public-read')}&addPolicy=true`, {
+        mime,
+      // name,
+        size,
+        type
+      });
+    const file = config.files[0];
+    const {uploadUrl, policy = {}} = file.meta;
+    const fileUrl = file.url;
+    const fileName = config.name || file.name || name;
+
+    // upload the asset to s3
+    const form = new FormData();
+
+    for (let key in policy) {
+      if (policy.hasOwnProperty(key)) {
+        form.append(key, policy[key]);
+      }
+    }
+
+    form.append('file', {
+      uri: uri,
+      type: mime,
+      name: fileName
     });
-  const file = config.files[0];
-  const {uploadUrl, policy = {}} = file.meta;
-  const fileUrl = file.url;
-  const fileName = config.name || file.name || name;
 
-  // upload the asset to s3
-  const form = new FormData();
+    await fetch(uploadUrl, {
+      method: 'post',
+      body: form,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data'
+      }
+    });
 
-  for (let key in policy) {
-    if (policy.hasOwnProperty(key)) {
-      form.append(key, policy[key]);
-    }
-  }
-
-  form.append('file', {
-    uri: uri,
-    type: mime,
-    name: fileName
-  });
-
-  const uploadResult = await fetch(uploadUrl, {
-    method: 'post',
-    body: form,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'multipart/form-data'
-    }
-  });
-
-  console.log('uploadResult', uploadResult);
-
-  if (uploadResult) {
     dispatch({type: UPLOAD_SUCCESS});
-  } else {
-    dispatch({type: UPLOAD_FAILURE});
-  }
 
-  return fileUrl.replace('http://', 'https://');
+    return fileUrl.replace('http://', 'https://');
+  } catch(e) {
+    dispatch({type: UPLOAD_FAILURE});
+    throw e;
+  }
 };

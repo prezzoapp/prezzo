@@ -20,7 +20,15 @@ import MenuButton from '../../../components/MenuButton';
 import { Feather } from '../../../components/VectorIcons';
 import EditableListItem from '../../../components/EditableListItem';
 import styles from './styles';
-import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
+import {
+  FONT_FAMILY_MEDIUM,
+  COLOR_WHITE,
+  INTERNET_NOT_CONNECTED,
+  NETWORK_REQUEST_FAILED,
+  TIME_OUT
+} from '../../../services/constants';
+import LoadingComponent from '../../../components/LoadingComponent';
+import { showAlert } from '../../../services/commonFunctions';
 
 class PaymentMenu extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -69,22 +77,31 @@ class PaymentMenu extends Component {
       this.props.listCreditCards().then(() => {
           this.checkResponseMessage();
         })
-        .catch(e => {
-        this.showAlert(e.message, 300);
+        .catch(err => {
+          if(err.message === NETWORK_REQUEST_FAILED) {
+            showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+          } else {
+            showAlert('Uh-oh!', err.message, TIME_OUT);
+          }
       });
     });
-  }
-
-  showAlert(message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      alert(message);
-    }, duration);
   }
 
   checkResponseMessage() {
     AsyncStorage.getItem('response_message').then(msg => {
       console.log('response message is -----------------', msg);
+    });
+  }
+
+  removeCreditCard(id) {
+    this.props.removeCreditCard(id)
+    .then(() => {})
+    .catch(err => {
+      if(err.message === NETWORK_REQUEST_FAILED) {
+        showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+      } else {
+        showAlert('Uh-oh!', err.message, TIME_OUT);
+      }
     });
   }
 
@@ -95,7 +112,7 @@ class PaymentMenu extends Component {
       [
         {
           text: 'Yes',
-          onPress: () => this.props.removeCreditCard(id)
+          onPress: () => this.removeCreditCard(id)
         },
         {
           text: 'No',
@@ -207,11 +224,7 @@ class PaymentMenu extends Component {
           />*/}
         </View>
 
-        <Modal animationType="none" transparent visible={this.props.isBusy}>
-          <View style={styles.loaderView}>
-            <ActivityIndicator size="large" color="white" />
-          </View>
-        </Modal>
+        <LoadingComponent visible={this.props.isBusy} />
       </View>
     );
   }
