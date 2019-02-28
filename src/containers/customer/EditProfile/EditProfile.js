@@ -145,7 +145,11 @@ class EditProfile extends Component<Props, State> {
       this.setState({ isEditing: false });
     } catch(err) {
       this.setState({ isEditing: false }, () => {
-        showAlertWithMessage('Uh-oh!', err);
+        if(err.message === NETWORK_REQUEST_FAILED) {
+          showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+        } else {
+          showAlert('Uh-oh!', err.message, TIME_OUT);
+        }
       });
     }
   }
@@ -394,6 +398,7 @@ class EditProfile extends Component<Props, State> {
             </View>
           </ScrollView>
           <View style={styles.bottomSeparator} />
+          <LoadingComponent visible={this.props.isBusy} />
       </KeyboardAvoidingView>
     );
   }
