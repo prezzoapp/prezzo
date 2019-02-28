@@ -1,11 +1,13 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { FlatList, View, Text, Alert, NetInfo } from 'react-native';
+import { FlatList, View, Text, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import ExploreListItem from '../../../components/ExploreListItem';
 import styles from './styles';
 import publicIP from 'react-native-public-ip';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import {AsyncStorage} from 'react-native';
+import showGenericAlert from '../../../components/GenericAlert';
+import { INTERNET_NOT_CONNECTED, NETWORK_REQUEST_FAILED, TIME_OUT } from '../../../services/constants';
 
 export default class ExploreList extends PureComponent {
   static propTypes = {
@@ -35,6 +37,13 @@ export default class ExploreList extends PureComponent {
     );
   }
 
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
+
   checkResponseMessage(){
     AsyncStorage.getItem('response_message').then((msg) => {
       console.log("response message is -----------------",msg);
@@ -59,13 +68,19 @@ export default class ExploreList extends PureComponent {
       ).then(() => {
         this.setState({ isFetching: false });
       }).catch(err => {
-          this.setState({ isFetching: false }, () => {
-            showAlertWithMessage('Uh-oh!', err);
-          });
+          if(err.message === NETWORK_REQUEST_FAILED) {
+            this.setState({ isFetching: false }, () => {
+              this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+            });
+          } else {
+            this.setState({ isFetching: false }, () => {
+              this.showAlert('Uh-oh!', err.message, TIME_OUT);
+            });
+          }
         })
     }).catch(err => {
       this.setState({ isFetching: false }, () => {
-        showAlertWithMessage('Uh-oh!', err);
+        this.showAlert('Uh-oh!', e.message, TIME_OUT);
       });
     });
   }
