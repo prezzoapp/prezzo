@@ -125,8 +125,8 @@ export default class CheckoutSwiper extends Component {
     if (data.item.get('quantity') > 0) {
       return (
         <View style={styles.item}>
-          <Text style={styles.itemName} numberOfLines={2}>
-            {data.item.get('title')}
+          <Text style={styles.itemName} numberOfLines={1}>
+            {item.title}
           </Text>
           <View style={styles.actionBtnsHolder}>
             <TouchableOpacity
