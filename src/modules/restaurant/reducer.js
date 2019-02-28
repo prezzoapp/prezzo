@@ -15,18 +15,16 @@ import {
   CLEAR_CART_DATA_REQUEST,
   CLEAR_CART_DATA_SUCCESS,
   CLEAR_CART_DATA_FAILURE,
-
   SET_TYPE_REQUEST,
   SET_TYPE_SUCCESS,
-  SET_TYPE_FAILURE
+  SET_TYPE_FAILURE,
+  CREATE_ORDER_REQUEST,
+  CREATE_ORDER_SUCCESS,
+  CREATE_ORDER_FAILURE
 
   // SET_PAYMENT_TYPE_REQUEST,
   // SET_PAYMENT_TYPE_SUCCESS,
-  // SET_PAYMENT_TYPE_FAILURE,
-  //
-  // CREATE_ORDER_REQUEST,
-  // CREATE_ORDER_SUCCESS,
-  // CREATE_ORDER_FAILURE
+  // SET_PAYMENT_TYPE_FAILURE
 } from './types';
 
 const INITIAL_STATE = fromJS({
@@ -36,9 +34,7 @@ const INITIAL_STATE = fromJS({
   type: 'table',
   paymentType: '',
   vendor: null,
-  paymentMethod: null,
-
-  // currentOrder: null
+  paymentMethod: null
 });
 
 calculateFinalPrice = categories => {
@@ -58,30 +54,26 @@ export default (state = INITIAL_STATE, action) => {
   let updatedMenuCategories = null;
 
   switch(action.type) {
-    case ADD_RESTAURANT_DETAIL_REQUEST:
-    case REMOVE_RESTAURANT_DETAIL_REQUEST:
+    // case ADD_RESTAURANT_DETAIL_REQUEST:
+    // case REMOVE_RESTAURANT_DETAIL_REQUEST:
     case ADD_REMOVE_ITEM_QUANTITY_REQUEST:
     case CHANGE_ITEM_RATING_REQUEST:
     case CLEAR_CART_DATA_REQUEST:
     case SET_TYPE_REQUEST:
-    // case SET_PAYMENT_TYPE_REQUEST:
-    // case CREATE_ORDER_REQUEST:
+    case CREATE_ORDER_REQUEST:
       return state.update('isBusy', () => true);
 
-    case ADD_RESTAURANT_DETAIL_FAILURE:
-    case REMOVE_RESTAURANT_DETAIL_FAILURE:
+    // case ADD_RESTAURANT_DETAIL_FAILURE:
+    // case REMOVE_RESTAURANT_DETAIL_FAILURE:
     case ADD_REMOVE_ITEM_QUANTITY_FAILURE:
     case CHANGE_ITEM_RATING_FAILURE:
     case CLEAR_CART_DATA_FAILURE:
     case SET_TYPE_FAILURE:
-    // case SET_PAYMENT_TYPE_FAILURE:
-    // case CREATE_ORDER_FAILURE:
+    case CREATE_ORDER_FAILURE:
       return state.update('isBusy', () => false);
 
-    // case CREATE_ORDER_SUCCESS:
-    //   return state
-    //     .update('currentOrder', () => action.payload)
-    //     .update('isBusy', () => false);
+    case CREATE_ORDER_SUCCESS:
+      return state.update('isBusy', () => false);
 
     case ADD_RESTAURANT_DETAIL_SUCCESS:
       restaurant = state.set('data', action.payload);
@@ -113,7 +105,6 @@ export default (state = INITIAL_STATE, action) => {
                 ['data', 'menu', 'categories'],
                 categories => updatedMenuCategories
               )
-              .update('isBusy', () => false)
               .update('totalPrice', () => 0.0);
           }
         }

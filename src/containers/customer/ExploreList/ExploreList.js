@@ -1,18 +1,20 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { FlatList, View, Text, Alert, NetInfo } from 'react-native';
+import { FlatList, View, Text, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import ExploreListItem from '../../../components/ExploreListItem';
 import styles from './styles';
 import publicIP from 'react-native-public-ip';
 import {AsyncStorage} from 'react-native';
 import showGenericAlert from '../../../components/GenericAlert';
+import { INTERNET_NOT_CONNECTED, NETWORK_REQUEST_FAILED, TIME_OUT } from '../../../services/constants';
 
 export default class ExploreList extends PureComponent {
   static propTypes = {
     restaurants: PropTypes.array.isRequired,
     navigate: PropTypes.func.isRequired
   };
+
   constructor() {
     super();
 
@@ -28,30 +30,10 @@ export default class ExploreList extends PureComponent {
   }
 
   onRefresh() {
-    this.setState(() => {
-        return {
-          isFetching: true
-        }
-      },
+    this.setState({ isFetching: true },
       () => {
-        this.hitAPI();
-        this.setState(() => {
-          return {
-            isFetching: false
-          }
-        });
+        this.getData();
       }
-    );
-  }
-
-  componentDidMount() {
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
-  }
-
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      'connectionChange',
-      this.handleConnectionChange
     );
   }
 
@@ -68,40 +50,7 @@ export default class ExploreList extends PureComponent {
     });
   }
 
-  hitAPI(){
-    NetInfo.isConnected.fetch().done(
-      (isConnected) => { console.log("isConnected: ", isConnected);
-       if(isConnected) {
-          this.getData();
-       }
-       else {
-         this.setState(() => {
-           return {
-             isFetching: false
-           }
-         }, ()=> {
-           setTimeout(() => {
-             Alert.alert(
-              'Prezzo',
-               'Please check your internet connection and try again.',
-               [
-                 {text: 'OK', onPress: () => console.log('OK Pressed')},
-               ],
-               { cancelable: false }
-             )
-           }, 500);
-         });
-       }
-      }
-    );
-  }
-
-  handleConnectionChange = (isConnected) => {
-    this.setState({ status: isConnected });
-  }
-
   getData() {
-    console.log("pull to refresh Called!");
     let activeFilters = [];
     this.props.filters.map(item => {
       if(item.on) {
@@ -117,13 +66,22 @@ export default class ExploreList extends PureComponent {
         activeFilters.join(','),
         this.props.pricing
       ).then(() => {
-          this.checkResponseMessage();
+        this.setState({ isFetching: false });
+      }).catch(err => {
+          if(err.message === NETWORK_REQUEST_FAILED) {
+            this.setState({ isFetching: false }, () => {
+              this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+            });
+          } else {
+            this.setState({ isFetching: false }, () => {
+              this.showAlert('Uh-oh!', err.message, TIME_OUT);
+            });
+          }
         })
-        .catch(e => {
-          this.showAlert('Uh-oh!', e.message, 300);
-        });
     }).catch(err => {
-      this.showAlert('Uh-oh!', err.message, 300);
+      this.setState({ isFetching: false }, () => {
+        this.showAlert('Uh-oh!', e.message, TIME_OUT);
+      });
     });
   }
 

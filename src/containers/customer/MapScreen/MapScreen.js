@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, InteractionManager } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  InteractionManager,
+  NetInfo
+} from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
@@ -18,7 +24,10 @@ import CacheImage from '../../../components/CacheImage';
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
-  SF_PRO_TEXT_REGULAR
+  SF_PRO_TEXT_REGULAR,
+  INTERNET_NOT_CONNECTED,
+  NETWORK_REQUEST_FAILED,
+  TIME_OUT
 } from '../../../services/constants';
 
 export default class MapScreen extends Component {
@@ -90,7 +99,9 @@ export default class MapScreen extends Component {
     this.activeFilters = activatedFiltersArray.join(',');
 
     InteractionManager.runAfterInteractions(() => {
-      this.props.getUserCurrentLocation().then(coords => {
+      this.props
+        .getUserCurrentLocation()
+        .then(coords => {
           this.setState({
             isGetLocation: true,
             customRegion: {
@@ -108,43 +119,50 @@ export default class MapScreen extends Component {
                   this.activeFilters,
                   this.props.pricing
                 )
-                .then(() => {
-                  console.log('First Time API Called!');
-                })
+                .then(() => {})
                 .catch(err => {
-                  this.showAlert('Uh-oh!', err.message, 300);
+                  if(err.message === NETWORK_REQUEST_FAILED) {
+                    this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+                  } else {
+                    this.showAlert('Uh-oh!', err.message, TIME_OUT);
+                  }
                 });
             }
           );
         })
         .catch(err => {
-          this.showAlert('Uh-oh!', err.message, 300);
+          this.showAlert('Uh-oh!', err.message, TIME_OUT);
       });
     });
   }
 
   onRegionChangeComplete(region) {
     if (this.btnClicked === false && this.isFirstLoad === false) {
-      this.setState(
-        () => ({
-          customRegion: {
+      this.setState({
+        customRegion: {
             ...region,
             latitudeDelta: 1,
             longitudeDelta: 1
           }
-        }),
+        },
         () => {
-          this.props.listVendors(
-            this.state.customRegion.latitude,
-            this.state.customRegion.longitude,
-            this.props.distance,
-            this.activeFilters,
-            this.props.pricing
-          );
+          this.props
+            .listVendors(
+              this.state.customRegion.latitude,
+              this.state.customRegion.longitude,
+              this.props.distance,
+              this.activeFilters,
+              this.props.pricing
+            )
+            .then(() => {})
+            .catch(err => {
+              if(err.message === NETWORK_REQUEST_FAILED) {
+                this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+              } else {
+                this.showAlert('Uh-oh!', err.message, TIME_OUT);
+              }
+            });
           this.isFirstLoad = false;
-
-          console.log('API Called!');
-          console.log(this.state.customRegion);
         }
       );
     } else {

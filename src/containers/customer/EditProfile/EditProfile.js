@@ -18,14 +18,17 @@ import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
-import { getTimeStampString } from '../../../services/commonFunctions';
-import CacheImage from '../../../components/CacheImage';
+import LoadingComponent from '../../../components/LoadingComponent';
+import { getTimeStampString, showAlert } from '../../../services/commonFunctions';
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
   COLOR_BLACK,
   COLOR_GREEN,
-  COLOR_WHITE
+  COLOR_WHITE,
+  NETWORK_REQUEST_FAILED,
+  INTERNET_NOT_CONNECTED,
+  TIME_OUT
 } from '../../../services/constants';
 import {
   widthPercentageToDP as wp,
@@ -124,25 +127,29 @@ class EditProfile extends Component<Props, State> {
 
     try {
       await this.uploadPhoto();
-      // await this.deletePreviousImage(previousPhoto);
-    } catch (e) {
-      console.warn('error uploading image', e);
+
+      const {
+        avatarURL,
+        firstName,
+        lastName,
+        phone,
+        address,
+        zip,
+        city
+      } = this.state;
+
+      await updateUser(avatarURL, firstName, lastName, phone, address, zip, city);
+
+      this.setState({ isEditing: false });
+    } catch(err) {
+      this.setState({ isEditing: false }, () => {
+        if(err.message === NETWORK_REQUEST_FAILED) {
+          showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+        } else {
+          showAlert('Uh-oh!', err.message, TIME_OUT);
+        }
+      });
     }
-
-    const {
-      avatarURL,
-      firstName,
-      lastName,
-      phone,
-      address,
-      zip,
-      city
-    } = this.state;
-
-    updateUser(avatarURL, firstName, lastName, phone, address, zip, city)
-      .then(() => this.setState({ isEditing: false }))
-      .catch(e => console.log(e))
-      .finally(() => this.setState({ isEditing: false }));
   }
 
   toggleEditing() {
@@ -389,6 +396,7 @@ class EditProfile extends Component<Props, State> {
             </View>
           </ScrollView>
           <View style={styles.bottomSeparator} />
+          <LoadingComponent visible={this.props.isBusy} />
       </KeyboardAvoidingView>
     );
   }
