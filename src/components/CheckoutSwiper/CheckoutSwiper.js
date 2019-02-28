@@ -45,7 +45,7 @@ export default class CheckoutSwiper extends Component {
 
   setPlaceOrderType(type) {
     if (type === 'delivery') {
-      showGenericAlert(null, "This feature isn't available yet");
+      showGenericAlert(null, "This feature isn't available yet.");
     }
     if (this.props.type !== type) {
       this.props.setType(type);
@@ -122,7 +122,7 @@ export default class CheckoutSwiper extends Component {
     if (item.quantity > 0) {
       return (
         <View style={styles.item}>
-          <Text style={styles.itemName} numberOfLines={2}>
+          <Text style={styles.itemName} numberOfLines={1}>
             {item.title}
           </Text>
           <View style={styles.actionBtnsHolder}>

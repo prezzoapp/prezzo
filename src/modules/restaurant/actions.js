@@ -7,19 +7,21 @@ import {
   ADD_REMOVE_ITEM_QUANTITY_REQUEST,
   ADD_REMOVE_ITEM_QUANTITY_SUCCESS,
   ADD_REMOVE_ITEM_QUANTITY_FAILURE,
-  CHANGE_ITEM_RATING_REQUEST,
-  CHANGE_ITEM_RATING_SUCCESS,
-  CHANGE_ITEM_RATING_FAILURE,
+  // CHANGE_ITEM_RATING_REQUEST,
+  // CHANGE_ITEM_RATING_SUCCESS,
+  // CHANGE_ITEM_RATING_FAILURE,
   REMOVE_RESTAURANT_DETAIL_REQUEST,
   REMOVE_RESTAURANT_DETAIL_SUCCESS,
   REMOVE_RESTAURANT_DETAIL_FAILURE,
   CLEAR_CART_DATA_REQUEST,
   CLEAR_CART_DATA_SUCCESS,
   CLEAR_CART_DATA_FAILURE,
-
   SET_TYPE_REQUEST,
   SET_TYPE_SUCCESS,
-  SET_TYPE_FAILURE
+  SET_TYPE_FAILURE,
+  CREATE_ORDER_REQUEST,
+  CREATE_ORDER_SUCCESS,
+  CREATE_ORDER_FAILURE
 
   // SET_PAYMENT_TYPE_REQUEST,
   // SET_PAYMENT_TYPE_SUCCESS,
@@ -30,7 +32,43 @@ import {
   // CREATE_ORDER_FAILURE
 } from './types';
 
-// import { post } from '../../utils/api';
+import { post } from '../../utils/api';
+
+export const createOrder = async (
+  paymentMethod: string,
+  items: array,
+  type: string,
+  paymentType: string,
+  vendor: string
+) => async dispatch => {
+  dispatch({ type: CREATE_ORDER_REQUEST });
+
+  try {
+    if(paymentMethod === '') {
+      await post(`/v1/orders`, {
+        items,
+        type,
+        paymentType,
+        vendor
+      });
+    } else {
+      await post(`/v1/orders`, {
+        items,
+        type,
+        paymentType,
+        vendor,
+        paymentMethod
+      });
+    }
+
+    return dispatch({
+      type: CREATE_ORDER_SUCCESS
+    });
+  } catch (e) {
+    dispatch({ type: CREATE_ORDER_FAILURE });
+    throw e;
+  }
+};
 
 export const addRestaurantDetail = (restaurant: object) => dispatch => {
   dispatch({ type: ADD_RESTAURANT_DETAIL_REQUEST });
@@ -74,22 +112,22 @@ export const addRemoveItemQuantity = async (
   }
 };
 
-export const changeItemRating = async (
-  sectionId: string,
-  itemId: string,
-  rating: number
-) => async dispatch => {
-  dispatch({ type: CHANGE_ITEM_RATING_REQUEST });
-
-  try {
-    return dispatch({
-      type: CHANGE_ITEM_RATING_SUCCESS,
-      payload: { sectionId, itemId, rating }
-    });
-  } catch (e) {
-    dispatch({ type: CHANGE_ITEM_RATING_FAILURE });
-  }
-};
+// export const changeItemRating = async (
+//   sectionId: string,
+//   itemId: string,
+//   rating: number
+// ) => async dispatch => {
+//   dispatch({ type: CHANGE_ITEM_RATING_REQUEST });
+//
+//   try {
+//     return dispatch({
+//       type: CHANGE_ITEM_RATING_SUCCESS,
+//       payload: { sectionId, itemId, rating }
+//     });
+//   } catch (e) {
+//     dispatch({ type: CHANGE_ITEM_RATING_FAILURE });
+//   }
+// };
 
 export const clearCartData = () => dispatch => {
   dispatch({ type: CLEAR_CART_DATA_REQUEST });

@@ -24,11 +24,11 @@ export const mapStateToProps = state => {
     .get('userActivity')
     .get('openOrderFinalStatus');
 
-  const isBusy = state.get('userActivity').get('isBusy');
+  // const isBusy = state.get('userActivity').get('isBusy');
 
   return {
     data,
-    isBusy,
+    // isBusy,
     userId,
     openOrderFinalStatus
   };

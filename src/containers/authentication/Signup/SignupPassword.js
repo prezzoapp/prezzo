@@ -9,8 +9,7 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
-  KeyboardAvoidingView,
-  NetInfo
+  KeyboardAvoidingView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -20,7 +19,15 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { uploadImage } from '../../../modules/upload';
 import { updateUser } from '../../../modules/user';
 import { updateAvatarURL, updatePassword, signup } from '../../../modules/Signup';
-import { FONT_FAMILY, FONT_FAMILY_MEDIUM, FONT_FAMILY_BOLD, FONT_FAMILY_REGULAR,INTERNET_NOT_CONNECTED } from '../../../services/constants';
+import {
+  FONT_FAMILY,
+  FONT_FAMILY_MEDIUM,
+  FONT_FAMILY_BOLD,
+  FONT_FAMILY_REGULAR,
+  INTERNET_NOT_CONNECTED,
+  NETWORK_REQUEST_FAILED,
+  TIME_OUT
+} from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import FacebookButton from '../../../components/FacebookButton';
 import Button from '../../../components/Button';
@@ -224,21 +231,9 @@ class SignupPassword extends React.Component<Props, State> {
     // END PATCH
   };
 
-  componentDidMount() {
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
-    if (this.props.facebookId) {
-      this.setState({ showPassword: true });
-    }
+  constructor() {
+    super();
   }
-
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      'connectionChange',
-      this.handleConnectionChange
-    );
-  }
-
-  handleConnectionChange = isConnected => {}
 
   showAvatarActionSheet() {
     ActionSheet.show(
@@ -336,18 +331,18 @@ class SignupPassword extends React.Component<Props, State> {
   }
 
   signup() {
-    NetInfo.isConnected.fetch().done(isConnected => {
-      if(isConnected) {
-        this.setState({ isBusy: true });
-        this.props.signup()
-          .then(() => this.uploadPhoto())
-          .then(() => this.navigateToSignupComplete())
-          .catch(e => console.log('error signing up', e))
-          .finally(() => this.setState({ isBusy: false }));
-      } else {
-        this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
-      }
-    });
+    this.setState({ isBusy: true });
+    this.props.signup()
+      .then(() => this.uploadPhoto())
+      .then(() => this.navigateToSignupComplete())
+      .catch(err => {
+        if(e.message === NETWORK_REQUEST_FAILED) {
+          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+        } else {
+          this.showAlert('Uh-oh!', e.message, TIME_OUT);
+        }
+      })
+      .finally(() => this.setState({ isBusy: false }));
   }
 
   navigateToSignupComplete() {

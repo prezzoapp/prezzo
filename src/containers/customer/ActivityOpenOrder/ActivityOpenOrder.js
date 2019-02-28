@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, Text, Alert, NetInfo } from 'react-native';
+import { View, FlatList, Text, Alert } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -10,13 +10,14 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import ActivityListItem from '../../../components/ActivityListItem';
 import Button from '../../../components/Button';
-import LoadingComponent from '../../../components/LoadingComponent';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
   SF_PRO_TEXT_BOLD,
-  TAX
+  TAX,
+  TIME_OUT
 } from '../../../services/constants';
 
 class ActivityOpenOrder extends Component {
@@ -27,37 +28,13 @@ class ActivityOpenOrder extends Component {
 
     this.timer = -1;
 
-    this.connectionStatus = null;
-
     props.navigation.setParams({
       onTabFocus: this.listOpenOrders
     });
   }
 
-  componentWillMount() {
-    NetInfo.isConnected.addEventListener(
-      'connectionChange',
-      this._handleConnectivityChange
-    );
-
-    NetInfo.isConnected.fetch().done(isConnected => {
-      if(isConnected) {
-        this.connectionStatus = isConnected;
-      } else {
-        this.connectionStatus = isConnected;
-      }
-    });
-  }
-
   componentDidMount() {
     this.listOpenOrders();
-  }
-
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      'connectionChange',
-      this._handleConnectivityChange
-    );
   }
 
   onRefresh() {
@@ -67,12 +44,15 @@ class ActivityOpenOrder extends Component {
         }
       },
       () => {
-        this.props.listOpenOrders(this.props.userId, 'pending').then(() => {
-          this.setState(() => {
-            return {
-              isFetching: false
-            };
-          });
+        this.props
+          .listOpenOrders(this.props.userId, 'pending')
+          .then(() => {
+            this.setState({ isFetching: false });
+          })
+          .catch(err => {
+            this.setState({ isFetching: false }, () => {
+              showAlertWithMessage('Uh-oh!', err);
+            });
         });
       }
     );
@@ -81,23 +61,10 @@ class ActivityOpenOrder extends Component {
   listOpenOrders = () => {
     this.props.listOpenOrders(this.props.userId, 'pending')
       .then(() => {})
-      .catch(e => alert(e.message));
-  }
-
-  showAlert(message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      alert(message);
-    }, duration);
-  }
-
-  _handleConnectivityChange = isConnected => {
-    if(isConnected) {
-      this.connectionStatus = isConnected;
-    } else {
-      this.connectionStatus = isConnected;
-    }
-  }
+      .catch(err => {
+        showAlertWithMessage('Uh-oh!', err);
+      });
+  };
 
   finalizeOrder(price) {
     if(this.props.data[0].paymentType === 'card' && price !== 0) {
@@ -108,116 +75,103 @@ class ActivityOpenOrder extends Component {
         )
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
-            this.showAlert('Order has been completed.', 300);
+            showAlertWithMessage('Success', {
+              message: 'Order has been completed.'
+            });
           }
         })
-        .catch(e => console.log(e));
+        .catch(err => showAlertWithMessage('Uh-oh!', err));
     } else if(this.props.data[0].paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(this.props.data[0]._id, '', price)
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
-            this.showAlert('Order has been completed.', 300);
+            showAlertWithMessage('Success', {
+              message: 'Order has been completed.'
+            });
           }
         })
-        .catch(e => console.log(e));
+        .catch(err => showAlertWithMessage('Uh-oh!', err));
     } else {
       this.props
         .makePaymentAndCompleteOrder(this.props.data[0]._id, '', price, 'cash')
         .then(() => {
-          console.log("User this.props.openOrderFinalStatus Prop: ");
-          console.log(this.props);
           if (this.props.openOrderFinalStatus === 'complete') {
-            this.showAlert('Order has been completed.', 300);
+            showAlertWithMessage('Success', {
+              message: 'Order has been completed.'
+            });
           }
         })
-        .catch(e => console.log(e));
+        .catch(err => showAlertWithMessage('Uh-oh!', err));
     }
   }
 
   completeOrder(id) {
-    if(this.isConnected === false) {
-      Alert.alert(
-        '',
-        'Network not available',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => null,
-            style: 'cancel'
-          },
-          {
-            text: 'OK', onPress: () => null
-          }
-        ],
-        { cancelable: false }
-      );
-    } else {
-      this.props
-        .checkOrderStatus(id)
-        .then(() => {
-          if (
-            this.props.openOrderFinalStatus &&
-            this.props.openOrderFinalStatus === 'complete'
-          ) {
-            // If order has been already completed.
+    this.props
+      .checkOrderStatus(id)
+      .then(() => {
+        if (
+          this.props.openOrderFinalStatus &&
+          this.props.openOrderFinalStatus === 'complete'
+        ) {
+          // If order has been already completed.
+          showAlertWithMessage('Info', {
+            message: 'This order has been already completed.'
+          });
+        } else if (
+          this.props.openOrderFinalStatus &&
+          this.props.openOrderFinalStatus === 'denied'
+        ) {
+          // If order has been already denied.
 
-            this.showAlert('This order has been already completed.', 300);
-          } else if (
-            this.props.openOrderFinalStatus &&
-            this.props.openOrderFinalStatus === 'denied'
-          ) {
-            // If order has been already denied.
+          showAlertWithMessage('Info', {
+            message: 'This order has been already denied.'
+          });
+        } else {
+          clearTimeout(this.timer);
+          let pendingItems = 0;
+          let price = 0;
 
-            this.showAlert('This order has been already denied.', 300);
-          } else {
-            clearTimeout(this.timer);
-            let pendingItems = 0;
-            let price = 0;
+          this.props.data[0].items.filter(item => {
+            if(item.status === 'pending') {
+              pendingItems += 1;
+            } else if(item.status !== 'denied') {
+              price += item.price;
+            }
+          });
 
-            this.props.data[0].items.filter(item => {
-              if(item.status === 'pending') {
-                pendingItems += 1;
-              } else if(item.status !== 'denied') {
-                price += item.price;
-              }
-            });
+          price = parseFloat(((price * TAX) / 100 + price).toFixed(2));
 
-            price = parseFloat(((price * TAX) / 100 + price).toFixed(2));
+          const message =
+            pendingItems === 0
+              ? this.props.data[0].paymentType === 'card'
+                ? `Continue to pay $${price}`
+                : 'Are you sure you want to complete?'
+              : this.props.data[0].paymentType === 'card'
+                ? price === 0
+                  ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
+                  : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
+                : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and complete order?`
 
-            const message =
-              pendingItems === 0
-                ? this.props.data[0].paymentType === 'card'
-                  ? `Continue to pay $${price}`
-                  : 'Are you sure you want to complete?'
-                : this.props.data[0].paymentType === 'card'
-                  ? price === 0
-                    ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
-                    : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
-                  : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and complete order?`
-
-            this.timer = setTimeout(() => {
-              Alert.alert(
-                '',
-                message,
-                [
-                  {
-                    text: 'Cancel',
-                    onPress: () => null,
-                    style: 'cancel'
-                  },
-                  {
-                    text: 'OK', onPress: () => this.finalizeOrder(price)
-                  }
-                ],
-                { cancelable: false }
-              );
-            }, 300);
-          }
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    }
+          this.timer = setTimeout(() => {
+            Alert.alert(
+              '',
+              message,
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => null,
+                  style: 'cancel'
+                },
+                {
+                  text: 'OK', onPress: () => this.finalizeOrder(price)
+                }
+              ],
+              { cancelable: false }
+            );
+          }, TIME_OUT);
+        }
+      })
+      .catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
   checkStatusAndCancelItem(orderId, eleId) {
@@ -225,21 +179,26 @@ class ActivityOpenOrder extends Component {
       .checkStatusAndCancelItem(orderId, eleId)
       .then(() => {
         if(this.props.openOrderFinalStatus === 'complete') {
-          this.showAlert('Order has been completed.', 300);
+          showAlertWithMessage('Success', {
+            message: 'Order has been completed.'
+          });
         } else {
           const item = this.props.data[0].items.find(ele => ele._id === eleId);
+          console.log(item);
           if(item) {
             if(item.status === 'denied') {
-              this.showAlert('Item has been successfully canceled.', 300);
+              showAlertWithMessage('Success', {
+                message: 'Item has been successfully canceled.'
+              });
             } else {
-              this.showAlert("Item can't be canceled.", 300);
+              showAlertWithMessage('Uh-oh!', {
+                message: "Item can't be canceled."
+              });
             }
           }
         }
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
   listEmptyComponent() {
@@ -328,9 +287,7 @@ class ActivityOpenOrder extends Component {
             }
             return null;
           })()}
-
         </View>
-        {this.props.isBusy && <LoadingComponent />}
       </View>
     );
   }
@@ -341,7 +298,6 @@ const buttonStyles = {
     backgroundColor: '#2ED573',
     borderColor: '#0DD24A',
     width: wp('37.33%'),
-    // height: hp('4.92%'),
     height: wp('10.66%'),
     justifyContent: 'center',
     borderRadius: wp('2.66%')

@@ -16,7 +16,6 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingBottom: hp('8.62%')
     marginBottom: wp('18.66%')
   },
 
@@ -39,7 +38,6 @@ const styles = StyleSheet.create({
     color: COLOR_WHITE,
     textAlign: 'center',
     lineHeight: wp('5.86%'),
-    // marginTop: hp('2.58%'),
     marginTop: wp('5.6%')
   },
 
@@ -64,7 +62,7 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginVertical: wp('3%'),
     marginHorizontal: wp('2.13%')
   },

@@ -84,9 +84,7 @@ export async function request(method, path, body, suppressRedBox) {
  */
 export function url(path) {
   const apiRoot = getConfiguration('API_ROOT');
-  return path.indexOf('/') === 0
-    ? apiRoot + path
-    : apiRoot + '/' + path;
+  return path.indexOf('/') === 0 ? apiRoot + path : `${apiRoot}/${path}`;
 }
 
 /**
@@ -99,8 +97,8 @@ async function sendRequest(method, path, body) {
     const token = await getAuthenticationToken();
     const headers = getRequestHeaders(body, token);
     const options = body
-      ? {method, headers, body: JSON.stringify(body)}
-      : {method, headers};
+      ? { method, headers, body: JSON.stringify(body) }
+      : { method, headers };
 
     return timeout(fetch(endpoint, options), TIMEOUT);
   } catch (e) {
@@ -122,8 +120,8 @@ async function handleResponse(path, response) {
       const error = new HttpError(status, message);
 
       // emit events on error channel, one for status-specific errors and other for all errors
-      errors.emit(status.toString(), {path, message: error.message});
-      errors.emit('*', {path, message: error.message}, status);
+      errors.emit(status.toString(), { path, message: error.message });
+      errors.emit('*', { path, message: error.message }, status);
 
       throw error;
     }
@@ -142,11 +140,20 @@ async function handleResponse(path, response) {
 
 function getRequestHeaders(body, token) {
   const headers = body
-    ? {'Accept': 'application/json', 'Content-Type': 'application/json'}
-    : {'Accept': 'application/json'};
+    ? {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        Pragma: 'no-cache'
+      }
+    : {
+        Accept: 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        Pragma: 'no-cache'
+      };
 
   if (token) {
-    return {...headers, Authorization: token};
+    return { ...headers, Authorization: token };
   }
 
   return headers;
@@ -214,9 +221,15 @@ async function bodyOf(requestPromise) {
 function logError(error, endpoint, method) {
   if (error.status) {
     const summary = `(${error.status} ${error.statusText}): ${error._bodyInit}`;
-    console.error(`API request ${method.toUpperCase()} ${endpoint} responded with ${summary}`);
+    console.error(
+      `API request ${method.toUpperCase()} ${endpoint} responded with ${summary}`
+    );
   }
   else {
-    console.error(`API request ${method.toUpperCase()} ${endpoint} failed with message "${error.message}"`);
+    console.error(
+      `API request ${method.toUpperCase()} ${endpoint} failed with message "${
+        error.message
+      }"`
+    );
   }
 }
