@@ -141,18 +141,9 @@ class SignupEmail extends React.Component<Props> {
     )
   });
 
-  componentDidMount() {
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+  constructor() {
+    super();
   }
-
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      'connectionChange',
-      this.handleConnectionChange
-    );
-  }
-
-  handleConnectionChange = () => {}
 
   isFormValid() {
     const { email } = this.props;
@@ -176,19 +167,14 @@ class SignupEmail extends React.Component<Props> {
   }
 
   async checkEmailValidity() {
-    const isConnected = await NetInfo.isConnected.fetch();
-    if(isConnected === true) {
-      try {
-        const user = await this.props.findUser(this.props.email);
-        if(user) {
-          throw Error('This email is taken.');
-        }
-        this.navigateToPassword();
-      } catch(err) {
-        this.showAlert('Uh-oh!', err.message, 300);
+    try {
+      const user = await this.props.findUser(this.props.email);
+      if(user) {
+        throw Error('This email is taken.');
       }
-    } else {
-      this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
+      this.navigateToPassword();
+    } catch(err) {
+      this.showAlert('Uh-oh!', err.message, 300);
     }
   }
 
@@ -236,7 +222,6 @@ class SignupEmail extends React.Component<Props> {
               style={nextButtonStyle}
               disabled={!this.isFormValid()}
               onPress={() => this.checkEmailValidity()}
-              onError={e => alert('Uh-oh!', e.message || e)}
             />
           </ScrollView>
         </KeyboardAvoidingView>

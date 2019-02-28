@@ -19,7 +19,7 @@ import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import LoadingComponent from '../../../components/LoadingComponent';
-import { getTimeStampString, showAlertWithMessage } from '../../../services/commonFunctions';
+import { getTimeStampString, showAlert } from '../../../services/commonFunctions';
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
@@ -143,7 +143,11 @@ class EditProfile extends Component<Props, State> {
       this.setState({ isEditing: false });
     } catch(err) {
       this.setState({ isEditing: false }, () => {
-        showAlertWithMessage('Uh-oh!', err);
+        if(err.message === NETWORK_REQUEST_FAILED) {
+          showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+        } else {
+          showAlert('Uh-oh!', err.message, TIME_OUT);
+        }
       });
     }
   }
@@ -392,6 +396,7 @@ class EditProfile extends Component<Props, State> {
             </View>
           </ScrollView>
           <View style={styles.bottomSeparator} />
+          <LoadingComponent visible={this.props.isBusy} />
       </KeyboardAvoidingView>
     );
   }
