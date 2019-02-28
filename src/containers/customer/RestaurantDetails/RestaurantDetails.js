@@ -31,7 +31,13 @@ import LoadingComponent from '../../../components/LoadingComponent';
 
 import Button from '../../../components/Button';
 
-import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
+import {
+  FONT_FAMILY_MEDIUM,
+  COLOR_WHITE,
+  INTERNET_NOT_CONNECTED,
+  NETWORK_REQUEST_FAILED,
+  TIME_OUT
+} from '../../../services/constants';
 
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 
@@ -112,8 +118,9 @@ export default class RestaurantDetails extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      console.log('Component Did Mount called!');
-      this.props.addRestaurantDetail(this.props.navigation.state.params.item);
+      this.props
+        .addRestaurantDetail(this.props.navigation.state.params.item)
+        .then(() => {}).catch(err => alert(err.message));
     });
   }
 

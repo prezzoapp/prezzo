@@ -194,21 +194,9 @@ class SignupMergeFacebook extends React.Component<Props, State> {
     // END PATCH
   };
 
-  componentDidMount() {
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
-    if (this.props.facebookId) {
-      this.setState({ showPassword: true });
-    }
+  constructor() {
+    super();
   }
-
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      'connectionChange',
-      this.handleConnectionChange
-    );
-  }
-
-  handleConnectionChange = isConnected => {}
 
   showAlert(title, message, duration) {
     clearTimeout(this.timer);

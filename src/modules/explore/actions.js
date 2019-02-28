@@ -145,9 +145,3 @@ export const getUserCurrentLocation = async () => async dispatch => {
     throw err;
   }
 }
-
-// export const hideLoadingIndicator = dispatch => {
-//   dispatch({
-//     type: HIDE_LOADING_INDICATOR
-//   })
-// }

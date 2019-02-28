@@ -114,67 +114,35 @@ class ActivityOpenOrder extends Component {
   }
 
   completeOrder(id) {
-    const data = this.props.data.first();
-    if(this.isConnected === false) {
-      Alert.alert(
-        '',
-        'Network not available',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => null,
-            style: 'cancel'
-          },
-          {
-            text: 'OK', onPress: () => null
-          }
-        ],
-        { cancelable: false }
-      );
-    } else {
-      this.props
-        .checkOrderStatus(id)
-        .then(() => {
-          const openOrderFinalStatus = this.props.openOrderFinalStatus;
-          if (
-            openOrderFinalStatus &&
-            openOrderFinalStatus === 'complete'
-          ) {
-            // If order has been already completed.
+    this.props
+      .checkOrderStatus(id)
+      .then(() => {
+        if (
+          this.props.openOrderFinalStatus &&
+          this.props.openOrderFinalStatus === 'complete'
+        ) {
+          // If order has been already completed.
 
-            this.showAlert('This order has been already completed.', 300);
-          } else if (
-            openOrderFinalStatus &&
-            openOrderFinalStatus === 'denied'
-          ) {
-            // If order has been already denied.
+          this.showAlert('Info', 'This order has been already completed.', TIME_OUT);
+        } else if (
+          this.props.openOrderFinalStatus &&
+          this.props.openOrderFinalStatus === 'denied'
+        ) {
+          // If order has been already denied.
 
-            this.showAlert('This order has been already denied.', 300);
-          } else {
-            clearTimeout(this.timer);
-            let pendingItems = 0;
-            let price = 0;
+          this.showAlert('Info', 'This order has been already denied.', TIME_OUT);
+        } else {
+          clearTimeout(this.timer);
+          let pendingItems = 0;
+          let price = 0;
 
-            data.get('items').filter(item => {
-              if(item.get('status') === 'pending') {
-                pendingItems += 1;
-              } else if(item.get('status') !== 'denied') {
-                price += item.get('price');
-              }
-            });
-
-            price = parseFloat(((price * TAX) / 100 + price).toFixed(2));
-
-            const message =
-              pendingItems === 0
-                ? data.get('paymentType') === 'card'
-                  ? `Continue to pay $${price}`
-                  : 'Are you sure you want to complete?'
-                : data.get('paymentType') === 'card'
-                  ? price === 0
-                    ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
-                    : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
-                  : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and complete order?`
+          this.props.data[0].items.filter(item => {
+            if(item.status === 'pending') {
+              pendingItems += 1;
+            } else if(item.status !== 'denied') {
+              price += item.price;
+            }
+          });
 
           this.timer = setTimeout(() => {
             Alert.alert(
@@ -210,8 +178,12 @@ class ActivityOpenOrder extends Component {
         } else {
           const item = data.get('items').find(ele => ele.get('_id') === eleId);
           if(item) {
-            if(item.get('status') === 'denied') {
-              this.showAlert('Item has been successfully canceled.', 300);
+            if(item.status === 'denied') {
+              this.showAlert(
+                'Success',
+                'Item has been successfully canceled.',
+                TIME_OUT
+              );
             } else {
               showAlertWithMessage('Uh-oh!', {
                 message: "Item can't be canceled."
@@ -316,7 +288,6 @@ class ActivityOpenOrder extends Component {
             return null;
           })()}
         </View>
-        <LoadingComponent visible={this.props.isBusy} />
       </View>
     );
   }
