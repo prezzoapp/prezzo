@@ -8,8 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
-  KeyboardAvoidingView,
-  NetInfo
+  KeyboardAvoidingView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -19,7 +18,10 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { uploadImage } from '../../../modules/upload';
 import { updateUser } from '../../../modules/user';
 import { updateAvatarURL, updatePassword, signup } from '../../../modules/Signup';
+<<<<<<< HEAD
 
+=======
+>>>>>>> - Check network availability & handle API(s) errors for login, user activity, user profile, create order, payment methods, add credit card screen(s) and move some payment detail screen’s methods into redux from component level.
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
@@ -233,21 +235,9 @@ class SignupPassword extends React.Component<Props, State> {
     // END PATCH
   };
 
-  componentDidMount() {
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
-    if (this.props.facebookId) {
-      this.setState({ showPassword: true });
-    }
+  constructor() {
+    super();
   }
-
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      'connectionChange',
-      this.handleConnectionChange
-    );
-  }
-
-  handleConnectionChange = isConnected => {}
 
   showAvatarActionSheet() {
     ActionSheet.show(
@@ -345,18 +335,18 @@ class SignupPassword extends React.Component<Props, State> {
   }
 
   signup() {
-    NetInfo.isConnected.fetch().done(isConnected => {
-      if(isConnected) {
-        this.setState({ isBusy: true });
-        this.props.signup()
-          .then(() => this.uploadPhoto())
-          .then(() => this.navigateToSignupComplete())
-          .catch(e => console.log('error signing up', e))
-          .finally(() => this.setState({ isBusy: false }));
-      } else {
-        this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 300);
-      }
-    });
+    this.setState({ isBusy: true });
+    this.props.signup()
+      .then(() => this.uploadPhoto())
+      .then(() => this.navigateToSignupComplete())
+      .catch(err => {
+        if(e.message === NETWORK_REQUEST_FAILED) {
+          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+        } else {
+          this.showAlert('Uh-oh!', e.message, TIME_OUT);
+        }
+      })
+      .finally(() => this.setState({ isBusy: false }));
   }
 
   navigateToSignupComplete() {
