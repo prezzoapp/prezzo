@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import ActivityListItem from '../../../components/ActivityListItem';
 import Button from '../../../components/Button';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 import {
   FONT_FAMILY_MEDIUM,

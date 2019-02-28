@@ -21,7 +21,10 @@ import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCa
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
-  SF_PRO_TEXT_REGULAR
+  SF_PRO_TEXT_REGULAR,
+  INTERNET_NOT_CONNECTED,
+  NETWORK_REQUEST_FAILED,
+  TIME_OUT
 } from '../../../services/constants';
 
 import { showAlertWithMessage } from '../../../services/commonFunctions';
@@ -116,11 +119,19 @@ export default class MapScreen extends Component {
                   this.props.pricing
                 )
                 .then(() => {})
-                .catch(err => showAlertWithMessage('Uh-oh!', err));
+                .catch(err => {
+                  if(err.message === NETWORK_REQUEST_FAILED) {
+                    this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+                  } else {
+                    this.showAlert('Uh-oh!', err.message, TIME_OUT);
+                  }
+                });
             }
           );
         })
-        .catch(err => showAlertWithMessage('Uh-oh!', err));
+        .catch(err => {
+          this.showAlert('Uh-oh!', err.message, TIME_OUT);
+      });
     });
   }
 
@@ -143,7 +154,13 @@ export default class MapScreen extends Component {
               this.props.pricing
             )
             .then(() => {})
-            .catch(err => showAlertWithMessage('Uh-oh!', err));
+            .catch(err => {
+              if(err.message === NETWORK_REQUEST_FAILED) {
+                this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+              } else {
+                this.showAlert('Uh-oh!', err.message, TIME_OUT);
+              }
+            });
           this.isFirstLoad = false;
         }
       );

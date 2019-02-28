@@ -22,9 +22,11 @@ import Button from '../../../components/Button';
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
-  NETWORK_REQUEST_FAILED
+  INTERNET_NOT_CONNECTED,
+  NETWORK_REQUEST_FAILED,
+  TIME_OUT
 } from '../../../services/constants';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import { showAlert } from '../../../services/commonFunctions';
 
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -95,13 +97,17 @@ class PaymentDetails extends Component {
         this.webview.messagesChannel.on('isError', error => {
           this.props.hideLoading();
           if(error.message.code === 'CLIENT_GATEWAY_NETWORK') {
-            showAlertWithMessage('Uh-oh!', { message: NETWORK_REQUEST_FAILED });
+            showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
           } else {
-            showAlertWithMessage('Uh-oh!', error.message);
+            showAlert('Uh-oh!', error.message.message, TIME_OUT);
           }
         });
       } catch(err) {
-        showAlertWithMessage('Uh-oh!', err);
+        if(err.message === NETWORK_REQUEST_FAILED) {
+          showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+        } else {
+          showAlert('Uh-oh!', err.message, TIME_OUT);
+        }
       }
     });
   }
@@ -140,7 +146,11 @@ class PaymentDetails extends Component {
       await this.props.addCreditCardInfo(paymentMethod, paymentMethod.isDefault);
       this.props.navigation.goBack();
     } catch(err) {
-      showAlertWithMessage('Uh-oh!', err);
+      if(err.message === NETWORK_REQUEST_FAILED) {
+        showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 250);
+      } else {
+        showAlert('Uh-oh!', err.message, 250);
+      }
     }
   }
 

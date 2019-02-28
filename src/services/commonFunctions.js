@@ -1,5 +1,4 @@
 import showGenericAlert from '../components/GenericAlert';
-import { TIME_OUT } from './constants';
 
 export const getTimeStampString = () => new Date().getTime().toString();
 
@@ -18,20 +17,25 @@ export const findById = (tree, testID) => {
   }
 };
 
-export const showAlert = (title, message, duration, callback, buttonsArray) => {
+export const showAlert = (title, message, duration) => {
   let timer = -1;
   clearTimeout(timer);
   timer = setTimeout(() => {
-    showGenericAlert(title, message, buttonsArray);
-    callback && callback();
+    showGenericAlert(title, message);
   }, duration);
 };
 
-export const showAlertWithMessage = (
-  title = 'Uh-oh!',
-  obj,
-  callback = null,
-  buttonsArray = null
-) => {
-  showAlert(title, obj.message, TIME_OUT, callback, buttonsArray);
-};
+// export const checkInternetConnectivity = async () => {
+//   try {
+//     const googleCall = await fetch('https://google.com', {
+//       headers: {
+//         'Cache-Control': 'no-cache, no-store, must-revalidate',
+//         Pragma: 'no-cache',
+//         Expires: 0
+//       }
+//     });
+//     return googleCall.status === 200;
+//   } catch (err) {
+//     throw err;
+//   }
+// };
