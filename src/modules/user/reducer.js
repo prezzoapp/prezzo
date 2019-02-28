@@ -3,7 +3,11 @@ import {Map} from 'immutable';
 import {loop, Effects} from 'redux-loop-symbol-ponyfill';
 import {reset} from '../Signup';
 import {SIGNUP_SUCCESS} from '../Signup/types';
-import {UPDATE_USER_SUCCESS} from './types';
+import {
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE
+} from './types';
 import {
   LOGIN_WITH_EMAIL_SUCCESS,
   LOGIN_WITH_FACEBOOK_SUCCESS
@@ -12,17 +16,22 @@ import type State from './types';
 
 const INITIAL_STATE: State = Map({
   account: null,
+  isBusy: false,
   error: null
 });
 
 const reducer = (state: State = INITIAL_STATE, action) => {
   switch (action.type) {
+    case UPDATE_USER_REQUEST:
+      return state.update('isBusy', () => true);
+    case UPDATE_USER_FAILURE:
+      return state.update('isBusy', () => false);
     case SIGNUP_SUCCESS:
     case UPDATE_USER_SUCCESS:
     case LOGIN_WITH_EMAIL_SUCCESS:
     case LOGIN_WITH_FACEBOOK_SUCCESS:
       return loop(
-        state.update('account', () => action.payload),
+        state.update('account', () => action.payload).update('isBusy', () => false),
         Effects.constant(reset)
       );
     default:

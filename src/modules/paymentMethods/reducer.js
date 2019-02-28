@@ -8,7 +8,15 @@ import {
   REMOVE_CREDIT_CARD_FAILURE,
   LIST_CREDIT_CARDS_REQUEST,
   LIST_CREDIT_CARDS_SUCCESS,
-  LIST_CREDIT_CARDS_FAILURE
+  LIST_CREDIT_CARDS_FAILURE,
+  GET_TOKEN_REQUEST,
+  GET_TOKEN_SUCCESS,
+  GET_TOKEN_FAILURE,
+  IS_TOKENIZATION_COMPLETE_REQUEST,
+  IS_TOKENIZATION_COMPLETE_SUCCESS,
+  IS_TOKENIZATION_COMPLETE_FAILURE,
+  SHOW_LOADING,
+  HIDE_LOADING
 } from './types';
 
 const INITIAL_STATE = fromJS({
@@ -21,11 +29,19 @@ export default (state = INITIAL_STATE, action) => {
     case ADD_CREDIT_CARD_REQUEST:
     case REMOVE_CREDIT_CARD_REQUEST:
     case LIST_CREDIT_CARDS_REQUEST:
+    case GET_TOKEN_REQUEST:
+    case IS_TOKENIZATION_COMPLETE_REQUEST:
+    case SHOW_LOADING:
       return state.update('isBusy', () => true);
 
     case ADD_CREDIT_CARD_FAILURE:
     case REMOVE_CREDIT_CARD_FAILURE:
     case LIST_CREDIT_CARDS_FAILURE:
+    case GET_TOKEN_FAILURE:
+    case IS_TOKENIZATION_COMPLETE_FAILURE:
+    case GET_TOKEN_SUCCESS:
+    case IS_TOKENIZATION_COMPLETE_SUCCESS:
+    case HIDE_LOADING:
       return state.update('isBusy', () => false);
 
     case REMOVE_CREDIT_CARD_SUCCESS:
@@ -51,7 +67,6 @@ export default (state = INITIAL_STATE, action) => {
         .update('isBusy', () => false);
 
     case LIST_CREDIT_CARDS_SUCCESS:
-      console.log(action.payload.toJS());
       return state
         .update('data', () => action.payload)
         .update('isBusy', () => false);
