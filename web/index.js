@@ -4,8 +4,13 @@ const createClient = require('braintree-web/client').create;
 
 RNMessageChannel.on('json', text => {
   createClient({
-    authorization: text.payload.token
+      authorization: text.payload.token
     }, (createErr, clientInstance) => {
+      if(createErr) {
+        RNMessageChannel.emit('isError', {
+          message: createErr
+        });
+      }
       const data = {
         creditCard: {
           number: text.payload.number,
@@ -27,7 +32,7 @@ RNMessageChannel.on('json', text => {
         }, (requestErr, response) => {
           if (requestErr) {
             RNMessageChannel.emit('isError', {
-              payload: JSON.stringify(requestErr.details.originalError)
+              message: requestErr
             });
           }
 

@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   TouchableOpacity,
-  Image,
   Text,
-  ActivityIndicator,
-  Modal,
   AsyncStorage,
   KeyboardAvoidingView,
   ScrollView,
@@ -21,9 +18,15 @@ import { WebView } from 'react-native-webview-messaging/WebView';
 import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 import Button from '../../../components/Button';
-import { get, post } from '../../../utils/api';
 
-import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
+import {
+  FONT_FAMILY_MEDIUM,
+  COLOR_WHITE,
+  INTERNET_NOT_CONNECTED,
+  NETWORK_REQUEST_FAILED,
+  TIME_OUT
+} from '../../../services/constants';
+import { showAlert } from '../../../services/commonFunctions';
 
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -74,7 +77,6 @@ class PaymentDetails extends Component {
     this.state = {
       selectCheckBox: false,
       dataValid: false,
-      isLoading: false,
       error: ''
     };
 
@@ -83,49 +85,34 @@ class PaymentDetails extends Component {
   }
 
   componentDidMount() {
-    InteractionManager.runAfterInteractions(() => {
-      this.setState(() => {
-          return {
-            isLoading: true
-          }
-        },
-        () => {
-          get(`/v1/self/payment-token`).then(response => {
-              console.log(`Token: ${response.token}`);
-              this.setState(
-                () => {
-                  return {
-                    isLoading: false
-                  };
-              },
-                () => {
-                  this.getToken = response.token;
-                  this.webview.messagesChannel.on(
-                    'isTokenizationComplete',
-                    nonce => this.isTokenizationComplete(nonce)
-                );
+    InteractionManager.runAfterInteractions(async () => {
+      try {
+        const response = await this.props.getToken();
 
-                this.webview.messagesChannel.on('isError', error =>
-                    this.isError(error)
-                  );
-                }
-              );
-            })
-            .catch(e => {
-              this.showAlert(e.message, 300);
-              this.setState(() => {
-                return {
-                  isLoading: false
-                };
-              });
-            });
+        this.getToken = response.token;
+        this.webview.messagesChannel.on('isTokenizationComplete', nonce =>
+          this.isTokenizationComplete(nonce)
+        );
+
+        this.webview.messagesChannel.on('isError', error => {
+          this.props.hideLoading();
+          if(error.message.code === 'CLIENT_GATEWAY_NETWORK') {
+            showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+          } else {
+            showAlert('Uh-oh!', error.message.message, TIME_OUT);
+          }
+        });
+      } catch(err) {
+        if(err.message === NETWORK_REQUEST_FAILED) {
+          showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+        } else {
+          showAlert('Uh-oh!', err.message, TIME_OUT);
         }
-      );
+      }
     });
   }
 
   onChange(data) {
-    console.log(data);
     if(data.valid === true && this.state.dataValid === false) {
       this.setState(() => {
           return {
@@ -145,52 +132,26 @@ class PaymentDetails extends Component {
     }
   }
 
-  showAlert(message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      alert(message);
-    }, duration);
-  }
-
   async checkResponseMessage(){
     await AsyncStorage.getItem('response_message').then((msg) => {
       console.log('response message is -----------------', msg);
     });
   }
 
-  isError(error) {
-    this.setState(() => {
-      return {
-        error: error.payload,
-        isLoading: false
+  async isTokenizationComplete(response) {
+    try {
+      const nonce = response.payload;
+
+      const paymentMethod = await this.props.isTokenizationComplete(nonce, this.state.selectCheckBox);
+      await this.props.addCreditCardInfo(paymentMethod, paymentMethod.isDefault);
+      this.props.navigation.goBack();
+    } catch(err) {
+      if(err.message === NETWORK_REQUEST_FAILED) {
+        showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 250);
+      } else {
+        showAlert('Uh-oh!', err.message, 250);
       }
-    })
-  }
-
-  isTokenizationComplete(response) {
-    const nonce = response.payload;
-
-    post(`/v1/payment-methods`, {
-      nonce,
-      isDefault: this.state.selectCheckBox
-    }).then(paymentMethod => {
-      console.log('Response After Sending Nonce: ');
-      console.log(paymentMethod);
-      this.props
-        .addCreditCardInfo(paymentMethod, paymentMethod.isDefault)
-        .then(() => {
-          this.setState(
-            () => {
-            return {
-                isLoading: false
-            };
-          },
-          () => {
-            this.props.navigation.goBack();
-          }
-        );
-      });
-    });
+    }
   }
 
   togglePreferredPayment() {
@@ -209,17 +170,10 @@ class PaymentDetails extends Component {
       cvv: this.formData.values.cvc,
       postalCode: this.formData.values.postalCode
     }
-    this.setState(() => {
-      return {
-          isLoading: true
-        };
-      },
-      () => {
-        this.webview.sendJSON({
-          payload: card
-        });
-      }
-    );
+    this.props.showLoading();
+    this.webview.sendJSON({
+      payload: card
+    });
   }
 
   render() {
@@ -268,15 +222,6 @@ class PaymentDetails extends Component {
                 Submit
               </Button>
             </View>
-            <Modal
-              animationType="none"
-              transparent
-              visible={this.state.isLoading}
-            >
-              <View style={styles.loaderView}>
-                <ActivityIndicator size="large" color="white" />
-              </View>
-            </Modal>
 
             {(() => {
               if(this.state.error) {

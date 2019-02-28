@@ -27,16 +27,22 @@ import styles from './styles';
 
 import RestaurantItem from '../../../components/RestaurantItem';
 
+import LoadingComponent from '../../../components/LoadingComponent';
+
 import Button from '../../../components/Button';
 
-import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
+import {
+  FONT_FAMILY_MEDIUM,
+  COLOR_WHITE,
+  INTERNET_NOT_CONNECTED,
+  NETWORK_REQUEST_FAILED,
+  TIME_OUT
+} from '../../../services/constants';
 
 import Checkout from '../Checkout';
 
 import CustomPopup from '../../../components/CustomPopup';
 import showGenericAlert from '../../../components/GenericAlert';
-
-import { post } from '../../../utils/api';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 const headerHeight = wp('44.97%');
@@ -101,7 +107,9 @@ export default class RestaurantDetails extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      this.props.addRestaurantDetail(this.props.navigation.state.params.item);
+      this.props
+        .addRestaurantDetail(this.props.navigation.state.params.item)
+        .then(() => {}).catch(err => alert(err.message));
     });
   }
 
@@ -135,7 +143,14 @@ export default class RestaurantDetails extends Component {
     });
   }
 
-  async attemptToCreateOrder() {
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
+
+  attemptToCreateOrder() {
     const modifiedCartItems = [];
     const cartItems =
       this.props.data && this.props.data.data.menu &&
@@ -163,37 +178,32 @@ export default class RestaurantDetails extends Component {
      }
     });
 
-    try {
-      if(this.paymentMethodId === '') {
-        await post(`/v1/orders`, {
-          items: modifiedCartItems,
-          type: this.props.type,
-          paymentType: this.selectedPaymentMethod,
-          vendor: this.props.data.data._id
-        });
-      } else {
-        await post(`/v1/orders`, {
-          items: modifiedCartItems,
-          type: this.props.type,
-          paymentType: this.selectedPaymentMethod,
-          vendor: this.props.data.data._id,
-          paymentMethod: this.paymentMethodId
-        });
-      }
-
-      this.setState(
-        () => {
-          return {
-            modalVisible: true
-          };
-        },
-        () => {
-          this.props.clearCartData();
+    this.props.createOrder(
+        this.paymentMethodId,
+        modifiedCartItems,
+        this.props.type,
+        this.selectedPaymentMethod,
+        this.props.data.data._id
+      )
+      .then(() => {
+        this.setState(
+          () => {
+            return {
+              modalVisible: true
+            };
+          },
+          () => {
+            this.props.clearCartData();
+          }
+        );
+      })
+      .catch(err => {
+        if(err.message === NETWORK_REQUEST_FAILED) {
+          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+        } else {
+          this.showAlert('Uh-oh!', err.message, TIME_OUT);
         }
-      );
-    } catch(e) {
-      showGenericAlert('Uh-oh!', e.message || e);
-    }
+      });
   }
 
   isSelectedPaymentMethod(val) {
@@ -493,13 +503,13 @@ export default class RestaurantDetails extends Component {
               ) {
                 return(
                   <View style={styles.messageHolder}>
-                    <Text style={styles.message}>Does not have Items.</Text>
+                    <Text style={styles.message}>Doesn't have items.</Text>
                   </View>
                 );
               } else if (!this.props.navigation.state.params.item.menu) {
                 return (
                   <View style={styles.messageHolder}>
-                    <Text style={styles.message}>Does not have Menu.</Text>
+                    <Text style={styles.message}>Doesn't have menu.</Text>
                   </View>
                 );
               }
@@ -630,6 +640,7 @@ export default class RestaurantDetails extends Component {
             );
           }
         })()}
+        <LoadingComponent visible={this.props.isBusy} />
       </View>
     );
   }
@@ -640,7 +651,6 @@ const buttonStyles = {
     backgroundColor: '#2ED573',
     borderColor: '#0DD24A',
     width: wp('40%'),
-    // height: hp('4.55%'),
     height: wp('9.86%'),
     justifyContent: 'center',
     borderRadius: 8
@@ -662,5 +672,6 @@ RestaurantDetails.propTypes = {
   clearCartData: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   addRemoveItemQuantity: PropTypes.func.isRequired,
-  changeItemRating: PropTypes.func.isRequired
+  changeItemRating: PropTypes.func.isRequired,
+  isBusy: PropTypes.bool.isRequired
 };

@@ -7,40 +7,47 @@ import Slider from 'react-native-slider';
 import { LinearGradient } from 'expo';
 import { EvilIcons } from '../../../components/VectorIcons';
 import styles from './styles';
+import showGenericAlert from '../../../components/GenericAlert';
 
 class ExploreScreenHeader extends Component {
   static propTypes = {
     navigate: PropTypes.func.isRequired
   };
 
-  _getLocationAsync = async () => {
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
+  constructor() {
+    super();
 
-    NetInfo.isConnected.fetch().done(
-      (isConnected) => { console.log(isConnected);
-       if(isConnected) {
-          this.props.navigate({ routeName: 'MapScreen' });
-       }
-       else {
-          Alert.alert(
-           'Prezzo',
-            'Please check your internet connection and try again later.',
-            [
-              {text: 'OK', onPress: () => console.log('OK Pressed')},
-            ],
-            { cancelable: false }
-          )
-       }
-      }
-    );
+    NetInfo.isConnected.fetch().then(this.handleConnectionChange);
+
+    this.connected;
+  }
+
+  componentDidMount() {
+    NetInfo.isConnected.addEventListener('connectionChange', this.connectionChange);
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('connectionChange', this.connectionChange);
+  }
+
+  showAlert(title, message, duration) {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      showGenericAlert(title, message);
+    }, duration);
+  }
+
+  moveToMap() {
+    // if(this.connected) {
+    //   this.props.navigate({ routeName: 'MapScreen' });
+    // }
+    // else {
+    //   this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 0);
+    // }
+    this.props.navigate({ routeName: 'MapScreen' });
   };
 
-  handleConnectionChange = (isConnected) => {
-    NetInfo.isConnected.removeEventListener(
-      'connectionChange',
-      this.handleConnectionChange
-    );
-  }
+  connectionChange = isConnected => this.connected = isConnected;
 
   render() {
     return (
@@ -72,7 +79,7 @@ class ExploreScreenHeader extends Component {
                 <TouchableOpacity
                   activeOpacity={0.6}
                   style={{ marginLeft: 10 }}
-                  onPress={() => this._getLocationAsync()}
+                  onPress={() => this.moveToMap()}
                 >
                   <Image
                     source={require('../../../../assets/images/location_icon.png')}

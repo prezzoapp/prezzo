@@ -39,14 +39,12 @@ const styles = StyleSheet.create({
   status: {
     fontSize: wp('3.46%'),
     lineHeight: wp('4.8%'),
-    // marginTop: 1.5,
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
     top: wp('0.26%')
   },
 
   name: {
-    // paddingVertical: hp('0.8%'),
     paddingTop: wp('1.86%'),
     paddingBottom: wp('2.13%'),
     fontSize: wp('4.53%'),

@@ -1,6 +1,5 @@
-// @flow
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { loginWithEmail } from '../../../modules/auth';
 import { listCreditCards } from '../../../modules/paymentMethods';
