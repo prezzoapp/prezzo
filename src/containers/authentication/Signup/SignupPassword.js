@@ -8,8 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
-  KeyboardAvoidingView,
-  NetInfo
+  KeyboardAvoidingView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -232,19 +231,6 @@ class SignupPassword extends React.Component<Props, State> {
     showPassword: true
     // END PATCH
   };
-
-  componentDidMount() {
-    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
-    if (this.props.facebookId) {
-      this.setState({ showPassword: true });
-    }
-  }
-
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      'connectionChange',
-      this.handleConnectionChange
-    );
 
   constructor() {
     super();
