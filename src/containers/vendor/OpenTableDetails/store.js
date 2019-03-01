@@ -1,7 +1,13 @@
 // @flow
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { openTableItemDetails, checkStatusAndCancelItem, checkOpenOrderStatus, makePaymentAndCompleteOrder } from '../../../modules/table';
+import {
+  openTableItemDetails,
+  removeTableItemDetails,
+  checkStatusAndCancelItem,
+  checkOpenOrderStatus,
+  makePaymentAndCompleteOrder
+} from '../../../modules/table';
 
 export const mapStateToProps = state => {
   const openTableSelectedItem =
@@ -20,6 +26,7 @@ export const mapStateToProps = state => {
 export const mapDispatchToProps = dispatch => ({
   navigate: bindActionCreators(NavigationActions.navigate, dispatch),
   openTableItemDetails: bindActionCreators(openTableItemDetails, dispatch),
+  removeTableItemDetails: bindActionCreators(removeTableItemDetails, dispatch),
   checkStatusAndCancelItem: bindActionCreators(checkStatusAndCancelItem, dispatch),
   checkOpenOrderStatus: bindActionCreators(checkOpenOrderStatus, dispatch),
   makePaymentAndCompleteOrder: bindActionCreators(makePaymentAndCompleteOrder, dispatch)

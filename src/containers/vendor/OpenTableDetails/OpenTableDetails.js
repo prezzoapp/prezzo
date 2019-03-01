@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Alert,
   InteractionManager,
+  ActivityIndicator,
   Text
 } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
@@ -16,8 +17,8 @@ import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import styles from './styles';
 import { Feather } from '../../../components/VectorIcons';
-import CacheImage from '../../../components/CacheImage';
-import { TAX } from '../../../services/constants';
+import { TAX, TIME_OUT } from '../../../services/constants';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 export default class OpenTableDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -68,11 +69,8 @@ export default class OpenTableDetails extends Component {
     });
   }
 
-  showAlert(message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      Alert.alert('Prezzo', message);
-    }, duration);
+  componentWillUnmount() {
+    this.props.removeTableItemDetails();
   }
 
   finalizeOrder(price) {
@@ -88,11 +86,14 @@ export default class OpenTableDetails extends Component {
         )
       .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
-            this.showAlert('Order has been completed.', 300);
+            this.props.navigation.goBack();
+            showAlertWithMessage('Success', {
+              message: 'Order has been completed.'
+            });
           }
         })
-        .catch(e => console.log(e));
-    } else if(order.get('paymentType') === 'card') {
+        .catch(e => showAlertWithMessage(e));
+    } else if(this.props.openTableSelectedItem.paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(
           order.get('_id'),
           '',
@@ -100,10 +101,13 @@ export default class OpenTableDetails extends Component {
         )
       .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
-            this.showAlert('Order has been completed.', 300);
+            this.props.navigation.goBack();
+            showAlertWithMessage('Success', {
+              message: 'Order has been completed.'
+            });
           }
         })
-        .catch(e => console.log(e));
+        .catch(e => showAlertWithMessage(e));
     } else {
       this.props.makePaymentAndCompleteOrder(
           order.get('_id'),
@@ -113,10 +117,13 @@ export default class OpenTableDetails extends Component {
         )
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
-            this.showAlert('Order has been completed.', 300);
+            this.props.navigation.goBack();
+            showAlertWithMessage('Success', {
+              message: 'Order has been completed.'
+            });
           }
         })
-        .catch(e => console.log(e));
+        .catch(e => showAlertWithMessage('Uh-oh!', e));
     }
   }
 
@@ -131,15 +138,18 @@ export default class OpenTableDetails extends Component {
           openOrderFinalStatus === 'complete'
         ) {
           // If order has been already completed.
-
-          this.showAlert('This order has been already completed.', 300);
+          showAlertWithMessage('Info', {
+            message: 'This order has been already completed.'
+          });
         } else if (
           openOrderFinalStatus &&
           openOrderFinalStatus === 'denied'
         ) {
           // If order has been already denied.
 
-          this.showAlert('This order has been already denied.', 300);
+          showAlertWithMessage('Info', {
+            message: 'This order has been already denied.'
+          });
         } else {
           clearTimeout(this.timer);
           let pendingItems = 0;
@@ -182,11 +192,11 @@ export default class OpenTableDetails extends Component {
               ],
               { cancelable: false }
             );
-          }, 300);
+          }, TIME_OUT);
         }
       })
-      .catch(e => {
-        console.log(e);
+      .catch(err => {
+        showAlertWithMessage('Uh-oh!', err);
       });
   }
 
@@ -196,20 +206,25 @@ export default class OpenTableDetails extends Component {
       .then(() => {
         const order = this.props.openTableSelectedItem;
         if(this.props.openOrderFinalStatus === 'complete') {
-          this.showAlert('Order has been completed.', 300);
+          this.props.navigation.goBack();
+          showAlertWithMessage('Success', {
+            message: 'Order has been completed.'
+          });
         } else {
           const item = order.get('items').find(item => item.get('_id') === itemId);
           if(item) {
             if(item.get('status') === 'denied') {
               this.showAlert('Item has been successfully canceled.', 300);
             } else {
-              this.showAlert("Item can't be canceled.", 300);
+              showAlertWithMessage('Uh-oh!', {
+                message: "Item can't be canceled."
+              });
             }
           }
         }
       })
       .catch(err => {
-        console.log(err);
+        showAlertWithMessage('Uh-oh!', err);
       });
   }
 
@@ -219,62 +234,71 @@ export default class OpenTableDetails extends Component {
     return (
       <Container style={styles.container}>
         {(() => {
-          if(!selectedItem) {
-            return null;
-          }
-
-          return (
-            <Tabs
-              locked
-              scrollWithoutAnimation
-              tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
-              renderTabBar={() => (
-                <ScrollableTab
-                  style={styles.scrollableTabStyle}
-                  tabsContainerStyle={styles.tabsContainerStyle}
-                />
-              )}
-            >
-              <Tab
-                heading="Order"
-                tabStyle={styles.orderTabStyle}
-                activeTabStyle={styles.orderTabStyle}
-                textStyle={styles.orderTabTextStyle}
-                activeTextStyle={styles.orderTabTextStyle}
-                style={styles.tabStyle}
+          if(selectedItem) {
+            return (
+              <Tabs
+                locked
+                scrollWithoutAnimation
+                tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
+                renderTabBar={() => (
+                  <ScrollableTab
+                    style={styles.scrollableTabStyle}
+                    tabsContainerStyle={styles.tabsContainerStyle}
+                  />
+                )}
               >
-                <OpenOrdersList
-                  data={selectedItem}
-                  checkStatusAndCancelItem={itemId =>
-                    this.checkStatusAndCancelItem(selectedItem.get('_id'), itemId)
+                <Tab
+                  heading="Order"
+                  tabStyle={styles.orderTabStyle}
+                  activeTabStyle={styles.orderTabStyle}
+                  textStyle={styles.orderTabTextStyle}
+                  activeTextStyle={styles.orderTabTextStyle}
+                  style={styles.tabStyle}
+                >
+                  <OpenOrdersList
+                    data={selectedItem}
+                    checkStatusAndCancelItem={(orderId, itemId) =>
+                      this.checkStatusAndCancelItem(orderId, itemId)
+                    }
+                    completeOrder={() => {
+                      this.completeOrder(selectedItem._id)
+                    }}
+                    innerTab={this.props.navigation.state.params.innerTab}
+                  />
+                </Tab>
+                {(() => {
+                  if(this.props.navigation.state.params.innerTab !== 'queue') {
+                    return (
+                      <Tab
+                        heading="Payment"
+                        tabStyle={styles.paymentTabStyle}
+                        activeTabStyle={styles.paymentTabStyle}
+                        textStyle={styles.paymentTabTextStyle}
+                        activeTextStyle={styles.paymentTabTextStyle}
+                        style={styles.tabStyle}
+                      >
+                        <OpenTablePayment
+                          data={selectedItem}
+                          innerTab={this.props.navigation.state.params.innerTab}
+                          completeOrder={() => this.completeOrder(selectedItem._id)}
+                        />
+                      </Tab>
+                    );
                   }
-                  completeOrder={() => this.completeOrder(selectedItem.get('_id'))}
-                  innerTab={this.props.navigation.state.params.innerTab}
-                />
-              </Tab>
-              {(() => {
-                if(this.props.navigation.state.params.innerTab !== 'queue') {
-                  return (
-                    <Tab
-                      heading="Payment"
-                      tabStyle={styles.paymentTabStyle}
-                      activeTabStyle={styles.paymentTabStyle}
-                      textStyle={styles.paymentTabTextStyle}
-                      activeTextStyle={styles.paymentTabTextStyle}
-                      style={styles.tabStyle}
-                    >
-                      <OpenTablePayment
-                        data={selectedItem}
-                        innerTab={this.props.navigation.state.params.innerTab}
-                        completeOrder={() =>
-                          this.completeOrder(selectedItem.get('_id'))
-                        }
-                      />
-                    </Tab>
-                  );
-                }
-              })()}
-            </Tabs>
+                })()}
+              </Tabs>
+            );
+          }
+          return (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <ActivityIndicator size="large" color="white"/>
+            </View>
           );
         })()}
       </Container>
