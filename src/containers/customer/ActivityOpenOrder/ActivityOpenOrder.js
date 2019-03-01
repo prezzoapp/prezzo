@@ -35,7 +35,11 @@ class ActivityOpenOrder extends Component {
   }
 
   componentDidMount() {
-    this.listOpenOrders();
+    this.props.listOpenOrders(this.props.userId, 'pending')
+      .then(() => {})
+      .catch(err => {
+        showAlertWithMessage('Uh-oh!', err);
+      });
   }
 
   onRefresh() {
@@ -58,14 +62,6 @@ class ActivityOpenOrder extends Component {
       }
     );
   }
-
-  listOpenOrders = () => {
-    this.props.listOpenOrders(this.props.userId, 'pending')
-      .then(() => {})
-      .catch(err => {
-        showAlertWithMessage('Uh-oh!', err);
-      });
-  };
 
   finalizeOrder(price) {
     const data = this.props.data.first();

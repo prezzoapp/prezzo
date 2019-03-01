@@ -24,10 +24,7 @@ import CacheImage from '../../../components/CacheImage';
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
-  SF_PRO_TEXT_REGULAR,
-  INTERNET_NOT_CONNECTED,
-  NETWORK_REQUEST_FAILED,
-  TIME_OUT
+  SF_PRO_TEXT_REGULAR
 } from '../../../services/constants';
 
 import { showAlertWithMessage } from '../../../services/commonFunctions';
