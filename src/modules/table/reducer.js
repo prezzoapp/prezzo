@@ -21,6 +21,10 @@ import {
   OPEN_TABLE_SELECTED_ITEM_SUCCESS,
   OPEN_TABLE_SELECTED_ITEM_FAILURE,
 
+  REMOVE_SELECTED_TABLE_ITEM_REQUEST,
+  REMOVE_SELECTED_TABLE_ITEM_SUCCESS,
+  REMOVE_SELECTED_TABLE_ITEM_FAILURE,
+
   CHECK_OPEN_ORDER_STATUS_REQUEST,
   CHECK_OPEN_ORDER_STATUS_SUCCESS,
   CHECK_OPEN_ORDER_STATUS_FAILURE,
@@ -44,249 +48,6 @@ import {
   CLOSED_TABLE_SECTION_CHANGE
 } from './types';
 
-// function getDummyData() {
-//   return [
-//     {
-//       id: '1',
-//       userName: 'Danny',
-//       tableId: 1221,
-//       userImg:
-//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-//       status: false,
-//       items: [
-//         {
-//           imgUrl: require('../../../assets/images/item2.png'),
-//           itemName: 'Buffalo Cauliflower',
-//           quantity: 2,
-//           status: 1
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item8.png'),
-//           itemName: "Mac n' Cheese",
-//           quantity: 3,
-//           status: 2
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item6.png'),
-//           itemName: 'BBQ Pinapple',
-//           quantity: 2,
-//           status: 1
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item5.png'),
-//           itemName: 'Mole Bowl',
-//           quantity: 1,
-//           status: 2
-//         }
-//       ]
-//     },
-//     {
-//       id: '2',
-//       userName: 'Robert',
-//       tableId: 1242,
-//       userImg:
-//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-//       status: true,
-//       items: [
-//         {
-//           imgUrl: require('../../../assets/images/item2.png'),
-//           itemName: 'Buffalo Cauliflower',
-//           quantity: 2,
-//           status: 2
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item8.png'),
-//           itemName: "Mac n' Cheese",
-//           quantity: 3,
-//           status: 2
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item6.png'),
-//           itemName: 'BBQ Pinapple',
-//           quantity: 2,
-//           status: 1
-//         }
-//       ]
-//     },
-//     {
-//       id: '3',
-//       userName: 'Angelica',
-//       tableId: 1223,
-//       userImg:
-//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-//       status: true,
-//       items: [
-//         {
-//           imgUrl: require('../../../assets/images/item8.png'),
-//           itemName: "Mac n' Cheese",
-//           quantity: 3,
-//           status: 2
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item6.png'),
-//           itemName: 'BBQ Pinapple',
-//           quantity: 2,
-//           status: 1
-//         }
-//       ]
-//     },
-//     {
-//       id: '4',
-//       userName: 'James',
-//       tableId: 1341,
-//       userImg:
-//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-//       status: true,
-//       items: [
-//         {
-//           imgUrl: require('../../../assets/images/item6.png'),
-//           itemName: 'BBQ Pinapple',
-//           quantity: 2,
-//           status: 1
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item2.png'),
-//           itemName: 'Buffalo Cauliflower',
-//           quantity: 2,
-//           status: 1
-//         }
-//       ]
-//     },
-//     {
-//       id: '5',
-//       userName: 'James',
-//       tableId: 1341,
-//       userImg:
-//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-//       status: true,
-//       items: [
-//         {
-//           imgUrl: require('../../../assets/images/item6.png'),
-//           itemName: 'BBQ Pinapple',
-//           quantity: 2,
-//           status: 1
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item2.png'),
-//           itemName: 'Buffalo Cauliflower',
-//           quantity: 2,
-//           status: 1
-//         }
-//       ]
-//     },
-//     {
-//       id: '6',
-//       userName: 'James',
-//       tableId: 1341,
-//       userImg:
-//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-//       status: true,
-//       items: [
-//         {
-//           imgUrl: require('../../../assets/images/item6.png'),
-//           itemName: 'BBQ Pinapple',
-//           quantity: 2,
-//           status: 1
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item2.png'),
-//           itemName: 'Buffalo Cauliflower',
-//           quantity: 2,
-//           status: 1
-//         }
-//       ]
-//     },
-//     {
-//       id: '7',
-//       userName: 'James',
-//       tableId: 1341,
-//       userImg:
-//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-//       status: true,
-//       items: [
-//         {
-//           imgUrl: require('../../../assets/images/item6.png'),
-//           itemName: 'BBQ Pinapple',
-//           quantity: 2,
-//           status: 1
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item2.png'),
-//           itemName: 'Buffalo Cauliflower',
-//           quantity: 2,
-//           status: 1
-//         }
-//       ]
-//     },
-//     {
-//       id: '8',
-//       userName: 'James',
-//       tableId: 1341,
-//       userImg:
-//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-//       status: true,
-//       items: [
-//         {
-//           imgUrl: require('../../../assets/images/item6.png'),
-//           itemName: 'BBQ Pinapple',
-//           quantity: 2,
-//           status: 1
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item2.png'),
-//           itemName: 'Buffalo Cauliflower',
-//           quantity: 2,
-//           status: 1
-//         }
-//       ]
-//     },
-//     {
-//       id: '9',
-//       userName: 'James',
-//       tableId: 1341,
-//       userImg:
-//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-//       status: true,
-//       items: [
-//         {
-//           imgUrl: require('../../../assets/images/item6.png'),
-//           itemName: 'BBQ Pinapple',
-//           quantity: 2,
-//           status: 1
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item2.png'),
-//           itemName: 'Buffalo Cauliflower',
-//           quantity: 2,
-//           status: 1
-//         }
-//       ]
-//     },
-//     {
-//       id: '10',
-//       userName: 'James',
-//       tableId: 1341,
-//       userImg:
-//         'https://wrappixel.com/ampleadmin/ampleadmin-html/plugins/images/users/varun.jpg',
-//       status: true,
-//       items: [
-//         {
-//           imgUrl: require('../../../assets/images/item6.png'),
-//           itemName: 'BBQ Pinapple',
-//           quantity: 2,
-//           status: 1
-//         },
-//         {
-//           imgUrl: require('../../../assets/images/item2.png'),
-//           itemName: 'Buffalo Cauliflower',
-//           quantity: 2,
-//           status: 1
-//         }
-//       ]
-//     }
-//   ];
-// }
-
 const INITIAL_STATE = fromJS({
   layout: 'list',
   section: 0,
@@ -302,45 +63,30 @@ const INITIAL_STATE = fromJS({
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LIST_OPEN_TABLE_REQUEST:
-    return state.update('isBusy', () => true);
-
-    case LIST_OPEN_TABLE_FAILURE:
-    return state.update('isBusy', () => false);
-
     case LIST_QUEUED_TABLE_REQUEST:
-    return state.update('isBusy', () => true);
-
-    case LIST_QUEUED_TABLE_FAILURE:
-    return state.update('isBusy', () => false);
-
+    case CHECK_OPEN_ORDER_STATUS_REQUEST:
     case CHECK_QUEUE_ORDER_STATUS_REQUEST:
     case CHANGE_ORDER_STATUS_REQUEST:
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST:
     case OPEN_TABLE_SELECTED_ITEM_REQUEST:
+    case LIST_CLOSED_TABLE_REQUEST:
+    case CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_REQUEST:
       return state.update('isBusy', () => true);
 
+    case LIST_OPEN_TABLE_FAILURE:
+    case LIST_QUEUED_TABLE_FAILURE:
+    case CHECK_OPEN_ORDER_STATUS_FAILURE:
     case CHECK_QUEUE_ORDER_STATUS_FAILURE:
     case CHANGE_ORDER_STATUS_FAILURE:
-      return state.update('isBusy', () => false);
-
-    case LIST_CLOSED_TABLE_REQUEST:
-    return state.update('isBusy', () => true);
-
     case LIST_CLOSED_TABLE_FAILURE:
-    return state.update('isBusy', () => false);
-
+    case CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_FAILURE:
+      return state.update('isBusy', () => false);
 
     case LIST_OPEN_TABLE_SUCCESS:
       return state.update('openTableList', () => action.payload).update('isBusy', () => false);
 
     case LIST_QUEUED_TABLE_SUCCESS:
       return state.update('queuedTableList', () => action.payload).update('isBusy', () => false);
-
-    case ACCEPT_QUEUED_REQUEST:
-      return state.update('queuedTableList', () => action.payload);
-
-    case DELETE_QUEUED_REQUEST:
-      return state.update('queuedTableList', () => action.payload);
 
     case SECTION_CHANGE:
       return state.update('section', () => action.payload);
@@ -352,7 +98,6 @@ const reducer = (state = INITIAL_STATE, action) => {
       return state.update('closedTableSection', () => action.payload);
 
     case LIST_CLOSED_TABLE_SUCCESS:
-      //return state.update('closedTableList', () => action.payload);
       return state.update('closedTableList', () => action.payload).update('isBusy', () => false);
 
 
@@ -365,8 +110,6 @@ const reducer = (state = INITIAL_STATE, action) => {
         action.payload.first().get('status') === 'denied')
           ? null
           : action.payload.first();
-
-      console.log(action.payload.toJS());
 
       if(updatedStateAfterOrderStatusCheck !== null) {
         const itemIndex =
@@ -399,14 +142,13 @@ const reducer = (state = INITIAL_STATE, action) => {
         action.payload.first().get('status') === 'denied' ||
         action.payload.first().get('status') === 'complete') {
         const newQueuedList = state.get('queuedTableList').filter(item => item.get('_id') !== action.payload.first().get('_id'));
-        console.log(newQueuedList.toJS());
         return state
           .update('queuedTableList', () => newQueuedList)
-          .update('openOrderFinalStatus', () => action.payload.get('status'))
+          .update('openOrderFinalStatus', () => action.payload.first().get('status'))
           .update('isBusy', () => false);
       }
       return state
-        .update('openOrderFinalStatus', () => action.payload.get('status'))
+        .update('openOrderFinalStatus', () => action.payload.first().get('status'))
         .update('isBusy', () => false);
 
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS:
@@ -416,9 +158,6 @@ const reducer = (state = INITIAL_STATE, action) => {
         (action.payload.get('status') === 'complete')
           ? null
           : action.payload;
-
-      console.log('Action.Payload After Payment: ');
-      console.log(action.payload.toJS());
 
       if(updatedStateAfterPayment !== null) {
         const itemIndex =
@@ -446,30 +185,24 @@ const reducer = (state = INITIAL_STATE, action) => {
       return newlyStateAfterPayment;
 
     case CHANGE_ORDER_STATUS_SUCCESS:
-      // console.log(action.payload.toJS());
       const newQueuedList = state.get('queuedTableList').filter(item => item.get('_id') !== action.payload.get('_id'));
 
       return state
         .update('openOrderFinalStatus', () => action.payload.get('status'))
         .update('queuedTableList', () => newQueuedList)
         .update('isBusy', () => false);
-      // console.log(action.payload.orderId, action.payload.status, action.payload.type);
-      // if(action.payload.type === 'queued') {
-      //   console.log("Queued List Item: ");
-      //   console.log(state.get('queuedTableList').filter(item => {
-      //     if(action.payload.status === 'active' && item.get('_id') === action.payload.orderId) {
-      //       item.set('status', action.payload.status);
-      //     }
-      //     return item;
-      //   }).toJS());
-      // }
 
     case OPEN_TABLE_SELECTED_ITEM_SUCCESS:
-      console.log(action.payload.toJS());
       return state.update('openTableSelectedItem', () => action.payload).update('isBusy', () => false);
+
+    case REMOVE_SELECTED_TABLE_ITEM_SUCCESS:
+      return state.update('openTableSelectedItem', () => null);
 
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE:
       return state.update('isBusy', () => false);
+
+    case REMOVE_SELECTED_TABLE_ITEM_REQUEST:
+    case REMOVE_SELECTED_TABLE_ITEM_FAILURE:
     case SHOW_ALERT:
     default:
       return state;

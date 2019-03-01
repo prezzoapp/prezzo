@@ -13,6 +13,7 @@ import {
   COLOR_WHITE,
   FONT_FAMILY_MEDIUM
 } from '../../../services/constants';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 class Profile extends Component {
   static navigationOptions = {
@@ -50,8 +51,8 @@ class Profile extends Component {
     try {
       await this.props.userLogout();
       await snapshot.clearSnapshot();
-    } catch(e) {
-      console.log("Logout Error!");
+    } catch(err) {
+      showAlertWithMessage('Uh-oh!', err);
     }
   }
 

@@ -49,4 +49,4 @@ export const restaurantCategories = [
 
 export const NETWORK_REQUEST_FAILED = 'Network request failed';
 export const INTERNET_NOT_CONNECTED = 'Please check your internet connection.';
-export const TIME_OUT = 250;
+export const TIME_OUT = 200;

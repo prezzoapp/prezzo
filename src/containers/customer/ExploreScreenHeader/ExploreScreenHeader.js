@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Alert, NetInfo } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Slider from 'react-native-slider';
@@ -17,38 +17,11 @@ class ExploreScreenHeader extends Component {
 
   constructor() {
     super();
-
-    NetInfo.isConnected.fetch().then(this.handleConnectionChange);
-
-    this.connected;
-  }
-
-  componentDidMount() {
-    NetInfo.isConnected.addEventListener('connectionChange', this.connectionChange);
-  }
-
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener('connectionChange', this.connectionChange);
-  }
-
-  showAlert(title, message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      showGenericAlert(title, message);
-    }, duration);
   }
 
   moveToMap() {
-    // if(this.connected) {
-    //   this.props.navigate({ routeName: 'MapScreen' });
-    // }
-    // else {
-    //   this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 0);
-    // }
     this.props.navigate({ routeName: 'MapScreen' });
   };
-
-  connectionChange = isConnected => this.connected = isConnected;
 
   render() {
     return (
