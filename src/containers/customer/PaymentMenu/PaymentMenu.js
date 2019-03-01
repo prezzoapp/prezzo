@@ -21,15 +21,9 @@ import { Feather } from '../../../components/VectorIcons';
 import EditableListItem from '../../../components/EditableListItem';
 import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
-import {
-  FONT_FAMILY_MEDIUM,
-  COLOR_WHITE,
-  INTERNET_NOT_CONNECTED,
-  NETWORK_REQUEST_FAILED,
-  TIME_OUT
-} from '../../../services/constants';
+import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 import LoadingComponent from '../../../components/LoadingComponent';
-import { showAlert } from '../../../services/commonFunctions';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 class PaymentMenu extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -78,13 +72,7 @@ class PaymentMenu extends Component {
       this.props.listCreditCards().then(() => {
           this.checkResponseMessage();
         })
-        .catch(err => {
-          if(err.message === NETWORK_REQUEST_FAILED) {
-            showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-          } else {
-            showAlert('Uh-oh!', err.message, TIME_OUT);
-          }
-      });
+        .catch(err => showAlertWithMessage('Uh-oh!', err));
     });
   }
 
@@ -97,13 +85,7 @@ class PaymentMenu extends Component {
   removeCreditCard(id) {
     this.props.removeCreditCard(id)
     .then(() => {})
-    .catch(err => {
-      if(err.message === NETWORK_REQUEST_FAILED) {
-        showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-      } else {
-        showAlert('Uh-oh!', err.message, TIME_OUT);
-      }
-    });
+    .catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
   removeCardAtIndex(id) {
