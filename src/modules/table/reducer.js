@@ -197,6 +197,9 @@ const reducer = (state = INITIAL_STATE, action) => {
     case REMOVE_SELECTED_TABLE_ITEM_SUCCESS:
       return state.update('openTableSelectedItem', () => null);
 
+    case REMOVE_SELECTED_TABLE_ITEM_SUCCESS:
+      return state.update('openTableSelectedItem', () => null);
+
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE:
       return state.update('isBusy', () => false);
 

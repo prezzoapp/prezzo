@@ -16,8 +16,6 @@ import {
   COLOR_WHITE,
   SF_PRO_TEXT_BOLD,
   TAX,
-  NETWORK_REQUEST_FAILED,
-  INTERNET_NOT_CONNECTED,
   TIME_OUT
 } from '../../../services/constants';
 
