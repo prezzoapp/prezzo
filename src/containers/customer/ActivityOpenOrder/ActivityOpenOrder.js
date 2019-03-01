@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import ActivityListItem from '../../../components/ActivityListItem';
 import Button from '../../../components/Button';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 import {
   FONT_FAMILY_MEDIUM,
@@ -36,7 +35,11 @@ class ActivityOpenOrder extends Component {
   }
 
   componentDidMount() {
-    this.listOpenOrders();
+    this.props.listOpenOrders(this.props.userId, 'pending')
+      .then(() => {})
+      .catch(err => {
+        showAlertWithMessage('Uh-oh!', err);
+      });
   }
 
   onRefresh() {
@@ -59,14 +62,6 @@ class ActivityOpenOrder extends Component {
       }
     );
   }
-
-  listOpenOrders = () => {
-    this.props.listOpenOrders(this.props.userId, 'pending')
-      .then(() => {})
-      .catch(err => {
-        showAlertWithMessage('Uh-oh!', err);
-      });
-  };
 
   finalizeOrder(price) {
     const data = this.props.data.first();
