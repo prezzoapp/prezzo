@@ -17,10 +17,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import {
   FONT_FAMILY,
   FONT_FAMILY_REGULAR,
-  FONT_FAMILY_MEDIUM,
-  NETWORK_REQUEST_FAILED,
-  INTERNET_NOT_CONNECTED,
-  TIME_OUT
+  FONT_FAMILY_MEDIUM
 } from '../../../services/constants';
 import { Feather } from '../../../components/VectorIcons';
 import LoginTextInput from '../../../components/LoginTextInput';
@@ -28,12 +25,16 @@ import Button from '../../../components/Button';
 import { Constants } from 'expo';
 import LoadingComponent from '../../../components/LoadingComponent';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import CacheImage from '../../../components/CacheImage';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 =======
 import showGenericAlert from '../../../components/GenericAlert';
 import { checkInternetConnectivity } from '../../../services/commonFunctions';
 >>>>>>> - Check network availability & handle API(s) errors for login, user activity, user profile, create order, payment methods, add credit card screen(s) and move some payment detail screen’s methods into redux from component level.
+=======
+import { showAlertWithMessage } from '../../../services/commonFunctions';
+>>>>>>> Add check network validity & handle API(s) errors for Vendor Admin > Tables > Open, Queue, Completed tabs and all its internal components, remove unused code for these components/screen(s).
 
 type Props = {
   loginWithEmail: Function,
@@ -92,25 +93,12 @@ class Login extends React.Component<Props, State> {
     this.navigateToMain();
   }
 
-  showAlert(title, message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      showGenericAlert(title, message);
-    }, duration);
-  }
-
   login() {
     const { email, password } = this.state;
 
     this.props.loginWithEmail(email, password)
       .then(() => this.afterLogin())
-    .catch(e => {
-      if(e.message === NETWORK_REQUEST_FAILED) {
-        this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-      } else {
-        this.showAlert('Uh-oh!', e.message, TIME_OUT);
-      }
-    });
+    .catch(e => showAlertWithMessage('Uh-oh!', e));
   }
 
   render() {

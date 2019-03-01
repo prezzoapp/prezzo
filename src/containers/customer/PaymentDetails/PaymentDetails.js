@@ -24,7 +24,7 @@ import {
   COLOR_WHITE,
   NETWORK_REQUEST_FAILED
 } from '../../../services/constants';
-import { showAlert } from '../../../services/commonFunctions';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -97,15 +97,11 @@ class PaymentDetails extends Component {
           if(error.message.code === 'CLIENT_GATEWAY_NETWORK') {
             showAlertWithMessage('Uh-oh!', { message: NETWORK_REQUEST_FAILED });
           } else {
-            showAlert('Uh-oh!', error.message.message, TIME_OUT);
+            showAlertWithMessage('Uh-oh!', error.message);
           }
         });
       } catch(err) {
-        if(err.message === NETWORK_REQUEST_FAILED) {
-          showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-        } else {
-          showAlert('Uh-oh!', err.message, TIME_OUT);
-        }
+        showAlertWithMessage('Uh-oh!', err);
       }
     });
   }
@@ -144,11 +140,7 @@ class PaymentDetails extends Component {
       await this.props.addCreditCardInfo(paymentMethod, paymentMethod.isDefault);
       this.props.navigation.goBack();
     } catch(err) {
-      if(err.message === NETWORK_REQUEST_FAILED) {
-        showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, 250);
-      } else {
-        showAlert('Uh-oh!', err.message, 250);
-      }
+      showAlertWithMessage('Uh-oh!', err);
     }
   }
 
