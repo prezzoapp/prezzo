@@ -18,16 +18,10 @@ import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
-import CustomMarker from './CustomMarker';
-import showGenericAlert from '../../../components/GenericAlert';
-import CacheImage from '../../../components/CacheImage';
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
-  SF_PRO_TEXT_REGULAR,
-  INTERNET_NOT_CONNECTED,
-  NETWORK_REQUEST_FAILED,
-  TIME_OUT
+  SF_PRO_TEXT_REGULAR
 } from '../../../services/constants';
 
 import { showAlertWithMessage } from '../../../services/commonFunctions';

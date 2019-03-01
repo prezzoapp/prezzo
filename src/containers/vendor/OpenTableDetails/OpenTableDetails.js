@@ -93,8 +93,8 @@ export default class OpenTableDetails extends Component {
             });
           }
         })
-        .catch(e => console.log(e));
-    } else if(order.get('paymentType') === 'card') {
+        .catch(e => showAlertWithMessage(e));
+    } else if(this.props.openTableSelectedItem.paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(
           order.get('_id'),
           '',

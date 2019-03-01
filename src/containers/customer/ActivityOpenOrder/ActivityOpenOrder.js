@@ -122,15 +122,18 @@ class ActivityOpenOrder extends Component {
           this.props.openOrderFinalStatus === 'complete'
         ) {
           // If order has been already completed.
-
-          this.showAlert('Info', 'This order has been already completed.', TIME_OUT);
+          showAlertWithMessage('Info', {
+            message: 'This order has been already completed.'
+          });
         } else if (
           this.props.openOrderFinalStatus &&
           this.props.openOrderFinalStatus === 'denied'
         ) {
           // If order has been already denied.
 
-          this.showAlert('Info', 'This order has been already denied.', TIME_OUT);
+          showAlertWithMessage('Info', {
+            message: 'This order has been already denied.'
+          });
         } else {
           clearTimeout(this.timer);
           let pendingItems = 0;
@@ -179,11 +182,9 @@ class ActivityOpenOrder extends Component {
           const item = data.get('items').find(ele => ele.get('_id') === eleId);
           if(item) {
             if(item.status === 'denied') {
-              this.showAlert(
-                'Success',
-                'Item has been successfully canceled.',
-                TIME_OUT
-              );
+              showAlertWithMessage('Success', {
+                message: 'Item has been successfully canceled.'
+              });
             } else {
               showAlertWithMessage('Uh-oh!', {
                 message: "Item can't be canceled."
