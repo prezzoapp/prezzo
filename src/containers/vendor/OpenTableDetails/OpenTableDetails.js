@@ -132,7 +132,6 @@ export default class OpenTableDetails extends Component {
     this.props
       .checkOpenOrderStatus(id)
       .then(() => {
-        const openOrderFinalStatus = this.props.openOrderFinalStatus;
         if (
           openOrderFinalStatus &&
           openOrderFinalStatus === 'complete'
@@ -213,8 +212,10 @@ export default class OpenTableDetails extends Component {
         } else {
           const item = order.get('items').find(item => item.get('_id') === itemId);
           if(item) {
-            if(item.get('status') === 'denied') {
-              this.showAlert('Item has been successfully canceled.', 300);
+            if(item.status === 'denied') {
+              showAlertWithMessage('Success', {
+                message: 'Item has been successfully canceled.'
+              });
             } else {
               showAlertWithMessage('Uh-oh!', {
                 message: "Item can't be canceled."
