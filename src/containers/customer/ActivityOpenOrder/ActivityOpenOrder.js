@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import ActivityListItem from '../../../components/ActivityListItem';
 import Button from '../../../components/Button';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 import {
   FONT_FAMILY_MEDIUM,
@@ -19,6 +18,8 @@ import {
   TAX,
   TIME_OUT
 } from '../../../services/constants';
+
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 class ActivityOpenOrder extends Component {
   constructor(props) {
@@ -34,7 +35,11 @@ class ActivityOpenOrder extends Component {
   }
 
   componentDidMount() {
-    this.listOpenOrders();
+    this.props.listOpenOrders(this.props.userId, 'pending')
+      .then(() => {})
+      .catch(err => {
+        showAlertWithMessage('Uh-oh!', err);
+      });
   }
 
   onRefresh() {
@@ -57,14 +62,6 @@ class ActivityOpenOrder extends Component {
       }
     );
   }
-
-  listOpenOrders = () => {
-    this.props.listOpenOrders(this.props.userId, 'pending')
-      .then(() => {})
-      .catch(err => {
-        showAlertWithMessage('Uh-oh!', err);
-      });
-  };
 
   finalizeOrder(price) {
     if(this.props.data[0].paymentType === 'card' && price !== 0) {
