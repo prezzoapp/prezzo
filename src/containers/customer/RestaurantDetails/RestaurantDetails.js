@@ -31,13 +31,9 @@ import LoadingComponent from '../../../components/LoadingComponent';
 
 import Button from '../../../components/Button';
 
-import {
-  FONT_FAMILY_MEDIUM,
-  COLOR_WHITE,
-  INTERNET_NOT_CONNECTED,
-  NETWORK_REQUEST_FAILED,
-  TIME_OUT
-} from '../../../services/constants';
+import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
+
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 import Checkout from '../Checkout';
 
@@ -210,13 +206,7 @@ export default class RestaurantDetails extends Component {
           }
         );
       })
-      .catch(err => {
-        if(err.message === NETWORK_REQUEST_FAILED) {
-          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-        } else {
-          this.showAlert('Uh-oh!', err.message, TIME_OUT);
-        }
-      });
+      .catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
   isSelectedPaymentMethod(val) {
@@ -621,7 +611,7 @@ export default class RestaurantDetails extends Component {
                   alignItems: 'center'
                 }}
               >
-                <ActivityIndicator size="large" />
+                <ActivityIndicator size="large" color="white" />
               </View>
             );
           })()}

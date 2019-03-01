@@ -10,17 +10,16 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 import ActivityListItem from '../../../components/ActivityListItem';
 import Button from '../../../components/Button';
-import showGenericAlert from '../../../components/GenericAlert';
 
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
   SF_PRO_TEXT_BOLD,
   TAX,
-  NETWORK_REQUEST_FAILED,
-  INTERNET_NOT_CONNECTED,
   TIME_OUT
 } from '../../../services/constants';
+
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 class ActivityOpenOrder extends Component {
   constructor(props) {
@@ -35,11 +34,7 @@ class ActivityOpenOrder extends Component {
     this.props.listOpenOrders(this.props.userId, 'pending')
       .then(() => {})
       .catch(err => {
-        if(err.message === NETWORK_REQUEST_FAILED) {
-          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-        } else {
-          this.showAlert('Uh-oh!', err.message, TIME_OUT);
-        }
+        showAlertWithMessage('Uh-oh!', err);
       });
   }
 
@@ -56,25 +51,12 @@ class ActivityOpenOrder extends Component {
             this.setState({ isFetching: false });
           })
           .catch(err => {
-            if (err.message === NETWORK_REQUEST_FAILED) {
-              this.setState({ isFetching: false }, () => {
-                this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-              });
-            } else {
-              this.setState({ isFetching: false }, () => {
-                this.showAlert('Uh-oh!', err.message, TIME_OUT);
-              });
-            }
+            this.setState({ isFetching: false }, () => {
+              showAlertWithMessage('Uh-oh!', err);
+            });
         });
       }
     );
-  }
-
-  showAlert(title, message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      showGenericAlert(title, message);
-    }, duration);
   }
 
   finalizeOrder(price) {
@@ -87,7 +69,9 @@ class ActivityOpenOrder extends Component {
         )
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
-            this.showAlert('Success', 'Order has been completed.', TIME_OUT);
+            showAlertWithMessage('Success', {
+              message: 'Order has been completed.'
+            });
           }
         })
         .catch(err => {
@@ -101,31 +85,23 @@ class ActivityOpenOrder extends Component {
       this.props.makePaymentAndCompleteOrder(data.get('_id'), '', price)
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
-            this.showAlert('Success', 'Order has been completed.', TIME_OUT);
+            showAlertWithMessage('Success', {
+              message: 'Order has been completed.'
+            });
           }
         })
-        .catch(err => {
-          if(err.message === NETWORK_REQUEST_FAILED) {
-            this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-          } else {
-            this.showAlert('Uh-oh!', err.message, TIME_OUT);
-          }
-        });
+        .catch(err => showAlertWithMessage('Uh-oh!', err));
     } else {
       this.props
         .makePaymentAndCompleteOrder(data.get('_id'), '', price, 'cash')
         .then(() => {
           if (this.props.openOrderFinalStatus === 'complete') {
-            this.showAlert('Success', 'Order has been completed.', TIME_OUT);
+            showAlertWithMessage('Success', {
+              message: 'Order has been completed.'
+            });
           }
         })
-        .catch(err => {
-          if(err.message === NETWORK_REQUEST_FAILED) {
-            this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-          } else {
-            this.showAlert('Uh-oh!', err.message, TIME_OUT);
-          }
-        });
+        .catch(err => showAlertWithMessage('Uh-oh!', err));
     }
   }
 
@@ -211,13 +187,7 @@ class ActivityOpenOrder extends Component {
           }, TIME_OUT);
         }
       })
-      .catch(err => {
-        if(err.message === NETWORK_REQUEST_FAILED) {
-          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-        } else {
-          this.showAlert('Uh-oh!', err.message, TIME_OUT);
-        }
-      });
+      .catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
   checkStatusAndCancelItem(orderId, eleId) {
@@ -233,18 +203,14 @@ class ActivityOpenOrder extends Component {
             if(item.get('status') === 'denied') {
               this.showAlert('Item has been successfully canceled.', 300);
             } else {
-              this.showAlert('Info', "Item can't be canceled.", TIME_OUT);
+              showAlertWithMessage('Uh-oh!', {
+                message: "Item can't be canceled."
+              });
             }
           }
         }
       })
-      .catch(err => {
-        if(err.message === NETWORK_REQUEST_FAILED) {
-          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-        } else {
-          this.showAlert('Uh-oh!', err.message, TIME_OUT);
-        }
-      });
+      .catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
   listEmptyComponent() {

@@ -17,10 +17,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import {
   FONT_FAMILY,
   FONT_FAMILY_REGULAR,
-  FONT_FAMILY_MEDIUM,
-  NETWORK_REQUEST_FAILED,
-  INTERNET_NOT_CONNECTED,
-  TIME_OUT
+  FONT_FAMILY_MEDIUM
 } from '../../../services/constants';
 import { Feather } from '../../../components/VectorIcons';
 import LoginTextInput from '../../../components/LoginTextInput';
@@ -28,8 +25,7 @@ import Button from '../../../components/Button';
 import { Constants } from 'expo';
 import LoadingComponent from '../../../components/LoadingComponent';
 import CacheImage from '../../../components/CacheImage';
-import showGenericAlert from '../../../components/GenericAlert';
-import { checkInternetConnectivity } from '../../../services/commonFunctions';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 type Props = {
   loginWithEmail: Function,
@@ -88,25 +84,12 @@ class Login extends React.Component<Props, State> {
     this.navigateToMain();
   }
 
-  showAlert(title, message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      showGenericAlert(title, message);
-    }, duration);
-  }
-
   login() {
     const { email, password } = this.state;
 
     this.props.loginWithEmail(email, password)
       .then(() => this.afterLogin())
-    .catch(e => {
-      if(e.message === NETWORK_REQUEST_FAILED) {
-        this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-      } else {
-        this.showAlert('Uh-oh!', e.message, TIME_OUT);
-      }
-    });
+    .catch(e => showAlertWithMessage('Uh-oh!', e));
   }
 
   render() {

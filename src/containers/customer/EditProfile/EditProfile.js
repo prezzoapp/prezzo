@@ -20,7 +20,7 @@ import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import LoadingComponent from '../../../components/LoadingComponent';
-import { getTimeStampString, showAlert } from '../../../services/commonFunctions';
+import { getTimeStampString, showAlertWithMessage } from '../../../services/commonFunctions';
 import CacheImage from '../../../components/CacheImage';
 import {
   FONT_FAMILY,
@@ -145,11 +145,7 @@ class EditProfile extends Component<Props, State> {
       this.setState({ isEditing: false });
     } catch(err) {
       this.setState({ isEditing: false }, () => {
-        if(err.message === NETWORK_REQUEST_FAILED) {
-          showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-        } else {
-          showAlert('Uh-oh!', err.message, TIME_OUT);
-        }
+        showAlertWithMessage('Uh-oh!', err);
       });
     }
   }

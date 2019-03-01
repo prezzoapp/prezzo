@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, FlatList, Alert, Modal, ActivityIndicator, NetInfo, AsyncStorage, Text } from 'react-native';
+import { View, FlatList, Alert, Modal, ActivityIndicator, AsyncStorage, Text, NetInfo } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { LinearGradient } from 'expo';
@@ -13,8 +13,13 @@ import QueuedTableItem from '../../../components/QueuedTableItem';
 import TableListHeader from '../../../components/TableListHeader';
 import TableGridItem from '../../../components/TableGridItem';
 import ClosedTableTabs from '../../../components/ClosedTableTabs';
-import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
+import {
+  ACCEPT_ORDER,
+  DELETE_ORDER,
+  TIME_OUT
+} from '../../../services/constants';
 import { get } from '../../../utils/api';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 class Tables extends Component {
@@ -38,41 +43,17 @@ class Tables extends Component {
      showLoader: false
     }
 
-    this.timer = null;
     this.timeOutVar = -1;
   }
 
   componentDidMount() {
     if(this.props.vendorData) {
-      NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
-      if (this.props.section === 0) {
-        this.props.listOpenTable(this.props.vendorData.get('_id')).then(() => {
-            this.checkResponseMessage();
-          })
-          .catch(e => {
-            this.showAlert(e.message, 300);
-          });
-      } else if (this.props.section === 1) {
-        this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
-            this.checkResponseMessage();
-          })
-          .catch(e => {
-            this.showAlert(e.message, 300);
-          });
-      } else {
-        this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
-            this.checkResponseMessage();
-          })
-          .catch(e => {
-            this.showAlert(e.message, 300);
-          });
-      }
+      this.getData(this.props.section);
     }
   }
 
   checkResponseMessage(){
     AsyncStorage.getItem('response_code').then((code) => {
-    //console.log("response message is -----------------",code);
     if(code !== '200') {
       AsyncStorage.getItem('response_message').then((msg) => {
         //console.log("response message is -----------------",msg);
@@ -89,57 +70,45 @@ class Tables extends Component {
     });
   }
 
-  handleConnectionChange = (isConnected) => {
-    this.setState({ status: isConnected });
-    console.log(`is connected: ${this.state.status}`);
-  }
-
-  showAlert(message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      alert(message);
-    }, duration);
-  }
-
   checkAndChangeQueueOrderStatus(orderId, status) {
-    this.props.changeOrderStatus(orderId, status)
-    .then(() => {
-        this.checkResponseMessage();
+    this.props.checkQueueOrderStatus(orderId).then(() => {
+      if(this.props.openOrderFinalStatus === 'active') {
+        showAlertWithMessage('Info', {
+          message: 'Order has been already activated.'
+        });
+      } else if(this.props.openOrderFinalStatus === 'denied') {
+        showAlertWithMessage('Info', {
+          message: 'Order has been already denied.'
+        });
+      } else if(this.props.openOrderFinalStatus === 'complete') {
+        showAlertWithMessage('Info', {
+          message: 'Order has been already completed.'
+        });
+      } else {
+        this.props.changeOrderStatus(orderId, status)
+        .then(() => {
+          if(this.props.openOrderFinalStatus === 'active') {
+            showAlertWithMessage('Success', {
+              message: 'Order has been activated.'
+            });
+          } else if(this.props.openOrderFinalStatus === 'denied') {
+            showAlertWithMessage('Info', {
+              message: 'Order has been denied.'
+            });
+          }
+        }).catch(err => {
+          showAlertWithMessage('Uh-oh!', err);
+        });
+      }
+    }).catch(err => {
+      showAlertWithMessage('Uh-oh!', err);
     });
   }
 
   onSectionChange = index => {
-    if (index === 0) {
-      this.props.listOpenTable(this.props.vendorData.get('_id')).then(() => {
-          this.checkResponseMessage();
-        })
-        .catch(e => {
-          this.showAlert(e.message, 300);
-        });
-    } else if (index === 1) {
-      this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
-          this.checkResponseMessage();
-        })
-        .catch(e => {
-          this.showAlert(e.message, 300);
-
-        });
-    } else {
-      this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
-          this.checkResponseMessage();
-        })
-        .catch(e => {
-          this.showAlert(e.message, 300);
-        });
-    }
-
-    this.props.changeSection(index);
-  };
-
-  changeTabHandler = index => {
-    if (index === 1) {
-      this.props.listQueuedTable();
-    }
+    this.props.changeSection(index).then(() => {
+      this.getData(index);
+    });
   };
 
   renderSection = () => {
@@ -264,115 +233,81 @@ class Tables extends Component {
   renderClosedTable() {
     return (
       <View style={{ flex: 1 }}>
-        {/*<ClosedTableTabs
-          currentTab={this.props.closedTableSection}
-          tabNames={['24 Hours', '3 Days', '1 Week']}
-          onListTypeSelection={index => this.props.changeClosedSection(index)}
-        />*/}
-        <View style={{ flex: 1 }}>
-          <FlatList
-            keyExtractor={(item, index) => index.toString()}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={this.listEmptyComponent}
-            ItemSeparatorComponent={() => {
-              if(this.props.layout !== 'list') {
-                return (
-                  <View style={styles.gridSeparator}/>
-                );
-              }
+        <FlatList
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={this.listEmptyComponent}
+          ItemSeparatorComponent={() => {
+            if(this.props.layout !== 'list') {
               return (
-                <View style={styles.separator}/>
+                <View style={styles.gridSeparator}/>
               );
-            }}
-            onRefresh={() => this.onRefresh()}
-            refreshing={this.state.isFetching}
-            contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
-            data={this.props.closedTableList.length !== 0 ? this.props.closedTableList.toJS() : []}
-            renderItem={rowData => {
-              if (this.props.layout === 'list') {
-                return (
-                  <OpenTableItem
-                    data={rowData}
-                    navigate={this.props.navigate}
-                    tabName="tables"
-                    innerTab="closed"
-                  />
-                );
-              }
+            }
+            return (
+              <View style={styles.separator}/>
+            );
+          }}
+          onRefresh={() => this.onRefresh()}
+          refreshing={this.state.isFetching}
+          contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
+          data={this.props.closedTableList.length !== 0 ? this.props.closedTableList.toJS() : []}
+          renderItem={rowData => {
+            if (this.props.layout === 'list') {
               return (
-                <TableGridItem
-                  tableType={this.props.section}
-                  navigate={this.props.navigate}
+                <OpenTableItem
                   data={rowData}
-                  innerTab="closed"
+                  navigate={this.props.navigate}
                   tabName="tables"
+                  innerTab="closed"
                 />
               );
-            }}
-          />
-        </View>
+            }
+            return (
+              <TableGridItem
+                tableType={this.props.section}
+                navigate={this.props.navigate}
+                data={rowData}
+                innerTab="closed"
+                tabName="tables"
+              />
+            );
+          }}
+        />
       </View>
     );
   }
 
   onRefresh() {
-    NetInfo.isConnected.fetch().done(
-      (isConnected) => { console.log(isConnected);
-       if(isConnected)
-       {
-        this.getData();
-       }
-       else{
-         this.setState(() => {
-           return {
-             isFetching: false
-           }
-         }, ()=> {
-           setTimeout(() => {
-             Alert.alert(
-              'Prezzo',
-               'Please check your internet connection and try again later.',
-               [
-                 {text: 'OK', onPress: () => console.log('OK Pressed')},
-               ],
-               { cancelable: false }
-             )
-           }, 500);
-         });
-       }
-      }
-    );
+    this.getData();
   }
 
-  getData() {
-    if (this.props.section === 0) {
+  getData(sectionIndex = null) {
+    if ((sectionIndex ? sectionIndex : this.props.section) === 0) {
       this.props.listOpenTable(this.props.vendorData.get('_id')).then(() => {
           this.checkResponseMessage();
         })
         .catch(e => {
-          this.showAlert(e.message, 300);
+          showAlertWithMessage('Uh-oh!', e);
         });
-    } else if (this.props.section === 1) {
+    } else if ((sectionIndex ? sectionIndex : this.props.section) === 1) {
       this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
           this.checkResponseMessage();
         })
         .catch(e => {
-          this.showAlert(e.message, 300);
+          showAlertWithMessage('Uh-oh!', e);
         });
     } else {
       this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
           this.checkResponseMessage();
         })
         .catch(e => {
-          this.showAlert(e.message, 300);
+          showAlertWithMessage('Uh-oh!', e);
         });
     }
 
-    this.setState(() => {
-      return {
-        isFetching: false
-      }
-    });
+    if(this.state.isFetching) {
+      this.setState({ isFetching: false });
+    }
   }
 
   onTextChange(text) {
@@ -383,10 +318,12 @@ class Tables extends Component {
         }
       });
     }
-    this.clearTimer();
-    this.timeOutVar = setTimeout(() => {
-      this.callWebService(text);
-    }, 2000);
+    if(text !== '') {
+      this.clearTimer();
+      this.timeOutVar = setTimeout(() => {
+        this.callWebService(text);
+      }, 2000);
+    }
   }
 
   clearTimer() {
@@ -404,8 +341,12 @@ class Tables extends Component {
           }
         });
       });
-    } catch (e) {
-      console.log(e.message);
+    } catch (err) {
+      if(err.message === NETWORK_REQUEST_FAILED) {
+        showAlertWithMessage('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
+      } else {
+        showAlertWithMessage('Uh-oh!', err.message, TIME_OUT);
+      }
     }
   }
 
