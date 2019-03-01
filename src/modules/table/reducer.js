@@ -68,6 +68,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case CHECK_QUEUE_ORDER_STATUS_REQUEST:
     case CHANGE_ORDER_STATUS_REQUEST:
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST:
+    case OPEN_TABLE_SELECTED_ITEM_REQUEST:
     case LIST_CLOSED_TABLE_REQUEST:
     case CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_REQUEST:
       return state.update('isBusy', () => true);
@@ -193,6 +194,9 @@ const reducer = (state = INITIAL_STATE, action) => {
 
     case OPEN_TABLE_SELECTED_ITEM_SUCCESS:
       return state.update('openTableSelectedItem', () => action.payload);
+
+    case REMOVE_SELECTED_TABLE_ITEM_SUCCESS:
+      return state.update('openTableSelectedItem', () => null);
 
     case REMOVE_SELECTED_TABLE_ITEM_SUCCESS:
       return state.update('openTableSelectedItem', () => null);

@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Alert, NetInfo } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Slider from 'react-native-slider';
