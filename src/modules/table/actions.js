@@ -1,46 +1,40 @@
 import { fromJS } from 'immutable';
-import { Alert } from 'react-native';
 import {
   LIST_OPEN_TABLE_REQUEST,
   LIST_OPEN_TABLE_SUCCESS,
   LIST_OPEN_TABLE_FAILURE,
-
   LIST_QUEUED_TABLE_REQUEST,
   LIST_QUEUED_TABLE_SUCCESS,
   LIST_QUEUED_TABLE_FAILURE,
-
   CHANGE_ORDER_STATUS_REQUEST,
   CHANGE_ORDER_STATUS_SUCCESS,
   CHANGE_ORDER_STATUS_FAILURE,
-
   LIST_CLOSED_TABLE_REQUEST,
   LIST_CLOSED_TABLE_SUCCESS,
   LIST_CLOSED_TABLE_FAILURE,
-
   OPEN_TABLE_SELECTED_ITEM_REQUEST,
   OPEN_TABLE_SELECTED_ITEM_SUCCESS,
   OPEN_TABLE_SELECTED_ITEM_FAILURE,
-
+  REMOVE_SELECTED_TABLE_ITEM_REQUEST,
+  REMOVE_SELECTED_TABLE_ITEM_SUCCESS,
+  REMOVE_SELECTED_TABLE_ITEM_FAILURE,
   CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_REQUEST,
   CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_SUCCESS,
   CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_FAILURE,
-
   CHECK_OPEN_ORDER_STATUS_REQUEST,
   CHECK_OPEN_ORDER_STATUS_SUCCESS,
   CHECK_OPEN_ORDER_STATUS_FAILURE,
-
   CHECK_QUEUE_ORDER_STATUS_REQUEST,
   CHECK_QUEUE_ORDER_STATUS_SUCCESS,
   CHECK_QUEUE_ORDER_STATUS_FAILURE,
-
   MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST,
   MAKE_PAYMENT_AND_COMPLETE_ORDER_SUCCESS,
   MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE,
-  ACCEPT_QUEUED_REQUEST,
-  DELETE_QUEUED_REQUEST,
+  // ACCEPT_QUEUED_REQUEST,
+  // DELETE_QUEUED_REQUEST,
   SECTION_CHANGE,
-  LAYOUT_CHANGE,
-  CLOSED_TABLE_SECTION_CHANGE
+  LAYOUT_CHANGE
+  // CLOSED_TABLE_SECTION_CHANGE
 } from './types';
 
 import { get, post } from '../../utils/api';
@@ -125,6 +119,8 @@ export const checkOpenOrderStatus = async (
     });
   } catch (e) {
     dispatch({ type: CHECK_OPEN_ORDER_STATUS_FAILURE });
+
+    throw e;
   }
 };
 
@@ -142,6 +138,8 @@ export const checkQueueOrderStatus = async (
     });
   } catch (e) {
     dispatch({ type: CHECK_QUEUE_ORDER_STATUS_FAILURE });
+
+    throw e;
   }
 };
 
@@ -170,6 +168,8 @@ export const makePaymentAndCompleteOrder = async (
       type: MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE,
       payload: e && e.message ? e.message : e
     });
+
+    throw e;
   }
 };
 
@@ -191,6 +191,8 @@ export const changeOrderStatus = async (
       type: CHANGE_ORDER_STATUS_FAILURE,
       payload: e && e.message ? e.message : e
     });
+
+    throw e;
   }
 };
 
@@ -204,6 +206,18 @@ export const openTableItemDetails = (item: object) => dispatch => {
     });
   } catch (e) {
     dispatch({ type: OPEN_TABLE_SELECTED_ITEM_FAILURE });
+  }
+};
+
+export const removeTableItemDetails = () => dispatch => {
+  dispatch({ type: REMOVE_SELECTED_TABLE_ITEM_REQUEST });
+
+  try {
+    return dispatch({
+      type: REMOVE_SELECTED_TABLE_ITEM_SUCCESS
+    });
+  } catch (e) {
+    dispatch({ type: REMOVE_SELECTED_TABLE_ITEM_FAILURE });
   }
 };
 
@@ -222,36 +236,42 @@ export const checkStatusAndCancelItem = async (
     });
   } catch (e) {
     dispatch({ type: CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_FAILURE });
+
+    throw e;
   }
 };
 
-export const acceptQueuedRequest = (queueList: any, requestId: string) => {
-  const queuedList = queueList.filter(element => element.id != requestId);
-  return {
-    type: ACCEPT_QUEUED_REQUEST,
-    payload: queuedList
-  };
+export const changeSection = async (section: number) => async dispatch => {
+  dispatch({
+    type: SECTION_CHANGE,
+    payload: section
+  });
 };
 
-export const deleteQueuedRequest = (queueList: any, requestId: string) => {
-  const queuedList = queueList.filter(element => element.id != requestId);
-  return {
-    type: DELETE_QUEUED_REQUEST,
-    payload: queuedList
-  };
+export const changeLayout = (layout: string) => dispatch => {
+  dispatch({
+    type: LAYOUT_CHANGE,
+    payload: layout
+  });
 };
 
-export const changeSection = (section: number) => ({
-  type: SECTION_CHANGE,
-  payload: section
-});
+// export const acceptQueuedRequest = (queueList: any, requestId: string) => {
+//   const queuedList = queueList.filter(element => element.id != requestId);
+//   return {
+//     type: ACCEPT_QUEUED_REQUEST,
+//     payload: queuedList
+//   };
+// };
 
-export const changeLayout = (layout: string) => ({
-  type: LAYOUT_CHANGE,
-  payload: layout
-});
+// export const deleteQueuedRequest = (queueList: any, requestId: string) => {
+//   const queuedList = queueList.filter(element => element.id != requestId);
+//   return {
+//     type: DELETE_QUEUED_REQUEST,
+//     payload: queuedList
+//   };
+// };
 
-export const changeClosedSection = (section: number) => ({
-  type: CLOSED_TABLE_SECTION_CHANGE,
-  payload: section
-});
+// export const changeClosedSection = (section: number) => ({
+//   type: CLOSED_TABLE_SECTION_CHANGE,
+//   payload: section
+// });
