@@ -6,7 +6,7 @@ import { ImagePicker, Permissions } from 'expo';
 import { ActionSheet } from 'native-base';
 import PropTypes from 'prop-types';
 import { Ionicons } from '../VectorIcons';
-import { getTimeStampString } from '../../services/commonFunctions';
+import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
 import styles from './styles';
 
 const ItemImagePicker = props => {
@@ -42,47 +42,55 @@ const ItemImagePicker = props => {
   };
 
   openImageGallery = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: false,
-      quality: 0.3
-    });
-    if (!result.cancelled) {
-      const fileName = `${getTimeStampString()}.jpeg`;
-      props
-        .uploadImage(
-          result.uri,
-          10,
-          'image/jpeg',
-          fileName,
-          'userAvatar',
-          'public-read'
-        )
-        .then(async itemImage => {
-          props.addNewImageComponent(itemImage);
-        });
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: false,
+        quality: 0.3
+      });
+
+      if (!result.cancelled) {
+        const fileName = `${getTimeStampString()}.jpeg`;
+        const itemImage = await props
+          .uploadImage(
+            result.uri,
+            10,
+            'image/jpeg',
+            fileName,
+            'userAvatar',
+            'public-read'
+          );
+
+        console.log(itemImage);
+
+        await props.addNewImageComponent(itemImage);
+      }
+    } catch(err) {
+      showAlertWithMessage('Uh-oh!', err);
     }
   };
 
   openCamera = async () => {
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: false,
-      quality: 0.3
-    });
+    try {
+      const result = await ImagePicker.launchCameraAsync({
+        allowsEditing: false,
+        quality: 0.3
+      });
 
-    if (!result.cancelled) {
-      const fileName = `${getTimeStampString()}.jpeg`;
-      props
-        .uploadImage(
-          result.uri,
-          10,
-          'image/jpeg',
-          fileName,
-          'userAvatar',
-          'public-read'
-        )
-        .then(async itemImage => {
-          props.addNewImageComponent(itemImage);
-        });
+      if (!result.cancelled) {
+        const fileName = `${getTimeStampString()}.jpeg`;
+        const itemImage = await props
+          .uploadImage(
+            result.uri,
+            10,
+            'image/jpeg',
+            fileName,
+            'userAvatar',
+            'public-read'
+          );
+        await props.addNewImageComponent(itemImage);
+      }
+    } catch(err) {
+      showAlertWithMessage('Uh-oh!', err);
     }
   };
 
