@@ -187,10 +187,10 @@ export default class RestaurantDetails extends Component {
          title: cart.get('title'),
          description: cart.get('description'),
          status: 'pending',
-         notes: cart.get('description'),
-         price: cart.get('price'),
-         rating: cart.get('rating'),
-         imageURLs: cart.get('imageURLs')
+         notes: cart.description,
+         price: cart.price,
+         rating: cart.rating,
+         imageURLs: cart.imageURLs
        });
      }
     });

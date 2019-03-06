@@ -174,9 +174,7 @@ export default class CreateMenu extends Component<Props> {
   renderSectionHeader = section => (
     <MenuListCategoriesHeader
       section={section}
-      deleteCategory={categoryId =>
-        this.deleteCategory(this.props.menuId, categoryId, section)
-      }
+      deleteCategory={categoryId => this.deleteCategory(categoryId)}
       updateCategory={(categoryId, title) =>
         this.updateCategory(categoryId, title)
       }
