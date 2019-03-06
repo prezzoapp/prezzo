@@ -174,7 +174,9 @@ class ActivityOpenOrder extends Component {
       .then(() => {
         const data = this.props.data.first();
         if(this.props.openOrderFinalStatus === 'complete') {
-          this.showAlert('Success', 'Order has been completed.', TIME_OUT);
+          showAlertWithMessage('Success', {
+            message: 'Order has been completed.'
+          });
         } else {
           const item = this.props.data[0].items.find(ele => ele._id === eleId);
           console.log(item);
