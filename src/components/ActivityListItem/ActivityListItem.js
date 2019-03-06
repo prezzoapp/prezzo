@@ -74,29 +74,6 @@ const ActivityListItem = props => {
             </TouchableOpacity>
           ) : null}
         </View>
-
-        {/*<View
-          style={[
-            styles.rightSide,
-            { paddingRight: props.item.editable ? wp('9%') : 0 }
-          ]}
-        >
-          <Text style={styles.status}>Delivered</Text>
-          <Text style={styles.name}>{props.item.title}</Text>
-          {props.item.notes !== '' &&
-          props.item.notes !== undefined &&
-          props.item.notes !== null ? (
-            <Text style={styles.info}>{props.item.notes}</Text>
-          ) : null}
-          {props.item.editable ? (
-            <TouchableOpacity activeOpacity={0.6} style={styles.editBtn}>
-              <Image
-                source={require('../../../assets/images/icons/edit.png')}
-                style={styles.editIcon}
-              />
-            </TouchableOpacity>
-          ) : null}
-        </View>*/}
       </View>
     );
   }
