@@ -166,8 +166,7 @@ export default class RestaurantDetails extends Component {
          notes: cart.description,
          price: cart.price,
          rating: cart.rating,
-         imageURLs: cart.imageURLs,
-         _id: cart._id
+         imageURLs: cart.imageURLs
        });
      }
     });

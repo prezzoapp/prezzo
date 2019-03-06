@@ -57,6 +57,8 @@ export const makePaymentAndCompleteOrder = async (
     });
   } catch (e) {
     dispatch({ type: MAKE_PAYMENT_AND_COMPLETE_ORDER_FAILURE });
+
+    throw e;
   }
 };
 
@@ -75,6 +77,8 @@ export const checkStatusAndCancelItem = async (
     });
   } catch (e) {
     dispatch({ type: CHANGE_STATUS_AND_CANCEL_ORDER_FAILURE });
+
+    throw e;
   }
 };
 
@@ -90,5 +94,7 @@ export const checkOrderStatus = async (orderId: string) => async dispatch => {
     });
   } catch (e) {
     dispatch({ type: CHECK_ORDER_STATUS_FAILURE });
+
+    throw e;
   }
 };
