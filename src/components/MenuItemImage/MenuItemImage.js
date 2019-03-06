@@ -172,9 +172,9 @@ class ItemImagePicker extends React.Component<Props> {
           { format: 'jpeg', compress: 0.1 }
         );
         const fileName = `${getTimeStampString()}.jpeg`;
-        this.props
+        const itemImage = await props
           .uploadImage(
-            resultEdited.uri,
+            result.uri,
             10,
             'image/jpeg',
             fileName,

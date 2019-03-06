@@ -258,7 +258,8 @@ class ActivityOpenOrder extends Component {
             message: 'Order has been completed.'
           });
         } else {
-          const item = data.get('items').find(ele => ele.get('_id') === eleId);
+          const item = this.props.data[0].items.find(ele => ele._id === eleId);
+          console.log(item);
           if(item) {
             if(item.get('status') === 'denied') {
               showAlertWithMessage('Success', {
