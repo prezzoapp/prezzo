@@ -59,7 +59,6 @@ export const addCategory = async (
   dispatch({ type: MENU_ADD_CATEGORY_REQUEST });
 
   try {
-    console.log("Menu ID: ", menuId);
     const data = await post(`/v1/menus/${menuId}/categories`, {
       title
     });
@@ -70,6 +69,8 @@ export const addCategory = async (
     });
   } catch (e) {
     dispatch({ type: MENU_ADD_CATEGORY_FAILURE });
+
+    throw e;
   }
 };
 
@@ -91,6 +92,8 @@ export const updateCategory = async (
     });
   } catch (e) {
     dispatch({ type: MENU_UPDATE_CATEGORY_FAILURE });
+
+    throw e;
   }
 };
 
@@ -109,6 +112,8 @@ export const deleteCategory = async (
     });
   } catch (e) {
     dispatch({ type: MENU_DELETE_CATEGORY_FAILURE });
+
+    throw e;
   }
 };
 
@@ -137,6 +142,8 @@ export const addItem = async (
     });
   } catch (e) {
     dispatch({ type: MENU_ADD_ITEM_FAILURE });
+
+    throw e;
   }
 };
 
@@ -166,6 +173,8 @@ export const updateItem = async (
     });
   } catch (e) {
     dispatch({ type: MENU_UPDATE_ITEM_FAILURE });
+
+    throw e;
   }
 };
 
@@ -187,6 +196,8 @@ export const deleteItem = async (
     });
   } catch (e) {
     dispatch({ type: MENU_DELETE_ITEM_FAILURE });
+
+    throw e;
   }
 };
 
@@ -211,6 +222,8 @@ export const addImage = async (
     });
   } catch (e) {
     dispatch({ type: MENU_ADD_IMAGE_FAILURE });
+
+    throw e;
   }
 };
 
@@ -235,5 +248,7 @@ export const deleteImage = async (
     });
   } catch (e) {
     dispatch({ type: MENU_DELETE_IMAGE_FAILURE });
+
+    throw e;
   }
 };

@@ -7,7 +7,7 @@ import { ActionSheet } from 'native-base';
 import PropTypes from 'prop-types';
 import { Ionicons } from '../VectorIcons';
 import CacheImage from '../CacheImage';
-import { getTimeStampString } from '../../services/commonFunctions';
+import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
 import styles from './styles';
 
 class ItemImagePicker extends React.Component<Props> {
