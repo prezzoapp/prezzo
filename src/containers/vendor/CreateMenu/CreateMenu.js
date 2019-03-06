@@ -23,6 +23,7 @@ import styles from './styles';
 import MenuListCategoriesHeader from '../../../components/MenuListCategoriesHeader';
 import LoadingComponent from '../../../components/LoadingComponent';
 import Button from '../../../components/Button';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 export default class CreateMenu extends Component<Props> {
   static navigationOptions = ({ navigation }) => ({
@@ -70,7 +71,11 @@ export default class CreateMenu extends Component<Props> {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      if (!this.props.menu) this.props.createMenu();
+      if (!this.props.menu) {
+        this.props.createMenu()
+          .then(() => {})
+          .catch(err => showAlertWithMessage('Uh-oh!', err));
+      }
     });
   }
 
@@ -87,8 +92,53 @@ export default class CreateMenu extends Component<Props> {
       length += 1;
       this.addCategory(length);
     } else {
-      this.props.addCategory(this.props.menuId, categoryName);
+      this.props.addCategory(this.props.menuId, categoryName)
+        .then(() => {})
+        .catch(err => showAlertWithMessage('Uh-oh!', err));
     }
+  }
+
+  updateCategory(categoryId, title) {
+    this.props.updateCategory(this.props.menuId, categoryId, title)
+      .then(() => {})
+      .catch(err => showAlertWithMessage('Uh-oh!', err));
+  }
+
+  deleteCategory(categoryId) {
+    this.props.deleteCategory(this.props.menuId, categoryId)
+      .then(() => {})
+      .catch(err => showAlertWithMessage('Uh-oh!', err));
+  }
+
+  addItem(categoryId) {
+    this.props.addItem(this.props.menuId, categoryId, 'Item', 'Description', 0)
+      .then(() => {})
+      .catch(err => showAlertWithMessage('Uh-oh!' , err));
+  }
+
+  updateItem(sectionId, itemId, title, description, price) {
+    this.props.updateItem(
+        this.props.menuId,
+        sectionId,
+        itemId,
+        title,
+        description,
+        price
+      )
+      .then(() => {})
+      .catch(err => showAlertWithMessage('Uh-oh!', err));
+  }
+
+  deleteItem(sectionId, itemId) {
+    this.props.deleteItem(this.props.menuId, sectionId, itemId)
+      .then(() => {})
+      .catch(err => showAlertWithMessage('Uh-oh!', err));
+  }
+
+  deleteImage(sectionId, itemId, imageURL) {
+    this.props.deleteImage(this.props.menuId, sectionId, itemId, imageURL)
+      .then(() => {})
+      .catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
   renderListFooter = () => (
@@ -101,7 +151,6 @@ export default class CreateMenu extends Component<Props> {
             ? this.props.menu.get('categories') &&
               this.props.menu.get('categories').toJS()
             : [];
-          console.log(tempArray.length);
           this.addCategory(tempArray.length);
         }}
       >
@@ -115,15 +164,7 @@ export default class CreateMenu extends Component<Props> {
       <TouchableOpacity
         style={styles.addAnotherCommonBtn}
         activeOpacity={0.6}
-        onPress={() =>
-          this.props.addItem(
-            this.props.menuId,
-            categoryId,
-            'Item',
-            'Description',
-            0
-          )
-        }
+        onPress={() => this.addItem(categoryId)}
       >
         <Text style={styles.addAnotherCommonBtnText}>Add Another Item</Text>
       </TouchableOpacity>
@@ -133,11 +174,10 @@ export default class CreateMenu extends Component<Props> {
   renderSectionHeader = section => (
     <MenuListCategoriesHeader
       section={section}
-      deleteCategory={categoryId =>
-        this.deleteCategory(this.props.menuId, categoryId, section)
-      }
+      deleteCategory={categoryId => this.deleteCategory(categoryId)}
       updateCategory={(categoryId, title) =>
-        this.props.updateCategory(this.props.menuId, categoryId, title)}
+        this.updateCategory(categoryId, title)
+      }
     />
   );
 
@@ -220,8 +260,7 @@ export default class CreateMenu extends Component<Props> {
               <MenuItem
                 item={item}
                 updateItem={(title, price, description) =>
-                  this.props.updateItem(
-                    this.props.menuId,
+                  this.updateItem(
                     section._id,
                     item._id,
                     title,
@@ -229,13 +268,7 @@ export default class CreateMenu extends Component<Props> {
                     price
                   )
                 }
-                deleteItem={() =>
-                  this.deleteItem(
-                    this.props.menuId,
-                    section._id,
-                    item
-                  )
-                }
+                deleteItem={() => this.deleteItem(section._id, item._id)}
                 addNewImageComponent={imageURL =>
                   this.props.addImage(
                     this.props.menuId,
@@ -245,7 +278,7 @@ export default class CreateMenu extends Component<Props> {
                   )
                 }
                 deleteImageComponent={imageURL =>
-                  this.deleteImage(this.props.menuId, section._id, item._id, imageURL)
+                  this.deleteImage(section._id, item._id, imageURL)
                 }
                 uploadImage={(uri, size, mime, name, type, acl) =>
                   this.props.uploadImage(uri, size, mime, name, type, acl)

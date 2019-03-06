@@ -10,18 +10,17 @@ export default StyleSheet.create({
   },
 
   itemImagePickerBtn: {
-    borderRadius: 12,
-    elevation: 5,
-    width: wp('18.66%'),
-    height: wp('18.66%')
-  },
-  itemImage: {
-    resizeMode: 'cover',
     borderRadius: 8,
     width: wp('18.66%'),
     height: wp('18.66%'),
+    overflow: 'hidden',
     borderWidth: 1,
     borderColor: 'white'
+  },
+  itemImage: {
+    resizeMode: 'cover',
+    width: wp('18.66%'),
+    height: wp('18.66%')
   },
   closeBtn: {
     width: wp('4%'),
