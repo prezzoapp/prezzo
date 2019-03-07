@@ -279,7 +279,7 @@ class Activity extends Component {
   renderWaiterRequestTable() {
     return (
       <FlatList
-        keyExtractor={item => item._id.toString()}
+        keyExtractor={(item, index) => item._id.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.waiterRequestedTableList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
@@ -302,7 +302,7 @@ class Activity extends Component {
   renderPhotoReviewTable() {
     return (
       <FlatList
-        keyExtractor={item => item._id.toString()}
+        keyExtractor={(item, index) => item._id.toString()}
         showsVerticalScrollIndicator={false}
         onRefresh={() => this.onRefresh()}
         refreshing={this.state.isFetching}

@@ -49,8 +49,8 @@ export default class VendorAdminActivityDetails extends Component {
             type='image'
             source={
               navigation.state.params.userImage === ''
-                ? require('../../../assets/images/etc/default-avatar.png')
-                : navigation.state.params.userImage
+                ? require('../../../../assets/images/etc/default-avatar.png')
+                : { uri: navigation.state.params.userImage }
             }
           />
           <Text style={styles.headerText} numberOfLines={1}>

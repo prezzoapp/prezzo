@@ -38,12 +38,17 @@ class ReviewUserPhoto extends Component {
         </View>
         <FlatList
           horizontal
+<<<<<<< HEAD
           keyExtractor={item => item._id.toString()}
+=======
+          keyExtractor={item => item}
+>>>>>>> - Show loading while fetching data from API for vendor activity tab and all its child components.
           showsHorizontalScrollIndicator={false}
           data={this.props.item.imageURLs}
           extraData={this.state}
           ItemSeparatorComponent={this.itemSeparatorComponent}
           renderItem={({ item }) => (
+<<<<<<< HEAD
             <View style={styles.bigImageHolder}>
               <TouchableOpacity
                 onPress={() =>
@@ -64,6 +69,21 @@ class ReviewUserPhoto extends Component {
                     }
                   ]}
                 />
+=======
+            <View
+              style={[
+                styles.bigImageHolder,
+                {
+                  borderColor: item.selected
+                    ? COLOR_GREEN
+                    : 'rgba(255, 255, 255, 0.5)',
+                  borderWidth: 2
+                }
+              ]}
+            >
+              <TouchableOpacity onPress={() => null} activeOpacity={0.8}>
+                <Image source={{ uri: item.key }} style={styles.bigImage} />
+>>>>>>> - Show loading while fetching data from API for vendor activity tab and all its child components.
                 {(() => {
                   if (item.selected) {
                     return (
