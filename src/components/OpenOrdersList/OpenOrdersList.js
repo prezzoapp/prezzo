@@ -38,7 +38,10 @@ const OpenOrdersList = props => {
           )}
         />
         {(() => {
-          if (props.innerTab === 'open') {
+          if (
+            props.innerTab === 'open' ||
+            props.innerTab === 'waiterRequested'
+          ) {
             return (
               <View style={styles.footerContainer}>
                 <Button

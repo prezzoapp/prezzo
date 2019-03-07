@@ -7,7 +7,7 @@ import { createVendor, updateVendor } from '../../../modules/vendor';
 export const mapStateToProps = state => {
   const vendorState = state.get('vendor');
   const isBusy =
-    vendorState.get('isBusy') || vendorState.get('isBusy') || false;
+    vendorState.get('isBusy') || state.get('upload').get('isBusy') || false;
   const vendor = vendorState && vendorState.get('data');
   const avatarURL =
     vendor && vendor.get('avatarURL') ? vendor.get('avatarURL') : null;
