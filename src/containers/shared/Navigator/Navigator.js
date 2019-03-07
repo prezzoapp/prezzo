@@ -33,7 +33,7 @@ import CustomerActivity from '../../customer/Activity';
 import Tables from '../../vendor/Tables';
 import OpenTableDetails from '../../vendor/OpenTableDetails';
 import OpenDeliveryDetails from '../../../components/OpenDeliveryDetails';
-import VendorAdminActivityDetails from '../../../components/VendorAdminActivityDetails';
+import VendorAdminActivityDetails from '../../vendor/VendorAdminActivityDetails';
 import VendorAccountMenu from '../../vendor/AccountMenu';
 import VendorAccountInfo from '../../vendor/AccountInfo';
 import CreateMenu from '../../vendor/CreateMenu';

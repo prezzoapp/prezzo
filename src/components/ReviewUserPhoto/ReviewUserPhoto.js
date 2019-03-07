@@ -28,38 +28,34 @@ class ReviewUserPhoto extends Component {
   }
 
   render() {
-    console.log('render called', this.props.item.images);
-
     return (
       <View style={styles.item}>
-        <Text style={styles.addPhotoText}>{this.props.item.name}</Text>
+        <View style={styles.titleHolder}>
+          <Text style={styles.title} numberOfLines={2}>
+            {this.props.item.title}
+          </Text>
+        </View>
         <FlatList
           horizontal
-          keyExtractor={item => item.index}
+          keyExtractor={item => item}
           showsHorizontalScrollIndicator={false}
-          data={this.state.images}
+          data={this.props.item.imageURLs}
           extraData={this.state}
           ItemSeparatorComponent={this.itemSeparatorComponent}
           renderItem={({ item }) => (
-            <View style={styles.bigImageHolder}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.addImageComponent(this.props.item.index, item.index)
+            <View
+              style={[
+                styles.bigImageHolder,
+                {
+                  borderColor: item.selected
+                    ? COLOR_GREEN
+                    : 'rgba(255, 255, 255, 0.5)',
+                  borderWidth: 2
                 }
-                activeOpacity={0.8}
-              >
-                <Image
-                  source={{ uri: item.key }}
-                  style={[
-                    styles.bigImage,
-                    {
-                      borderColor: item.selected
-                        ? COLOR_GREEN
-                        : 'rgba(255, 255, 255, 0.5)',
-                      borderWidth: item.selected ? 2 : 2
-                    }
-                  ]}
-                />
+              ]}
+            >
+              <TouchableOpacity onPress={() => null} activeOpacity={0.8}>
+                <Image source={{ uri: item.key }} style={styles.bigImage} />
                 {(() => {
                   if (item.selected) {
                     return (

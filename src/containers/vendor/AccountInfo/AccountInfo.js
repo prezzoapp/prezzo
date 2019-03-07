@@ -18,7 +18,7 @@ import { getTimeStampString } from '../../../services/commonFunctions';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import ProfileDataField from '../../../components/ProfileDataField';
 import EditableListItem from '../../../components/EditableListItem';
-import showGenericAlert from '../../../components/GenericAlert';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 import { restaurantCategories, COLOR_GREEN } from '../../../services/constants';
 import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
@@ -496,7 +496,7 @@ export default class AccountInfo extends React.Component {
       // this.props.navigateBack();
       // END PATCH
     } catch (e) {
-      showGenericAlert('Uh-oh!', e.message || e);
+      showAlertWithMessage('Uh-oh!', e);
     }
   }
 
