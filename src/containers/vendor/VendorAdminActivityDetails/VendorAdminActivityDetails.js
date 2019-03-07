@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  InteractionManager,
+  ActivityIndicator
+} from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 import {
   widthPercentageToDP as wp,
@@ -9,16 +16,16 @@ import { fromJS } from 'immutable';
 import OpenOrdersList from '../OpenOrdersList';
 import OpenTablePayment from '../OpenTablePayment';
 import CacheImage from '../CacheImage';
+import Button from '../../../components/Button';
+import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
-import Button from '../Button';
-import { Feather } from '../VectorIcons';
 
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_GREEN,
   FONT_FAMILY,
   COLOR_WHITE
-} from '../../services/constants';
+} from '../../../services/constants';
 
 export default class VendorAdminActivityDetails extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -120,58 +127,76 @@ export default class VendorAdminActivityDetails extends Component {
     ];
   }
 
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.props.addWaiterRequestedItemDetails(this.props.navigation.state.params.item);
+    });
+  }
+
+  componentWillUnmount() {
+    this.props.removeWaiterRequestedItemDetails();
+  }
+
   render() {
-    const item = fromJS(this.props.navigation.state.params.item);
+    const selectedItem = this.props.waiterRequestedSelectedItem;
     return (
       <Container style={styles.container}>
-        <Tabs
-          locked
-          scrollWithoutAnimation
-          tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
-          renderTabBar={() => (
-            <ScrollableTab
-              style={styles.scrollableTabStyle}
-              tabsContainerStyle={styles.tabsContainerStyle}
-            />
-          )}
-        >
-          <Tab
-            heading="Order"
-            tabStyle={styles.orderTabStyle}
-            activeTabStyle={styles.orderTabStyle}
-            textStyle={styles.orderTabTextStyle}
-            activeTextStyle={styles.orderTabTextStyle}
-            style={styles.tabStyle}
-          >
-            <OpenOrdersList
-              data={item}
-              footer={
-                <View style={styles.footerContainer}>
-                  <Button
-                    style={buttonStyles.closeTableBtn}
-                    textStyle={buttonStyles.closeTableBtnText}
-                    onPress={() => null}
-                  >
-                    Close Table
-                  </Button>
-                </View>
-              }
-            />
-          </Tab>
-          <Tab
-            heading="Payment"
-            tabStyle={styles.paymentTabStyle}
-            activeTabStyle={styles.paymentTabStyle}
-            textStyle={styles.paymentTabTextStyle}
-            activeTextStyle={styles.paymentTabTextStyle}
-            style={styles.tabStyle}
-          >
-            <OpenTablePayment
-              data={item}
-              completeOrder={() => null}
-            />
-          </Tab>
-        </Tabs>
+        {(() => {
+          if(selectedItem) {
+            return (
+              <Tabs
+                locked
+                scrollWithoutAnimation
+                tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
+                renderTabBar={() => (
+                  <ScrollableTab
+                    style={styles.scrollableTabStyle}
+                    tabsContainerStyle={styles.tabsContainerStyle}
+                  />
+                )}
+              >
+                <Tab
+                  heading="Order"
+                  tabStyle={styles.orderTabStyle}
+                  activeTabStyle={styles.orderTabStyle}
+                  textStyle={styles.orderTabTextStyle}
+                  activeTextStyle={styles.orderTabTextStyle}
+                  style={styles.tabStyle}
+                >
+                  <OpenOrdersList
+                    data={selectedItem}
+                    innerTab={this.props.navigation.state.params.innerTab}
+                    completeOrder={() => null}
+                  />
+                </Tab>
+                <Tab
+                  heading="Payment"
+                  tabStyle={styles.paymentTabStyle}
+                  activeTabStyle={styles.paymentTabStyle}
+                  textStyle={styles.paymentTabTextStyle}
+                  activeTextStyle={styles.paymentTabTextStyle}
+                  style={styles.tabStyle}
+                >
+                  <OpenTablePayment
+                    data={selectedItem}
+                    completeOrder={() => null}
+                  />
+                </Tab>
+              </Tabs>
+            );
+          }
+          return (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <ActivityIndicator size="large" color="white"/>
+            </View>
+          )
+        })()}
       </Container>
     );
   }

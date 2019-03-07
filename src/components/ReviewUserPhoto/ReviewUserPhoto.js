@@ -29,16 +29,18 @@ class ReviewUserPhoto extends Component {
   }
 
   render() {
-    console.log('render called', this.props.item.images);
-
     return (
       <View style={styles.item}>
-        <Text style={styles.addPhotoText}>{this.props.item.name}</Text>
+        <View style={styles.titleHolder}>
+          <Text style={styles.title} numberOfLines={2}>
+            {this.props.item.title}
+          </Text>
+        </View>
         <FlatList
           horizontal
           keyExtractor={item => item._id.toString()}
           showsHorizontalScrollIndicator={false}
-          data={this.state.images}
+          data={this.props.item.imageURLs}
           extraData={this.state}
           ItemSeparatorComponent={this.itemSeparatorComponent}
           renderItem={({ item }) => (

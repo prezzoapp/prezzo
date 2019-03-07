@@ -42,7 +42,10 @@ const OpenOrdersList = props => {
           renderItem={this.renderItem}
         />
         {(() => {
-          if (props.innerTab === 'open') {
+          if (
+            props.innerTab === 'open' ||
+            props.innerTab === 'waiterRequested'
+          ) {
             return (
               <View style={styles.footerContainer}>
                 <Button
