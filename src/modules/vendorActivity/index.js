@@ -1,12 +1,12 @@
 import {
   listWaiterRequestTable,
   listPhotoReviewTable,
-  acceptQueuedRequest,
-  deleteQueuedRequest,
   changeSection,
   changeLayout,
-  changeClosedSection,
-  listDeliveredTable
+  addWaiterRequestedItemDetails,
+  removeWaiterRequestedItemDetails,
+  addPhotoReviewItemDetails,
+  removePhotoReviewItemDetails
 } from './actions';
 
 import reducer from './reducer';
@@ -14,12 +14,12 @@ import reducer from './reducer';
 export {
   listWaiterRequestTable,
   listPhotoReviewTable,
-  acceptQueuedRequest,
-  deleteQueuedRequest,
   changeSection,
   changeLayout,
-  changeClosedSection,
-  listDeliveredTable
+  addWaiterRequestedItemDetails,
+  removeWaiterRequestedItemDetails,
+  addPhotoReviewItemDetails,
+  removePhotoReviewItemDetails
 };
 
 export default reducer;

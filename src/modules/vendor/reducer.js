@@ -27,7 +27,6 @@ const reducer = (state: State = INITIAL_STATE, action) => {
     case UPDATE_VENDOR_REQUEST:
       return state.update('isBusy', () => true);
     case CREATE_VENDOR_FAILURE:
-      return state.update('isBusy', () => false);
     case UPDATE_VENDOR_FAILURE:
       return state.update('isBusy', () => false);
     case CREATE_VENDOR_SUCCESS:

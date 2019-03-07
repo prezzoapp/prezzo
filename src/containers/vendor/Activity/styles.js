@@ -153,9 +153,11 @@ const styles = StyleSheet.create({
 
   box2: {
     position: 'absolute',
+    left: 0,
+    right: 0,
     top: hp('5.41%'),
-    marginHorizontal: wp('3.73%'),
     bottom: getBottomSpace() + 49 + wp('2.13%'),
+    marginHorizontal: wp('3.73%'),
     zIndex: 100,
     borderRadius: 10
   },
@@ -173,6 +175,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: hp('2.83%'),
     left: wp('4.53%')
+  },
+
+  separator: {
+    height: wp('4%')
   }
 });
 

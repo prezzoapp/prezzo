@@ -10,7 +10,7 @@ import {
   FONT_FAMILY,
   SF_PRO_DISPLAY_BOLD,
   FONT_FAMILY_MEDIUM
-} from '../../services/constants';
+} from '../../../services/constants';
 
 const styles = StyleSheet.create({
   container: {

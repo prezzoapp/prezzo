@@ -4,23 +4,19 @@ import { NavigationActions } from 'react-navigation';
 import {
   listWaiterRequestTable,
   listPhotoReviewTable,
-  acceptQueuedRequest,
-  deleteQueuedRequest,
   changeSection,
   changeLayout,
-  changeClosedSection,
-  listDeliveredTable
+  addPhotoReviewItemDetails,
+  removePhotoReviewItemDetails
 } from '../../../modules/vendorActivity';
 
 export const mapStateToProps = state => ({
   layout: state.get('vendorActivity').get('layout'),
   section: state.get('vendorActivity').get('section'),
-  openTableList: state.get('vendorActivity').get('openTableList'),
-  queuedTableList: state.get('vendorActivity').get('queuedTableList'),
-  deliveredTableSection: state
-    .get('vendorActivity')
-    .get('deliveredTableSection'),
-  deliveredTableList: state.get('vendorActivity').get('deliveredTableList'),
+  waiterRequestedTableList: state.get('vendorActivity').get('waiterRequestedTableList'),
+  photoReviewList: state.get('vendorActivity').get('photoReviewList'),
+  isBusy: state.get('vendorActivity').get('isBusy'),
+  photoReviewSelectedItem: state.get('vendorActivity').get('photoReviewSelectedItem'),
   vendorData: state.get('vendor').get('data')
 });
 
@@ -28,10 +24,8 @@ export const mapDispatchToProps = dispatch => ({
   navigate: bindActionCreators(NavigationActions.navigate, dispatch),
   listWaiterRequestTable: bindActionCreators(listWaiterRequestTable, dispatch),
   listPhotoReviewTable: bindActionCreators(listPhotoReviewTable, dispatch),
-  acceptQueuedRequest: bindActionCreators(acceptQueuedRequest, dispatch),
-  deleteQueuedRequest: bindActionCreators(deleteQueuedRequest, dispatch),
   changeSection: bindActionCreators(changeSection, dispatch),
   changeLayout: bindActionCreators(changeLayout, dispatch),
-  changeClosedSection: bindActionCreators(changeClosedSection, dispatch),
-  listDeliveredTable: bindActionCreators(listDeliveredTable, dispatch)
+  addPhotoReviewItemDetails: bindActionCreators(addPhotoReviewItemDetails, dispatch),
+  removePhotoReviewItemDetails: bindActionCreators(removePhotoReviewItemDetails, dispatch)
 });

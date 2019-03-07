@@ -18,7 +18,11 @@ const styles = StyleSheet.create({
   },
 
   bigImageHolder: {
-    marginTop: hp('2.15%')
+    marginTop: hp('2.15%'),
+    height: wp('31.46%'),
+    width: wp('31.46%'),
+    borderRadius: 8,
+    overflow: 'hidden'
   },
 
   linearGradient: {
@@ -26,13 +30,10 @@ const styles = StyleSheet.create({
   },
 
   bigImage: {
-    height: wp('31.46%'),
-    width: wp('31.46%'),
     overflow: 'hidden',
     backgroundColor: 'transparent',
     marginTop: 10,
     marginRight: wp('2.66%'),
-    borderRadius: 8,
     resizeMode: 'cover'
   },
 
@@ -45,13 +46,17 @@ const styles = StyleSheet.create({
     paddingVertical: hp('1%')
   },
 
-  addPhotoText: {
+  titleHolder: {
+    alignItems: 'center'
+  },
+
+  title: {
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
     fontSize: wp('5.33%'),
-    backgroundColor: 'transparent',
-    textAlign: 'center',
-    lineHeight: wp('5.86%')
+    paddingHorizontal: 1,
+    lineHeight: wp('5.86%'),
+    backgroundColor: 'transparent'
   },
 
   itemImagesHolder: {
