@@ -8,7 +8,8 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  ActivityIndicator
 } from 'react-native';
 import { BlurView, LinearGradient } from 'expo';
 import PropTypes from 'prop-types';
@@ -18,16 +19,23 @@ import { Feather } from '../../../components/VectorIcons';
 import OpenTableItem from '../../../components/OpenTableItem';
 import QueuedTableItem from '../../../components/QueuedTableItem';
 import TableListHeader from '../../../components/TableListHeader';
-import { ACCEPT_ORDER, DELETE_ORDER } from '../../../services/constants';
+import {
+  ACCEPT_ORDER,
+  DELETE_ORDER,
+  FONT_FAMILY,
+  COLOR_WHITE,
+  SF_PRO_TEXT_BOLD
+} from '../../../services/constants';
 
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { FONT_FAMILY, COLOR_WHITE, SF_PRO_TEXT_BOLD } from '../../../services/constants';
 import Button from '../../../components/Button';
 import ReviewUserPhoto from '../../../components/ReviewUserPhoto';
 import ExploreSearchInput from '../../../components/ExploreSearchInput';
+import LoadingComponent from '../../../components/LoadingComponent';
 import VendorSearch from '../VendorSearch';
 import { get } from '../../../utils/api';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 const SECTION_WIDTH: number = 0.85 * Dimensions.get('window').width;
 const height = Dimensions.get('screen').height;
@@ -87,6 +95,7 @@ class Activity extends Component {
       selected: false,
       showList: false,
       filteredData: [],
+      isFetching: false,
       data: [
         {
           _id: 0,
@@ -162,34 +171,36 @@ class Activity extends Component {
 
   componentDidMount() {
     if(this.props.vendorData) {
-      if (this.props.section === 0) {
-        this.props.listWaiterRequestTable(this.props.vendorData.get('_id'));
-      } else {
-        this.props.listPhotoReviewTable();
-      }
+      this.getData();
     }
   }
 
   onSectionChange = index => {
-    if (index === 0) {
+    this.props.changeSection(index).then(() => {
+      this.getData(index);
+    });
+  };
+
+  onRefresh() {
+    this.getData();
+  }
+
+  getData(sectionIndex = null) {
+    if ((sectionIndex ? sectionIndex : this.props.section) === 0) {
       this.props.listWaiterRequestTable(this.props.vendorData.get('_id')).then(() => {
         this.checkResponseMessage();
       })
-      .catch(e => {
-        this.showAlert(e.message, 300);
+      .catch(err => {
+        showAlertWithMessage('Uh-oh!', err);
       });
     } else {
-      this.props.listPhotoReviewTable();
+      this.props.listPhotoReviewTable(this.props.vendorData.get('_id')).then(() => {
+        this.checkResponseMessage();
+      })
+      .catch(err => {
+        showAlertWithMessage('Uh-oh!', err);
+      });
     }
-
-    this.props.changeSection(index);
-  };
-
-  showAlert(message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      alert(message);
-    }, duration);
   }
 
   async checkResponseMessage(){
@@ -214,12 +225,14 @@ class Activity extends Component {
     );
   }
 
-  show() {
+  show(rowData) {
     Animated.timing(this.showModalAnimatedValue, {
       toValue: 1,
       duration: 300,
       useNativeDriver: true
-    }).start();
+    }).start(() => {
+      this.props.addPhotoReviewItemDetails(rowData.item);
+    });
   }
 
   hide() {
@@ -227,7 +240,9 @@ class Activity extends Component {
       toValue: 0,
       duration: 300,
       useNativeDriver: true
-    }).start();
+    }).start(() => {
+      this.props.removePhotoReviewItemDetails();
+    });
   }
 
   changeTabHandler = index => {
@@ -264,16 +279,20 @@ class Activity extends Component {
   renderWaiterRequestTable() {
     return (
       <FlatList
-        keyExtractor={item => item._id.toString()}
+        keyExtractor={(item, index) => item._id.toString()}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
+        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.waiterRequestedTableList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
-        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toJS() : []}
+        onRefresh={() => this.onRefresh()}
+        refreshing={this.state.isFetching}
+        ItemSeparatorComponent={() => <View style={styles.separator}/>}
+        data={this.props.waiterRequestedTableList.size !== 0 ? this.props.waiterRequestedTableList.toJS() : []}
         renderItem={rowData => (
           <OpenTableItem
             data={rowData}
             navigate={this.props.navigate}
             tabName="activity"
+            innerTab='waiterRequested'
           />
         )}
       />
@@ -283,17 +302,20 @@ class Activity extends Component {
   renderPhotoReviewTable() {
     return (
       <FlatList
-        keyExtractor={item => item._id.toString()}
+        keyExtractor={(item, index) => item._id.toString()}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
+        onRefresh={() => this.onRefresh()}
+        refreshing={this.state.isFetching}
+        ItemSeparatorComponent={() => <View style={styles.separator}/>}
+        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.photoReviewList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
-        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toJS() : []}
+        data={this.props.photoReviewList.size !== 0 ? this.props.photoReviewList.toJS() : []}
         renderItem={rowData => (
           <OpenTableItem
             data={rowData}
             tabName="activity"
             innerTabName="photoReview"
-            onPress={() => this.show()}
+            onPress={() => this.show(rowData)}
           />
         )}
       />
@@ -393,21 +415,34 @@ class Activity extends Component {
                         <Text style={styles.title}>Victor Franco</Text>
                         <Text style={styles.subTitle}>Table 5932 - 3 Photos</Text>
                       </View>
-                      <FlatList
-                        keyExtractor={item => item._id.toString()}
-                        showsVerticalScrollIndicator={false}
-                        data={this.state.data}
-                        ListHeaderComponent={() => this.renderHeader()}
-                        ListFooterComponent={() => this.renderFooter()}
-                        renderItem={({ item }) => (
-                          <ReviewUserPhoto
-                            item={item}
-                            callbackFromParent={(itemIndex, imageIndex) =>
-                              this.myCallback(itemIndex, imageIndex)
-                            }
+                      { this.props.photoReviewSelectedItem ? (
+                          <FlatList
+                            keyExtractor={(item, index) => index.toString()}
+                            showsVerticalScrollIndicator={false}
+                            data={this.props.photoReviewSelectedItem.get('items').size !== 0 ? this.props.photoReviewSelectedItem.get('items').toJS() : []}
+                            ListHeaderComponent={() => this.renderHeader()}
+                            ListFooterComponent={() => this.renderFooter()}
+                            renderItem={({ item }) => (
+                              <ReviewUserPhoto
+                                item={item}
+                                callbackFromParent={(itemIndex, imageIndex) =>
+                                  this.myCallback(itemIndex, imageIndex)
+                                }
+                              />
+                            )}
                           />
-                        )}
-                      />
+                        ) : (
+                          <View
+                            style={{
+                              flex: 1,
+                              justifyContent: 'center',
+                              alignItems: 'center'
+                            }}
+                          >
+                            <ActivityIndicator size="large" color="white"/>
+                          </View>
+                        )
+                      }
                     </View>
                   </Animated.View>
 
@@ -450,6 +485,7 @@ class Activity extends Component {
             </View>
           );
         })()}
+        <LoadingComponent visible={this.props.isBusy} />
       </View>
     );
   }
