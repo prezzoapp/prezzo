@@ -32,6 +32,8 @@ import {
 
 let disableBtn = false;
 
+let disableBtn = false;
+
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {

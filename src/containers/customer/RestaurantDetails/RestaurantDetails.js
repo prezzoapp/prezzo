@@ -624,8 +624,23 @@ export default class RestaurantDetails extends Component {
                       ? data.getIn(['menu', 'categories']).toJS()
                       : []
                   }
-                  renderSectionHeader={this.renderSectionHeader}
-                  renderItem={this.renderItem}
+                  renderSectionHeader={({ section }) =>
+                    this.renderSectionHeader(section)
+                  }
+                  renderItem={({ item, section }) =>
+                    <RestaurantItem
+                      item={item}
+                      section={section}
+                      showText={this.state.showText}
+                      addRemoveItemQuantity={(itemId, op) =>
+                        this.props.addRemoveItemQuantity(
+                          section._id,
+                          itemId,
+                          op
+                        )
+                      }
+                    />
+                  }
                 />
               );
             }

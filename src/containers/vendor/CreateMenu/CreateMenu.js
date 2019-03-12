@@ -23,16 +23,14 @@ import styles from './styles';
 import MenuListCategoriesHeader from '../../../components/MenuListCategoriesHeader';
 import LoadingComponent from '../../../components/LoadingComponent';
 import Button from '../../../components/Button';
-<<<<<<< HEAD
 import {
   showAlertWithMessage,
   manuallyLogout
 } from '../../../services/commonFunctions';
 
 let disableBtn = false;
-=======
-import { showAlertWithMessage } from '../../../services/commonFunctions';
->>>>>>> - Add network connection validation & handle API error for vendor menu(Vendor > Profile > Create / Update menu).
+
+let disableBtn = false;
 
 export default class CreateMenu extends Component<Props> {
   static navigationOptions = ({ navigation }) => ({
@@ -83,7 +81,6 @@ export default class CreateMenu extends Component<Props> {
       if (!this.props.menu) {
         this.props.createMenu()
           .then(() => {})
-<<<<<<< HEAD
           .catch(err => {
             if(err.code === 401) {
               manuallyLogout(err, () => this.props.userLogout());
@@ -91,15 +88,11 @@ export default class CreateMenu extends Component<Props> {
               showAlertWithMessage('Uh-oh!', err);
             }
           });
-=======
-          .catch(err => showAlertWithMessage('Uh-oh!', err));
->>>>>>> - Add network connection validation & handle API error for vendor menu(Vendor > Profile > Create / Update menu).
       }
     });
   }
 
   addCategory(length) {
-<<<<<<< HEAD
     if(disableBtn === false) {
       disableBtn = true;
       const categoryName = `Category # ${length + 1}`;
@@ -261,23 +254,6 @@ export default class CreateMenu extends Component<Props> {
             });
           }
         });
-=======
-    const categoryName = `Category # ${length + 1}`;
-    const tempArray = this.props.menu
-     ? this.props.menu.get('categories') &&
-       this.props.menu.get('categories').toJS()
-     : [];
-
-    const found = tempArray.some(item => item.title === categoryName);
-
-    if(found) {
-      length += 1;
-      this.addCategory(length);
-    } else {
-      this.props.addCategory(this.props.menuId, categoryName)
-        .then(() => {})
-        .catch(err => showAlertWithMessage('Uh-oh!', err));
->>>>>>> - Add network connection validation & handle API error for vendor menu(Vendor > Profile > Create / Update menu).
     }
   }
 
@@ -294,9 +270,17 @@ export default class CreateMenu extends Component<Props> {
   }
 
   addItem(categoryId) {
-    this.props.addItem(this.props.menuId, categoryId, 'Item', 'Description', 0)
-      .then(() => {})
-      .catch(err => showAlertWithMessage('Uh-oh!' , err));
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.addItem(this.props.menuId, categoryId, 'Item', 'Description', 0)
+        .then(() => {
+          disableBtn = false;
+        })
+        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
+            disableBtn = false;
+          })
+        );
+    }
   }
 
   updateItem(sectionId, itemId, title, description, price) {
@@ -347,11 +331,7 @@ export default class CreateMenu extends Component<Props> {
       <TouchableOpacity
         style={styles.addAnotherCommonBtn}
         activeOpacity={0.6}
-<<<<<<< HEAD
         onPress={() => this.addItem(this.props.menuId, categoryId)}
-=======
-        onPress={() => this.addItem(categoryId)}
->>>>>>> - Add network connection validation & handle API error for vendor menu(Vendor > Profile > Create / Update menu).
       >
         <Text style={styles.addAnotherCommonBtnText}>Add Another Item</Text>
       </TouchableOpacity>
@@ -361,15 +341,9 @@ export default class CreateMenu extends Component<Props> {
   renderSectionHeader = section => (
     <MenuListCategoriesHeader
       section={section}
-<<<<<<< HEAD
       deleteCategory={categoryId => this.deleteCategory(this.props.menuId, categoryId, section)}
       updateCategory={(categoryId, title) =>
         this.updateCategory(this.props.menuId, categoryId, title)
-=======
-      deleteCategory={categoryId => this.deleteCategory(categoryId)}
-      updateCategory={(categoryId, title) =>
-        this.updateCategory(categoryId, title)
->>>>>>> - Add network connection validation & handle API error for vendor menu(Vendor > Profile > Create / Update menu).
       }
     />
   );
@@ -466,10 +440,7 @@ export default class CreateMenu extends Component<Props> {
                 item={item}
                 updateItem={(title, price, description) =>
                   this.updateItem(
-<<<<<<< HEAD
                     this.props.menuId,
-=======
->>>>>>> - Add network connection validation & handle API error for vendor menu(Vendor > Profile > Create / Update menu).
                     section._id,
                     item._id,
                     title,
@@ -477,11 +448,7 @@ export default class CreateMenu extends Component<Props> {
                     price
                   )
                 }
-<<<<<<< HEAD
                 deleteItem={() => this.deleteItem(this.props.menuId, section._id, item)}
-=======
-                deleteItem={() => this.deleteItem(section._id, item._id)}
->>>>>>> - Add network connection validation & handle API error for vendor menu(Vendor > Profile > Create / Update menu).
                 addNewImageComponent={imageURL =>
                   this.props.addImage(
                     this.props.menuId,

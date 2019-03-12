@@ -60,8 +60,8 @@ const screenTracking = ({ getState }) => next => action => {
     nextRoute.params &&
     nextRoute.params.onTabFocus
   ) {
-    console.log('Current Route: ');
-    console.log(nextRoute);
+    console.log('Current Route Name: ');
+    console.log(nextRoute.routeName);
     nextRoute.params.onTabFocus();
   }
 

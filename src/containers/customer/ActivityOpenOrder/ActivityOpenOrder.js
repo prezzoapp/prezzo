@@ -26,6 +26,8 @@ import {
 
 let disableBtn = false;
 
+let disableBtn = false;
+
 class ActivityOpenOrder extends Component {
   constructor(props) {
     super(props);

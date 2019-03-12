@@ -25,6 +25,9 @@ import {
 
 let disableBtn = false;
 
+let disableBtn = false;
+let timer;
+
 export default class OpenTableDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
@@ -160,6 +163,7 @@ export default class OpenTableDetails extends Component {
     if(disableBtn === false) {
       disableBtn = true;
       const order = this.props.openTableSelectedItem;
+
       this.props
         .checkOpenOrderStatus(id)
         .then(() => {
@@ -168,10 +172,8 @@ export default class OpenTableDetails extends Component {
             this.props.openOrderFinalStatus === 'complete'
           ) {
             // If order has been already completed.
-
-            this.props.navigation.goBack();
             showAlertWithMessage('Info', {
-              message: 'Order has been already completed.'
+              message: 'This order has been already completed.'
             });
           } else if (
             this.props.openOrderFinalStatus &&

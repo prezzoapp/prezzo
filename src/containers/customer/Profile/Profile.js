@@ -17,6 +17,8 @@ import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFu
 
 let disableBtn = false;
 
+let disableBtn = false;
+
 class Profile extends Component {
   static navigationOptions = {
     headerTitle: (

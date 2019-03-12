@@ -36,8 +36,6 @@ import { ImagePicker, Permissions, Constants } from 'expo';
 import { getTimeStampString, showAlertWithMessage } from '../../../services/commonFunctions';
 import { Feather } from '../../../components/VectorIcons';
 import LoadingComponent from '../../../components/LoadingComponent';
-import CacheImage from '../../../components/CacheImage';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 type Props = {
   firstName: string,

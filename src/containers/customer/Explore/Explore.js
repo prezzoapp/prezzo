@@ -61,6 +61,7 @@ class Explore extends PureComponent<Props> {
   }
 
   hitAPI() {
+    console.log(disableBtn);
     this.props.getUserCurrentLocation().then(coords => {
       this.props.listVendors(
         coords.latitude,
