@@ -84,7 +84,6 @@ export default class CheckoutSwiper extends Component {
           });
         } else {
           this.props.isSelectedPaymentMethod(val);
-          console.log('credit card list', this.props.creditCardList);
         }
       }
     );

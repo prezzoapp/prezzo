@@ -20,6 +20,9 @@ import { Feather } from '../../../components/VectorIcons';
 import { TAX, TIME_OUT } from '../../../services/constants';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 
+let disableBtn = false;
+let timer;
+
 export default class OpenTableDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (
@@ -82,7 +85,7 @@ export default class OpenTableDetails extends Component {
           this.props.openTableSelectedItem.paymentMethod.token,
           price
         )
-      .then(() => {
+        .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
             this.props.navigation.goBack();
             showAlertWithMessage('Success', {
@@ -90,7 +93,10 @@ export default class OpenTableDetails extends Component {
             });
           }
         })
-        .catch(e => showAlertWithMessage(e));
+        .catch(e => showAlertWithMessage('Uh-oh!', e, () => {
+            disableBtn = false;
+          })
+        );
     } else if(this.props.openTableSelectedItem.paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(
           this.props.openTableSelectedItem._id,
@@ -105,7 +111,10 @@ export default class OpenTableDetails extends Component {
             });
           }
         })
-        .catch(e => showAlertWithMessage(e));
+        .catch(e => showAlertWithMessage('Uh-oh!', e, () => {
+            disableBtn = false;
+          })
+        );
     } else {
       this.props.makePaymentAndCompleteOrder(
           this.props.openTableSelectedItem._id,
@@ -121,79 +130,90 @@ export default class OpenTableDetails extends Component {
             });
           }
         })
-        .catch(e => showAlertWithMessage('Uh-oh!', e));
+        .catch(e => showAlertWithMessage('Uh-oh!', e, () => {
+            disableBtn = false;
+          })
+        );
     }
   }
 
   completeOrder(id) {
-    this.props
-      .checkOpenOrderStatus(id)
-      .then(() => {
-        if (
-          this.props.openOrderFinalStatus &&
-          this.props.openOrderFinalStatus === 'complete'
-        ) {
-          // If order has been already completed.
-          showAlertWithMessage('Info', {
-            message: 'This order has been already completed.'
+    if(disableBtn === false) {
+      disableBtn = true;
+
+      this.props
+        .checkOpenOrderStatus(id)
+        .then(() => {
+          if (
+            this.props.openOrderFinalStatus &&
+            this.props.openOrderFinalStatus === 'complete'
+          ) {
+            // If order has been already completed.
+            showAlertWithMessage('Info', {
+              message: 'This order has been already completed.'
+            });
+          } else if (
+            this.props.openOrderFinalStatus &&
+            this.props.openOrderFinalStatus === 'denied'
+          ) {
+            // If order has been already denied.
+
+            showAlertWithMessage('Info', {
+              message: 'This order has been already denied.'
+            });
+          } else {
+            clearTimeout(timer);
+            let pendingItems = 0;
+            let price = 0;
+
+            this.props.openTableSelectedItem.items.filter(item => {
+              if(item.status === 'pending') {
+                pendingItems += 1;
+              } else if(item.status !== 'denied') {
+                price += item.price;
+              }
+            });
+
+            price = parseFloat(((price * TAX) / 100 + price).toFixed(2));
+
+            const message =
+              pendingItems === 0
+                ? this.props.openTableSelectedItem.paymentType === 'card'
+                  ? `Continue to pay $${price}`
+                  : 'Are you sure you want to complete?'
+                : this.props.openTableSelectedItem.paymentType === 'card'
+                  ? price === 0
+                    ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
+                    : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
+                  : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and complete order?`
+
+            timer = setTimeout(() => {
+              Alert.alert(
+                'Prezzo',
+                message,
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => {
+                      disableBtn = false;
+                    },
+                    style: 'cancel'
+                  },
+                  {
+                    text: 'OK', onPress: () => this.finalizeOrder(price)
+                  }
+                ],
+                { cancelable: false }
+              );
+            }, TIME_OUT);
+          }
+        })
+        .catch(err => {
+          showAlertWithMessage('Uh-oh!', err, () => {
+            disableBtn = false;
           });
-        } else if (
-          this.props.openOrderFinalStatus &&
-          this.props.openOrderFinalStatus === 'denied'
-        ) {
-          // If order has been already denied.
-
-          showAlertWithMessage('Info', {
-            message: 'This order has been already denied.'
-          });
-        } else {
-          clearTimeout(this.timer);
-          let pendingItems = 0;
-          let price = 0;
-
-          this.props.openTableSelectedItem.items.filter(item => {
-            if(item.status === 'pending') {
-              pendingItems += 1;
-            } else if(item.status !== 'denied') {
-              price += item.price;
-            }
-          });
-
-          price = parseFloat(((price * TAX) / 100 + price).toFixed(2));
-
-          const message =
-            pendingItems === 0
-              ? this.props.openTableSelectedItem.paymentType === 'card'
-                ? `Continue to pay $${price}`
-                : 'Are you sure you want to complete?'
-              : this.props.openTableSelectedItem.paymentType === 'card'
-                ? price === 0
-                  ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
-                  : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
-                : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and complete order?`
-
-          this.timer = setTimeout(() => {
-            Alert.alert(
-              'Prezzo',
-              message,
-              [
-                {
-                  text: 'Cancel',
-                  onPress: () => null,
-                  style: 'cancel'
-                },
-                {
-                  text: 'OK', onPress: () => this.finalizeOrder(price)
-                }
-              ],
-              { cancelable: false }
-            );
-          }, TIME_OUT);
-        }
-      })
-      .catch(err => {
-        showAlertWithMessage('Uh-oh!', err);
-      });
+        });
+    }
   }
 
   checkStatusAndCancelItem = (orderId, itemId) => {
@@ -277,7 +297,9 @@ export default class OpenTableDetails extends Component {
                         <OpenTablePayment
                           data={selectedItem}
                           innerTab={this.props.navigation.state.params.innerTab}
-                          completeOrder={() => this.completeOrder(selectedItem._id)}
+                          completeOrder={() =>
+                            this.completeOrder(selectedItem._id)
+                          }
                         />
                       </Tab>
                     );

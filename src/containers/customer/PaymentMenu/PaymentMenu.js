@@ -5,8 +5,6 @@ import {
   Image,
   Alert,
   ScrollView,
-  ActivityIndicator,
-  Modal,
   AsyncStorage,
   TouchableOpacity,
   InteractionManager
@@ -23,6 +21,8 @@ import styles from './styles';
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 import LoadingComponent from '../../../components/LoadingComponent';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
+
+let disableBtn = false;
 
 class PaymentMenu extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -106,17 +106,25 @@ class PaymentMenu extends Component {
     );
   }
 
+  navigateToPaymentDetails() {
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.navigate({
+        routeName: 'PaymentDetails',
+        params: { title: 'Add Credit Card' }
+      });
+      InteractionManager.runAfterInteractions(() => {
+        disableBtn = false;
+      });
+    }
+  }
+
   render() {
     return (
       <View style={styles.parent}>
         <View style={styles.container}>
           <MenuButton
-            onPress={() =>
-              this.props.navigate({
-                routeName: 'PaymentDetails',
-                params: { title: 'Add Credit Card' }
-              })
-            }
+            onPress={() => this.navigateToPaymentDetails()}
             title="Add Credit Card"
             icon="add"
             leftIcon={

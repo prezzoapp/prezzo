@@ -38,10 +38,11 @@ import { showAlertWithMessage } from '../../../services/commonFunctions';
 import Checkout from '../Checkout';
 
 import CustomPopup from '../../../components/CustomPopup';
-import showGenericAlert from '../../../components/GenericAlert';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 const headerHeight = wp('44.97%');
+
+let disableBtn = false;
 
 export default class RestaurantDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -123,7 +124,12 @@ export default class RestaurantDetails extends Component {
       this.state.currentSlideIndex < 1
     ) {
       this.modal.getWrappedInstance().scrollForward();
-    } else if (this.modal && this.state.currentSlideIndex === 1) {
+    } else if (
+      this.modal &&
+      this.state.currentSlideIndex === 1 &&
+      disableBtn === false
+    ) {
+      disableBtn = true;
       this.modal.getWrappedInstance().hideModal();
       this.attemptToCreateOrder();
     }
@@ -135,13 +141,6 @@ export default class RestaurantDetails extends Component {
         currentSlideIndex: index
       }
     });
-  }
-
-  showAlert(title, message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      showGenericAlert(title, message);
-    }, duration);
   }
 
   attemptToCreateOrder() {
@@ -187,10 +186,15 @@ export default class RestaurantDetails extends Component {
           },
           () => {
             this.props.clearCartData();
+            disableBtn = false;
           }
         );
       })
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
+      .catch(err => {
+        showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false
+        });
+      });
   }
 
   isSelectedPaymentMethod(val) {
@@ -573,9 +577,6 @@ export default class RestaurantDetails extends Component {
                           op
                         )
                       }
-                      changeItemRating={(itemId, rating) =>
-                        this.props.changeItemRating(section._id, itemId, rating)
-                      }
                     />
                   }
                 />
@@ -659,6 +660,5 @@ RestaurantDetails.propTypes = {
   clearCartData: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   addRemoveItemQuantity: PropTypes.func.isRequired,
-  changeItemRating: PropTypes.func.isRequired,
   isBusy: PropTypes.bool.isRequired
 };

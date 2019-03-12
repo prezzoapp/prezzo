@@ -221,7 +221,6 @@ const itemOrderBtnStyles = {
     alignItems: 'center',
     borderRadius: 8,
     padding: 0,
-    // height: hp('4.55%')
     height: wp('9.86%')
   },
   commonBtnText: {
@@ -237,6 +236,5 @@ const itemOrderBtnStyles = {
 RestaurantItem.propTypes = {
   item: PropTypes.object.isRequired,
   showText: PropTypes.bool.isRequired,
-  addRemoveItemQuantity: PropTypes.func.isRequired,
-  changeItemRating: PropTypes.func.isRequired
+  addRemoveItemQuantity: PropTypes.func.isRequired
 };

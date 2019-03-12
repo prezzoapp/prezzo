@@ -22,19 +22,24 @@ export const findById = (tree, testID) => {
   }
 };
 
-export const showAlert = (title, message, duration) => {
+export const showAlert = (title, message, duration, callback) => {
   let timer = -1;
   clearTimeout(timer);
   timer = setTimeout(() => {
     showGenericAlert(title, message);
+    callback && callback();
   }, duration);
 };
 
-export const showAlertWithMessage = (title = 'Uh-oh!', obj) => {
+export const showAlertWithMessage = (
+  title = 'Uh-oh!',
+  obj,
+  callback = null
+) => {
   if(obj.message === NETWORK_REQUEST_FAILED) {
-    showAlert(title, INTERNET_NOT_CONNECTED, TIME_OUT);
+    showAlert(title, INTERNET_NOT_CONNECTED, TIME_OUT, callback);
   } else {
-    showAlert(title, obj.message, TIME_OUT);
+    showAlert(title, obj.message, TIME_OUT, callback);
   }
 };
 

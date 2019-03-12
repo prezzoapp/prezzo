@@ -23,6 +23,8 @@ import LoadingComponent from '../../../components/LoadingComponent';
 import Button from '../../../components/Button';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 
+let disableBtn = false;
+
 export default class CreateMenu extends Component<Props> {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: (
@@ -78,21 +80,30 @@ export default class CreateMenu extends Component<Props> {
   }
 
   addCategory(length) {
-    const categoryName = `Category # ${length + 1}`;
-    const tempArray = this.props.menu
-     ? this.props.menu.get('categories') &&
-       this.props.menu.get('categories').toJS()
-     : [];
+    if(disableBtn === false) {
+      disableBtn = true;
+      const categoryName = `Category # ${length + 1}`;
+      const tempArray = this.props.menu
+       ? this.props.menu.get('categories') &&
+         this.props.menu.get('categories').toJS()
+       : [];
 
-    const found = tempArray.some(item => item.title === categoryName);
+      const found = tempArray.some(item => item.title === categoryName);
 
-    if(found) {
-      length += 1;
-      this.addCategory(length);
-    } else {
-      this.props.addCategory(this.props.menuId, categoryName)
-        .then(() => {})
-        .catch(err => showAlertWithMessage('Uh-oh!', err));
+      if(found) {
+        length += 1;
+        disableBtn = false;
+        this.addCategory(length);
+      } else {
+        this.props.addCategory(this.props.menuId, categoryName)
+          .then(() => {
+            disableBtn = false;
+          })
+          .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            })
+          );
+      }
     }
   }
 
@@ -109,9 +120,17 @@ export default class CreateMenu extends Component<Props> {
   }
 
   addItem(categoryId) {
-    this.props.addItem(this.props.menuId, categoryId, 'Item', 'Description', 0)
-      .then(() => {})
-      .catch(err => showAlertWithMessage('Uh-oh!' , err));
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.addItem(this.props.menuId, categoryId, 'Item', 'Description', 0)
+        .then(() => {
+          disableBtn = false;
+        })
+        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
+            disableBtn = false;
+          })
+        );
+    }
   }
 
   updateItem(sectionId, itemId, title, description, price) {

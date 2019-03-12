@@ -22,6 +22,8 @@ import { get } from '../../../utils/api';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 import LoadingComponent from '../../../components/LoadingComponent';
 
+let disableBtn = false;
+
 class Tables extends Component {
   static displayName = 'Tables';
 
@@ -278,35 +280,50 @@ class Tables extends Component {
   }
 
   onRefresh() {
-    this.getData();
+    this.setState({ isFetching: true }, () => {
+      this.getData();
+    });
   }
 
   getData(sectionIndex = null) {
-    if ((sectionIndex ? sectionIndex : this.props.section) === 0) {
-      this.props.listOpenTable(this.props.vendorData.get('_id')).then(() => {
-          this.checkResponseMessage();
-        })
-        .catch(e => {
-          showAlertWithMessage('Uh-oh!', e);
-        });
-    } else if ((sectionIndex ? sectionIndex : this.props.section) === 1) {
-      this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
-          this.checkResponseMessage();
-        })
-        .catch(e => {
-          showAlertWithMessage('Uh-oh!', e);
-        });
-    } else {
-      this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
-          this.checkResponseMessage();
-        })
-        .catch(e => {
-          showAlertWithMessage('Uh-oh!', e);
-        });
-    }
+    if(disableBtn === false) {
+      disableBtn = true;
 
-    if(this.state.isFetching) {
-      this.setState({ isFetching: false });
+      if ((sectionIndex ? sectionIndex : this.props.section) === 0) {
+        this.props.listOpenTable(this.props.vendorData.get('_id')).then(() => {
+            this.checkResponseMessage();
+            disableBtn = false;
+          })
+          .catch(e => {
+            showAlertWithMessage('Uh-oh!', e, () => {
+              disableBtn = false;
+            });
+          });
+      } else if ((sectionIndex ? sectionIndex : this.props.section) === 1) {
+        this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
+            this.checkResponseMessage();
+            disableBtn = false;
+          })
+          .catch(e => {
+            showAlertWithMessage('Uh-oh!', e, () => {
+              disableBtn = false;
+            });
+          });
+      } else {
+        this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
+            this.checkResponseMessage();
+            disableBtn = false;
+          })
+          .catch(e => {
+            showAlertWithMessage('Uh-oh!', e, () => {
+              disableBtn = false;
+            });
+          });
+      }
+
+      if(this.state.isFetching) {
+        this.setState({ isFetching: false });
+      }
     }
   }
 
@@ -342,16 +359,11 @@ class Tables extends Component {
         });
       });
     } catch (err) {
-      if(err.message === NETWORK_REQUEST_FAILED) {
-        showAlertWithMessage('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-      } else {
-        showAlertWithMessage('Uh-oh!', err.message, TIME_OUT);
-      }
+      showAlertWithMessage('Uh-oh!', err);
     }
   }
 
   showList(value) {
-    console.log("Show List function Called!");
     this.setState(() => {
       return {
         showList: value

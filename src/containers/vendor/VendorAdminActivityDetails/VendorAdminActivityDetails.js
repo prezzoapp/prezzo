@@ -14,13 +14,11 @@ import {
 } from 'react-native-responsive-screen';
 import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
-import Button from '../../../components/Button';
 import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 
 import {
   FONT_FAMILY_MEDIUM,
-  COLOR_GREEN,
   FONT_FAMILY,
   COLOR_WHITE
 } from '../../../services/constants';

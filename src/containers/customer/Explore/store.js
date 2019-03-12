@@ -10,7 +10,8 @@ export const mapStateToProps = state => {
     .toJS();
   const distance = state.get('explore').get('distance');
   const pricing = state.get('explore').get('pricing');
-  const isBusy = state.get('explore').get('isBusy');
+  const isBusy = state.get('explore').get('isBusy') ||
+    state.get('paymentMethods').get('isBusy');
   const minDistance = state.get('explore').get('minDistance');
   const maxDistance = state.get('explore').get('maxDistance');
 

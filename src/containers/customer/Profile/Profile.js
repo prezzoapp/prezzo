@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Image, Text, TouchableOpacity, View, StyleSheet, InteractionManager } from 'react-native';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import MenuButton from '../../../components/MenuButton';
@@ -13,6 +13,8 @@ import {
   FONT_FAMILY_MEDIUM
 } from '../../../services/constants';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
+
+let disableBtn = false;
 
 class Profile extends Component {
   static navigationOptions = {
@@ -47,21 +49,42 @@ class Profile extends Component {
   };
 
   async logout() {
-    try {
-      await this.props.userLogout();
-      await snapshot.clearSnapshot();
-    } catch(err) {
-      showAlertWithMessage('Uh-oh!', err);
+    if(disableBtn === false) {
+      disableBtn = true;
+      try {
+        await this.props.userLogout();
+        await snapshot.clearSnapshot();
+        disableBtn = false;
+      } catch(err) {
+        showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false;
+        });
+      }
     }
   }
 
   navigateToEditProfile() {
-    this.props.navigate({ routeName: 'EditProfile' });
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.navigate({ routeName: 'EditProfile' });
+      InteractionManager.runAfterInteractions(() => {
+        disableBtn = false;
+      });
+    }
+  }
+
+  navigateToPaymentMenu() {
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.navigate({ routeName: 'PaymentMenu' });
+      InteractionManager.runAfterInteractions(() => {
+        disableBtn = false;
+      });
+    }
   }
 
   render() {
     const { avatarURL } = this.props;
-    console.log(this.props.logoutIsBusy);
 
     return (
       <View style={styles.parent}>
@@ -84,7 +107,7 @@ class Profile extends Component {
               icon="chevron-right"
             />
             <MenuButton
-              onPress={() => this.props.navigate({ routeName: 'PaymentMenu' })}
+              onPress={() => this.navigateToPaymentMenu()}
               title="Payment Methods"
               subtitle="Edit my payment methods"
               icon="chevron-right"

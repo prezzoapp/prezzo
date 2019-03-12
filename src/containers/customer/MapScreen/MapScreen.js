@@ -3,8 +3,7 @@ import {
   View,
   Text,
   TouchableOpacity,
-  InteractionManager,
-  NetInfo
+  InteractionManager
 } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
