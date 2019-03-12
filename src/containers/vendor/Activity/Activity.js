@@ -38,7 +38,9 @@ import { get } from '../../../utils/api';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 const SECTION_WIDTH: number = 0.85 * Dimensions.get('window').width;
-const height = Dimensions.get('screen').height;
+const { height } = Dimensions.get('screen');
+
+let disableBtn = false;
 
 const buttonStyles = {
   submitReviewBtn: {
@@ -182,24 +184,40 @@ class Activity extends Component {
   };
 
   onRefresh() {
-    this.getData();
+    this.setState({ isFetching: true }, () => {
+      this.getData();
+    });
   }
 
   getData(sectionIndex = null) {
-    if ((sectionIndex ? sectionIndex : this.props.section) === 0) {
-      this.props.listWaiterRequestTable(this.props.vendorData.get('_id')).then(() => {
-        this.checkResponseMessage();
-      })
-      .catch(err => {
-        showAlertWithMessage('Uh-oh!', err);
-      });
-    } else {
-      this.props.listPhotoReviewTable(this.props.vendorData.get('_id')).then(() => {
-        this.checkResponseMessage();
-      })
-      .catch(err => {
-        showAlertWithMessage('Uh-oh!', err);
-      });
+    if(disableBtn === false) {
+      disableBtn = true;
+
+      if ((sectionIndex ? sectionIndex : this.props.section) === 0) {
+        this.props.listWaiterRequestTable(this.props.vendorData.get('_id')).then(() => {
+          this.checkResponseMessage();
+          disableBtn = false;
+        })
+        .catch(err => {
+          showAlertWithMessage('Uh-oh!', err, () => {
+            disableBtn = false;
+          });
+        });
+      } else {
+        this.props.listPhotoReviewTable(this.props.vendorData.get('_id')).then(() => {
+          this.checkResponseMessage();
+          disableBtn = false;
+        })
+        .catch(err => {
+          showAlertWithMessage('Uh-oh!', err, () => {
+            disableBtn = false;
+          });
+        });
+      }
+
+      if(this.state.isFetching) {
+        this.setState({ isFetching: false });
+      }
     }
   }
 
@@ -226,12 +244,16 @@ class Activity extends Component {
   }
 
   show(rowData) {
-    Animated.timing(this.showModalAnimatedValue, {
-      toValue: 1,
-      duration: 300,
-      useNativeDriver: true
-    }).start(() => {
-      this.props.addPhotoReviewItemDetails(rowData.item);
+    rowData.item.items.map(ele => {
+      if(ele.imageURLs.length !== 0) {
+        Animated.timing(this.showModalAnimatedValue, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true
+        }).start(() => {
+          this.props.addPhotoReviewItemDetails(rowData.item);
+        });
+      }
     });
   }
 

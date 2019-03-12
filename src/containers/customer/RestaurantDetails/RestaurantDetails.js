@@ -38,12 +38,12 @@ import { showAlertWithMessage } from '../../../services/commonFunctions';
 import Checkout from '../Checkout';
 
 import CustomPopup from '../../../components/CustomPopup';
-import showGenericAlert from '../../../components/GenericAlert';
-import CacheImage from '../../../components/CacheImage';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 const headerHeight = wp('44.97%');
 const checkoutModal = React.createRef();
+
+let disableBtn = false;
 
 export default class RestaurantDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -138,9 +138,14 @@ export default class RestaurantDetails extends Component {
       this.state.currentSlideIndex >= 0 &&
       this.state.currentSlideIndex < 1
     ) {
-      checkoutModal.current.getWrappedInstance().scrollForward();
-    } else if (checkoutModal.current && this.state.currentSlideIndex === 1) {
-      checkoutModal.current.getWrappedInstance().hideModal();
+      this.modal.getWrappedInstance().scrollForward();
+    } else if (
+      this.modal &&
+      this.state.currentSlideIndex === 1 &&
+      disableBtn === false
+    ) {
+      disableBtn = true;
+      this.modal.getWrappedInstance().hideModal();
       this.attemptToCreateOrder();
     }
   }
@@ -151,13 +156,6 @@ export default class RestaurantDetails extends Component {
         currentSlideIndex: index
       }
     });
-  }
-
-  showAlert(title, message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      showGenericAlert(title, message);
-    }, duration);
   }
 
   attemptToCreateOrder() {
@@ -202,10 +200,15 @@ export default class RestaurantDetails extends Component {
           },
           () => {
             this.props.clearCartData();
+            disableBtn = false;
           }
         );
       })
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
+      .catch(err => {
+        showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false
+        });
+      });
   }
 
   isSelectedPaymentMethod(val) {
@@ -597,8 +600,23 @@ export default class RestaurantDetails extends Component {
                       ? data.getIn(['menu', 'categories']).toJS()
                       : []
                   }
-                  renderSectionHeader={this.renderSectionHeader}
-                  renderItem={this.renderItem}
+                  renderSectionHeader={({ section }) =>
+                    this.renderSectionHeader(section)
+                  }
+                  renderItem={({ item, section }) =>
+                    <RestaurantItem
+                      item={item}
+                      section={section}
+                      showText={this.state.showText}
+                      addRemoveItemQuantity={(itemId, op) =>
+                        this.props.addRemoveItemQuantity(
+                          section._id,
+                          itemId,
+                          op
+                        )
+                      }
+                    />
+                  }
                 />
               );
             }
@@ -678,6 +696,5 @@ RestaurantDetails.propTypes = {
   clearCartData: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   addRemoveItemQuantity: PropTypes.func.isRequired,
-  changeItemRating: PropTypes.func.isRequired,
   isBusy: PropTypes.bool.isRequired
 };

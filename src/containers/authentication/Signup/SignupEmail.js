@@ -9,7 +9,8 @@ import {
   Platform,
   KeyboardAvoidingView,
   ScrollView,
-  NetInfo
+  NetInfo,
+  InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -31,6 +32,7 @@ import {
   FONT_FAMILY_REGULAR,
   INTERNET_NOT_CONNECTED
 } from '../../../services/constants';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 import LoginTextInput from '../../../components/LoginTextInput';
 import alert from '../../../components/GenericAlert';
 import CacheImage from '../../../components/CacheImage';
@@ -46,6 +48,9 @@ const containerPaddingLeftRight: number = wp('10.66%');
 const containerPaddingTopBottom: number = 80;
 const checkboxSize: number = 25;
 const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+
+let timer;
+let disableBtn = false;
 
 const styles = StyleSheet.create({
   container: {
@@ -93,10 +98,7 @@ const styles = StyleSheet.create({
     marginTop: wp('4.26%')
   },
   checkbox: {
-    //width: checkboxSize,
-    //height: checkboxSize,
-    marginRight: wp('3.2%'),
-    //resizeMode: 'contain'
+    marginRight: wp('3.2%')
   },
   promotionalText: {
     fontSize: wp('4.53%'),
@@ -141,10 +143,6 @@ class SignupEmail extends React.Component<Props> {
     )
   });
 
-  constructor() {
-    super();
-  }
-
   isFormValid() {
     const { email } = this.props;
     return email && isValidEmail(email) ? true : false;
@@ -155,26 +153,30 @@ class SignupEmail extends React.Component<Props> {
     this.props.updateSubscriptionToPromotions(isSubscribedToPromotions);
   }
 
+  enableBtns() {
+    InteractionManager.runAfterInteractions(() => {
+      disableBtn = false;
+    });
+  }
+
   navigateToPassword() {
     this.props.navigate({ routeName: 'SignupPassword' });
   }
 
-  showAlert(title, message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      showGenericAlert(title, message);
-    }, duration);
-  }
-
   async checkEmailValidity() {
     try {
-      const user = await this.props.findUser(this.props.email);
-      if(user) {
-        throw Error('This email is taken.');
+      if(disableBtn === false) {
+        disableBtn = true;
+        const user = await this.props.findUser(this.props.email);
+        if(user) {
+          throw Error('This email is taken.');
+        }
+        this.navigateToPassword();
+        this.enableBtns();
       }
-      this.navigateToPassword();
     } catch(err) {
-      this.showAlert('Uh-oh!', err.message, 300);
+      showAlertWithMessage('Uh-oh!', err);
+      disableBtn = false;
     }
   }
 

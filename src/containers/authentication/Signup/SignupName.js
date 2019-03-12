@@ -7,7 +7,8 @@ import {
   ScrollView,
   Platform,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  InteractionManager
 } from 'react-native';
 import { Header } from 'react-navigation';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -37,6 +38,8 @@ type State = {
 const containerPaddingLeftRight: number = wp('10.66%');
 const containerPaddingTopBottom: number = 80;
 
+let disableBtn = false;
+
 const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
 
 const styles = StyleSheet.create({
@@ -51,14 +54,6 @@ const styles = StyleSheet.create({
     paddingBottom: hp('5%'),
     paddingTop: SCROLL_VIEW_TOP_PADDING
   },
-  // headerText: {
-  //   fontSize: wp('9.6%'),
-  //   fontFamily: FONT_FAMILY_MEDIUM,
-  //   color: '#fff',
-  //   lineHeight: 41,
-  //   marginBottom: wp('10.93%'),
-  //   backgroundColor: 'transparent'
-  // },
   headerTextLine1: {
     fontSize: wp('9.6%'),
     fontFamily: FONT_FAMILY_MEDIUM,
@@ -127,7 +122,17 @@ class SignupName extends React.Component<Props, State> {
   }
 
   navigateToSignupEmail() {
-    this.props.navigate({routeName: 'SignupEmail'});
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.navigate({routeName: 'SignupEmail'});
+      this.enableBtns();
+    }
+  }
+
+  enableBtns() {
+    InteractionManager.runAfterInteractions(() => {
+      disableBtn = false;
+    });
   }
 
   render() {

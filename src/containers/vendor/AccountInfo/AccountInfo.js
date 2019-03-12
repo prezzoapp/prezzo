@@ -41,6 +41,8 @@ import {
   SF_PRO_DISPLAY_REGULAR
 } from '../../../services/constants';
 
+let disableBtn = false;
+
 export default class AccountInfo extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: (
@@ -477,40 +479,46 @@ export default class AccountInfo extends React.Component {
   }
 
   async save() {
-    const { vendor, isBusy, createVendor, updateVendor, avatarURL } = this.props;
+    if(disableBtn === false) {
+      disableBtn = true;
 
-    if (isBusy) {
-      console.log('is busy');
-      return;
-    }
+      const { vendor, isBusy, createVendor, updateVendor } = this.props;
 
-    try {
-      await this.uploadPhoto();
-
-      const params = { ...this.state };
-      params.pricing += 1;
-
-      delete params.upload;
-
-      if (!params.avatarURL) {
-        delete params.avatarURL;
+      if (isBusy) {
+        console.log('is busy');
+        return;
       }
 
-      if (vendor) {
-        console.log('updating vendor');
-        await updateVendor(vendor.get('_id'), params);
-      } else {
-        console.log('create vendor');
-        await createVendor(params);
-      }
+      try {
+        await this.uploadPhoto();
 
-      // PATCH: don't navigate back on success
-      //        makes it easier to debug
-      // TODO: uncomment line under this
-      // this.props.navigateBack();
-      // END PATCH
-    } catch (e) {
-      showAlertWithMessage('Uh-oh!', e);
+        const params = { ...this.state };
+        params.pricing += 1;
+
+        delete params.upload;
+
+        if (!params.avatarURL) {
+          delete params.avatarURL;
+        }
+
+        if (vendor) {
+          await updateVendor(vendor.get('_id'), params);
+        } else {
+          await createVendor(params);
+        }
+
+        disableBtn = false;
+
+        // PATCH: don't navigate back on success
+        //        makes it easier to debug
+        // TODO: uncomment line under this
+        // this.props.navigateBack();
+        // END PATCH
+      } catch (e) {
+        showAlertWithMessage('Uh-oh!', e, () => {
+          disableBtn = false;
+        });
+      }
     }
   }
 
@@ -519,7 +527,6 @@ export default class AccountInfo extends React.Component {
       routeName: 'LocationSearch',
       params: {
         onSelect: location => {
-          console.log('got location', location);
           this.setState({ location });
         },
         onError: () => {

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Image, Text, StyleSheet, InteractionManager } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import {
   FONT_FAMILY,
@@ -17,6 +17,8 @@ type State = {
   notificationPermission: 'granted' | 'denied' | 'restricted' | 'undetermined'
 };
 
+let disableBtn = false;
+
 class EnableNotificationsView extends React.Component<Props, State> {
   static propTypes = {
     navigate: PropTypes.func.isRequired
@@ -29,10 +31,6 @@ class EnableNotificationsView extends React.Component<Props, State> {
   state = {
     notificationPermission: 'undetermined'
   };
-
-  handleBackPress = () => {
-    return true;
-  }
 
   async checkNotificationPermission() {
     const { Permissions } = Expo;
@@ -50,12 +48,18 @@ class EnableNotificationsView extends React.Component<Props, State> {
     })
   }
 
-  navigateToTutorial() {
-    this.props.navigate({ routeName: 'Home' });
+  navigateToSignup() {
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.navigate({ routeName: 'SignupName' });
+      this.enableBtns();
+    }
   }
 
-  navigateToSignup() {
-    this.props.navigate({ routeName: 'SignupName' });
+  enableBtns() {
+    InteractionManager.runAfterInteractions(() => {
+      disableBtn = false;
+    });
   }
 
   render() {

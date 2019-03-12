@@ -1,18 +1,22 @@
 // @flow
 import * as React from 'react';
-import { View, Alert, TouchableOpacity, Text } from 'react-native';
+import { Image, View, Alert, TouchableOpacity, Text, InteractionManager } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { MaterialIcons } from '../../../components/VectorIcons';
 import MenuButton from '../../../components/MenuButton';
 import CacheImage from '../../../components/CacheImage';
 import * as snapshot from '../../../utils/snapshot';
+import LoadingComponent from '../../../components/LoadingComponent';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 import styles from './styles';
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
   COLOR_BLACK
 } from '../../../services/constants';
+
+let disableBtn = false;
 
 export default class AccountMenu extends React.Component {
   static navigationOptions = {
@@ -48,36 +52,69 @@ export default class AccountMenu extends React.Component {
     userLogout: PropTypes.func.isRequired
   };
 
+  enableBtns() {
+    InteractionManager.runAfterInteractions(() => {
+      disableBtn = false;
+    });
+  }
+
   async logout() {
-    try {
-      await this.props.userLogout();
-      await snapshot.clearSnapshot();
-    } catch(e) {
-      console.log("Logout Error!");
+    if(disableBtn === false) {
+      disableBtn = true;
+      try {
+        await this.props.userLogout();
+        await snapshot.clearSnapshot();
+        disableBtn = false;
+      } catch(e) {
+        showAlertWithMessage('Uh-oh!', e, () => {
+          disableBtn = false;
+        });
+      }
     }
   }
 
   createMenu(vendor, menu) {
-    if(vendor) {
-      this.props.navigate({ routeName: 'CreateMenu' });
-    } else {
-      Alert.alert(
-        '',
-        'You must create a Vendor account before creating a menu.',
-        [{ text: 'OK' }],
-        { cancelable: false }
-      )
+    if(disableBtn === false) {
+      disableBtn = true;
+      if(vendor) {
+        this.props.navigate({ routeName: 'CreateMenu' });
+        this.enableBtns();
+      } else {
+        Alert.alert(
+          '',
+          'You must create a Vendor account before creating a menu.',
+          [{
+            text: 'OK',
+            onPress: () => {
+              disableBtn = false
+          }}],
+          { cancelable: false }
+        )
+      }
     }
   }
 
   acceptPayments(vendor) {
-    if(!vendor) {
-      Alert.alert(
-        '',
-        'You must create a Vendor account before accepting payments.',
-        [{ text: 'OK' }],
-        { cancelable: false }
-      )
+    if(disableBtn === false) {
+      disableBtn = true;
+      if(!vendor) {
+        Alert.alert(
+          '',
+          'You must create a Vendor account before accepting payments.',
+          [{ text: 'OK', onPress: () => { disableBtn = false }}],
+          { cancelable: false }
+        )
+      } else {
+        disableBtn = false;
+      }
+    }
+  }
+
+  navigateToAccountInfo() {
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.navigate({ routeName: 'VendorAccountInfo' });
+      this.enableBtns();
     }
   }
 
@@ -102,9 +139,7 @@ export default class AccountMenu extends React.Component {
           </View>
           <View style={styles.bodyContainer}>
             <MenuButton
-              onPress={() =>
-                this.props.navigate({ routeName: 'VendorAccountInfo' })
-              }
+              onPress={() => this.navigateToAccountInfo()}
               title={`${vendor ? 'Update' : 'Create'} Vendor Profile`}
               icon="add"
             />
@@ -135,6 +170,7 @@ export default class AccountMenu extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
+        <LoadingComponent visible={this.props.isBusy} />
       </View>
     );
   }
