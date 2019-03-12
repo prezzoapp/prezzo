@@ -44,6 +44,8 @@ const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 const headerHeight = wp('44.97%');
 const checkoutModal = React.createRef();
 
+let disableBtn = false;
+
 export default class RestaurantDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerStyle: {
@@ -138,7 +140,12 @@ export default class RestaurantDetails extends Component {
       this.state.currentSlideIndex < 1
     ) {
       checkoutModal.current.getWrappedInstance().scrollForward();
-    } else if (checkoutModal.current && this.state.currentSlideIndex === 1) {
+    } else if (
+      checkoutModal.current &&
+      this.state.currentSlideIndex === 1 &&
+      disableBtn === false
+    ) {
+      disableBtn = true;
       checkoutModal.current.getWrappedInstance().hideModal();
       this.attemptToCreateOrder();
     }
@@ -150,13 +157,6 @@ export default class RestaurantDetails extends Component {
         currentSlideIndex: index
       }
     });
-  }
-
-  showAlert(title, message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      showGenericAlert(title, message);
-    }, duration);
   }
 
   attemptToCreateOrder() {
@@ -200,6 +200,7 @@ export default class RestaurantDetails extends Component {
           },
           () => {
             this.props.clearCartData();
+            disableBtn = false;
           }
         );
       })
@@ -207,7 +208,9 @@ export default class RestaurantDetails extends Component {
         showAlertWithMessage(
           'Uh-oh!',
           e,
-          null,
+          () => {
+            disableBtn = false
+          },
           e.code === 403
             ? [
                 {

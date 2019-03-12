@@ -48,6 +48,8 @@ type State = {
   city: string
 };
 
+let disableBtn = false;
+
 class EditProfile extends Component<Props, State> {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: (
@@ -120,33 +122,40 @@ class EditProfile extends Component<Props, State> {
   // };
 
   async save() {
-    const { isBusy, updateUser } = this.props;
+    if(disableBtn === false) {
+      disableBtn = true;
+      const { isBusy, updateUser } = this.props;
 
-    if (isBusy) {
-      console.log('is busy');
-      return;
-    }
+      if (isBusy) {
+        console.log('is busy');
+        return;
+      }
 
-    try {
-      await this.uploadPhoto();
+      try {
+        await this.uploadPhoto();
 
-      const {
-        avatarURL,
-        firstName,
-        lastName,
-        phone,
-        address,
-        zip,
-        city
-      } = this.state;
+        const {
+          avatarURL,
+          firstName,
+          lastName,
+          phone,
+          address,
+          zip,
+          city
+        } = this.state;
 
-      await updateUser(avatarURL, firstName, lastName, phone, address, zip, city);
+        await updateUser(avatarURL, firstName, lastName, phone, address, zip, city);
 
-      this.setState({ isEditing: false });
-    } catch(err) {
-      this.setState({ isEditing: false }, () => {
-        showAlertWithMessage('Uh-oh!', err);
-      });
+        this.setState({ isEditing: false }, () => {
+          disableBtn = false;
+        });
+      } catch(err) {
+        this.setState({ isEditing: false }, () => {
+          showAlertWithMessage('Uh-oh!', err, () => {
+            disableBtn = false;
+          });
+        });
+      }
     }
   }
 

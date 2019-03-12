@@ -8,7 +8,8 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -32,7 +33,7 @@ import FacebookButton from '../../../components/FacebookButton';
 import Button from '../../../components/Button';
 import NextButton from './NextButton';
 import { ImagePicker, Permissions, Constants } from 'expo';
-import { getTimeStampString } from '../../../services/commonFunctions';
+import { getTimeStampString, showAlertWithMessage } from '../../../services/commonFunctions';
 import { Feather } from '../../../components/VectorIcons';
 import LoadingComponent from '../../../components/LoadingComponent';
 import CacheImage from '../../../components/CacheImage';
@@ -58,8 +59,9 @@ type State = {
 const containerPaddingLeftRight: number = wp('10.66%');
 const containerPaddingTopBottom: number = 80;
 const avatarSize: number = wp('17.33%');
-
 const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+
+let disableBtn = false;
 
 const styles = StyleSheet.create({
   container: {
@@ -231,10 +233,6 @@ class SignupPassword extends React.Component<Props, State> {
     // END PATCH
   };
 
-  constructor() {
-    super();
-  }
-
   showAvatarActionSheet() {
     ActionSheet.show(
       {
@@ -327,14 +325,27 @@ class SignupPassword extends React.Component<Props, State> {
     }
   }
 
-  signup() {
-    this.setState({ isBusy: true }, () => {
-      this.props.signup()
-        .then(() => this.uploadPhoto())
-        .then(() => this.navigateToSignupComplete())
-        .catch(err => showAlertWithMessage('Uh-oh!', err))
-        .finally(() => this.setState({ isBusy: false }));
+  enableBtns() {
+    InteractionManager.runAfterInteractions(() => {
+      disableBtn = false;
     });
+  }
+
+  signup() {
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.setState({ isBusy: true }, () => {
+        this.props.signup()
+          .then(() => this.uploadPhoto())
+          .then(() => this.navigateToSignupComplete())
+          .catch(err => {
+            showAlertWithMessage('Uh-oh!', err);
+          })
+          .finally(() => this.setState({ isBusy: false }, () => {
+            this.enableBtns();
+          }));
+      });
+    }
   }
 
   navigateToSignupComplete() {

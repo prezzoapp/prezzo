@@ -55,3 +55,5 @@ export default class FilterItems extends Component {
 FilterItems.defaultProps = {
   on: false
 };
+
+export default FilterItems;

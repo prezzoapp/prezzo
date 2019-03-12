@@ -21,6 +21,8 @@ import {
 
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 
+let disableBtn = false;
+
 class ActivityOpenOrder extends Component {
   constructor(props) {
     super(props);
@@ -45,14 +47,19 @@ class ActivityOpenOrder extends Component {
         }
       },
       () => {
+        disableBtn = true;
         this.props
           .listOpenOrders(this.props.userId, 'pending')
           .then(() => {
-            this.setState({ isFetching: false });
+            this.setState({ isFetching: false }, () => {
+              disableBtn = false;
+            });
           })
           .catch(err => {
             this.setState({ isFetching: false }, () => {
-              showAlertWithMessage('Uh-oh!', err);
+              showAlertWithMessage('Uh-oh!', err, () => {
+                disableBtn = false;
+              });
             });
         });
       }
@@ -77,105 +84,139 @@ class ActivityOpenOrder extends Component {
         )
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
-            showAlertWithMessage('Success', {
-              message: 'Order has been completed.'
-            });
+            showAlertWithMessage(
+              'Success',
+              {
+                message: 'Order has been completed.'
+              },
+              () => {
+                disableBtn = false;
+              }
+            );
           }
         })
-        .catch(err => showAlertWithMessage('Uh-oh!', err));
+        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false;
+        }));
     } else if(data.get('paymentType') === 'card') {
       this.props.makePaymentAndCompleteOrder(data.get('_id'), '', price)
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
-            showAlertWithMessage('Success', {
-              message: 'Order has been completed.'
-            });
+            showAlertWithMessage(
+              'Success',
+              {
+                message: 'Order has been completed.'
+              },
+              () => {
+                disableBtn = false;
+              }
+            );
           }
         })
-        .catch(err => showAlertWithMessage('Uh-oh!', err));
+        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
+            disableBtn = false;
+          })
+        );
     } else {
       this.props
         .makePaymentAndCompleteOrder(data.get('_id'), '', price, 'cash')
         .then(() => {
           if (this.props.openOrderFinalStatus === 'complete') {
-            showAlertWithMessage('Success', {
-              message: 'Order has been completed.'
-            });
+            showAlertWithMessage(
+              'Success',
+              {
+                message: 'Order has been completed.'
+              },
+              () => {
+                disableBtn = false;
+              }
+            );
           }
         })
-        .catch(err => showAlertWithMessage('Uh-oh!', err));
+        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
+            disableBtn = false;
+          })
+        );
     }
   }
 
   completeOrder(id) {
-    const data = this.props.data.first();
-    this.props
-      .checkOrderStatus(id)
-      .then(() => {
-        const openOrderFinalStatus = this.props.openOrderFinalStatus;
-        if (
-          openOrderFinalStatus &&
-          openOrderFinalStatus === 'complete'
-        ) {
-          // If order has been already completed.
-          showAlertWithMessage('Info', {
-            message: 'This order has been already completed.'
+    if(disableBtn === false) {
+      disableBtn = true;
+      const data = this.props.data.first();
+      this.props
+        .checkOrderStatus(id)
+        .then(() => {
+          if (
+            this.props.openOrderFinalStatus &&
+            this.props.openOrderFinalStatus === 'complete'
+          ) {
+            // If order has been already completed.
+            showAlertWithMessage('Info', {
+              message: 'Order has been already completed.'
+            });
+          } else if (
+            this.props.openOrderFinalStatus &&
+            this.props.openOrderFinalStatus === 'denied'
+          ) {
+            // If order has been already denied.
+
+            showAlertWithMessage('Info', {
+              message: 'Order has been already denied.'
+            });
+          } else {
+            clearTimeout(this.timer);
+            let pendingItems = 0;
+            let price = 0;
+
+            this.props.data[0].items.filter(item => {
+              if(item.status === 'pending') {
+                pendingItems += 1;
+              } else if(item.status !== 'denied') {
+                price += item.price;
+              }
+            });
+
+            price = parseFloat(((price * TAX) / 100 + price).toFixed(2));
+
+            const message =
+              pendingItems === 0
+                ? this.props.data[0].paymentType === 'card'
+                  ? `Continue to pay $${price}`
+                  : 'Are you sure you want to complete?'
+                : this.props.data[0].paymentType === 'card'
+                  ? price === 0
+                    ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
+                    : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
+                  : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and complete order?`
+
+            this.timer = setTimeout(() => {
+              Alert.alert(
+                '',
+                message,
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: () => {
+                      disableBtn = false;
+                    },
+                    style: 'cancel'
+                  },
+                  {
+                    text: 'OK', onPress: () => this.finalizeOrder(price)
+                  }
+                ],
+                { cancelable: false }
+              );
+            }, TIME_OUT);
+          }
+        })
+        .catch(err => {
+          showAlertWithMessage('Uh-oh!', err, () => {
+            disableBtn = false;
           });
-        } else if (
-          openOrderFinalStatus &&
-          openOrderFinalStatus === 'denied'
-        ) {
-          // If order has been already denied.
-
-          showAlertWithMessage('Info', {
-            message: 'This order has been already denied.'
-          });
-        } else {
-          clearTimeout(this.timer);
-          let pendingItems = 0;
-          let price = 0;
-
-          data.get('items').filter(item => {
-            if(item.get('status') === 'pending') {
-              pendingItems += 1;
-            } else if(item.get('status') !== 'denied') {
-              price += item.get('price');
-            }
-          });
-
-          price = parseFloat(((price * TAX) / 100 + price).toFixed(2));
-
-          const message =
-            pendingItems === 0
-              ? data.get('paymentType') === 'card'
-                ? `Continue to pay $${price}`
-                : 'Are you sure you want to complete?'
-              : data.get('paymentType') === 'card'
-                ? price === 0
-                  ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
-                  : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
-                : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and complete order?`
-
-          this.timer = setTimeout(() => {
-            Alert.alert(
-              '',
-              message,
-              [
-                {
-                  text: 'Cancel',
-                  onPress: () => null,
-                  style: 'cancel'
-                },
-                {
-                  text: 'OK', onPress: () => this.finalizeOrder(price)
-                }
-              ],
-              { cancelable: false }
-            );
-          }, TIME_OUT);
-        }
-      })
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
+        });
+    }
   }
 
   checkStatusAndCancelItem(orderId, eleId) {

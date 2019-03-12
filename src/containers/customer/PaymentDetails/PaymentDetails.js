@@ -26,6 +26,8 @@ import {
 } from '../../../services/constants';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 
+let disableBtn = false;
+
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -50,7 +52,6 @@ class PaymentDetails extends Component {
         elevation: 0
       },
       headerTintColor: '#fff',
-      headerBackTitle: 'Hello',
       headerLeft: (
         <TouchableOpacity
           activeOpacity={0.8}
@@ -95,13 +96,23 @@ class PaymentDetails extends Component {
         this.webview.messagesChannel.on('isError', error => {
           this.props.hideLoading();
           if(error.message.code === 'CLIENT_GATEWAY_NETWORK') {
-            showAlertWithMessage('Uh-oh!', { message: NETWORK_REQUEST_FAILED });
+            showAlertWithMessage(
+              'Uh-oh!',
+              { message: NETWORK_REQUEST_FAILED },
+              () => {
+                disableBtn = false;
+              }
+            );
           } else {
-            showAlertWithMessage('Uh-oh!', error.message);
+            showAlertWithMessage('Uh-oh!', error.message, () => {
+              disableBtn = false;
+            });
           }
         });
       } catch(err) {
-        showAlertWithMessage('Uh-oh!', err);
+        showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false;
+        });
       }
     });
   }
@@ -140,7 +151,9 @@ class PaymentDetails extends Component {
       await this.props.addCreditCardInfo(paymentMethod, paymentMethod.isDefault);
       this.props.navigation.goBack();
     } catch(err) {
-      showAlertWithMessage('Uh-oh!', err);
+      showAlertWithMessage('Uh-oh!', err, () => {
+        disableBtn = false;
+      });
     }
   }
 
@@ -153,17 +166,20 @@ class PaymentDetails extends Component {
   }
 
   cardTokenize() {
-    const card = {
-      token: this.getToken,
-      number: this.formData.values.number,
-      expirationDate: this.formData.values.expiry,
-      cvv: this.formData.values.cvc,
-      postalCode: this.formData.values.postalCode
+    if(disableBtn === false) {
+      disableBtn = true;
+      const card = {
+        token: this.getToken,
+        number: this.formData.values.number,
+        expirationDate: this.formData.values.expiry,
+        cvv: this.formData.values.cvc,
+        postalCode: this.formData.values.postalCode
+      }
+      this.props.showLoading();
+      this.webview.sendJSON({
+        payload: card
+      });
     }
-    this.props.showLoading();
-    this.webview.sendJSON({
-      payload: card
-    });
   }
 
   render() {

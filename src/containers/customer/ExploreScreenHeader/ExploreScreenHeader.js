@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, InteractionManager } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Slider from 'react-native-slider';
@@ -10,18 +10,26 @@ import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 import showGenericAlert from '../../../components/GenericAlert';
 
+let disableBtn = false;
+
 class ExploreScreenHeader extends Component {
   static propTypes = {
     navigate: PropTypes.func.isRequired
   };
 
-  constructor() {
-    super();
-  }
-
   moveToMap() {
-    this.props.navigate({ routeName: 'MapScreen' });
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.navigate({ routeName: 'MapScreen' });
+      this.enableBtns();
+    }
   };
+
+  enableBtns() {
+    InteractionManager.runAfterInteractions(() => {
+      disableBtn = false;
+    });
+  }
 
   render() {
     return (

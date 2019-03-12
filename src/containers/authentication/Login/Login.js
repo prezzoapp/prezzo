@@ -38,6 +38,7 @@ type State = {
 };
 
 const SCROLL_VIEW_TOP_PADDING = hp('13.42%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+let disableBtn = false;
 
 class Login extends React.Component<Props, State> {
   static navigationOptions = ({ navigation }) => ({
@@ -73,23 +74,33 @@ class Login extends React.Component<Props, State> {
   };
 
   navigateToSignup() {
-    this.props.navigate({ routeName: 'SignupName' });
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.navigate({ routeName: 'SignupName' });
+      this.enableBtns();
+    }
   }
 
-  navigateToMain() {
-    this.props.navigate({ routeName: 'Customer' });
-  }
-
-  afterLogin() {
-    this.navigateToMain();
+  enableBtns() {
+    InteractionManager.runAfterInteractions(() => {
+      disableBtn = false;
+    });
   }
 
   login() {
-    const { email, password } = this.state;
+    if(disableBtn === false) {
+      disableBtn = true;
+      const { email, password } = this.state;
 
-    this.props.loginWithEmail(email, password)
-      .then(() => this.afterLogin())
-    .catch(e => showAlertWithMessage('Uh-oh!', e));
+      this.props.loginWithEmail(email, password)
+        .then(() => {
+          this.props.navigate({ routeName: 'Customer' });
+          this.enableBtns();
+        })
+      .catch(e => showAlertWithMessage('Uh-oh!', e, () => {
+        this.enableBtns();
+      }));
+    }
   }
 
   render() {

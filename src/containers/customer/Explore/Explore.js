@@ -27,6 +27,8 @@ const price3Indicator = wp('85%') * 0.66 - wp('9.5%');
 
 const price4Indicator = wp('85%') * 0.99 - wp('9.5%');
 
+let disableBtn = false;
+
 type Props = {
   listVendors: Function
 };
@@ -62,6 +64,7 @@ class Explore extends PureComponent<Props> {
   }
 
   hitAPI() {
+    console.log(disableBtn);
     this.props.getUserCurrentLocation().then(coords => {
       this.props.listVendors(
         coords.latitude,
@@ -69,9 +72,15 @@ class Explore extends PureComponent<Props> {
         this.props.distance,
         this.activeFilters.join(','),
         this.props.pricing
-      ).then(() => {})
-        .catch(err => showAlertWithMessage('Uh-oh!', err));
-    }).catch(err => showAlertWithMessage('Uh-oh!', err));
+      ).then(() => {
+          disableBtn = false;
+        })
+        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false;
+        }));
+    }).catch(err => showAlertWithMessage('Uh-oh!', err, () => {
+        disableBtn = false;
+      }));
   }
 
   onTextChange(text) {
@@ -143,15 +152,18 @@ class Explore extends PureComponent<Props> {
   }
 
   toggleFilter = (id) => {
-    this.activeFilters = [];
-    this.props.toggleFilter(id).then(() => {
-      this.props.filters.map(item => {
-        if(item.on) {
-          this.activeFilters.push(item.filterType);
-        }
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.activeFilters = [];
+      this.props.toggleFilter(id).then(() => {
+        this.props.filters.map(item => {
+          if(item.on) {
+            this.activeFilters.push(item.filterType);
+          }
+        });
+        this.hitAPI();
       });
-      this.hitAPI();
-    });
+    }
   }
 
   render() {

@@ -15,14 +15,12 @@ import {
 import { fromJS } from 'immutable';
 import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
-import Button from '../../../components/Button';
 import { Feather } from '../../../components/VectorIcons';
 import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 
 import {
   FONT_FAMILY_MEDIUM,
-  COLOR_GREEN,
   FONT_FAMILY,
   COLOR_WHITE
 } from '../../../services/constants';

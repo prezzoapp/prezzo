@@ -101,18 +101,6 @@ class SignupComplete extends React.Component<Props> {
     this.props.navigate({ routeName: 'Customer' });
   }
 
-  componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
-  }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
-  }
-
-  handleBackPress = () => {
-    return true;
-  }
-
   render() {
     return (
       <CacheImage

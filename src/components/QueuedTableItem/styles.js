@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingLeft: 10,
     flex: 1,
-    paddingRight: wp('20%')
+    paddingRight: wp('26%')
   },
   userName: {
     color: 'white',
@@ -53,11 +53,13 @@ const styles = StyleSheet.create({
   },
   add: {
     position: 'absolute',
-    right: wp('4.53%')
+    right: wp('4.53%'),
+    padding: wp('2.66%')
   },
   delete: {
     position: 'absolute',
-    right: wp('18.44%')
+    right: wp('18.44%'),
+    padding: wp('2.66%')
   }
 });
 

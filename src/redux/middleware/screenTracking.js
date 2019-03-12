@@ -51,8 +51,6 @@ const screenTracking = ({ getState }) => next => action => {
     nextRoute.routeName !== 'SignupComplete' &&
     Platform.OS === 'android'
   ) {
-    // console.log('Current Route Name: ');
-    // console.log(nextRoute.routeName);
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
   }
 

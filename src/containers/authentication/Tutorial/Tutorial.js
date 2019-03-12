@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Platform, InteractionManager } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Constants } from 'expo';
@@ -17,6 +17,8 @@ const images = {
   tutorial3: require('../../../../assets/images/tutorial/tutorial-3.jpg'),
   tutorial4: require('../../../../assets/images/tutorial/tutorial-4.jpg')
 };
+
+let disableBtn = false;
 
 class Tutorial extends React.Component {
   static navigationOptions = {
@@ -79,8 +81,18 @@ class Tutorial extends React.Component {
     }
   }
 
+  enableBtns() {
+    InteractionManager.runAfterInteractions(() => {
+      disableBtn = false;
+    });
+  }
+
   navigateToSignupMergeFacebook() {
-    this.props.navigate({ routeName: 'SignupMergeFacebook' });
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.navigate({ routeName: 'SignupMergeFacebook' });
+      this.enableBtns();
+    }
   }
 
   navigateToHome() {
@@ -88,15 +100,27 @@ class Tutorial extends React.Component {
   }
 
   navigateToLogin() {
-    this.props.navigate({ routeName: 'Login' });
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.navigate({ routeName: 'Login' });
+      this.enableBtns();
+    }
   }
 
   navigateToSignup() {
-    this.props.navigate({ routeName: 'SignupName' });
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.navigate({ routeName: 'SignupName' });
+      this.enableBtns();
+    }
   }
 
   navigateToEnableNotifications() {
-    this.props.navigate({ routeName: 'EnableNotifications' });
+    if(disableBtn === false) {
+      disableBtn = true;
+      this.props.navigate({ routeName: 'EnableNotifications' });
+      this.enableBtns();
+    }
   }
 
   render() {
