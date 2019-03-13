@@ -228,7 +228,7 @@ export default StyleSheet.create({
   priceSliderContainer: {
     height: 31,
     marginTop: wp('4.26%'),
-    marginRight: wp('1.6%'),
+    marginRight: wp('5.6%'),
     // marginRight: wp('10.66%'),
     position: 'relative',
     flexDirection: 'row',

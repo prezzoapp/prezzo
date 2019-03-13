@@ -244,7 +244,7 @@ export default class RestaurantDetails extends Component {
       this.selectedPaymentMethod = val;
     }
 
-    if(val === '') {
+    if(val === '' || val === 'add_new_card') {
       this.setState(() => {
         return {
           isSelectedPaymentType: false
@@ -602,7 +602,6 @@ export default class RestaurantDetails extends Component {
               }
               return (
                 <AnimatedSectionList
-                  bounces={false}
                   stickySectionHeadersEnabled
                   SectionSeparatorComponent={this.sectionSeparator}
                   ItemSeparatorComponent={this.itemSeparator}
