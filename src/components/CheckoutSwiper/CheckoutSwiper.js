@@ -75,6 +75,22 @@ export default class CheckoutSwiper extends Component {
     }
   }
 
+  selectPaymentMethodAfterCardTokenizing(id) {
+    let defaultPaymentId = null;
+    for (let i = 0; i < this.props.creditCardList.length; i++) {
+      if(this.props.creditCardList[i].isDefault) {
+        defaultPaymentId = this.props.creditCardList[i]._id;
+        break;
+      }
+    }
+
+    if(defaultPaymentId !== null) {
+      this.selectPaymentMethod(defaultPaymentId);
+    } else {
+      this.selectPaymentMethod(id);
+    }
+  }
+
   selectPaymentMethod(val) {
     this.setState(
       () => ({
@@ -84,11 +100,16 @@ export default class CheckoutSwiper extends Component {
         if (this.state.selectedPaymentMethod === 'add_new_card') {
           this.props.navigate({
             routeName: 'CheckoutPaymentDetails',
-            params: { title: 'Add New Card' }
+            params: {
+              title: 'Add New Card',
+              selectPaymentMethodAfterCardTokenizing: this.selectPaymentMethodAfterCardTokenizing.bind(
+                this
+              )
+            }
           });
-        } else {
-          this.props.isSelectedPaymentMethod(val);
         }
+
+        this.props.isSelectedPaymentMethod(this.state.selectedPaymentMethod);
       }
     );
   }

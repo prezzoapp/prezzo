@@ -127,11 +127,11 @@ class Profile extends Component {
             />
           </View>
           <View style={styles.footerContainer}>
-            <TouchableOpacity onPress={() => {}}>
+            {/*<TouchableOpacity onPress={() => {}}>
               <View style={styles.footerLeft}>
                 <Text style={styles.footerText}>Help</Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
             <TouchableOpacity onPress={() => this.logout()}>
               <View style={styles.footerRight}>
                 <Text style={styles.footerText}>Log Out</Text>
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     alignSelf: 'stretch',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'flex-end',
     flexDirection: 'row',
     flex: 1

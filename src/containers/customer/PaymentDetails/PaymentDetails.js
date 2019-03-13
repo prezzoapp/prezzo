@@ -149,7 +149,16 @@ class PaymentDetails extends Component {
 
       const paymentMethod = await this.props.isTokenizationComplete(nonce, this.state.selectCheckBox);
       await this.props.addCreditCardInfo(paymentMethod, paymentMethod.isDefault);
+      if (
+        this.props.navigation.state.params
+          .selectPaymentMethodAfterCardTokenizing
+      ) {
+        this.props.navigation.state.params.selectPaymentMethodAfterCardTokenizing(paymentMethod._id);
+      }
       this.props.navigation.goBack();
+      InteractionManager.runAfterInteractions(() => {
+        disableBtn = false;
+      });
     } catch(err) {
       showAlertWithMessage('Uh-oh!', err, () => {
         disableBtn = false;
@@ -158,6 +167,7 @@ class PaymentDetails extends Component {
   }
 
   togglePreferredPayment() {
+    alert();
     this.setState(() => {
       return {
         selectCheckBox: !this.state.selectCheckBox
@@ -204,7 +214,7 @@ class PaymentDetails extends Component {
             >
               <Feather
                 style={styles.checkbox}
-                name={this.state.selectCheckBox ? 'square' : 'check-square'}
+                name={this.state.selectCheckBox ? 'check-square' : 'square'}
                 size={wp('7.2%')}
                 color="white"
               />

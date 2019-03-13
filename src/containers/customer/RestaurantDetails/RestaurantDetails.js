@@ -221,7 +221,7 @@ export default class RestaurantDetails extends Component {
       this.selectedPaymentMethod = val;
     }
 
-    if(val === '') {
+    if(val === '' || val === 'add_new_card') {
       this.setState(() => {
         return {
           isSelectedPaymentType: false
@@ -371,58 +371,23 @@ export default class RestaurantDetails extends Component {
     </View>
   );
 
-  sectionSeparator = data => {
-    if(data.leadingItem) {
+  renderSectionSeparatorComponent(leadingItem) {
+    if(leadingItem) {
       return (
         <View
           style={{
-            paddingBottom: !this.state.showText
-              ? wp('3.33%')
-              : wp('12.4%')
+            paddingBottom: !this.state.showText ? wp('5.33%') : wp('14.4%')
           }}
         />
       );
     }
     return (
-      <View
-        style={{
-          paddingBottom: wp('3.33%')
+      <View style={{
+          paddingBottom: wp('5.33%')
         }}
       />
     );
-  };
-
-  itemSeparator = () => (
-    <View
-      style={{
-        paddingBottom: this.state.showText
-          ? wp('8.8%')
-          : wp('9.4%')
-      }}
-    />
-  );
-
-  renderItem = data => (
-    <RestaurantItem
-      item={data.item}
-      section={data.section}
-      showText={this.state.showText}
-      addRemoveItemQuantity={(itemId, op) =>
-        this.props.addRemoveItemQuantity(
-          data.section._id,
-          itemId,
-          op
-        )
-      }
-      changeItemRating={(itemId, rating) =>
-        this.props.changeItemRating(data.section._id, itemId, rating)
-      }
-    />
-  );
-
-  hideModal = () => {
-    this.setState({ modalVisible: false });
-  };
+  }
 
   render() {
     const data = this.props.data.get('data');
@@ -579,10 +544,19 @@ export default class RestaurantDetails extends Component {
               }
               return (
                 <AnimatedSectionList
-                  bounces={false}
                   stickySectionHeadersEnabled
-                  SectionSeparatorComponent={this.sectionSeparator}
-                  ItemSeparatorComponent={this.itemSeparator}
+                  SectionSeparatorComponent={({ leadingItem }) =>
+                    this.renderSectionSeparatorComponent(leadingItem)
+                  }
+                  ItemSeparatorComponent={() =>
+                    <View
+                      style={{
+                        paddingBottom: this.state.showText
+                          ? wp('8.8%')
+                          : wp('9.4%')
+                      }}
+                    />
+                  }
                   keyExtractor={item => item._id.toString()}
                   onScroll={Animated.event([
                     {
@@ -591,9 +565,15 @@ export default class RestaurantDetails extends Component {
                       }
                     }]
                   )}
-                  style={listStyle}
-                  contentContainerStyle={listContainerStyle}
-                  ListFooterComponent={this.listFooterComponent}
+                  style={{
+                    paddingTop: wp('5.33%')
+                  }}
+                  contentContainerStyle={{
+                    paddingBottom: !this.state.showText ? wp('10%') : 0,
+                    paddingHorizontal: 15,
+                    paddingTop: headerHeight
+                  }}
+                  ListFooterComponent={() => this.listFooterComponent()}
                   sections={
                     data.get('menu') &&
                     data.getIn(['menu', 'categories'])

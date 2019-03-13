@@ -27,11 +27,11 @@ import Button from '../../../components/Button';
 import LoadingComponent from '../../../components/LoadingComponent';
 import CacheImage from '../../../components/CacheImage';
 
-const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
+const price2Indicator = wp('85%') * 0.33 - wp('8.5%');
 
-const price3Indicator = wp('85%') * 0.66 - wp('9%');
+const price3Indicator = wp('85%') * 0.66 - wp('11.8%');
 
-const price4Indicator = wp('85%') * 0.99 - wp('9.5%');
+const price4Indicator = wp('85%') * 0.99 - wp('13.5%');
 
 import {
   FONT_FAMILY_MEDIUM,
