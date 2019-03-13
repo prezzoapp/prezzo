@@ -207,7 +207,7 @@ export default class RestaurantDetails extends Component {
       this.selectedPaymentMethod = val;
     }
 
-    if(val === '') {
+    if(val === '' || val === 'add_new_card') {
       this.setState(() => {
         return {
           isSelectedPaymentType: false
@@ -366,6 +366,24 @@ export default class RestaurantDetails extends Component {
     </View>
   );
 
+  renderSectionSeparatorComponent(leadingItem) {
+    if(leadingItem) {
+      return (
+        <View
+          style={{
+            paddingBottom: !this.state.showText ? wp('5.33%') : wp('14.4%')
+          }}
+        />
+      );
+    }
+    return (
+      <View style={{
+          paddingBottom: wp('5.33%')
+        }}
+      />
+    );
+  }
+
   render() {
     const animatedHeader = this.scrollAnimatedValue.interpolate({
       inputRange: [0, headerHeight],
@@ -506,24 +524,9 @@ export default class RestaurantDetails extends Component {
               }
               return (
                 <AnimatedSectionList
-                  bounces={false}
                   stickySectionHeadersEnabled
                   SectionSeparatorComponent={({ leadingItem }) =>
-                    leadingItem ? (
-                      <View
-                        style={{
-                          paddingBottom: !this.state.showText
-                            ? wp('5.33%')
-                            : wp('14.4%')
-                        }}
-                      />
-                    ) : (
-                      <View
-                        style={{
-                          paddingBottom: wp('5.33%')
-                        }}
-                      />
-                    )
+                    this.renderSectionSeparatorComponent(leadingItem)
                   }
                   ItemSeparatorComponent={() =>
                     <View
@@ -543,15 +546,10 @@ export default class RestaurantDetails extends Component {
                     }]
                   )}
                   style={{
-                    paddingTop: wp('5.33%'),
-                    paddingBottom: !this.state.showText
-                      ? -wp('5.33%')
-                      : -wp('14.4%')
+                    paddingTop: wp('5.33%')
                   }}
                   contentContainerStyle={{
-                    paddingBottom: !this.state.showText
-                      ? wp('5.33%')
-                      : wp('14.4%'),
+                    paddingBottom: !this.state.showText ? wp('10%') : 0,
                     paddingHorizontal: 15,
                     paddingTop: headerHeight
                   }}

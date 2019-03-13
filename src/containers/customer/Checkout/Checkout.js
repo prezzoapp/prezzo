@@ -226,6 +226,7 @@ export default class Checkout extends Component {
               navigate={this.props.navigate}
               restaurantName={this.props.restaurantName}
               creditCardList={this.props.creditCardList}
+              newlyAddedCard={this.props.newlyAddedCard}
               onScrollingEnd={(xValue, index) =>
                 this.onScrollEnd(xValue, index)
               }

@@ -9,6 +9,7 @@ export const mapStateToProps = state => {
   const data = state.get('restaurant').toJS();
   const type = state.get('restaurant').get('type');
   const paymentType = state.get('restaurant').get('paymentType');
+  const newlyAddedCard = state.get('paymentMethods').get('newlyAddedCard');
   const creditCardList = state
     .get('paymentMethods')
     .get('data')
@@ -18,7 +19,8 @@ export const mapStateToProps = state => {
     data,
     type,
     paymentType,
-    creditCardList
+    creditCardList,
+    newlyAddedCard
   };
 };
 

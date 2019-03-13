@@ -29,7 +29,7 @@ export const addCreditCardInfo = async (
   dispatch({ type: ADD_CREDIT_CARD_REQUEST });
 
   try {
-    return dispatch({
+    return await dispatch({
       type: ADD_CREDIT_CARD_SUCCESS,
       payload: fromJS({
         cardInfo,

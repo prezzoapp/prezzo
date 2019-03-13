@@ -155,11 +155,11 @@ export default class AccountMenu extends React.Component {
             />
           </View>
           <View style={styles.footerContainer}>
-            <TouchableOpacity onPress={() => this.props.navigate('')}>
+            {/*<TouchableOpacity onPress={() => this.props.navigate('')}>
               <View style={styles.footerLeft}>
                 <Text style={styles.footerText}>Help</Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
             <TouchableOpacity onPress={() => this.logout()}>
               <View style={styles.footerRight}>
                 <Text style={styles.footerText}>Log Out</Text>
