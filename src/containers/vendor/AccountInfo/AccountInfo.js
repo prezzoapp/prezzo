@@ -194,21 +194,6 @@ export default class AccountInfo extends React.Component {
         }
       }
     );
-
-    // ActionSheetIOS.showActionSheetWithOptions(
-    //   {
-    //     options: ['Take Photo', 'Choose from Library', 'Cancel'],
-    //     cancelButtonIndex: 2,
-    //     title: 'Select an avatar'
-    //   },
-    //   buttonIndex => {
-    //     if (buttonIndex === 0) {
-    //       this.requestCameraPermission();
-    //     } else if (buttonIndex === 1) {
-    //       this.requestPhotoLibraryPermission();
-    //     }
-    //   }
-    // );
   }
 
   requestPhotoLibraryPermission = async () => {
@@ -600,15 +585,6 @@ export default class AccountInfo extends React.Component {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={styles.scrollView}
         >
-          {/*<View
-            style={{
-              ...stylesRaw.spinnerContainer,
-              ...(isBusy ? {} : { display: 'none' })
-            }}
-          >
-            <Spinner color="red" />
-          </View>*/}
-
           <View style={styles.header}>
             <TouchableOpacity
               activeOpacity={0.8}

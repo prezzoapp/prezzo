@@ -220,7 +220,10 @@ const styles = StyleSheet.create({
 export const stylesRaw = {
   pickerIcon: {
     color: '#fff',
-    fontSize: 16
+    fontSize: 16,
+    marginLeft: 0,
+    top: -wp('1%'),
+    right: wp('2%')
   }
 };
 

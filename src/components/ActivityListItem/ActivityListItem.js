@@ -4,24 +4,21 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { Feather } from '../VectorIcons';
 import styles from './styles';
+import showGenericAlert from '../GenericAlert';
 
 const ActivityListItem = props => {
   function checkAndCancelOrderItem(orderId, itemId) {
-    Alert.alert(
-      '',
-      'Are you sure you want to cancel?',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => null,
-          style: 'cancel'
-        },
-        {
-          text: 'OK', onPress: () => props.checkStatusAndCancelItem(orderId, itemId)
-        }
-      ],
-      { cancelable: false }
-    );
+    showGenericAlert(null, 'Are you sure you want to cancel?', [
+      {
+        text: 'No',
+        onPress: () => null,
+        style: 'cancel'
+      },
+      {
+        text: 'Yes',
+        onPress: () => props.checkStatusAndCancelItem(orderId, itemId)
+      }
+    ]);
   }
 
   if(props.item.status !== 'denied' || props.type === 'vendor') {

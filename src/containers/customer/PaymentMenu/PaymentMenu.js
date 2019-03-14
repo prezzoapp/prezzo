@@ -21,6 +21,7 @@ import styles from './styles';
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 import LoadingComponent from '../../../components/LoadingComponent';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
+import showGenericAlert from '../../../components/GenericAlert';
 
 let disableBtn = false;
 
@@ -88,7 +89,7 @@ class PaymentMenu extends Component {
   }
 
   removeCardAtIndex(id) {
-    Alert.alert(
+    showGenericAlert(
       null,
       'Are you sure you want to delete this payment method?',
       [
@@ -101,8 +102,7 @@ class PaymentMenu extends Component {
           onPress: () => null,
           style: 'cancel'
         }
-      ],
-      { cancelable: false }
+      ]
     );
   }
 

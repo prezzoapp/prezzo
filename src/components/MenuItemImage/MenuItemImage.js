@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { Ionicons } from '../VectorIcons';
 import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
 import styles from './styles';
+import showGenericAlert from '../GenericAlert';
 
 const ItemImagePicker = props => {
   showAvatarActionSheet = () => {
@@ -94,13 +95,27 @@ const ItemImagePicker = props => {
     }
   };
 
+  deleteImageComponent = () => {
+    showGenericAlert(null, 'Are you sure you want to delete this menu item image?', [
+      {
+        text: 'Yes',
+        onPress: () => props.deleteImageComponent()
+      },
+      {
+        text: 'No',
+        onPress: () => null,
+        style: 'cancel'
+      }
+    ]);
+  };
+
   return (
     <View style={styles.holder}>
       {props.editable && (
         <TouchableOpacity
           style={styles.closeBtn}
           activeOpacity={0.6}
-          onPress={() => props.deleteImageComponent(props.image)}
+          onPress={() => deleteImageComponent()}
         >
           <Ionicons
             title="Delete"
