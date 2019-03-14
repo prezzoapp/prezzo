@@ -4,10 +4,28 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import styles from './styles';
-import CacheImage from '../CacheImage';
+import showGenericAlert from '../GenericAlert';
 
 const EditableListItem = props => {
   const { onRemove, text, leftIcon, expDate } = props;
+
+  onRemoving = () => {
+    showGenericAlert(
+      null,
+      'Are you sure you want to remove?',
+      [
+        {
+          text: 'Yes',
+          onPress: () => onRemove && onRemove()
+        },
+        {
+          text: 'No',
+          onPress: () => null,
+          style: 'cancel'
+        }
+      ]
+    );
+  }
 
   return (
     <View

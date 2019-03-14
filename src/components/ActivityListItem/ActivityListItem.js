@@ -7,29 +7,20 @@ import CacheImage from '../CacheImage';
 import styles from './styles';
 import showGenericAlert from '../GenericAlert';
 
-class ActivityListItem extends Component {
-  shouldComponentUpdate(nextProps) {
-    if(nextProps.item.get('status') !== this.props.item.get('status')) return true;
-    return false;
+const ActivityListItem = props => {
+  function checkAndCancelOrderItem(orderId, itemId) {
+    showGenericAlert(null, 'Are you sure you want to cancel?', [
+      {
+        text: 'No',
+        onPress: () => null,
+        style: 'cancel'
+      },
+      {
+        text: 'Yes',
+        onPress: () => props.checkStatusAndCancelItem(orderId, itemId)
+      }
+    ]);
   }
-
-  checkAndCancelOrderItem = itemId => {
-    Alert.alert(
-      '',
-      'Are you sure you want to cancel?',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => null,
-          style: 'cancel'
-        },
-        {
-          text: 'OK', onPress: () => this.props.checkStatusAndCancelItem(itemId)
-        }
-      ],
-      { cancelable: false }
-    );
-  };
 
   render() {
     const item = this.props.item;

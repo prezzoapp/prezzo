@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 import ActivityListItem from '../../../components/ActivityListItem';
+import showGenericAlert from '../../../components/GenericAlert';
 import Button from '../../../components/Button';
 
 import {

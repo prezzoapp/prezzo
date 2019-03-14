@@ -7,9 +7,7 @@ import MenuItemImage from '../MenuItemImage';
 import styles from './styles';
 import { COLOR_DANGER } from '../../services/constants';
 import { getTimeStampString } from '../../services/commonFunctions';
-import CacheImage from '../CacheImage';
-
-const menuItemImageRef = React.createRef();
+import showGenericAlert from '../GenericAlert';
 
 export default class MenuItem extends Component {
   constructor(props) {
@@ -308,14 +306,10 @@ export default class MenuItem extends Component {
                 addNewImageComponent={imageURL =>
                   this.props.addNewImageComponent(imageURL)
                 }
-                deleteImageComponent={imageURL => {
-                  this.reloadImages();
-                  return this.props.deleteImageComponent(imageURL)
-                }}
-                uploadImage={(uri, size, mime, name, type, acl) => {
-                  this.state.imageArray[index] = uri;
-                  return this.props.uploadImage(uri, size, mime, name, type, acl)
-                }}
+                deleteImageComponent={() => this.props.deleteImageComponent(item)}
+                uploadImage={(uri, size, mime, name, type, acl) =>
+                  this.props.uploadImage(uri, size, mime, name, type, acl)
+                }
               />
             ))}
 
