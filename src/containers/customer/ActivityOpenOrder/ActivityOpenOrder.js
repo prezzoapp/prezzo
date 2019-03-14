@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 import ActivityListItem from '../../../components/ActivityListItem';
+import showGenericAlert from '../../../components/GenericAlert';
 import Button from '../../../components/Button';
 
 import {
@@ -28,8 +29,6 @@ class ActivityOpenOrder extends Component {
     super(props);
 
     this.state = { isFetching: false }
-
-    this.timer = -1;
   }
 
   componentDidMount() {
@@ -158,7 +157,6 @@ class ActivityOpenOrder extends Component {
               message: 'Order has been already denied.'
             });
           } else {
-            clearTimeout(this.timer);
             let pendingItems = 0;
             let price = 0;
 
@@ -183,25 +181,18 @@ class ActivityOpenOrder extends Component {
                     : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
                   : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and complete order?`
 
-            this.timer = setTimeout(() => {
-              Alert.alert(
-                '',
-                message,
-                [
-                  {
-                    text: 'Cancel',
-                    onPress: () => {
-                      disableBtn = false;
-                    },
-                    style: 'cancel'
-                  },
-                  {
-                    text: 'OK', onPress: () => this.finalizeOrder(price)
-                  }
-                ],
-                { cancelable: false }
-              );
-            }, TIME_OUT);
+            showAlertWithMessage(null, { message }, null, [
+              {
+                text: 'No',
+                onPress: () => {
+                  disableBtn = false;
+                },
+                style: 'cancel'
+              },
+              {
+                text: 'Yes', onPress: () => this.finalizeOrder(price)
+              }
+            ]);
           }
         })
         .catch(err => {

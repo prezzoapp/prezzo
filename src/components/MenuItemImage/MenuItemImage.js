@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { Ionicons } from '../VectorIcons';
 import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
 import styles from './styles';
+import showGenericAlert from '../GenericAlert';
 
 class ItemImagePicker extends React.Component<Props> {
   state = {
@@ -115,51 +116,66 @@ class ItemImagePicker extends React.Component<Props> {
     }
   };
 
-  render() {
-    const image = this.state.tempImage || this.props.image || '';
+  deleteImageComponent = () => {
+    showGenericAlert(null, 'Are you sure you want to delete this menu item image?', [
+      {
+        text: 'Yes',
+        onPress: () => props.deleteImageComponent()
+      },
+      {
+        text: 'No',
+        onPress: () => null,
+        style: 'cancel'
+      }
+    ]);
+  };
 
-    return (
-      <View style={styles.holder}>
-        {this.props.editable && (
-          <TouchableOpacity
-            style={styles.closeBtn}
-            activeOpacity={0.6}
-            onPress={() => this.props.deleteImageComponent(this.props.image)}
-          >
-            <Ionicons
-              title="Delete"
-              name="md-close"
-              color="black"
-              size={wp('3%')}
-              style={{ padding: 0, top: wp('0.17%'), position: 'relative', left: wp('0.13%') }}
-            />
-          </TouchableOpacity>
-        )}
+  return (
+    <View style={styles.holder}>
+      {props.editable && (
+        <TouchableOpacity
+          style={styles.closeBtn}
+          activeOpacity={0.6}
+          onPress={() => deleteImageComponent()}
+        >
+          <Ionicons
+            title="Delete"
+            name="md-close"
+            color="black"
+            size={wp('3%')}
+            style={{ padding: 0, top: wp('0.17%'), position: 'relative', left: wp('0.13%') }}
+          />
+        </TouchableOpacity>
+      )}
 
-        {image === '' ? (
-          <TouchableOpacity
-            onPress={this.showAvatarActionSheet}
-            style={styles.itemImagePickerBtn}
-          >
-            <CacheImage
-              style={styles.itemImage}
-              type='image'
-              source={require('../../../assets/images/default_image_placeholder.png')}
-            />
-          </TouchableOpacity>
-        ) : (
-          <View style={styles.itemImagePickerBtn}>
-            <CacheImage
-              style={styles.itemImage}
-              type='image'
-              selectImageThroughImagePicker={this.state.selectImageThroughImagePicker}
-              source={image}
-            />
-          </View>
-        )}
-      </View>
-    );
-  }
+      {props.image === '' ? (
+        <TouchableOpacity
+          onPress={this.showAvatarActionSheet}
+          style={styles.itemImagePickerBtn}
+        >
+          <Image
+            style={styles.itemImage}
+            source={
+              props.image
+                ? { uri: props.image }
+                : require('../../../assets/images/default_image_placeholder.png')
+            }
+          />
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.itemImagePickerBtn}>
+          <Image
+            style={styles.itemImage}
+            source={
+              props.image
+                ? { uri: props.image }
+                : require('../../../assets/images/default_image_placeholder.png')
+            }
+          />
+        </View>
+      )}
+    </View>
+  );
 }
 
 ItemImagePicker.propTypes = {

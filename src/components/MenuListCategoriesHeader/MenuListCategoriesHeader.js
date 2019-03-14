@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-
 import styles from './styles';
+import showGenericAlert from '../GenericAlert';
 
 export default class MenuListCategoriesHeader extends Component {
   constructor(props) {
@@ -35,9 +35,21 @@ export default class MenuListCategoriesHeader extends Component {
   }
 
   deleteCategory() {
-    this.setState({ editMode: false }, () => {
-      this.props.deleteCategory(this.props.section._id);
-    })
+    showGenericAlert(null, 'Are you sure you want to delete this category?', [
+      {
+        text: 'Yes',
+        onPress: () => {
+          this.setState({ editMode: false }, () => {
+            this.props.deleteCategory(this.props.section._id);
+          })
+        }
+      },
+      {
+        text: 'No',
+        onPress: () => null,
+        style: 'cancel'
+      }
+    ]);
   }
 
   saveAndUpdateCategory() {
