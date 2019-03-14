@@ -108,6 +108,20 @@ export default class MenuItem extends Component {
     }
   }
 
+  deleteItem() {
+    showGenericAlert(null, 'Are you sure you want to delete this menu item?', [
+      {
+        text: 'Yes',
+        onPress: () => this.props.deleteItem()
+      },
+      {
+        text: 'No',
+        onPress: () => null,
+        style: 'cancel'
+      }
+    ]);
+  }
+
   updateEntries(inputType, text) {
     if(inputType === 'TITLE') {
       this.setState(() => ({
@@ -147,6 +161,19 @@ export default class MenuItem extends Component {
     });
   }
 
+  //deleteImageComponent(index, imageURL) {
+    // console.log(index);
+    // this.state.imageArray.splice(index, 1);
+    // this.setState(() => {
+    //   return {
+    //     imageArray: this.state.imageArray
+    //   }
+    // }, () => {
+    //   console.log(this.state.imageArray);
+    //   if(imageURL !== '') this.props.deleteImageComponent(imageURL);
+    // });
+  //}
+
   render() {
     const itemImages = this.state.imageArray;
 
@@ -172,7 +199,7 @@ export default class MenuItem extends Component {
               <TouchableOpacity
                 activeOpacity={0.6}
                 style={[styles.twoLineIconBtn, styles.controlBtnsStyle]}
-                onPress={() => this.props.deleteItem()}
+                onPress={() => this.deleteItem()}
               >
                 <Text style={[styles.addText, { color: COLOR_DANGER }]}>
                   Delete

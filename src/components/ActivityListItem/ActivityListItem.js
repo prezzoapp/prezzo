@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Feather } from '../VectorIcons';
 import CacheImage from '../CacheImage';
 import styles from './styles';
+import showGenericAlert from '../GenericAlert';
 
 class ActivityListItem extends Component {
   shouldComponentUpdate(nextProps) {

@@ -9,6 +9,24 @@ import CacheImage from '../CacheImage';
 const EditableListItem = props => {
   const { onRemove, text, leftIcon, expDate } = props;
 
+  onRemoving = () => {
+    showGenericAlert(
+      null,
+      'Are you sure you want to remove?',
+      [
+        {
+          text: 'Yes',
+          onPress: () => onRemove && onRemove()
+        },
+        {
+          text: 'No',
+          onPress: () => null,
+          style: 'cancel'
+        }
+      ]
+    );
+  }
+
   return (
     <View
     style={[
@@ -37,7 +55,7 @@ const EditableListItem = props => {
 
       <TouchableOpacity
         style={styles.iconContainer}
-        onPress={() => onRemove && onRemove()}
+        onPress={() => onRemoving()}
       >
         <CacheImage
           style={styles.icon}

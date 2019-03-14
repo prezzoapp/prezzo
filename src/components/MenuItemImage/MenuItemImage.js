@@ -9,6 +9,7 @@ import { Ionicons } from '../VectorIcons';
 import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
 import CacheImage from '../CacheImage';
 import styles from './styles';
+import showGenericAlert from '../GenericAlert';
 
 class ItemImagePicker extends React.Component<Props> {
   state = {

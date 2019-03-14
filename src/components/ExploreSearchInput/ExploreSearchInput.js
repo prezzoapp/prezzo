@@ -33,17 +33,24 @@ export default class ExploreSearchInput extends Component {
     this.animatedValue = new Animated.Value(0);
 
     this.showPlaceholder = true;
+    this.animationCompleted = false;
   }
 
   onFocus = () => {
     if(this.state.searchInputValue === '') {
-      this.animatedValue.setValue(0);
+      if(this.animationCompleted === false) {
+        this.animationCompleted = true;
 
-      Animated.timing(this.animatedValue, {
-        toValue: 1,
-        duration: 200,
-        easing: Easing.linear
-      }).start();
+        this.animatedValue.setValue(0);
+
+        Animated.timing(this.animatedValue, {
+          toValue: 1,
+          duration: 200,
+          easing: Easing.linear
+        }).start(() => {
+          this.animationCompleted = false;
+        });
+      }
     }
   };
 
@@ -70,28 +77,48 @@ export default class ExploreSearchInput extends Component {
 
   onBlur = () => {
     if(this.state.searchInputValue === '') {
-      this.animatedValue.setValue(1);
+      if(this.animationCompleted === false) {
+        this.animationCompleted = true;
 
-      Animated.timing(this.animatedValue, {
-        toValue: 0,
-        duration: 200,
-        easing: Easing.linear
-      }).start();
+        this.animatedValue.setValue(1);
+
+        Animated.timing(this.animatedValue, {
+          toValue: 0,
+          duration: 200,
+          easing: Easing.linear
+        }).start(() => {
+          this.animationCompleted = false;
+        });
+      }
     }
   };
 
   cancelAction() {
-    this.searchInput.blur();
-    this.setState(() => {
-        return {
-          searchInputValue: '',
-          hidePlaceholder: false
-        };
-      }, () => {
-        this.props.clearTimer();
-        this.props.showList(false);
-      }
-    );
+    if(this.animationCompleted === false) {
+      this.animationCompleted = true;
+
+      this.searchInput.blur();
+
+      this.animatedValue.setValue(1);
+
+      this.setState(() => {
+          return {
+            searchInputValue: '',
+            hidePlaceholder: false
+          };
+        }, () => {
+          this.props.clearTimer();
+          this.props.showList(false);
+          Animated.timing(this.animatedValue, {
+            toValue: 0,
+            duration: 200,
+            easing: Easing.linear
+          }).start(() => {
+            this.animationCompleted = false;
+          });
+        }
+      );
+    }
   }
 
   render() {

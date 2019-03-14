@@ -33,5 +33,13 @@ export const showAlertWithMessage = (
   callback = null,
   buttonsArray = null
 ) => {
+<<<<<<< HEAD
   showAlert(title, obj.message, TIME_OUT, callback, buttonsArray);
+=======
+  if(obj.message === NETWORK_REQUEST_FAILED) {
+    showAlert(title, INTERNET_NOT_CONNECTED, TIME_OUT, callback);
+  } else {
+    showAlert(title, obj.message, TIME_OUT, callback, buttonsArray);
+  }
+>>>>>>> - Resolve cancel button along with the search bar not hidden on selecting the cancel button.
 };
