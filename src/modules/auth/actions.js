@@ -93,15 +93,17 @@ export const loginWithFacebook = async (
   }
 };
 
-export const userLogout = async () => async (dispatch: ReduxDispatch) => {
+export const userLogout = async (callingLogoutAPI: boolean = false) => async (dispatch: ReduxDispatch) => {
   dispatch({
     type: USER_LOGOUT_REQUEST
   });
 
   try {
-    await get('/v1/auth/logout');
+    if(callingLogoutAPI) {
+      await get('/v1/auth/logout');
+    }
 
-    return dispatch({
+    return await dispatch({
       type: USER_LOGOUT_SUCCESS
     });
   } catch (e) {

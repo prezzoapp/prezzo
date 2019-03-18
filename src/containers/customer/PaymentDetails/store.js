@@ -9,6 +9,7 @@ import {
   showLoading,
   hideLoading
 } from '../../../modules/paymentMethods';
+import { userLogout } from '../../../modules/auth';
 
 export const mapStateToProps = state => {
   const data = state
@@ -29,6 +30,7 @@ export const mapDispatchToProps = dispatch => {
     getToken: bindActionCreators(getToken, dispatch),
     isTokenizationComplete: bindActionCreators(isTokenizationComplete, dispatch),
     showLoading: bindActionCreators(showLoading, dispatch),
-    hideLoading: bindActionCreators(hideLoading, dispatch)
+    hideLoading: bindActionCreators(hideLoading, dispatch),
+    userLogout: bindActionCreators(userLogout, dispatch)
   };
 };

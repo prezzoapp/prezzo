@@ -19,7 +19,7 @@ import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import LoadingComponent from '../../../components/LoadingComponent';
-import { getTimeStampString, showAlertWithMessage } from '../../../services/commonFunctions';
+import { getTimeStampString, showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
@@ -110,7 +110,6 @@ class EditProfile extends Component<Props, State> {
       const { isBusy, updateUser } = this.props;
 
       if (isBusy) {
-        console.log('is busy');
         return;
       }
 
@@ -134,9 +133,13 @@ class EditProfile extends Component<Props, State> {
         });
       } catch(err) {
         this.setState({ isEditing: false }, () => {
-          showAlertWithMessage('Uh-oh!', err, () => {
-            disableBtn = false;
-          });
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            });
+          }
         });
       }
     }
@@ -433,7 +436,10 @@ EditProfile.propTypes = {
   lastName: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
   zip: PropTypes.string.isRequired,
-  uploadImage: PropTypes.func.isRequired
+  uploadImage: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
+  isBusy: PropTypes.bool.isRequired,
+  userLogout: PropTypes.func.isRequired
 };
 
 export default EditProfile;

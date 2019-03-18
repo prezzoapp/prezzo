@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { uploadImage } from '../../../modules/upload';
 import { createVendor, updateVendor } from '../../../modules/vendor';
+import { userLogout } from '../../../modules/auth';
 
 export const mapStateToProps = state => {
   const vendorState = state.get('vendor');
@@ -24,5 +25,6 @@ export const mapDispatchToProps = dispatch => ({
   navigate: bindActionCreators(NavigationActions.navigate, dispatch),
   navigateBack: bindActionCreators(NavigationActions.back, dispatch),
   updateVendor: bindActionCreators(updateVendor, dispatch),
-  uploadImage: bindActionCreators(uploadImage, dispatch)
+  uploadImage: bindActionCreators(uploadImage, dispatch),
+  userLogout: bindActionCreators(userLogout, dispatch)
 });

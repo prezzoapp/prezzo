@@ -43,3 +43,11 @@ export const showAlertWithMessage = (
     showAlert(title, obj.message, TIME_OUT, callback, buttonsArray);
   }
 };
+
+export const manuallyLogout = (err, func) => {
+  showAlertWithMessage('Uh-oh!', err, null, [{
+      text: 'Login again',
+      onPress: () => func()
+    }
+  ]);
+};

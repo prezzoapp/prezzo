@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  InteractionManager
-} from 'react-native';
+import { View, Text, TouchableOpacity, InteractionManager } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
@@ -23,7 +18,10 @@ import {
   SF_PRO_TEXT_REGULAR
 } from '../../../services/constants';
 
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import {
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../../services/commonFunctions';
 
 export default class MapScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -115,7 +113,13 @@ export default class MapScreen extends Component {
                   this.props.pricing
                 )
                 .then(() => {})
-                .catch(err => showAlertWithMessage('Uh-oh!', err));
+                .catch(err => {
+                  if(err.code === 401) {
+                    manuallyLogout(err, () => this.props.userLogout());
+                  } else {
+                    showAlertWithMessage('Uh-oh!', err)
+                  }
+                });
             }
           );
         })
@@ -142,7 +146,13 @@ export default class MapScreen extends Component {
               this.props.pricing
             )
             .then(() => {})
-            .catch(err => showAlertWithMessage('Uh-oh!', err));
+            .catch(err => {
+              if(err.code === 401) {
+                manuallyLogout(err, () => this.props.userLogout());
+              } else {
+                showAlertWithMessage('Uh-oh!', err);
+              }
+            });
           this.isFirstLoad = false;
         }
       );

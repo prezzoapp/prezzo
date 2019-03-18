@@ -24,6 +24,7 @@ import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
 import Button from '../../../components/Button';
 import LoadingComponent from '../../../components/LoadingComponent';
+import { manuallyLogout } from '../../../services/commonFunctions';
 
 const price2Indicator = wp('85%') * 0.33 - wp('8.5%');
 
@@ -486,9 +487,14 @@ export default class AccountInfo extends React.Component {
         // this.props.navigateBack();
         // END PATCH
       } catch (e) {
-        showAlertWithMessage('Uh-oh!', e, () => {
+        if(e.code === 401) {
+          manuallyLogout(e, () => this.props.userLogout());
           disableBtn = false;
-        });
+        } else {
+          showAlertWithMessage('Uh-oh!', e, () => {
+            disableBtn = false;
+          });
+        }
       }
     }
   }

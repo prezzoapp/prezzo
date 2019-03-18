@@ -7,7 +7,7 @@ import { MaterialIcons } from '../../../components/VectorIcons';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
 import LoadingComponent from '../../../components/LoadingComponent';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
 import styles from './styles';
 import {
   FONT_FAMILY_MEDIUM,
@@ -61,13 +61,17 @@ export default class AccountMenu extends React.Component {
     if(disableBtn === false) {
       disableBtn = true;
       try {
-        await this.props.userLogout();
+        await this.props.userLogout(true);
         await snapshot.clearSnapshot();
         disableBtn = false;
       } catch(e) {
-        showAlertWithMessage('Uh-oh!', e, () => {
-          disableBtn = false;
-        });
+        if(e.code === 401) {
+          manuallyLogout(e, () => this.props.userLogout());
+        } else {
+          showAlertWithMessage('Uh-oh!', e, () => {
+            disableBtn = false;
+          });
+        }
       }
     }
   }

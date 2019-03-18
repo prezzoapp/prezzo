@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { updateUser } from '../../../modules/user';
 import { uploadImage } from '../../../modules/upload';
+import { userLogout } from '../../../modules/auth';
 import EditProfile from './EditProfile';
 
 const mapStateToProps = state => {
@@ -26,7 +27,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     updateUser: bindActionCreators(updateUser, dispatch),
-    uploadImage: bindActionCreators(uploadImage, dispatch)
+    uploadImage: bindActionCreators(uploadImage, dispatch),
+    userLogout: bindActionCreators(userLogout, dispatch)
   };
 };
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, Text, Alert } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -9,18 +9,19 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 import ActivityListItem from '../../../components/ActivityListItem';
-import showGenericAlert from '../../../components/GenericAlert';
 import Button from '../../../components/Button';
 
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
   SF_PRO_TEXT_BOLD,
-  TAX,
-  TIME_OUT
+  TAX
 } from '../../../services/constants';
 
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import {
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../../services/commonFunctions';
 
 let disableBtn = false;
 
@@ -28,14 +29,18 @@ class ActivityOpenOrder extends Component {
   constructor() {
     super();
 
-    this.state = { isFetching: false }
+    this.state = { isFetching: false };
   }
 
   componentDidMount() {
     this.props.listOpenOrders(this.props.userId, 'pending')
       .then(() => {})
       .catch(err => {
-        showAlertWithMessage('Uh-oh!', err);
+        if(err.code === 401) {
+          manuallyLogout(err, () => this.props.userLogout());
+        } else {
+          showAlertWithMessage('Uh-oh!', err)
+        }
       });
   }
 
@@ -55,11 +60,17 @@ class ActivityOpenOrder extends Component {
             });
           })
           .catch(err => {
-            this.setState({ isFetching: false }, () => {
-              showAlertWithMessage('Uh-oh!', err, () => {
-                disableBtn = false;
+            if(err.code === 401) {
+              this.setState({ isFetching: false }, () => {
+                manuallyLogout(err, () => this.props.userLogout());
               });
-            });
+            } else {
+              this.setState({ isFetching: false }, () => {
+                showAlertWithMessage('Uh-oh!', err, () => {
+                  disableBtn = false;
+                });
+              });
+            }
         });
       }
     );
@@ -85,10 +96,15 @@ class ActivityOpenOrder extends Component {
             );
           }
         })
-        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
-            disableBtn = false;
-          })
-        );
+        .catch(err => {
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            });
+          }
+        });
     } else if(this.props.data[0].paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(this.props.data[0]._id, '', price)
         .then(() => {
@@ -104,10 +120,15 @@ class ActivityOpenOrder extends Component {
             );
           }
         })
-        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
-            disableBtn = false;
-          })
-        );
+        .catch(err => {
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            });
+          }
+        });
     } else {
       this.props
         .makePaymentAndCompleteOrder(this.props.data[0]._id, '', price, 'cash')
@@ -124,10 +145,15 @@ class ActivityOpenOrder extends Component {
             );
           }
         })
-        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
-            disableBtn = false;
-          })
-        );
+        .catch(err => {
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            });
+          }
+        });
     }
   }
 
@@ -195,9 +221,13 @@ class ActivityOpenOrder extends Component {
           }
         })
         .catch(err => {
-          showAlertWithMessage('Uh-oh!', err, () => {
-            disableBtn = false;
-          });
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            });
+          }
         });
     }
   }
@@ -212,7 +242,6 @@ class ActivityOpenOrder extends Component {
           });
         } else {
           const item = this.props.data[0].items.find(ele => ele._id === eleId);
-          console.log(item);
           if(item) {
             if(item.status === 'denied') {
               showAlertWithMessage('Success', {
@@ -226,7 +255,13 @@ class ActivityOpenOrder extends Component {
           }
         }
       })
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
+      .catch(err => {
+        if(err.code === 401) {
+          manuallyLogout(err, () => this.props.userLogout());
+        } else {
+          showAlertWithMessage('Uh-oh!', err);
+        }
+      });
   }
 
   listEmptyComponent() {
@@ -277,7 +312,6 @@ class ActivityOpenOrder extends Component {
             renderItem={({ item }) => (
               <ActivityListItem
                 item={item}
-                innerTab="open"
                 orderId={this.props.data && this.props.data[0]._id}
                 checkStatusAndCancelItem={(orderId, itemId) =>
                   this.checkStatusAndCancelItem(orderId, itemId)
@@ -363,7 +397,13 @@ const buttonStyles = {
 
 ActivityOpenOrder.propTypes = {
   data: PropTypes.array.isRequired,
-  listOpenOrders: PropTypes.func.isRequired
+  userId: PropTypes.string.isRequired,
+  openOrderFinalStatus: PropTypes.string.isRequired,
+  listOpenOrders: PropTypes.func.isRequired,
+  userLogout: PropTypes.func.isRequired,
+  makePaymentAndCompleteOrder: PropTypes.func.isRequired,
+  checkOrderStatus: PropTypes.func.isRequired,
+  checkStatusAndCancelItem: PropTypes.func.isRequired
 };
 
 export default ActivityOpenOrder;

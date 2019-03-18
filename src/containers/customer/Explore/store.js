@@ -1,7 +1,14 @@
 // @flow
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { listVendors, toggleFilter, updateDistance, updatePrice, getUserCurrentLocation } from '../../../modules/explore';
+import {
+  listVendors,
+  toggleFilter,
+  updateDistance,
+  updatePrice,
+  getUserCurrentLocation
+} from '../../../modules/explore';
+import { userLogout } from '../../../modules/auth';
 
 export const mapStateToProps = state => {
   const filters = state
@@ -31,5 +38,6 @@ export const mapDispatchToProps = dispatch => ({
   toggleFilter: bindActionCreators(toggleFilter, dispatch),
   updateDistance: bindActionCreators(updateDistance, dispatch),
   updatePrice: bindActionCreators(updatePrice, dispatch),
-  getUserCurrentLocation: bindActionCreators(getUserCurrentLocation, dispatch)
+  getUserCurrentLocation: bindActionCreators(getUserCurrentLocation, dispatch),
+  userLogout: bindActionCreators(userLogout, dispatch)
 });

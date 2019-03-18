@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, ActivityIndicator, Text, Modal, Animated, FlatList, Platform, NetInfo } from 'react-native';
 import { LinearGradient, BlurView, Location, Permissions } from 'expo';
+import PropTypes from 'prop-types';
 import { MaterialIcons } from '../../../components/VectorIcons';
 import ExploreSearch from '../ExploreSearch';
 import ExploreScreenHeader from '../ExploreScreenHeader';
@@ -19,7 +20,7 @@ import {
   SF_PRO_DISPLAY_REGULAR
 } from '../../../services/constants';
 
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
@@ -28,10 +29,6 @@ const price3Indicator = wp('85%') * 0.66 - wp('9.5%');
 const price4Indicator = wp('85%') * 0.99 - wp('9.5%');
 
 let disableBtn = false;
-
-type Props = {
-  listVendors: Function
-};
 
 class Explore extends PureComponent<Props> {
   static navigationOptions = {
@@ -80,7 +77,6 @@ class Explore extends PureComponent<Props> {
   }
 
   hitAPI() {
-    console.log(disableBtn);
     this.props.getUserCurrentLocation().then(coords => {
       this.props.listVendors(
         coords.latitude,
@@ -91,12 +87,18 @@ class Explore extends PureComponent<Props> {
       ).then(() => {
           disableBtn = false;
         })
-        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
-          disableBtn = false;
-        }));
+        .catch(err => {
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            })
+          }
+        });
     }).catch(err => showAlertWithMessage('Uh-oh!', err, () => {
         disableBtn = false;
-      }));
+    }));
   }
 
   onTextChange(text) {
@@ -131,9 +133,15 @@ class Explore extends PureComponent<Props> {
         });
       });
     } catch (err) {
-        this.setState({ showLoader: false }, () => {
-          showAlertWithMessage('Uh-oh!', err);
-        });
+        if(err.code === 401) {
+          this.setState({ showLoader: false }, () => {
+            manuallyLogout(err, () => this.props.userLogout());
+          });
+        } else {
+          this.setState({ showLoader: false }, () => {
+            showAlertWithMessage('Uh-oh!', err);
+          });
+        }
       }
   }
 
@@ -470,4 +478,19 @@ class Explore extends PureComponent<Props> {
     );
   }
 }
+
+Explore.propTypes = {
+  filters: PropTypes.array.isRequired,
+  getUserCurrentLocation: PropTypes.func.isRequired,
+  updateDistance: PropTypes.func.isRequired,
+  updatePrice: PropTypes.func.isRequired,
+  toggleFilter: PropTypes.func.isRequired,
+  listVendors: PropTypes.func.isRequired,
+  userLogout: PropTypes.func.isRequired,
+  distance: PropTypes.number.isRequired,
+  pricing: PropTypes.number.isRequired,
+  minDistance: PropTypes.number.isRequired,
+  maxDistance: PropTypes.number.isRequired
+};
+
 export default Explore;

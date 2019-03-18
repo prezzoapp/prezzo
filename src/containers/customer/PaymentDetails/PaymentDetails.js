@@ -18,13 +18,17 @@ import { WebView } from 'react-native-webview-messaging/WebView';
 import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 import Button from '../../../components/Button';
+import showGenericAlert from '../../../components/GenericAlert';
 
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
   INTERNET_NOT_CONNECTED
 } from '../../../services/constants';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import {
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../../services/commonFunctions';
 
 let disableBtn = false;
 
@@ -65,7 +69,7 @@ class PaymentDetails extends Component {
           />
         </TouchableOpacity>
       )
-    }
+    };
   };
 
   static displayName = 'Payment Methods';
@@ -89,11 +93,13 @@ class PaymentDetails extends Component {
         const response = await this.props.getToken();
 
         this.getToken = response.token;
-        this.webview.messagesChannel.on('isTokenizationComplete', nonce =>
-          this.isTokenizationComplete(nonce)
-        );
+        this.webview.messagesChannel.on('isTokenizationComplete', nonce => {
+          console.log('isTokenizationComplete function called!');
+          this.isTokenizationComplete(nonce);
+        });
 
         this.webview.messagesChannel.on('isError', error => {
+          console.log('isError function called!');
           this.props.hideLoading();
           if(error.message.code === 'CLIENT_GATEWAY_NETWORK') {
             showAlertWithMessage(
@@ -110,9 +116,13 @@ class PaymentDetails extends Component {
           }
         });
       } catch(err) {
-        showAlertWithMessage('Uh-oh!', err, () => {
-          disableBtn = false;
-        });
+        if(err.code === 401) {
+          manuallyLogout(err, () => this.props.userLogout());
+        } else {
+          showAlertWithMessage('Uh-oh!', err, () => {
+            disableBtn = false;
+          });
+        }
       }
     });
   }
@@ -148,7 +158,10 @@ class PaymentDetails extends Component {
       const nonce = response.payload;
 
       const paymentMethod = await this.props.isTokenizationComplete(nonce, this.state.selectCheckBox);
-      await this.props.addCreditCardInfo(paymentMethod, paymentMethod.isDefault);
+      await this.props.addCreditCardInfo(
+        paymentMethod,
+        paymentMethod.isDefault
+      );
       if (
         this.props.navigation.state.params
           .selectPaymentMethodAfterCardTokenizing
@@ -160,14 +173,17 @@ class PaymentDetails extends Component {
         disableBtn = false;
       });
     } catch(err) {
-      showAlertWithMessage('Uh-oh!', err, () => {
-        disableBtn = false;
-      });
+      if(err.code === 401) {
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false;
+        });
+      }
     }
   }
 
   togglePreferredPayment() {
-    alert();
     this.setState(() => {
       return {
         selectCheckBox: !this.state.selectCheckBox
@@ -185,10 +201,15 @@ class PaymentDetails extends Component {
         cvv: this.formData.values.cvc,
         postalCode: this.formData.values.postalCode
       }
-      this.props.showLoading();
-      this.webview.sendJSON({
-        payload: card
-      });
+      if(card.token === '') {
+        disableBtn = false;
+        showGenericAlert('Uh-oh!', 'Invalid token');
+      } else {
+        this.props.showLoading();
+        this.webview.sendJSON({
+          payload: card
+        });
+      }
     }
   }
 
@@ -289,7 +310,13 @@ const buttonStyles = {
 
 PaymentDetails.propTypes = {
   addCreditCardInfo: PropTypes.func.isRequired,
-  navigate: PropTypes.func.isRequired
+  navigate: PropTypes.func.isRequired,
+  getToken: PropTypes.func.isRequired,
+  hideLoading: PropTypes.func.isRequired,
+  showLoading: PropTypes.func.isRequired,
+  userLogout: PropTypes.func.isRequired,
+  isTokenizationComplete: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 export default PaymentDetails;

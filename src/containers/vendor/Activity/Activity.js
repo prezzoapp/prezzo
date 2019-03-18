@@ -35,7 +35,7 @@ import ExploreSearchInput from '../../../components/ExploreSearchInput';
 import LoadingComponent from '../../../components/LoadingComponent';
 import VendorSearch from '../VendorSearch';
 import { get } from '../../../utils/api';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
 
 const SECTION_WIDTH: number = 0.85 * Dimensions.get('window').width;
 const { height } = Dimensions.get('screen');
@@ -93,7 +93,6 @@ class Activity extends Component {
     super();
     this.showModalAnimatedValue = new Animated.Value(0);
     this.state = {
-      viewMarginTop: hp('100%'),
       selected: false,
       showList: false,
       filteredData: [],
@@ -199,9 +198,14 @@ class Activity extends Component {
           disableBtn = false;
         })
         .catch(err => {
-          showAlertWithMessage('Uh-oh!', err, () => {
+          if(err.code === 401) {
             disableBtn = false;
-          });
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            });
+          }
         });
       } else {
         this.props.listPhotoReviewTable(this.props.vendorData.get('_id')).then(() => {
@@ -209,9 +213,14 @@ class Activity extends Component {
           disableBtn = false;
         })
         .catch(err => {
-          showAlertWithMessage('Uh-oh!', err, () => {
+          if(err.code === 401) {
             disableBtn = false;
-          });
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            });
+          }
         });
       }
 
@@ -373,13 +382,16 @@ class Activity extends Component {
           }
         });
       });
-    } catch (e) {
-      console.log(e.message);
+    } catch (err) {
+      if(err.code === 401) {
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err);
+      }
     }
   }
 
   showList(value) {
-    console.log("Show List function Called!");
     this.setState(() => {
       return {
         showList: value

@@ -33,7 +33,10 @@ import Button from '../../../components/Button';
 
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import {
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../../services/commonFunctions';
 
 import Checkout from '../Checkout';
 
@@ -191,9 +194,13 @@ export default class RestaurantDetails extends Component {
         );
       })
       .catch(err => {
-        showAlertWithMessage('Uh-oh!', err, () => {
-          disableBtn = false
-        });
+        if(err.code === 401) {
+          manuallyLogout(err, () => this.props.userLogout());
+        } else {
+          showAlertWithMessage('Uh-oh!', err, () => {
+            disableBtn = false
+          });
+        }
       });
   }
 
@@ -658,5 +665,8 @@ RestaurantDetails.propTypes = {
   clearCartData: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   addRemoveItemQuantity: PropTypes.func.isRequired,
-  isBusy: PropTypes.bool.isRequired
+  isBusy: PropTypes.bool.isRequired,
+  createOrder: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+  userLogout: PropTypes.func.isRequired
 };
