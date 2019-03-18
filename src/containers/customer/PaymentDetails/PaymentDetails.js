@@ -32,8 +32,6 @@ import {
 
 let disableBtn = false;
 
-let disableBtn = false;
-
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -186,7 +184,6 @@ class PaymentDetails extends Component {
   }
 
   togglePreferredPayment() {
-    alert();
     this.setState(() => {
       return {
         selectCheckBox: !this.state.selectCheckBox

@@ -47,7 +47,7 @@ const ExploreScreenHeader = props => {
               <TouchableOpacity activeOpacity={0.6}
                 style={styles.filterBtn}
                 onPress={() =>
-                  this.props.showFilters()
+                  props.showFilters()
                 }
               >
                 <Text style={styles.filter}> Filter</Text>

@@ -21,7 +21,7 @@ import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import LoadingComponent from '../../../components/LoadingComponent';
 import CacheImage from '../../../components/CacheImage';
-import { getTimeStampString, showAlertWithMessage } from '../../../services/commonFunctions';
+import { getTimeStampString, showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,

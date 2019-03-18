@@ -9,15 +9,13 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 import ActivityListItem from '../../../components/ActivityListItem';
-import showGenericAlert from '../../../components/GenericAlert';
 import Button from '../../../components/Button';
 
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
   SF_PRO_TEXT_BOLD,
-  TAX,
-  TIME_OUT
+  TAX
 } from '../../../services/constants';
 
 import {
@@ -262,7 +260,6 @@ class ActivityOpenOrder extends Component {
           });
         } else {
           const item = this.props.data[0].items.find(ele => ele._id === eleId);
-          console.log(item);
           if(item) {
             if(item.get('status') === 'denied') {
               showAlertWithMessage('Success', {
@@ -344,7 +341,15 @@ class ActivityOpenOrder extends Component {
                 ? data.first().get('items').toArray()
                 : []
             }
-            renderItem={this.renderItem}
+            renderItem={({ item }) => (
+              <ActivityListItem
+                item={item}
+                orderId={this.props.data && this.props.data[0]._id}
+                checkStatusAndCancelItem={(orderId, itemId) =>
+                  this.checkStatusAndCancelItem(orderId, itemId)
+                }
+              />
+            )}
             onRefresh={() => this.onRefresh()}
             refreshing={this.state.isFetching}
             ListHeaderComponent={this.renderHeader}

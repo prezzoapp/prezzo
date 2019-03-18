@@ -25,9 +25,6 @@ import {
 
 let disableBtn = false;
 
-let disableBtn = false;
-let timer;
-
 export default class OpenTableDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerLeft: (

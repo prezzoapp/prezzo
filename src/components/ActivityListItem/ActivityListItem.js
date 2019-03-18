@@ -75,10 +75,8 @@ const ActivityListItem = props => {
             ) : null}
           </View>
         </View>
-      );
-    }
-
-    return null;
+      </View>
+    );
   }
 };
 

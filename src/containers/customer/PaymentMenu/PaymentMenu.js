@@ -27,8 +27,6 @@ import {
 
 let disableBtn = false;
 
-let disableBtn = false;
-
 class PaymentMenu extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: (
@@ -107,19 +105,6 @@ class PaymentMenu extends Component {
 
   removeCardAtIndex(id) {
     this.removeCreditCard(id);
-  }
-
-  navigateToPaymentDetails() {
-    if(disableBtn === false) {
-      disableBtn = true;
-      this.props.navigate({
-        routeName: 'PaymentDetails',
-        params: { title: 'Add Credit Card' }
-      });
-      InteractionManager.runAfterInteractions(() => {
-        disableBtn = false;
-      });
-    }
   }
 
   navigateToPaymentDetails() {

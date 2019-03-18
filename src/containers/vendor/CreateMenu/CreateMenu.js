@@ -30,8 +30,6 @@ import {
 
 let disableBtn = false;
 
-let disableBtn = false;
-
 export default class CreateMenu extends Component<Props> {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: (
@@ -255,57 +253,6 @@ export default class CreateMenu extends Component<Props> {
           }
         });
     }
-  }
-
-  updateCategory(categoryId, title) {
-    this.props.updateCategory(this.props.menuId, categoryId, title)
-      .then(() => {})
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
-  }
-
-  deleteCategory(categoryId) {
-    this.props.deleteCategory(this.props.menuId, categoryId)
-      .then(() => {})
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
-  }
-
-  addItem(categoryId) {
-    if(disableBtn === false) {
-      disableBtn = true;
-      this.props.addItem(this.props.menuId, categoryId, 'Item', 'Description', 0)
-        .then(() => {
-          disableBtn = false;
-        })
-        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
-            disableBtn = false;
-          })
-        );
-    }
-  }
-
-  updateItem(sectionId, itemId, title, description, price) {
-    this.props.updateItem(
-        this.props.menuId,
-        sectionId,
-        itemId,
-        title,
-        description,
-        price
-      )
-      .then(() => {})
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
-  }
-
-  deleteItem(sectionId, itemId) {
-    this.props.deleteItem(this.props.menuId, sectionId, itemId)
-      .then(() => {})
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
-  }
-
-  deleteImage(sectionId, itemId, imageURL) {
-    this.props.deleteImage(this.props.menuId, sectionId, itemId, imageURL)
-      .then(() => {})
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
   renderListFooter = () => (

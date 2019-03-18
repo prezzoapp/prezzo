@@ -43,3 +43,11 @@ export const manuallyLogout = (err, func) => {
     }
   ]);
 };
+
+export const manuallyLogout = (err, func) => {
+  showAlertWithMessage('Uh-oh!', err, null, [{
+      text: 'Login again',
+      onPress: () => func()
+    }
+  ]);
+};

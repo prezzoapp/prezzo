@@ -16,7 +16,10 @@ import styles from './styles';
 
 import CheckoutSwiper from '../../../components/CheckoutSwiper';
 
-import CacheImage from '../../../components/CacheImage';
+import {
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../../services/commonFunctions';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -229,7 +232,6 @@ export default class Checkout extends Component {
               navigate={this.props.navigate}
               restaurantName={this.props.restaurantName}
               creditCardList={this.props.creditCardList}
-              newlyAddedCard={this.props.newlyAddedCard}
               onScrollingEnd={(xValue, index) =>
                 this.onScrollEnd(xValue, index)
               }
