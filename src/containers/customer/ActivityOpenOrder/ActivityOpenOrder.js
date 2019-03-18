@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, Text, Alert } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -9,18 +9,19 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 import ActivityListItem from '../../../components/ActivityListItem';
-import showGenericAlert from '../../../components/GenericAlert';
 import Button from '../../../components/Button';
 
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
   SF_PRO_TEXT_BOLD,
-  TAX,
-  TIME_OUT
+  TAX
 } from '../../../services/constants';
 
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import {
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../../services/commonFunctions';
 
 let disableBtn = false;
 
@@ -29,19 +30,24 @@ class ActivityOpenOrder extends Component {
     super(props);
 
     this.state = { isFetching: false }
-<<<<<<< HEAD
 
     this.timer = -1;
 
     props.navigation.setParams({
       onTabFocus: this.listOpenOrders
     });
-=======
->>>>>>> - Resolve cancel button along with the search bar not hidden on selecting the cancel button.
   }
 
   componentDidMount() {
-    this.listOpenOrders();
+    this.props.listOpenOrders(this.props.userId, 'pending')
+      .then(() => {})
+      .catch(err => {
+        if(err.code === 401) {
+          manuallyLogout(err, () => this.props.userLogout());
+        } else {
+          showAlertWithMessage('Uh-oh!', err)
+        }
+      });
   }
 
   onRefresh() {
@@ -60,11 +66,17 @@ class ActivityOpenOrder extends Component {
             });
           })
           .catch(err => {
-            this.setState({ isFetching: false }, () => {
-              showAlertWithMessage('Uh-oh!', err, () => {
-                disableBtn = false;
+            if(err.code === 401) {
+              this.setState({ isFetching: false }, () => {
+                manuallyLogout(err, () => this.props.userLogout());
               });
-            });
+            } else {
+              this.setState({ isFetching: false }, () => {
+                showAlertWithMessage('Uh-oh!', err, () => {
+                  disableBtn = false;
+                });
+              });
+            }
         });
       }
     );
@@ -99,11 +111,17 @@ class ActivityOpenOrder extends Component {
             );
           }
         })
-        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
-          disableBtn = false;
-        }));
-    } else if(data.get('paymentType') === 'card') {
-      this.props.makePaymentAndCompleteOrder(data.get('_id'), '', price)
+        .catch(err => {
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            });
+          }
+        });
+    } else if(this.props.data[0].paymentType === 'card') {
+      this.props.makePaymentAndCompleteOrder(this.props.data[0]._id, '', price)
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
             showAlertWithMessage(
@@ -117,10 +135,15 @@ class ActivityOpenOrder extends Component {
             );
           }
         })
-        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
-            disableBtn = false;
-          })
-        );
+        .catch(err => {
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            });
+          }
+        });
     } else {
       this.props
         .makePaymentAndCompleteOrder(data.get('_id'), '', price, 'cash')
@@ -137,10 +160,15 @@ class ActivityOpenOrder extends Component {
             );
           }
         })
-        .catch(err => showAlertWithMessage('Uh-oh!', err, () => {
-            disableBtn = false;
-          })
-        );
+        .catch(err => {
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            });
+          }
+        });
     }
   }
 
@@ -208,9 +236,13 @@ class ActivityOpenOrder extends Component {
           }
         })
         .catch(err => {
-          showAlertWithMessage('Uh-oh!', err, () => {
-            disableBtn = false;
-          });
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            });
+          }
         });
     }
   }
@@ -239,7 +271,13 @@ class ActivityOpenOrder extends Component {
           }
         }
       })
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
+      .catch(err => {
+        if(err.code === 401) {
+          manuallyLogout(err, () => this.props.userLogout());
+        } else {
+          showAlertWithMessage('Uh-oh!', err);
+        }
+      });
   }
 
   listEmptyComponent() {
@@ -380,8 +418,14 @@ const buttonStyles = {
 };
 
 ActivityOpenOrder.propTypes = {
-  data: PropTypes.object.isRequired,
-  listOpenOrders: PropTypes.func.isRequired
+  data: PropTypes.array.isRequired,
+  userId: PropTypes.string.isRequired,
+  openOrderFinalStatus: PropTypes.string.isRequired,
+  listOpenOrders: PropTypes.func.isRequired,
+  userLogout: PropTypes.func.isRequired,
+  makePaymentAndCompleteOrder: PropTypes.func.isRequired,
+  checkOrderStatus: PropTypes.func.isRequired,
+  checkStatusAndCancelItem: PropTypes.func.isRequired
 };
 
 export default ActivityOpenOrder;

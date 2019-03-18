@@ -2,6 +2,7 @@
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { listVendors, disableVendorListItem, getUserCurrentLocation } from '../../../modules/explore';
+import { userLogout } from '../../../modules/auth';
 
 export const mapStateToProps = state => {
   const data = state
@@ -28,5 +29,6 @@ export const mapDispatchToProps = dispatch => ({
   navigate: bindActionCreators(NavigationActions.navigate, dispatch),
   listVendors: bindActionCreators(listVendors, dispatch),
   disableVendorListItem: bindActionCreators(disableVendorListItem, dispatch),
-  getUserCurrentLocation: bindActionCreators(getUserCurrentLocation, dispatch)
+  getUserCurrentLocation: bindActionCreators(getUserCurrentLocation, dispatch),
+  userLogout: bindActionCreators(userLogout, dispatch)
 });

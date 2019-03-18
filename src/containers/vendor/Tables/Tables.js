@@ -19,7 +19,7 @@ import {
   TIME_OUT
 } from '../../../services/constants';
 import { get } from '../../../utils/api';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
 import LoadingComponent from '../../../components/LoadingComponent';
 
 let disableBtn = false;
@@ -57,18 +57,10 @@ class Tables extends Component {
   checkResponseMessage(){
     AsyncStorage.getItem('response_code').then((code) => {
     if(code !== '200') {
-      AsyncStorage.getItem('response_message').then((msg) => {
-        //console.log("response message is -----------------",msg);
-        // Alert.alert(
-        //  'Prezzo',
-        //   msg,
-        //   [
-        //     {text: 'OK', onPress: () => console.log('OK Pressed')},
-        //   ],
-        //   { cancelable: false }
-        // )
-      });
-    }
+        AsyncStorage.getItem('response_message').then((msg) => {
+          console.log("response message is -----------------",msg);
+        });
+      }
     });
   }
 
@@ -99,11 +91,19 @@ class Tables extends Component {
             });
           }
         }).catch(err => {
-          showAlertWithMessage('Uh-oh!', err);
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err);
+          }
         });
       }
     }).catch(err => {
-      showAlertWithMessage('Uh-oh!', err);
+      if(err.code === 401) {
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err);
+      }
     });
   }
 
@@ -295,9 +295,13 @@ class Tables extends Component {
             disableBtn = false;
           })
           .catch(e => {
-            showAlertWithMessage('Uh-oh!', e, () => {
-              disableBtn = false;
-            });
+            if(e.code === 401) {
+              manuallyLogout(e, () => this.props.userLogout());
+            } else {
+              showAlertWithMessage('Uh-oh!', e, () => {
+                disableBtn = false;
+              });
+            }
           });
       } else if ((sectionIndex ? sectionIndex : this.props.section) === 1) {
         this.props.listQueuedTable(this.props.vendorData.get('_id')).then(() => {
@@ -305,9 +309,13 @@ class Tables extends Component {
             disableBtn = false;
           })
           .catch(e => {
-            showAlertWithMessage('Uh-oh!', e, () => {
-              disableBtn = false;
-            });
+            if(e.code === 401) {
+              manuallyLogout(e, () => this.props.userLogout());
+            } else {
+              showAlertWithMessage('Uh-oh!', e, () => {
+                disableBtn = false;
+              });
+            }
           });
       } else {
         this.props.listClosedTable(this.props.vendorData.get('_id')).then(() => {
@@ -315,9 +323,13 @@ class Tables extends Component {
             disableBtn = false;
           })
           .catch(e => {
-            showAlertWithMessage('Uh-oh!', e, () => {
-              disableBtn = false;
-            });
+            if(e.code === 401) {
+              manuallyLogout(e, () => this.props.userLogout());
+            } else {
+              showAlertWithMessage('Uh-oh!', e, () => {
+                disableBtn = false;
+              });
+            }
           });
       }
 
@@ -359,9 +371,13 @@ class Tables extends Component {
         });
       });
     } catch (err) {
-      this.setState({ showLoader: false }, () => {
-        showAlertWithMessage('Uh-oh!', err);
-      });
+      if(err.code === 401) {
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        this.setState({ showLoader: false }, () => {
+          showAlertWithMessage('Uh-oh!', err);
+        });
+      }
     }
   }
 

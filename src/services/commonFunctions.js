@@ -43,3 +43,11 @@ export const showAlertWithMessage = (
   }
 >>>>>>> - Resolve cancel button along with the search bar not hidden on selecting the cancel button.
 };
+
+export const manuallyLogout = (err, func) => {
+  showAlertWithMessage('Uh-oh!', err, null, [{
+      text: 'Login again',
+      onPress: () => func()
+    }
+  ]);
+};

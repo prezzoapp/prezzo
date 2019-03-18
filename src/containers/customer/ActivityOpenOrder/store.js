@@ -6,6 +6,7 @@ import {
   checkStatusAndCancelItem,
   checkOrderStatus
 } from '../../../modules/userActivity';
+import { userLogout } from '../../../modules/auth';
 
 export const mapStateToProps = state => {
   const data = state
@@ -43,6 +44,7 @@ export const mapDispatchToProps = dispatch => {
       dispatch
     ),
     checkOrderStatus: bindActionCreators(checkOrderStatus, dispatch),
-    navigate: bindActionCreators(NavigationActions.navigate, dispatch)
+    navigate: bindActionCreators(NavigationActions.navigate, dispatch),
+    userLogout: bindActionCreators(userLogout, dispatch)
   };
 };

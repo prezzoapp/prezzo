@@ -14,6 +14,8 @@ import {
 
 import { uploadImage } from '../../../modules/upload';
 
+import { userLogout } from '../../../modules/auth';
+
 export const mapStateToProps = state => ({
   menuId:
     state.get('menu') &&
@@ -37,5 +39,6 @@ export const mapDispatchToProps = dispatch => ({
   deleteItem: bindActionCreators(deleteItem, dispatch),
   addImage: bindActionCreators(addImage, dispatch),
   deleteImage: bindActionCreators(deleteImage, dispatch),
-  uploadImage: bindActionCreators(uploadImage, dispatch)
+  uploadImage: bindActionCreators(uploadImage, dispatch),
+  userLogout: bindActionCreators(userLogout, dispatch)
 });

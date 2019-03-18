@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import PropTypes from 'prop-types';
 import { FONT_FAMILY_MEDIUM } from '../../services/constants';
 import ActivityListItem from '../ActivityListItem';
 import Button from '../Button';
@@ -83,6 +84,17 @@ const buttonStyles = {
     paddingBottom: 0,
     justifyContent: 'center'
   }
-}
+};
+
+OpenOrdersList.propTypes = {
+  data: PropTypes.object.isRequired,
+  innerTab: PropTypes.string.isRequired,
+  checkStatusAndCancelItem: PropTypes.func,
+  completeOrder: PropTypes.func.isRequired
+};
+
+OpenOrdersList.defaultProps = {
+  checkStatusAndCancelItem: null
+};
 
 export default OpenOrdersList;

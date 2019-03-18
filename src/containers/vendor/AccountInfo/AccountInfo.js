@@ -515,9 +515,14 @@ export default class AccountInfo extends React.Component {
         // this.props.navigateBack();
         // END PATCH
       } catch (e) {
-        showAlertWithMessage('Uh-oh!', e, () => {
+        if(e.code === 401) {
+          manuallyLogout(e, () => this.props.userLogout());
           disableBtn = false;
-        });
+        } else {
+          showAlertWithMessage('Uh-oh!', e, () => {
+            disableBtn = false;
+          });
+        }
       }
     }
   }

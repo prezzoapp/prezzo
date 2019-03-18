@@ -9,6 +9,7 @@ import {
   addPhotoReviewItemDetails,
   removePhotoReviewItemDetails
 } from '../../../modules/vendorActivity';
+import { userLogout } from '../../../modules/auth';
 
 export const mapStateToProps = state => ({
   layout: state.get('vendorActivity').get('layout'),
@@ -27,5 +28,6 @@ export const mapDispatchToProps = dispatch => ({
   changeSection: bindActionCreators(changeSection, dispatch),
   changeLayout: bindActionCreators(changeLayout, dispatch),
   addPhotoReviewItemDetails: bindActionCreators(addPhotoReviewItemDetails, dispatch),
-  removePhotoReviewItemDetails: bindActionCreators(removePhotoReviewItemDetails, dispatch)
+  removePhotoReviewItemDetails: bindActionCreators(removePhotoReviewItemDetails, dispatch),
+  userLogout: bindActionCreators(userLogout, dispatch)
 });

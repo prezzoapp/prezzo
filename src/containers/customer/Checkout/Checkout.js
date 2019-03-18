@@ -87,7 +87,15 @@ export default class Checkout extends Component {
   }
 
   componentDidMount() {
-    this.props.listCreditCards();
+    this.props.listCreditCards()
+      .then(() => {})
+      .catch(err => {
+        if(err.code === 401) {
+          manuallyLogout(err, () => this.props.userLogout());
+        } else {
+          showAlertWithMessage('Uh-oh!', err);
+        }
+      });
   }
 
   onScrollEnd(index) {
@@ -221,7 +229,6 @@ export default class Checkout extends Component {
               navigate={this.props.navigate}
               restaurantName={this.props.restaurantName}
               creditCardList={this.props.creditCardList}
-              newlyAddedCard={this.props.newlyAddedCard}
               onScrollingEnd={(xValue, index) =>
                 this.onScrollEnd(xValue, index)
               }
@@ -251,5 +258,11 @@ Checkout.propTypes = {
   setCurrentIndex: PropTypes.func.isRequired,
   showNextOrderBtn: PropTypes.func.isRequired,
   hideNextOrderBtn: PropTypes.func.isRequired,
-  setType: PropTypes.func.isRequired
+  setType: PropTypes.func.isRequired,
+  listCreditCards: PropTypes.func.isRequired,
+  userLogout: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
+  creditCardList: PropTypes.array.isRequired,
+  isSelectedPaymentMethod: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired
 };

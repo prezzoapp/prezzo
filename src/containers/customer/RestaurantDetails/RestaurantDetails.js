@@ -703,5 +703,8 @@ RestaurantDetails.propTypes = {
   clearCartData: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   addRemoveItemQuantity: PropTypes.func.isRequired,
-  isBusy: PropTypes.bool.isRequired
+  isBusy: PropTypes.bool.isRequired,
+  createOrder: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
+  userLogout: PropTypes.func.isRequired
 };

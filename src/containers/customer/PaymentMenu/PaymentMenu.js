@@ -3,13 +3,12 @@ import {
   View,
   Text,
   Image,
-  Alert,
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
   InteractionManager
 } from 'react-native';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -21,8 +20,10 @@ import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 import LoadingComponent from '../../../components/LoadingComponent';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
-import showGenericAlert from '../../../components/GenericAlert';
+import {
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../../services/commonFunctions';
 
 let disableBtn = false;
 
@@ -54,7 +55,8 @@ class PaymentMenu extends Component {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => navigation.goBack()}
-        style={styles.headerLeftBtn}>
+        style={styles.headerLeftBtn}
+      >
         <Feather
           title="Back"
           name="chevron-left"
@@ -73,7 +75,13 @@ class PaymentMenu extends Component {
       this.props.listCreditCards().then(() => {
           this.checkResponseMessage();
         })
-        .catch(err => showAlertWithMessage('Uh-oh!', err));
+        .catch(err => {
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout())
+          } else {
+            showAlertWithMessage('Uh-oh!', err);
+          }
+        });
     });
   }
 
@@ -86,25 +94,17 @@ class PaymentMenu extends Component {
   removeCreditCard(id) {
     this.props.removeCreditCard(id)
     .then(() => {})
-    .catch(err => showAlertWithMessage('Uh-oh!', err));
+    .catch(err => {
+        if (err.code === 401) {
+          manuallyLogout(err, () => this.props.userLogout());
+        } else {
+          showAlertWithMessage('Uh-oh!', err);
+        }
+      });
   }
 
   removeCardAtIndex(id) {
-    showGenericAlert(
-      null,
-      'Are you sure you want to delete this payment method?',
-      [
-        {
-          text: 'Yes',
-          onPress: () => this.removeCreditCard(id)
-        },
-        {
-          text: 'No',
-          onPress: () => null,
-          style: 'cancel'
-        }
-      ]
-    );
+    this.removeCreditCard(id);
   }
 
   navigateToPaymentDetails() {
@@ -143,7 +143,7 @@ class PaymentMenu extends Component {
 
           <ScrollView style={styles.scrollViewStyle}>
             {this.props.data &&
-            this.props.data.map((item, key) => (
+              this.props.data.map((item, key) => (
                 <View key={item._id}>
                   <EditableListItem
                     text={item.readableIdentifier}
@@ -227,7 +227,12 @@ class PaymentMenu extends Component {
 }
 
 PaymentMenu.propTypes = {
-  navigate: PropTypes.func.isRequired
+  data: PropTypes.array.isRequired,
+  navigate: PropTypes.func.isRequired,
+  listCreditCards: PropTypes.func.isRequired,
+  removeCreditCard: PropTypes.func.isRequired,
+  userLogout: PropTypes.func.isRequired,
+  isBusy: PropTypes.bool.isRequired
 };
 
 export default PaymentMenu;
