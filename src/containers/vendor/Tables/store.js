@@ -4,17 +4,15 @@ import { NavigationActions } from 'react-navigation';
 import {
   listOpenTable,
   listQueuedTable,
-  // acceptQueuedRequest,
-  // deleteQueuedRequest,
   changeSection,
   changeLayout,
-  // changeClosedSection,
   listClosedTable,
   makePaymentAndCompleteOrder,
   changeOrderStatus,
   checkOpenOrderStatus,
   checkQueueOrderStatus
 } from '../../../modules/table';
+import { userLogout } from '../../../modules/auth';
 
 export const mapStateToProps = state => ({
   layout: state.get('table').get('layout'),
@@ -32,14 +30,12 @@ export const mapDispatchToProps = dispatch => ({
   navigate: bindActionCreators(NavigationActions.navigate, dispatch),
   listOpenTable: bindActionCreators(listOpenTable, dispatch),
   listQueuedTable: bindActionCreators(listQueuedTable, dispatch),
-  // acceptQueuedRequest: bindActionCreators(acceptQueuedRequest, dispatch),
-  // deleteQueuedRequest: bindActionCreators(deleteQueuedRequest, dispatch),
   changeSection: bindActionCreators(changeSection, dispatch),
   changeLayout: bindActionCreators(changeLayout, dispatch),
-  // changeClosedSection: bindActionCreators(changeClosedSection, dispatch),
   listClosedTable: bindActionCreators(listClosedTable, dispatch),
   makePaymentAndCompleteOrder: bindActionCreators(makePaymentAndCompleteOrder, dispatch),
   changeOrderStatus: bindActionCreators(changeOrderStatus, dispatch),
   checkOpenOrderStatus: bindActionCreators(checkOpenOrderStatus, dispatch),
-  checkQueueOrderStatus: bindActionCreators(checkQueueOrderStatus, dispatch)
+  checkQueueOrderStatus: bindActionCreators(checkQueueOrderStatus, dispatch),
+  userLogout: bindActionCreators(userLogout, dispatch)
 });

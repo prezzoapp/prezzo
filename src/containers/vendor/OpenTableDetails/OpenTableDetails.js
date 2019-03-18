@@ -17,11 +17,13 @@ import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import styles from './styles';
 import { Feather } from '../../../components/VectorIcons';
-import { TAX, TIME_OUT } from '../../../services/constants';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import { TAX } from '../../../services/constants';
+import {
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../../services/commonFunctions';
 
 let disableBtn = false;
-let timer;
 
 export default class OpenTableDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -95,10 +97,15 @@ export default class OpenTableDetails extends Component {
             });
           }
         })
-        .catch(e => showAlertWithMessage('Uh-oh!', e, () => {
-            disableBtn = false;
-          })
-        );
+        .catch(e => {
+          if(e.code === 401) {
+            manuallyLogout(e, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', e, () => {
+              disableBtn = false;
+            });
+          }
+        });
     } else if(this.props.openTableSelectedItem.paymentType === 'card') {
       this.props.makePaymentAndCompleteOrder(
           order.get('_id'),
@@ -113,10 +120,15 @@ export default class OpenTableDetails extends Component {
             });
           }
         })
-        .catch(e => showAlertWithMessage('Uh-oh!', e, () => {
-            disableBtn = false;
-          })
-        );
+        .catch(e => {
+          if(e.code === 401) {
+            manuallyLogout(e, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', e, () => {
+              disableBtn = false;
+            });
+          }
+        });
     } else {
       this.props.makePaymentAndCompleteOrder(
           order.get('_id'),
@@ -132,10 +144,15 @@ export default class OpenTableDetails extends Component {
             });
           }
         })
-        .catch(e => showAlertWithMessage('Uh-oh!', e, () => {
-            disableBtn = false;
-          })
-        );
+        .catch(e => {
+          if(e.code === 401) {
+            manuallyLogout(e, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', e, () => {
+              disableBtn = false;
+            });
+          }
+        });
     }
   }
 
@@ -193,7 +210,6 @@ export default class OpenTableDetails extends Component {
               message: 'This order has been already denied.'
             });
           } else {
-            clearTimeout(timer);
             let pendingItems = 0;
             let price = 0;
 >>>>>>> 1. Resolve *App crashed if the user submits multiple clicks quickly to navigate to another activity/screen* issue.
@@ -232,31 +248,28 @@ export default class OpenTableDetails extends Component {
                     : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
                   : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and complete order?`
 
-            timer = setTimeout(() => {
-              Alert.alert(
-                'Prezzo',
-                message,
-                [
-                  {
-                    text: 'Cancel',
-                    onPress: () => {
-                      disableBtn = false;
-                    },
-                    style: 'cancel'
-                  },
-                  {
-                    text: 'OK', onPress: () => this.finalizeOrder(price)
-                  }
-                ],
-                { cancelable: false }
-              );
-            }, TIME_OUT);
+            showAlertWithMessage(null, { message }, null, [
+              {
+                text: 'No',
+                onPress: () => {
+                  disableBtn = false;
+                },
+                style: 'cancel'
+              },
+              {
+                text: 'Yes', onPress: () => this.finalizeOrder(price)
+              }
+            ]);
           }
         })
         .catch(err => {
-          showAlertWithMessage('Uh-oh!', err, () => {
-            disableBtn = false;
-          });
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err, () => {
+              disableBtn = false;
+            });
+          }
         });
     }
   }
@@ -287,7 +300,11 @@ export default class OpenTableDetails extends Component {
         }
       })
       .catch(err => {
-        showAlertWithMessage('Uh-oh!', err);
+        if(err.code === 401) {
+          manuallyLogout(err, () => this.props.userLogout());
+        } else {
+          showAlertWithMessage('Uh-oh!', err);
+        }
       });
   }
 

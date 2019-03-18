@@ -75,16 +75,22 @@ const ActivityListItem = props => {
             ) : null}
           </View>
         </View>
-      );
-    }
-
-    return null;
+      </View>
+    );
   }
 };
 
 ActivityListItem.propTypes = {
   item: PropTypes.object.isRequired,
+  type: PropTypes.string,
+  innerTab: PropTypes.string,
+  orderId: PropTypes.string.isRequired,
   checkStatusAndCancelItem: PropTypes.func.isRequired
+};
+
+ActivityListItem.defaultProps = {
+  type: '',
+  innerTab: 'open'
 };
 
 export default ActivityListItem;

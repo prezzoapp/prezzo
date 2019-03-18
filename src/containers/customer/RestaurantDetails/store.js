@@ -8,6 +8,7 @@ import {
   clearCartData,
   createOrder
 } from '../../../modules/restaurant';
+import { userLogout } from '../../../modules/auth';
 
 export const mapStateToProps = state => {
   const data = state.get('restaurant');
@@ -27,5 +28,6 @@ export const mapDispatchToProps = dispatch => ({
   addRemoveItemQuantity: bindActionCreators(addRemoveItemQuantity, dispatch),
   addRestaurantDetail: bindActionCreators(addRestaurantDetail, dispatch),
   removeRestaurantDetail: bindActionCreators(removeRestaurantDetail, dispatch),
-  clearCartData: bindActionCreators(clearCartData, dispatch)
+  clearCartData: bindActionCreators(clearCartData, dispatch),
+  userLogout: bindActionCreators(userLogout, dispatch)
 });

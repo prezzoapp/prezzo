@@ -13,7 +13,7 @@ import {
   COLOR_WHITE,
   FONT_FAMILY_MEDIUM
 } from '../../../services/constants';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
 
 let disableBtn = false;
 
@@ -43,23 +43,21 @@ class Profile extends Component {
 
   static displayName = 'Profile';
 
-  static propTypes = {
-    navigate: PropTypes.func.isRequired,
-    avatarURL: PropTypes.string.isRequired,
-    userLogout: PropTypes.func.isRequired
-  };
-
   async logout() {
     if(disableBtn === false) {
       disableBtn = true;
       try {
-        await this.props.userLogout();
+        await this.props.userLogout(true);
         await snapshot.clearSnapshot();
         disableBtn = false;
       } catch(err) {
-        showAlertWithMessage('Uh-oh!', err, () => {
-          disableBtn = false;
-        });
+        if(err.code === 401) {
+          manuallyLogout(err, () => this.props.userLogout());
+        } else {
+          showAlertWithMessage('Uh-oh!', err, () => {
+            disableBtn = false;
+          });
+        }
       }
     }
   }
@@ -206,5 +204,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 });
+
+Profile.propTypes = {
+  navigate: PropTypes.func.isRequired,
+  avatarURL: PropTypes.string.isRequired,
+  userLogout: PropTypes.func.isRequired,
+  logoutIsBusy: PropTypes.bool.isRequired
+};
 
 export default Profile;

@@ -37,7 +37,7 @@ const OpenTableItem = props => {
                   : `${item.userName}`,
               userImage: item.creator.avatarURL,
               item: item,
-              innerTab: props.innerTab,
+              innerTab: props.innerTab
           }
         })
       }

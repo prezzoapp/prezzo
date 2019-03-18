@@ -5,14 +5,9 @@ import PropTypes from 'prop-types';
 import ExploreListItem from '../../../components/ExploreListItem';
 import styles from './styles';
 import publicIP from 'react-native-public-ip';
-import { showAlertWithMessage } from '../../../services/commonFunctions';
+import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
 
 export default class ExploreList extends PureComponent {
-  static propTypes = {
-    restaurants: PropTypes.array.isRequired,
-    navigate: PropTypes.func.isRequired
-  };
-
   constructor() {
     super();
 
@@ -59,9 +54,15 @@ export default class ExploreList extends PureComponent {
       ).then(() => {
         this.setState({ isFetching: false });
       }).catch(err => {
-          this.setState({ isFetching: false }, () => {
-            showAlertWithMessage('Uh-oh!', err);
-          });
+          if(err.code === 401) {
+            this.setState({ isFetching: false }, () => {
+              manuallyLogout(err, () => this.props.userLogout());
+            });
+          } else {
+            this.setState({ isFetching: false }, () => {
+              showAlertWithMessage('Uh-oh!', err);
+            });
+          }
         })
     }).catch(err => {
       this.setState({ isFetching: false }, () => {
@@ -155,4 +156,13 @@ export default class ExploreList extends PureComponent {
       />
     );
   }
+}
+
+ExploreList.propTypes = {
+  filters: PropTypes.array.isRequired,
+  getUserCurrentLocation: PropTypes.func.isRequired,
+  listVendors: PropTypes.func.isRequired,
+  distance: PropTypes.number.isRequired,
+  pricing: PropTypes.number.isRequired,
+  navigate: PropTypes.func.isRequired
 }
