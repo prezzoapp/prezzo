@@ -157,28 +157,8 @@ export default class OpenTableDetails extends Component {
   }
 
   completeOrder(id) {
-<<<<<<< HEAD
-    const order = this.props.openTableSelectedItem;
-    this.props
-      .checkOpenOrderStatus(id)
-      .then(() => {
-        if (
-          openOrderFinalStatus &&
-          openOrderFinalStatus === 'complete'
-        ) {
-          // If order has been already completed.
-          showAlertWithMessage('Info', {
-            message: 'This order has been already completed.'
-          });
-        } else if (
-          openOrderFinalStatus &&
-          openOrderFinalStatus === 'denied'
-        ) {
-          // If order has been already denied.
-=======
     if(disableBtn === false) {
       disableBtn = true;
->>>>>>> 1. Resolve *App crashed if the user submits multiple clicks quickly to navigate to another activity/screen* issue.
 
       this.props
         .checkOpenOrderStatus(id)
@@ -188,8 +168,10 @@ export default class OpenTableDetails extends Component {
             this.props.openOrderFinalStatus === 'complete'
           ) {
             // If order has been already completed.
+
+            this.props.navigation.goBack();
             showAlertWithMessage('Info', {
-              message: 'This order has been already completed.'
+              message: 'Order has been already completed.'
             });
           } else if (
             this.props.openOrderFinalStatus &&
@@ -197,22 +179,13 @@ export default class OpenTableDetails extends Component {
           ) {
             // If order has been already denied.
 
-<<<<<<< HEAD
-          order.get('items').filter(item => {
-            if(item.get('status') === 'pending') {
-              pendingItems += 1;
-            } else if(item.get('status') !== 'denied') {
-              price += item.get('price');
-            }
-          });
-=======
+            this.props.navigation.goBack();
             showAlertWithMessage('Info', {
-              message: 'This order has been already denied.'
+              message: 'Order has been already denied.'
             });
           } else {
             let pendingItems = 0;
             let price = 0;
->>>>>>> 1. Resolve *App crashed if the user submits multiple clicks quickly to navigate to another activity/screen* issue.
 
             this.props.openTableSelectedItem.items.filter(item => {
               if(item.status === 'pending') {
@@ -222,20 +195,7 @@ export default class OpenTableDetails extends Component {
               }
             });
 
-<<<<<<< HEAD
-          const message =
-            pendingItems === 0
-              ? order.get('paymentType') === 'card'
-                ? `Continue to pay $${price}`
-                : 'Are you sure you want to complete?'
-              : order.get('paymentType') === 'card'
-                ? price === 0
-                  ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
-                  : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
-                : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and complete order?`
-=======
             price = parseFloat(((price * TAX) / 100 + price).toFixed(2));
->>>>>>> 1. Resolve *App crashed if the user submits multiple clicks quickly to navigate to another activity/screen* issue.
 
             const message =
               pendingItems === 0

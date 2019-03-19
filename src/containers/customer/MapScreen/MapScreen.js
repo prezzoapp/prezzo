@@ -3,11 +3,11 @@ import { View, Text, TouchableOpacity, InteractionManager } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
-import publicIP from 'react-native-public-ip';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import Toast from 'react-native-custom-toast';
 import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
@@ -15,7 +15,8 @@ import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCa
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
-  SF_PRO_TEXT_REGULAR
+  SF_PRO_TEXT_REGULAR,
+  COLOR_GREEN
 } from '../../../services/constants';
 
 import {
@@ -112,7 +113,13 @@ export default class MapScreen extends Component {
                   this.activeFilters,
                   this.props.pricing
                 )
-                .then(() => {})
+                .then(() => {
+                  if(coords.gotThrough && coords.gotThrough === 'IP') {
+                    this.toast.showToast(
+                      'Location services off, got location through IP.'
+                    );
+                  }
+                })
                 .catch(err => {
                   if(err.code === 401) {
                     manuallyLogout(err, () => this.props.userLogout());
@@ -340,6 +347,13 @@ export default class MapScreen extends Component {
             this.moveToPosition(id, coordinates)
           }
           getDistanceFromCurrentLocation={this.getDistanceFromCurrentLocation}
+        />
+
+        <Toast
+          ref={toast => this.toast = toast}
+          position='bottom'
+          orientation='yAxis'
+          backgroundColor={COLOR_GREEN}
         />
       </View>
     );
