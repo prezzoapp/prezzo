@@ -14,6 +14,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import styles from './styles';
 import { get } from '../../../utils/api';
 import LoadingComponent from '../../../components/LoadingComponent';
+import Toast from 'react-native-custom-toast';
 import {
   COLOR_GREEN,
   FONT_FAMILY_MEDIUM,
@@ -60,6 +61,10 @@ class Explore extends PureComponent<Props> {
     this.hitAPI();
   }
 
+  showToast() {
+    this.toast.showToast('Location services off, got location through IP.');
+  }
+
   hitAPI() {
     this.props.getUserCurrentLocation().then(coords => {
       this.props.listVendors(
@@ -69,6 +74,9 @@ class Explore extends PureComponent<Props> {
         this.activeFilters.join(','),
         this.props.pricing
       ).then(() => {
+          if(coords.gotThrough && coords.gotThrough === 'IP') {
+            this.showToast();
+          }
           disableBtn = false;
         })
         .catch(err => {
@@ -448,7 +456,10 @@ class Explore extends PureComponent<Props> {
             </Animated.View>
           }
 
-          <ExploreList testID="exploreList" />
+          <ExploreList
+            testID="exploreList"
+            showToast={() => this.showToast()}
+          />
           {this.state.showList &&
             <ExploreSearch
               testID="exploreSearch"
@@ -458,6 +469,12 @@ class Explore extends PureComponent<Props> {
           }
         </View>
         <LoadingComponent visible={this.props.isBusy} />
+        <Toast
+          ref={toast => this.toast = toast}
+          position='bottom'
+          orientation='yAxis'
+          backgroundColor={COLOR_GREEN}
+        />
       </LinearGradient>
     );
   }

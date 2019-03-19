@@ -21,6 +21,18 @@ import {
 } from './types';
 import { get } from '../../utils/api';
 
+import publicIP from 'react-native-public-ip';
+
+getIPLocation = async(ip) => {
+  try {
+    const commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
+    const response = await fetch(commonHtml);
+    return response.json();
+  } catch(e) {
+    throw e;
+  }
+}
+
 export const toggleFilter = async (filterId: number) => async dispatch => {
   dispatch({ type: TOGGLE_FILTER_REQUEST });
 
@@ -123,8 +135,7 @@ export const getUserCurrentLocation = async () => async dispatch => {
         const location = await Location.getCurrentPositionAsync({});
         if(location) {
           dispatch({
-            type: GET_USER_CURRENT_LOCATION_SUCCESS,
-            payload: fromJS(location.coords)
+            type: GET_USER_CURRENT_LOCATION_SUCCESS
           });
 
           return location.coords;
@@ -132,10 +143,30 @@ export const getUserCurrentLocation = async () => async dispatch => {
           throw new Error('Error while fetching location!');
         }
       } else {
-        throw new Error('Location services unavailable!');
+        const ip = await publicIP();
+        const location = await this.getIPLocation(ip);
+        const coords = {
+          latitude: location.latitude,
+          longitude: location.longitude,
+          gotThrough: 'IP'
+        }
+        dispatch({
+          type: GET_USER_CURRENT_LOCATION_SUCCESS
+        });
+        return coords;
       }
     } else {
-      throw new Error('Location services unavailable!');
+      const ip = await publicIP();
+      const location = await this.getIPLocation(ip);
+      const coords = {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        gotThrough: 'IP'
+      }
+      dispatch({
+        type: GET_USER_CURRENT_LOCATION_SUCCESS
+      });
+      return coords;
     }
   } catch (err) {
     dispatch({

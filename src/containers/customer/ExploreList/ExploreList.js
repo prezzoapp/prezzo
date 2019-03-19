@@ -4,8 +4,8 @@ import { FlatList, View, Text, AsyncStorage } from 'react-native';
 import PropTypes from 'prop-types';
 import ExploreListItem from '../../../components/ExploreListItem';
 import styles from './styles';
-import publicIP from 'react-native-public-ip';
 import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
+import { COLOR_GREEN } from '../../../services/constants';
 
 export default class ExploreList extends PureComponent {
   constructor() {
@@ -52,7 +52,11 @@ export default class ExploreList extends PureComponent {
         activeFilters.join(','),
         this.props.pricing
       ).then(() => {
-        this.setState({ isFetching: false });
+        this.setState({ isFetching: false }, () => {
+          if(coords.gotThrough && coords.gotThrough === 'IP') {
+            this.props.showToast();
+          }
+        });
       }).catch(err => {
           if(err.code === 401) {
             this.setState({ isFetching: false }, () => {
@@ -70,58 +74,6 @@ export default class ExploreList extends PureComponent {
       });
     });
   }
-
-  // PLEASE DON'T DELETE THE BELOW FUNCTIONS. MAY BE I'LL USE IT LATER.
-  // getNetworkIP() {
-  //   publicIP()
-  //     .then(ip => {
-  //       this.getIPLocation(ip);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }
-  //
-  // getIPLocation(ip) {
-  //    console.log("location ip is ------ ",ip);
-  //    let commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
-  //    console.log("location url is ------ ",commonHtml);
-  //      fetch(commonHtml)
-  //        .then((response) => response.json())
-  //        .then((responseJson) => {
-  //          console.log(responseJson);
-  //          if(responseJson.latitude) {
-  //           this.setState({
-  //            // countryName: responseJson.country_name, // PLEASE DON'T DELETE IT. MAY BE I'LL REQUIRE THIS LATER.
-  //            // regionName: responseJson.region_name, // PLEASE DON'T DELETE IT. MAY BE I'LL REQUIRE THIS LATER.
-  //            customRegion: {
-  //              latitude: responseJson.latitude,
-  //              longitude: responseJson.longitude,
-  //              latitudeDelta: 0.00922,
-  //              longitudeDelta: 0.00422
-  //            }
-  //           });
-  //           console.log('location ip  --- ',this.state.customRegion);
-  //
-  //           this.props.listVendors(
-  //              responseJson.latitude,
-  //              responseJson.longitude,
-  //             this.props.distance,
-  //             this.props.filters.map(item => {
-  //               if(item.on) {
-  //                 return item.filterType
-  //               }
-  //             }).join(','),
-  //             this.props.pricing
-  //           );
-  //         }
-  //         else{
-  //           // show error message
-  //         }
-  //        })
-  //        .catch((error) => {
-  //        });
-  // }
 
   listEmptyComponent() {
     return (
@@ -164,5 +116,6 @@ ExploreList.propTypes = {
   listVendors: PropTypes.func.isRequired,
   distance: PropTypes.number.isRequired,
   pricing: PropTypes.number.isRequired,
-  navigate: PropTypes.func.isRequired
+  navigate: PropTypes.func.isRequired,
+  showToast: PropTypes.func.isRequired
 }
