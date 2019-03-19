@@ -166,8 +166,10 @@ export default class OpenTableDetails extends Component {
             this.props.openOrderFinalStatus === 'complete'
           ) {
             // If order has been already completed.
+
+            this.props.navigation.goBack();
             showAlertWithMessage('Info', {
-              message: 'This order has been already completed.'
+              message: 'Order has been already completed.'
             });
           } else if (
             this.props.openOrderFinalStatus &&
@@ -175,8 +177,9 @@ export default class OpenTableDetails extends Component {
           ) {
             // If order has been already denied.
 
+            this.props.navigation.goBack();
             showAlertWithMessage('Info', {
-              message: 'This order has been already denied.'
+              message: 'Order has been already denied.'
             });
           } else {
             let pendingItems = 0;

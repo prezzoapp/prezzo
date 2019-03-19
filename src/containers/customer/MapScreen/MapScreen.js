@@ -3,11 +3,11 @@ import { View, Text, TouchableOpacity, InteractionManager } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import PropTypes from 'prop-types';
-import publicIP from 'react-native-public-ip';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import Toast from 'react-native-custom-toast';
 import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
@@ -15,7 +15,8 @@ import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCa
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
-  SF_PRO_TEXT_REGULAR
+  SF_PRO_TEXT_REGULAR,
+  COLOR_GREEN
 } from '../../../services/constants';
 
 import {
@@ -112,7 +113,13 @@ export default class MapScreen extends Component {
                   this.activeFilters,
                   this.props.pricing
                 )
-                .then(() => {})
+                .then(() => {
+                  if(coords.gotThrough && coords.gotThrough === 'IP') {
+                    this.toast.showToast(
+                      'Location services off, got location through IP.'
+                    );
+                  }
+                })
                 .catch(err => {
                   if(err.code === 401) {
                     manuallyLogout(err, () => this.props.userLogout());
@@ -162,55 +169,6 @@ export default class MapScreen extends Component {
       this.isFirstLoad = false;
     }
   }
-
-  // getIPLocation(ip) {
-  //   const commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
-  //   fetch(commonHtml)
-  //     .then(response => response.json())
-  //     .then(responseJson => {
-  //       console.log(responseJson);
-  //       if (responseJson.latitude) {
-  //         this.setState({
-  //           customRegion: {
-  //             latitude: responseJson.latitude,
-  //             longitude: responseJson.longitude,
-  //             latitudeDelta: 0.00922,
-  //             longitudeDelta: 0.00422
-  //           },
-  //           isGetLocation: true
-  //         });
-  //         this.props
-  //           .listVendors(
-  //             this.state.customRegion.latitude,
-  //             this.state.customRegion.longitude,
-  //             this.props.distance,
-  //             this.activeFilters,
-  //             this.props.pricing
-  //           )
-  //           .then(() => { })
-  //           .catch(e => {
-  //             showGenericAlert('Uh-oh!', e.message || e);
-  //           });
-  //
-  //         console.log('After Getting Correct Coordinates: ');
-  //         console.log(this.state.customRegion);
-  //         console.log('First Time API Called!');
-  //       } else {
-  //         // show error message
-  //       }
-  //     })
-  //     .catch(error => { });
-  // }
-
-  // getNetworkIP() {
-  //   publicIP()
-  //   .then(ip => {
-  //       this.getIPLocation(ip);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }
 
   /**
    * @param  {Array} coordinates [lat,long]
@@ -390,6 +348,13 @@ export default class MapScreen extends Component {
             this.moveToPosition(id, coordinates)
           }
           getDistanceFromCurrentLocation={this.getDistanceFromCurrentLocation}
+        />
+
+        <Toast
+          ref={toast => this.toast = toast}
+          position='bottom'
+          orientation='yAxis'
+          backgroundColor={COLOR_GREEN}
         />
       </View>
     );
