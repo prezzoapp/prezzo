@@ -169,8 +169,10 @@ export default class OpenTableDetails extends Component {
             this.props.openOrderFinalStatus === 'complete'
           ) {
             // If order has been already completed.
+
+            this.props.navigation.goBack();
             showAlertWithMessage('Info', {
-              message: 'This order has been already completed.'
+              message: 'Order has been already completed.'
             });
           } else if (
             this.props.openOrderFinalStatus &&

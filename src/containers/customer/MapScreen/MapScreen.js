@@ -120,7 +120,13 @@ export default class MapScreen extends Component {
                   this.activeFilters,
                   this.props.pricing
                 )
-                .then(() => {})
+                .then(() => {
+                  if(coords.gotThrough && coords.gotThrough === 'IP') {
+                    this.toast.showToast(
+                      'Location services off, got location through IP.'
+                    );
+                  }
+                })
                 .catch(err => {
                   if(err.code === 401) {
                     manuallyLogout(err, () => this.props.userLogout());
@@ -356,6 +362,13 @@ export default class MapScreen extends Component {
             this.moveToPosition(id, coordinates)
           }
           getDistanceFromCurrentLocation={this.getDistanceFromCurrentLocation}
+        />
+
+        <Toast
+          ref={toast => this.toast = toast}
+          position='bottom'
+          orientation='yAxis'
+          backgroundColor={COLOR_GREEN}
         />
       </View>
     );
