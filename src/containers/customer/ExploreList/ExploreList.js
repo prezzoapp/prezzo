@@ -52,11 +52,7 @@ export default class ExploreList extends PureComponent {
         activeFilters.join(','),
         this.props.pricing
       ).then(() => {
-        this.setState({ isFetching: false }, () => {
-          if(coords.gotThrough && coords.gotThrough === 'IP') {
-            this.props.showToast();
-          }
-        });
+        this.setState({ isFetching: false });
       }).catch(err => {
           if(err.code === 401) {
             this.setState({ isFetching: false }, () => {
@@ -116,6 +112,5 @@ ExploreList.propTypes = {
   listVendors: PropTypes.func.isRequired,
   distance: PropTypes.number.isRequired,
   pricing: PropTypes.number.isRequired,
-  navigate: PropTypes.func.isRequired,
-  showToast: PropTypes.func.isRequired
+  navigate: PropTypes.func.isRequired
 }
