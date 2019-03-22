@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, Image } from 'react-native';
-import CacheImage from '../CacheImage';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
 const FilteredVendorBottomCardItem = props => {
