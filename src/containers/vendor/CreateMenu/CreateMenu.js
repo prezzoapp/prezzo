@@ -455,6 +455,7 @@ const submitBtnVendor = {
 };
 
 CreateMenu.propTypes = {
+  createMenu: PropTypes.func.isRequired,
   addCategory: PropTypes.func.isRequired,
   updateCategory: PropTypes.func.isRequired,
   deleteCategory: PropTypes.func.isRequired,
@@ -467,11 +468,13 @@ CreateMenu.propTypes = {
   addImage: PropTypes.func.isRequired,
   deleteImage: PropTypes.func.isRequired,
 
+  userLogout: PropTypes.func.isRequired,
+
   menuId: PropTypes.string.isRequired,
 
   isBusy: PropTypes.bool.isRequired,
 
   uploadIsBusy: PropTypes.bool.isRequired,
 
-  menu: PropTypes.any.isRequired
+  menu: PropTypes.object.isRequired
 };

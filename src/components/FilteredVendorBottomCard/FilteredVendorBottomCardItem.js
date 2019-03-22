@@ -29,6 +29,12 @@ const FilteredVendorBottomCardItem = props => {
       </View>
     </TouchableOpacity>
   );
-}
+};
+
+FilteredVendorBottomCardItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  moveToPosition: PropTypes.func.isRequired,
+  getDistanceFromCurrentLocation: PropTypes.func.isRequired
+};
 
 export default FilteredVendorBottomCardItem;

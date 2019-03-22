@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, View, ActivityIndicator, Text } from 'react-native';
+import PropTypes from 'prop-types';
 import DeveloperMenu from '../DeveloperMenu';
 import styles from './styles';
 
@@ -22,6 +23,10 @@ const LoadingComponent = props => {
       {__DEV__ && <DeveloperMenu />}
     </Modal>
   );
+};
+
+LoadingComponent.propTypes = {
+  visible: PropTypes.bool.isRequired
 };
 
 export default LoadingComponent;

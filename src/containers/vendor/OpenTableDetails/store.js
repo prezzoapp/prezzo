@@ -8,6 +8,7 @@ import {
   checkOpenOrderStatus,
   makePaymentAndCompleteOrder
 } from '../../../modules/table';
+import { userLogout } from '../../../modules/auth';
 
 export const mapStateToProps = state => {
   const openTableSelectedItem =
@@ -29,5 +30,6 @@ export const mapDispatchToProps = dispatch => ({
   removeTableItemDetails: bindActionCreators(removeTableItemDetails, dispatch),
   checkStatusAndCancelItem: bindActionCreators(checkStatusAndCancelItem, dispatch),
   checkOpenOrderStatus: bindActionCreators(checkOpenOrderStatus, dispatch),
-  makePaymentAndCompleteOrder: bindActionCreators(makePaymentAndCompleteOrder, dispatch)
+  makePaymentAndCompleteOrder: bindActionCreators(makePaymentAndCompleteOrder, dispatch),
+  userLogout: bindActionCreators(userLogout, dispatch)
 });

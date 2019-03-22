@@ -127,7 +127,9 @@ export default class VendorAdminActivityDetails extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      this.props.addWaiterRequestedItemDetails(this.props.navigation.state.params.item);
+      this.props.addWaiterRequestedItemDetails(
+        this.props.navigation.state.params.item
+      );
     });
   }
 
@@ -238,4 +240,15 @@ const buttonStyles = {
     paddingBottom: 0,
     justifyContent: 'center'
   }
+};
+
+VendorAdminActivityDetails.propTypes = {
+  addWaiterRequestedItemDetails: PropTypes.func.isRequired,
+  removeWaiterRequestedItemDetails: PropTypes.func.isRequired,
+  waiterRequestedSelectedItem: PropTypes.object,
+  navigation: PropTypes.object.isRequired
+};
+
+VendorAdminActivityDetails.defaultProps = {
+  waiterRequestedSelectedItem: null
 };

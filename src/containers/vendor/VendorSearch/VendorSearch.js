@@ -47,7 +47,9 @@ const VendorSearch = props => {
 }
 
 VendorSearch.propTypes = {
-  navigate: PropTypes.func.isRequired
+  navigate: PropTypes.func.isRequired,
+  showLoader: PropTypes.bool.isRequired,
+  filteredData: PropTypes.array.isRequired
 };
 
 export default VendorSearch;

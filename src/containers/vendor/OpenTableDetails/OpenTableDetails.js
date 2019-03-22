@@ -3,11 +3,11 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Alert,
   InteractionManager,
   ActivityIndicator,
   Text
 } from 'react-native';
+import PropTypes from 'prop-types';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
 import {
   widthPercentageToDP as wp,
@@ -345,3 +345,19 @@ export default class OpenTableDetails extends Component {
     );
   }
 }
+
+OpenTableDetails.propTypes = {
+  openTableItemDetails: PropTypes.func.isRequired,
+  removeTableItemDetails: PropTypes.func.isRequired,
+  openTableSelectedItem: PropTypes.object,
+  makePaymentAndCompleteOrder: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired,
+  openOrderFinalStatus: PropTypes.string.isRequired,
+  userLogout: PropTypes.func.isRequired,
+  checkOpenOrderStatus: PropTypes.func.isRequired,
+  checkStatusAndCancelItem: PropTypes.func.isRequired
+};
+
+OpenTableDetails.defaultProps = {
+  openTableSelectedItem: null
+};

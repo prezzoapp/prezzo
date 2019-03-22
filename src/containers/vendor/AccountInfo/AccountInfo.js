@@ -100,7 +100,10 @@ export default class AccountInfo extends React.Component {
     avatarURL: PropTypes.string.isRequired,
     vendor: PropTypes.object.isRequired,
     uploadImage: PropTypes.func.isRequired,
-    isBusy: PropTypes.bool.isRequired
+    isBusy: PropTypes.bool.isRequired,
+    createVendor: PropTypes.func.isRequired,
+    updateVendor: PropTypes.func.isRequired,
+    userLogout: PropTypes.func.isRequired,
   };
 
   constructor(props) {
