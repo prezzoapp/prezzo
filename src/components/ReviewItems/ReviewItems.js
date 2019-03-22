@@ -17,7 +17,7 @@ import {
   SF_PRO_TEXT_BOLD
 } from '../../services/constants';
 
-class ReviewItems extends Component {
+const ReviewItems = props => {
   renderHeader = () => (
     <View style={styles.listHeader}>
       <CacheImage
@@ -44,39 +44,35 @@ class ReviewItems extends Component {
       <Button
         style={buttonStyles.closeReviewBtn}
         textStyle={buttonStyles.closeReviewBtnText}
-        onPress={() => this.props.dismissModal()}>
+        onPress={() => props.dismissModal()}>
         Close Review
       </Button>
     </View>
   );
 
-  render() {
-    return(
-      <Modal
-        animationType="slide"
-        transparent
-        visible={this.props.modalVisible}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-        }}
-      >
-        <View style={styles.container}>
-          <View style={styles.modalHolder}>
-            <BlurView style={styles.blurView} tint="default" intensity={95} />
-            <FlatList
-              keyExtractor={item => item.id.toString()}
-              showsVerticalScrollIndicator={false}
-              data={this.props.selectedItem.data}
-              ListHeaderComponent={() => this.renderHeader()}
-              ListFooterComponent={() => this.renderFooter()}
-              renderItem={({ item }) => <AddReviewListItem item={item} />}
-            />
-          </View>
+  return(
+    <Modal
+      animationType="slide"
+      transparent
+      visible={props.modalVisible}
+      onRequestClose={() => null}
+    >
+      <View style={styles.container}>
+        <View style={styles.modalHolder}>
+          <BlurView style={styles.blurView} tint="default" intensity={95} />
+          <FlatList
+            keyExtractor={item => item.id.toString()}
+            showsVerticalScrollIndicator={false}
+            data={props.selectedItem.data}
+            ListHeaderComponent={() => renderHeader()}
+            ListFooterComponent={() => renderFooter()}
+            renderItem={({ item }) => <AddReviewListItem item={item} />}
+          />
         </View>
-      </Modal>
-    );
-  }
-}
+      </View>
+    </Modal>
+  );
+};
 
 const buttonStyles = {
   submitReviewBtn: {

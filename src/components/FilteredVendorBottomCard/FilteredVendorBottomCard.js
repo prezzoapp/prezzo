@@ -103,48 +103,27 @@ class FilteredVendorBottomCard extends Component {
   render() {
     return (
       <View style={styles.filteredRestaurantsBottomCardHolder}>
-        <FlatList
-          contentContainerStyle={styles.contentContainerStyle}
-          keyExtractor={item => item._id}
-          data={this.props.data}
-          showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={this.renderSeparator}
-          renderItem={({ item }) =>
-            <FilteredVendorBottomCardItem
-              item={item}
-              customRegion={this.props.customRegion}
-              moveToPosition={() =>
-                this.props.moveToPosition(item._id, item.location.coordinates)
-              }
-              getDistanceFromCurrentLocation={
-                this.props.getDistanceFromCurrentLocation
-              }
-            />
-          }
-        />
-        {this.state.showVendorInfo && (
-          <Animated.View
-            style={[
-              styles.vendorInfoHolder,
-              {
-                transform: [{ translateY: this.showModalAnimatedValue }]
-              }
-            ]}
-          >
-            <View
-              style={styles.buttonHolder}
-              {...this.panResponder.panHandlers}
-            >
-              <TouchableOpacity
-                onPress={this.backToList}
-                activeOpacity={0.8}
-              >
-                <Image
-                  source={require('../../../assets/images/icons/bottom_arrow.png')}
-                  style={styles.bottom_arrow}
-                />
-              </TouchableOpacity>
-            </View>
+        {!this.state.showVendorInfo ? (
+          <FlatList
+            contentContainerStyle={styles.contentContainerStyle}
+            keyExtractor={item => item._id}
+            data={this.props.data}
+            showsVerticalScrollIndicator={false}
+            ItemSeparatorComponent={this.renderSeparator}
+            renderItem={({ item }) =>
+              <FilteredVendorBottomCardItem
+                item={item}
+                moveToPosition={() =>
+                  this.props.moveToPosition(item._id, item.location.coordinates)
+                }
+                getDistanceFromCurrentLocation={
+                  this.props.getDistanceFromCurrentLocation
+                }
+              />
+            }
+          />
+        ) : (
+          <View style={styles.vendorInfoHolder}>
             <View style={styles.contentHolder}>
               <View style={styles.vendorIconHolder}>
                 <CacheImage
@@ -160,8 +139,10 @@ class FilteredVendorBottomCard extends Component {
                 <Text style={styles.vendorAddress} numberOfLines={1}>
                   {this.state.item.location.city}, {this.state.item.location.region}
                 </Text>
-                <View style={[styles.statusHolder, styles.extraStatusHolderStyle]}>
-                  <CacheImage
+                <View
+                  style={[styles.statusHolder, styles.extraStatusHolderStyle]}
+                >
+                  <Image
                     source={require("../../../assets/images/open_restaurant_status.png")}
                     type='image'
                     style={styles.statusImage}
@@ -173,10 +154,18 @@ class FilteredVendorBottomCard extends Component {
 
             <View style={styles.vendorInfoSectionSeparator} />
 
-            <View style={[styles.contentHolder, styles.extraContentHolderStyle]}>
+            <View
+              style={[styles.contentHolder, styles.extraContentHolderStyle]}
+            >
               <View style={styles.iconTextHolder}>
-                <Feather name="corner-up-right" size={wp('6.4%')} color="white" />
-                <Text style={styles.milesText} numberOfLines={1}>0.32 miles away</Text>
+                <Feather
+                  name="corner-up-right"
+                  size={wp('6.4%')}
+                  color="white"
+                />
+                <Text style={styles.milesText} numberOfLines={1}>
+                  0.32 miles away
+                </Text>
               </View>
 
               <Button
@@ -195,7 +184,9 @@ class FilteredVendorBottomCard extends Component {
 }
 
 FilteredVendorBottomCard.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  moveToPosition: PropTypes.func.isRequired,
+  getDistanceFromCurrentLocation: PropTypes.func.isRequired
 };
 
 const buttonStyles = {

@@ -1,15 +1,14 @@
 // @flow
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
-import styles from './styles';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import PropTypes from 'prop-types';
 import { FontAwesome, MaterialIcons } from '../VectorIcons';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../services/constants';
-import CacheImage from '../CacheImage';
+import styles from './styles';
 
 const QueuedTableItem = props => {
-  const { item, index } = props.data;
-  console.log(item);
+  const { item } = props.data;
 
   function showAcceptDeniedAlert(status) {
     Alert.alert(
@@ -86,6 +85,14 @@ const QueuedTableItem = props => {
       </TouchableOpacity>
     </TouchableOpacity>
   );
+};
+
+QueuedTableItem.propTypes = {
+  data: PropTypes.object.isRequired,
+  checkAndChangeQueueOrderStatus: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
+  innerTab: PropTypes.string.isRequired,
+  tabName: PropTypes.string.isRequired
 };
 
 export default QueuedTableItem;
