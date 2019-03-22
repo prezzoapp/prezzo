@@ -33,7 +33,24 @@ class Tables extends Component {
   };
 
   static propTypes = {
-    navigate: PropTypes.func.isRequired
+    navigate: PropTypes.func.isRequired,
+    vendorData: PropTypes.object.isRequired,
+    section: PropTypes.number.isRequired,
+    checkQueueOrderStatus: PropTypes.func.isRequired,
+    openOrderFinalStatus: PropTypes.string.isRequired,
+    changeOrderStatus: PropTypes.func.isRequired,
+    userLogout: PropTypes.func.isRequired,
+    changeSection: PropTypes.func.isRequired,
+    layout: PropTypes.string.isRequired,
+    openTableList: PropTypes.object.isRequired,
+    makePaymentAndCompleteOrder: PropTypes.func.isRequired,
+    queuedTableList: PropTypes.object.isRequired,
+    closedTableList: PropTypes.object.isRequired,
+    listOpenTable: PropTypes.func.isRequired,
+    listQueuedTable: PropTypes.func.isRequired,
+    listClosedTable: PropTypes.func.isRequired,
+    changeLayout: PropTypes.func.isRequired,
+    isBusy: PropTypes.bool.isRequired
   };
 
   constructor() {
@@ -150,7 +167,7 @@ class Tables extends Component {
           onRefresh={() => this.onRefresh()}
           refreshing={this.state.isFetching}
           contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.openTableList.size === 0) ? 'center' : null }]}
-          data={this.props.openTableList.length !== 0 ? this.props.openTableList.toJS() : []}
+          data={this.props.openTableList.size !== 0 ? this.props.openTableList.toJS() : []}
           renderItem={rowData => {
             if (this.props.layout === 'list') {
               return (
@@ -204,13 +221,11 @@ class Tables extends Component {
             if (this.props.layout === 'list') {
               return (
                 <QueuedTableItem
-                  handleQueuedTableItem={this.handleQueuedTableItem}
                   navigate={this.props.navigate}
                   data={rowData}
                   tabName="tables"
                   innerTab="queue"
                   checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
-                  listQueuedTable={this.props.listQueuedTable}
                 />
               );
             }
@@ -218,10 +233,8 @@ class Tables extends Component {
               <TableGridItem
                 tableType={this.props.section}
                 navigate={this.props.navigate}
-                handleQueuedTableItem={this.handleQueuedTableItem}
                 data={rowData}
                 checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
-                listQueuedTable={this.props.listQueuedTable}
                 innerTab="closed"
                 tabName="tables"
               />

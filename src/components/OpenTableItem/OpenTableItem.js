@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import PropTypes from 'prop-types';
 import styles from './styles';
 import { Entypo } from '../VectorIcons';
 import {
@@ -9,7 +10,7 @@ import {
 } from '../../services/constants';
 
 const OpenTableItem = props => {
-  const { item, index } = props.data;
+  const { item } = props.data;
   let itemImagesLength = 0;
 
   item.items.map(ele => {
@@ -80,11 +81,11 @@ const OpenTableItem = props => {
                   styles.statusText,
                   {
                     color:
-                      props.innerTabName !== 'photoReview' ? '#2ED573' : 'white'
+                      props.innerTab !== 'photoReview' ? '#2ED573' : 'white'
                   }
                 ]}
               >
-                {props.innerTabName !== 'photoReview'
+                {props.innerTab !== 'photoReview'
                   ? ' •  Waiter Reqested'
                   : <Text style={{ fontFamily: FONT_FAMILY_MEDIUM }}>- {itemImagesLength} Photo(s)</Text>}
               </Text>
@@ -97,6 +98,19 @@ const OpenTableItem = props => {
       </View>
     </TouchableOpacity>
   );
+};
+
+OpenTableItem.propTypes = {
+  onPress: PropTypes.func,
+  navigate: PropTypes.func,
+  tabName: PropTypes.string.isRequired,
+  innerTab: PropTypes.string.isRequired,
+  data: PropTypes.object.isRequired
+};
+
+OpenTableItem.defaultProps = {
+  onPress: null,
+  navigate: null
 };
 
 export default OpenTableItem;

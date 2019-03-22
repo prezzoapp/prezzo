@@ -167,8 +167,24 @@ class Activity extends Component {
 
   static propTypes = {
     navigate: PropTypes.func.isRequired,
-    changeSection: PropTypes.func.isRequired
+    changeSection: PropTypes.func.isRequired,
+    vendorData: PropTypes.object.isRequired,
+    changeLayout: PropTypes.func.isRequired,
+    section: PropTypes.number.isRequired,
+    userLogout: PropTypes.func.isRequired,
+    listPhotoReviewTable: PropTypes.func.isRequired,
+    addPhotoReviewItemDetails: PropTypes.func.isRequired,
+    removePhotoReviewItemDetails: PropTypes.func.isRequired,
+    waiterRequestedTableList: PropTypes.object.isRequired,
+    photoReviewList: PropTypes.object.isRequired,
+    photoReviewSelectedItem: PropTypes.object,
+    layout: PropTypes.string.isRequired,
+    isBusy: PropTypes.bool.isRequired
   };
+
+  static defaultProps = {
+    photoReviewSelectedItem: null
+  }
 
   componentDidMount() {
     if(this.props.vendorData) {
@@ -345,7 +361,7 @@ class Activity extends Component {
           <OpenTableItem
             data={rowData}
             tabName="activity"
-            innerTabName="photoReview"
+            innerTab="photoReview"
             onPress={() => this.show(rowData)}
           />
         )}

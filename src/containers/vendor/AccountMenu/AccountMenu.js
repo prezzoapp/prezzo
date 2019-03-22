@@ -48,7 +48,8 @@ export default class AccountMenu extends React.Component {
     avatarURL: PropTypes.string.isRequired,
     vendor: PropTypes.object.isRequired,
     menu: PropTypes.object.isRequired,
-    userLogout: PropTypes.func.isRequired
+    userLogout: PropTypes.func.isRequired,
+    isBusy: PropTypes.bool.isRequired
   };
 
   enableBtns() {

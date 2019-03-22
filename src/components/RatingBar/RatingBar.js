@@ -52,11 +52,9 @@ export default class RatingBar extends Component {
 
 RatingBar.propTypes = {
   itemRating: PropTypes.number.isRequired,
-  //changeItemRating: PropTypes.func,
   disable: PropTypes.bool
 };
 
 RatingBar.defaultProps = {
-  //changeItemRating: null,
   disable: false
 };

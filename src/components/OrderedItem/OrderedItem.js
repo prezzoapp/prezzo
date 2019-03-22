@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import PropTypes from 'prop-types';
 import styles from './styles';
 import { FontAwesome, Entypo } from '../VectorIcons';
 
@@ -21,6 +22,10 @@ const OrderedItem = props => {
       </View>
     </View>
   );
+};
+
+OrderedItem.propTypes = {
+  data: PropTypes.object.isRequired
 };
 
 export default OrderedItem;

@@ -5,6 +5,7 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import { LinearGradient } from 'expo';
+import PropTypes from 'prop-types';
 import {
   COLOR_GREEN,
   FONT_FAMILY_MEDIUM,
@@ -194,6 +195,16 @@ const buttonStyles = {
     paddingBottom: 0,
     justifyContent: 'center'
   }
+};
+
+OpenTablePayment.propTypes = {
+  data: PropTypes.object.isRequired,
+  innerTab: PropTypes.string.isRequired,
+  completeOrder: PropTypes.func
+};
+
+OpenTablePayment.defaultProps = {
+  completeOrder: null
 };
 
 export default OpenTablePayment;

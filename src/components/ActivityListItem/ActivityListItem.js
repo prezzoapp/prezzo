@@ -7,7 +7,7 @@ import styles from './styles';
 import showGenericAlert from '../GenericAlert';
 
 const ActivityListItem = props => {
-  function checkAndCancelOrderItem(orderId, itemId) {
+  checkAndCancelOrderItem = (orderId, itemId) => {
     showGenericAlert(null, 'Are you sure you want to cancel?', [
       {
         text: 'No',

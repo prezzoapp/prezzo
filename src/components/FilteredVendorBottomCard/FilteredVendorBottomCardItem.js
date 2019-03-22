@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, Image } from 'react-native';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
 const FilteredVendorBottomCardItem = props => {
@@ -27,6 +28,12 @@ const FilteredVendorBottomCardItem = props => {
       </View>
     </TouchableOpacity>
   );
-}
+};
+
+FilteredVendorBottomCardItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  moveToPosition: PropTypes.func.isRequired,
+  getDistanceFromCurrentLocation: PropTypes.func.isRequired
+};
 
 export default FilteredVendorBottomCardItem;

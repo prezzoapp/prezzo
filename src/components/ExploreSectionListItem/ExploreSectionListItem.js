@@ -19,11 +19,10 @@ export default class ExploreSectionListItem extends Component {
         data={this.props.item}
         sliderWidth={Dimensions.get('window').width}
         itemWidth={Dimensions.get('window').width - 50}
-        renderItem={({item}) =>
+        renderItem={({ item }) =>
           <View>
-            <ImageBackground source={item.imagePath} style={ {width: '100%', height: 150 }} imageStyle={{borderRadius: 5}}>
+            <ImageBackground source={item.imagePath} style={ {width: '100%', height: 150 }} imageStyle={{borderRadius: 5}} />
 
-            </ImageBackground>
             <Text style={styles.restaurantName}>{item.name}</Text>
             <Text style={styles.cityName}>{item.city}</Text>
           </View>

@@ -14,7 +14,7 @@ import styles from './styles';
 import OrderedItem from '../../components/OrderedItem';
 
 const TableGridItem = props => {
-  const { item, index } = props.data;
+  const { item } = props.data;
   const { tableType } = props;
   function showAcceptDeniedAlert(status) {
     Alert.alert(
@@ -26,7 +26,9 @@ const TableGridItem = props => {
           onPress: () => null,
           style: 'cancel'
         },
-        { text: 'OK', onPress: () => {
+        {
+          text: 'OK',
+          onPress: () => {
             props.checkAndChangeQueueOrderStatus(
               item._id,
               status === 'accept' ? 'active' : 'denied'
@@ -108,6 +110,21 @@ const TableGridItem = props => {
       />
     </View>
   );
+};
+
+TableGridItem.propTypes = {
+  data: PropTypes.object.isRequired,
+  tableType: PropTypes.number.isRequired,
+  checkAndChangeQueueOrderStatus: PropTypes.func,
+  onPress: PropTypes.func,
+  navigate: PropTypes.func.isRequired,
+  tabName: PropTypes.string.isRequired,
+  innerTab: PropTypes.string.isRequired
+};
+
+TableGridItem.defaultProps = {
+  checkAndChangeQueueOrderStatus: null,
+  onPress: null
 };
 
 export default TableGridItem;

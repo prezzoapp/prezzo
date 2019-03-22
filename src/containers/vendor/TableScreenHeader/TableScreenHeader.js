@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { View, Text, Image } from 'react-native';
+import PropTypes from 'prop-types';
 import styles from './styles';
 
 const TableScreenHeader = props => {
@@ -36,6 +37,12 @@ const TableScreenHeader = props => {
     </View>
 
   );
+};
+
+TableScreenHeader.propTypes = {
+  vendorData: PropTypes.object.isRequired,
+  tableSection: PropTypes.number.isRequired,
+  tabName: PropTypes.string.isRequired
 };
 
 export default TableScreenHeader;
