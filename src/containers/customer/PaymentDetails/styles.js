@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
   },
 
   checkbox: {
-    width: checkboxSize,
-    height: checkboxSize,
-    marginRight: 15
+    // width: checkboxSize,
+    // height: checkboxSize,
+    marginRight: wp('4%')
   },
 
   promotionalText: {

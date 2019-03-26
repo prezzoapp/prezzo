@@ -90,10 +90,10 @@ const styles = StyleSheet.create({
     marginTop: wp('4.26%')
   },
   checkbox: {
-    width: checkboxSize,
-    height: checkboxSize,
+    //width: checkboxSize,
+    //height: checkboxSize,
     marginRight: wp('3.2%'),
-    resizeMode: 'contain'
+    //resizeMode: 'contain'
   },
   promotionalText: {
     fontSize: wp('4.53%'),
@@ -119,7 +119,8 @@ class SignupEmail extends React.Component<Props> {
       right: 0,
       left: 0,
       backgroundColor: 'transparent',
-      borderBottomColor: 'transparent'
+      borderBottomColor: 'transparent',
+      elevation: 0
     },
     headerTintColor: '#fff',
     headerLeft: (
@@ -140,12 +141,6 @@ class SignupEmail extends React.Component<Props> {
   isFormValid() {
     const { email } = this.props;
     return email && isValidEmail(email) ? true : false;
-  }
-
-  getCheckboxImage() {
-    return this.props.isSubscribedToPromotions
-      ? require('../../../../assets/images/icons/checkbox-checked.png')
-      : require('../../../../assets/images/icons/checkbox-unchecked.png');
   }
 
   toggleSubscription() {
@@ -169,6 +164,7 @@ class SignupEmail extends React.Component<Props> {
           style={{ flex: 1 }}
           behavior='padding'>
           <ScrollView
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text style={styles.headerTextLine1}>And, your</Text>
             <Text style={styles.headerTextLine2}>email?</Text>
@@ -183,9 +179,15 @@ class SignupEmail extends React.Component<Props> {
 
             <TouchableOpacity
               style={styles.promotionsContainer}
+              activeOpacity={0.8}
               onPress={() => this.toggleSubscription()}
             >
-              <Image style={styles.checkbox} source={this.getCheckboxImage()} />
+              <Feather
+                style={styles.checkbox}
+                name={(this.props.isSubscribedToPromotions) ? 'square' : 'check-square'}
+                size={wp('7.2%')}
+                color='white'
+              />
               <Text style={styles.promotionalText}>
                 I'd like to receive promotional communications.
               </Text>

@@ -68,6 +68,7 @@ class LoginTextInput extends Component<Props, State> {
 
         <TextInput
           testID={'loginTextInput'}
+          underlineColorAndroid='transparent'
           style={[styles.input, { paddingBottom: textInputPaddingBottom }]}
           secureTextEntry={type === 'password' && !isShowingPassword}
           autoCapitalize={type === 'name' ? 'words' : 'none'}

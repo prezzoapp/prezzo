@@ -29,8 +29,8 @@ class EnableNotificationsView extends React.Component<Props, State> {
     notificationPermission: 'undetermined'
   };
 
-  componentDidMount() {
-    this.checkNotificationPermission();
+  handleBackPress = () => {
+    return true;
   }
 
   async checkNotificationPermission() {
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_BOLD,
     color: '#484848',
     marginBottom: wp('4%'),
-    lineHeight: wp('8.26%')
+    lineHeight: wp('9%')
   },
   regularText: {
     fontSize: wp('5.33%'),

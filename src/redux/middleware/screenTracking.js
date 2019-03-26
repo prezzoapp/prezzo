@@ -1,4 +1,5 @@
 import { NavigationActions } from 'react-navigation';
+import { BackHandler, Platform } from 'react-native';
 
 function getActiveRoute(navigationState) {
   if (!navigationState) {
@@ -10,6 +11,10 @@ function getActiveRoute(navigationState) {
     return getActiveRoute(route);
   }
   return route;
+}
+
+handleBackPress = () => {
+  return true;
 }
 
 const screenTracking = ({ getState }) => next => action => {
@@ -32,6 +37,24 @@ const screenTracking = ({ getState }) => next => action => {
     .toJS();
 
   const nextRoute = getActiveRoute(navigatorState);
+
+  if (
+    (nextRoute.routeName === 'EnableNotifications' ||
+      nextRoute.routeName === 'SignupComplete') &&
+    (action.type === NavigationActions.NAVIGATE ||
+      action.type === NavigationActions.BACK) &&
+    Platform.OS === 'android'
+  ) {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+  } else if (
+    nextRoute.routeName !== 'EnableNotifications' &&
+    nextRoute.routeName !== 'SignupComplete' &&
+    Platform.OS === 'android'
+  ) {
+    // console.log('Current Route Name: ');
+    // console.log(nextRoute.routeName);
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress)
+  }
 
   if (
     nextRoute.routeName === 'CustomerActivity' &&

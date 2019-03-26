@@ -1,5 +1,5 @@
 // @flow
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FONT_FAMILY, COLOR_GREEN, FONT_FAMILY_MEDIUM } from '../../services/constants';
 
@@ -46,7 +46,8 @@ export default StyleSheet.create({
     color: '#fff',
     fontFamily: FONT_FAMILY,
     fontSize: wp('5.33%'),
-    flex: 1
+    flex: 1,
+    lineHeight: wp('5.86%')
   },
   otherInfoText: {
     fontSize: wp('5.33%'),
@@ -66,7 +67,8 @@ export default StyleSheet.create({
   addText: {
     color: COLOR_GREEN,
     fontSize: wp('4.53%'),
-    fontFamily: FONT_FAMILY
+    fontFamily: FONT_FAMILY,
+    lineHeight: wp('5.7%')
   },
 
   paddingBottom_21: {
@@ -101,5 +103,8 @@ export default StyleSheet.create({
     color: 'white',
     marginVertical: 0,
     textAlignVertical: 'top'
+  },
+  extra$TextStyle: {
+    paddingTop: Platform.OS === 'ios' ? wp('1%') : 0
   }
 });

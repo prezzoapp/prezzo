@@ -31,33 +31,45 @@ export default StyleSheet.create({
     backgroundColor: 'rgb(157,157,157)'
   },
 
+  sectionHeaderView: {
+    height: wp('8%'),
+    justifyContent: 'center',
+    flex: 1
+  },
+
   sectionHeaderText: {
     color: '#fff',
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('5.33%'),
-    flex: 1,
     paddingRight: wp('2.66%'),
-    height: wp('9%')
+    lineHeight: wp('5.86%')
+  },
+
+  editBtn: {
+    height: wp('8%'),
+    justifyContent: 'center',
+    top: -wp('0.53%')
   },
 
   addText: {
     color: COLOR_GREEN,
     fontSize: wp('4.53%'),
     paddingRight: wp('3.46%'),
-    fontFamily: FONT_FAMILY,
-    top: -2
+    fontFamily: FONT_FAMILY
+    // height: wp('9%')
+    // top: -2
+    // lineHeight: wp('5.86%')
   },
 
   textInput: {
-    // height: hp('4.31%'),
-    height: wp('9%'),
+    height: wp('8%'),
     padding: 0,
     flex: 1,
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('5.33%'),
     color: 'white',
     marginVertical: 0,
-    textAlignVertical: 'top',
+    textAlignVertical: 'center',
     paddingRight: wp('2.66%'),
     top: -3
   },

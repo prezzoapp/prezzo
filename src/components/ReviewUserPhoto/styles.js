@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
   },
 
   bigImage: {
-    height: wp('32%'),
-    width: wp('32%'),
+    height: wp('31.46%'),
+    width: wp('31.46%'),
     overflow: 'hidden',
     backgroundColor: 'transparent',
     marginTop: 10,

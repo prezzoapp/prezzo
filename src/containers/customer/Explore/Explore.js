@@ -48,12 +48,6 @@ class Explore extends PureComponent<Props> {
     super(props);
 
     this.state = {
-      // customRegion: {
-      //   latitude: 0,
-      //   longitude: 0,
-      //   latitudeDelta: 0.00922,
-      //   longitudeDelta: 0.00422
-      // },
       showList: false,
       filteredData: [],
       showLoader: false,
@@ -142,51 +136,6 @@ class Explore extends PureComponent<Props> {
     this.setState({ showFilters: !this.state.showFilters });
   }
 
-  // updateDistance(distance) {
-  //   const newDistance = parseFloat(distance.toFixed(1));
-  //   this.props.updateDistance(newDistance).then(() => {
-  //     this.props.listVendors(
-  //       this.state.customRegion.latitude,
-  //       this.state.customRegion.longitude,
-  //       this.props.distance,
-  //       this.activeFilters.join(','),
-  //       this.props.pricing
-  //     );
-  //   });
-  // }
-  //
-  // updatePrice(price) {
-  //   console.log("Pricing: ", price);
-  //   this.props.updatePrice(price).then(() => {
-  //     this.props.listVendors(
-  //       this.state.customRegion.latitude,
-  //       this.state.customRegion.longitude,
-  //       this.props.distance,
-  //       this.activeFilters.join(','),
-  //       this.props.pricing
-  //     );
-  //   });
-  // }
-  //
-  // toggleFilter(id) {
-  //   this.activeFilters = [];
-  //   this.props.toggleFilter(id).then(() => {
-  //     this.props.filters.map(item => {
-  //         if(item.on) {
-  //           this.activeFilters.push(item.filterType);
-  //         }
-  //     });
-  //
-  //     this.props.listVendors(
-  //       this.state.customRegion.latitude,
-  //       this.state.customRegion.longitude,
-  //       this.props.distance,
-  //       this.activeFilters.join(','),
-  //       this.props.pricing
-  //     );
-  //   });
-  // }
-
   showAlert(title, message, duration) {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
@@ -239,7 +188,7 @@ class Explore extends PureComponent<Props> {
       <LinearGradient
         testID="linearGradient"
         colors={['rgb(0,0,0)', 'transparent', 'transparent', 'transparent', 'transparent']}
-        locations={[0.1, 0.3, 0.3, 0.3, 0.3]}
+        locations={[0.1, 0.4, 0.4, 0.4, 0.4]}
         style={styles.container}
       >
         <View style={{ flex: 1 }}>
@@ -519,7 +468,7 @@ class Explore extends PureComponent<Props> {
         <Modal
           transparent
           animationType="none"
-          visible={false}>
+          visible={this.props.isBusy}>
           <View style={styles.loaderContainer}>
             <ActivityIndicator testID="activityIndicator" size="large" color="white" />
             <Text testID="loadingText" style={styles.message}>

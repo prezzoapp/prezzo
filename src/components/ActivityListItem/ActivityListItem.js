@@ -28,16 +28,18 @@ const ActivityListItem = props => {
     return (
       <View style={styles.item}>
         <View style={styles.leftSide}>
-          <Image
-            source={
-              props.item.status === 'complete'
-                ? require('../../../assets/images/icons/active_status.png')
-                : props.item.status === 'denied'
-                  ? null
-                  : require('../../../assets/images/icons/green_in_progress.png')
-            }
-            style={styles.statusImage}
-          />
+          <View style={styles.statusIconHolder}>
+            <Image
+              source={
+                props.item.status === 'complete'
+                  ? require('../../../assets/images/icons/active_status.png')
+                  : props.item.status === 'denied'
+                    ? null
+                    : require('../../../assets/images/icons/green_in_progress.png')
+              }
+              style={styles.statusImage}
+            />
+          </View>
           <View style={styles.sideBorder} />
         </View>
 
@@ -50,11 +52,15 @@ const ActivityListItem = props => {
           <Text style={styles.status}>
             {props.item.status.charAt(0).toUpperCase() + props.item.status.slice(1)}
           </Text>
-          <Text style={styles.name}>{props.item.title}</Text>
+          <Text style={styles.name} numberOfLines={2}>
+            {props.item.title}
+          </Text>
           {props.item.notes !== '' &&
           props.item.notes !== undefined &&
           props.item.notes !== null ? (
-            <Text style={styles.info}>{props.item.notes}</Text>
+            <Text style={styles.info} numberOfLines={3}>
+              {props.item.notes}
+            </Text>
           ) : null}
           {props.item.status === 'pending' && props.innerTab === 'open' ? (
             <TouchableOpacity

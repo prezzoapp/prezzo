@@ -21,7 +21,7 @@ export default StyleSheet.create({
     width: wp('18.66%'),
     height: wp('18.66%'),
     borderWidth: 1,
-    borderColor: 'rgb(164,164,164)'
+    borderColor: 'white'
   },
   closeBtn: {
     width: wp('4%'),

@@ -41,7 +41,8 @@ class Login extends React.Component<Props, State> {
       top: 0,
       left: 0,
       right: 0,
-      borderBottomColor: 'transparent'
+      borderBottomColor: 'transparent',
+      elevation: 0
     },
     headerTintColor: '#fff',
     headerLeft: (
@@ -103,6 +104,7 @@ class Login extends React.Component<Props, State> {
           style={{ flex: 1 }}
           behavior='padding'>
           <ScrollView
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text testID="welcomeText" style={styles.headerText}>
               Welcome back!

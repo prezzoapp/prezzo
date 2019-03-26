@@ -37,17 +37,23 @@ const TableGridItem = props => {
     );
   }
 
+  function itemSeparatorComponent() {
+    return <View style={styles.separator} />;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image
-          style={styles.userImage}
-          source={
-            item.creator.avatarURL !== ''
-              ? { uri: item.userImg }
-              : require('../../../assets/images/etc/default-avatar.png')
-          }
-        />
+        <View style={styles.userImageContainer}>
+          <Image
+            style={styles.userImage}
+            source={
+              item.creator.avatarURL !== ''
+                ? { uri: item.userImg }
+                : require('../../../assets/images/etc/default-avatar.png')
+            }
+          />
+        </View>
         <Text style={styles.userName}>
           {item.creator.fullName} -{' '}
           <Text style={styles.tableId}>Table 9192</Text>
@@ -94,8 +100,8 @@ const TableGridItem = props => {
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         data={item.items}
-        contentContainerStyle={{ paddingHorizontal: wp('4.26%') }}
-        style={{ marginHorizontal: -wp('4.26%') }}
+        ItemSeparatorComponent={() => itemSeparatorComponent()}
+        contentContainerStyle={styles.itemImagesListStyle}
         showsHorizontalScrollIndicator={false}
         horizontal
         renderItem={({ item }) => <OrderedItem data={item} />}

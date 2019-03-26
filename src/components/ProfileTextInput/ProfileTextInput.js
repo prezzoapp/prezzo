@@ -45,6 +45,7 @@ const ProfileTextInput = props => {
       ) : null}
       <View style={valueContainerStyle}>
         <TextInput
+          underlineColorAndroid='transparent'
           style={[styles.value, { ...extraStyle }]}
           autoCapitalize={type === 'name' ? 'words' : 'none'}
           onChangeText={text => onChange && onChange(text)}
@@ -64,7 +65,8 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'flex-start',
     marginBottom: hp('3.07%'),
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+    backgroundColor: 'transparent'
   },
   currentValueContainer: {
     flexDirection: 'row'
@@ -84,11 +86,11 @@ const styles = {
   value: {
     color: valueTextColor,
     fontFamily: FONT_FAMILY,
-    fontSize: wp('5.33%')
+    fontSize: wp('5.33%'),
+    flex: 1
   },
   valueContainer: {
-    flex: 1,
-    // minHeight: wp('6%')
+    flex: 1
   }
 };
 

@@ -199,7 +199,15 @@ export default class MenuItem extends Component {
               }}
             >
               <Text
-                style={[styles.sectionHeaderText, { flex: 0, paddingRight: 2 }, styles.paddingBottom_21]}
+                style={[
+                  styles.sectionHeaderText,
+                  this.state.editItem ? styles.extra$TextStyle : null,
+                  styles.paddingBottom_21,
+                  {
+                    flex: 0,
+                    paddingRight: 2
+                  }
+                ]}
               >
                 $
               </Text>

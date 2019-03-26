@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  ActionSheetIOS,
   KeyboardAvoidingView,
   Keyboard,
   ScrollView
 } from 'react-native';
+import { ActionSheet } from 'native-base';
 import { ImagePicker, Permissions } from 'expo';
 import PropTypes from 'prop-types';
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
@@ -60,7 +60,8 @@ class EditProfile extends Component<Props, State> {
     headerStyle: {
       backgroundColor: COLOR_BLACK,
       shadowColor: 'transparent',
-      borderBottomWidth: 0
+      borderBottomWidth: 0,
+      elevation: 0
     },
     headerLeft: (
       <TouchableOpacity
@@ -155,11 +156,11 @@ class EditProfile extends Component<Props, State> {
   }
 
   showAvatarActionSheet() {
-    ActionSheetIOS.showActionSheetWithOptions(
+    ActionSheet.show(
       {
         options: ['Take Photo', 'Choose from Library', 'Cancel'],
         cancelButtonIndex: 2,
-        title: 'Select an avatar'
+        title: "Select an avatar"
       },
       buttonIndex => {
         if (buttonIndex === 0) {
@@ -226,14 +227,14 @@ class EditProfile extends Component<Props, State> {
         behavior='padding'>
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
             <View style={styles.headerContainer}>
-              <View style={styles.avatarContainer}>
-                {(() => {
-                  if (1) {
-                    return (
-                      <TouchableOpacity
-                       style= {{position: 'relative'}}
-                        onPress={() => this.showAvatarActionSheet()}
-                      >
+              {(() => {
+                if (1) {
+                  return (
+                    <TouchableOpacity
+                     style= {{position: 'relative'}}
+                      onPress={() => this.showAvatarActionSheet()}
+                    >
+                      <View style={styles.imageHolder}>
                         <Image
                           style={styles.avatar}
                           source={
@@ -242,20 +243,20 @@ class EditProfile extends Component<Props, State> {
                               : require('../../../../assets/images/etc/default-avatar.png')
                           }
                         />
+                      </View>
 
-                        <Image
-                          style={styles.editBtnImage}
-                          source={
-                           require('../../../../assets/images/etc/EditIcon.png')
-                          }
-                        />
+                      <Image
+                        style={styles.editBtnImage}
+                        source={
+                         require('../../../../assets/images/etc/EditIcon.png')
+                        }
+                      />
 
-                      </TouchableOpacity>
-                    );
-                  }
+                    </TouchableOpacity>
+                  );
+                }
 
-                })()}
-              </View>
+              })()}
             </View>
             <View style={styles.bodyContainer}>
               {(() => {
@@ -352,16 +353,17 @@ const styles = StyleSheet.create({
     paddingBottom: hp('5%')
   },
   avatar: {
-    borderColor: 'white',
-    borderRadius: wp('13.5%'),
-    borderWidth: 2,
-    height: wp('27.2%'),
     resizeMode: 'cover',
-    width: wp('27.2%')
+    height: '100%',
+    width: '100%'
   },
-  avatarContainer: {
-    alignItems: 'center',
-    justifyContent: 'center'
+  imageHolder: {
+    height: wp('27.2%'),
+    width: wp('27.2%'),
+    borderColor: 'white',
+    borderWidth: 2,
+    borderRadius: wp('13.5%'),
+    overflow: 'hidden'
   },
   bodyContainer: {
     flexGrow: 1,
@@ -390,13 +392,13 @@ const styles = StyleSheet.create({
   toggleBtn: {
     position: 'absolute',
     right: 0,
-    top: 0
+    top: hp('0.6%')
   },
   editBtnImage: {
     width: wp('7.46%'),
     height: wp('7.46%'),
     position: 'absolute',
-    right: 4,
+    right: 5,
     top: 0
   }
 });

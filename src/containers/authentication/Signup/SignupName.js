@@ -103,7 +103,8 @@ class SignupName extends React.Component<Props, State> {
       top: 0,
       right: 0,
       left: 0,
-      borderBottomColor: 'transparent'
+      borderBottomColor: 'transparent',
+      elevation: 0
     },
     headerLeft: (
       <TouchableOpacity
@@ -140,6 +141,7 @@ class SignupName extends React.Component<Props, State> {
           style={{ flex: 1 }}
           behavior='padding'>
           <ScrollView
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text style={styles.headerTextLine1}>What's your</Text>
             <Text style={styles.headerTextLine2}>name?</Text>

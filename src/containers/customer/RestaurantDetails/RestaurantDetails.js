@@ -9,14 +9,17 @@ import {
   TouchableOpacity,
   Animated,
   InteractionManager,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from 'react-native';
 
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import PropTypes from 'prop-types';
 
-import { LinearGradient, BlurView } from 'expo';
+import { Header } from 'react-navigation';
+
+import { LinearGradient, BlurView, Constants } from 'expo';
 
 import { Feather } from '../../../components/VectorIcons';
 
@@ -49,7 +52,8 @@ export default class RestaurantDetails extends Component {
       left: 0,
       right: 0,
       shadowColor: 'transparent',
-      borderBottomWidth: 0
+      borderBottomWidth: 0,
+      elevation: 0
     },
     headerTintColor: '#fff',
     gesturesEnabled: false,
@@ -371,18 +375,16 @@ export default class RestaurantDetails extends Component {
 
   renderSectionHeader = section => (
     <View
-      style={{
-        borderBottomWidth: 1,
-        borderBottomColor: 'white',
-        backgroundColor: 'transparent'
-      }}
+      style={[
+        styles.menuCategoryHeaderTextContainer,
+        {
+          alignItems: this.state.showText ? 'flex-start' : 'center'
+        }
+      ]}
     >
       <Text
-        style={[
-          styles.transparent,
-          styles.listHeaderText,
-          { textAlign: this.state.showText ? 'left' : 'center' }
-        ]}
+        style={[styles.transparent, styles.listHeaderText]}
+        numberOfLines={1}
       >
         {section.title}
       </Text>
@@ -417,7 +419,15 @@ export default class RestaurantDetails extends Component {
             height: animatedHeader,
             overflow: 'hidden',
             opacity: animatedOpacity,
-            paddingHorizontal: wp('4%')
+            paddingHorizontal: wp('4%'),
+            position: 'absolute',
+            top:
+              Header.HEIGHT +
+              Constants.statusBarHeight -
+              (Platform.OS === 'ios' ? 20 : 0),
+            left: 0,
+            right: 0,
+            zIndex: 99
           }}
         >
           <View style={styles.contentContainer}>
@@ -528,14 +538,14 @@ export default class RestaurantDetails extends Component {
                       <View
                         style={{
                           paddingBottom: !this.state.showText
-                            ? wp('5.33%')
-                            : wp('14.4%')
+                            ? wp('3.33%')
+                            : wp('12.4%')
                         }}
                       />
                     ) : (
                       <View
                         style={{
-                          paddingBottom: wp('5.33%')
+                          paddingBottom: wp('3.33%')
                         }}
                       />
                     )
@@ -558,7 +568,7 @@ export default class RestaurantDetails extends Component {
                     }]
                   )}
                   style={{
-                    paddingTop: wp('5.33%'),
+                    // paddingTop: wp('5.33%'),
                     marginBottom: !this.state.showText
                       ? -wp('5.33%')
                       : -wp('14.4%')
@@ -567,7 +577,8 @@ export default class RestaurantDetails extends Component {
                     paddingBottom: !this.state.showText
                       ? wp('5.33%')
                       : wp('14.4%'),
-                    paddingHorizontal: 15
+                    paddingTop: headerHeight,
+                    paddingHorizontal: wp('4%')
                   }}
                   ListFooterComponent={() => this.listFooterComponent()}
                   sections={

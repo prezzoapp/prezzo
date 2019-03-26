@@ -90,17 +90,6 @@ const styles = StyleSheet.create({
     borderRadius: avatarSize / 2,
     resizeMode: 'cover'
   },
-  editAvatarIcon: {
-    width: wp('5.66%'),
-    height: wp('5.66%'),
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    borderWidth: 1,
-    borderColor: '#fff',
-    borderRadius: wp('5.66%') / 2,
-    backgroundColor: '#484848'
-  },
   nameAndEmailContainer: {
     paddingLeft: wp('6.4%'),
     justifyContent: 'center'
@@ -174,7 +163,8 @@ class SignupMergeFacebook extends React.Component<Props, State> {
       right: 0,
       left: 0,
       backgroundColor: 'transparent',
-      borderBottomColor: 'transparent'
+      borderBottomColor: 'transparent',
+      elevation: 0
     },
     headerTintColor: '#fff',
     headerLeft: (
@@ -247,6 +237,7 @@ class SignupMergeFacebook extends React.Component<Props, State> {
           style={{ flex: 1 }}
           behavior='padding'>
           <ScrollView
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text style={styles.headerTextLine1}>You're already</Text>
             <Text style={styles.headerTextLine2}>here!</Text>

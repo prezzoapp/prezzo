@@ -17,7 +17,7 @@ import styles from './styles';
 
 import CheckoutSwiper from '../../../components/CheckoutSwiper';
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('screen');
 
 export default class Checkout extends Component {
   constructor(props) {
@@ -37,7 +37,6 @@ export default class Checkout extends Component {
 
     this.animationRunning = false;
   }
-
 
   componentWillMount() {
     this.panResponder = PanResponder.create({
@@ -89,6 +88,10 @@ export default class Checkout extends Component {
     });
 
     this.index = index;
+  }
+
+  onLayout() {
+    if (this.child) this.calculateLayout();
   }
 
   calculateLayout() {
@@ -148,6 +151,7 @@ export default class Checkout extends Component {
             transform: [{ translateY: this.showModalAnimatedValue }]
           }
         ]}
+        onLayout={() => this.onLayout()}
       >
         <TouchableOpacity
           activeOpacity={1}

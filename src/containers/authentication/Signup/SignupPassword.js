@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
-  ActionSheetIOS,
   ScrollView,
   Platform,
   KeyboardAvoidingView
@@ -15,6 +14,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigationActions, Header } from 'react-navigation';
+import { ActionSheet } from 'native-base';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { uploadImage } from '../../../modules/upload';
 import { updateUser } from '../../../modules/user';
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     borderRadius: avatarSize / 2,
     resizeMode: 'cover'
   },
-  editAvatarIcon: {
+  editIconContainer: {
     width: wp('5.66%'),
     height: wp('5.66%'),
     position: 'absolute',
@@ -109,10 +109,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#fff',
     borderRadius: wp('5.66%') / 2,
+    overflow: 'hidden'
+  },
+  editAvatarIcon: {
+    flex: 1,
+    resizeMode: 'contain',
     backgroundColor: '#484848'
   },
   nameAndEmailContainer: {
     paddingLeft: wp('6.4%'),
+    flex: 1,
     justifyContent: 'center'
   },
   name: {
@@ -126,6 +132,7 @@ const styles = StyleSheet.create({
     fontSize: wp('4.53%'),
     fontFamily: FONT_FAMILY,
     color: '#959595',
+    flex: 1,
     backgroundColor: 'transparent'
   },
   buttonsContainer: {
@@ -184,7 +191,8 @@ class SignupPassword extends React.Component<Props, State> {
       right: 0,
       left: 0,
       backgroundColor: 'transparent',
-      borderBottomColor: 'transparent'
+      borderBottomColor: 'transparent',
+      elevation: 0
     },
     headerTintColor: '#fff',
     headerLeft: (
@@ -220,18 +228,20 @@ class SignupPassword extends React.Component<Props, State> {
   }
 
   showAvatarActionSheet() {
-    ActionSheetIOS.showActionSheetWithOptions({
-      options: ['Take Photo', 'Choose from Library', 'Cancel'],
-      cancelButtonIndex: 2,
-      title: 'Select an avatar'
-    },
-      (buttonIndex) => {
+    ActionSheet.show(
+      {
+        options: ['Take Photo', 'Choose from Library', 'Cancel'],
+        cancelButtonIndex: 2,
+        title: "Select an avatar"
+      },
+      buttonIndex => {
         if (buttonIndex === 0) {
           this.requestCameraPermission();
         } else if (buttonIndex === 1) {
           this.requestPhotoLibraryPermission();
         }
-      });
+      }
+    );
   }
 
   requestPhotoLibraryPermission = async () => {
@@ -331,6 +341,7 @@ class SignupPassword extends React.Component<Props, State> {
           style={{ flex: 1 }}
           behavior="padding">
           <ScrollView
+            keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text style={styles.headerTextLine1}>
               Awesome, you're
@@ -352,10 +363,12 @@ class SignupPassword extends React.Component<Props, State> {
                       : require('../../../../assets/images/etc/default-avatar.png')
                   }
                 />
-                <Image
-                  style={styles.editAvatarIcon}
-                  source={require('../../../../assets/images/icons/edit.png')}
-                />
+                <View style={styles.editIconContainer}>
+                  <Image
+                    style={styles.editAvatarIcon}
+                    source={require('../../../../assets/images/icons/edit.png')}
+                  />
+                </View>
               </TouchableOpacity>
 
               <View style={styles.nameAndEmailContainer}>

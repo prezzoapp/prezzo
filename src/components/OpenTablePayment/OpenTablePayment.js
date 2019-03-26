@@ -51,7 +51,7 @@ const OpenTablePayment = props => {
                   flex: 1,
                   flexDirection: 'row',
                   justifyContent: 'space-between',
-                  alignItems: 'center'
+                  alignItems: 'flex-start'
               }}
             >
               <Text style={styles.name}>{item.title}</Text>
@@ -65,7 +65,7 @@ const OpenTablePayment = props => {
       <View style={styles.middleContainer}>
         <View style={styles.middleTextContainer}>
           <Text style={styles.subTotalTaxLabel}>SUBTOTAL</Text>
-          <Text style={styles.subTotalTaxValue}>{subTotal}</Text>
+          <Text style={styles.subTotalTaxValue}>${subTotal}</Text>
         </View>
 
         <View

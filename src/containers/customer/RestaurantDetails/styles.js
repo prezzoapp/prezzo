@@ -72,10 +72,9 @@ const styles = StyleSheet.create({
   listHeaderText: {
     fontSize: wp('8%'),
     color: COLOR_WHITE,
-    fontFamily: FONT_FAMILY_MEDIUM,
+    fontFamily: FONT_FAMILY_MEDIUM
     // paddingBottom: hp('1.23%'),
-    paddingBottom: wp('5.33%'),
-    lineHeight: wp('8%')
+    // lineHeight: wp('8%')
   },
 
   logo: {
@@ -159,7 +158,7 @@ const styles = StyleSheet.create({
     fontSize: wp('4.8%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: COLOR_WHITE,
-    marginRight: wp('12%')
+    // marginRight: wp('12%')
   },
 
   messageHolder: {
@@ -192,6 +191,14 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: SF_PRO_TEXT_SEMI_BOLD,
     lineHeight: wp('5.86%')
+  },
+
+  menuCategoryHeaderTextContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'white',
+    backgroundColor: 'black',
+    paddingVertical: wp('3%'),
+    paddingHorizontal: wp('4%')
   }
 });
 

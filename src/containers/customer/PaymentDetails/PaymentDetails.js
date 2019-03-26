@@ -45,7 +45,8 @@ class PaymentDetails extends Component {
       headerStyle: {
         backgroundColor: '#2B2C2C',
         shadowColor: 'transparent',
-        borderBottomWidth: 0
+        borderBottomWidth: 0,
+        elevation: 0
       },
       headerTintColor: '#fff',
       headerBackTitle: 'Hello',
@@ -144,13 +145,6 @@ class PaymentDetails extends Component {
     }
   }
 
-  getCheckboxImage() {
-    return this.state.selectCheckBox
-      ? require('../../../../assets/images/icons/checkbox-checked.png')
-      : require('../../../../assets/images/icons/checkbox-unchecked.png');
-  }
-
-
   showAlert(message, duration) {
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
@@ -248,7 +242,12 @@ class PaymentDetails extends Component {
               style={styles.promotionsContainer}
               onPress={() => this.togglePreferredPayment()}
             >
-              <Image style={styles.checkbox} source={this.getCheckboxImage()} />
+              <Feather
+                style={styles.checkbox}
+                name={this.state.selectCheckBox ? 'square' : 'check-square'}
+                size={wp('7.2%')}
+                color="white"
+              />
               <Text style={styles.promotionalText}>Preferred Payment</Text>
             </TouchableOpacity>
 

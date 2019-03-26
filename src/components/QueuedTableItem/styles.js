@@ -13,17 +13,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     // marginTop: hp('1.84%'),
-    marginHorizontal: 1,
+    marginHorizontal: wp('4.26%'),
     shadowOffset: { width: 1, height: 6 },
     shadowColor: 'black',
     shadowOpacity: 0.7
   },
-  userImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  userImageContainer: {
+    width: wp('10.66%'),
+    height: wp('10.66%'),
+    borderRadius: wp('5.33%'),
     borderWidth: 1,
-    borderColor: 'white'
+    borderColor: 'white',
+    overflow: 'hidden'
+  },
+  userImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
   },
   textContainer: {
     flexDirection: 'column',
