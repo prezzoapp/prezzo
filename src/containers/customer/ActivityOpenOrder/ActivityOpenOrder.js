@@ -28,14 +28,14 @@ class ActivityOpenOrder extends Component {
     this.state = { isFetching: false }
 
     this.timer = -1;
+
+    props.navigation.setParams({
+      onTabFocus: this.listOpenOrders
+    });
   }
 
   componentDidMount() {
-    this.props.listOpenOrders(this.props.userId, 'pending')
-      .then(() => {})
-      .catch(err => {
-        showAlertWithMessage('Uh-oh!', err);
-      });
+    this.listOpenOrders();
   }
 
   onRefresh() {
@@ -58,6 +58,14 @@ class ActivityOpenOrder extends Component {
       }
     );
   }
+
+  listOpenOrders = () => {
+    this.props.listOpenOrders(this.props.userId, 'pending')
+      .then(() => {})
+      .catch(err => {
+        showAlertWithMessage('Uh-oh!', err);
+      });
+  };
 
   finalizeOrder(price) {
     if(this.props.data[0].paymentType === 'card' && price !== 0) {
