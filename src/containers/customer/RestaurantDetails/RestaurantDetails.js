@@ -195,11 +195,7 @@ export default class RestaurantDetails extends Component {
       .catch(e => {
         showAlertWithMessage(
           'Uh-oh!',
-          e.code === 403
-            ? {
-                message: 'You already have an open order at another restaurant.'
-              }
-            : e,
+          e,
           null,
           e.code === 403
             ? [
