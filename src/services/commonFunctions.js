@@ -1,9 +1,5 @@
 import showGenericAlert from '../components/GenericAlert';
-import {
-  TIME_OUT,
-  NETWORK_REQUEST_FAILED,
-  INTERNET_NOT_CONNECTED
-} from './constants';
+import { TIME_OUT } from './constants';
 
 export const getTimeStampString = () => new Date().getTime().toString();
 
@@ -22,33 +18,20 @@ export const findById = (tree, testID) => {
   }
 };
 
-export const showAlert = (title, message, duration) => {
+export const showAlert = (title, message, duration, callback, buttonsArray) => {
   let timer = -1;
   clearTimeout(timer);
   timer = setTimeout(() => {
-    showGenericAlert(title, message);
+    showGenericAlert(title, message, buttonsArray);
+    callback && callback();
   }, duration);
 };
 
-export const showAlertWithMessage = (title = 'Uh-oh!', obj) => {
-  if(obj.message === NETWORK_REQUEST_FAILED) {
-    showAlert(title, INTERNET_NOT_CONNECTED, TIME_OUT);
-  } else {
-    showAlert(title, obj.message, TIME_OUT);
-  }
+export const showAlertWithMessage = (
+  title = 'Uh-oh!',
+  obj,
+  callback = null,
+  buttonsArray = null
+) => {
+  showAlert(title, obj.message, TIME_OUT, callback, buttonsArray);
 };
-
-// export const checkInternetConnectivity = async () => {
-//   try {
-//     const googleCall = await fetch('https://google.com', {
-//       headers: {
-//         'Cache-Control': 'no-cache, no-store, must-revalidate',
-//         Pragma: 'no-cache',
-//         Expires: 0
-//       }
-//     });
-//     return googleCall.status === 200;
-//   } catch (err) {
-//     throw err;
-//   }
-// };

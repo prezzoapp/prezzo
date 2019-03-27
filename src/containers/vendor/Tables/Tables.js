@@ -342,11 +342,9 @@ class Tables extends Component {
         });
       });
     } catch (err) {
-      if(err.message === NETWORK_REQUEST_FAILED) {
-        showAlertWithMessage('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-      } else {
-        showAlertWithMessage('Uh-oh!', err.message, TIME_OUT);
-      }
+      this.setState({ showLoader: false }, () => {
+        showAlertWithMessage('Uh-oh!', err);
+      });
     }
   }
 

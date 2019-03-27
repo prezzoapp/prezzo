@@ -22,7 +22,7 @@ import Button from '../../../components/Button';
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
-  INTERNET_NOT_CONNECTED
+  NETWORK_REQUEST_FAILED
 } from '../../../services/constants';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 
@@ -95,7 +95,7 @@ class PaymentDetails extends Component {
         this.webview.messagesChannel.on('isError', error => {
           this.props.hideLoading();
           if(error.message.code === 'CLIENT_GATEWAY_NETWORK') {
-            showAlertWithMessage('Uh-oh!', { message: INTERNET_NOT_CONNECTED });
+            showAlertWithMessage('Uh-oh!', { message: NETWORK_REQUEST_FAILED });
           } else {
             showAlertWithMessage('Uh-oh!', error.message);
           }
