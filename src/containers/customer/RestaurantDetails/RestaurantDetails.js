@@ -210,7 +210,36 @@ export default class RestaurantDetails extends Component {
           }
         );
       })
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
+      .catch(e => {
+        showAlertWithMessage(
+          'Uh-oh!',
+          e.code === 403
+            ? {
+                message: 'You already have an open order at another restaurant.'
+              }
+            : e,
+          null,
+          e.code === 403
+            ? [
+                {
+                  text: 'Take me to my order',
+                  onPress: () => {
+                    this.props.navigate({ routeName: 'CustomerActivity' });
+                  }
+                },
+                {
+                  text: 'Dismiss',
+                  onPress: () => null
+                }
+              ]
+            : [
+                {
+                  text: 'OK',
+                  onPress: () => null
+                }
+              ]
+        );
+      });
   }
 
   isSelectedPaymentMethod(val) {
