@@ -139,8 +139,26 @@ CustomerProfileNavigator.navigationOptions = ({ navigation }) => {
 
 const CustomerSectionTabNavigator = createBottomTabNavigator(
   {
-    Explore: { screen: Explore },
-    CustomerActivityNavigator: { screen: CustomerActivityNavigator,
+    Explore: {
+      screen: Explore,
+      navigationOptions: {
+        title: 'Explore',
+        tabBarIcon: props => (
+          <MaterialIcons name="explore" size={24} color={props.tintColor} />
+        ),
+        headerTintColor: 'white',
+        headerStyle: {
+          position: 'absolute',
+          backgroundColor: 'transparent',
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          right: 0
+        }
+      },
+    },
+    CustomerActivityNavigator: {
+      screen: CustomerActivityNavigator,
       navigationOptions: {
         title:'Activity',
         tabBarIcon: ({ focused }) => (
@@ -155,7 +173,7 @@ const CustomerSectionTabNavigator = createBottomTabNavigator(
     CustomerProfileNavigator: {
       screen: CustomerProfileNavigator,
       navigationOptions: {
-        title:'Profile',
+        title:'Profile1',
         tabBarIcon: ({ focused }) => (
           <Image
             style={{
