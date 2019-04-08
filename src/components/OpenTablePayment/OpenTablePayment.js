@@ -30,8 +30,14 @@ const OpenTablePayment = props => {
         return parseFloat(previous + next);
   });
 
-  itemSeparator = () => {
-    return <View style={styles.separator} />;
+  renderItem = data => {
+    if(data.item.status === 'denied') return null;
+    return (
+      <View style={styles.listItem}>
+        <Text style={styles.name}>{data.item.title}</Text>
+        <Text style={styles.price}>${data.item.price}</Text>
+      </View>
+    );
   }
 
   return (
@@ -41,24 +47,10 @@ const OpenTablePayment = props => {
           keyExtractor={item => item._id.toString()}
           data={props.data !== null ? props.data.items : []}
           showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={this.itemSeparator}
+          ItemSeparatorComponent={this.renderSeparator}
           contentContainerStyle={styles.flatListContentContainerStyle}
           style={styles.flatListStyle}
-          renderItem={({ item }) =>
-            item.status !== 'denied' && (
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start'
-              }}
-            >
-              <Text style={styles.name}>{item.title}</Text>
-                <Text style={styles.price}>${item.price}</Text>
-            </View>
-            )
-          }
+          renderItem={this.renderItem}
         />
       </View>
 

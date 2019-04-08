@@ -31,8 +31,8 @@ const OpenOrdersList = props => {
               orderId={props.data._id}
               type="vendor"
               innerTab={props.innerTab}
-              checkStatusAndCancelItem={(orderId, itemId) =>
-                props.checkStatusAndCancelItem(orderId, itemId)
+              checkStatusAndCancelItem={itemId =>
+                props.checkStatusAndCancelItem(itemId)
               }
             />
           )}
