@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "Prezzo",
+    "icon": "./assets/images/app-icon/prezzo-1024@1x.ios.png",
     "slug": "Prezzo",
     "appKey": "Prezzo",
     "sdkVersion": "28.0.0",
@@ -10,6 +11,13 @@
     "facebookScheme": "fb2029030444036230",
     "packagerOpts": {
       "assetExts": ["json", "ttf"]
-    }
+    },
+    "ios": {
+      "bundleIdentifier": "io.prezzo.Prezzo"
+    },
+    "android": {
+      "package": "io.prezzo.Prezzo"
+    },
+    "version": "1.0.0"
   }
 }
