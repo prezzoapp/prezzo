@@ -173,7 +173,7 @@ const CustomerSectionTabNavigator = createBottomTabNavigator(
     CustomerProfileNavigator: {
       screen: CustomerProfileNavigator,
       navigationOptions: {
-        title:'Profile1',
+        title:'Profile',
         tabBarIcon: ({ focused }) => (
           <Image
             style={{
