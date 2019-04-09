@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
 
   flatListStyle: {
-    paddingTop: hp('2%')
+    // paddingVertical: hp('2%')
   },
 
   flatListContentContainerStyle: {
@@ -133,8 +133,12 @@ const styles = StyleSheet.create({
     textAlign: 'right'
   },
 
-  separator: {
-    height: hp('4.18%')
+  listItem: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    paddingBottom: hp('4.18%')
   }
 });
 

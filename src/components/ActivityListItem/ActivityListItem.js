@@ -6,7 +6,7 @@ import { Feather } from '../VectorIcons';
 import styles from './styles';
 
 const ActivityListItem = props => {
-  function checkAndCancelOrderItem(orderId, itemId) {
+  function checkAndCancelOrderItem(itemId) {
     Alert.alert(
       '',
       'Are you sure you want to cancel?',
@@ -17,7 +17,7 @@ const ActivityListItem = props => {
           style: 'cancel'
         },
         {
-          text: 'OK', onPress: () => props.checkStatusAndCancelItem(orderId, itemId)
+          text: 'OK', onPress: () => props.checkStatusAndCancelItem(itemId)
         }
       ],
       { cancelable: false }
@@ -31,11 +31,11 @@ const ActivityListItem = props => {
           <View style={styles.statusIconHolder}>
             <Image
               source={
-                props.item.status === 'complete'
+              props.item.status === 'complete'
                   ? require('../../../assets/images/icons/active_status.png')
-                  : props.item.status === 'denied'
-                    ? null
-                    : require('../../../assets/images/icons/green_in_progress.png')
+                : props.item.status === 'denied'
+                  ? null
+                  : require('../../../assets/images/icons/green_in_progress.png')
               }
               style={styles.statusImage}
             />
@@ -66,37 +66,12 @@ const ActivityListItem = props => {
             <TouchableOpacity
               activeOpacity={0.6}
               style={styles.editBtn}
-              onPress={() =>
-                checkAndCancelOrderItem(props.orderId, props.item._id)
-              }
+              onPress={() => checkAndCancelOrderItem(props.item._id)}
             >
               <Feather name="x" size={wp('6%')} color="white" />
             </TouchableOpacity>
           ) : null}
         </View>
-
-        {/*<View
-          style={[
-            styles.rightSide,
-            { paddingRight: props.item.editable ? wp('9%') : 0 }
-          ]}
-        >
-          <Text style={styles.status}>Delivered</Text>
-          <Text style={styles.name}>{props.item.title}</Text>
-          {props.item.notes !== '' &&
-          props.item.notes !== undefined &&
-          props.item.notes !== null ? (
-            <Text style={styles.info}>{props.item.notes}</Text>
-          ) : null}
-          {props.item.editable ? (
-            <TouchableOpacity activeOpacity={0.6} style={styles.editBtn}>
-              <Image
-                source={require('../../../assets/images/icons/edit.png')}
-                style={styles.editIcon}
-              />
-            </TouchableOpacity>
-          ) : null}
-        </View>*/}
       </View>
     );
   }

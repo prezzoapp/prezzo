@@ -243,12 +243,10 @@ export default class OpenTableDetails extends Component {
               >
                 <OpenOrdersList
                   data={selectedItem}
-                  checkStatusAndCancelItem={(orderId, itemId) =>
-                    this.checkStatusAndCancelItem(orderId, itemId)
+                  checkStatusAndCancelItem={itemId =>
+                    this.checkStatusAndCancelItem(selectedItem._id, itemId)
                   }
-                  completeOrder={orderId => {
-                    this.completeOrder(orderId)
-                  }}
+                  completeOrder={() => this.completeOrder(selectedItem._id)}
                   innerTab={this.props.navigation.state.params.innerTab}
                 />
               </Tab>

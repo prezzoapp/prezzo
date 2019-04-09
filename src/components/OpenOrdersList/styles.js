@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
   footerContainer: {
     alignItems: 'center',
     height: hp('12.80%')
+  },
+
+  separator: {
+    height: wp('2.66%')
   }
 });
 
