@@ -29,10 +29,9 @@ const styles = StyleSheet.create({
     paddingBottom: containerPaddingTopBottom
   },
   image: {
-    width: wp('18%'),
-    aspectRatio: 1,
-    marginTop: hp('17.85%'),
-    marginBottom: wp('6.75%'),
+    aspectRatio: 0.8,
+    // marginTop: hp('17.85%'),
+    // marginTop: wp('38.4%'),
     alignSelf: 'center',
     resizeMode: 'contain'
   },
@@ -41,7 +40,9 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_DISPLAY_BOLD,
     textAlign: 'center',
     color: '#fff',
-    marginBottom: wp('2.13%'),
+    // marginBottom: wp('2.13%'),
+    marginTop: wp('5%'),
+    marginBottom: wp('18.66%'),
     backgroundColor: 'transparent'
   },
   bodyText: {
@@ -83,17 +84,18 @@ const buttonStyles = {
 
 class SignupComplete extends React.Component<Props> {
   static navigationOptions = {
-    headerStyle: {
-      position: 'absolute',
-      top: 0,
-      right: 0,
-      left: 0,
-      backgroundColor: 'transparent',
-      borderBottomColor: 'transparent',
-      elevation: 0
-    },
-    headerTintColor: '#fff',
-    headerLeft: null
+    header: null
+    // headerStyle: {
+    //   position: 'absolute',
+    //   top: 0,
+    //   right: 0,
+    //   left: 0,
+    //   backgroundColor: 'transparent',
+    //   borderBottomColor: 'transparent',
+    //   elevation: 0
+    // },
+    // headerTintColor: '#fff',
+    // headerLeft: null
   };
 
   navigateToHome() {
@@ -127,9 +129,9 @@ class SignupComplete extends React.Component<Props> {
 
         <Text style={styles.headerText}>You're all set!</Text>
 
-        <Text style={styles.bodyText}>
+        {/*<Text style={styles.bodyText}>
           Thanks for helping us keep your account secure.
-        </Text>
+        </Text>*/}
 
         <Button
           style={buttonStyles.explore}

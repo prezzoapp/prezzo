@@ -4,7 +4,7 @@ import {
   Text,
   TouchableOpacity,
   InteractionManager,
-  NetInfo
+  Keyboard
 } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -154,6 +154,60 @@ export default class MapScreen extends Component {
     }
   }
 
+  // getIPLocation(ip) {
+  //   const commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
+  //   fetch(commonHtml)
+  //     .then(response => response.json())
+  //     .then(responseJson => {
+  //       console.log(responseJson);
+  //       if (responseJson.latitude) {
+  //         this.setState({
+  //           customRegion: {
+  //             latitude: responseJson.latitude,
+  //             longitude: responseJson.longitude,
+  //             latitudeDelta: 0.00922,
+  //             longitudeDelta: 0.00422
+  //           },
+  //           isGetLocation: true
+  //         });
+  //         this.props
+  //           .listVendors(
+  //             this.state.customRegion.latitude,
+  //             this.state.customRegion.longitude,
+  //             this.props.distance,
+  //             this.activeFilters,
+  //             this.props.pricing
+  //           )
+  //           .then(() => { })
+  //           .catch(e => {
+  //             showGenericAlert('Uh-oh!', e.message || e);
+  //           });
+  //
+  //         console.log('After Getting Correct Coordinates: ');
+  //         console.log(this.state.customRegion);
+  //         console.log('First Time API Called!');
+  //       } else {
+  //         // show error message
+  //       }
+  //     })
+  //     .catch(error => { });
+  // }
+
+  // getNetworkIP() {
+  //   publicIP()
+  //   .then(ip => {
+  //       this.getIPLocation(ip);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }
+
+  onMapClicked = () => {
+    this.btnClicked = false;
+    this.hideKeyboard();
+  };
+
   /**
    * @param  {Array} coordinates [lat,long]
    * return distance in miles from user cureent location
@@ -201,6 +255,10 @@ export default class MapScreen extends Component {
     }
   }
 
+  hideKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -219,9 +277,7 @@ export default class MapScreen extends Component {
             customMapStyle={MapStyle}
             loadingEnabled
             followUserLocation={false}
-            onPress={() => {
-              this.btnClicked = false;
-            }}
+            onPress={this.onMapClicked}
             style={styles.map}
           >
             {this.state.customRegion !== null &&
@@ -259,7 +315,9 @@ export default class MapScreen extends Component {
         />
 
         <View style={styles.searchBarHolder}>
-          <Text style={styles.spotText}>Find, Your Spot?</Text>
+          <Text style={styles.spotText} onPress={this.hideKeyboard}>
+            Find, Your Spot?
+          </Text>
           <GooglePlacesAutocomplete
             placeholder="Search Location..."
             minLength={3}
@@ -281,7 +339,6 @@ export default class MapScreen extends Component {
               strictbounds: true
             }}
             GooglePlacesSearchQuery={{
-              rankby: 'distance',
               types: 'restaurant'
             }}
             debounce={200}
