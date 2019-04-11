@@ -29,10 +29,9 @@ const styles = StyleSheet.create({
     paddingBottom: containerPaddingTopBottom
   },
   image: {
-    width: wp('18%'),
-    aspectRatio: 1,
-    marginTop: hp('17.85%'),
-    marginBottom: wp('6.75%'),
+    aspectRatio: 0.8,
+    // marginTop: hp('17.85%'),
+    // marginTop: wp('38.4%'),
     alignSelf: 'center',
     resizeMode: 'contain'
   },
