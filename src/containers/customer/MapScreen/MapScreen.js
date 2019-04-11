@@ -4,7 +4,7 @@ import {
   Text,
   TouchableOpacity,
   InteractionManager,
-  NetInfo
+  Keyboard
 } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -203,6 +203,11 @@ export default class MapScreen extends Component {
   //     });
   // }
 
+  onMapClicked = () => {
+    this.btnClicked = false;
+    this.hideKeyboard();
+  };
+
   /**
    * @param  {Array} coordinates [lat,long]
    * return distance in miles from user cureent location
@@ -250,6 +255,10 @@ export default class MapScreen extends Component {
     }
   }
 
+  hideKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -268,9 +277,7 @@ export default class MapScreen extends Component {
             customMapStyle={MapStyle}
             loadingEnabled
             followUserLocation={false}
-            onPress={() => {
-              this.btnClicked = false;
-            }}
+            onPress={this.onMapClicked}
             style={styles.map}
           >
             {this.state.customRegion !== null &&
@@ -309,7 +316,9 @@ export default class MapScreen extends Component {
         />
 
         <View style={styles.searchBarHolder}>
-          <Text style={styles.spotText}>Find, Your Spot?</Text>
+          <Text style={styles.spotText} onPress={this.hideKeyboard}>
+            Find, Your Spot?
+          </Text>
           <GooglePlacesAutocomplete
             placeholder="Search Location..."
             minLength={3}
@@ -331,7 +340,6 @@ export default class MapScreen extends Component {
               strictbounds: true
             }}
             GooglePlacesSearchQuery={{
-              rankby: 'distance',
               types: 'restaurant'
             }}
             debounce={200}
