@@ -5,6 +5,7 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Facebook } from 'expo';
 import { FONT_FAMILY } from '../../services/constants';
+import CacheImage from '../CacheImage';
 
 type Props = {
   text: string,
@@ -56,8 +57,9 @@ class Button extends React.Component<Props> {
         activeOpacity={disabled ? 1 : 0.7}
         style={buttonStyle}
       >
-        <Image
+        <CacheImage
           style={iconStyle}
+          type='image'
           source={require('../../../assets/images/icons/facebook.png')}
         />
         <Text style={textStyle}>Continue With Facebook</Text>

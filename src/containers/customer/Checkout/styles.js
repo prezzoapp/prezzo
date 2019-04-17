@@ -55,7 +55,16 @@ const styles = StyleSheet.create({
   icon: {
     height: wp('8.8%'),
     width: wp('8%'),
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    tintColor: '#2ED573'
+  },
+
+  cancelModalButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
   }
 });
 

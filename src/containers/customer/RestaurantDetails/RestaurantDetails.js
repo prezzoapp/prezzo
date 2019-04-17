@@ -21,6 +21,8 @@ import { Header } from 'react-navigation';
 
 import { LinearGradient, BlurView, Constants } from 'expo';
 
+import { List } from 'immutable';
+
 import { Feather } from '../../../components/VectorIcons';
 
 import styles from './styles';
@@ -35,13 +37,13 @@ import Checkout from '../Checkout';
 
 import CustomPopup from '../../../components/CustomPopup';
 import showGenericAlert from '../../../components/GenericAlert';
+import CacheImage from '../../../components/CacheImage';
 
 import { post } from '../../../utils/api';
 
-// import '../../../services/globalVars';
-
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 const headerHeight = wp('44.97%');
+const checkoutModal = React.createRef();
 
 export default class RestaurantDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -84,7 +86,8 @@ export default class RestaurantDetails extends Component {
       modalVisible: false,
       currentSlideIndex: 0,
       showNextBtn: false,
-      isSelectedPaymentType: false
+      isSelectedPaymentType: false,
+      showCheckoutView: false
     };
 
     this.toggleViewFun = this.toggleViewFun.bind(this);
@@ -103,28 +106,42 @@ export default class RestaurantDetails extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
+      console.log('Component Did Mount called!');
       this.props.addRestaurantDetail(this.props.navigation.state.params.item);
     });
   }
 
   componentWillUnmount() {
+    console.log('Component Will Unmount called!');
     this.props.removeRestaurantDetail();
   }
 
   onPlaceOrderBtnClick() {
-    this.modal.getWrappedInstance().scrollReset();
-    this.modal.getWrappedInstance().showModal();
+    console.log(this.state.currentSlideIndex);
+    // this.modal.getWrappedInstance().scrollReset();
+    this.setState({
+      showCheckoutView: true
+    }, () => {
+      checkoutModal.current.getWrappedInstance().showModal();
+    });
+  }
+
+  hideCheckoutModal = () => {
+    this.setState({
+      showCheckoutView: false,
+      currentSlideIndex: 0
+    });
   }
 
   onOrderBtnClick() {
     if (
-      this.modal &&
+      checkoutModal.current &&
       this.state.currentSlideIndex >= 0 &&
       this.state.currentSlideIndex < 1
     ) {
-      this.modal.getWrappedInstance().scrollForward();
-    } else if (this.modal && this.state.currentSlideIndex === 1) {
-      this.modal.getWrappedInstance().hideModal();
+      checkoutModal.current.getWrappedInstance().scrollForward();
+    } else if (checkoutModal.current && this.state.currentSlideIndex === 1) {
+      checkoutModal.current.getWrappedInstance().hideModal();
       this.attemptToCreateOrder();
     }
   }
@@ -139,27 +156,26 @@ export default class RestaurantDetails extends Component {
 
   async attemptToCreateOrder() {
     const modifiedCartItems = [];
+    const data = this.props.data.get('data');
     const cartItems =
-      this.props.data && this.props.data.data.menu &&
-      this.props.data.data.menu.categories
+      data && data.get('menu') &&
+      data.getIn(['menu', 'categories'])
         .map(category =>
-          category.data.map(d => {
-            return d;
-          })
+          category.get('data').map(d => d)
         )
-        .reduce((a, v) => a.concat(v), []);
+        .reduce((a, v) => a.concat(v));
 
     cartItems.map(cart => {
-      for (let i = 0; i < cart.quantity; i++) {
+      for (let i = 0; i < cart.get('quantity'); i++) {
        modifiedCartItems.push({
-         createdDate: cart.createdDate,
-         title: cart.title,
-         description: cart.description,
+         createdDate: cart.get('createdDate'),
+         title: cart.get('title'),
+         description: cart.get('description'),
          status: 'pending',
-         notes: cart.description,
-         price: cart.price,
-         rating: cart.rating,
-         imageURLs: cart.imageURLs
+         notes: cart.get('description'),
+         price: cart.get('price'),
+         rating: cart.get('rating'),
+         imageURLs: cart.get('imageURLs')
        });
      }
     });
@@ -170,14 +186,14 @@ export default class RestaurantDetails extends Component {
           items: modifiedCartItems,
           type: this.props.type,
           paymentType: this.selectedPaymentMethod,
-          vendor: this.props.data.data._id
+          vendor: data.get('_id')
         });
       } else {
         await post(`/v1/orders`, {
           items: modifiedCartItems,
           type: this.props.type,
           paymentType: this.selectedPaymentMethod,
-          vendor: this.props.data.data._id,
+          vendor: data.get('_id'),
           paymentMethod: this.paymentMethodId
         });
       }
@@ -195,15 +211,18 @@ export default class RestaurantDetails extends Component {
     } catch(e) {
       showGenericAlert(
         'Uh-oh!',
-        e.code === 401
+        e.code === 403
           ? 'You already have an open order at another restaurant.'
           : e.message || e,
-        e.code === 401
+        e.code === 403
           ? [
               {
                 text: 'Take me to my order',
                 onPress: () => {
-                  this.props.navigate({ routeName: 'CustomerActivity' });
+                  this.props.navigation.goBack();
+                  InteractionManager.runAfterInteractions(() => {
+                    this.props.navigate({ routeName: 'CustomerActivity' });
+                  });
                 }
               },
               {
@@ -278,101 +297,92 @@ export default class RestaurantDetails extends Component {
   }
 
   renderFooter() {
+    const data = this.props.data.get('data');
     this.flag = 0;
 
-    if(this.props.data.data) {
-      if (
-        this.props.data.data.menu &&
-        this.props.data.data.menu.categories &&
-        this.props.data.data.menu.categories.length > 0
-      ) {
-        for (let i = 0; i < this.props.data.data.menu.categories.length; i++) {
-          if (
-            this.props.data.data.menu.categories[i].data &&
-            this.props.data.data.menu.categories[i].data.length > 0
-          ) {
-            for (let j = 0; j < this.props.data.data.menu.categories[i].data.length; j++) {
-              if(this.props.data.data.menu.categories[i].data[j].quantity > 0) {
-                this.flag = 1;
-                break;
-              }
-            }
-          }
-        }
+    if(data) {
+      const categories = data.getIn(['menu', 'categories']);
+      const qtyArray = categories.map(category => category.get('data').map(item => item.get('quantity')));
+      const netQtyArray = qtyArray.map(item => item.reduce((prev,curr) => prev + curr));
+      const totalQty = netQtyArray.reduce((prev,curr) => prev + curr);
 
-        if(this.state.modalVisible) {
-          return null;
-        } else if(this.flag === 1) {
-          return (
-            <View style={styles.bottomViewHolder}>
-              <BlurView
-                style={styles.bottomViewBlurContainer}
-                tint="dark"
-                intensity={90}
-              />
+      console.log(totalQty);
+      if(totalQty > 0) this.flag = 1;
 
-              {(() => {
-                if(this.state.showNextBtn) {
-                  return (
-                    <Button
-                      style={[
-                        buttonStyles.placeOrderBtn,
-                        {
-                          backgroundColor:
-                            this.state.currentSlideIndex === 1 &&
-                            !this.state.isSelectedPaymentType
-                              ? 'grey'
-                              : '#2ED573',
-                          borderColor:
-                            this.state.currentSlideIndex === 1 &&
-                            !this.state.isSelectedPaymentType
-                              ? 'grey'
-                              : '#2ED573'
-                        }
-                      ]}
-                      textStyle={buttonStyles.btnText}
-                      disabled={
-                        !!(this.state.currentSlideIndex === 1 &&
-                          !this.state.isSelectedPaymentType
-                        )
-                      }
-                      onPress={this.onOrderBtnClick}
-                    >
-                      {(() => {
-                        if (this.state.currentSlideIndex < 1) {
-                          return 'Next';
-                        }
-                        return 'Complete Order';
-                      })()}
-                    </Button>
-                  );
-                }
+      if(this.state.modalVisible) {
+        return null;
+      } else if(this.flag === 1) {
+        return (
+          <View style={styles.bottomViewHolder}>
+            <BlurView
+              style={styles.bottomViewBlurContainer}
+              tint="dark"
+              intensity={90}
+            />
+
+            {(() => {
+              if(this.state.showNextBtn) {
                 return (
                   <Button
-                    style={buttonStyles.placeOrderBtn}
+                    style={[
+                      buttonStyles.placeOrderBtn,
+                      {
+                        backgroundColor:
+                          this.state.currentSlideIndex === 1 &&
+                          !this.state.isSelectedPaymentType
+                            ? 'grey'
+                            : '#2ED573',
+                        borderColor:
+                          this.state.currentSlideIndex === 1 &&
+                          !this.state.isSelectedPaymentType
+                            ? 'grey'
+                            : '#2ED573'
+                      }
+                    ]}
                     textStyle={buttonStyles.btnText}
-                    onPress={this.onPlaceOrderBtnClick}
+                    disabled={
+                      !!(this.state.currentSlideIndex === 1 &&
+                        !this.state.isSelectedPaymentType
+                      )
+                    }
+                    onPress={this.onOrderBtnClick}
                   >
-                    Place Order
+                    {(() => {
+                      if (this.state.currentSlideIndex < 1) {
+                        return 'Next';
+                      }
+                      return 'Complete Order';
+                    })()}
                   </Button>
                 );
-              })()}
+              }
+              return (
+                <Button
+                  style={buttonStyles.placeOrderBtn}
+                  textStyle={buttonStyles.btnText}
+                  onPress={this.onPlaceOrderBtnClick}
+                >
+                  Place Order
+                </Button>
+              );
+            })()}
 
-              <Text style={styles.totalPrice}>
-                Total $
-                {parseFloat(
-                  this.props.data.totalPrice +
-                    (this.props.data.totalPrice * 2.43) / 100
-                ).toFixed(2)}
-              </Text>
-            </View>
-          );
-        }
+            <Text style={styles.totalPrice}>
+              Total $
+              {parseFloat(
+                this.props.data.get('totalPrice') +
+                  (this.props.data.get('totalPrice') * 2.43) / 100
+              ).toFixed(2)}
+            </Text>
+          </View>
+        );
       }
     }
+
+    return null;
   }
 
-  renderSectionHeader = section => (
+  renderSectionHeader = data => (
     <View
       style={[
         styles.menuCategoryHeaderTextContainer,
@@ -385,12 +395,67 @@ export default class RestaurantDetails extends Component {
         style={[styles.transparent, styles.listHeaderText]}
         numberOfLines={1}
       >
-        {section.title}
+        {data.section.title}
       </Text>
     </View>
   );
 
+  sectionSeparator = data => {
+    if(data.leadingItem) {
+      return (
+        <View
+          style={{
+            paddingBottom: !this.state.showText
+              ? wp('3.33%')
+              : wp('12.4%')
+          }}
+        />
+      );
+    }
+    return (
+      <View
+        style={{
+          paddingBottom: wp('3.33%')
+        }}
+      />
+    );
+  };
+
+  itemSeparator = () => (
+    <View
+      style={{
+        paddingBottom: this.state.showText
+          ? wp('8.8%')
+          : wp('9.4%')
+      }}
+    />
+  );
+
+  renderItem = data => (
+    <RestaurantItem
+      item={data.item}
+      section={data.section}
+      showText={this.state.showText}
+      addRemoveItemQuantity={(itemId, op) =>
+        this.props.addRemoveItemQuantity(
+          data.section._id,
+          itemId,
+          op
+        )
+      }
+      changeItemRating={(itemId, rating) =>
+        this.props.changeItemRating(data.section._id, itemId, rating)
+      }
+    />
+  );
+
+  hideModal = () => {
+    this.setState({ modalVisible: false });
+  };
+
   render() {
+    const data = this.props.data.get('data');
+
     const animatedHeader = this.scrollAnimatedValue.interpolate({
       inputRange: [0, headerHeight],
       outputRange: [headerHeight, 0],
@@ -402,16 +467,31 @@ export default class RestaurantDetails extends Component {
       outputRange: [1, 0]
     });
 
+    const listStyle = {
+      marginBottom: !this.state.showText
+        ? -wp('5.33%')
+        : -wp('14.4%')
+    };
+
+    const listContainerStyle = {
+      paddingBottom: !this.state.showText
+        ? wp('5.33%')
+        : wp('14.4%'),
+      paddingTop: headerHeight,
+      paddingHorizontal: wp('4%')
+    };
+
     return (
       <View style={styles.container}>
-        <ImageBackground
+        <CacheImage
           source={require('../../../../assets/images/photo_back.jpg')}
+          type='backgroundImage'
           style={styles.photo_back}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.LinearGradientStyle}
           />
-        </ImageBackground>
+        </CacheImage>
 
         <Animated.View
           style={{
@@ -430,11 +510,10 @@ export default class RestaurantDetails extends Component {
           }}
         >
           <View style={styles.contentContainer}>
-            <Image
-              source={{
-                uri: this.props.navigation.state.params.item.avatarURL
-              }}
+            <CacheImage
+              source={this.props.navigation.state.params.item.avatarURL}
               style={styles.logo}
+              type='image'
             />
             <View style={[styles.headerTextContainer, styles.transparent]}>
               <Text style={styles.headerTitleText}>
@@ -458,12 +537,11 @@ export default class RestaurantDetails extends Component {
           </View>
 
           {(() => {
-            if (this.props.data.data) {
+            if (data) {
               if(
-                this.props.navigation.state.params.item.menu &&
-                this.props.navigation.state.params.item.menu.categories &&
-                this.props.navigation.state.params.item.menu.categories.length >
-                  0
+                data.get('menu') &&
+                data.getIn(['menu', 'categories']) &&
+                data.getIn(['menu', 'categories']).size > 0
               ) {
                 return (
                   <View style={styles.toggleBtnsSection}>
@@ -511,17 +589,17 @@ export default class RestaurantDetails extends Component {
 
         <View style={{ flex: 1 }}>
           {(() => {
-            if(this.props.data.data) {
+            if(data) {
               if (
-                this.props.navigation.state.params.item.menu &&
-                this.props.navigation.state.params.item.menu.categories.length === 0
+                data.get('menu') &&
+                data.getIn(['menu', 'categories']).size === 0
               ) {
                 return(
                   <View style={styles.messageHolder}>
                     <Text style={styles.message}>Does not have Items.</Text>
                   </View>
                 );
-              } else if (!this.props.navigation.state.params.item.menu) {
+              } else if (!data.get('menu')) {
                 return (
                   <View style={styles.messageHolder}>
                     <Text style={styles.message}>Does not have Menu.</Text>
@@ -532,32 +610,8 @@ export default class RestaurantDetails extends Component {
                 <AnimatedSectionList
                   bounces={false}
                   stickySectionHeadersEnabled
-                  SectionSeparatorComponent={({ leadingItem }) =>
-                    leadingItem ? (
-                      <View
-                        style={{
-                          paddingBottom: !this.state.showText
-                            ? wp('3.33%')
-                            : wp('12.4%')
-                        }}
-                      />
-                    ) : (
-                      <View
-                        style={{
-                          paddingBottom: wp('3.33%')
-                        }}
-                      />
-                    )
-                  }
-                  ItemSeparatorComponent={() =>
-                    <View
-                      style={{
-                        paddingBottom: this.state.showText
-                          ? wp('8.8%')
-                          : wp('9.4%')
-                      }}
-                    />
-                  }
+                  SectionSeparatorComponent={this.sectionSeparator}
+                  ItemSeparatorComponent={this.itemSeparator}
                   keyExtractor={item => item._id.toString()}
                   onScroll={Animated.event([
                     {
@@ -566,46 +620,17 @@ export default class RestaurantDetails extends Component {
                       }
                     }]
                   )}
-                  style={{
-                    // paddingTop: wp('5.33%'),
-                    marginBottom: !this.state.showText
-                      ? -wp('5.33%')
-                      : -wp('14.4%')
-                  }}
-                  contentContainerStyle={{
-                    paddingBottom: !this.state.showText
-                      ? wp('5.33%')
-                      : wp('14.4%'),
-                    paddingTop: headerHeight,
-                    paddingHorizontal: wp('4%')
-                  }}
-                  ListFooterComponent={() => this.listFooterComponent()}
+                  style={listStyle}
+                  contentContainerStyle={listContainerStyle}
+                  ListFooterComponent={this.listFooterComponent}
                   sections={
-                    this.props.data.data.menu &&
-                    this.props.data.data.menu.categories
-                      ? this.props.data.data.menu.categories
+                    data.get('menu') &&
+                    data.getIn(['menu', 'categories'])
+                      ? data.getIn(['menu', 'categories']).toJS()
                       : []
                   }
-                  renderSectionHeader={({ section }) =>
-                    this.renderSectionHeader(section)
-                  }
-                  renderItem={({ item, section }) =>
-                    <RestaurantItem
-                      item={item}
-                      section={section}
-                      showText={this.state.showText}
-                      addRemoveItemQuantity={(itemId, op) =>
-                        this.props.addRemoveItemQuantity(
-                          section._id,
-                          itemId,
-                          op
-                        )
-                      }
-                      changeItemRating={(itemId, rating) =>
-                        this.props.changeItemRating(section._id, itemId, rating)
-                      }
-                    />
-                  }
+                  renderSectionHeader={this.renderSectionHeader}
+                  renderItem={this.renderItem}
                 />
               );
             }
@@ -632,22 +657,20 @@ export default class RestaurantDetails extends Component {
             message="Please show the table code to your server.!"
             otherInfo="9192"
             image={require('../../../../assets/images/custom_modal_icons/thumbs_up_icon.png')}
-            onDismiss={() => {
-              this.setState({ modalVisible: false });
-            }}
+            onDismiss={this.hideModal}
           />
         ) : null}
 
         {(() => {
-          if(this.props.data.data) {
+          if(data && this.state.showCheckoutView) {
             return (
               <Checkout
-                ref={modal => (this.modal = modal)}
+                ref={checkoutModal}
                 setCurrentIndex={index => this.setIndex(index)}
-                resetCurrentIndex={() => this.resetCurrentIndex()}
-                restaurantName={this.props.navigation.state.params.item.name}
-                showNextOrderBtn={() => this.showNextOrderBtn()}
-                hideNextOrderBtn={() => this.hideNextOrderBtn()}
+                restaurantName={data.get('name')}
+                showNextOrderBtn={this.showNextOrderBtn}
+                hideNextOrderBtn={this.hideNextOrderBtn}
+                hideCheckoutModal={this.hideCheckoutModal}
                 isSelectedPaymentMethod={val =>
                   this.isSelectedPaymentMethod(val)
                 }

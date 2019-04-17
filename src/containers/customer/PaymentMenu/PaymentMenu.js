@@ -19,6 +19,7 @@ import {
 import MenuButton from '../../../components/MenuButton';
 import { Feather } from '../../../components/VectorIcons';
 import EditableListItem from '../../../components/EditableListItem';
+import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 
@@ -121,8 +122,9 @@ class PaymentMenu extends Component {
             title="Add Credit Card"
             icon="add"
             leftIcon={
-              <Image
+              <CacheImage
                 source={require('../../../../assets/images/Credit-Card.png')}
+                type='image'
                 style={{
                   width: wp('7.46%'),
                   height: hp('2.33%'),
@@ -143,29 +145,33 @@ class PaymentMenu extends Component {
                     leftIcon={(() => {
                     if (item.type === 'braintree-visa') {
                       return (
-                          <Image
+                          <CacheImage
                             source={require('../../../../assets/images/icons/stp_card_visa.png')}
+                            type='image'
                             style={styles.ccIcon}
                           />
                         );
                     } else if (item.type === 'braintree-mastercard') {
                         return (
-                          <Image
+                          <CacheImage
                             source={require('../../../../assets/images/icons/stp_card_mastercard.png')}
+                            type='image'
                             style={styles.ccIcon}
                           />
                         );
                       } else if (item.type === 'braintree-discover') {
                         return (
-                          <Image
+                          <CacheImage
                             source={require('../../../../assets/images/icons/stp_card_discover.png')}
+                            type='image'
                             style={styles.ccIcon}
                           />
                         );
                       } else if (item.type === 'braintree-jcb') {
                         return (
-                          <Image
+                          <CacheImage
                             source={require('../../../../assets/images/icons/stp_card_jcb.png')}
+                            type='image'
                             style={styles.ccIcon}
                           />
                       );

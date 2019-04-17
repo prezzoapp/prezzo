@@ -8,6 +8,8 @@ import {
   InteractionManager
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { FileSystem } from 'expo';
+import shorthash from 'shorthash';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import MenuItem from '../../../components/MenuItem';
@@ -139,6 +141,24 @@ export default class CreateMenu extends Component<Props> {
     />
   );
 
+  async deleteImage(menuId, sectionId, itemId, imageURL) {
+    await this.props.deleteImage(
+      menuId,
+      sectionId,
+      itemId,
+      imageURL
+    );
+
+    const name = shorthash.unique(imageURL);
+    const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+    const image = await FileSystem.getInfoAsync(path);
+
+    if(image.exists) {
+      await FileSystem.deleteAsync(image.uri);
+      console.log('Image deleted from cache!');
+    }
+  }
+
   render() {
     const array = this.props.menu
       ? this.props.menu.get('categories') &&
@@ -192,12 +212,7 @@ export default class CreateMenu extends Component<Props> {
                   )
                 }
                 deleteImageComponent={imageURL =>
-                  this.props.deleteImage(
-                    this.props.menuId,
-                    section._id,
-                    item._id,
-                    imageURL
-                  )
+                  this.deleteImage(this.props.menuId, section._id, item._id, imageURL)
                 }
                 uploadImage={(uri, size, mime, name, type, acl) =>
                   this.props.uploadImage(uri, size, mime, name, type, acl)

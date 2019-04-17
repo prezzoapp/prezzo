@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import {
   FONT_FAMILY,
@@ -9,6 +9,7 @@ import {
   FONT_FAMILY_BOLD
 } from '../../../services/constants';
 import Button from '../../../components/Button';
+import CacheImage from '../../../components/CacheImage';
 
 type Props = {};
 
@@ -70,8 +71,9 @@ class EnableNotificationsView extends React.Component<Props, State> {
 
     return (
       <View style={styles.container}>
-        <Image
+        <CacheImage
           style={styles.chatIcon}
+          type='image'
           source={require('../../../../assets/images/icons/chat.png')}
         />
         <Text style={styles.headerText}>

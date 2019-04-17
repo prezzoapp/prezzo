@@ -4,6 +4,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import { COLOR_GREEN } from '../../services/constants';
+import CacheImage from '../CacheImage';
 
 class ReviewUserPhoto extends Component {
   constructor(props) {
@@ -48,8 +49,9 @@ class ReviewUserPhoto extends Component {
                 }
                 activeOpacity={0.8}
               >
-                <Image
-                  source={{ uri: item.key }}
+                <CacheImage
+                  source={item.key}
+                  type='image'
                   style={[
                     styles.bigImage,
                     {
@@ -64,8 +66,9 @@ class ReviewUserPhoto extends Component {
                   if (item.selected) {
                     return (
                       <View style={styles.checkImageContainer}>
-                        <Image
+                        <CacheImage
                           style={styles.checkImage}
+                          type='image'
                           source={require('../../../assets/images/checkMenu.png')}
                         />
                       </View>
