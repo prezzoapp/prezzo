@@ -62,7 +62,6 @@ class Prezzo extends Component {
       });
 
       this.setState({ didFontsLoad: true });
-      console.log('loaded fonts', Font, typeof Font, ' ');
 
       // this.props.dispatch(SessionStateActions.resetStateAfterFontLoaded(true));
 

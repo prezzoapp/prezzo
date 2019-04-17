@@ -2,14 +2,33 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Image, View, ActionSheetIOS } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { ImagePicker, Permissions } from 'expo';
+import { ImagePicker, ImageManipulator, Permissions } from 'expo';
 import { ActionSheet } from 'native-base';
 import PropTypes from 'prop-types';
 import { Ionicons } from '../VectorIcons';
 import { getTimeStampString } from '../../services/commonFunctions';
 import styles from './styles';
 
-const ItemImagePicker = props => {
+class ItemImagePicker extends React.Component<Props> {
+  state = {};
+
+  showAvatarActionSheet = () => {
+    ActionSheet.show(
+      {
+        options: ['Take Photo', 'Choose from Library', 'Cancel'],
+        cancelButtonIndex: 2,
+        title: "Select an Item's Image"
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          this.requestCameraPermission();
+        } else if (buttonIndex === 1) {
+          this.requestPhotoLibraryPermission();
+        }
+      }
+    );
+  }
+
   showAvatarActionSheet = () => {
     ActionSheet.show(
       {
@@ -44,13 +63,22 @@ const ItemImagePicker = props => {
   openImageGallery = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: false,
-      quality: 0.3
+      quality: 0.1
     });
+
     if (!result.cancelled) {
+      const resultEdited = await ImageManipulator.manipulate(
+        result.uri,
+        [{ resize: { width: 200 }}],
+        { format: 'jpeg', compress: 0.1 }
+      );
+
+      this.setState({ tempImage: resultEdited.uri });
+
       const fileName = `${getTimeStampString()}.jpeg`;
-      props
+      this.props
         .uploadImage(
-          result.uri,
+          resultEdited.uri,
           10,
           'image/jpeg',
           fileName,
@@ -58,7 +86,7 @@ const ItemImagePicker = props => {
           'public-read'
         )
         .then(async itemImage => {
-          props.addNewImageComponent(itemImage);
+          this.props.addNewImageComponent(itemImage);
         });
     }
   };
@@ -71,7 +99,7 @@ const ItemImagePicker = props => {
 
     if (!result.cancelled) {
       const fileName = `${getTimeStampString()}.jpeg`;
-      props
+      this.props
         .uploadImage(
           result.uri,
           10,
@@ -81,57 +109,61 @@ const ItemImagePicker = props => {
           'public-read'
         )
         .then(async itemImage => {
-          props.addNewImageComponent(itemImage);
+          this.props.addNewImageComponent(itemImage);
         });
     }
   };
 
-  return (
-    <View style={styles.holder}>
-      {props.editable && (
-        <TouchableOpacity
-          style={styles.closeBtn}
-          activeOpacity={0.6}
-          onPress={() => props.deleteImageComponent(props.image)}
-        >
-          <Ionicons
-            title="Delete"
-            name="md-close"
-            color="black"
-            size={wp('3%')}
-            style={{ padding: 0, top: wp('0.17%'), position: 'relative', left: wp('0.13%') }}
-          />
-        </TouchableOpacity>
-      )}
+  render() {
+    const image = this.state.tempImage || this.props.image || '';
 
-      {props.image === '' ? (
-        <TouchableOpacity
-          onPress={this.showAvatarActionSheet}
-          style={styles.itemImagePickerBtn}
-        >
-          <Image
-            style={styles.itemImage}
-            source={
-              props.image
-                ? { uri: props.image }
-                : require('../../../assets/images/default_image_placeholder.png')
-            }
-          />
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.itemImagePickerBtn}>
-          <Image
-            style={styles.itemImage}
-            source={
-              props.image
-                ? { uri: props.image }
-                : require('../../../assets/images/default_image_placeholder.png')
-            }
-          />
-        </View>
-      )}
-    </View>
-  );
+    return (
+      <View style={styles.holder}>
+        {this.props.editable && (
+          <TouchableOpacity
+            style={styles.closeBtn}
+            activeOpacity={0.6}
+            onPress={() => this.props.deleteImageComponent(this.props.image)}
+          >
+            <Ionicons
+              title="Delete"
+              name="md-close"
+              color="black"
+              size={wp('3%')}
+              style={{ padding: 0, top: wp('0.17%'), position: 'relative', left: wp('0.13%') }}
+            />
+          </TouchableOpacity>
+        )}
+
+        {image === '' ? (
+          <TouchableOpacity
+            onPress={this.showAvatarActionSheet}
+            style={styles.itemImagePickerBtn}
+          >
+            <Image
+              style={styles.itemImage}
+              source={
+                image
+                  ? { uri: image }
+                  : require('../../../assets/images/default_image_placeholder.png')
+              }
+            />
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.itemImagePickerBtn}>
+            <Image
+              style={styles.itemImage}
+              source={
+                image
+                  ? { uri: image }
+                  : require('../../../assets/images/default_image_placeholder.png')
+              }
+            />
+          </View>
+        )}
+      </View>
+    );
+  }
 }
 
 ItemImagePicker.propTypes = {

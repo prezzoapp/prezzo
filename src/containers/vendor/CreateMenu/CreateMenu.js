@@ -217,9 +217,9 @@ export default class CreateMenu extends Component<Props> {
           </View>
         </View>
 
-        <LoadingComponent
-          visible={this.props.isBusy || this.props.uploadIsBusy}
-        />
+        {/*<LoadingComponent
+          visible={this.props.isBusy}
+        />*/}
       </KeyboardAvoidingView>
     );
   }
