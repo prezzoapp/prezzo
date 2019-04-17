@@ -16,9 +16,11 @@ const OrderedItem = props => {
   return (
     <View style={styles.container}>
       <View style={styles.itemImageContainer}>
-        <Image style={styles.itemImage} source={{
-          uri: data.imageURLs[Math.floor(Math.random() * data.imageURLs.length)]
-        }} />
+        <CacheImage
+          style={styles.itemImage}
+          type='image'
+          source={props.data.imageURLs[0]}
+        />
       </View>
       <View style={styles.itemTextContainer}>
         <FontAwesome

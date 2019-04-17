@@ -165,8 +165,6 @@ export default class RestaurantDetails extends Component {
         )
         .reduce((a, v) => a.concat(v));
 
-    // console.log(cartItems);
-
     cartItems.map(cart => {
       for (let i = 0; i < cart.get('quantity'); i++) {
        modifiedCartItems.push({
