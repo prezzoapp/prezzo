@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { ImageBackground, Text, Image, StyleSheet, BackHandler } from 'react-native';
+import { Text, StyleSheet, BackHandler } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { FONT_FAMILY, FONT_FAMILY_REGULAR, SF_PRO_DISPLAY_BOLD, SF_PRO_DISPLAY_ULTRALIGHT, SF_PRO_TEXT_SEMI_BOLD } from '../../../services/constants';
 import Button from '../../../components/Button';
+import CacheImage from '../../../components/CacheImage';
 
 type Props = {
   navigate: PropTypes.func.isRequired
@@ -28,7 +29,8 @@ const styles = StyleSheet.create({
     paddingBottom: containerPaddingTopBottom
   },
   image: {
-    aspectRatio: 0.8,
+    width: wp('18%'),
+    aspectRatio: 1,
     marginTop: hp('17.85%'),
     marginBottom: wp('6.75%'),
     alignSelf: 'center',
@@ -112,8 +114,9 @@ class SignupComplete extends React.Component<Props> {
 
   render() {
     return (
-      <ImageBackground
+      <CacheImage
         style={styles.container}
+        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <Image
@@ -134,7 +137,7 @@ class SignupComplete extends React.Component<Props> {
         >
           Explore
         </Button>
-      </ImageBackground>
+      </CacheImage>
     );
   }
 }

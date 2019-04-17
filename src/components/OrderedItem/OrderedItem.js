@@ -4,6 +4,7 @@ import { View, Text, Image } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import styles from './styles';
 import { FontAwesome, Entypo } from '../VectorIcons';
+import CacheImage from '../CacheImage';
 
 const OrderedItem = props => {
   itemSeparatorComponent = () => {

@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
 
   imageIcon: {
     width: wp('38.66%'),
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    aspectRatio: 1
   },
 
   title: {

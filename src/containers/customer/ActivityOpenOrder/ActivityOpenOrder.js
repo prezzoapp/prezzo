@@ -330,7 +330,7 @@ class ActivityOpenOrder extends Component {
           })()}
 
         </View>
-        {this.props.isBusy && <LoadingComponent />}
+        <LoadingComponent visible={this.props.isBusy} />
       </View>
     );
   }

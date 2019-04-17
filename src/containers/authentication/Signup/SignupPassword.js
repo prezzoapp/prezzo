@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import {
-  ImageBackground,
   View,
   Text,
   TouchableOpacity,
@@ -27,6 +26,7 @@ import NextButton from './NextButton';
 import { ImagePicker, Permissions, Constants } from 'expo';
 import { getTimeStampString } from '../../../services/commonFunctions';
 import { Feather } from '../../../components/VectorIcons';
+import CacheImage from '../../../components/CacheImage';
 
 type Props = {
   firstName: string,
@@ -331,10 +331,12 @@ class SignupPassword extends React.Component<Props, State> {
   render() {
     const { showPassword, isBusy } = this.state;
     const { firstName, email, password, avatarURL } = this.props;
+    console.log(avatarURL);
 
     return (
-      <ImageBackground
+      <CacheImage
         style={styles.container}
+        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -359,13 +361,14 @@ class SignupPassword extends React.Component<Props, State> {
                   style={styles.avatar}
                   source={
                     avatarURL
-                      ? { uri: avatarURL }
+                      ? {uri: avatarURL}
                       : require('../../../../assets/images/etc/default-avatar.png')
                   }
                 />
                 <View style={styles.editIconContainer}>
-                  <Image
+                  <CacheImage
                     style={styles.editAvatarIcon}
+                    type='image'
                     source={require('../../../../assets/images/icons/edit.png')}
                   />
                 </View>
@@ -433,7 +436,7 @@ class SignupPassword extends React.Component<Props, State> {
             }
           </ScrollView>
         </KeyboardAvoidingView>
-      </ImageBackground>
+      </CacheImage>
     );
   }
 }

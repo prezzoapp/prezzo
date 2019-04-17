@@ -16,7 +16,6 @@ import {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingBottom: hp('8.62%')
     marginBottom: wp('18.66%')
   },
 
@@ -39,7 +38,6 @@ const styles = StyleSheet.create({
     color: COLOR_WHITE,
     textAlign: 'center',
     lineHeight: wp('5.86%'),
-    // marginTop: hp('2.58%'),
     marginTop: wp('5.6%')
   },
 
@@ -50,15 +48,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: wp('5.86%'),
     paddingTop: hp('1.47%')
-    // paddingTop: wp('3.2%')
   },
 
   flatList: {
-    // paddingTop: hp('6.15%')
     paddingTop: hp('3.15%')
-    // paddingTop: wp('13.33%')
-    // marginVertical: wp('10%'),
-    // height: hp('30%')
   },
 
   item: {
@@ -150,7 +143,8 @@ const styles = StyleSheet.create({
 
   paymentIcons: {
     resizeMode: 'contain',
-    width: wp('14.93%')
+    width: wp('14.93%'),
+    aspectRatio: 1
   },
 
   paymentScreenBtnsContainer: {
@@ -200,9 +194,8 @@ const styles = StyleSheet.create({
   backBtn: {
     position: 'absolute',
     zIndex: 99999,
-    left: wp('5%'),
-    // marginTop: hp('2.58%')
-    marginTop: wp('4.53%')
+    left: 0,
+    marginTop: wp('3.46%')
   },
 
   cardPicker: {

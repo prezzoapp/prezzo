@@ -4,20 +4,22 @@ import { FONT_FAMILY_MEDIUM } from '../../services/constants';
 
 const styles = StyleSheet.create({
   container: {
-    width: wp('26.66%')
+    // width: wp('26.66%')
   },
 
   itemImageContainer: {
-    height: wp('26.66%'),
-    width: wp('26.66%'),
+    // height: wp('26.66%'),
+    // width: wp('26.66%'),
     overflow: 'hidden',
     borderRadius: 5
   },
 
   itemImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover'
+    // width: '100%',
+    // height: '100%',
+    resizeMode: 'cover',
+    height: wp('26.66%'),
+    width: wp('26.66%')
   },
 
   itemName: {

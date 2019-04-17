@@ -16,6 +16,8 @@ import { Feather } from '../VectorIcons';
 
 import RatingBar from '../RatingBar';
 
+import CacheImage from '../CacheImage';
+
 import Button from '../Button';
 
 import {
@@ -25,28 +27,16 @@ import {
 } from '../../services/constants';
 
 export default class RestaurantItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { quantity: 1 };
-  }
-
-  changeQuantity(op) {
-    if(op === 'add') {
-      this.setState(() => {
-        return {
-          quantity: this.state.quantity + 1
-        }
-      });
-    } else if(this.state.quantity > 0) {
-      this.setState(() => {
-        return {
-          quantity: this.state.quantity - 1
-        };
-      });
-    }
+  shouldComponentUpdate(nextProps) {
+    if(
+      nextProps.item.quantity !== this.props.item.quantity ||
+      nextProps.showText !== this.props.showText
+    ) return true;
+    return false;
   }
 
   render() {
+    console.log('Restaurant Item render called!');
     if(this.props.showText) {
       return (
         <View style={styles.item}>
@@ -132,9 +122,9 @@ export default class RestaurantItem extends Component {
           loop={false}
           showsPagination={false}>
           {this.props.item.imageURLs && this.props.item.imageURLs.map(image => (
-              <ImageBackground
+              <CacheImage
                 key={image}
-                source={{ uri: image }}
+                source={image}
                 style={styles.itemImage}
               >
                 <LinearGradient
@@ -142,7 +132,7 @@ export default class RestaurantItem extends Component {
                   locations={[0, 0.95]}
                   style={styles.itemImageLinearGradient}
                 />
-            </ImageBackground>
+            </CacheImage>
           ))}
         </Swiper>
 

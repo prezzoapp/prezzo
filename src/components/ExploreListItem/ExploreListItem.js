@@ -1,7 +1,8 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
+import CacheImage from '../CacheImage';
 import styles from './styles';
 
 export default class ExploreListItem extends Component {
@@ -24,10 +25,11 @@ export default class ExploreListItem extends Component {
           activeOpacity={0.6}
           onPress={() => this.moveToDetails(this.props.item)}
         >
-          <ImageBackground
-            source={{ uri: avatarURL }}
+          <CacheImage
+            source={avatarURL}
             style={styles.image}
-            imageStyle={{ borderRadius: 5 }}
+            type='backgroundImage'
+            imageStyle={styles.imageStyle}
           />
         </TouchableOpacity>
 

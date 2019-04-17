@@ -11,7 +11,7 @@ import {
 import PropTypes from 'prop-types';
 import { Picker, Spinner, ActionSheet } from 'native-base';
 import Slider from 'react-native-slider';
-import { ImagePicker, Permissions } from 'expo';
+import { ImagePicker, Permissions, ImageManipulator } from 'expo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Ionicons, Feather } from '../../../components/VectorIcons';
 import { getTimeStampString } from '../../../services/commonFunctions';
@@ -24,6 +24,7 @@ import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
 import Button from '../../../components/Button';
 import LoadingComponent from '../../../components/LoadingComponent';
+import CacheImage from '../../../components/CacheImage';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
@@ -229,7 +230,12 @@ export default class AccountInfo extends React.Component {
       quality: 0.3
     });
     if (!result.cancelled) {
-      this.setState({ upload: result, avatarURL: result.uri });
+      const resultEdited = await ImageManipulator.manipulate(
+        result.uri,
+        [{ resize: { width: 250 }}],
+        { format: 'jpeg', compress: 0.3 }
+      );
+      this.setState({ upload: resultEdited, avatarURL: resultEdited.uri });
     }
   };
 
@@ -238,9 +244,13 @@ export default class AccountInfo extends React.Component {
       allowsEditing: false,
       quality: 0.3
     });
-
     if (!result.cancelled) {
-      this.setState({ upload: result, avatarURL: result.uri });
+      const resultEdited = await ImageManipulator.manipulate(
+        result.uri,
+        [{ resize: { width: 250 }}],
+        { format: 'jpeg', compress: 0.3 }
+      );
+      this.setState({ upload: resultEdited, avatarURL: resultEdited.uri });
     }
   }
 
@@ -450,20 +460,18 @@ export default class AccountInfo extends React.Component {
     const { uri } = upload;
     const fileName = `${getTimeStampString()}.jpg`;
 
-    await this.props
-      .uploadImage(uri, 10, 'image/jpeg', fileName, 'userAvatar', 'public-read')
-      .then(async avatarURL => {
-        console.log('got avatarURL', avatarURL);
+    const avatarURL = await this.props
+      .uploadImage(uri, 10, 'image/jpeg', fileName, 'userAvatar', 'public-read');
 
-        this.setState({
-          avatarURL,
-          upload: null
-        });
-      });
+    console.log('Got Avatar URL: ', avatarURL);
+    this.setState({
+      avatarURL,
+      upload: null
+    });
   }
 
   async save() {
-    const { vendor, isBusy, createVendor, updateVendor } = this.props;
+    const { vendor, isBusy, createVendor, updateVendor, avatarURL } = this.props;
 
     if (isBusy) {
       console.log('is busy');
@@ -609,11 +617,12 @@ export default class AccountInfo extends React.Component {
               onPress={() => this.showAvatarActionSheet()}
             >
               <View style={styles.imageHolder}>
-                <Image
+                <CacheImage
                   style={styles.avatar}
+                  type='image'
                   source={
                     avatarURL
-                      ? { uri: avatarURL }
+                      ? avatarURL
                       : require('../../../../assets/images/etc/default-avatar.png')
                   }
                 />

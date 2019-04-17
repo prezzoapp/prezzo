@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 import {
   widthPercentageToDP as wp,
@@ -20,8 +20,12 @@ import styles, { stylesRaw } from './styles';
 
 import showGenericAlert from '../GenericAlert';
 
+import CacheImage from '../CacheImage';
+
 const CREDIT_CARD = 'credit_card';
 const CASH = 'cash';
+
+const checkoutSwiperRef = React.createRef();
 
 export default class CheckoutSwiper extends Component {
   constructor(props) {
@@ -32,7 +36,7 @@ export default class CheckoutSwiper extends Component {
       selectedPaymentMethod: ''
     };
 
-    this.index = 0;
+    // this.index = 0;
 
     this.cartItems = [];
   }
@@ -90,59 +94,59 @@ export default class CheckoutSwiper extends Component {
     );
   }
 
-  moveToIndex(index = null) {
-    if (index !== null || index !== undefined || typeof index !== 'string') {
-      this.swiper.scrollBy(index - this.index, false);
-    }
-  }
+  // moveToIndex(index = null) {
+  //   if (index !== null || index !== undefined || typeof index !== 'string') {
+  //     this.swiper.scrollBy(index - this.index, false);
+  //   }
+  // }
 
   scrollForward() {
-    this.swiper.scrollBy(1, false);
+    checkoutSwiperRef.current.scrollBy(1, true);
   }
 
-  scrollReset() {
-    if (this.index > 0) {
-      this.swiper.scrollBy(this.index * -1, false);
-    }
-    this.setPaymentType('');
-  }
+  // scrollReset() {
+  //   if (this.index > 0) {
+  //     this.swiper.scrollBy(this.index * -1, false);
+  //   }
+  //   this.setPaymentType('');
+  // }
 
   removeItemFromCart(item) {
     this.props
-      .addRemoveItemQuantity(item.sectionId, item._id, 'remove')
+      .addRemoveItemQuantity(item.get('sectionId'), item.get('_id'), 'remove')
       .then(() => {
-        const isAllZero = !this.cartItems.some(el => el.quantity !== 0);
+        const isAllZero = !this.cartItems.some(el => el.get('quantity') !== 0);
         if (isAllZero) {
           this.props.hideModal();
         }
       });
   }
 
-  renderItem(item) {
-    if (item.quantity > 0) {
+  renderItem = data => {
+    if (data.item.get('quantity') > 0) {
       return (
         <View style={styles.item}>
           <Text style={styles.itemName} numberOfLines={2}>
-            {item.title}
+            {data.item.get('title')}
           </Text>
           <View style={styles.actionBtnsHolder}>
             <TouchableOpacity
               activeOpacity={0.6}
               style={styles.quantityBtn}
-              onPress={() => this.removeItemFromCart(item)}
+              onPress={() => this.removeItemFromCart(data.item)}
             >
               <Feather name="minus" size={wp('4.9%')} color="#2ED573" />
             </TouchableOpacity>
 
-            <Text style={styles.quantity}>{item.quantity}</Text>
+            <Text style={styles.quantity}>{data.item.get('quantity')}</Text>
 
             <TouchableOpacity
               activeOpacity={0.6}
               style={styles.quantityBtn}
               onPress={() =>
                 this.props.addRemoveItemQuantity(
-                  item.sectionId,
-                  item._id,
+                  data.item.get('sectionId'),
+                  data.item.get('_id'),
                   'add'
                 )
               }
@@ -153,38 +157,23 @@ export default class CheckoutSwiper extends Component {
         </View>
       );
     }
-    return null;
   }
 
   render() {
+    const data = this.props.data.get('data');
     this.cartItems =
-      this.props.data.data.menu &&
-      this.props.data.data.menu.categories
+      data.get('menu') &&
+      data.getIn(['menu', 'categories'])
         .map(category =>
-          category.data.map(d => ({ ...d, sectionId: category._id }))
+          category.get('data').map(d => d.set('sectionId', category.get('_id')))
         )
-        .reduce((a, v) => [...a, ...v], []);
+        .reduce((a, v) => a.concat(v));
 
     return (
       <View style={styles.container}>
-        {(() => {
-          if (this.index > 0) {
-            return (
-              <TouchableOpacity
-                style={styles.backBtn}
-                onPress={() => this.swiper.scrollBy(-1, false)}
-              >
-                <Feather name="chevron-left" size={wp('8%')} color="white" />
-              </TouchableOpacity>
-            );
-          }
-        })()}
-
         <Swiper
           showsPagination={false}
-          ref={swiper => {
-            this.swiper = swiper;
-          }}
+          ref={checkoutSwiperRef}
           onIndexChanged={index => this.onIndexChanged(index, this.props)}
           loop={false}
           scrollEnabled={false}
@@ -198,15 +187,15 @@ export default class CheckoutSwiper extends Component {
 
               <Text style={styles.reviewOrderText}>Review Order</Text>
               {(() => {
-                if (this.props.data.data.menu) {
+                if (data.get('menu')) {
                   return (
                     <FlatList
-                      data={this.cartItems}
+                      data={this.cartItems.toArray()}
                       showsVerticalScrollIndicator={false}
                       style={styles.flatList}
                       contentContainerStyle={{ flexGrow: 1 }}
-                      keyExtractor={item => item._id}
-                      renderItem={({ item }) => this.renderItem(item)}
+                      keyExtractor={item => item.get('_id').toString()}
+                      renderItem={this.renderItem}
                     />
                   );
                 }
@@ -221,7 +210,7 @@ export default class CheckoutSwiper extends Component {
                 <Text
                   style={[styles.reviewOrderFooterText, { textAlign: 'right' }]}
                 >
-                  ${this.props.data.totalPrice}
+                  ${this.props.data.get('totalPrice')}
                 </Text>
               </View>
 
@@ -236,53 +225,14 @@ export default class CheckoutSwiper extends Component {
             </View>
           </View>
 
-          {/*<View style={styles.slide}>
-            <View>
-              <View style={styles.orderDetails}>
-                <Text style={styles.restaurantName}>WHERE TO?</Text>
-              </View>
-
-              <View style={styles.whereToScreenContainer}>
-                <View style={styles.whereToScreenBtnsHolder}>
-                  <Button
-                    style={[
-                      dineInDileveryBtnStyles.commonBtn,
-                      {
-                        borderColor:
-                          this.props.type === 'table' ? '#0DD24A' : 'white'
-                      }
-                    ]}
-                    textStyle={dineInDileveryBtnStyles.commonBtnText}
-                    onPress={() => this.setPlaceOrderType('table')}
-                  >
-                    Dine In
-                  </Button>
-
-                  <Button
-                    style={[
-                      dineInDileveryBtnStyles.commonBtn,
-                      {
-                        borderColor:
-                          this.props.type === 'delivery' ? '#0DD24A' : 'white'
-                      }
-                    ]}
-                    textStyle={dineInDileveryBtnStyles.commonBtnText}
-                    onPress={() => this.setPlaceOrderType('delivery')}
-                  >
-                    Delivery
-                  </Button>
-                </View>
-                {/* }<Text style={styles.whereToScreenText}>
-                  Please show this code to your server, or give it to your
-                  friend to join a table.
-                </Text>
-                <Text style={styles.tableCode}>9192</Text>
-              </View>
-            </View>
-          </View> */}
-
           <View style={styles.slide}>
             <View style={styles.orderDetails}>
+              <TouchableOpacity
+                style={styles.backBtn}
+                onPress={() => checkoutSwiperRef.current.scrollBy(-1, true)}
+              >
+                <Feather name="chevron-left" size={wp('8%')} color="white" />
+              </TouchableOpacity>
               <Text style={styles.restaurantName}>PAYMENT METHOD</Text>
               <View style={styles.paymentScreenContainer}>
                 <View style={styles.paymentScreenBtnsContainer}>
@@ -293,8 +243,9 @@ export default class CheckoutSwiper extends Component {
                       disabled={this.state.selectedPaymentType === CREDIT_CARD}
                     >
                       <View>
-                        <Image
+                        <CacheImage
                           source={require('../../../assets/images/etc/visa_icon.png')}
+                          type='image'
                           style={styles.paymentIcons}
                         />
                       </View>
@@ -321,8 +272,9 @@ export default class CheckoutSwiper extends Component {
                       disabled={this.state.selectedPaymentType === CASH}
                     >
                       <View>
-                        <Image
+                        <CacheImage
                           source={require('../../../assets/images/etc/cash_icon.png')}
+                          type='image'
                           style={styles.paymentIcons}
                         />
                       </View>
@@ -367,7 +319,7 @@ export default class CheckoutSwiper extends Component {
                             value=""
                           />
 
-                          {this.props.creditCardList.map((item, index) => (
+                          {this.props.creditCardList.map(item => (
                             <Picker.Item
                               label={`${item.type
                                 .slice(10)
@@ -376,7 +328,7 @@ export default class CheckoutSwiper extends Component {
                                 item.readableIdentifier
                               }`}
                               value={item._id}
-                              key={index}
+                              key={item._id}
                             />
                           ))}
 

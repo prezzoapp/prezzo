@@ -7,6 +7,7 @@ import {
 } from 'react-native-responsive-screen';
 import OpenOrdersList from '../OpenOrdersList';
 import OpenTablePayment from '../OpenTablePayment';
+import CacheImage from '../CacheImage';
 import styles from './styles';
 import Button from '../Button';
 import { Feather } from '../VectorIcons';
@@ -35,12 +36,13 @@ export default class VendorAdminActivityDetails extends Component {
             />
           </TouchableOpacity>
 
-          <Image
+          <CacheImage
             style={styles.headerImage}
+            type='image'
             source={
               navigation.state.params.userImage === ''
                 ? require('../../../assets/images/etc/default-avatar.png')
-                : { uri: navigation.state.params.userImage }
+                : navigation.state.params.userImage
             }
           />
           <Text style={styles.headerText} numberOfLines={1}>

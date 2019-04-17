@@ -1,11 +1,12 @@
 // @flow
 import React, { Component } from 'react';
-import { TouchableOpacity, Image, View, ActionSheetIOS } from 'react-native';
+import { TouchableOpacity, View, ActionSheetIOS, Image } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ImagePicker, ImageManipulator, Permissions } from 'expo';
 import { ActionSheet } from 'native-base';
 import PropTypes from 'prop-types';
 import { Ionicons } from '../VectorIcons';
+import CacheImage from '../CacheImage';
 import { getTimeStampString } from '../../services/commonFunctions';
 import styles from './styles';
 
@@ -94,14 +95,19 @@ class ItemImagePicker extends React.Component<Props> {
   openCamera = async () => {
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: false,
-      quality: 0.3
+      quality: 0.1
     });
 
     if (!result.cancelled) {
+      const resultEdited = await ImageManipulator.manipulate(
+        result.uri,
+        [{ resize: { width: 200 }}],
+        { format: 'jpeg', compress: 0.1 }
+      );
       const fileName = `${getTimeStampString()}.jpeg`;
       this.props
         .uploadImage(
-          result.uri,
+          resultEdited.uri,
           10,
           'image/jpeg',
           fileName,

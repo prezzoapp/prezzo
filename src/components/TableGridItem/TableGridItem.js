@@ -62,11 +62,12 @@ const TableGridItem = props => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.userImageContainer}>
-          <Image
+          <CacheImage
             style={styles.userImage}
+            type='image'
             source={
               item.creator.avatarURL !== ''
-                ? { uri: item.userImg }
+                ? item.userImg
                 : require('../../../assets/images/etc/default-avatar.png')
             }
           />

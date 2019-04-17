@@ -7,6 +7,7 @@ import { Entypo } from '../VectorIcons';
 import {
   FONT_FAMILY_MEDIUM
 } from '../../services/constants';
+import CacheImage from '../CacheImage';
 
 const OpenTableItem = props => {
   const { item, index } = props.data;
@@ -42,11 +43,12 @@ const OpenTableItem = props => {
       }
     >
       <View style={styles.userImageContainer}>
-        <Image
+        <CacheImage
           style={styles.userImage}
+          type='image'
           source={
             item.creator.avatarURL !== ''
-              ? { uri: item.creator.avatarURL }
+              ? item.creator.avatarURL
               : require('../../../assets/images/etc/default-avatar.png')
           }
         />
