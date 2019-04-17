@@ -6,13 +6,12 @@ import { addRemoveItemQuantity, setType } from '../../../modules/restaurant';
 import { listCreditCards } from '../../../modules/paymentMethods';
 
 export const mapStateToProps = state => {
-  const data = state.get('restaurant').toJS();
+  const data = state.get('restaurant');
   const type = state.get('restaurant').get('type');
   const paymentType = state.get('restaurant').get('paymentType');
   const creditCardList = state
     .get('paymentMethods')
-    .get('data')
-    .toJS();
+    .get('data').toJS();
 
   return {
     data,

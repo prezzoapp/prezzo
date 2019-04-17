@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, Image } from 'react-native';
+import CacheImage from '../CacheImage';
 import styles from './styles';
 
 const FilteredVendorBottomCardItem = props => {
@@ -19,8 +20,9 @@ const FilteredVendorBottomCardItem = props => {
       </View>
 
       <View style={styles.statusHolder}>
-        <Image
+        <CacheImage
           source={require("../../../assets/images/open_restaurant_status.png")}
+          type='image'
           style={styles.statusImage}
         />
         <Text style={styles.status}>{props.item.status}</Text>

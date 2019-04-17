@@ -25,6 +25,7 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST:
     case CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST:
+    case GET_USER_OPEN_ORDER_REQUEST:
     case CHECK_ORDER_STATUS_REQUEST:
       return state.update('isBusy', () => true);
 

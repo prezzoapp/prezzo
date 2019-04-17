@@ -4,7 +4,6 @@ import ReactNative, {
   View,
   TouchableOpacity,
   ScrollView,
-  Image,
   Dimensions,
   PanResponder
 } from 'react-native';
@@ -17,7 +16,17 @@ import styles from './styles';
 
 import CheckoutSwiper from '../../../components/CheckoutSwiper';
 
+import CacheImage from '../../../components/CacheImage';
+
 const { width, height } = Dimensions.get('screen');
+
+const checkoutSwiperRef = React.createRef();
+
+const parent = React.createRef();
+
+const child = React.createRef();
+
+const scrollViewRef = React.createRef();
 
 export default class Checkout extends Component {
   constructor(props) {
@@ -29,7 +38,7 @@ export default class Checkout extends Component {
 
     this.showModalAnimatedValue = new Animated.Value(height);
 
-    this.index = 0;
+    // this.index = 0;
 
     this.viewPosition = { x: 0, y: 0, width: 0, height: 0 };
 
@@ -76,27 +85,26 @@ export default class Checkout extends Component {
       }
     });
   }
+
   componentDidMount() {
     this.props.listCreditCards();
   }
 
   onScrollEnd(index) {
-    this.scrollView.scrollTo({
+    scrollViewRef.current.scrollTo({
       x: parseFloat(width * index),
       y: 0,
       animated: true
     });
-
-    this.index = index;
   }
 
-  onLayout() {
-    if (this.child) this.calculateLayout();
-  }
+  onLayout = () => {
+    if (child.current) this.calculateLayout();
+  };
 
-  calculateLayout() {
-    this.child.measureLayout(
-      ReactNative.findNodeHandle(this.parent),
+  calculateLayout = () => {
+    child.current.measureLayout(
+      ReactNative.findNodeHandle(parent.current),
       (xPos, yPos, Width, Height) => {
         this.viewPosition.x = xPos;
         this.viewPosition.y = yPos;
@@ -104,15 +112,15 @@ export default class Checkout extends Component {
         this.viewPosition.height = Height;
       }
     );
-  }
+  };
 
   scrollForward() {
-    this.checkoutSwiper.scrollForward();
+    checkoutSwiperRef.current.scrollForward();
   }
 
-  scrollReset() {
-    this.checkoutSwiper.scrollReset();
-  }
+  // scrollReset() {
+  //   this.checkoutSwiper.scrollReset();
+  // }
 
   showModal() {
     if (this.animationRunning === false) {
@@ -128,54 +136,47 @@ export default class Checkout extends Component {
     }
   }
 
-  hideModal() {
+  hideModal = () => {
+    checkoutSwiperRef.current.setPaymentType('');
     Animated.timing(this.showModalAnimatedValue, {
       toValue: height,
       duration: 250,
       useNativeDriver: true
     }).start(() => {
       this.props.hideNextOrderBtn();
+      this.props.hideCheckoutModal();
     });
-  }
+  };
 
   render() {
     return (
       <Animated.View
         {...this.panResponder.panHandlers}
-        ref={parent => {
-          this.parent = parent;
-        }}
+        ref={parent}
         style={[
           styles.container,
           {
             transform: [{ translateY: this.showModalAnimatedValue }]
           }
         ]}
-        onLayout={() => this.onLayout()}
+        onLayout={this.onLayout}
       >
         <TouchableOpacity
           activeOpacity={1}
-          onPress={() => this.hideModal()}
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0
-          }}
+          onPress={this.hideModal}
+          style={styles.cancelModalButton}
         />
         <View style={styles.modalView}>
           <BlurView style={styles.blurView} tint="dark" intensity={95} />
           <View style={{ flex: 1 }}>
             <View
-              ref={child => {
-                this.child = child;
-              }}
+              ref={child}
               style={styles.bottomArrowIconContainer}
-              onLayout={() => this.calculateLayout()}
+              onLayout={this.calculateLayout}
             >
-              <Image
+              <CacheImage
                 source={require('../../../../assets/images/icons/bottom_arrow.png')}
+                type='image'
                 style={styles.bottom_arrow}
               />
             </View>
@@ -184,45 +185,39 @@ export default class Checkout extends Component {
               <ScrollView
                 scrollEnabled={false}
                 horizontal
-                ref={scrollView => {
-                  this.scrollView = scrollView;
-                }}
+                ref={scrollViewRef}
                 bounces={false}
               >
                 <TouchableOpacity
                   activeOpacity={0.6}
-                  onPress={() => this.checkoutSwiper.moveToIndex(0)}
+                  disabled
+                  onPress={() => null}
                   style={styles.tabBarIconsHolder}
                 >
-                  <Image
+                  <CacheImage
                     source={require('../../../../assets/images/checkout_icons/review_icon.png')}
-                    style={[
-                      styles.icon,
-                      { tintColor: this.index === 0 ? '#2ED573' : null }
-                    ]}
+                    type='image'
+                    style={styles.icon}
                   />
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   activeOpacity={0.6}
-                  onPress={() => this.checkoutSwiper.moveToIndex(1)}
+                  disabled
+                  onPress={() => null}
                   style={styles.tabBarIconsHolder}
                 >
-                  <Image
+                  <CacheImage
                     source={require('../../../../assets/images/checkout_icons/payment_icon.png')}
-                    style={[
-                      styles.icon,
-                      { tintColor: this.index === 1 ? '#2ED573' : null }
-                    ]}
+                    type='image'
+                    style={styles.icon}
                   />
                 </TouchableOpacity>
               </ScrollView>
             </View>
 
             <CheckoutSwiper
-              ref={checkoutSwiper => {
-                this.checkoutSwiper = checkoutSwiper;
-              }}
+              ref={checkoutSwiperRef}
               navigate={this.props.navigate}
               restaurantName={this.props.restaurantName}
               creditCardList={this.props.creditCardList}
@@ -234,7 +229,7 @@ export default class Checkout extends Component {
                 this.props.addRemoveItemQuantity(sectionId, itemId, op)
               }
               setCurrentIndex={index => this.props.setCurrentIndex(index)}
-              hideModal={() => this.hideModal()}
+              hideModal={this.hideModal}
               isSelectedPaymentMethod={val =>
                 this.props.isSelectedPaymentMethod(val)
               }

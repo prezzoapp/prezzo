@@ -1,7 +1,8 @@
 // @flow
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View, Image, StyleSheet} from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import CacheImage from '../../../components/CacheImage';
 
 class TutorialScreen extends React.Component {
   static propTypes = {
@@ -10,11 +11,12 @@ class TutorialScreen extends React.Component {
 
   render() {
     return (
-      <View 
+      <View
        testID={'tutorialScreen'}
        style={styles.container}>
-        <Image
+        <CacheImage
           style={styles.image}
+          type='image'
           source={this.props.image}
         />
       </View>

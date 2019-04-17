@@ -2,14 +2,14 @@
 import React from 'react';
 import { Header } from 'react-navigation';
 import {
-  ImageBackground,
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
   ScrollView,
-  Platform
+  Platform,
+  ImageBackground
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -19,6 +19,7 @@ import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
 import { Constants } from 'expo';
 import LoadingComponent from '../../../components/LoadingComponent';
+import CacheImage from '../../../components/CacheImage';
 
 type Props = {
   loginWithEmail: Function,
@@ -96,8 +97,9 @@ class Login extends React.Component<Props, State> {
     const { email, password } = this.state;
 
     return (
-      <ImageBackground
+      <CacheImage
         style={styles.container}
+        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -150,7 +152,7 @@ class Login extends React.Component<Props, State> {
           </ScrollView>
         </KeyboardAvoidingView>
         <LoadingComponent visible={this.props.isBusy} />
-      </ImageBackground>
+      </CacheImage>
     );
   }
 }

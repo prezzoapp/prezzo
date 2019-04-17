@@ -10,7 +10,7 @@ import {
 } from '../../../modules/restaurant';
 
 export const mapStateToProps = state => {
-  const data = state.get('restaurant').toJS();
+  const data = state.get('restaurant');
   const type = state.get('restaurant').get('type');
 
   return {

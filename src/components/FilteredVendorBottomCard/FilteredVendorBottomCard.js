@@ -10,6 +10,8 @@ import styles from './styles';
 
 import { SF_PRO_TEXT_SEMI_BOLD } from '../../services/constants';
 
+import CacheImage from '../CacheImage';
+
 class FilteredVendorBottomCard extends Component {
   constructor() {
     super();
@@ -59,8 +61,9 @@ class FilteredVendorBottomCard extends Component {
           <View style={styles.vendorInfoHolder}>
             <View style={styles.contentHolder}>
               <View style={styles.vendorIconHolder}>
-                <Image
-                  source={{ uri: this.state.item.avatarURL }}
+                <CacheImage
+                  source={this.state.item.avatarURL}
+                  type='image'
                   style={styles.vendorIcon}
                 />
               </View>
@@ -72,8 +75,9 @@ class FilteredVendorBottomCard extends Component {
                   {this.state.item.location.city}, {this.state.item.location.region}
                 </Text>
                 <View style={[styles.statusHolder, styles.extraStatusHolderStyle]}>
-                  <Image
+                  <CacheImage
                     source={require("../../../assets/images/open_restaurant_status.png")}
+                    type='image'
                     style={styles.statusImage}
                   />
                   <Text style={[styles.status, styles.extraStatusStyle]}>Open Now</Text>

@@ -12,7 +12,7 @@ import {
   ScrollView
 } from 'react-native';
 import { ActionSheet } from 'native-base';
-import { ImagePicker, Permissions } from 'expo';
+import { ImagePicker, Permissions, ImageManipulator } from 'expo';
 import PropTypes from 'prop-types';
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import ProfileDataField from '../../../components/ProfileDataField';
@@ -192,7 +192,12 @@ class EditProfile extends Component<Props, State> {
       quality: 0.3
     });
     if (!result.cancelled) {
-      this.setState({ upload: result, avatarURL: result.uri });
+      const resultEdited = await ImageManipulator.manipulate(
+        result.uri,
+        [{ resize: { width: 150 }}],
+        { format: 'jpeg', compress: 0.3 }
+      );
+      this.setState({ upload: resultEdited, avatarURL: resultEdited.uri });
       this.save();
     }
   };
@@ -202,11 +207,14 @@ class EditProfile extends Component<Props, State> {
       allowsEditing: false,
       quality: 0.3
     });
-
     if (!result.cancelled) {
-      this.setState({ upload: result, avatarURL: result.uri });
+      const resultEdited = await ImageManipulator.manipulate(
+        result.uri,
+        [{ resize: { width: 150 }}],
+        { format: 'jpeg', compress: 0.3 }
+      );
+      this.setState({ upload: resultEdited, avatarURL: resultEdited.uri });
       this.save();
-
     }
   };
 
