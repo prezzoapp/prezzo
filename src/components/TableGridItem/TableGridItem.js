@@ -11,7 +11,8 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { Entypo, FontAwesome, MaterialIcons } from '../VectorIcons';
 import styles from './styles';
-import OrderedItem from '../../components/OrderedItem';
+import OrderedItem from '../OrderedItem';
+import CacheImage from '../CacheImage';
 
 const TableGridItem = props => {
   const { item, index } = props.data;
@@ -67,7 +68,7 @@ const TableGridItem = props => {
             type='image'
             source={
               item.creator.avatarURL !== ''
-                ? item.userImg
+                ? item.creator.avatarURL
                 : require('../../../assets/images/etc/default-avatar.png')
             }
           />
