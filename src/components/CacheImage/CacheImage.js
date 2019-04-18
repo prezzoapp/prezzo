@@ -77,6 +77,7 @@ export default class CacheImage extends Component {
     } else if(typeof imageSource === 'string' && this.props.selectImageThroughImagePicker === false) {
       this.downloadAndCacheRemoteImage(imageSource);
     } else if(typeof imageSource === 'number') {
+      console.log('Type of image source: ', typeof imageSource);
       this.downloadAndCacheLocalImage(imageSource);
     } else if(imageSource === undefined && this._isMounted) {
       this.setState({
