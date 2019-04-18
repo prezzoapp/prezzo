@@ -17,12 +17,13 @@ import Button from '../Button';
 const TAX = 5.95;
 
 const OpenTablePayment = props => {
+  const data = props.data;
   const subTotal =
-    props.data &&
-    props.data.items
+    data &&
+    data.get('items')
     .map(item => {
-        if (item.status !== 'denied') {
-          return item.price;
+        if (item.get('status') !== 'denied') {
+          return item.get('price');
         }
         return parseFloat(0);
       })
@@ -31,11 +32,11 @@ const OpenTablePayment = props => {
   });
 
   renderItem = data => {
-    if(data.item.status === 'denied') return null;
+    if(data.item.get('status') === 'denied') return null;
     return (
       <View style={styles.listItem}>
-        <Text style={styles.name}>{data.item.title}</Text>
-        <Text style={styles.price}>${data.item.price}</Text>
+        <Text style={styles.name}>{data.item.get('title')}</Text>
+        <Text style={styles.price}>${data.item.get('price')}</Text>
       </View>
     );
   }
@@ -44,8 +45,8 @@ const OpenTablePayment = props => {
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <FlatList
-          keyExtractor={item => item._id.toString()}
-          data={props.data !== null ? props.data.items : []}
+          keyExtractor={item => item.get('_id').toString()}
+          data={data !== null ? data.get('items').toArray() : []}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={this.renderSeparator}
           contentContainerStyle={styles.flatListContentContainerStyle}

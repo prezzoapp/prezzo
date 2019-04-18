@@ -120,11 +120,16 @@ export default class RestaurantItem extends Component {
           style={styles.swiper}
           loadMinimal
           loop={false}
-          showsPagination={false}>
-          {this.props.item.imageURLs && this.props.item.imageURLs.map(image => (
+          showsPagination
+          paginationStyle={styles.pagination}
+          activeDotColor='#0DD24A'
+          dotColor='#808080'
+        >
+          {this.props.item.imageURLs.length !== 0 && this.props.item.imageURLs.map(image => (
               <CacheImage
                 key={image}
                 source={image}
+                type='backgroundImage'
                 style={styles.itemImage}
               >
                 <LinearGradient

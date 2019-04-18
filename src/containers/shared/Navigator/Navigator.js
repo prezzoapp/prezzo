@@ -175,14 +175,10 @@ const CustomerSectionTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         title:'Profile',
         tabBarIcon: ({ focused }) => (
-          <Image
-            style={{
-              height: wp('6.4%'),
-              width: wp('6.4%'),
-              resizeMode: 'contain',
-              tintColor: focused ? activeColor : inactiveColor
-            }}
-            source={require('../../../../assets/images/icons/VendorProfile.png')}
+          <Feather
+            name="user"
+            size={24}
+            color={focused ? activeColor : inactiveColor}
           />
         )
       }
@@ -282,14 +278,10 @@ const VendorSectionTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         title: 'Profile',
         tabBarIcon: ({ focused }) => (
-          <Image
-            style={{
-              height: wp('6.4%'),
-              width: wp('6.4%'),
-              resizeMode: 'contain',
-              tintColor: focused ? activeColor : inactiveColor
-            }}
-            source={require('../../../../assets/images/icons/VendorProfile.png')}
+          <Feather
+            name="user"
+            size={24}
+            color={focused ? activeColor : inactiveColor}
           />
         )
       }

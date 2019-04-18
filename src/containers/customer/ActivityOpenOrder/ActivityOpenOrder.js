@@ -100,10 +100,11 @@ class ActivityOpenOrder extends Component {
   }
 
   finalizeOrder(price) {
-    if(this.props.data[0].paymentType === 'card' && price !== 0) {
+    const data = this.props.data.first();
+    if(data.get('paymentType') === 'card' && price !== 0) {
       this.props.makePaymentAndCompleteOrder(
-          this.props.data[0]._id,
-          this.props.data[0].paymentMethod.token,
+          data.get('_id'),
+          data.getIn(['paymentMethod', 'token']),
           price
         )
         .then(() => {
@@ -112,8 +113,8 @@ class ActivityOpenOrder extends Component {
           }
         })
         .catch(e => console.log(e));
-    } else if(this.props.data[0].paymentType === 'card') {
-      this.props.makePaymentAndCompleteOrder(this.props.data[0]._id, '', price)
+    } else if(data.get('paymentType') === 'card') {
+      this.props.makePaymentAndCompleteOrder(data.get('_id'), '', price)
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
             this.showAlert('Order has been completed.', 300);
@@ -122,10 +123,8 @@ class ActivityOpenOrder extends Component {
         .catch(e => console.log(e));
     } else {
       this.props
-        .makePaymentAndCompleteOrder(this.props.data[0]._id, '', price, 'cash')
+        .makePaymentAndCompleteOrder(data.get('_id'), '', price, 'cash')
         .then(() => {
-          console.log("User this.props.openOrderFinalStatus Prop: ");
-          console.log(this.props);
           if (this.props.openOrderFinalStatus === 'complete') {
             this.showAlert('Order has been completed.', 300);
           }
@@ -135,6 +134,7 @@ class ActivityOpenOrder extends Component {
   }
 
   completeOrder(id) {
+    const data = this.props.data.first();
     if(this.isConnected === false) {
       Alert.alert(
         '',
@@ -155,16 +155,17 @@ class ActivityOpenOrder extends Component {
       this.props
         .checkOrderStatus(id)
         .then(() => {
+          const openOrderFinalStatus = this.props.openOrderFinalStatus;
           if (
-            this.props.openOrderFinalStatus &&
-            this.props.openOrderFinalStatus === 'complete'
+            openOrderFinalStatus &&
+            openOrderFinalStatus === 'complete'
           ) {
             // If order has been already completed.
 
             this.showAlert('This order has been already completed.', 300);
           } else if (
-            this.props.openOrderFinalStatus &&
-            this.props.openOrderFinalStatus === 'denied'
+            openOrderFinalStatus &&
+            openOrderFinalStatus === 'denied'
           ) {
             // If order has been already denied.
 
@@ -174,11 +175,11 @@ class ActivityOpenOrder extends Component {
             let pendingItems = 0;
             let price = 0;
 
-            this.props.data[0].items.filter(item => {
-              if(item.status === 'pending') {
+            data.get('items').filter(item => {
+              if(item.get('status') === 'pending') {
                 pendingItems += 1;
-              } else if(item.status !== 'denied') {
-                price += item.price;
+              } else if(item.get('status') !== 'denied') {
+                price += item.get('price');
               }
             });
 
@@ -186,10 +187,10 @@ class ActivityOpenOrder extends Component {
 
             const message =
               pendingItems === 0
-                ? this.props.data[0].paymentType === 'card'
+                ? data.get('paymentType') === 'card'
                   ? `Continue to pay $${price}`
                   : 'Are you sure you want to complete?'
-                : this.props.data[0].paymentType === 'card'
+                : data.get('paymentType') === 'card'
                   ? price === 0
                     ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
                     : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
@@ -224,12 +225,13 @@ class ActivityOpenOrder extends Component {
     this.props
       .checkStatusAndCancelItem(orderId, eleId)
       .then(() => {
+        const data = this.props.data.first();
         if(this.props.openOrderFinalStatus === 'complete') {
           this.showAlert('Order has been completed.', 300);
         } else {
-          const item = this.props.data[0].items.find(ele => ele._id === eleId);
+          const item = data.get('items').find(ele => ele.get('_id') === eleId);
           if(item) {
-            if(item.status === 'denied') {
+            if(item.get('status') === 'denied') {
               this.showAlert('Item has been successfully canceled.', 300);
             } else {
               this.showAlert("Item can't be canceled.", 300);
@@ -252,8 +254,9 @@ class ActivityOpenOrder extends Component {
     );
   }
 
-  renderHeader(data) {
-    if (data.length !== 0 && data[0].items.length !== 0) {
+  renderHeader = () => {
+    const data = this.props.data;
+    if (data.size !== 0 && data.first().get('items').size !== 0) {
       return (
         <View style={styles.listHeaderHolder}>
           <Text style={styles.tableCode}>Table 9192</Text>
@@ -262,8 +265,21 @@ class ActivityOpenOrder extends Component {
     }
     return null;
   }
+  renderItem = data => {
+    const order = this.props.data.first();
+    return (
+      <ActivityListItem
+        item={data.item}
+        innerTab="open"
+        checkStatusAndCancelItem={itemId =>
+          this.checkStatusAndCancelItem(order.get('_id'), itemId)
+        }
+      />
+    );
+  };
 
   render() {
+    const data = this.props.data;
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
@@ -273,38 +289,30 @@ class ActivityOpenOrder extends Component {
               styles.flatListContentContainerStyle,
               {
                 justifyContent:
-                  this.props.data &&
-                  this.props.data.length !== 0 &&
-                  this.props.data[0].items.length !== 0
+                  data &&
+                  data.size !== 0 &&
+                  data.first().get('items').size !== 0
                     ? null
                     : 'center'
               }
             ]}
-            keyExtractor={item => item._id.toString()}
+            keyExtractor={item => item.get('_id').toString()}
             showsVerticalScrollIndicator={false}
             data={
-              this.props.data && this.props.data.length !== 0
-                ? this.props.data[0].items
+              data && data.size !== 0
+                ? data.first().get('items').toArray()
                 : []
             }
-            renderItem={({ item }) => (
-              <ActivityListItem
-                item={item}
-                innerTab="open"
-                checkStatusAndCancelItem={itemId =>
-                  this.checkStatusAndCancelItem(this.props.data[0]._id, itemId)
-                }
-              />
-            )}
+            renderItem={this.renderItem}
             onRefresh={() => this.onRefresh()}
             refreshing={this.state.isFetching}
-            ListHeaderComponent={() => this.renderHeader(this.props.data)}
+            ListHeaderComponent={this.renderHeader}
             stickyHeaderIndices={[0]}
           />
           {(() => {
-            if (this.props.data &&
-              this.props.data.length !== 0 &&
-              this.props.data[0].items.length !== 0
+            if (data &&
+              data.size !== 0 &&
+              data.first().get('items').size !== 0
             ) {
               return (
                 <View style={styles.footerContainer}>
@@ -319,7 +327,7 @@ class ActivityOpenOrder extends Component {
                   <Button
                     style={buttonStyles.closeTableBtn}
                     textStyle={buttonStyles.closeTableBtnText}
-                    onPress={() => this.completeOrder(this.props.data[0]._id)}
+                    onPress={() => this.completeOrder(data.first().get('_id'))}
                   >
                     Close Table
                   </Button>

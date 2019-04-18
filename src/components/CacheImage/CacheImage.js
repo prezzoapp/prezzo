@@ -11,12 +11,12 @@ export default class CacheImage extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
-    // this.setState({ imgSource: null });
   }
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.source !== this.props.source) {
-      console.log(nextProps);
+      console.log('next props source: ', nextProps.source);
+      console.log('this props source: ', this.props.source);
       this.downloadAndCacheImage(nextProps.source);
     }
   }
@@ -77,11 +77,17 @@ export default class CacheImage extends Component {
   };
 
   downloadAndCacheImage(imageSource) {
-    //console.log(imageSource);
     if(typeof imageSource === 'string') {
+      console.log('Type of image source: ', typeof imageSource);
       this.downloadAndCacheRemoteImage(imageSource);
     } else if(typeof imageSource === 'number') {
+      console.log('Type of image source: ', typeof imageSource);
       this.downloadAndCacheLocalImage(imageSource);
+    } else if(imageSource === undefined && this._isMounted) {
+      console.log('Type of image source: ', typeof imageSource);
+      this.setState({
+        imgSource: null
+      });
     }
   }
 

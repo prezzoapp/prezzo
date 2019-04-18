@@ -6,7 +6,7 @@ import { openTableItemDetails, checkStatusAndCancelItem, checkOpenOrderStatus, m
 export const mapStateToProps = state => {
   const openTableSelectedItem =
     state.get('table').get('openTableSelectedItem') &&
-    state.get('table').get('openTableSelectedItem').toJS();
+    state.get('table').get('openTableSelectedItem');
   const isBusy = state.get('table').get('isBusy');
   const openOrderFinalStatus = state.get('table').get('openOrderFinalStatus');
 
