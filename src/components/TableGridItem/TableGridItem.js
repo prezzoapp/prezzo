@@ -41,6 +41,23 @@ const TableGridItem = props => {
     return <View style={styles.separator} />;
   }
 
+  // console.log(item.items);
+
+  const newArray = [];
+  item.items.forEach(obj => {
+    if (!newArray.some(o => o.title === obj.title)) {
+      newArray.push({ ...obj, quantity: 0 })
+    }
+    newArray.map(o => {
+      if (o.title === obj.title) {
+         o.quantity = o.quantity + 1;
+      }
+      return o;
+    })
+  });
+
+  console.log(newArray);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -99,7 +116,7 @@ const TableGridItem = props => {
       </View>
       <FlatList
         keyExtractor={(item, index) => index.toString()}
-        data={item.items}
+        data={newArray}
         ItemSeparatorComponent={() => itemSeparatorComponent()}
         contentContainerStyle={styles.itemImagesListStyle}
         showsHorizontalScrollIndicator={false}
