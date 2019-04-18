@@ -13,22 +13,10 @@ export default class FilterItems extends Component {
     name: PropTypes.string.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { active: props.on };
+  shouldComponentUpdate(nextProps) {
+    if(nextProps.on !== this.props.on) return true;
+    return false;
   }
-
-  toggleFilter = () => {
-    this.setState(() => {
-      return {
-          active: !this.state.active
-        };
-      },
-      () => {
-        this.props.toggleFilter();
-      }
-    );
-  };
 
   render() {
     const activeFilterStyle = {
@@ -48,9 +36,9 @@ export default class FilterItems extends Component {
           activeOpacity={0.6}
           style={[
             styles.item,
-            this.state.active ? activeFilterStyle : inactiveFilterStyle
+            this.props.on ? activeFilterStyle : inactiveFilterStyle
           ]}
-          onPress={this.toggleFilter}
+          onPress={() => this.props.toggleFilter()}
         >
           <CacheImage
             source={this.props.image}

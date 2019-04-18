@@ -14,28 +14,32 @@ const OpenOrdersList = props => {
     props.completeOrder();
   };
 
+  const order = props.data;
+
+  renderItem = data => (
+    <ActivityListItem
+      item={data.item}
+      orderId={order.get('_id')}
+      type="vendor"
+      innerTab={props.innerTab}
+      checkStatusAndCancelItem={itemId =>
+        props.checkStatusAndCancelItem(itemId)
+      }
+    />
+  );
+
   return (
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
         <FlatList
-          keyExtractor={item => item._id.toString()}
+          keyExtractor={item => item.get('_id').toString()}
           showsVerticalScrollIndicator={false}
           data={
-            props.data !== null && props.data.items.length !== 0
-              ? props.data.items
+            order !== null && order.get('items').size !== 0
+              ? order.get('items').toArray()
               : []
           }
-          renderItem={({ item }) => (
-            <ActivityListItem
-              item={item}
-              orderId={props.data._id}
-              type="vendor"
-              innerTab={props.innerTab}
-              checkStatusAndCancelItem={itemId =>
-                props.checkStatusAndCancelItem(itemId)
-              }
-            />
-          )}
+          renderItem={this.renderItem}
         />
         {(() => {
           if (props.innerTab === 'open') {

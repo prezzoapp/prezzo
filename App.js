@@ -32,7 +32,8 @@ class Prezzo extends Component {
 
     const images = [
       require('./assets/images/location.png'),
-      require('./assets/images/map-pin.png')
+      require('./assets/images/map-pin.png'),
+      require('./assets/images/icons/TableIcon.png')
     ];
 
     try {
