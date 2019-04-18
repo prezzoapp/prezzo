@@ -9,6 +9,8 @@ import { COLOR_DANGER } from '../../services/constants';
 import { getTimeStampString } from '../../services/commonFunctions';
 import CacheImage from '../CacheImage';
 
+const menuItemImageRef = React.createRef();
+
 export default class MenuItem extends Component {
   constructor(props) {
     super(props);
@@ -119,6 +121,8 @@ export default class MenuItem extends Component {
       return {
         imageArray: [...this.state.imageArray, '']
       }
+    }, () => {
+      menuItemImageRef.current.showAvatarActionSheet();
     });
   }
 
@@ -249,6 +253,7 @@ export default class MenuItem extends Component {
           <View style={[styles.itemImagesWrapper]}>
             {itemImages && itemImages.map((item, index) => (
               <MenuItemImage
+                ref={menuItemImageRef}
                 key={index}
                 editable={this.state.editItem}
                 image={item}

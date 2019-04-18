@@ -10,7 +10,7 @@ import CacheImage from '../CacheImage';
 import { getTimeStampString } from '../../services/commonFunctions';
 import styles from './styles';
 
-const ItemImagePicker = props => {
+class ItemImagePicker extends Component {
   showAvatarActionSheet = () => {
     ActionSheet.show(
       {
@@ -55,7 +55,7 @@ const ItemImagePicker = props => {
         { format: 'jpeg', compress: 0.8 }
       );
       const fileName = `${getTimeStampString()}.jpeg`;
-      props
+      this.props
         .uploadImage(
           resultEdited.uri,
           10,
@@ -65,7 +65,7 @@ const ItemImagePicker = props => {
           'public-read'
         )
         .then(async itemImage => {
-          props.addNewImageComponent(itemImage);
+          this.props.addNewImageComponent(itemImage);
         });
     }
   };
@@ -83,7 +83,7 @@ const ItemImagePicker = props => {
         { format: 'jpeg', compress: 0.1 }
       );
       const fileName = `${getTimeStampString()}.jpeg`;
-      props
+      this.props
         .uploadImage(
           resultEdited.uri,
           10,
@@ -93,51 +93,53 @@ const ItemImagePicker = props => {
           'public-read'
         )
         .then(async itemImage => {
-          props.addNewImageComponent(itemImage);
+          this.props.addNewImageComponent(itemImage);
         });
     }
   };
 
-  return (
-    <View style={styles.holder}>
-      {props.editable && (
-        <TouchableOpacity
-          style={styles.closeBtn}
-          activeOpacity={0.6}
-          onPress={() => props.deleteImageComponent(props.image)}
-        >
-          <Ionicons
-            title="Delete"
-            name="md-close"
-            color="black"
-            size={wp('3%')}
-            style={{ padding: 0, top: wp('0.17%'), position: 'relative', left: wp('0.13%') }}
-          />
-        </TouchableOpacity>
-      )}
+  render() {
+    return (
+      <View style={styles.holder}>
+        {this.props.editable && (
+          <TouchableOpacity
+            style={styles.closeBtn}
+            activeOpacity={0.6}
+            onPress={() => this.props.deleteImageComponent(this.props.image)}
+          >
+            <Ionicons
+              title="Delete"
+              name="md-close"
+              color="black"
+              size={wp('3%')}
+              style={{ padding: 0, top: wp('0.17%'), position: 'relative', left: wp('0.13%') }}
+            />
+          </TouchableOpacity>
+        )}
 
-      {props.image === '' ? (
-        <TouchableOpacity
-          onPress={this.showAvatarActionSheet}
-          style={styles.itemImagePickerBtn}
-        >
-          <CacheImage
-            style={styles.itemImage}
-            type='image'
-            source={require('../../../assets/images/default_image_placeholder.png')}
-          />
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.itemImagePickerBtn}>
-          <CacheImage
-            style={styles.itemImage}
-            type='image'
-            source={props.image}
-          />
-        </View>
-      )}
-    </View>
-  );
+        {this.props.image === '' ? (
+          <TouchableOpacity
+            onPress={this.showAvatarActionSheet}
+            style={styles.itemImagePickerBtn}
+          >
+            <CacheImage
+              style={styles.itemImage}
+              type='image'
+              source={require('../../../assets/images/default_image_placeholder.png')}
+            />
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.itemImagePickerBtn}>
+            <CacheImage
+              style={styles.itemImage}
+              type='image'
+              source={this.props.image}
+            />
+          </View>
+        )}
+      </View>
+    );
+  }
 }
 
 ItemImagePicker.propTypes = {

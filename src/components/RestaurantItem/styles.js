@@ -74,13 +74,12 @@ const styles = StyleSheet.create({
   bottomContentHolder: {
     justifyContent: 'space-between',
     position: 'absolute',
-    bottom: 0,
+    bottom: wp('6%'),
     left: 0,
     right: 0,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: wp('7%'),
-    paddingBottom: wp('4%')
+    paddingHorizontal: wp('7%')
   },
 
   controlButtons: {
@@ -99,6 +98,11 @@ const styles = StyleSheet.create({
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY_MEDIUM,
     paddingHorizontal: 7
+  },
+
+  pagination: {
+    bottom: 7,
+    zIndex: 999
   }
 });
 
