@@ -5,6 +5,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { fromJS } from 'immutable';
 import OpenOrdersList from '../OpenOrdersList';
 import OpenTablePayment from '../OpenTablePayment';
 import CacheImage from '../CacheImage';
@@ -120,7 +121,7 @@ export default class VendorAdminActivityDetails extends Component {
   }
 
   render() {
-    const { item } = this.props.navigation.state.params;
+    const item = fromJS(this.props.navigation.state.params.item);
     return (
       <Container style={styles.container}>
         <Tabs
@@ -167,37 +168,12 @@ export default class VendorAdminActivityDetails extends Component {
           >
             <OpenTablePayment
               data={item}
-              footer={
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    width: wp('100%'),
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    height: hp('10.16%'),
-                    borderTopColor: COLOR_GREEN,
-                    borderTopWidth: 2,
-                    backgroundColor: 'black'
-                  }}
-                >
-                  <Button
-                    style={buttonStyles.requestBtn}
-                    textStyle={buttonStyles.requestBtnText}
-                    onPress={() => null}
-                  >
-                    Request
-                  </Button>
-
-                  <Text style={[styles.price, { textAlign: 'right' }]}>
-                    Total $90.95
-                  </Text>
-                </View>
-              }
+              completeOrder={() => null}
             />
           </Tab>
         </Tabs>
       </Container>
-    )
+    );
   }
 }
 

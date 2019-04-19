@@ -12,12 +12,14 @@ import {
   ScrollView
 } from 'react-native';
 import { ActionSheet } from 'native-base';
-import { ImagePicker, Permissions, ImageManipulator } from 'expo';
+import { ImagePicker, Permissions, ImageManipulator, FileSystem } from 'expo';
 import PropTypes from 'prop-types';
+import shorthash from 'shorthash';
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import { getTimeStampString } from '../../../services/commonFunctions';
+import CacheImage from '../../../components/CacheImage';
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
@@ -29,6 +31,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+let previousPhoto = null;
 
 type State = {
   avatarURL: string,
@@ -93,9 +96,23 @@ class EditProfile extends Component<Props, State> {
       lastName,
       phone,
       upload: null,
-      zip
+      zip,
+      selectImageThroughImagePicker: false
     };
   }
+
+  deletePreviousImage = async () => {
+    if(previousPhoto) {
+      const name = shorthash.unique(previousPhoto);
+      const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+      const image = await FileSystem.getInfoAsync(path);
+
+      if(image.exists) {
+        await FileSystem.deleteAsync(image.uri);
+        console.log('Image deleted from cache!');
+      }
+    }
+  };
 
   async save() {
     const { isBusy, updateUser } = this.props;
@@ -107,6 +124,7 @@ class EditProfile extends Component<Props, State> {
 
     try {
       await this.uploadPhoto();
+      // await this.deletePreviousImage(previousPhoto);
     } catch (e) {
       console.warn('error uploading image', e);
     }
@@ -136,6 +154,7 @@ class EditProfile extends Component<Props, State> {
   }
 
   async uploadPhoto() {
+    // previousPhoto = this.props.avatarURL;
     if (!this.state.upload) {
       return;
     }
@@ -148,11 +167,15 @@ class EditProfile extends Component<Props, State> {
       .then(async avatarURL => {
         console.log('got avatarURL', avatarURL);
 
+      this.setState({
+        selectImageThroughImagePicker: false
+      }, () => {
         this.setState({
           avatarURL,
           upload: null
         });
       });
+    });
   }
 
   showAvatarActionSheet() {
@@ -197,8 +220,13 @@ class EditProfile extends Component<Props, State> {
         [{ resize: { width: 150 }}],
         { format: 'jpeg', compress: 0.3 }
       );
-      this.setState({ upload: resultEdited, avatarURL: resultEdited.uri });
-      this.save();
+      this.setState({
+        selectImageThroughImagePicker: true
+      }, () => {
+        this.setState({ upload: resultEdited, avatarURL: resultEdited.uri }, () => {
+          this.save();
+        });
+      })
     }
   };
 
@@ -213,8 +241,13 @@ class EditProfile extends Component<Props, State> {
         [{ resize: { width: 150 }}],
         { format: 'jpeg', compress: 0.3 }
       );
-      this.setState({ upload: resultEdited, avatarURL: resultEdited.uri });
-      this.save();
+      this.setState({
+        selectImageThroughImagePicker: true
+      }, () => {
+        this.setState({ upload: resultEdited, avatarURL: resultEdited.uri }, () => {
+          this.save();
+        });
+      })
     }
   };
 
@@ -226,7 +259,8 @@ class EditProfile extends Component<Props, State> {
       phone,
       address,
       zip,
-      city
+      city,
+      selectImageThroughImagePicker
     } = this.state;
 
     return (
@@ -243,13 +277,15 @@ class EditProfile extends Component<Props, State> {
                       onPress={() => this.showAvatarActionSheet()}
                     >
                       <View style={styles.imageHolder}>
-                        <Image
+                        <CacheImage
                           style={styles.avatar}
+                          type='image'
+                          selectImageThroughImagePicker={selectImageThroughImagePicker}
+                          deletePreviousImage={this.deletePreviousImage}
                           source={
                             avatarURL
-                              ? { uri: avatarURL }
-                              : require('../../../../assets/images/etc/default-avatar.png')
-                          }
+                            ? avatarURL
+                            : require('../../../../assets/images/etc/default-avatar.png')}
                         />
                       </View>
 

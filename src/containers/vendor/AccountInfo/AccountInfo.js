@@ -11,7 +11,8 @@ import {
 import PropTypes from 'prop-types';
 import { Picker, Spinner, ActionSheet } from 'native-base';
 import Slider from 'react-native-slider';
-import { ImagePicker, Permissions, ImageManipulator } from 'expo';
+import shorthash from 'shorthash';
+import { ImagePicker, Permissions, ImageManipulator, FileSystem } from 'expo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Ionicons, Feather } from '../../../components/VectorIcons';
 import { getTimeStampString } from '../../../services/commonFunctions';
@@ -121,7 +122,8 @@ export default class AccountInfo extends React.Component {
         upload: null,
         website: '',
         filters: [],
-        email: ''
+        email: '',
+        selectImageThroughImagePicker: false
       };
 
       return;
@@ -158,7 +160,8 @@ export default class AccountInfo extends React.Component {
       upload: null,
       website: vendor.get('website') || '',
       filters: vendor.get('filters').toJS() || [],
-      email: ''
+      email: '',
+      selectImageThroughImagePicker: false
     };
 
     this.toggle = this.toggle.bind(this);
@@ -193,21 +196,6 @@ export default class AccountInfo extends React.Component {
         }
       }
     );
-
-    // ActionSheetIOS.showActionSheetWithOptions(
-    //   {
-    //     options: ['Take Photo', 'Choose from Library', 'Cancel'],
-    //     cancelButtonIndex: 2,
-    //     title: 'Select an avatar'
-    //   },
-    //   buttonIndex => {
-    //     if (buttonIndex === 0) {
-    //       this.requestCameraPermission();
-    //     } else if (buttonIndex === 1) {
-    //       this.requestPhotoLibraryPermission();
-    //     }
-    //   }
-    // );
   }
 
   requestPhotoLibraryPermission = async () => {
@@ -235,7 +223,14 @@ export default class AccountInfo extends React.Component {
         [{ resize: { width: 250 }}],
         { format: 'jpeg', compress: 0.3 }
       );
-      this.setState({ upload: resultEdited, avatarURL: resultEdited.uri });
+      this.setState({
+        selectImageThroughImagePicker: true
+      }, () => {
+        this.setState({
+          upload: resultEdited,
+          avatarURL: resultEdited.uri
+        });
+      });
     }
   };
 
@@ -250,7 +245,14 @@ export default class AccountInfo extends React.Component {
         [{ resize: { width: 250 }}],
         { format: 'jpeg', compress: 0.3 }
       );
-      this.setState({ upload: resultEdited, avatarURL: resultEdited.uri });
+      this.setState({
+        selectImageThroughImagePicker: true
+      }, () => {
+        this.setState({
+          upload: resultEdited,
+          avatarURL: resultEdited.uri
+        });
+      });
     }
   }
 
@@ -465,8 +467,12 @@ export default class AccountInfo extends React.Component {
 
     console.log('Got Avatar URL: ', avatarURL);
     this.setState({
-      avatarURL,
-      upload: null
+      selectImageThroughImagePicker: false
+    }, () => {
+      this.setState({
+        avatarURL,
+        upload: null
+      });
     });
   }
 
@@ -555,7 +561,8 @@ export default class AccountInfo extends React.Component {
       selectedClosingTime,
       selectedOpeningTime,
       website,
-      email
+      email,
+      selectImageThroughImagePicker
     } = this.state;
 
     const { address, city, country, region, postalCode } = location;
@@ -620,6 +627,7 @@ export default class AccountInfo extends React.Component {
                 <CacheImage
                   style={styles.avatar}
                   type='image'
+                  selectImageThroughImagePicker={selectImageThroughImagePicker}
                   source={
                     avatarURL
                       ? avatarURL

@@ -6,6 +6,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
 import LoadingComponent from '../../../components/LoadingComponent';
+import CacheImage from '../../../components/CacheImage';
 import {
   FONT_FAMILY,
   COLOR_BLACK,
@@ -67,10 +68,12 @@ class Profile extends Component {
         <View style={styles.container}>
           <View style={styles.headerContainer}>
             <View style={styles.imageHolder}>
-              <Image style={styles.avatar}
+              <CacheImage
+                style={styles.avatar}
+                type='image'
                 source={
                   avatarURL
-                  ? { uri: avatarURL }
+                  ? avatarURL
                   : require('../../../../assets/images/etc/default-avatar.png')}
               />
             </View>
