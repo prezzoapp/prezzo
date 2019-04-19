@@ -385,7 +385,7 @@ const buttonStyles = {
 };
 
 ActivityOpenOrder.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
   listOpenOrders: PropTypes.func.isRequired
 };
 

@@ -109,7 +109,6 @@ class LocationSearch extends React.Component {
         }}
         getDefaultValue={() => ''}
         styles={styles}
-        currentLocation={true}
         currentLocationLabel='Current Location'
         nearbyPlacesAPI='GooglePlacesSearch'
         query={{
