@@ -12,6 +12,7 @@ import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
+import CustomMarker from './CustomMarker';
 import showGenericAlert from '../../../components/GenericAlert';
 import {
   FONT_FAMILY_MEDIUM,
@@ -94,8 +95,8 @@ export default class MapScreen extends Component {
             customRegion: {
                 latitude: coords.latitude,
                 longitude: coords.longitude,
-                latitudeDelta: 0.00922,
-                longitudeDelta: 0.00422
+                latitudeDelta: 1,
+                longitudeDelta: 1
               }
             }, () => {
               this.props
@@ -127,8 +128,8 @@ export default class MapScreen extends Component {
         () => ({
           customRegion: {
             ...region,
-            latitudeDelta: 0.00922,
-            longitudeDelta: 0.00422
+            latitudeDelta: 1,
+            longitudeDelta: 1
           }
         }),
         () => {
@@ -151,55 +152,6 @@ export default class MapScreen extends Component {
       this.isFirstLoad = false;
     }
   }
-
-  // getIPLocation(ip) {
-  //   const commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
-  //   fetch(commonHtml)
-  //     .then(response => response.json())
-  //     .then(responseJson => {
-  //       console.log(responseJson);
-  //       if (responseJson.latitude) {
-  //         this.setState({
-  //           customRegion: {
-  //             latitude: responseJson.latitude,
-  //             longitude: responseJson.longitude,
-  //             latitudeDelta: 0.00922,
-  //             longitudeDelta: 0.00422
-  //           },
-  //           isGetLocation: true
-  //         });
-  //         this.props
-  //           .listVendors(
-  //             this.state.customRegion.latitude,
-  //             this.state.customRegion.longitude,
-  //             this.props.distance,
-  //             this.activeFilters,
-  //             this.props.pricing
-  //           )
-  //           .then(() => { })
-  //           .catch(e => {
-  //             showGenericAlert('Uh-oh!', e.message || e);
-  //           });
-  //
-  //         console.log('After Getting Correct Coordinates: ');
-  //         console.log(this.state.customRegion);
-  //         console.log('First Time API Called!');
-  //       } else {
-  //         // show error message
-  //       }
-  //     })
-  //     .catch(error => { });
-  // }
-
-  // getNetworkIP() {
-  //   publicIP()
-  //   .then(ip => {
-  //       this.getIPLocation(ip);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }
 
   /**
    * @param  {Array} coordinates [lat,long]
@@ -249,8 +201,8 @@ export default class MapScreen extends Component {
       this.mapView.animateToRegion({
         latitude: lat,
         longitude: lon,
-        latitudeDelta: 0.00922,
-        longitudeDelta: 0.00422
+        latitudeDelta: 1,
+        longitudeDelta: 1
       });
     }
   }
@@ -291,16 +243,10 @@ export default class MapScreen extends Component {
               )}
 
             {this.props.data.map(item => (
-              <MapView.Marker
-                key={item._id}
-                coordinate={{
-                  latitude: item.location.coordinates[1],
-                  longitude: item.location.coordinates[0]
-                }}
-                onPress={() => {
-                  this.filteredListRef.callMethod(item);
-                }}
-                image={require('../../../../assets/images/map-pin.png')}
+              <CustomMarker
+                key={item._id.toString()}
+                coordinates={item.location}
+                onPress={() => this.filteredListRef.callMethod(item)}
               />
             ))}
           </MapView>

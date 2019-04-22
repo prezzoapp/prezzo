@@ -15,10 +15,9 @@ const styles = StyleSheet.create({
   filteredRestaurantsBottomCardHolder: {
     backgroundColor: 'rgb(51,51,51)',
     height: hp('30.54%'),
-    // height: wp('66.13%'),
     borderTopLeftRadius: 30,
-    borderTopRightRadius: 30
-    // paddingTop: 5
+    borderTopRightRadius: 30,
+    overflow: 'hidden'
   },
 
   listItemBtn: {
@@ -75,7 +74,12 @@ const styles = StyleSheet.create({
   },
 
   vendorInfoHolder: {
-    flex: 1,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    backgroundColor: 'rgb(51,51,51)',
     paddingTop: wp('9.6%'),
     paddingHorizontal: wp('4.26%')
   },
@@ -162,7 +166,23 @@ const styles = StyleSheet.create({
   extraContentHolderStyle: {
     justifyContent: 'space-between',
     paddingRight: 0
-  }
+  },
+
+  buttonHolder: {
+    paddingVertical: wp('1.33%'),
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  bottom_arrow: {
+    width: wp('8.38%'),
+    height: wp('5%'),
+    resizeMode: 'contain'
+  },
 });
 
 export default styles;
