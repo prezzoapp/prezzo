@@ -77,5 +77,10 @@ export default StyleSheet.create({
     height: hp('3.44%'),
     resizeMode: 'contain',
     marginRight: wp('5.33%')
+  },
+  creditCardIcon: {
+    width: wp('7.46%'),
+    height: hp('2.33%'),
+    resizeMode: 'contain'
   }
 });

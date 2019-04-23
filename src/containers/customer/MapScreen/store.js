@@ -6,13 +6,11 @@ import { listVendors, disableVendorListItem, getUserCurrentLocation } from '../.
 export const mapStateToProps = state => {
   const data = state
     .get('explore')
-    .get('restaurants')
-    .toJS();
+    .get('restaurants');
 
     const filters = state
       .get('explore')
-      .get('filters')
-      .toJS();
+      .get('filters');
     const distance = state.get('explore').get('distance');
     const pricing = state.get('explore').get('pricing');
 

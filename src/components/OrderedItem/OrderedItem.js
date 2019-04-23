@@ -7,22 +7,23 @@ import { FontAwesome, Entypo } from '../VectorIcons';
 import CacheImage from '../CacheImage';
 
 const OrderedItem = props => {
+  const data = props.data;
   return (
     <View style={styles.container}>
       <View style={styles.itemImageContainer}>
         <CacheImage
           style={styles.itemImage}
           type='image'
-          source={props.data.imageURLs[0]}
+          source={data.get('imageURLs').first()}
         />
       </View>
       <View style={styles.itemTextContainer}>
         <FontAwesome
-          name={props.data.status === 2 ? 'circle' : 'circle-o'}
-          size={props.data.status === 2 ? wp('2.93%') : wp('3.2%')}
+          name={data.get('status') === 2 ? 'circle' : 'circle-o'}
+          size={data.get('status') === 2 ? wp('2.93%') : wp('3.2%')}
           style={styles.dot}
         />
-        <Text style={styles.itemName} numberOfLines={2}>{props.data.title}</Text>
+        <Text style={styles.itemName} numberOfLines={2}>{data.get('title')} x{data.get('quantity')}</Text>
       </View>
     </View>
   );

@@ -10,11 +10,11 @@ import {
 import CacheImage from '../CacheImage';
 
 const OpenTableItem = props => {
-  const { item, index } = props.data;
+  const item = props.data;
   let itemImagesLength = 0;
 
-  item.items.map(ele => {
-    ele.imageURLs.map(image => {
+  item.get('items').map(ele => {
+    ele.get('imageURLs').map(image => {
       itemImagesLength += 1;
     });
   });
@@ -33,9 +33,9 @@ const OpenTableItem = props => {
             params: {
               userName:
                 props.tabName !== 'delivery'
-                  ? `${item.creator.fullName} - 9192`
-                  : `${item.userName}`,
-              userImage: item.creator.avatarURL,
+                  ? `${item.getIn(['creator', 'fullName'])} - 9192`
+                  : `${item.get('userName')}`,
+              userImage: item.getIn(['creator', 'avatarURL']),
               item: item,
               innerTab: props.innerTab,
           }
@@ -47,14 +47,14 @@ const OpenTableItem = props => {
           style={styles.userImage}
           type='image'
           source={
-            item.creator.avatarURL !== ''
-              ? item.creator.avatarURL
+            item.getIn(['creator', 'avatarURL']) !== ''
+              ? item.getIn(['creator', 'avatarURL'])
               : require('../../../assets/images/etc/default-avatar.png')
           }
         />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.userName}>{item.creator.fullName}</Text>
+        <Text style={styles.userName}>{item.getIn(['creator', 'fullName'])}</Text>
         {(() => {
           if (props.tabName === 'tables') {
             return (
@@ -69,14 +69,14 @@ const OpenTableItem = props => {
             return (
               <View style={styles.statusContainer}>
                 <Text numberOfLines={1} style={[styles.tableId]}>
-                  {item.address}
+                  {item.get('address')}
                 </Text>
               </View>
             )
           }
           return (
             <View style={styles.statusContainer}>
-              <Text style={styles.tableId}>Table {item.tableId}</Text>
+              <Text style={styles.tableId}>Table {item.get('tableId')}</Text>
               <Text
                 style={[
                   styles.statusText,

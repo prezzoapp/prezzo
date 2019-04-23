@@ -601,15 +601,6 @@ export default class AccountInfo extends React.Component {
           contentContainerStyle={styles.containerContentStyle}
           style={styles.container}
         >
-          {/*<View
-            style={{
-              ...stylesRaw.spinnerContainer,
-              ...(isBusy ? {} : { display: 'none' })
-            }}
-          >
-            <Spinner color="red" />
-          </View>*/}
-
           <View style={styles.header}>
             <TouchableOpacity
               activeOpacity={0.8}
@@ -1128,40 +1119,6 @@ export default class AccountInfo extends React.Component {
                   }
                 })}
               </View>
-
-              {/*<View style={styles.commonFilterPanel}>
-                <FilterItem
-                  name="Breakfast"
-                  image={require('../../../../assets/images/filters/breakfast.png')}
-                  style={{ marginTop: 8 }}
-                  toggleFilter={() => this.toggle('breakfast')}
-                  on={this.state.filters.find(x => x === "breakfast") ? true : false}
-                />
-
-                <FilterItem
-                  name="Lunch"
-                  image={require('../../../../assets/images/filters/lunch_filter.png')}
-                  style={{ marginTop: 8 }}
-                  toggleFilter={() => this.toggle('lunch')}
-                  on={this.state.filters.find(x => x === "lunch") ? true : false}
-                />
-
-                <FilterItem
-                  name="Dinner"
-                  image={require('../../../../assets/images/filters/dinner_filter.png')}
-                  style={{ marginTop: 8 }}
-                  toggleFilter={() => this.toggle('dinner')}
-                  on={this.state.filters.find(x => x === "dinner") ? true : false}
-                />
-
-                <FilterItem
-                  name="Coffee"
-                  image={require('../../../../assets/images/filters/coffee_filter.png')}
-                  style={{ marginTop: 8 }}
-                  toggleFilter={() => this.toggle('coffee')}
-                  on={this.state.filters.find(x => x === "coffee") ? true : false}
-                />
-              </View>*/}
             </View>
           </View>
 

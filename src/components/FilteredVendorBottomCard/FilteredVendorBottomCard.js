@@ -32,6 +32,19 @@ class FilteredVendorBottomCard extends Component {
     }
   }
 
+  renderItem = data => (
+    <FilteredVendorBottomCardItem
+      item={data.item}
+      customRegion={this.props.customRegion}
+      moveToPosition={() =>
+        this.props.moveToPosition(data.item.get('_id'), data.item.getIn(['location', 'coordinates']))
+      }
+      getDistanceFromCurrentLocation={
+        this.props.getDistanceFromCurrentLocation
+      }
+    />
+  );
+
   renderSeparator = () => <View style={styles.separator} />;
 
   render() {
@@ -40,22 +53,11 @@ class FilteredVendorBottomCard extends Component {
         {!this.state.showVendorInfo ? (
           <FlatList
             contentContainerStyle={styles.contentContainerStyle}
-            keyExtractor={item => item._id}
-            data={this.props.data}
+            keyExtractor={item => item.get('_id').toString()}
+            data={this.props.data.toArray()}
             showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={this.renderSeparator}
-            renderItem={({ item }) =>
-              <FilteredVendorBottomCardItem
-                item={item}
-                customRegion={this.props.customRegion}
-                moveToPosition={() =>
-                  this.props.moveToPosition(item._id, item.location.coordinates)
-                }
-                getDistanceFromCurrentLocation={
-                  this.props.getDistanceFromCurrentLocation
-                }
-              />
-            }
+            renderItem={this.renderItem}
           />
         ) : (
           <View style={styles.vendorInfoHolder}>
@@ -109,7 +111,7 @@ class FilteredVendorBottomCard extends Component {
 }
 
 FilteredVendorBottomCard.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.object.isRequired
 };
 
 const buttonStyles = {

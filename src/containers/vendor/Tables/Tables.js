@@ -101,12 +101,12 @@ class Tables extends Component {
     }, duration);
   }
 
-  checkAndChangeQueueOrderStatus(orderId, status) {
+  checkAndChangeQueueOrderStatus = (orderId, status) => {
     this.props.changeOrderStatus(orderId, status)
     .then(() => {
         this.checkResponseMessage();
     });
-  }
+  };
 
   onSectionChange = index => {
     if (index === 0) {
@@ -159,50 +159,100 @@ class Tables extends Component {
     );
   }
 
+  renderSeparator = () => {
+    if(this.props.layout !== 'list') {
+      return (
+        <View style={styles.gridSeparator}/>
+      );
+    }
+    return (
+      <View style={styles.separator}/>
+    );
+  };
+
+  renderOpenTableData = data => {
+    if (this.props.layout === 'list') {
+      return (
+        <OpenTableItem
+          data={data.item}
+          navigate={this.props.navigate}
+          tabName="tables"
+          innerTab="open"
+        />
+      );
+    }
+    return (
+      <TableGridItem
+        tableType={this.props.section}
+        navigate={this.props.navigate}
+        data={data.item}
+        tabName="tables"
+        innerTab="open"
+      />
+    );
+  };
+
+  renderQueuedTableData = data => {
+    if (this.props.layout === 'list') {
+      return (
+        <QueuedTableItem
+          handleQueuedTableItem={this.handleQueuedTableItem}
+          navigate={this.props.navigate}
+          data={data.item}
+          tabName="tables"
+          innerTab="queue"
+          checkAndChangeQueueOrderStatus={this.checkAndChangeQueueOrderStatus}
+        />
+      );
+    }
+    return (
+      <TableGridItem
+        tableType={this.props.section}
+        navigate={this.props.navigate}
+        data={data.item}
+        checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
+        listQueuedTable={this.props.listQueuedTable}
+        innerTab="closed"
+        tabName="tables"
+      />
+    );
+  };
+
+  renderClosedTableData = data => {
+    if (this.props.layout === 'list') {
+      return (
+        <OpenTableItem
+          data={data.item}
+          navigate={this.props.navigate}
+          tabName="tables"
+          innerTab="closed"
+        />
+      );
+    }
+    return (
+      <TableGridItem
+        tableType={this.props.section}
+        navigate={this.props.navigate}
+        data={data.item}
+        innerTab="closed"
+        tabName="tables"
+      />
+    );
+  };
+
   renderOpenTable() {
     return (
       <View style={{ flex: 1 }}>
         <FlatList
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={item => item.get('_id').toString()}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={this.listEmptyComponent}
-          ItemSeparatorComponent={() => {
-            if(this.props.layout !== 'list') {
-              return (
-                <View style={styles.gridSeparator}/>
-              );
-            }
-            return (
-              <View style={styles.separator}/>
-            );
-          }}
-          onRefresh={() => this.onRefresh()}
+          ItemSeparatorComponent={this.renderSeparator}
+          onRefresh={this.onRefresh}
           refreshing={this.state.isFetching}
           contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.openTableList.size === 0) ? 'center' : null }]}
-          data={this.props.openTableList.size !== 0 ? this.props.openTableList.toJS() : []}
-          renderItem={rowData => {
-            if (this.props.layout === 'list') {
-              return (
-                <OpenTableItem
-                  data={rowData}
-                  navigate={this.props.navigate}
-                  tabName="tables"
-                  innerTab="open"
-                  makePaymentAndCompleteOrder={(orderId, token, amount, paymentType, status) => this.props.makePaymentAndCompleteOrder(orderId, token, amount, paymentType, status, 'queued')}
-                  changeOrderStatus={(orderId, status) => this.props.changeOrderStatus(orderId, status)}
-                />
-              );
-            }
-            return (
-              <TableGridItem
-                tableType={this.props.section}
-                navigate={this.props.navigate}
-                data={rowData}
-                tabName="tables"
-                innerTab="open"
-              />
-            );
-          }}
+          data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
+          renderItem={this.renderOpenTableData}
         />
       </View>
     );
@@ -210,52 +260,17 @@ class Tables extends Component {
 
   renderQueueTable() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      <View style={{ flex: 1 }}>
         <FlatList
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={item => item.get('_id').toString()}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={this.listEmptyComponent}
-          ItemSeparatorComponent={() => {
-            if(this.props.layout !== 'list') {
-              return (
-                <View style={styles.gridSeparator}/>
-              );
-            }
-            return (
-              <View style={styles.separator}/>
-            );
-          }}
-          onRefresh={() => this.onRefresh()}
+          ItemSeparatorComponent={this.renderSeparator}
+          onRefresh={this.onRefresh}
           refreshing={this.state.isFetching}
           contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.queuedTableList.size === 0) ? 'center' : null }]}
-          data={this.props.queuedTableList.size !== 0 ? this.props.queuedTableList.toJS() : []}
-          renderItem={rowData => {
-            if (this.props.layout === 'list') {
-              return (
-                <QueuedTableItem
-                  handleQueuedTableItem={this.handleQueuedTableItem}
-                  navigate={this.props.navigate}
-                  data={rowData}
-                  tabName="tables"
-                  innerTab="queue"
-                  checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
-                  listQueuedTable={this.props.listQueuedTable}
-                />
-              );
-            }
-            return (
-              <TableGridItem
-                tableType={this.props.section}
-                navigate={this.props.navigate}
-                handleQueuedTableItem={this.handleQueuedTableItem}
-                data={rowData}
-                checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
-                listQueuedTable={this.props.listQueuedTable}
-                innerTab="closed"
-                tabName="tables"
-              />
-            );
-          }}
+          data={this.props.queuedTableList.size !== 0 ? this.props.queuedTableList.toArray() : []}
+          renderItem={this.renderQueuedTableData}
         />
       </View>
     );
@@ -264,58 +279,22 @@ class Tables extends Component {
   renderClosedTable() {
     return (
       <View style={{ flex: 1 }}>
-        {/*<ClosedTableTabs
-          currentTab={this.props.closedTableSection}
-          tabNames={['24 Hours', '3 Days', '1 Week']}
-          onListTypeSelection={index => this.props.changeClosedSection(index)}
-        />*/}
-        <View style={{ flex: 1 }}>
-          <FlatList
-            keyExtractor={(item, index) => index.toString()}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={this.listEmptyComponent}
-            ItemSeparatorComponent={() => {
-              if(this.props.layout !== 'list') {
-                return (
-                  <View style={styles.gridSeparator}/>
-                );
-              }
-              return (
-                <View style={styles.separator}/>
-              );
-            }}
-            onRefresh={() => this.onRefresh()}
-            refreshing={this.state.isFetching}
-            contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
-            data={this.props.closedTableList.length !== 0 ? this.props.closedTableList.toJS() : []}
-            renderItem={rowData => {
-              if (this.props.layout === 'list') {
-                return (
-                  <OpenTableItem
-                    data={rowData}
-                    navigate={this.props.navigate}
-                    tabName="tables"
-                    innerTab="closed"
-                  />
-                );
-              }
-              return (
-                <TableGridItem
-                  tableType={this.props.section}
-                  navigate={this.props.navigate}
-                  data={rowData}
-                  innerTab="closed"
-                  tabName="tables"
-                />
-              );
-            }}
-          />
-        </View>
+        <FlatList
+          keyExtractor={item => item.get('_id').toString()}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={this.listEmptyComponent}
+          ItemSeparatorComponent={this.renderSeparator}
+          onRefresh={this.onRefresh}
+          refreshing={this.state.isFetching}
+          contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
+          data={this.props.closedTableList.size !== 0 ? this.props.closedTableList.toArray() : []}
+          renderItem={this.renderClosedTableData}
+        />
       </View>
     );
   }
 
-  onRefresh() {
+  onRefresh = () => {
     NetInfo.isConnected.fetch().done(
       (isConnected) => { console.log(isConnected);
        if(isConnected)
@@ -342,7 +321,7 @@ class Tables extends Component {
        }
       }
     );
-  }
+  };
 
   getData() {
     if (this.props.section === 0) {
@@ -375,7 +354,7 @@ class Tables extends Component {
     });
   }
 
-  onTextChange(text) {
+  onTextChange = text => {
     if(this.state.showLoader === false) {
       this.setState(() => {
         return {
@@ -387,12 +366,12 @@ class Tables extends Component {
     this.timeOutVar = setTimeout(() => {
       this.callWebService(text);
     }, 2000);
-  }
+  };
 
-  clearTimer() {
+  clearTimer = () => {
     clearTimeout(this.timeOutVar);
     this.timeOutVar = -1;
-  }
+  };
 
   async callWebService(text) {
     try {
@@ -409,66 +388,76 @@ class Tables extends Component {
     }
   }
 
-  showList(value) {
-    console.log("Show List function Called!");
-    this.setState(() => {
-      return {
-        showList: value
-      }
-    });
+  showList = value => {
+    if(value) {
+      console.log(value);
+      this.setState(() => {
+        return {
+          showList: value
+        }
+      });
+    }
+    if(value === false) {
+      console.log(value);
+      this.setState(() => {
+        return {
+          showList: value
+        }
+      });
+    }
+  };
+
+  changeLayout = layout => {
+    this.props.changeLayout(layout);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        {(() => {
-          if(this.props.vendorData) {
-            return (
-              <LinearGradient
-                testID="linearGradient"
-                colors={['rgb(0,0,0)', 'transparent', 'transparent', 'transparent', 'transparent']}
-                locations={[0.1, 0.4, 0.4, 0.4, 0.4]}
-                style={{ flex: 1 }}
-              >
-                <View style={{ flex: 1 }}>
-                  <ExploreSearchInput
-                    showList={value => this.showList(value)}
-                    showListValue={this.state.showList}
-                    onTextChange={text => this.onTextChange(text)}
-                    clearTimer={() => this.clearTimer()}
+      {this.props.vendorData ? (
+            <LinearGradient
+              testID="linearGradient"
+              colors={['rgb(0,0,0)', 'transparent', 'transparent', 'transparent', 'transparent']}
+              locations={[0.1, 0.4, 0.4, 0.4, 0.4]}
+              style={styles.flex1}
+            >
+              <View style={styles.flex1}>
+                <ExploreSearchInput
+                  showList={this.showList}
+                  showListValue={this.state.showList}
+                  onTextChange={this.onTextChange}
+                  clearTimer={this.clearTimer}
+                />
+                <TableScreenHeader
+                  vendorData={this.props.vendorData}
+                  tableSection={this.props.section}
+                  tabName="tables"
+                />
+                <View style={styles.innerContainer}>
+                  <TableListHeader
+                    currentTab={this.props.section}
+                    tabNames={['Open', 'Queue', 'Closed']}
+                    currentLayout={this.props.layout}
+                    onChangeLayout={this.changeLayout}
+                    onListTypeSelection={this.onSectionChange}
                   />
-                  <TableScreenHeader
-                    vendorData={this.props.vendorData}
-                    tableSection={this.props.section}
-                    tabName="tables"
-                  />
-                  <View style={styles.innerContainer}>
-                    <TableListHeader
-                      currentTab={this.props.section}
-                      tabNames={['Open', 'Queue', 'Closed']}
-                      currentLayout={this.props.layout}
-                      onChangeLayout={layout => this.props.changeLayout(layout)}
-                      onListTypeSelection={index => this.onSectionChange(index)}
-                    />
-                    {this.renderSection()}
-                  </View>
-
-                  {this.state.showList &&
-                    <VendorSearch
-                      showLoader={this.state.showLoader}
-                      filteredData={this.state.filteredData}
-                    />
-                  }
+                  {this.renderSection()}
                 </View>
-              </LinearGradient>
-            )
-          }
-          return (
-            <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+
+                {this.state.showList &&
+                  <VendorSearch
+                    showLoader={this.state.showLoader}
+                    filteredData={this.state.filteredData}
+                  />
+                }
+              </View>
+            </LinearGradient>
+          ) : (
+            <View style={styles.accountNotFoundContainer}>
               <Text style={styles.message}>Vendor Account not Found!</Text>
             </View>
-          );
-        })()}
+          )
+        }
         <LoadingComponent visible={this.props.isBusy} />
       </View>
     );

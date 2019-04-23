@@ -11,7 +11,7 @@ import showGenericAlert from '../../../components/GenericAlert';
 
 export default class ExploreList extends PureComponent {
   static propTypes = {
-    restaurants: PropTypes.array.isRequired,
+    restaurants: PropTypes.object.isRequired,
     navigate: PropTypes.func.isRequired
   };
   constructor() {
@@ -28,7 +28,7 @@ export default class ExploreList extends PureComponent {
     }
   }
 
-  onRefresh() {
+  onRefresh = () => {
     this.setState(() => {
         return {
           isFetching: true
@@ -105,8 +105,8 @@ export default class ExploreList extends PureComponent {
     console.log("pull to refresh Called!");
     let activeFilters = [];
     this.props.filters.map(item => {
-      if(item.on) {
-        activeFilters.push(item.filterType);
+      if(item.get('on')) {
+        activeFilters.push(item.get('filterType'));
       }
     });
 
@@ -128,58 +128,6 @@ export default class ExploreList extends PureComponent {
     });
   }
 
-  // PLEASE DON'T DELETE THE BELOW FUNCTIONS. MAY BE I'LL USE IT LATER.
-  // getNetworkIP() {
-  //   publicIP()
-  //     .then(ip => {
-  //       this.getIPLocation(ip);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }
-  //
-  // getIPLocation(ip) {
-  //    console.log("location ip is ------ ",ip);
-  //    let commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
-  //    console.log("location url is ------ ",commonHtml);
-  //      fetch(commonHtml)
-  //        .then((response) => response.json())
-  //        .then((responseJson) => {
-  //          console.log(responseJson);
-  //          if(responseJson.latitude) {
-  //           this.setState({
-  //            // countryName: responseJson.country_name, // PLEASE DON'T DELETE IT. MAY BE I'LL REQUIRE THIS LATER.
-  //            // regionName: responseJson.region_name, // PLEASE DON'T DELETE IT. MAY BE I'LL REQUIRE THIS LATER.
-  //            customRegion: {
-  //              latitude: responseJson.latitude,
-  //              longitude: responseJson.longitude,
-  //              latitudeDelta: 0.00922,
-  //              longitudeDelta: 0.00422
-  //            }
-  //           });
-  //           console.log('location ip  --- ',this.state.customRegion);
-  //
-  //           this.props.listVendors(
-  //              responseJson.latitude,
-  //              responseJson.longitude,
-  //             this.props.distance,
-  //             this.props.filters.map(item => {
-  //               if(item.on) {
-  //                 return item.filterType
-  //               }
-  //             }).join(','),
-  //             this.props.pricing
-  //           );
-  //         }
-  //         else{
-  //           // show error message
-  //         }
-  //        })
-  //        .catch((error) => {
-  //        });
-  // }
-
   listEmptyComponent() {
     return (
       <View style={{ alignItems: 'center' }}>
@@ -192,24 +140,29 @@ export default class ExploreList extends PureComponent {
     return (
       <View style={styles.seperator} />
     );
-  }
+  };
+
+  renderItem = data => <ExploreListItem item={data.item} navigate={this.props.navigate} />;
 
   render(){
-    const { restaurants } = this.props;
+    const restaurants = this.props.restaurants;
     return (
       <FlatList
-        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: restaurants.length === 0 ? 'center' : null }]}
+        contentContainerStyle={[
+          styles.flatListContentContainerStyle,
+          {
+            justifyContent: restaurants.size === 0 ? 'center' : null
+          }
+        ]}
         style={styles.flatListStyle}
         ItemSeparatorComponent={this.itemSeparator}
         initialNumToRender={10}
         ListEmptyComponent={this.listEmptyComponent}
-        onRefresh={() => this.onRefresh()}
+        onRefresh={this.onRefresh}
         refreshing={this.state.isFetching}
-        keyExtractor={(item, index) => index.toString()}
-        data={restaurants}
-        renderItem={({ item }) => (
-          <ExploreListItem item={item} navigate={this.props.navigate} />
-        )}
+        keyExtractor={item => item.get('_id').toString()}
+        data={restaurants.toArray()}
+        renderItem={this.renderItem}
       />
     );
   }

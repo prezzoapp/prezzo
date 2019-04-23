@@ -19,6 +19,38 @@ import {
   SF_PRO_TEXT_REGULAR
 } from '../../../services/constants';
 
+const mapRef = React.createRef();
+const filteredListRef = React.createRef();
+
+const googlePlacesAutoCompleteStyle = {
+  textInputContainer: {
+    paddingHorizontal: wp('4.26%'),
+    backgroundColor: 'transparent',
+    borderTopWidth: 0,
+    borderBottomWidth: 0
+  },
+  textInput: {
+    marginLeft: 0,
+    marginRight: 0,
+    height: hp('5.03%'),
+    fontSize: wp('4.26%'),
+    backgroundColor: '#414141',
+    color: 'white',
+    fontFamily: SF_PRO_TEXT_REGULAR
+  },
+  listView: {
+    zIndex: 99999,
+    top: hp('5.03%'),
+    position: 'absolute',
+    marginHorizontal: wp('4.26%'),
+    backgroundColor: '#414141'
+  },
+
+  description: {
+    color: 'white'
+  }
+};
+
 export default class MapScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -80,8 +112,8 @@ export default class MapScreen extends Component {
     this.activeFilters = '';
     const activatedFiltersArray = [];
     this.props.filters.map(item => {
-      if (item.on) {
-        activatedFiltersArray.push(item.filterType);
+      if (item.get('on')) {
+        activatedFiltersArray.push(item.get('filterType'));
       }
     });
 
@@ -121,7 +153,7 @@ export default class MapScreen extends Component {
     });
   }
 
-  onRegionChangeComplete(region) {
+  onRegionChangeComplete = region => {
     if (this.btnClicked === false && this.isFirstLoad === false) {
       this.setState(
         () => ({
@@ -152,55 +184,6 @@ export default class MapScreen extends Component {
     }
   }
 
-  // getIPLocation(ip) {
-  //   const commonHtml = `http://api.ipstack.com/${ip}?access_key=21b99644b45d75826af90f114a9923ea&format=1`;
-  //   fetch(commonHtml)
-  //     .then(response => response.json())
-  //     .then(responseJson => {
-  //       console.log(responseJson);
-  //       if (responseJson.latitude) {
-  //         this.setState({
-  //           customRegion: {
-  //             latitude: responseJson.latitude,
-  //             longitude: responseJson.longitude,
-  //             latitudeDelta: 0.00922,
-  //             longitudeDelta: 0.00422
-  //           },
-  //           isGetLocation: true
-  //         });
-  //         this.props
-  //           .listVendors(
-  //             this.state.customRegion.latitude,
-  //             this.state.customRegion.longitude,
-  //             this.props.distance,
-  //             this.activeFilters,
-  //             this.props.pricing
-  //           )
-  //           .then(() => { })
-  //           .catch(e => {
-  //             showGenericAlert('Uh-oh!', e.message || e);
-  //           });
-  //
-  //         console.log('After Getting Correct Coordinates: ');
-  //         console.log(this.state.customRegion);
-  //         console.log('First Time API Called!');
-  //       } else {
-  //         // show error message
-  //       }
-  //     })
-  //     .catch(error => { });
-  // }
-
-  // getNetworkIP() {
-  //   publicIP()
-  //   .then(ip => {
-  //       this.getIPLocation(ip);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }
-
   /**
    * @param  {Array} coordinates [lat,long]
    * return distance in miles from user cureent location
@@ -212,8 +195,8 @@ export default class MapScreen extends Component {
       const userCurrentLong = this.state.customRegion.longitude;
 
       const radlat1 = (Math.PI * userCurrentLat) / 180;
-      const radlat2 = (Math.PI * coordinates[1]) / 180;
-      const theta = userCurrentLong - coordinates[0]
+      const radlat2 = (Math.PI * coordinates.last()) / 180;
+      const theta = userCurrentLong - coordinates.first()
       const radtheta = (Math.PI * theta) / 180;
       let dist =
         Math.sin(radlat1) * Math.sin(radlat2) +
@@ -244,31 +227,44 @@ export default class MapScreen extends Component {
     this.moveMapPositionOnSearch(coordinates[1], coordinates[0]);
   }
 
-  moveMapPositionOnSearch(lat, lon) {
-    if(this.mapView) {
-      this.mapView.animateToRegion({
+  moveMapPositionOnSearch = (lat, lng) => {
+    if(mapRef.current) {
+      mapRef.current.animateToRegion({
         latitude: lat,
-        longitude: lon,
+        longitude: lng,
         latitudeDelta: 0.00922,
         longitudeDelta: 0.00422
       });
     }
   }
 
+  mapMarkerPress = () => {
+    filteredListRef.current.callMethod(item);
+  };
+
   render() {
+    const query = {
+      key: 'AIzaSyBhuq8RXrtTXm7e0TewsesDWW9e9CGJNYw',
+      language: 'en',
+      radius: '2000',
+      location: '28.002510, 73.322440',
+      types: 'establishment',
+      strictbounds: true
+    };
+
+    const placesSearchQuery = {
+      types: 'restaurant'
+    };
+
     return (
       <View style={styles.container}>
         {this.state.isGetLocation && (
           <MapView
-            ref={ref => {
-              this.mapView = ref;
-            }}
+            ref={mapRef}
             provider={MapView.PROVIDER_GOOGLE}
             initialRegion={this.state.customRegion}
             moveOnMarkerPress={false}
-            onRegionChangeComplete={region =>
-              this.onRegionChangeComplete(region)
-            }
+            onRegionChangeComplete={this.onRegionChangeComplete}
             showsCompass={false}
             customMapStyle={MapStyle}
             loadingEnabled
@@ -292,14 +288,12 @@ export default class MapScreen extends Component {
 
             {this.props.data.map(item => (
               <MapView.Marker
-                key={item._id}
+                key={item.get('_id')}
                 coordinate={{
-                  latitude: item.location.coordinates[1],
-                  longitude: item.location.coordinates[0]
+                  latitude: item.getIn(['location', 'coordinates']).last(),
+                  longitude: item.getIn(['location', 'coordinates']).first()
                 }}
-                onPress={() => {
-                  this.filteredListRef.callMethod(item);
-                }}
+                onPress={this.mapMarkerPress}
                 image={require('../../../../assets/images/map-pin.png')}
               />
             ))}
@@ -327,61 +321,22 @@ export default class MapScreen extends Component {
             currentLocation={false}
             currentLocationLabel="Current Location"
             nearbyPlacesAPI="GooglePlacesSearch"
-            query={{
-              key: 'AIzaSyBhuq8RXrtTXm7e0TewsesDWW9e9CGJNYw',
-              language: 'en',
-              radius: '2000',
-              location: '28.002510, 73.322440',
-              types: 'establishment',
-              strictbounds: true
-            }}
-            GooglePlacesSearchQuery={{
-              rankby: 'distance',
-              types: 'restaurant'
-            }}
+            query={query}
+            GooglePlacesSearchQuery={placesSearchQuery}
             debounce={200}
             onPress={(data, details = null) => {
               this.moveMapPositionOnSearch(
                 details.geometry.location.lat,
                 details.geometry.location.lng
-              );
+              )
             }}
-            styles={{
-              textInputContainer: {
-                paddingHorizontal: wp('4.26%'),
-                backgroundColor: 'transparent',
-                borderTopWidth: 0,
-                borderBottomWidth: 0
-              },
-              textInput: {
-                marginLeft: 0,
-                marginRight: 0,
-                height: hp('5.03%'),
-                fontSize: wp('4.26%'),
-                backgroundColor: '#414141',
-                color: 'white',
-                fontFamily: SF_PRO_TEXT_REGULAR
-              },
-              listView: {
-                zIndex: 99999,
-                top: hp('5.03%'),
-                position: 'absolute',
-                marginHorizontal: wp('4.26%'),
-                backgroundColor: '#414141'
-              },
-
-              description: {
-                color: 'white'
-              }
-            }}
+            styles={googlePlacesAutoCompleteStyle}
           />
         </View>
 
         <FilteredVendorBottomCard
           data={this.props.data}
-          ref={filteredListRef => {
-            this.filteredListRef = filteredListRef;
-          }}
+          ref={filteredListRef}
           moveToPosition={(id, coordinates) =>
             this.moveToPosition(id, coordinates)
           }
@@ -393,9 +348,9 @@ export default class MapScreen extends Component {
 }
 
 MapScreen.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
   listVendors: PropTypes.func.isRequired,
-  filters: PropTypes.array.isRequired,
+  filters: PropTypes.object.isRequired,
   distance: PropTypes.number.isRequired,
   pricing: PropTypes.number.isRequired,
   disableVendorListItem: PropTypes.func.isRequired

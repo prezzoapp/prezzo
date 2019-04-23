@@ -6,8 +6,7 @@ import { listVendors, toggleFilter, updateDistance, updatePrice, getUserCurrentL
 export const mapStateToProps = state => {
   const filters = state
     .get('explore')
-    .get('filters')
-    .toJS();
+    .get('filters');
   const distance = state.get('explore').get('distance');
   const pricing = state.get('explore').get('pricing');
   const isBusy = state.get('explore').get('isBusy');

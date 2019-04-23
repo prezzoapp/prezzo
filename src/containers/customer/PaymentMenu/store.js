@@ -7,8 +7,7 @@ import { listCreditCards } from '../../../modules/paymentMethods';
 export const mapStateToProps = state => {
   const data = state
     .get('paymentMethods')
-    .get('data')
-    .toJS();
+    .get('data');
 
   const isBusy = state.get('paymentMethods').get('isBusy');
 

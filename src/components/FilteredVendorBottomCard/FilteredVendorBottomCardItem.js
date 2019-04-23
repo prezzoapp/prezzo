@@ -4,18 +4,19 @@ import CacheImage from '../CacheImage';
 import styles from './styles';
 
 const FilteredVendorBottomCardItem = props => {
+  const data = props.item;
   return (
     <TouchableOpacity
-      disabled={props.item.disable}
+      disabled={data.get('disable')}
       activeOpacity={0.6}
       style={styles.listItemBtn}
-      onPress={() => !props.item.disable && props.moveToPosition()}
+      onPress={() => !data.get('disable') && props.moveToPosition()}
     >
       <View style={styles.titleHolder}>
-        <Text style={styles.name}>{props.item.name}</Text>
+        <Text style={styles.name}>{data.get('name')}</Text>
         <Text style={styles.distance}>{
           props.getDistanceFromCurrentLocation(
-            props.item.location.coordinates)}
+            data.getIn(['location', 'coordinates']))}
         </Text>
       </View>
 
@@ -25,7 +26,7 @@ const FilteredVendorBottomCardItem = props => {
           type='image'
           style={styles.statusImage}
         />
-        <Text style={styles.status}>{props.item.status}</Text>
+        <Text style={styles.status}>{data.get('status')}</Text>
       </View>
     </TouchableOpacity>
   );

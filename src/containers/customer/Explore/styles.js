@@ -83,5 +83,18 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     bottom: -10.25
+  },
+
+  thumbStyle: {
+    height: 13,
+    width: 13
+  },
+
+  trackStyle: {
+    height: 3
+  },
+
+  sliderHeight: {
+    height: 31
   }
 });
