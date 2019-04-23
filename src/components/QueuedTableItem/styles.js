@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    // marginTop: hp('1.84%'),
+    height: wp('17.68%'),
     marginHorizontal: wp('4.26%'),
     shadowOffset: { width: 1, height: 6 },
     shadowColor: 'black',

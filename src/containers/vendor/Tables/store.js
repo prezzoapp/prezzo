@@ -13,7 +13,10 @@ import {
   makePaymentAndCompleteOrder,
   changeOrderStatus,
   checkOpenOrderStatus,
-  checkQueueOrderStatus
+  checkQueueOrderStatus,
+  loadMoreOpenTableList,
+  loadMoreQueuedTableList,
+  loadMoreClosedTableList
 } from '../../../modules/table';
 
 export const mapStateToProps = state => ({
@@ -25,7 +28,8 @@ export const mapStateToProps = state => ({
   closedTableList: state.get('table').get('closedTableList'),
   vendorData: state.get('vendor').get('data'),
   isBusy: state.get('table').get('isBusy'),
-  openOrderFinalStatus: state.get('table').get('openOrderFinalStatus')
+  openOrderFinalStatus: state.get('table').get('openOrderFinalStatus'),
+  currentListSize: state.get('table').get('currentListSize')
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -41,5 +45,8 @@ export const mapDispatchToProps = dispatch => ({
   makePaymentAndCompleteOrder: bindActionCreators(makePaymentAndCompleteOrder, dispatch),
   changeOrderStatus: bindActionCreators(changeOrderStatus, dispatch),
   checkOpenOrderStatus: bindActionCreators(checkOpenOrderStatus, dispatch),
-  checkQueueOrderStatus: bindActionCreators(checkQueueOrderStatus, dispatch)
+  checkQueueOrderStatus: bindActionCreators(checkQueueOrderStatus, dispatch),
+  loadMoreOpenTableList: bindActionCreators(loadMoreOpenTableList, dispatch),
+  loadMoreQueuedTableList: bindActionCreators(loadMoreQueuedTableList, dispatch),
+  loadMoreClosedTableList: bindActionCreators(loadMoreClosedTableList, dispatch)
 });
