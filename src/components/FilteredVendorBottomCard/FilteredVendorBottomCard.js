@@ -149,9 +149,8 @@ class FilteredVendorBottomCard extends Component {
             </View>
             <View style={styles.contentHolder}>
               <View style={styles.vendorIconHolder}>
-                <CacheImage
-                  source={this.state.item.avatarURL}
-                  type='image'
+                <Image
+                  source={{ uri: this.state.item.avatarURL }}
                   style={styles.vendorIcon}
                 />
               </View>
@@ -163,9 +162,8 @@ class FilteredVendorBottomCard extends Component {
                   {this.state.item.location.city}, {this.state.item.location.region}
                 </Text>
                 <View style={[styles.statusHolder, styles.extraStatusHolderStyle]}>
-                  <CacheImage
+                  <Image
                     source={require("../../../assets/images/open_restaurant_status.png")}
-                    type='image'
                     style={styles.statusImage}
                   />
                   <Text style={[styles.status, styles.extraStatusStyle]}>Open Now</Text>

@@ -37,7 +37,6 @@ import {
 } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import alert from '../../../components/GenericAlert';
-import CacheImage from '../../../components/CacheImage';
 import NextButton from './NextButton';
 
 const windowHeight = Dimensions.get('window').height;
@@ -227,9 +226,8 @@ class SignupEmail extends React.Component<Props> {
 
   render() {
     return (
-      <CacheImage
+      <ImageBackground
         style={styles.container}
-        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -274,7 +272,7 @@ class SignupEmail extends React.Component<Props> {
             />
           </ScrollView>
         </KeyboardAvoidingView>
-      </CacheImage>
+      </ImageBackground>
     );
   }
 }

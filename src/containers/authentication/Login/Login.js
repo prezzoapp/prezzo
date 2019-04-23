@@ -191,9 +191,8 @@ class Login extends React.Component<Props, State> {
   render() {
     const { email, password } = this.state;
     return (
-      <CacheImage
+      <ImageBackground
         style={styles.container}
-        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -250,7 +249,7 @@ class Login extends React.Component<Props, State> {
           </ScrollView>
         </KeyboardAvoidingView>
         <LoadingComponent visible={this.props.isBusy} />
-      </CacheImage>
+      </ImageBackground>
     );
   }
 }

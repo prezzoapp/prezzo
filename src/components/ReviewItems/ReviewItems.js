@@ -9,7 +9,6 @@ import {
 import styles from './styles';
 import AddReviewListItem from '../AddReviewListItem';
 import Button from '../Button';
-import CacheImage from '../CacheImage';
 
 import {
   COLOR_WHITE,
@@ -20,9 +19,8 @@ import {
 const ReviewItems = props => {
   renderHeader = () => (
     <View style={styles.listHeader}>
-      <CacheImage
+      <Image
         source={require('../../../assets/images/custom_modal_icons/thumbs_up_icon.png')}
-        type='image'
         style={styles.imageIcon}
       />
       <Text style={styles.title}>Congratulations!</Text>

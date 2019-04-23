@@ -222,9 +222,8 @@ export default class MenuItem extends Component {
           )}
 
           <TouchableOpacity activeOpacity={0.6} style={styles.twoLineIconBtn}>
-            <CacheImage
+            <Image
               source={require('../../../assets/images/two-lines-icon.png')}
-              type='image'
               style={styles.twoLineIconBtnImage}
             />
           </TouchableOpacity>

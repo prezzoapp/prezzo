@@ -13,7 +13,6 @@ import { List } from 'immutable';
 import { Entypo, FontAwesome, MaterialIcons } from '../VectorIcons';
 import styles from './styles';
 import OrderedItem from '../OrderedItem';
-import CacheImage from '../CacheImage';
 
 const TableGridItem = props => {
   const item = props.data;
@@ -64,12 +63,11 @@ const TableGridItem = props => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.userImageContainer}>
-          <CacheImage
+          <Image
             style={styles.userImage}
-            type='image'
             source={
               item.getIn(['creator', 'avatarURL']) !== ''
-                ? item.getIn(['creator', 'avatarURL'])
+                ? { uri: item.getIn(['creator', 'avatarURL']) }
                 : require('../../../assets/images/etc/default-avatar.png')
             }
           />

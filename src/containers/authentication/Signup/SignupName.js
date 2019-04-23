@@ -25,7 +25,6 @@ import {NavigationActions} from 'react-navigation';
 import {updateFirstName, updateLastName} from '../../../modules/Signup';
 import {FONT_FAMILY_MEDIUM} from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
-import CacheImage from '../../../components/CacheImage';
 import NextButton from './NextButton';
 
 const windowHeight = Dimensions.get('window').height;
@@ -225,9 +224,8 @@ class SignupName extends React.Component<Props, State> {
   render() {
     const {firstName, lastName} = this.props;
     return (
-      <CacheImage
+      <ImageBackground
         style={styles.container}
-        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -264,7 +262,7 @@ class SignupName extends React.Component<Props, State> {
             />
           </ScrollView>
         </KeyboardAvoidingView>
-      </CacheImage>
+      </ImageBackground>
     );
   }
 }

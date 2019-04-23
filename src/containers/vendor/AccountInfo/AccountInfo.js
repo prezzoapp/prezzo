@@ -677,13 +677,13 @@ export default class AccountInfo extends React.Component {
               onPress={() => this.showAvatarActionSheet()}
             >
               <View style={styles.imageHolder}>
-                <CacheImage
+                <Image
                   style={styles.avatar}
                   type='image'
                   selectImageThroughImagePicker={selectImageThroughImagePicker}
                   source={
                     avatarURL
-                      ? avatarURL
+                      ? {uri: avatarURL}
                       : require('../../../../assets/images/etc/default-avatar.png')
                   }
                 />

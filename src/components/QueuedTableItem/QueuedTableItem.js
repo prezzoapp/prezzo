@@ -42,12 +42,11 @@ const QueuedTableItem = props => {
       }})}
     >
       <View style={styles.userImageContainer}>
-        <CacheImage
+        <Image
           style={styles.userImage}
-          type='image'
           source={
             item.getIn(['creator', 'avatarURL']) !== ''
-              ? item.getIn(['creator', 'avatarURL'])
+              ? { uri: item.getIn(['creator', 'avatarURL']) }
               : require('../../../assets/images/etc/default-avatar.png')
           }
         />
