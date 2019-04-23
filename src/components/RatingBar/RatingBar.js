@@ -4,7 +4,6 @@ import { View, TouchableOpacity, Image } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
-import CacheImage from '../CacheImage';
 
 const MAX_RATING = 5;
 
@@ -35,9 +34,8 @@ export default class RatingBar extends Component {
           style={styles.btn}
           onPress={() => this.changeRating(i)}
         >
-          <CacheImage
+          <Image
             style={styles.starImage}
-            type='image'
             source={
               i <= this.state.itemRating
                 ? require('../../../assets/images/star_fill.png')

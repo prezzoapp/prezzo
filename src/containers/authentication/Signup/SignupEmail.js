@@ -8,7 +8,8 @@ import {
   StyleSheet,
   Platform,
   KeyboardAvoidingView,
-  ScrollView
+  ScrollView,
+  ImageBackground
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -30,7 +31,6 @@ import {
 } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import alert from '../../../components/GenericAlert';
-import CacheImage from '../../../components/CacheImage';
 import NextButton from './NextButton';
 
 type Props = {
@@ -156,9 +156,8 @@ class SignupEmail extends React.Component<Props> {
     const { email, findUser } = this.props;
 
     return (
-      <CacheImage
+      <ImageBackground
         style={styles.container}
-        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -208,7 +207,7 @@ class SignupEmail extends React.Component<Props> {
             />
           </ScrollView>
         </KeyboardAvoidingView>
-      </CacheImage>
+      </ImageBackground>
     );
   }
 }

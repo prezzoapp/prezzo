@@ -19,7 +19,6 @@ import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
 import { Constants } from 'expo';
 import LoadingComponent from '../../../components/LoadingComponent';
-import CacheImage from '../../../components/CacheImage';
 
 type Props = {
   loginWithEmail: Function,
@@ -97,9 +96,8 @@ class Login extends React.Component<Props, State> {
     const { email, password } = this.state;
 
     return (
-      <CacheImage
+      <ImageBackground
         style={styles.container}
-        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -152,7 +150,7 @@ class Login extends React.Component<Props, State> {
           </ScrollView>
         </KeyboardAvoidingView>
         <LoadingComponent visible={this.props.isBusy} />
-      </CacheImage>
+      </ImageBackground>
     );
   }
 }

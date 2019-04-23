@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
-// import LinearGradient from 'react-native-linear-gradient';
 import { LinearGradient } from 'expo';
 import PropTypes from 'prop-types';
 import { Feather } from '../VectorIcons';
 import styles from './styles';
 import MenuItemImage from '../MenuItemImage';
-import CacheImage from '../CacheImage';
 import RatingBar from '../RatingBar';
 
 class AddReviewListItem extends Component {
@@ -29,9 +27,8 @@ class AddReviewListItem extends Component {
     return (
       <View style={styles.item}>
         <View style={styles.bigImageHolder}>
-          <CacheImage
-            source={this.props.item.images[0]}
-            type='backgroundImage'
+          <ImageBackground
+            source={{ uri: this.props.item.images[0] }}
             style={styles.bigImage}
           >
             <LinearGradient
@@ -41,7 +38,7 @@ class AddReviewListItem extends Component {
             >
               <Text style={styles.name}>{this.props.item.name}</Text>
             </LinearGradient>
-          </CacheImage>
+          </ImageBackground>
         </View>
 
         <Text style={styles.addPhotoText}>Add a Photo</Text>

@@ -6,7 +6,6 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Slider from 'react-native-slider';
 import { LinearGradient } from 'expo';
 import { EvilIcons } from '../../../components/VectorIcons';
-import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 
 class ExploreScreenHeader extends Component {
@@ -75,9 +74,8 @@ class ExploreScreenHeader extends Component {
                   style={{ marginLeft: 10 }}
                   onPress={() => this._getLocationAsync()}
                 >
-                  <CacheImage
+                  <Image
                     source={require('../../../../assets/images/location_icon.png')}
-                    type='image'
                     style={styles.locationPin} />
                 </TouchableOpacity>
               </View>

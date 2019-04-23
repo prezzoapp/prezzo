@@ -4,7 +4,6 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import styles from './styles';
-import CacheImage from '../CacheImage';
 
 const EditableListItem = props => {
   const { onRemove, text, leftIcon, expDate } = props;
@@ -39,9 +38,8 @@ const EditableListItem = props => {
         style={styles.iconContainer}
         onPress={() => onRemove && onRemove()}
       >
-        <CacheImage
+        <Image
           style={styles.icon}
-          type='image'
           source={require('../../../assets/images/icons/remove.png')}
         />
       </TouchableOpacity>

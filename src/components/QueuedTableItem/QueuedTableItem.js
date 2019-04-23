@@ -5,7 +5,6 @@ import styles from './styles';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FontAwesome, MaterialIcons } from '../VectorIcons';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../services/constants';
-import CacheImage from '../CacheImage';
 
 const QueuedTableItem = props => {
   const item = props.data;
@@ -41,12 +40,11 @@ const QueuedTableItem = props => {
       }})}
     >
       <View style={styles.userImageContainer}>
-        <CacheImage
+        <Image
           style={styles.userImage}
-          type='image'
           source={
             item.getIn(['creator', 'avatarURL']) !== ''
-              ? item.getIn(['creator', 'avatarURL'])
+              ? { uri: item.getIn(['creator', 'avatarURL']) }
               : require('../../../assets/images/etc/default-avatar.png')
           }
         />

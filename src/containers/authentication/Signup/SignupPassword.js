@@ -8,7 +8,8 @@ import {
   StyleSheet,
   ScrollView,
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ImageBackground
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -26,7 +27,6 @@ import NextButton from './NextButton';
 import { ImagePicker, Permissions, Constants } from 'expo';
 import { getTimeStampString } from '../../../services/commonFunctions';
 import { Feather } from '../../../components/VectorIcons';
-import CacheImage from '../../../components/CacheImage';
 
 type Props = {
   firstName: string,
@@ -334,9 +334,8 @@ class SignupPassword extends React.Component<Props, State> {
     console.log(avatarURL);
 
     return (
-      <CacheImage
+      <ImageBackground
         style={styles.container}
-        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -366,9 +365,8 @@ class SignupPassword extends React.Component<Props, State> {
                   }
                 />
                 <View style={styles.editIconContainer}>
-                  <CacheImage
+                  <Image
                     style={styles.editAvatarIcon}
-                    type='image'
                     source={require('../../../../assets/images/icons/edit.png')}
                   />
                 </View>
@@ -436,7 +434,7 @@ class SignupPassword extends React.Component<Props, State> {
             }
           </ScrollView>
         </KeyboardAvoidingView>
-      </CacheImage>
+      </ImageBackground>
     );
   }
 }

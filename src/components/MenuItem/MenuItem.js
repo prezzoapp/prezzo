@@ -7,7 +7,6 @@ import MenuItemImage from '../MenuItemImage';
 import styles from './styles';
 import { COLOR_DANGER } from '../../services/constants';
 import { getTimeStampString } from '../../services/commonFunctions';
-import CacheImage from '../CacheImage';
 
 const menuItemImageRef = React.createRef();
 
@@ -161,9 +160,8 @@ export default class MenuItem extends Component {
           )}
 
           <TouchableOpacity activeOpacity={0.6} style={styles.twoLineIconBtn}>
-            <CacheImage
+            <Image
               source={require('../../../assets/images/two-lines-icon.png')}
-              type='image'
               style={styles.twoLineIconBtnImage}
             />
           </TouchableOpacity>

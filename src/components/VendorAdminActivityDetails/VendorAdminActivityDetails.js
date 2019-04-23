@@ -5,9 +5,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { fromJS } from 'immutable';
 import OpenOrdersList from '../OpenOrdersList';
 import OpenTablePayment from '../OpenTablePayment';
-import CacheImage from '../CacheImage';
 import styles from './styles';
 import Button from '../Button';
 import { Feather } from '../VectorIcons';
@@ -36,13 +36,12 @@ export default class VendorAdminActivityDetails extends Component {
             />
           </TouchableOpacity>
 
-          <CacheImage
+          <Image
             style={styles.headerImage}
-            type='image'
             source={
               navigation.state.params.userImage === ''
                 ? require('../../../assets/images/etc/default-avatar.png')
-                : navigation.state.params.userImage
+                : { uri: navigation.state.params.userImage }
             }
           />
           <Text style={styles.headerText} numberOfLines={1}>
@@ -120,7 +119,7 @@ export default class VendorAdminActivityDetails extends Component {
   }
 
   render() {
-    const { item } = this.props.navigation.state.params;
+    const item = fromJS(this.props.navigation.state.params.item);
     return (
       <Container style={styles.container}>
         <Tabs

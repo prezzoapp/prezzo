@@ -3,7 +3,6 @@ import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { Feather } from '../VectorIcons';
-import CacheImage from '../CacheImage';
 import styles from './styles';
 
 class ActivityListItem extends Component {
@@ -37,15 +36,14 @@ class ActivityListItem extends Component {
         <View style={styles.item}>
           <View style={styles.leftSide}>
             <View style={styles.statusIconHolder}>
-              <CacheImage
+              <Image
                 source={
                 item.get('status') === 'complete'
                     ? require('../../../assets/images/icons/active_status.png')
                   : item.get('status') === 'denied'
-                    ? undefined
+                    ? null
                     : require('../../../assets/images/icons/green_in_progress.png')
                 }
-                type='image'
                 style={styles.statusImage}
               />
             </View>

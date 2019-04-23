@@ -173,6 +173,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: hp('2.83%'),
     left: wp('4.53%')
+  },
+  
+  separator: {
+    height: wp('4%')
   }
 });
 

@@ -261,21 +261,35 @@ class Activity extends Component {
     );
   }
 
+  renderWaiterRequestTableData = data => (
+    <OpenTableItem
+      data={data.item}
+      navigate={this.props.navigate}
+      tabName="activity"
+    />
+  );
+
+  renderPhotoReviewTableData = data => (
+    <OpenTableItem
+      data={data.item}
+      tabName="activity"
+      innerTabName="photoReview"
+      onPress={() => this.show()}
+    />
+  );
+
+  renderSeparator = () => <View style={styles.separator}/>;
+
   renderWaiterRequestTable() {
     return (
       <FlatList
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={item => item.get('_id').toString()}
         showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={this.renderSeparator}
         contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
-        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toJS() : []}
-        renderItem={rowData => (
-          <OpenTableItem
-            data={rowData}
-            navigate={this.props.navigate}
-            tabName="activity"
-          />
-        )}
+        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
+        renderItem={this.renderWaiterRequestTableData}
       />
     );
   }
@@ -283,19 +297,13 @@ class Activity extends Component {
   renderPhotoReviewTable() {
     return (
       <FlatList
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={item => item.get('_id').toString()}
         showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={this.renderSeparator}
         contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
-        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toJS() : []}
-        renderItem={rowData => (
-          <OpenTableItem
-            data={rowData}
-            tabName="activity"
-            innerTabName="photoReview"
-            onPress={() => this.show()}
-          />
-        )}
+        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
+        renderItem={this.renderPhotoReviewTableData}
       />
     );
   }
@@ -394,7 +402,7 @@ class Activity extends Component {
                         <Text style={styles.subTitle}>Table 5932 - 3 Photos</Text>
                       </View>
                       <FlatList
-                        keyExtractor={(item, index) => index.toString()}
+                        keyExtractor={item => item.index.toString()}
                         showsVerticalScrollIndicator={false}
                         data={this.state.data}
                         ListHeaderComponent={() => this.renderHeader()}

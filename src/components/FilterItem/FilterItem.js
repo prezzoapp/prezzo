@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { TouchableOpacity, Text, View, Image } from 'react-native';
 
 import PropTypes from 'prop-types';
-import CacheImage from '../CacheImage';
 import styles from './styles';
 
 export default class FilterItems extends Component {
@@ -40,9 +39,8 @@ export default class FilterItems extends Component {
           ]}
           onPress={() => this.props.toggleFilter()}
         >
-          <CacheImage
+          <Image
             source={this.props.image}
-            type='image'
             style={styles.itemImage}
           />
         </TouchableOpacity>

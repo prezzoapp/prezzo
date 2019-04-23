@@ -24,7 +24,6 @@ import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
 import Button from '../../../components/Button';
 import LoadingComponent from '../../../components/LoadingComponent';
-import CacheImage from '../../../components/CacheImage';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
@@ -608,12 +607,11 @@ export default class AccountInfo extends React.Component {
               onPress={() => this.showAvatarActionSheet()}
             >
               <View style={styles.imageHolder}>
-                <CacheImage
+                <Image
                   style={styles.avatar}
-                  type='image'
                   source={
                     avatarURL
-                      ? avatarURL
+                      ? {uri: avatarURL}
                       : require('../../../../assets/images/etc/default-avatar.png')
                   }
                 />

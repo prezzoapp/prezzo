@@ -5,7 +5,8 @@ import ReactNative, {
   TouchableOpacity,
   ScrollView,
   Dimensions,
-  PanResponder
+  PanResponder,
+  Image
 } from 'react-native';
 
 import { BlurView } from 'expo';
@@ -15,8 +16,6 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 
 import CheckoutSwiper from '../../../components/CheckoutSwiper';
-
-import CacheImage from '../../../components/CacheImage';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -37,8 +36,6 @@ export default class Checkout extends Component {
     this.hideModal = this.hideModal.bind(this);
 
     this.showModalAnimatedValue = new Animated.Value(height);
-
-    // this.index = 0;
 
     this.viewPosition = { x: 0, y: 0, width: 0, height: 0 };
 
@@ -118,10 +115,6 @@ export default class Checkout extends Component {
     checkoutSwiperRef.current.scrollForward();
   }
 
-  // scrollReset() {
-  //   this.checkoutSwiper.scrollReset();
-  // }
-
   showModal() {
     if (this.animationRunning === false) {
       this.animationRunning = true;
@@ -174,9 +167,8 @@ export default class Checkout extends Component {
               style={styles.bottomArrowIconContainer}
               onLayout={this.calculateLayout}
             >
-              <CacheImage
+              <Image
                 source={require('../../../../assets/images/icons/bottom_arrow.png')}
-                type='image'
                 style={styles.bottom_arrow}
               />
             </View>
@@ -194,9 +186,8 @@ export default class Checkout extends Component {
                   onPress={() => null}
                   style={styles.tabBarIconsHolder}
                 >
-                  <CacheImage
+                  <Image
                     source={require('../../../../assets/images/checkout_icons/review_icon.png')}
-                    type='image'
                     style={styles.icon}
                   />
                 </TouchableOpacity>
@@ -207,9 +198,8 @@ export default class Checkout extends Component {
                   onPress={() => null}
                   style={styles.tabBarIconsHolder}
                 >
-                  <CacheImage
+                  <Image
                     source={require('../../../../assets/images/checkout_icons/payment_icon.png')}
-                    type='image'
                     style={styles.icon}
                   />
                 </TouchableOpacity>

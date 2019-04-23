@@ -9,7 +9,6 @@ import {
 import styles from './styles';
 import AddReviewListItem from '../AddReviewListItem';
 import Button from '../Button';
-import CacheImage from '../CacheImage';
 
 import {
   COLOR_WHITE,
@@ -20,9 +19,8 @@ import {
 class ReviewItems extends Component {
   renderHeader = () => (
     <View style={styles.listHeader}>
-      <CacheImage
+      <Image
         source={require('../../../assets/images/custom_modal_icons/thumbs_up_icon.png')}
-        type='image'
         style={styles.imageIcon}
       />
       <Text style={styles.title}>Congratulations!</Text>
@@ -57,7 +55,7 @@ class ReviewItems extends Component {
         transparent
         visible={this.props.modalVisible}
         onRequestClose={() => {
-          alert('Modal has been closed.');
+          console.log('Modal has been closed.');
         }}
       >
         <View style={styles.container}>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 import {
   widthPercentageToDP as wp,
@@ -19,8 +19,6 @@ import { FONT_FAMILY, COLOR_WHITE } from '../../services/constants';
 import styles, { stylesRaw } from './styles';
 
 import showGenericAlert from '../GenericAlert';
-
-import CacheImage from '../CacheImage';
 
 const CREDIT_CARD = 'credit_card';
 const CASH = 'cash';
@@ -238,9 +236,8 @@ export default class CheckoutSwiper extends Component {
                       disabled={this.state.selectedPaymentType === CREDIT_CARD}
                     >
                       <View>
-                        <CacheImage
+                        <Image
                           source={require('../../../assets/images/etc/visa_icon.png')}
-                          type='image'
                           style={styles.paymentIcons}
                         />
                       </View>
@@ -263,9 +260,8 @@ export default class CheckoutSwiper extends Component {
                       disabled={this.state.selectedPaymentType === CASH}
                     >
                       <View>
-                        <CacheImage
+                        <Image
                           source={require('../../../assets/images/etc/cash_icon.png')}
-                          type='image'
                           style={styles.paymentIcons}
                         />
                       </View>

@@ -19,7 +19,6 @@ import {
 import MenuButton from '../../../components/MenuButton';
 import { Feather } from '../../../components/VectorIcons';
 import EditableListItem from '../../../components/EditableListItem';
-import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 
@@ -111,33 +110,29 @@ class PaymentMenu extends Component {
   renderLeftIcon(item) {
     if (item.get('type') === 'braintree-visa') {
       return (
-        <CacheImage
+        <Image
           source={require('../../../../assets/images/icons/stp_card_visa.png')}
-          type='image'
           style={styles.ccIcon}
         />
       );
     } else if (item.get('type') === 'braintree-mastercard') {
       return (
-        <CacheImage
+        <Image
           source={require('../../../../assets/images/icons/stp_card_mastercard.png')}
-          type='image'
           style={styles.ccIcon}
         />
       );
     } else if (item.get('type') === 'braintree-discover') {
       return (
-        <CacheImage
+        <Image
           source={require('../../../../assets/images/icons/stp_card_discover.png')}
-          type='image'
           style={styles.ccIcon}
         />
       );
     } else if (item.get('type') === 'braintree-jcb') {
       return (
-        <CacheImage
+        <Image
           source={require('../../../../assets/images/icons/stp_card_jcb.png')}
-          type='image'
           style={styles.ccIcon}
         />
       );
@@ -159,9 +154,8 @@ class PaymentMenu extends Component {
             title="Add Credit Card"
             icon="add"
             leftIcon={
-              <CacheImage
+              <Image
                 source={require('../../../../assets/images/Credit-Card.png')}
-                type='image'
                 style={styles.creditCardIcon}
               />
             }

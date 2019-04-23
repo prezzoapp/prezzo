@@ -37,7 +37,6 @@ import Checkout from '../Checkout';
 
 import CustomPopup from '../../../components/CustomPopup';
 import showGenericAlert from '../../../components/GenericAlert';
-import CacheImage from '../../../components/CacheImage';
 
 import { post } from '../../../utils/api';
 import Loader from '../../../components/Loader';
@@ -484,15 +483,14 @@ export default class RestaurantDetails extends Component {
 
     return (
       <View style={styles.container}>
-        <CacheImage
+        <ImageBackground
           source={require('../../../../assets/images/photo_back.jpg')}
-          type='backgroundImage'
           style={styles.photo_back}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.LinearGradientStyle}
           />
-        </CacheImage>
+        </ImageBackground>
 
         <Animated.View
           style={{
@@ -511,10 +509,9 @@ export default class RestaurantDetails extends Component {
           }}
         >
           <View style={styles.contentContainer}>
-            <CacheImage
-              source={this.props.navigation.state.params.item.avatarURL}
+            <Image
+              source={{ uri: this.props.navigation.state.params.item.avatarURL }}
               style={styles.logo}
-              type='image'
             />
             <View style={[styles.headerTextContainer, styles.transparent]}>
               <Text style={styles.headerTitleText}>

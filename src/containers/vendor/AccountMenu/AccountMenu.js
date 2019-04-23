@@ -1,11 +1,10 @@
 // @flow
 import * as React from 'react';
-import { View, Alert, TouchableOpacity, Text } from 'react-native';
+import { View, Alert, TouchableOpacity, Text, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { MaterialIcons } from '../../../components/VectorIcons';
 import MenuButton from '../../../components/MenuButton';
-import CacheImage from '../../../components/CacheImage';
 import * as snapshot from '../../../utils/snapshot';
 import styles from './styles';
 import {
@@ -89,12 +88,11 @@ export default class AccountMenu extends React.Component {
         <View style={styles.container}>
           <View style={styles.headerContainer}>
             <View style={styles.avatarContainer}>
-              <CacheImage
+              <Image
                 style={styles.avatar}
-                type='image'
                 source={
                   avatarURL
-                    ? avatarURL
+                    ? {uri: avatarURL}
                     : require('../../../../assets/images/etc/default-avatar.png')
                 }
               />

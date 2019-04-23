@@ -6,7 +6,6 @@ import { ImagePicker, ImageManipulator, Permissions } from 'expo';
 import { ActionSheet } from 'native-base';
 import PropTypes from 'prop-types';
 import { Ionicons } from '../VectorIcons';
-import CacheImage from '../CacheImage';
 import { getTimeStampString } from '../../services/commonFunctions';
 import styles from './styles';
 
@@ -122,18 +121,16 @@ class ItemImagePicker extends Component {
             onPress={this.showAvatarActionSheet}
             style={styles.itemImagePickerBtn}
           >
-            <CacheImage
+            <Image
               style={styles.itemImage}
-              type='image'
               source={require('../../../assets/images/default_image_placeholder.png')}
             />
           </TouchableOpacity>
         ) : (
           <View style={styles.itemImagePickerBtn}>
-            <CacheImage
+            <Image
               style={styles.itemImage}
-              type='image'
-              source={this.props.image}
+              source={{ uri: this.props.image }}
             />
           </View>
         )}

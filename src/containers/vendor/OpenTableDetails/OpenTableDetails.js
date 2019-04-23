@@ -16,7 +16,6 @@ import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import styles from './styles';
 import { Feather } from '../../../components/VectorIcons';
-import CacheImage from '../../../components/CacheImage';
 import { TAX } from '../../../services/constants';
 
 export default class OpenTableDetails extends Component {
@@ -35,13 +34,12 @@ export default class OpenTableDetails extends Component {
           />
         </TouchableOpacity>
 
-        <CacheImage
+        <Image
           style={styles.headerImage}
-          type='image'
           source={
             navigation.state.params.userImage === ''
               ? require('../../../../assets/images/etc/default-avatar.png')
-              : navigation.state.params.userImage
+              : {uri: navigation.state.params.userImage}
           }
         />
         <Text style={styles.headerText} numberOfLines={1}>
