@@ -38,7 +38,7 @@ class ActivityListItem extends Component {
         <View style={styles.item}>
           <View style={styles.leftSide}>
             <View style={styles.statusIconHolder}>
-              <CacheImage
+              <Image
                 source={
                 item.get('status') === 'complete'
                     ? require('../../../assets/images/icons/active_status.png')
@@ -46,7 +46,6 @@ class ActivityListItem extends Component {
                     ? null
                     : require('../../../assets/images/icons/green_in_progress.png')
                 }
-                type='image'
                 style={styles.statusImage}
               />
             </View>

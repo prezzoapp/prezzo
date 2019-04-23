@@ -323,26 +323,35 @@ class Activity extends Component {
     );
   }
 
+  renderWaiterRequestTableData = data => (
+    <OpenTableItem
+      data={data.item}
+      navigate={this.props.navigate}
+      tabName="activity"
+    />
+  );
+
+  renderPhotoReviewTableData = data => (
+    <OpenTableItem
+      data={data.item}
+      tabName="activity"
+      innerTabName="photoReview"
+      onPress={() => this.show()}
+    />
+  );
+
+  renderSeparator = () => <View style={styles.separator}/>;
+
   renderWaiterRequestTable() {
     return (
       <FlatList
-        keyExtractor={(item, index) => item._id.toString()}
+        keyExtractor={item => item.get('_id').toString()}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: (this.props.waiterRequestedTableList || {}).size === 0 ? 'center' : null }]}
+        ItemSeparatorComponent={this.renderSeparator}
+        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
-        onRefresh={() => this.onRefresh()}
-        refreshing={this.state.isFetching}
-        ItemSeparatorComponent={() => <View style={styles.separator}/>}
-        data={this.props.waiterRequestedTableList && this.props.waiterRequestedTableList.size !== 0 ?
-          this.props.waiterRequestedTableList.toJS() : []}
-        renderItem={rowData => (
-          <OpenTableItem
-            data={rowData}
-            navigate={this.props.navigate}
-            tabName="activity"
-            innerTab='waiterRequested'
-          />
-        )}
+        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
+        renderItem={this.renderWaiterRequestTableData}
       />
     );
   }
@@ -350,22 +359,13 @@ class Activity extends Component {
   renderPhotoReviewTable() {
     return (
       <FlatList
-        keyExtractor={(item, index) => item._id.toString()}
+        keyExtractor={item => item.get('_id').toString()}
         showsVerticalScrollIndicator={false}
-        onRefresh={() => this.onRefresh()}
-        refreshing={this.state.isFetching}
-        ItemSeparatorComponent={() => <View style={styles.separator}/>}
-        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.photoReviewList.size === 0 ? 'center' : null }]}
+        ItemSeparatorComponent={this.renderSeparator}
+        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
-        data={this.props.photoReviewList.size !== 0 ? this.props.photoReviewList.toJS() : []}
-        renderItem={rowData => (
-          <OpenTableItem
-            data={rowData}
-            tabName="activity"
-            innerTab="photoReview"
-            onPress={() => this.show(rowData)}
-          />
-        )}
+        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
+        renderItem={this.renderPhotoReviewTableData}
       />
     );
   }

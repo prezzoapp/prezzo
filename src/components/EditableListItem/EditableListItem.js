@@ -56,9 +56,8 @@ const EditableListItem = props => {
           );
         }}
       >
-        <CacheImage
+        <Image
           style={styles.icon}
-          type='image'
           source={require('../../../assets/images/icons/remove.png')}
         />
       </TouchableOpacity>

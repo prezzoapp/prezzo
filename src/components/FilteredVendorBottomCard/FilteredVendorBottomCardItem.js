@@ -22,9 +22,8 @@ const FilteredVendorBottomCardItem = props => {
       </View>
 
       <View style={styles.statusHolder}>
-        <CacheImage
+        <Image
           source={require("../../../assets/images/open_restaurant_status.png")}
-          type='image'
           style={styles.statusImage}
         />
         <Text style={styles.status}>{data.get('status')}</Text>

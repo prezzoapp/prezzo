@@ -357,9 +357,8 @@ class SignupPassword extends React.Component<Props, State> {
     console.log(avatarURL);
 
     return (
-      <CacheImage
+      <ImageBackground
         style={styles.container}
-        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -389,9 +388,8 @@ class SignupPassword extends React.Component<Props, State> {
                   }
                 />
                 <View style={styles.editIconContainer}>
-                  <CacheImage
+                  <Image
                     style={styles.editAvatarIcon}
-                    type='image'
                     source={require('../../../../assets/images/icons/edit.png')}
                   />
                 </View>

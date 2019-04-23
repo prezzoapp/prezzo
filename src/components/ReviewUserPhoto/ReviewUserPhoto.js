@@ -4,7 +4,6 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import { COLOR_GREEN } from '../../services/constants';
-import CacheImage from '../CacheImage';
 
 const ReviewUserPhoto = props => {
   addImageComponent = (itemIndex, imageIndex) => {

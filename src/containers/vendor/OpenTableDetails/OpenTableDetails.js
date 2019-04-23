@@ -43,13 +43,12 @@ export default class OpenTableDetails extends Component {
           />
         </TouchableOpacity>
 
-        <CacheImage
+        <Image
           style={styles.headerImage}
-          type='image'
           source={
             navigation.state.params.userImage === ''
               ? require('../../../../assets/images/etc/default-avatar.png')
-              : navigation.state.params.userImage
+              : {uri: navigation.state.params.userImage}
           }
         />
         <Text style={styles.headerText} numberOfLines={1}>

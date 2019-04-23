@@ -9,7 +9,6 @@ import {
   FONT_FAMILY_BOLD
 } from '../../../services/constants';
 import Button from '../../../components/Button';
-import CacheImage from '../../../components/CacheImage';
 
 type Props = {};
 
@@ -75,9 +74,8 @@ class EnableNotificationsView extends React.Component<Props, State> {
 
     return (
       <View style={styles.container}>
-        <CacheImage
+        <Image
           style={styles.chatIcon}
-          type='image'
           source={require('../../../../assets/images/icons/chat.png')}
         />
         <Text style={styles.headerText}>

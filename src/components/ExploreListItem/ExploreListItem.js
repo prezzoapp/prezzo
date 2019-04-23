@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { View, Text, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
 import PropTypes from 'prop-types';
-import CacheImage from '../CacheImage';
 import styles from './styles';
 
 export default class ExploreListItem extends Component {
@@ -11,17 +10,6 @@ export default class ExploreListItem extends Component {
 
     this.moveToDetails = this.moveToDetails.bind(this);
   }
-
-  // shouldComponentUpdate(nextProps) {
-  //   const item = this.props.item;
-  //   const next = nextProps.item;
-  //   if(
-  //     item.get('_id') !== next.get('_id') ||
-  //     item.get('avatarURL') !== next.get('avatarURL') ||
-  //     item.get('items') !== next.get('items')
-  //   ) return true;
-  //   return false;
-  // }
 
   componentWillUnmount() {
     console.log('WillUnmount called!');
@@ -44,10 +32,9 @@ export default class ExploreListItem extends Component {
           activeOpacity={0.6}
           onPress={() => this.moveToDetails(item)}
         >
-          <CacheImage
-            source={avatarURL}
+          <ImageBackground
+            source={{ uri: avatarURL }}
             style={styles.image}
-            type='backgroundImage'
             imageStyle={styles.imageStyle}
           />
         </TouchableOpacity>

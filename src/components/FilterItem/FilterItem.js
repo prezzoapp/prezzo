@@ -2,7 +2,6 @@ import React from 'react';
 import { TouchableOpacity, Image, Text, View } from 'react-native';
 
 import PropTypes from 'prop-types';
-import CacheImage from '../CacheImage';
 import styles from './styles';
 
 const FilterItems = props => {

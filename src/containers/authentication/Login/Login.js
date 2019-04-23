@@ -17,7 +17,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import {
   FONT_FAMILY,
   FONT_FAMILY_REGULAR,
-  FONT_FAMILY_MEDIUM 
+  FONT_FAMILY_MEDIUM
 } from '../../../services/constants';
 import { Feather } from '@expo/vector-icons';
 import LoginTextInput from '../../../components/LoginTextInput';
@@ -106,9 +106,8 @@ class Login extends React.Component<Props, State> {
   render() {
     const { email, password } = this.state;
     return (
-      <CacheImage
+      <ImageBackground
         style={styles.container}
-        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -161,7 +160,7 @@ class Login extends React.Component<Props, State> {
           </ScrollView>
         </KeyboardAvoidingView>
         <LoadingComponent visible={this.props.isBusy} />
-      </CacheImage>
+      </ImageBackground>
     );
   }
 }

@@ -16,8 +16,6 @@ import { Feather } from '@expo/vector-icons'
 
 import RatingBar from '../RatingBar';
 
-import CacheImage from '../CacheImage';
-
 import Button from '../Button';
 
 import {
@@ -121,10 +119,9 @@ export default class RestaurantItem extends Component {
           dotColor='#808080'
         >
           {this.props.item.imageURLs.length !== 0 && this.props.item.imageURLs.map(image => (
-              <CacheImage
+              <ImageBackground
                 key={image}
-                source={image}
-                type='backgroundImage'
+                source={{ uri: image }}
                 style={styles.itemImage}
               >
                 <LinearGradient
@@ -132,7 +129,7 @@ export default class RestaurantItem extends Component {
                   locations={[0, 0.95]}
                   style={styles.itemImageLinearGradient}
                 />
-            </CacheImage>
+            </ImageBackground>
           ))}
         </Swiper>
 
