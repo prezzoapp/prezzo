@@ -32,10 +32,9 @@ export default class ExploreListItem extends Component {
           activeOpacity={0.6}
           onPress={() => this.moveToDetails(item)}
         >
-          <CacheImage
-            source={avatarURL}
+          <ImageBackground
+            source={{ uri: avatarURL }}
             style={styles.image}
-            type='backgroundImage'
             imageStyle={styles.imageStyle}
           />
         </TouchableOpacity>

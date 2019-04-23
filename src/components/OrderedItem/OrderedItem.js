@@ -15,8 +15,7 @@ const OrderedItem = props => {
       <View style={styles.itemImageContainer}>
         <Image
           style={styles.itemImage}
-          type='image'
-          source={data.get('imageURLs').first()}
+          source={{ uri: data.get('imageURLs').first() }}
         />
       </View>
       <View style={styles.itemTextContainer}>

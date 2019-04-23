@@ -347,10 +347,12 @@ class Activity extends Component {
       <FlatList
         keyExtractor={item => item.get('_id').toString()}
         showsVerticalScrollIndicator={false}
+        onRefresh={() => this.onRefresh()}
+        refreshing={this.state.isFetching}
         ItemSeparatorComponent={this.renderSeparator}
-        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
+        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.waiterRequestedTableList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
-        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
+        data={this.props.waiterRequestedTableList.size !== 0 ? this.props.waiterRequestedTableList.toJS() : []}
         renderItem={this.renderWaiterRequestTableData}
       />
     );
@@ -361,10 +363,12 @@ class Activity extends Component {
       <FlatList
         keyExtractor={item => item.get('_id').toString()}
         showsVerticalScrollIndicator={false}
+        onRefresh={() => this.onRefresh()}
+        refreshing={this.state.isFetching}
         ItemSeparatorComponent={this.renderSeparator}
         contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
-        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
+        data={this.props.photoReviewList.size !== 0 ? this.props.photoReviewList.toJS() : []}
         renderItem={this.renderPhotoReviewTableData}
       />
     );
