@@ -12,7 +12,7 @@ import styles from './styles';
 
 const OpenOrdersList = props => {
   const closeTable = () => {
-    props.completeOrder();
+    props.completeOrder(order.get('_id'));
   };
 
   const order = props.data;
@@ -24,14 +24,14 @@ const OpenOrdersList = props => {
       type="vendor"
       innerTab={props.innerTab}
       checkStatusAndCancelItem={itemId =>
-        props.checkStatusAndCancelItem(itemId)
+        props.checkStatusAndCancelItem(order.get('_id'), itemId)
       }
     />
   );
 
   return (
     <View style={styles.container}>
-      <View style={{ flex: 1 }}>
+      <View style={styles.flex1}>
         <FlatList
           keyExtractor={item => item.get('_id').toString()}
           showsVerticalScrollIndicator={false}

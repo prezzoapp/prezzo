@@ -139,6 +139,33 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingBottom: hp('4.18%')
+  },
+
+  cvvContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingVertical: hp('3.20%')
+  },
+
+  footerContainer: {
+    width: wp('100%'),
+    alignItems: 'center',
+    height: hp('10.16%'),
+    borderTopColor: COLOR_GREEN,
+    borderTopWidth: 2,
+    backgroundColor: 'black'
+  },
+
+  linearGradientStyle: {
+    flexDirection: 'row',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    alignItems: 'center'
   }
 });
 

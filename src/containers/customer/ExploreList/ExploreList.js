@@ -22,13 +22,13 @@ export default class ExploreList extends PureComponent {
     }
   }
 
-  onRefresh() {
+  onRefresh = () => {
     this.setState({ isFetching: true },
       () => {
         this.getData();
       }
     );
-  }
+  };
 
   checkResponseMessage(){
     AsyncStorage.getItem('response_message').then((msg) => {
@@ -39,8 +39,8 @@ export default class ExploreList extends PureComponent {
   getData() {
     let activeFilters = [];
     this.props.filters.map(item => {
-      if(item.on) {
-        activeFilters.push(item.filterType);
+      if(item.get('on')) {
+        activeFilters.push(item.get('filterType'));
       }
     });
 
@@ -83,24 +83,29 @@ export default class ExploreList extends PureComponent {
     return (
       <View style={styles.seperator} />
     );
-  }
+  };
+
+  renderItem = data => <ExploreListItem item={data.item} navigate={this.props.navigate} />;
 
   render(){
-    const { restaurants } = this.props;
+    const restaurants = this.props.restaurants;
     return (
       <FlatList
-        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: restaurants.length === 0 ? 'center' : null }]}
+        contentContainerStyle={[
+          styles.flatListContentContainerStyle,
+          {
+            justifyContent: restaurants.size === 0 ? 'center' : null
+          }
+        ]}
         style={styles.flatListStyle}
         ItemSeparatorComponent={this.itemSeparator}
         initialNumToRender={10}
         ListEmptyComponent={this.listEmptyComponent}
-        onRefresh={() => this.onRefresh()}
+        onRefresh={this.onRefresh}
         refreshing={this.state.isFetching}
-        keyExtractor={(item, index) => index.toString()}
-        data={restaurants}
-        renderItem={({ item }) => (
-          <ExploreListItem item={item} navigate={this.props.navigate} />
-        )}
+        keyExtractor={item => item.get('_id').toString()}
+        data={restaurants.toArray()}
+        renderItem={this.renderItem}
       />
     );
   }

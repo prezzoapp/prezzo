@@ -42,6 +42,8 @@ const buttonRef = React.createRef();
 
 let disableBtn = false;
 
+const webViewRef = React.createRef();
+
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -107,12 +109,12 @@ class PaymentDetails extends Component {
         const response = await this.props.getToken();
 
         this.getToken = response.token;
-        this.webview.messagesChannel.on('isTokenizationComplete', nonce => {
+        webview.current.messagesChannel.on('isTokenizationComplete', nonce => {
           console.log('isTokenizationComplete function called!');
           this.isTokenizationComplete(nonce);
         });
 
-        this.webview.messagesChannel.on('isError', error => {
+        webview.current.messagesChannel.on('isError', error => {
           console.log('isError function called!');
           this.props.hideLoading();
           if(error.message.code === 'CLIENT_GATEWAY_NETWORK') {
@@ -141,7 +143,7 @@ class PaymentDetails extends Component {
     });
   }
 
-  onChange(data) {
+  onChange = data => {
     if(data.valid === true && this.state.dataValid === false) {
       this.setState(() => {
           return {
@@ -159,7 +161,7 @@ class PaymentDetails extends Component {
         }
       });
     }
-  }
+  };
 
   async checkResponseMessage(){
     await AsyncStorage.getItem('response_message').then((msg) => {
@@ -197,13 +199,13 @@ class PaymentDetails extends Component {
     }
   }
 
-  togglePreferredPayment() {
+  togglePreferredPayment = () => {
     this.setState(() => {
       return {
         selectCheckBox: !this.state.selectCheckBox
       }
     })
-  }
+  };
 
   cardTokenize() {
     if(disableBtn === false) {
@@ -279,13 +281,13 @@ class PaymentDetails extends Component {
               allowScroll
               requiresPostalCode
               inputContainerStyle={styles.containerStyle}
-              onChange={data => this.onChange(data)}
+              onChange={this.onChange}
             />
 
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.promotionsContainer}
-              onPress={() => this.togglePreferredPayment()}
+              onPress={this.togglePreferredPayment}
             >
               <Feather
                 style={styles.checkbox}
@@ -309,7 +311,7 @@ class PaymentDetails extends Component {
                       : 'rgba(255, 255, 255, 0.5)'
                   }
                 ]}
-                onPress={() => this.cardTokenize()}
+                onPress={this.cardTokenize}
               >
                 Submit
               </Button>
@@ -324,17 +326,9 @@ class PaymentDetails extends Component {
               return null;
             })()}
             <WebView
-              ref={webview => {
-                this.webview = webview;
-              }}
+              ref={webViewRef}
               source={require('../../../../dist/index.html')}
-              style={{
-                position: 'absolute',
-                top: '100%',
-                bottom: 0,
-                right: 0,
-                left: 0
-              }}
+              style={styles.webViewStyle}
             />
           </ScrollView>
         </View>

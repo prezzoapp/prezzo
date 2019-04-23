@@ -112,7 +112,7 @@ export default class CheckoutSwiper extends Component {
         this.props.isSelectedPaymentMethod(this.state.selectedPaymentMethod);
       }
     );
-  }
+  };
 
   // moveToIndex(index = null) {
   //   if (index !== null || index !== undefined || typeof index !== 'string') {
@@ -206,20 +206,16 @@ export default class CheckoutSwiper extends Component {
               </Text>
 
               <Text style={styles.reviewOrderText}>Review Order</Text>
-              {(() => {
-                if (data.get('menu')) {
-                  return (
-                    <FlatList
-                      data={this.cartItems.toArray()}
-                      showsVerticalScrollIndicator={false}
-                      style={styles.flatList}
-                      contentContainerStyle={{ flexGrow: 1 }}
-                      keyExtractor={item => item.get('_id').toString()}
-                      renderItem={this.renderItem}
-                    />
-                  );
-                }
-              })()}
+              {data.get('menu') ? (
+                <FlatList
+                  data={this.cartItems.toArray()}
+                  showsVerticalScrollIndicator={false}
+                  style={styles.flatList}
+                  contentContainerStyle={{ flexGrow: 1 }}
+                  keyExtractor={item => item.get('_id').toString()}
+                  renderItem={this.renderItem}
+                />
+              ) : null}
             </View>
 
             <View style={styles.reviewOrderFooter}>
@@ -270,19 +266,15 @@ export default class CheckoutSwiper extends Component {
                         />
                       </View>
                     </Button>
-                    {(() => {
-                      if (this.state.selectedPaymentType === CREDIT_CARD) {
-                        return (
-                          <View style={styles.checkMarkIconHolder}>
-                            <Feather
-                              name="check"
-                              size={wp('4%')}
-                              color="white"
-                            />
-                          </View>
-                        );
-                      }
-                    })()}
+                    {this.state.selectedPaymentType === CREDIT_CARD ? (
+                      <View style={styles.checkMarkIconHolder}>
+                        <Feather
+                          name="check"
+                          size={wp('4%')}
+                          color="white"
+                        />
+                      </View>
+                    ) : null}
                   </View>
 
                   <View style={styles.paymentBtnHolder}>
@@ -299,69 +291,60 @@ export default class CheckoutSwiper extends Component {
                         />
                       </View>
                     </Button>
-                    {(() => {
-                      if (this.state.selectedPaymentType === CASH) {
-                        return (
-                          <View style={styles.checkMarkIconHolder}>
-                            <Feather
-                              name="check"
-                              size={wp('4%')}
-                              color="white"
-                            />
-                          </View>
-                        );
-                      }
-                    })()}
+                    {this.state.selectedPaymentType === CASH ? (
+                      <View style={styles.checkMarkIconHolder}>
+                        <Feather
+                          name="check"
+                          size={wp('4%')}
+                          color="white"
+                        />
+                      </View>
+                    ) : null}
                   </View>
                 </View>
-                {(() => {
-                  if (this.state.selectedPaymentType === CREDIT_CARD) {
-                    return (
-                      <View style={styles.paymentInfoContainer}>
-                        <Text style={styles.paymentInfoTitle}>
-                          PAYMENT DETAILS
-                        </Text>
-                        <Picker
-                          mode="dropdown"
-                          iosIcon={
-                            <Ionicons
-                              name="ios-arrow-down-outline"
-                              style={stylesRaw.pickerIcon}
-                            />
-                          }
-                          selectedValue={this.state.selectedPaymentMethod}
-                          onValueChange={val => this.selectPaymentMethod(val)}
-                          style={styles.cardPicker}
-                          placeholderStyle={{ width: 100 }}
-                          textStyle={styles.cardPickerText}
-                        >
-                          <Picker.Item
-                            label="Select a payment method"
-                            value=""
-                          />
+                {this.state.selectedPaymentType === CREDIT_CARD ? (
+                  <View style={styles.paymentInfoContainer}>
+                    <Text style={styles.paymentInfoTitle}>
+                      PAYMENT DETAILS
+                    </Text>
+                    <Picker
+                      mode="dropdown"
+                      iosIcon={
+                        <NativeBaseIcon
+                          name="ios-arrow-down-outline"
+                          style={stylesRaw.pickerIcon}
+                        />
+                      }
+                      selectedValue={this.state.selectedPaymentMethod}
+                      onValueChange={this.selectPaymentMethod}
+                      style={styles.cardPicker}
+                      textStyle={styles.cardPickerText}
+                    >
+                      <Picker.Item
+                        label="Select a payment method"
+                        value=""
+                      />
 
-                          {this.props.creditCardList.map(item => (
-                            <Picker.Item
-                              label={`${item.type
-                                .slice(10)
-                                .charAt(0)
-                                .toUpperCase() + item.type.slice(11)} - ${
-                                item.readableIdentifier
-                              }`}
-                              value={item._id}
-                              key={item._id}
-                            />
-                          ))}
+                      {this.props.creditCardList.map(item => (
+                        <Picker.Item
+                          label={`${item.type
+                            .slice(10)
+                            .charAt(0)
+                            .toUpperCase() + item.type.slice(11)} - ${
+                            item.readableIdentifier
+                          }`}
+                          value={item._id}
+                          key={item._id}
+                        />
+                      ))}
 
-                          <Picker.Item
-                            label="Add new card"
-                            value="add_new_card"
-                          />
-                        </Picker>
-                      </View>
-                    );
-                  }
-                })()}
+                      <Picker.Item
+                        label="Add new card"
+                        value="add_new_card"
+                      />
+                    </Picker>
+                  </View>
+                ): null}
               </View>
             </View>
           </View>

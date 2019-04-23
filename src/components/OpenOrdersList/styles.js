@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
 
   separator: {
     height: wp('2.66%')
+  },
+
+  flex1: {
+    flex: 1
   }
 });
 

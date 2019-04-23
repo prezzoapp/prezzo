@@ -88,15 +88,7 @@ const OpenTablePayment = props => {
           <Text style={[styles.cardValue, { textAlign: 'right' }]}>
             09 / 18
           </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              paddingVertical: hp('3.20%')
-            }}
-          >
+          <View style={styles.cvvContainer}>
             <Text style={styles.cardTitle}>CVV</Text>
             <Text style={[styles.cardValue, { width: 60, textAlign: 'right' }]}>
               •••
@@ -113,41 +105,23 @@ const OpenTablePayment = props => {
           </Text>
         </View>
       </View>
-      {(() => {
-        return (
-          <View
-            style={{
-              width: wp('100%'),
-              alignItems: 'center',
-              height: hp('10.16%'),
-              borderTopColor: COLOR_GREEN,
-              borderTopWidth: 2,
-              backgroundColor: 'black'
-            }}
-          >
-            <LinearGradient
-              colors={['transparent', '#2B2C2C']}
-              start={[0.3, 0]}
-              style={{
-                flexDirection: 'row',
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                left: 0,
-                bottom: 0,
-                alignItems: 'center',
-                justifyContent: props.innerTab !== 'closed' ? 'flex-start' : 'center'
-              }}
+      <View style={styles.footerContainer}>
+        <LinearGradient
+          colors={['transparent', '#2B2C2C']}
+          start={[0.3, 0]}
+          style={[styles.linearGradientStyle, {
+            justifyContent: props.innerTab !== 'closed' ? 'flex-start' : 'center'
+          }]}
+        >
+          {props.innerTab !== 'closed' && (
+            <Button
+              style={buttonStyles.requestBtn}
+              textStyle={buttonStyles.requestBtnText}
+              onPress={() => props.completeOrder(data.get('_id'))}
             >
-              {props.innerTab !== 'closed' && (
-                <Button
-                  style={buttonStyles.requestBtn}
-                  textStyle={buttonStyles.requestBtnText}
-                  onPress={() => props.completeOrder()}
-                >
-                  Request
-                </Button>
-              )}
+              Request
+            </Button>
+          )}
 
               <Text
                 style={[

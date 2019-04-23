@@ -9,12 +9,12 @@ import CacheImage from '../CacheImage';
 import styles from './styles';
 
 const QueuedTableItem = props => {
-  const { item } = props.data;
+  const item = props.data;
 
   function showAcceptDeniedAlert(status) {
     Alert.alert(
       status === 'accept' ? 'Accept' : 'Remove',
-      `${item.creator.fullName} \n Table 9192`,
+      `${item.getIn(['creator', 'fullName'])} \n Table 9192`,
       [
         {
           text: 'Cancel',
@@ -22,7 +22,7 @@ const QueuedTableItem = props => {
           style: 'cancel'
         },
         { text: 'OK', onPress: () => {
-          props.checkAndChangeQueueOrderStatus(item._id, status === 'accept' ? 'active' : 'denied');
+          props.checkAndChangeQueueOrderStatus(item.get('_id'), status === 'accept' ? 'active' : 'denied');
         }}
       ],
       { cancelable: false }
@@ -35,8 +35,8 @@ const QueuedTableItem = props => {
       onPress={() => props.navigate &&
         props.navigate({ routeName: 'OpenTableDetails',
         params: {
-          userName: `${item.creator.fullName} - 9192`,
-          userImage: item.creator.avatarURL,
+          userName: `${item.getIn(['creator', 'fullName'])} - 9192`,
+          userImage: item.getIn(['creator', 'avatarURL']),
           innerTab: props.innerTab,
           item: item
       }})}
@@ -46,31 +46,19 @@ const QueuedTableItem = props => {
           style={styles.userImage}
           type='image'
           source={
-            item.creator.avatarURL !== ''
-              ? item.creator.avatarURL
+            item.getIn(['creator', 'avatarURL']) !== ''
+              ? item.getIn(['creator', 'avatarURL'])
               : require('../../../assets/images/etc/default-avatar.png')
           }
         />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.userName}>{item.creator.fullName}</Text>
-        {(() => {
-          if (props.tabName === 'tables') {
-            return (
-              <View style={styles.statusContainer}>
-                <Text style={styles.tableId}>Table 9192</Text>
-              </View>
-            );
-          } else if(props.tabName === 'delivery') {
-            return (
-              <View style={styles.statusContainer}>
-                <Text numberOfLines={1} style={[styles.tableId]}>
-                  {item.address}
-                </Text>
-              </View>
-            )
-          }
-        })()}
+        <Text style={styles.userName}>{item.getIn(['creator', 'fullName'])}</Text>
+        {props.tabName === 'tables' ? (
+          <View style={styles.statusContainer}>
+            <Text style={styles.tableId}>Table 9192</Text>
+          </View>
+        ): null}
       </View>
       <TouchableOpacity
         style={styles.delete}
