@@ -150,12 +150,12 @@ class Explore extends PureComponent<Props> {
     this.setState({ showFilters: !this.state.showFilters });
   }
 
-  updateDistance(distance) {
+  updateDistance = distance => {
     const newDistance = parseFloat(distance.toFixed(1));
     this.props.updateDistance(newDistance).then(() => {
       this.hitAPI();
     });
-  }
+  };
 
   updatePrice = price => {
     this.props.updatePrice(price).then(() => {
@@ -178,6 +178,15 @@ class Explore extends PureComponent<Props> {
       );
     }
   }
+
+  renderItem = data => (
+    <FilterItem
+      image={data.item.get('image')}
+      name={data.item.get('name')}
+      on={data.item.get('on')}
+      toggleFilter={() => this.toggleFilter(data.item.get('_id'))}
+    />
+  );
 
   callWaiter = () => {
     if(this.props.callWaiterBtnState) {

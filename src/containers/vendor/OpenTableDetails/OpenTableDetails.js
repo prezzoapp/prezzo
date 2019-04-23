@@ -165,7 +165,7 @@ export default class OpenTableDetails extends Component {
     }
   };
 
-  completeOrder(id) {
+  completeOrder = id => {
     if(disableBtn === false) {
       disableBtn = true;
       const order = this.props.openTableSelectedItem;

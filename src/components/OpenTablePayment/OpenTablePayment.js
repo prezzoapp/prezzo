@@ -117,7 +117,7 @@ const OpenTablePayment = props => {
             <Button
               style={buttonStyles.requestBtn}
               textStyle={buttonStyles.requestBtnText}
-              onPress={() => props.completeOrder()}
+              onPress={() => props.completeOrder(data.get('_id'))}
             >
               Request
             </Button>

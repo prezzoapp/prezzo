@@ -40,9 +40,7 @@ const TableGridItem = props => {
     );
   }
 
-  function itemSeparatorComponent() {
-    return <View style={styles.separator} />;
-  }
+  itemSeparatorComponent = () => <View style={styles.separator} />;
 
   let newArray = List();
   item.get('items').forEach(obj => {
@@ -58,6 +56,8 @@ const TableGridItem = props => {
     });
   });
 
+  renderItem = data => <OrderedItem data={data.item} />;
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -66,7 +66,7 @@ const TableGridItem = props => {
             style={styles.userImage}
             source={
               item.getIn(['creator', 'avatarURL']) !== ''
-                ? { uri: item.getIn(['creator', 'avatarURL']) }
+                ? item.getIn(['creator', 'avatarURL'])
                 : require('../../../assets/images/etc/default-avatar.png')
             }
           />
@@ -117,11 +117,11 @@ const TableGridItem = props => {
       <FlatList
         keyExtractor={item => item.get('_id').toString()}
         data={newArray.toArray()}
-        ItemSeparatorComponent={() => itemSeparatorComponent()}
+        ItemSeparatorComponent={this.itemSeparatorComponent}
         contentContainerStyle={styles.itemImagesListStyle}
         showsHorizontalScrollIndicator={false}
         horizontal
-        renderItem={({ item }) => <OrderedItem data={item} />}
+        renderItem={this.renderItem}
       />
     </View>
   );

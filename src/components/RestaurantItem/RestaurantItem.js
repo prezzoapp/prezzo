@@ -243,9 +243,10 @@ export default class RestaurantItem extends Component {
             <RatingBar disable itemRating={3} />
           </View>
         </View>
-    </View>
-  );
-};
+      </View>
+    );
+  }
+}
 
 const itemOrderBtnStyles = {
   commonBtn: {

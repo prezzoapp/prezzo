@@ -32,6 +32,10 @@ let keyboardDidShowCalled = false;
 const scrollViewRef = React.createRef();
 const buttonRef = React.createRef();
 
+let disableBtn = false;
+
+const webViewRef = React.createRef();
+
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -97,12 +101,12 @@ class PaymentDetails extends Component {
         const response = await this.props.getToken();
 
         this.getToken = response.token;
-        this.webview.messagesChannel.on('isTokenizationComplete', nonce => {
+        webview.current.messagesChannel.on('isTokenizationComplete', nonce => {
           console.log('isTokenizationComplete function called!');
           this.isTokenizationComplete(nonce);
         });
 
-        this.webview.messagesChannel.on('isError', error => {
+        webview.current.messagesChannel.on('isError', error => {
           console.log('isError function called!');
           this.props.hideLoading();
           if(error.message.code === 'CLIENT_GATEWAY_NETWORK') {
@@ -149,7 +153,7 @@ class PaymentDetails extends Component {
         }
       });
     }
-  }
+  };
 
   async checkResponseMessage(){
     await AsyncStorage.getItem('response_message').then((msg) => {

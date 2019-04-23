@@ -36,7 +36,7 @@ export default class ExploreList extends PureComponent {
         this.getData();
       }
     );
-  }
+  };
 
   checkResponseMessage(){
     AsyncStorage.getItem('response_message').then((msg) => {
