@@ -28,6 +28,7 @@ import {
 import Checkout from '../Checkout';
 import CustomPopup from '../../../components/CustomPopup';
 import CacheImage from '../../../components/CacheImage';
+import Loader from '../../../components/Loader';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 const headerHeight = wp('44.97%');
@@ -627,17 +628,7 @@ export default class RestaurantDetails extends Component {
                 />
               );
             }
-            return (
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-              >
-                <ActivityIndicator size="large" color="white" />
-              </View>
-            );
+            return <Loader />;
           })()}
         </View>
 

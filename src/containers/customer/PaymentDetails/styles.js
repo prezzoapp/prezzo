@@ -66,6 +66,14 @@ const styles = StyleSheet.create({
 
   headerLeftBtn: {
     marginLeft: wp('4.4%')
+  },
+
+  webViewStyle: {
+    position: 'absolute',
+    top: '100%',
+    bottom: 0,
+    right: 0,
+    left: 0
   }
 });
 

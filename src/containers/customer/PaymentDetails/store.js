@@ -11,16 +11,7 @@ import {
 } from '../../../modules/paymentMethods';
 import { userLogout } from '../../../modules/auth';
 
-export const mapStateToProps = state => {
-  const data = state
-    .get('paymentMethods')
-    .get('data')
-    .toJS();
-
-  return {
-    data
-  };
-};
+export const mapStateToProps = null;
 
 export const mapDispatchToProps = dispatch => {
   return {

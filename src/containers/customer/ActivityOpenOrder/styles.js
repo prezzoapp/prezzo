@@ -64,6 +64,10 @@ const styles = StyleSheet.create({
 
   flatListContentContainerStyle: {
     flexGrow: 1
+  },
+
+  flex1: {
+    flex: 1
   }
 });
 

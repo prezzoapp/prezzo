@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
   flatListStyle: {
     paddingTop: wp('6.66%'),
     paddingBottom: getBottomSpace() + 49 + wp('5%'),
-    // paddingHorizontal: wp('4.26%'),
     flexGrow: 1
   },
 
@@ -57,6 +56,13 @@ const styles = StyleSheet.create({
 
   flex1: {
     flex: 1
+  },
+
+  accountNotFoundContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 

@@ -61,7 +61,7 @@ class ActivityOpenOrder extends Component {
       });
   };
 
-  onRefresh() {
+  onRefresh = () => {
     this.setState(() => {
         return {
           isFetching: true
@@ -91,7 +91,7 @@ class ActivityOpenOrder extends Component {
         });
       }
     );
-  }
+  };
 
   finalizeOrder(price) {
     const data = this.props.data.first();
@@ -305,7 +305,7 @@ class ActivityOpenOrder extends Component {
       );
     }
     return null;
-  }
+  };
 
   renderItem = data => {
     const order = this.props.data.first();
@@ -322,6 +322,18 @@ class ActivityOpenOrder extends Component {
 
   render() {
     const data = this.props.data;
+    const flatListContentContainerStyle = [
+      styles.flatListContentContainerStyle,
+      {
+        justifyContent:
+          data &&
+          data.size !== 0 &&
+          data.first().get('items').size !== 0
+            ? null
+            : 'center'
+      }
+    ];
+
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
