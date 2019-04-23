@@ -10,7 +10,10 @@ import {
   makePaymentAndCompleteOrder,
   changeOrderStatus,
   checkOpenOrderStatus,
-  checkQueueOrderStatus
+  checkQueueOrderStatus,
+  loadMoreOpenTableList,
+  loadMoreQueuedTableList,
+  loadMoreClosedTableList
 } from '../../../modules/table';
 import { userLogout } from '../../../modules/auth';
 
@@ -23,7 +26,8 @@ export const mapStateToProps = state => ({
   closedTableList: state.get('table').get('closedTableList'),
   vendorData: state.get('vendor').get('data'),
   isBusy: state.get('table').get('isBusy'),
-  openOrderFinalStatus: state.get('table').get('openOrderFinalStatus')
+  openOrderFinalStatus: state.get('table').get('openOrderFinalStatus'),
+  currentListSize: state.get('table').get('currentListSize')
 });
 
 export const mapDispatchToProps = dispatch => ({
@@ -37,5 +41,7 @@ export const mapDispatchToProps = dispatch => ({
   changeOrderStatus: bindActionCreators(changeOrderStatus, dispatch),
   checkOpenOrderStatus: bindActionCreators(checkOpenOrderStatus, dispatch),
   checkQueueOrderStatus: bindActionCreators(checkQueueOrderStatus, dispatch),
-  userLogout: bindActionCreators(userLogout, dispatch)
+  loadMoreOpenTableList: bindActionCreators(loadMoreOpenTableList, dispatch),
+  loadMoreQueuedTableList: bindActionCreators(loadMoreQueuedTableList, dispatch),
+  loadMoreClosedTableList: bindActionCreators(loadMoreClosedTableList, dispatch)
 });

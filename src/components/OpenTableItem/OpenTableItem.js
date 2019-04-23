@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
@@ -14,11 +14,11 @@ const OpenTableItem = props => {
   const { item } = props.data;
   let itemImagesLength = 0;
 
-  item.items.map(ele => {
-    ele.imageURLs.map(image => {
-      itemImagesLength += 1;
+    item.items.map(ele => {
+      ele.imageURLs.map(image => {
+        itemImagesLength += 1;
+      });
     });
-  });
 
   return (
     <TouchableOpacity
@@ -60,9 +60,19 @@ const OpenTableItem = props => {
           if (props.tabName === 'tables') {
             return (
               <View style={styles.statusContainer}>
-                <Text style={styles.tableId}>Table 9192 </Text>
-                <Text style={[styles.statusText, { color: '#2ED573' }]}>
-                  • Waiter Reqested
+                <Text style={styles.tableId}>Table {item.tableId}</Text>
+                <Text
+                  style={[
+                    styles.statusText,
+                    {
+                      color:
+                        this.props.innerTabName !== 'photoReview' ? '#2ED573' : 'white'
+                    }
+                  ]}
+                >
+                  {this.props.innerTabName !== 'photoReview'
+                    ? ' •  Waiter Reqested'
+                    : <Text style={{ fontFamily: FONT_FAMILY_MEDIUM }}>- {itemImagesLength} Photo(s)</Text>}
                 </Text>
               </View>
             );

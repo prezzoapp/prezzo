@@ -59,10 +59,13 @@ class Tables extends Component {
      isFetching: false,
      showList: false,
      filteredData: [],
-     showLoader: false
+     showLoader: false,
+     showEndLoading: false
     }
 
     this.timeOutVar = -1;
+    this.visibleRows = 0;
+    this.isLoading = false;
   }
 
   componentDidMount() {
@@ -147,9 +150,85 @@ class Tables extends Component {
     );
   }
 
+  calculateLayout = event => {
+    this.visibleRows = parseInt(event.nativeEvent.layout.height / wp('21.68%'));
+    console.log(this.visibleRows);
+  };
+
+  onEndReached = () => {
+    let list;
+    if(this.props.section === 0) {
+      list = this.props.openTableList;
+    } else if(this.props.section === 1) {
+      list = this.props.queuedTableList;
+    } else {
+      list = this.props.closedTableList;
+    }
+
+    if(
+      this.props.currentListSize > 0 &&
+      list.size > this.visibleRows &&
+      !this.isLoading
+    ) {
+      this.isLoading = true;
+      this.setState({
+        showEndLoading: true
+      }, () => {
+        if(this.props.section === 0) {
+          this.props.loadMoreOpenTableList(
+            this.props.vendorData.get('_id'),
+            list.last().get('_id')
+          ).then(() => {})
+            .catch(err => {})
+              .finally(() => {
+                this.isLoading = false;
+                this.setState({
+                  showEndLoading: false
+                });
+              });
+        } else if(this.props.section === 1) {
+          this.props.loadMoreQueuedTableList(
+            this.props.vendorData.get('_id'),
+            list.last().get('_id')
+          ).then(() => {})
+            .catch(err => {})
+              .finally(() => {
+                this.isLoading = false;
+                this.setState({
+                  showEndLoading: false
+                });
+              });
+        } else {
+          this.props.loadMoreClosedTableList(
+            this.props.vendorData.get('_id'),
+            list.last().get('_id')
+          ).then(() => {})
+            .catch(err => {})
+              .finally(() => {
+                this.isLoading = false;
+                this.setState({
+                  showEndLoading: false
+                });
+              });
+        }
+      });
+    }
+  }
+
+  renderFooter = () => {
+    if(this.state.showEndLoading) {
+      return (
+        <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size='small' color='white'/>
+        </View>
+      );
+    }
+    return null;
+  };
+
   renderOpenTable() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }} onLayout={this.calculateLayout}>
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
@@ -191,6 +270,9 @@ class Tables extends Component {
               />
             );
           }}
+          ListFooterComponent={this.renderFooter}
+          onEndReached={() => this.onEndReached}
+          onEndReachedThreshold={0.1}
         />
       </View>
     );
@@ -240,6 +322,9 @@ class Tables extends Component {
               />
             );
           }}
+          ListFooterComponent={this.renderFooter}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={0.1}
         />
       </View>
     );
@@ -247,7 +332,7 @@ class Tables extends Component {
 
   renderClosedTable() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }} onLayout={this.calculateLayout}>
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
@@ -287,6 +372,9 @@ class Tables extends Component {
               />
             );
           }}
+          ListFooterComponent={this.renderFooter}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={0.1}
         />
       </View>
     );

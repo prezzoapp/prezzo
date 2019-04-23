@@ -45,7 +45,19 @@ import {
   DELETE_QUEUED_REQUEST,
   SECTION_CHANGE,
   LAYOUT_CHANGE,
-  CLOSED_TABLE_SECTION_CHANGE
+  CLOSED_TABLE_SECTION_CHANGE,
+
+  LOAD_MORE_OPEN_TABLE_LIST_REQUEST,
+  LOAD_MORE_OPEN_TABLE_LIST_SUCCESS,
+  LOAD_MORE_OPEN_TABLE_LIST_FAILURE,
+
+  LOAD_MORE_QUEUED_TABLE_LIST_REQUEST,
+  LOAD_MORE_QUEUED_TABLE_LIST_SUCCESS,
+  LOAD_MORE_QUEUED_TABLE_LIST_FAILURE,
+
+  LOAD_MORE_CLOSED_TABLE_LIST_REQUEST,
+  LOAD_MORE_CLOSED_TABLE_LIST_SUCCESS,
+  LOAD_MORE_CLOSED_TABLE_LIST_FAILURE
 } from './types';
 
 const INITIAL_STATE = fromJS({
@@ -57,7 +69,8 @@ const INITIAL_STATE = fromJS({
   closedTableList: [],
   openTableSelectedItem: null,
   isBusy: false,
-  openOrderFinalStatus: ''
+  openOrderFinalStatus: '',
+  currentListSize: 0
 });
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -82,10 +95,37 @@ const reducer = (state = INITIAL_STATE, action) => {
       return state.update('isBusy', () => false);
 
     case LIST_OPEN_TABLE_SUCCESS:
-      return state.update('openTableList', () => action.payload).update('isBusy', () => false);
+      return state
+        .update('openTableList', () => action.payload)
+        .update('currentListSize', () => action.payload.size)
+        .update('isBusy', () => false);
+
+    case LOAD_MORE_OPEN_TABLE_LIST_SUCCESS:
+      return state
+        .update('openTableList', () => state.get('openTableList').concat(action.payload))
+        .update('currentListSize', () => action.payload.size);
 
     case LIST_QUEUED_TABLE_SUCCESS:
-      return state.update('queuedTableList', () => action.payload).update('isBusy', () => false);
+      return state
+        .update('queuedTableList', () => action.payload)
+        .update('currentListSize', () => action.payload.size)
+        .update('isBusy', () => false);
+
+    case LOAD_MORE_QUEUED_TABLE_LIST_SUCCESS:
+      return state
+        .update('queuedTableList', () => state.get('queuedTableList').concat(action.payload))
+        .update('currentListSize', () => action.payload.size);
+
+    case LIST_CLOSED_TABLE_SUCCESS:
+      return state
+        .update('closedTableList', () => action.payload)
+        .update('isBusy', () => false)
+        .update('currentListSize', () => action.payload.size);
+
+    case LOAD_MORE_CLOSED_TABLE_LIST_SUCCESS:
+      return state
+        .update('closedTableList', () => state.get('closedTableList').concat(action.payload))
+        .update('currentListSize', () => action.payload.size);
 
     case SECTION_CHANGE:
       return state.update('section', () => action.payload);
@@ -95,10 +135,6 @@ const reducer = (state = INITIAL_STATE, action) => {
 
     case CLOSED_TABLE_SECTION_CHANGE:
       return state.update('closedTableSection', () => action.payload);
-
-    case LIST_CLOSED_TABLE_SUCCESS:
-      return state.update('closedTableList', () => action.payload).update('isBusy', () => false);
-
 
     case CHECK_OPEN_ORDER_STATUS_SUCCESS:
     case CHANGE_STATUS_AND_CANCEL_ORDER_ITEM_SUCCESS:

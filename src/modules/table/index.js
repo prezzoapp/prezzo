@@ -13,7 +13,10 @@ import {
   removeTableItemDetails,
   checkStatusAndCancelItem,
   checkOpenOrderStatus,
-  checkQueueOrderStatus
+  checkQueueOrderStatus,
+  loadMoreOpenTableList,
+  loadMoreQueuedTableList,
+  loadMoreClosedTableList
 } from './actions';
 
 import reducer from './reducer';
@@ -33,7 +36,10 @@ export {
   removeTableItemDetails,
   checkStatusAndCancelItem,
   checkOpenOrderStatus,
-  checkQueueOrderStatus
+  checkQueueOrderStatus,
+  loadMoreOpenTableList,
+  loadMoreQueuedTableList,
+  loadMoreClosedTableList
 };
 
 export default reducer;
