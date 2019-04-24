@@ -163,6 +163,7 @@ class Tables extends Component {
   }
 
   calculateLayout = event => {
+    console.log(event.nativeEvent.layout.height);
     this.visibleRows = parseInt(event.nativeEvent.layout.height / wp('21.68%'));
     console.log(this.visibleRows);
   };
@@ -182,6 +183,7 @@ class Tables extends Component {
       list.size > this.visibleRows &&
       !this.isLoading
     ) {
+      console.log(list.size, this.visibleRows);
       this.isLoading = true;
       this.setState({
         showEndLoading: true
@@ -240,7 +242,7 @@ class Tables extends Component {
 
   renderOpenTable() {
     return (
-      <View style={{ flex: 1 }} onLayout={this.calculateLayout}>
+      <View style={styles.flex1}>
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
@@ -283,7 +285,7 @@ class Tables extends Component {
             );
           }}
           ListFooterComponent={this.renderFooter}
-          onEndReached={() => this.onEndReached}
+          onEndReached={this.onEndReached}
           onEndReachedThreshold={0.1}
         />
       </View>
@@ -292,7 +294,7 @@ class Tables extends Component {
 
   renderQueueTable() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      <View style={styles.flex1}>
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
@@ -348,7 +350,7 @@ class Tables extends Component {
 
   renderClosedTable() {
     return (
-      <View style={{ flex: 1 }} onLayout={this.calculateLayout}>
+      <View style={styles.flex1}>
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
@@ -531,7 +533,9 @@ class Tables extends Component {
                       onChangeLayout={layout => this.props.changeLayout(layout)}
                       onListTypeSelection={index => this.onSectionChange(index)}
                     />
-                    {this.renderSection()}
+                    <View style={styles.flex1} onLayout={this.calculateLayout}>
+                      {this.renderSection()}
+                    </View>
                   </View>
 
                   {this.state.showList &&
@@ -550,7 +554,7 @@ class Tables extends Component {
             </View>
           );
         })()}
-        <LoadingComponent visible={this.props.isBusy} />
+      {/*<LoadingComponent visible={this.props.isBusy} />*/}
       </View>
     );
   }
