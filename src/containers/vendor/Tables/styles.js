@@ -53,6 +53,10 @@ const styles = StyleSheet.create({
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
     textAlign: 'center'
+  },
+
+  flex1: {
+    flex: 1
   }
 });
 
