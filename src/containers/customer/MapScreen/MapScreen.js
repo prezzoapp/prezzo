@@ -13,6 +13,7 @@ import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
 import showGenericAlert from '../../../components/GenericAlert';
+import CacheImage from '../../../components/CacheImage';
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
@@ -286,8 +287,13 @@ export default class MapScreen extends Component {
                     latitude: this.state.customRegion.latitude,
                     longitude: this.state.customRegion.longitude
                   }}
-                  image={require('../../../../assets/images/location.png')}
-                />
+                >
+                  <CacheImage
+                    style={{ width: wp('23.73%'), aspectRatio: 1, resizeMode: 'contain' }}
+                    type='image'
+                    source={require('../../../../assets/images/location.png')}
+                  />
+                </MapView.Marker>
               )}
 
             {this.props.data.map(item => (
@@ -300,8 +306,13 @@ export default class MapScreen extends Component {
                 onPress={() => {
                   this.filteredListRef.callMethod(item);
                 }}
-                image={require('../../../../assets/images/map-pin.png')}
-              />
+              >
+                <CacheImage
+                  style={{ width: wp('8.26%'), aspectRatio: 1, resizeMode: 'contain' }}
+                  type='image'
+                  source={require('../../../../assets/images/map-pin.png')}
+                />
+              </MapView.Marker>
             ))}
           </MapView>
         )}

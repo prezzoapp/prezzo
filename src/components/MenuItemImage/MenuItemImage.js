@@ -11,7 +11,9 @@ import { getTimeStampString } from '../../services/commonFunctions';
 import styles from './styles';
 
 class ItemImagePicker extends React.Component<Props> {
-  state = {};
+  state = {
+    selectImageThroughImagePicker: false
+  };
 
   showAvatarActionSheet = () => {
     ActionSheet.show(
@@ -74,21 +76,33 @@ class ItemImagePicker extends React.Component<Props> {
         { format: 'jpeg', compress: 0.1 }
       );
 
-      this.setState({ tempImage: resultEdited.uri });
+      this.setState({
+        selectImageThroughImagePicker: true
+      }, () => {
+        this.setState({ tempImage: resultEdited.uri });
 
-      const fileName = `${getTimeStampString()}.jpeg`;
-      this.props
-        .uploadImage(
-          resultEdited.uri,
-          10,
-          'image/jpeg',
-          fileName,
-          'userAvatar',
-          'public-read'
-        )
-        .then(async itemImage => {
-          this.props.addNewImageComponent(itemImage);
-        });
+        const fileName = `${getTimeStampString()}.jpeg`;
+        this.props
+          .uploadImage(
+            resultEdited.uri,
+            10,
+            'image/jpeg',
+            fileName,
+            'userAvatar',
+            'public-read'
+          )
+          .then(async itemImage => {
+            this.props.addNewImageComponent(itemImage).then(() => {
+              this.setState({
+                selectImageThroughImagePicker: false
+              }, () => {
+                this.setState({
+                  tempImage: itemImage
+                });
+              });
+            }).catch(err => {});
+          });
+      });
     }
   };
 
@@ -146,24 +160,19 @@ class ItemImagePicker extends React.Component<Props> {
             onPress={this.showAvatarActionSheet}
             style={styles.itemImagePickerBtn}
           >
-            <Image
+            <CacheImage
               style={styles.itemImage}
-              source={
-                image
-                  ? { uri: image }
-                  : require('../../../assets/images/default_image_placeholder.png')
-              }
+              type='image'
+              source={require('../../../assets/images/default_image_placeholder.png')}
             />
           </TouchableOpacity>
         ) : (
           <View style={styles.itemImagePickerBtn}>
-            <Image
+            <CacheImage
               style={styles.itemImage}
-              source={
-                image
-                  ? { uri: image }
-                  : require('../../../assets/images/default_image_placeholder.png')
-              }
+              type='image'
+              selectImageThroughImagePicker={this.state.selectImageThroughImagePicker}
+              source={image}
             />
           </View>
         )}

@@ -32,6 +32,7 @@ class ActivityListItem extends Component {
 
   render() {
     const item = this.props.item;
+    console.log(item.get('status'));
     if(item.get('status') !== 'denied' || this.props.type === 'vendor') {
       return (
         <View style={styles.item}>
@@ -42,7 +43,7 @@ class ActivityListItem extends Component {
                 item.get('status') === 'complete'
                     ? require('../../../assets/images/icons/active_status.png')
                   : item.get('status') === 'denied'
-                    ? undefined
+                    ? null
                     : require('../../../assets/images/icons/green_in_progress.png')
                 }
                 type='image'
