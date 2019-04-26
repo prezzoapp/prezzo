@@ -29,6 +29,7 @@ export default class CacheImage extends Component {
     try {
       const name = shorthash.unique(imageSource);
       const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+      console.log(path);
       const image = await FileSystem.getInfoAsync(path);
 
       if(image.exists && this._isMounted) {
@@ -78,7 +79,7 @@ export default class CacheImage extends Component {
       this.downloadAndCacheRemoteImage(imageSource);
     } else if(typeof imageSource === 'number') {
       this.downloadAndCacheLocalImage(imageSource);
-    } else if(imageSource === undefined && this._isMounted) {
+    } else if(imageSource === null && this._isMounted) {
       this.setState({
         imgSource: null
       });

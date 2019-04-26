@@ -5,7 +5,7 @@ import { AppRegistry, View, StyleSheet, ActivityIndicator } from 'react-native';
 import { MaterialIcons, EvilIcons, Ionicons, Feather, FontAwesome, Entypo, Foundation } from '@expo/vector-icons';
 import {API_ROOT} from './env';
 import {setConfiguration} from './src/utils/configuration';
-import { Font, Icon, Asset } from 'expo';
+import { Font, Icon } from 'expo';
 import 'expo';
 require('react-native-browser-polyfill');
 
@@ -13,28 +13,17 @@ global.self = global;
 
 class Prezzo extends Component {
   state = {
-    didFontsAndImagesLoad: false
+    didFontsLoad: false
   };
 
   async componentDidMount() {
     setConfiguration('API_ROOT', API_ROOT);
-    await this.loadFontsAndRequiredImages();
-    // await this.loadRequiredLocalImages();
+    await this.loadFonts();
   }
 
-  // async loadRequiredLocalImages() {
-  //
-  //
-  // }
 
-  async loadFontsAndRequiredImages() {
-    console.log('loading fonts and images...');
-
-    const images = [
-      require('./assets/images/location.png'),
-      require('./assets/images/map-pin.png'),
-      require('./assets/images/icons/TableIcon.png')
-    ];
+  async loadFonts() {
+    console.log('loading fonts...');
 
     try {
       await Font.loadAsync({
@@ -70,14 +59,8 @@ class Prezzo extends Component {
         'simple-line-icons': require('@expo/vector-icons/fonts/SimpleLineIcons.ttf')
       });
 
-      await Promise.all(images.map(image => {
-        return Asset.fromModule(image).downloadAsync();
-      }));
-
-      this.setState({ didFontsAndImagesLoad: true });
+      this.setState({ didFontsLoad: true });
       console.log('loaded fonts', Font, typeof Font, ' ');
-
-      // this.props.dispatch(SessionStateActions.resetStateAfterFontLoaded(true));
 
     } catch (error) {
       console.log('error loading fonts', error);
@@ -87,7 +70,7 @@ class Prezzo extends Component {
   render() {
     console.log('rendering...');
 
-    if (!this.state.didFontsAndImagesLoad) {
+    if (!this.state.didFontsLoad) {
       return (
         <View style={{ flex: 1 }}>
           <ActivityIndicator style={styles.centered} />

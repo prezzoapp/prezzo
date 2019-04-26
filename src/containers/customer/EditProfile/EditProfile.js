@@ -281,7 +281,6 @@ class EditProfile extends Component<Props, State> {
                           style={styles.avatar}
                           type='image'
                           selectImageThroughImagePicker={selectImageThroughImagePicker}
-                          deletePreviousImage={this.deletePreviousImage}
                           source={
                             avatarURL
                             ? avatarURL
@@ -289,7 +288,8 @@ class EditProfile extends Component<Props, State> {
                         />
                       </View>
 
-                      <Image
+                      <CacheImage
+                        type='image'
                         style={styles.editBtnImage}
                         source={
                          require('../../../../assets/images/etc/EditIcon.png')

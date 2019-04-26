@@ -449,7 +449,7 @@ class Explore extends PureComponent<Props> {
             />
           }
         </View>
-        <Modal
+        {/*<Modal
           transparent
           animationType="none"
           visible={this.props.isBusy}>
@@ -459,7 +459,7 @@ class Explore extends PureComponent<Props> {
               Please wait, While fetching restaurants.
             </Text>
           </View>
-        </Modal>
+        </Modal>*/}
       </LinearGradient>
     );
   }

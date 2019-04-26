@@ -43,6 +43,7 @@ import { COLOR_GREEN } from '../../../services/constants';
 import LocationSearch from '../../shared/LocationSearch';
 
 import VendorTabBar from '../../../components/VendorTabBar';
+import CacheImage from '../../../components/CacheImage';
 
 import '../../../services/globalVars';
 
@@ -247,13 +248,14 @@ const VendorSectionTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         title:'Tables',
         tabBarIcon: ({ focused }) => (
-          <Image
+          <CacheImage
             style={{
               height: wp('6.4%'),
               width: wp('6.4%'),
               resizeMode: 'contain',
               tintColor: focused ? activeColor : inactiveColor
             }}
+            type='image'
             source={require('../../../../assets/images/icons/TableIcon.png')}
           />
         )

@@ -119,8 +119,9 @@ class SignupComplete extends React.Component<Props> {
         type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
-        <Image
+        <CacheImage
           style={styles.image}
+          type='image'
           source={require('../../../../assets/images/etc/chef.png')}
         />
 

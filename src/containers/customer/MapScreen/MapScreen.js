@@ -14,6 +14,7 @@ import MapStyle from '../../../services/mapStyle';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
 import CustomMarker from './CustomMarker';
 import showGenericAlert from '../../../components/GenericAlert';
+import CacheImage from '../../../components/CacheImage';
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,
@@ -238,8 +239,13 @@ export default class MapScreen extends Component {
                     latitude: this.state.customRegion.latitude,
                     longitude: this.state.customRegion.longitude
                   }}
-                  image={require('../../../../assets/images/location.png')}
-                />
+                >
+                  <CacheImage
+                    style={{ width: wp('23.73%'), aspectRatio: 1, resizeMode: 'contain' }}
+                    type='image'
+                    source={require('../../../../assets/images/location.png')}
+                  />
+                </MapView.Marker>
               )}
 
             {this.props.data.map(item => (
