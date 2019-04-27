@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { MapView } from 'expo';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import CacheImage from '../../../components/CacheImage';
 export default class CustomMarker extends Component {
   constructor() {
     super();
@@ -37,8 +39,13 @@ export default class CustomMarker extends Component {
           longitude: this.props.coordinates.coordinates[0]
         }}
         onPress={() => this.props.onPress()}
-        image={require('../../../../assets/images/map-pin.png')}
-      />
+      >
+        <CacheImage
+          style={{ width: wp('8.26%'), aspectRatio: 1, resizeMode: 'contain' }}
+          type='image'
+          source={require('../../../../assets/images/map-pin.png')}
+        />
+      </MapView.Marker>
     );
   }
 }

@@ -4,8 +4,6 @@ import {
   View,
   Text,
   SectionList,
-  ImageBackground,
-  Image,
   TouchableOpacity,
   Animated,
   InteractionManager,

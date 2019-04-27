@@ -30,7 +30,7 @@ import VendorSearch from '../VendorSearch';
 import { get } from '../../../utils/api';
 
 const SECTION_WIDTH: number = 0.85 * Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+const height = Dimensions.get('screen').height;
 
 const buttonStyles = {
   submitReviewBtn: {
@@ -89,41 +89,41 @@ class Activity extends Component {
       filteredData: [],
       data: [
         {
-          index: 0,
+          _id: 0,
           name: 'Buffalo Caluiflower v2',
           price: '$24',
           images: [
             {
               key: 'http://via.placeholder.com/160x160',
               selected: false,
-              index: 0
+              _id: 0
             },
             {
               key: 'http://via.placeholder.com/160x160',
               selected: false,
-              index: 1
+              _id: 1
             }
           ]
         },
         {
-          index: 1,
+          _id: 1,
           name: 'Mac n Cheese x1',
           price: '$15',
           images: [
             {
               key: 'http://via.placeholder.com/160x160',
               selected: true,
-              index: 0
+              _id: 0
             },
             {
               key: 'http://via.placeholder.com/160x160',
               selected: false,
-              index: 1
+              _id: 1
             },
             {
               key: 'http://via.placeholder.com/160x160',
               selected: false,
-              index: 2
+              _id: 2
             }
           ]
         }
@@ -199,9 +199,9 @@ class Activity extends Component {
   }
 
   myCallback(itemIndex, imageIndex) {
-    const item = this.state.data.findIndex(x => x.index === itemIndex);
+    const item = this.state.data.findIndex(x => x._id === itemIndex);
     const image = this.state.data[item].images.findIndex(
-      x => x.index === imageIndex
+      x => x._id === imageIndex
     );
     this.state.data[item].images[image].selected = !this.state.data[item]
       .images[image].selected;
@@ -264,7 +264,7 @@ class Activity extends Component {
   renderWaiterRequestTable() {
     return (
       <FlatList
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={item => item._id.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
@@ -283,7 +283,7 @@ class Activity extends Component {
   renderPhotoReviewTable() {
     return (
       <FlatList
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={item => item._id.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
@@ -394,7 +394,7 @@ class Activity extends Component {
                         <Text style={styles.subTitle}>Table 5932 - 3 Photos</Text>
                       </View>
                       <FlatList
-                        keyExtractor={(item, index) => index.toString()}
+                        keyExtractor={item => item._id.toString()}
                         showsVerticalScrollIndicator={false}
                         data={this.state.data}
                         ListHeaderComponent={() => this.renderHeader()}

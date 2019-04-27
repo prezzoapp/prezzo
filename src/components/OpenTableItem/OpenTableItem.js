@@ -76,7 +76,7 @@ const OpenTableItem = props => {
           }
           return (
             <View style={styles.statusContainer}>
-              <Text style={styles.tableId}>Table {item.tableId}</Text>
+              <Text style={styles.tableId}>Table 9192</Text>
               <Text
                 style={[
                   styles.statusText,

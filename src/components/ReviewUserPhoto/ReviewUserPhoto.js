@@ -36,7 +36,7 @@ class ReviewUserPhoto extends Component {
         <Text style={styles.addPhotoText}>{this.props.item.name}</Text>
         <FlatList
           horizontal
-          keyExtractor={item => item.index}
+          keyExtractor={item => item._id.toString()}
           showsHorizontalScrollIndicator={false}
           data={this.state.images}
           extraData={this.state}
@@ -45,7 +45,7 @@ class ReviewUserPhoto extends Component {
             <View style={styles.bigImageHolder}>
               <TouchableOpacity
                 onPress={() =>
-                  this.addImageComponent(this.props.item.index, item.index)
+                  this.addImageComponent(this.props.item._id, item._id)
                 }
                 activeOpacity={0.8}
               >

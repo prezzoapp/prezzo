@@ -9,11 +9,8 @@ import FilteredVendorBottomCardItem from './FilteredVendorBottomCardItem';
 import styles from './styles';
 
 import { SF_PRO_TEXT_SEMI_BOLD } from '../../services/constants';
-
-const { width, height } = Dimensions.get('screen');
-
-const parentRef = React.createRef();
-const childRef = React.createRef();
+import CacheImage from '../CacheImage';
+const panelHeight = hp('30.54%');
 
 class FilteredVendorBottomCard extends Component {
   constructor() {
@@ -25,7 +22,7 @@ class FilteredVendorBottomCard extends Component {
 
     this.panResponder = null;
 
-    this.showModalAnimatedValue = new Animated.Value(hp('30.54%'));
+    this.showModalAnimatedValue = new Animated.Value(panelHeight);
 
     this.layout = { x: 0, y: 0, width: 0, height: 0 };
 
@@ -40,26 +37,18 @@ class FilteredVendorBottomCard extends Component {
 
       onMoveShouldSetPanResponder: (evt, gestureState) => {
         return true;
-        // console.log(evt.nativeEvent.pageY);
-        // if (evt.nativeEvent.locationY <= this.layout.height) {
-        //   // console.log(evt.nativeEvent.locationY, this.layout.height);
-        //   return true;
-        // }
-        //
-        // return false;
       },
 
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
       onPanResponderMove: (evt, gestureState) => {
-        // console.log(gestureState.dy);
         if (gestureState.dy > 0) {
           this.showModalAnimatedValue.setValue(gestureState.dy);
         }
       },
 
       onPanResponderRelease: (evt, gestureState) => {
-        if (gestureState.dy <= parseInt(hp('30.54%') / 2)) {
+        if (gestureState.dy <= parseInt(panelHeight / 2)) {
           Animated.timing(this.showModalAnimatedValue, {
             toValue: 0,
             duration: 300,
@@ -99,28 +88,16 @@ class FilteredVendorBottomCard extends Component {
 
   backToList = () => {
     Animated.timing(this.showModalAnimatedValue, {
-      toValue: hp('30.54%'),
+      toValue: panelHeight,
       duration: 300,
       useNativeDriver: true
     }).start(() => {
-      this.showModalAnimatedValue.setValue(hp('30.54%'));
+      this.showModalAnimatedValue.setValue(panelHeight);
       this.setState({
         item: null,
         showVendorInfo: false
       })
     });
-  };
-
-  calculateLayout = () => {
-    childRef.current.measureLayout(
-      ReactNative.findNodeHandle(parentRef.current),
-      (xPos, yPos, Width, Height) => {
-        this.layout.x = xPos;
-        this.layout.y = yPos;
-        this.layout.width = Width;
-        this.layout.height = Height;
-      }
-    );
   };
 
   render() {
@@ -147,7 +124,6 @@ class FilteredVendorBottomCard extends Component {
         />
         {this.state.showVendorInfo && (
           <Animated.View
-            ref={parentRef}
             style={[
               styles.vendorInfoHolder,
               {
@@ -157,8 +133,6 @@ class FilteredVendorBottomCard extends Component {
           >
             <View
               style={styles.buttonHolder}
-              ref={childRef}
-              onLayout={this.calculateLayout}
               {...this.panResponder.panHandlers}
             >
               <TouchableOpacity

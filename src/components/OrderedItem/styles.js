@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
     // height: '100%',
     resizeMode: 'cover',
     height: wp('26.66%'),
-    width: wp('26.66%')
+    width: wp('26.66%'),
+    borderRadius: 5
   },
 
   itemName: {

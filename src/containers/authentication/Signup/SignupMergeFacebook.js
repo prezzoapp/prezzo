@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { ImageBackground, View, Text, Image, StyleSheet, Platform, KeyboardAvoidingView, ScrollView, TouchableOpacity} from 'react-native';
+import { View, Text, Image, StyleSheet, Platform, KeyboardAvoidingView, ScrollView, TouchableOpacity} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigationActions, Header } from 'react-navigation';
@@ -17,6 +17,7 @@ import Button from '../../../components/Button';
 import alert from '../../../components/GenericAlert';
 import NextButton from './NextButton';
 import { Feather } from '../../../components/VectorIcons';
+import CacheImage from '../../../components/CacheImage';
 
 type Props = {
   firstName: string,
@@ -229,8 +230,9 @@ class SignupMergeFacebook extends React.Component<Props, State> {
     const { firstName, email, password, avatarURL } = this.props;
 
     return (
-      <ImageBackground
+      <CacheImage
         style={styles.container}
+        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -313,7 +315,7 @@ class SignupMergeFacebook extends React.Component<Props, State> {
             }
           </ScrollView>
         </KeyboardAvoidingView>
-      </ImageBackground>
+      </CacheImage>
     );
   }
 }

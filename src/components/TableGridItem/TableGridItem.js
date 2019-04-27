@@ -42,8 +42,6 @@ const TableGridItem = props => {
     return <View style={styles.separator} />;
   }
 
-  // console.log(item.items);
-
   const newArray = [];
   item.items.forEach(obj => {
     if (!newArray.some(o => o.title === obj.title)) {
@@ -56,8 +54,6 @@ const TableGridItem = props => {
       return o;
     })
   });
-
-  console.log(newArray);
 
   return (
     <View style={styles.container}>

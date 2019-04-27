@@ -101,18 +101,18 @@ class EditProfile extends Component<Props, State> {
     };
   }
 
-  deletePreviousImage = async () => {
-    if(previousPhoto) {
-      const name = shorthash.unique(previousPhoto);
-      const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
-      const image = await FileSystem.getInfoAsync(path);
-
-      if(image.exists) {
-        await FileSystem.deleteAsync(image.uri);
-        console.log('Image deleted from cache!');
-      }
-    }
-  };
+  // deletePreviousImage = async () => {
+  //   if(previousPhoto) {
+  //     const name = shorthash.unique(previousPhoto);
+  //     const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+  //     const image = await FileSystem.getInfoAsync(path);
+  //
+  //     if(image.exists) {
+  //       await FileSystem.deleteAsync(image.uri);
+  //       console.log('Image deleted from cache!');
+  //     }
+  //   }
+  // };
 
   async save() {
     const { isBusy, updateUser } = this.props;
