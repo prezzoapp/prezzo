@@ -608,15 +608,6 @@ export default class AccountInfo extends React.Component {
           contentContainerStyle={styles.containerContentStyle}
           style={styles.container}
         >
-          {/*<View
-            style={{
-              ...stylesRaw.spinnerContainer,
-              ...(isBusy ? {} : { display: 'none' })
-            }}
-          >
-            <Spinner color="red" />
-          </View>*/}
-
           <View style={styles.header}>
             <TouchableOpacity
               activeOpacity={0.8}

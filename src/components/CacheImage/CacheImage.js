@@ -39,6 +39,7 @@ export default class CacheImage extends Component {
         return;
       }
 
+      console.log('downloading remote image!');
       const newImage = await FileSystem.downloadAsync(imageSource, path);
       if(newImage.uri && this._isMounted) {
         this.setState({
