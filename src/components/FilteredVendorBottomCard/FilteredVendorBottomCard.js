@@ -12,6 +12,8 @@ import { SF_PRO_TEXT_SEMI_BOLD } from '../../services/constants';
 import CacheImage from '../CacheImage';
 const panelHeight = hp('30.54%');
 
+import CacheImage from '../CacheImage';
+
 class FilteredVendorBottomCard extends Component {
   constructor() {
     super();
