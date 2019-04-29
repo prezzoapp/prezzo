@@ -134,12 +134,29 @@ export default class CreateMenu extends Component<Props> {
     <MenuListCategoriesHeader
       section={section}
       deleteCategory={categoryId =>
-        this.props.deleteCategory(this.props.menuId, categoryId)
+        this.deleteCategory(this.props.menuId, categoryId, section)
       }
       updateCategory={(categoryId, title) =>
         this.props.updateCategory(this.props.menuId, categoryId, title)}
     />
   );
+
+  async deleteCategory(menuId, categoryId, section) {
+    await this.props.deleteCategory(menuId, categoryId);
+
+    section.data.forEach(async data => {
+      data.imageURLs.forEach(async imageEle => {
+        const name = shorthash.unique(imageEle);
+        const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+        const image = await FileSystem.getInfoAsync(path);
+
+        if(image.exists) {
+          await FileSystem.deleteAsync(image.uri);
+          console.log('Image deleted from cache!');
+        }
+      });
+    });
+  }
 
   async deleteImage(menuId, sectionId, itemId, imageURL) {
     await this.props.deleteImage(
@@ -159,6 +176,21 @@ export default class CreateMenu extends Component<Props> {
     }
   }
 
+  async deleteItem(menuId, sectionId, item) {
+    await this.props.deleteItem(menuId, sectionId, item._id);
+
+    item.imageURLs.forEach(async imageEle => {
+      const name = shorthash.unique(imageEle);
+      const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+      const image = await FileSystem.getInfoAsync(path);
+
+      if(image.exists) {
+        await FileSystem.deleteAsync(image.uri);
+        console.log('Image deleted from cache!');
+      }
+    });
+  }
+
   render() {
     const array = this.props.menu
       ? this.props.menu.get('categories') &&
@@ -171,6 +203,7 @@ export default class CreateMenu extends Component<Props> {
           <SectionList
             showsVerticalScrollIndicator
             extraData={array}
+            initialNumToRender={2}
             contentContainerStyle={styles.sectionListContentContainerStyle}
             style={styles.sectionListStyle}
             keyExtractor={(item, index) => item + index}
@@ -197,10 +230,10 @@ export default class CreateMenu extends Component<Props> {
                   )
                 }
                 deleteItem={() =>
-                  this.props.deleteItem(
+                  this.deleteItem(
                     this.props.menuId,
                     section._id,
-                    item._id
+                    item
                   )
                 }
                 addNewImageComponent={imageURL =>

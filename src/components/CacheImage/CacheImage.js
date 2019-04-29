@@ -29,7 +29,6 @@ export default class CacheImage extends Component {
     try {
       const name = shorthash.unique(imageSource);
       const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
-      console.log(path);
       const image = await FileSystem.getInfoAsync(path);
 
       if(image.exists && this._isMounted) {
