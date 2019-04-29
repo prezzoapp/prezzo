@@ -35,6 +35,7 @@ import Checkout from '../Checkout';
 
 import CustomPopup from '../../../components/CustomPopup';
 import showGenericAlert from '../../../components/GenericAlert';
+import LoadingComponent from '../../../components/LoadingComponent';
 
 import { post } from '../../../utils/api';
 
@@ -102,12 +103,14 @@ export default class RestaurantDetails extends Component {
   }
 
   componentDidMount() {
+    console.log('RestaurantDetails component mounted!');
     InteractionManager.runAfterInteractions(() => {
       this.props.addRestaurantDetail(this.props.navigation.state.params.item);
     });
   }
 
   componentWillUnmount() {
+    console.log('RestaurantDetails component destroyed!');
     this.props.removeRestaurantDetail();
   }
 
@@ -195,15 +198,20 @@ export default class RestaurantDetails extends Component {
     } catch(e) {
       showGenericAlert(
         'Uh-oh!',
-        e.code === 401
+        e.code === 403
           ? 'You already have an open order at another restaurant.'
           : e.message || e,
-        e.code === 401
+        e.code === 403
           ? [
               {
                 text: 'Take me to my order',
                 onPress: () => {
-                  this.props.navigate({ routeName: 'CustomerActivity' });
+                  this.props.showLoadingWhileAnimatingScreen();
+                  this.props.navigation.goBack();
+                  InteractionManager.runAfterInteractions(() => {
+                    this.props.navigate({ routeName: 'CustomerActivityNavigator' });
+                    this.props.hideLoadingAfterScreenAnimationComplete();
+                  });
                 }
               },
               {
@@ -655,6 +663,7 @@ export default class RestaurantDetails extends Component {
             );
           }
         })()}
+        <LoadingComponent visible={this.props.isBusy} />
       </View>
     );
   }

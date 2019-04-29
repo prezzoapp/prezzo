@@ -1,15 +1,10 @@
 import React from 'react';
 import { Root } from 'native-base';
 import PropTypes from 'prop-types';
-// import { initializeListeners } from 'react-navigation-redux-helpers';
 import { addListener } from '../../../utils/redux';
 import AppNavigator from './Navigator';
 
 const NavigatorView = props => {
-  // componentDidMount() {
-  //   initializeListeners('root', this.props.navigatorState);
-  // }
-
   return (
     <Root>
       <AppNavigator

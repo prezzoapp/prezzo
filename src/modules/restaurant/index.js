@@ -5,8 +5,9 @@ import {
   addRemoveItemQuantity,
   clearCartData,
   changeItemRating,
-  setType
-  // createOrder
+  setType,
+  showLoadingWhileAnimatingScreen,
+  hideLoadingAfterScreenAnimationComplete
 } from './actions';
 import reducer from './reducer';
 
@@ -16,8 +17,9 @@ export {
   addRemoveItemQuantity,
   clearCartData,
   changeItemRating,
-  setType
-  // createOrder
+  setType,
+  showLoadingWhileAnimatingScreen,
+  hideLoadingAfterScreenAnimationComplete
 };
 
 export default reducer;

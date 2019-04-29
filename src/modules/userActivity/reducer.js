@@ -23,6 +23,7 @@ const INITIAL_STATE = fromJS({
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case GET_USER_OPEN_ORDER_REQUEST:
     case MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST:
     case CHANGE_STATUS_AND_CANCEL_ORDER_REQUEST:
     case CHECK_ORDER_STATUS_REQUEST:
@@ -79,8 +80,6 @@ export default (state = INITIAL_STATE, action) => {
         .update('data', () => updatedStateAfterPayment)
         .update('openOrderFinalStatus', () => payload.first().get('status'))
         .update('isBusy', () => false);
-
-    case GET_USER_OPEN_ORDER_REQUEST:
     default:
       return state;
   }

@@ -27,6 +27,5 @@ export const CREATE_ORDER_REQUEST: string = 'restaurant/CREATE_ORDER_REQUEST';
 export const CREATE_ORDER_SUCCESS: string = 'restaurant/CREATE_ORDER_SUCCESS';
 export const CREATE_ORDER_FAILURE: string = 'restaurant/CREATE_ORDER_FAILURE';
 
-// export const SET_PAYMENT_TYPE_REQUEST: string = 'restaurant/SET_PAYMENT_TYPE_REQUEST';
-// export const SET_PAYMENT_TYPE_SUCCESS: string = 'restaurant/SET_PAYMENT_TYPE_SUCCESS';
-// export const SET_PAYMENT_TYPE_FAILURE: string = 'restaurant/SET_PAYMENT_TYPE_FAILURE';
+export const SHOW_LOADING_WHILE_ANIMATING_SCREEN = 'restaurant/SHOW_LOADING_WHILE_ANIMATING_SCREEN';
+export const HIDE_LOADING_AFTER_SCREEN_ANIMATION = 'restaurant/HIDE_LOADING_AFTER_SCREEN_ANIMATION';

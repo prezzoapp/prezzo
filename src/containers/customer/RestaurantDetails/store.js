@@ -6,16 +6,20 @@ import {
   addRemoveItemQuantity,
   changeItemRating,
   removeRestaurantDetail,
-  clearCartData
+  clearCartData,
+  showLoadingWhileAnimatingScreen,
+  hideLoadingAfterScreenAnimationComplete
 } from '../../../modules/restaurant';
 
 export const mapStateToProps = state => {
   const data = state.get('restaurant').toJS();
   const type = state.get('restaurant').get('type');
+  const isBusy = state.get('restaurant').get('isBusy');
 
   return {
     data,
-    type
+    type,
+    isBusy
   };
 };
 
@@ -25,5 +29,7 @@ export const mapDispatchToProps = dispatch => ({
   changeItemRating: bindActionCreators(changeItemRating, dispatch),
   addRestaurantDetail: bindActionCreators(addRestaurantDetail, dispatch),
   removeRestaurantDetail: bindActionCreators(removeRestaurantDetail, dispatch),
-  clearCartData: bindActionCreators(clearCartData, dispatch)
+  clearCartData: bindActionCreators(clearCartData, dispatch),
+  showLoadingWhileAnimatingScreen: bindActionCreators(showLoadingWhileAnimatingScreen, dispatch),
+  hideLoadingAfterScreenAnimationComplete: bindActionCreators(hideLoadingAfterScreenAnimationComplete, dispatch)
 });

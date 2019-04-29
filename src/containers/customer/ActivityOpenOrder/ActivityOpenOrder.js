@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, FlatList, Text, Alert, NetInfo } from 'react-native';
+import { View, FlatList, Text, Alert, NetInfo, InteractionManager } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
@@ -28,10 +28,6 @@ class ActivityOpenOrder extends Component {
     this.timer = -1;
 
     this.connectionStatus = null;
-
-    props.navigation.setParams({
-      onTabFocus: this.listOpenOrders
-    });
   }
 
   componentWillMount() {
@@ -50,7 +46,14 @@ class ActivityOpenOrder extends Component {
   }
 
   componentDidMount() {
-    this.listOpenOrders();
+    console.log('User activity component mounted!');
+    this.listOpenOrders().then(() => {
+    }).catch(e => {})
+    .finally(() => {
+      this.props.navigation.setParams({
+        onTabFocus: this.listOpenOrders
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -78,10 +81,10 @@ class ActivityOpenOrder extends Component {
     );
   }
 
-  listOpenOrders = () => {
-    this.props.listOpenOrders(this.props.userId, 'pending')
-      .then(() => {})
-      .catch(e => alert(e.message));
+  listOpenOrders = async () => {
+    try {
+      await this.props.listOpenOrders(this.props.userId, 'pending');
+    } catch(e) {}
   }
 
   showAlert(message, duration) {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, View, ActivityIndicator } from 'react-native';
+import DeveloperMenu from '../DeveloperMenu';
 import styles from './styles';
 
 const LoadingComponent = props => {
@@ -12,6 +13,7 @@ const LoadingComponent = props => {
     >
       <View style={styles.loadingView}>
         <ActivityIndicator size="large" color="white" />
+        {__DEV__ && <DeveloperMenu />}
       </View>
     </Modal>
   );
