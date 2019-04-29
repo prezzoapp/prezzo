@@ -68,8 +68,6 @@ export default (state = INITIAL_STATE, action) => {
         .update('data', () => updatedStateAfterPayment)
         .update('openOrderFinalStatus', () => payload.first().get('status'))
         .update('isBusy', () => false);
-
-    case GET_USER_OPEN_ORDER_REQUEST:
     default:
       return state;
   }

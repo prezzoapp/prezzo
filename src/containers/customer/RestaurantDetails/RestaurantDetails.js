@@ -108,13 +108,14 @@ export default class RestaurantDetails extends Component {
   }
 
   componentDidMount() {
+    console.log('RestaurantDetails component mounted!');
     InteractionManager.runAfterInteractions(() => {
       this.props.addRestaurantDetail(this.props.navigation.state.params.item);
     });
   }
 
   componentWillUnmount() {
-    console.log('Component Will Unmount called!');
+    console.log('RestaurantDetails component destroyed!');
     this.props.removeRestaurantDetail();
   }
 
@@ -217,7 +218,12 @@ export default class RestaurantDetails extends Component {
                 {
                   text: 'Take me to my order',
                   onPress: () => {
-                    this.props.navigate({ routeName: 'CustomerActivity' });
+                    this.props.showLoadingWhileAnimatingScreen();
+                    this.props.navigation.goBack();
+                    InteractionManager.runAfterInteractions(() => {
+                      this.props.navigate({ routeName: 'CustomerActivityNavigator' });
+                      this.props.hideLoadingAfterScreenAnimationComplete();
+                    });
                   }
                 },
                 {

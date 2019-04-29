@@ -401,23 +401,23 @@ const CustomerProfileNavigator = createStackNavigator({
   }
 );
 
-Explore.navigationOptions = ({ navigation }) => {
-  return {
-    tabBarOnPress: ({ navigation, defaultHandler }) => {
-      userActivityTabSelected = false;
-      defaultHandler();
-    }
-  };
-}
-
-CustomerProfileNavigator.navigationOptions = ({ navigation }) => {
-  return {
-    tabBarOnPress: ({ navigation, defaultHandler }) => {
-      userActivityTabSelected = false;
-      defaultHandler();
-    }
-  };
-}
+// Explore.navigationOptions = ({ navigation }) => {
+//   return {
+//     tabBarOnPress: ({ navigation, defaultHandler }) => {
+//       userActivityTabSelected = false;
+//       defaultHandler();
+//     }
+//   };
+// }
+//
+// CustomerProfileNavigator.navigationOptions = ({ navigation }) => {
+//   return {
+//     tabBarOnPress: ({ navigation, defaultHandler }) => {
+//       userActivityTabSelected = false;
+//       defaultHandler();
+//     }
+//   };
+// }
 
 const CustomerSectionTabNavigator = createBottomTabNavigator(
   {

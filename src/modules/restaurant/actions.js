@@ -21,7 +21,9 @@ import {
   SET_TYPE_FAILURE,
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
-  CREATE_ORDER_FAILURE
+  CREATE_ORDER_FAILURE,
+  SHOW_LOADING_WHILE_ANIMATING_SCREEN,
+  HIDE_LOADING_AFTER_SCREEN_ANIMATION
 
   // SET_PAYMENT_TYPE_REQUEST,
   // SET_PAYMENT_TYPE_SUCCESS,
@@ -152,6 +154,18 @@ export const setType = async (type: string) => async dispatch => {
   } catch (e) {
     return dispatch({ type: SET_TYPE_FAILURE });
   }
+};
+
+export const showLoadingWhileAnimatingScreen = () => dispatch => {
+  dispatch({
+    type: SHOW_LOADING_WHILE_ANIMATING_SCREEN
+  });
+};
+
+export const hideLoadingAfterScreenAnimationComplete = () => dispatch => {
+  dispatch({
+    type: HIDE_LOADING_AFTER_SCREEN_ANIMATION
+  });
 };
 
 // export const createOrder = async (

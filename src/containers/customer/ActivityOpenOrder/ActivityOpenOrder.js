@@ -28,16 +28,18 @@ let disableBtn = false;
 class ActivityOpenOrder extends Component {
   constructor(props) {
     super();
-
     this.state = { isFetching: false };
-
-    props.navigation.setParams({
-      onTabFocus: this.listOpenOrders
-    });
   }
 
   componentDidMount() {
-    this.listOpenOrders();
+    console.log('User activity component mounted!');
+    this.listOpenOrders().then(() => {
+    }).catch(e => {})
+    .finally(() => {
+      this.props.navigation.setParams({
+        onTabFocus: this.listOpenOrders
+      });
+    });
   }
 
   listOpenOrders = () => {

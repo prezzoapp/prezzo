@@ -20,11 +20,9 @@ import {
   SET_TYPE_FAILURE,
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
-  CREATE_ORDER_FAILURE
-
-  // SET_PAYMENT_TYPE_REQUEST,
-  // SET_PAYMENT_TYPE_SUCCESS,
-  // SET_PAYMENT_TYPE_FAILURE
+  CREATE_ORDER_FAILURE,
+  SHOW_LOADING_WHILE_ANIMATING_SCREEN,
+  HIDE_LOADING_AFTER_SCREEN_ANIMATION
 } from './types';
 
 const INITIAL_STATE = fromJS({
@@ -110,7 +108,7 @@ export default (state = INITIAL_STATE, action) => {
         }
       }
 
-      return restaurant.set('isBusy', false).update('totalPrice', () => 0.0);
+      return restaurant.update('totalPrice', () => 0.0);
 
     case REMOVE_RESTAURANT_DETAIL_SUCCESS:
       return state.set('data', null);
@@ -160,8 +158,7 @@ export default (state = INITIAL_STATE, action) => {
         )
         .update('totalPrice', () =>
           this.calculateFinalPrice(updatedMenuCategories)
-        )
-        .update('isBusy', () => false);
+        );
 
     case CHANGE_ITEM_RATING_SUCCESS:
       updatedMenuCategories = state
@@ -194,14 +191,10 @@ export default (state = INITIAL_STATE, action) => {
       return state.updateIn(
           ['data', 'menu', 'categories'],
           categories => updatedMenuCategories
-        )
-        .update('isBusy', () => false);
+        );
 
     case SET_TYPE_SUCCESS:
       return state.update('type', () => action.payload.type);
-    default:
-      return state;
-
     case CLEAR_CART_DATA_SUCCESS:
       if(state.get('data').hasIn(['menu'])) {
         if(state.get('data').hasIn(['menu', 'categories'])) {
@@ -228,10 +221,20 @@ export default (state = INITIAL_STATE, action) => {
               ['data', 'menu', 'categories'],
               categories => updatedMenuCategories
               )
-              .update('isBusy', () => false)
               .update('totalPrice', () => 0.0);
           }
         }
       }
+    case SHOW_LOADING_WHILE_ANIMATING_SCREEN:
+      return state.update('isBusy', () => true);
+    case HIDE_LOADING_AFTER_SCREEN_ANIMATION:
+      return state.update('isBusy', () => false);
+
+    // case ADD_RESTAURANT_DETAIL_REQUEST:
+    // case REMOVE_RESTAURANT_DETAIL_REQUEST:
+    // case ADD_RESTAURANT_DETAIL_FAILURE:
+    // case REMOVE_RESTAURANT_DETAIL_FAILURE:
+    default:
+      return state;
   }
 };

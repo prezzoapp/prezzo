@@ -6,7 +6,9 @@ import {
   addRemoveItemQuantity,
   removeRestaurantDetail,
   clearCartData,
-  createOrder
+  createOrder,
+  showLoadingWhileAnimatingScreen,
+  hideLoadingAfterScreenAnimationComplete
 } from '../../../modules/restaurant';
 import { userLogout } from '../../../modules/auth';
 
@@ -29,5 +31,7 @@ export const mapDispatchToProps = dispatch => ({
   addRestaurantDetail: bindActionCreators(addRestaurantDetail, dispatch),
   removeRestaurantDetail: bindActionCreators(removeRestaurantDetail, dispatch),
   clearCartData: bindActionCreators(clearCartData, dispatch),
-  userLogout: bindActionCreators(userLogout, dispatch)
+  userLogout: bindActionCreators(userLogout, dispatch),
+  showLoadingWhileAnimatingScreen: bindActionCreators(showLoadingWhileAnimatingScreen, dispatch),
+  hideLoadingAfterScreenAnimationComplete: bindActionCreators(hideLoadingAfterScreenAnimationComplete, dispatch)
 });
