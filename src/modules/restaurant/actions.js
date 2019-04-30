@@ -7,9 +7,9 @@ import {
   ADD_REMOVE_ITEM_QUANTITY_REQUEST,
   ADD_REMOVE_ITEM_QUANTITY_SUCCESS,
   ADD_REMOVE_ITEM_QUANTITY_FAILURE,
-  CHANGE_ITEM_RATING_REQUEST,
-  CHANGE_ITEM_RATING_SUCCESS,
-  CHANGE_ITEM_RATING_FAILURE,
+  // CHANGE_ITEM_RATING_REQUEST,
+  // CHANGE_ITEM_RATING_SUCCESS,
+  // CHANGE_ITEM_RATING_FAILURE,
   REMOVE_RESTAURANT_DETAIL_REQUEST,
   REMOVE_RESTAURANT_DETAIL_SUCCESS,
   REMOVE_RESTAURANT_DETAIL_FAILURE,
@@ -17,9 +17,9 @@ import {
   CLEAR_CART_DATA_SUCCESS,
   CLEAR_CART_DATA_FAILURE,
 
-  SET_TYPE_REQUEST,
-  SET_TYPE_SUCCESS,
-  SET_TYPE_FAILURE
+  // SET_TYPE_REQUEST,
+  // SET_TYPE_SUCCESS,
+  // SET_TYPE_FAILURE
 
   // SET_PAYMENT_TYPE_REQUEST,
   // SET_PAYMENT_TYPE_SUCCESS,
@@ -74,22 +74,22 @@ export const addRemoveItemQuantity = async (
   }
 };
 
-export const changeItemRating = async (
-  sectionId: string,
-  itemId: string,
-  rating: number
-) => async dispatch => {
-  dispatch({ type: CHANGE_ITEM_RATING_REQUEST });
-
-  try {
-    return dispatch({
-      type: CHANGE_ITEM_RATING_SUCCESS,
-      payload: { sectionId, itemId, rating }
-    });
-  } catch (e) {
-    dispatch({ type: CHANGE_ITEM_RATING_FAILURE });
-  }
-};
+// export const changeItemRating = async (
+//   sectionId: string,
+//   itemId: string,
+//   rating: number
+// ) => async dispatch => {
+//   dispatch({ type: CHANGE_ITEM_RATING_REQUEST });
+//
+//   try {
+//     return dispatch({
+//       type: CHANGE_ITEM_RATING_SUCCESS,
+//       payload: { sectionId, itemId, rating }
+//     });
+//   } catch (e) {
+//     dispatch({ type: CHANGE_ITEM_RATING_FAILURE });
+//   }
+// };
 
 export const clearCartData = () => dispatch => {
   dispatch({ type: CLEAR_CART_DATA_REQUEST });
@@ -103,18 +103,18 @@ export const clearCartData = () => dispatch => {
   }
 };
 
-export const setType = async (type: string) => async dispatch => {
-  dispatch({ type: SET_TYPE_REQUEST });
-
-  try {
-    return dispatch({
-      type: SET_TYPE_SUCCESS,
-      payload: { type }
-    });
-  } catch (e) {
-    return dispatch({ type: SET_TYPE_FAILURE });
-  }
-};
+// export const setType = async (type: string) => async dispatch => {
+//   dispatch({ type: SET_TYPE_REQUEST });
+//
+//   try {
+//     return dispatch({
+//       type: SET_TYPE_SUCCESS,
+//       payload: { type }
+//     });
+//   } catch (e) {
+//     return dispatch({ type: SET_TYPE_FAILURE });
+//   }
+// };
 
 // export const createOrder = async (
 //   items: array,

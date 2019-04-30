@@ -216,6 +216,5 @@ const itemOrderBtnStyles = {
 RestaurantItem.propTypes = {
   item: PropTypes.object.isRequired,
   showText: PropTypes.bool.isRequired,
-  addRemoveItemQuantity: PropTypes.func.isRequired,
-  changeItemRating: PropTypes.func.isRequired
+  addRemoveItemQuantity: PropTypes.func.isRequired
 };

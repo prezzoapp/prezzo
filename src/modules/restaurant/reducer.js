@@ -6,9 +6,9 @@ import {
   ADD_REMOVE_ITEM_QUANTITY_REQUEST,
   ADD_REMOVE_ITEM_QUANTITY_SUCCESS,
   ADD_REMOVE_ITEM_QUANTITY_FAILURE,
-  CHANGE_ITEM_RATING_REQUEST,
-  CHANGE_ITEM_RATING_SUCCESS,
-  CHANGE_ITEM_RATING_FAILURE,
+  // CHANGE_ITEM_RATING_REQUEST,
+  // CHANGE_ITEM_RATING_SUCCESS,
+  // CHANGE_ITEM_RATING_FAILURE,
   REMOVE_RESTAURANT_DETAIL_REQUEST,
   REMOVE_RESTAURANT_DETAIL_SUCCESS,
   REMOVE_RESTAURANT_DETAIL_FAILURE,
@@ -16,9 +16,9 @@ import {
   CLEAR_CART_DATA_SUCCESS,
   CLEAR_CART_DATA_FAILURE,
 
-  SET_TYPE_REQUEST,
-  SET_TYPE_SUCCESS,
-  SET_TYPE_FAILURE
+  // SET_TYPE_REQUEST,
+  // SET_TYPE_SUCCESS,
+  // SET_TYPE_FAILURE
 
   // SET_PAYMENT_TYPE_REQUEST,
   // SET_PAYMENT_TYPE_SUCCESS,
@@ -61,9 +61,9 @@ export default (state = INITIAL_STATE, action) => {
     case ADD_RESTAURANT_DETAIL_REQUEST:
     case REMOVE_RESTAURANT_DETAIL_REQUEST:
     case ADD_REMOVE_ITEM_QUANTITY_REQUEST:
-    case CHANGE_ITEM_RATING_REQUEST:
+    //case CHANGE_ITEM_RATING_REQUEST:
     case CLEAR_CART_DATA_REQUEST:
-    case SET_TYPE_REQUEST:
+    //case SET_TYPE_REQUEST:
     // case SET_PAYMENT_TYPE_REQUEST:
     // case CREATE_ORDER_REQUEST:
       return state.update('isBusy', () => true);
@@ -71,9 +71,9 @@ export default (state = INITIAL_STATE, action) => {
     case ADD_RESTAURANT_DETAIL_FAILURE:
     case REMOVE_RESTAURANT_DETAIL_FAILURE:
     case ADD_REMOVE_ITEM_QUANTITY_FAILURE:
-    case CHANGE_ITEM_RATING_FAILURE:
+    // case CHANGE_ITEM_RATING_FAILURE:
     case CLEAR_CART_DATA_FAILURE:
-    case SET_TYPE_FAILURE:
+    // case SET_TYPE_FAILURE:
     // case SET_PAYMENT_TYPE_FAILURE:
     // case CREATE_ORDER_FAILURE:
       return state.update('isBusy', () => false);
@@ -172,44 +172,44 @@ export default (state = INITIAL_STATE, action) => {
         )
         .update('isBusy', () => false);
 
-    case CHANGE_ITEM_RATING_SUCCESS:
-      updatedMenuCategories = state
-        .get('data')
-        .get('menu')
-        .get('categories')
-        .update(
-          state
-            .get('data')
-            .get('menu')
-            .get('categories')
-            .findIndex(category => {
-              return category.get('_id') === action.payload.sectionId;
-            }),
-          categoryItem => {
-            return categoryItem.set(
-              'data',
-              categoryItem.get('data').update(
-                categoryItem.get('data').findIndex(item => {
-                  return item.get('_id') === action.payload.itemId;
-                }),
-                menuItem => {
-                  return menuItem.set('rating', action.payload.rating);
-                }
-              )
-            );
-          }
-        );
+    // case CHANGE_ITEM_RATING_SUCCESS:
+    //   updatedMenuCategories = state
+    //     .get('data')
+    //     .get('menu')
+    //     .get('categories')
+    //     .update(
+    //       state
+    //         .get('data')
+    //         .get('menu')
+    //         .get('categories')
+    //         .findIndex(category => {
+    //           return category.get('_id') === action.payload.sectionId;
+    //         }),
+    //       categoryItem => {
+    //         return categoryItem.set(
+    //           'data',
+    //           categoryItem.get('data').update(
+    //             categoryItem.get('data').findIndex(item => {
+    //               return item.get('_id') === action.payload.itemId;
+    //             }),
+    //             menuItem => {
+    //               return menuItem.set('rating', action.payload.rating);
+    //             }
+    //           )
+    //         );
+    //       }
+    //     );
+    //
+    //   return state.updateIn(
+    //       ['data', 'menu', 'categories'],
+    //       categories => updatedMenuCategories
+    //     )
+    //     .update('isBusy', () => false);
 
-      return state.updateIn(
-          ['data', 'menu', 'categories'],
-          categories => updatedMenuCategories
-        )
-        .update('isBusy', () => false);
-
-    case SET_TYPE_SUCCESS:
-      return state.update('type', () => action.payload.type);
-    default:
-      return state;
+    // case SET_TYPE_SUCCESS:
+    //   return state.update('type', () => action.payload.type);
+    // default:
+    //   return state;
 
     case CLEAR_CART_DATA_SUCCESS:
       if(state.get('data').hasIn(['menu'])) {
@@ -242,5 +242,7 @@ export default (state = INITIAL_STATE, action) => {
           }
         }
       }
+    default:
+      return state;
   }
 };
