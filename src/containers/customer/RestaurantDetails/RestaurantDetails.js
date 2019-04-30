@@ -153,13 +153,13 @@ export default class RestaurantDetails extends Component {
     }
   }
 
-  setIndex(index) {
+  setIndex = index => {
     this.setState(() => {
       return {
         currentSlideIndex: index
       }
     });
-  }
+  };
 
   attemptToCreateOrder() {
     const modifiedCartItems = [];
@@ -241,7 +241,7 @@ export default class RestaurantDetails extends Component {
       });
   }
 
-  isSelectedPaymentMethod(val) {
+  isSelectedPaymentMethod = val => {
     if(val === '') {
       this.selectedPaymentMethod = '';
     } else if(val !== 'cash') {
@@ -264,7 +264,7 @@ export default class RestaurantDetails extends Component {
         }
       })
     }
-  }
+  };
 
   showNextOrderBtn() {
     this.setState(() => {
@@ -669,14 +669,12 @@ export default class RestaurantDetails extends Component {
             return (
               <Checkout
                 ref={checkoutModal}
-                setCurrentIndex={index => this.setIndex(index)}
+                setCurrentIndex={this.setIndex}
                 restaurantName={data.get('name')}
                 showNextOrderBtn={this.showNextOrderBtn}
                 hideNextOrderBtn={this.hideNextOrderBtn}
                 hideCheckoutModal={this.hideCheckoutModal}
-                isSelectedPaymentMethod={val =>
-                  this.isSelectedPaymentMethod(val)
-                }
+                isSelectedPaymentMethod={this.isSelectedPaymentMethod}
               />
             );
           }
