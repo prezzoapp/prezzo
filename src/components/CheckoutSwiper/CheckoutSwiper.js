@@ -39,14 +39,14 @@ export default class CheckoutSwiper extends Component {
     this.props.setCurrentIndex(index);
   }
 
-  setPlaceOrderType(type) {
-    if (type === 'delivery') {
-      showGenericAlert(null, "This feature isn't available yet.");
-    }
-    if (this.props.type !== type) {
-      this.props.setType(type);
-    }
-  }
+  // setPlaceOrderType(type) {
+  //   if (type === 'delivery') {
+  //     showGenericAlert(null, "This feature isn't available yet");
+  //   }
+  //   if (this.props.type !== type) {
+  //     this.props.setType(type);
+  //   }
+  // }
 
   setPaymentType(paymentType) {
     if (this.state.setPaymentType !== paymentType) {
@@ -106,22 +106,9 @@ export default class CheckoutSwiper extends Component {
     );
   };
 
-  // moveToIndex(index = null) {
-  //   if (index !== null || index !== undefined || typeof index !== 'string') {
-  //     this.swiper.scrollBy(index - this.index, false);
-  //   }
-  // }
-
   scrollForward() {
     checkoutSwiperRef.current.scrollBy(1, true);
   }
-
-  // scrollReset() {
-  //   if (this.index > 0) {
-  //     this.swiper.scrollBy(this.index * -1, false);
-  //   }
-  //   this.setPaymentType('');
-  // }
 
   removeItemFromCart(item) {
     this.props
@@ -385,6 +372,5 @@ CheckoutSwiper.propTypes = {
   restaurantName: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   hideModal: PropTypes.func.isRequired,
-  setType: PropTypes.func.isRequired,
-  creditCardList: PropTypes.array.isRequired
+  creditCardList: PropTypes.array
 };

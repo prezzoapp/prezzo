@@ -2,7 +2,7 @@
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 
-import { addRemoveItemQuantity, setType } from '../../../modules/restaurant';
+import { addRemoveItemQuantity } from '../../../modules/restaurant';
 import { listCreditCards } from '../../../modules/paymentMethods';
 import { userLogout } from '../../../modules/auth';
 

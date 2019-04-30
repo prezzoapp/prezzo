@@ -143,18 +143,18 @@ export const clearCartData = () => dispatch => {
   }
 };
 
-export const setType = async (type: string) => async dispatch => {
-  dispatch({ type: SET_TYPE_REQUEST });
-
-  try {
-    return dispatch({
-      type: SET_TYPE_SUCCESS,
-      payload: { type }
-    });
-  } catch (e) {
-    return dispatch({ type: SET_TYPE_FAILURE });
-  }
-};
+// export const setType = async (type: string) => async dispatch => {
+//   dispatch({ type: SET_TYPE_REQUEST });
+//
+//   try {
+//     return dispatch({
+//       type: SET_TYPE_SUCCESS,
+//       payload: { type }
+//     });
+//   } catch (e) {
+//     return dispatch({ type: SET_TYPE_FAILURE });
+//   }
+// };
 
 export const showLoadingWhileAnimatingScreen = () => dispatch => {
   dispatch({

@@ -6,9 +6,9 @@ import {
   ADD_REMOVE_ITEM_QUANTITY_REQUEST,
   ADD_REMOVE_ITEM_QUANTITY_SUCCESS,
   ADD_REMOVE_ITEM_QUANTITY_FAILURE,
-  CHANGE_ITEM_RATING_REQUEST,
-  CHANGE_ITEM_RATING_SUCCESS,
-  CHANGE_ITEM_RATING_FAILURE,
+  // CHANGE_ITEM_RATING_REQUEST,
+  // CHANGE_ITEM_RATING_SUCCESS,
+  // CHANGE_ITEM_RATING_FAILURE,
   REMOVE_RESTAURANT_DETAIL_REQUEST,
   REMOVE_RESTAURANT_DETAIL_SUCCESS,
   REMOVE_RESTAURANT_DETAIL_FAILURE,
@@ -160,41 +160,45 @@ export default (state = INITIAL_STATE, action) => {
           this.calculateFinalPrice(updatedMenuCategories)
         );
 
-    case CHANGE_ITEM_RATING_SUCCESS:
-      updatedMenuCategories = state
-        .get('data')
-        .get('menu')
-        .get('categories')
-        .update(
-          state
-            .get('data')
-            .get('menu')
-            .get('categories')
-            .findIndex(category => {
-              return category.get('_id') === action.payload.sectionId;
-            }),
-          categoryItem => {
-            return categoryItem.set(
-              'data',
-              categoryItem.get('data').update(
-                categoryItem.get('data').findIndex(item => {
-                  return item.get('_id') === action.payload.itemId;
-                }),
-                menuItem => {
-                  return menuItem.set('rating', action.payload.rating);
-                }
-              )
-            );
-          }
-        );
+    // case CHANGE_ITEM_RATING_SUCCESS:
+    //   updatedMenuCategories = state
+    //     .get('data')
+    //     .get('menu')
+    //     .get('categories')
+    //     .update(
+    //       state
+    //         .get('data')
+    //         .get('menu')
+    //         .get('categories')
+    //         .findIndex(category => {
+    //           return category.get('_id') === action.payload.sectionId;
+    //         }),
+    //       categoryItem => {
+    //         return categoryItem.set(
+    //           'data',
+    //           categoryItem.get('data').update(
+    //             categoryItem.get('data').findIndex(item => {
+    //               return item.get('_id') === action.payload.itemId;
+    //             }),
+    //             menuItem => {
+    //               return menuItem.set('rating', action.payload.rating);
+    //             }
+    //           )
+    //         );
+    //       }
+    //     );
+    //
+    //   return state.updateIn(
+    //       ['data', 'menu', 'categories'],
+    //       categories => updatedMenuCategories
+    //     )
+    //     .update('isBusy', () => false);
 
-      return state.updateIn(
-          ['data', 'menu', 'categories'],
-          categories => updatedMenuCategories
-        );
+    // case SET_TYPE_SUCCESS:
+    //   return state.update('type', () => action.payload.type);
+    // default:
+    //   return state;
 
-    case SET_TYPE_SUCCESS:
-      return state.update('type', () => action.payload.type);
     case CLEAR_CART_DATA_SUCCESS:
       if(state.get('data').hasIn(['menu'])) {
         if(state.get('data').hasIn(['menu', 'categories'])) {
