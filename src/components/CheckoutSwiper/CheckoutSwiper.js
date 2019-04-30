@@ -365,5 +365,5 @@ CheckoutSwiper.propTypes = {
   restaurantName: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   hideModal: PropTypes.func.isRequired,
-  creditCardList: PropTypes.array
+  creditCardList: PropTypes.array.isRequired
 };
