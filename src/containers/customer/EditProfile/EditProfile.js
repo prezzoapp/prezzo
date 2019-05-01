@@ -20,6 +20,7 @@ import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import LoadingComponent from '../../../components/LoadingComponent';
+import CacheImage from '../../../components/CacheImage';
 import { getTimeStampString, showAlertWithMessage } from '../../../services/commonFunctions';
 import CacheImage from '../../../components/CacheImage';
 import {

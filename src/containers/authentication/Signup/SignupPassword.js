@@ -35,6 +35,7 @@ import { ImagePicker, Permissions, Constants } from 'expo';
 import { getTimeStampString } from '../../../services/commonFunctions';
 import { Feather } from '../../../components/VectorIcons';
 import LoadingComponent from '../../../components/LoadingComponent';
+import CacheImage from '../../../components/CacheImage';
 import showGenericAlert from '../../../components/GenericAlert';
 import CacheImage from '../../../components/CacheImage';
 

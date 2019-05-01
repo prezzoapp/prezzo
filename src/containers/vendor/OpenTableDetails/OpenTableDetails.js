@@ -133,6 +133,7 @@ export default class OpenTableDetails extends Component {
     this.props
       .checkOpenOrderStatus(id)
       .then(() => {
+        const openOrderFinalStatus = this.props.openOrderFinalStatus;
         if (
           openOrderFinalStatus &&
           openOrderFinalStatus === 'complete'
@@ -213,7 +214,7 @@ export default class OpenTableDetails extends Component {
         } else {
           const item = order.get('items').find(item => item.get('_id') === itemId);
           if(item) {
-            if(item.status === 'denied') {
+            if(item.get('status') === 'denied') {
               showAlertWithMessage('Success', {
                 message: 'Item has been successfully canceled.'
               });
@@ -259,11 +260,11 @@ export default class OpenTableDetails extends Component {
                 >
                   <OpenOrdersList
                     data={selectedItem}
-                    checkStatusAndCancelItem={(orderId, itemId) =>
-                      this.checkStatusAndCancelItem(orderId, itemId)
+                    checkStatusAndCancelItem={itemId =>
+                      this.checkStatusAndCancelItem(selectedItem.get('_id'), itemId)
                     }
                     completeOrder={() => {
-                      this.completeOrder(selectedItem._id)
+                      this.completeOrder(selectedItem.get('_id'))
                     }}
                     innerTab={this.props.navigation.state.params.innerTab}
                   />
@@ -282,7 +283,7 @@ export default class OpenTableDetails extends Component {
                         <OpenTablePayment
                           data={selectedItem}
                           innerTab={this.props.navigation.state.params.innerTab}
-                          completeOrder={() => this.completeOrder(selectedItem._id)}
+                          completeOrder={() => this.completeOrder(selectedItem.get('_id'))}
                         />
                       </Tab>
                     );

@@ -29,9 +29,10 @@ const styles = StyleSheet.create({
     paddingBottom: containerPaddingTopBottom
   },
   image: {
-    aspectRatio: 0.8,
-    // marginTop: hp('17.85%'),
-    // marginTop: wp('38.4%'),
+    width: wp('18%'),
+    aspectRatio: 1,
+    marginTop: hp('17.85%'),
+    marginBottom: wp('6.75%'),
     alignSelf: 'center',
     resizeMode: 'contain'
   },
@@ -40,8 +41,6 @@ const styles = StyleSheet.create({
     fontFamily: SF_PRO_DISPLAY_BOLD,
     textAlign: 'center',
     color: '#fff',
-    // marginBottom: wp('2.13%'),
-    marginTop: wp('5%'),
     marginBottom: wp('18.66%'),
     backgroundColor: 'transparent'
   },

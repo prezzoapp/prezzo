@@ -250,7 +250,7 @@ class Tables extends Component {
           onRefresh={() => this.onRefresh()}
           refreshing={this.state.isFetching}
           contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
-          data={this.props.closedTableList.length !== 0 ? this.props.closedTableList.toJS() : []}
+          data={this.props.closedTableList.size !== 0 ? this.props.closedTableList.toJS() : []}
           renderItem={rowData => {
             if (this.props.layout === 'list') {
               return (

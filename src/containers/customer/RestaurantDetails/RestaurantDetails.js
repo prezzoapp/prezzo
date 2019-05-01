@@ -52,6 +52,7 @@ import { showAlertWithMessage } from '../../../services/commonFunctions';
 import Checkout from '../Checkout';
 
 import CustomPopup from '../../../components/CustomPopup';
+import CacheImage from '../../../components/CacheImage';
 import showGenericAlert from '../../../components/GenericAlert';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
@@ -187,14 +188,13 @@ export default class RestaurantDetails extends Component {
     cartItems.map(cart => {
       for (let i = 0; i < cart.get('quantity'); i++) {
        modifiedCartItems.push({
-         createdDate: cart.get('createdDate'),
          title: cart.get('title'),
          description: cart.get('description'),
          status: 'pending',
-         notes: cart.description,
-         price: cart.price,
-         rating: cart.rating,
-         imageURLs: cart.imageURLs
+         notes: cart.get('description'),
+         price: cart.get('price'),
+         rating: cart.get('rating'),
+         imageURLs: cart.get('imageURLs')
        });
      }
     });
@@ -204,7 +204,7 @@ export default class RestaurantDetails extends Component {
         modifiedCartItems,
         this.props.type,
         this.selectedPaymentMethod,
-        this.props.data.data._id
+        data.get('_id')
       )
       .then(() => {
         this.setState(
@@ -716,6 +716,5 @@ RestaurantDetails.propTypes = {
   clearCartData: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   addRemoveItemQuantity: PropTypes.func.isRequired,
-  changeItemRating: PropTypes.func.isRequired,
   isBusy: PropTypes.bool.isRequired
 };

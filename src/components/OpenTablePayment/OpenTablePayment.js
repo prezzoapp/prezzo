@@ -48,7 +48,6 @@ const OpenTablePayment = props => {
           keyExtractor={item => item.get('_id').toString()}
           data={data !== null ? data.get('items').toArray() : []}
           showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={this.renderSeparator}
           contentContainerStyle={styles.flatListContentContainerStyle}
           style={styles.flatListStyle}
           renderItem={this.renderItem}
