@@ -56,7 +56,11 @@ class ReviewUserPhoto extends Component {
               ]}
             >
               <TouchableOpacity onPress={() => null} activeOpacity={0.8}>
-                <Image source={{ uri: item.key }} style={styles.bigImage} />
+                <CacheImage
+                  source={item.key}
+                  type='image'
+                  style={styles.bigImage}
+                />
                 {(() => {
                   if (item.selected) {
                     return (

@@ -16,6 +16,7 @@ import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import Button from '../../../components/Button';
 import { Feather } from '../../../components/VectorIcons';
+import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 
 import {
@@ -48,7 +49,7 @@ export default class VendorAdminActivityDetails extends Component {
             source={
               navigation.state.params.userImage === ''
                 ? require('../../../../assets/images/etc/default-avatar.png')
-                : { uri: navigation.state.params.userImage }
+                : navigation.state.params.userImage
             }
           />
           <Text style={styles.headerText} numberOfLines={1}>

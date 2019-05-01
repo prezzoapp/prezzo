@@ -98,45 +98,27 @@ export default class CreateMenu extends Component<Props> {
     }
   }
 
-  updateCategory(categoryId, title) {
-    this.props.updateCategory(this.props.menuId, categoryId, title)
+  updateCategory(menuId, categoryId, title) {
+    this.props.updateCategory(menuId, categoryId, title)
       .then(() => {})
       .catch(err => showAlertWithMessage('Uh-oh!', err));
   }
 
-  deleteCategory(categoryId) {
-    this.props.deleteCategory(this.props.menuId, categoryId)
-      .then(() => {})
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
-  }
-
-  addItem(categoryId) {
-    this.props.addItem(this.props.menuId, categoryId, 'Item', 'Description', 0)
+  addItem(menuId, categoryId) {
+    this.props.addItem(menuId, categoryId, 'Item', 'Description', 0)
       .then(() => {})
       .catch(err => showAlertWithMessage('Uh-oh!' , err));
   }
 
-  updateItem(sectionId, itemId, title, description, price) {
+  updateItem(menuId, sectionId, itemId, title, description, price) {
     this.props.updateItem(
-        this.props.menuId,
+        menuId,
         sectionId,
         itemId,
         title,
         description,
         price
       )
-      .then(() => {})
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
-  }
-
-  deleteItem(sectionId, itemId) {
-    this.props.deleteItem(this.props.menuId, sectionId, itemId)
-      .then(() => {})
-      .catch(err => showAlertWithMessage('Uh-oh!', err));
-  }
-
-  deleteImage(sectionId, itemId, imageURL) {
-    this.props.deleteImage(this.props.menuId, sectionId, itemId, imageURL)
       .then(() => {})
       .catch(err => showAlertWithMessage('Uh-oh!', err));
   }
@@ -164,7 +146,7 @@ export default class CreateMenu extends Component<Props> {
       <TouchableOpacity
         style={styles.addAnotherCommonBtn}
         activeOpacity={0.6}
-        onPress={() => this.addItem(categoryId)}
+        onPress={() => this.addItem(this.props.menuId, categoryId)}
       >
         <Text style={styles.addAnotherCommonBtnText}>Add Another Item</Text>
       </TouchableOpacity>
@@ -174,18 +156,61 @@ export default class CreateMenu extends Component<Props> {
   renderSectionHeader = section => (
     <MenuListCategoriesHeader
       section={section}
-      deleteCategory={categoryId => this.deleteCategory(categoryId)}
+      deleteCategory={categoryId => this.deleteCategory(this.props.menuId, categoryId, section)}
       updateCategory={(categoryId, title) =>
-        this.updateCategory(categoryId, title)
+        this.updateCategory(this.props.menuId, categoryId, title)
       }
     />
   );
 
   async deleteCategory(menuId, categoryId, section) {
-    await this.props.deleteCategory(menuId, categoryId);
+    try {
+      await this.props.deleteCategory(menuId, categoryId);
 
-    section.data.forEach(async data => {
-      data.imageURLs.forEach(async imageEle => {
+      section.data.forEach(async data => {
+        data.imageURLs.forEach(async imageEle => {
+          const name = shorthash.unique(imageEle);
+          const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+          const image = await FileSystem.getInfoAsync(path);
+
+          if(image.exists) {
+            await FileSystem.deleteAsync(image.uri);
+            console.log('Image deleted from cache!');
+          }
+        });
+      });
+    } catch(err) {
+      showAlertWithMessage('Uh-oh!', err);
+    }
+  }
+
+  async deleteImage(menuId, sectionId, itemId, imageURL) {
+    try {
+      await this.props.deleteImage(
+        menuId,
+        sectionId,
+        itemId,
+        imageURL
+      );
+
+      const name = shorthash.unique(imageURL);
+      const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+      const image = await FileSystem.getInfoAsync(path);
+
+      if(image.exists) {
+        await FileSystem.deleteAsync(image.uri);
+        console.log('Image deleted from cache!');
+      }
+    } catch(err) {
+      showAlertWithMessage('Uh-oh!', err);
+    }
+  }
+
+  async deleteItem(menuId, sectionId, item) {
+    try {
+      await this.props.deleteItem(menuId, sectionId, item._id);
+
+      item.imageURLs.forEach(async imageEle => {
         const name = shorthash.unique(imageEle);
         const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
         const image = await FileSystem.getInfoAsync(path);
@@ -195,40 +220,9 @@ export default class CreateMenu extends Component<Props> {
           console.log('Image deleted from cache!');
         }
       });
-    });
-  }
-
-  async deleteImage(menuId, sectionId, itemId, imageURL) {
-    await this.props.deleteImage(
-      menuId,
-      sectionId,
-      itemId,
-      imageURL
-    );
-
-    const name = shorthash.unique(imageURL);
-    const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
-    const image = await FileSystem.getInfoAsync(path);
-
-    if(image.exists) {
-      await FileSystem.deleteAsync(image.uri);
-      console.log('Image deleted from cache!');
+    } catch(err) {
+      showAlertWithMessage('Uh-oh!', err);
     }
-  }
-
-  async deleteItem(menuId, sectionId, item) {
-    await this.props.deleteItem(menuId, sectionId, item._id);
-
-    item.imageURLs.forEach(async imageEle => {
-      const name = shorthash.unique(imageEle);
-      const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
-      const image = await FileSystem.getInfoAsync(path);
-
-      if(image.exists) {
-        await FileSystem.deleteAsync(image.uri);
-        console.log('Image deleted from cache!');
-      }
-    });
   }
 
   render() {
@@ -261,6 +255,7 @@ export default class CreateMenu extends Component<Props> {
                 item={item}
                 updateItem={(title, price, description) =>
                   this.updateItem(
+                    this.props.menuId,
                     section._id,
                     item._id,
                     title,
@@ -268,7 +263,7 @@ export default class CreateMenu extends Component<Props> {
                     price
                   )
                 }
-                deleteItem={() => this.deleteItem(section._id, item._id)}
+                deleteItem={() => this.deleteItem(this.props.menuId, section._id, item)}
                 addNewImageComponent={imageURL =>
                   this.props.addImage(
                     this.props.menuId,
@@ -278,7 +273,7 @@ export default class CreateMenu extends Component<Props> {
                   )
                 }
                 deleteImageComponent={imageURL =>
-                  this.deleteImage(section._id, item._id, imageURL)
+                  this.deleteImage(this.props.menuId, section._id, item._id, imageURL)
                 }
                 uploadImage={(uri, size, mime, name, type, acl) =>
                   this.props.uploadImage(uri, size, mime, name, type, acl)

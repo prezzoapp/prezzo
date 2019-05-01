@@ -83,8 +83,8 @@ class ActivityOpenOrder extends Component {
           }
         })
         .catch(err => showAlertWithMessage('Uh-oh!', err));
-    } else if(this.props.data[0].paymentType === 'card') {
-      this.props.makePaymentAndCompleteOrder(this.props.data[0]._id, '', price)
+    } else if(data.get('paymentType') === 'card') {
+      this.props.makePaymentAndCompleteOrder(data.get('_id'), '', price)
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
             showAlertWithMessage('Success', {
@@ -108,20 +108,22 @@ class ActivityOpenOrder extends Component {
   }
 
   completeOrder(id) {
+    const data = this.props.data.first();
     this.props
       .checkOrderStatus(id)
       .then(() => {
+        const openOrderFinalStatus = this.props.openOrderFinalStatus;
         if (
-          this.props.openOrderFinalStatus &&
-          this.props.openOrderFinalStatus === 'complete'
+          openOrderFinalStatus &&
+          openOrderFinalStatus === 'complete'
         ) {
           // If order has been already completed.
           showAlertWithMessage('Info', {
             message: 'This order has been already completed.'
           });
         } else if (
-          this.props.openOrderFinalStatus &&
-          this.props.openOrderFinalStatus === 'denied'
+          openOrderFinalStatus &&
+          openOrderFinalStatus === 'denied'
         ) {
           // If order has been already denied.
 
@@ -133,11 +135,11 @@ class ActivityOpenOrder extends Component {
           let pendingItems = 0;
           let price = 0;
 
-          this.props.data[0].items.filter(item => {
-            if(item.status === 'pending') {
+          data.get('items').filter(item => {
+            if(item.get('status') === 'pending') {
               pendingItems += 1;
-            } else if(item.status !== 'denied') {
-              price += item.price;
+            } else if(item.get('status') !== 'denied') {
+              price += item.get('price');
             }
           });
 
@@ -145,10 +147,10 @@ class ActivityOpenOrder extends Component {
 
           const message =
             pendingItems === 0
-              ? this.props.data[0].paymentType === 'card'
+              ? data.get('paymentType') === 'card'
                 ? `Continue to pay $${price}`
                 : 'Are you sure you want to complete?'
-              : this.props.data[0].paymentType === 'card'
+              : data.get('paymentType') === 'card'
                 ? price === 0
                   ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
                   : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
@@ -186,10 +188,9 @@ class ActivityOpenOrder extends Component {
             message: 'Order has been completed.'
           });
         } else {
-          const item = this.props.data[0].items.find(ele => ele._id === eleId);
-          console.log(item);
+          const item = data.get('items').find(ele => ele.get('_id') === eleId);
           if(item) {
-            if(item.status === 'denied') {
+            if(item.get('status') === 'denied') {
               showAlertWithMessage('Success', {
                 message: 'Item has been successfully canceled.'
               });

@@ -7,6 +7,7 @@ import { ActionSheet } from 'native-base';
 import PropTypes from 'prop-types';
 import { Ionicons } from '../VectorIcons';
 import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
+import CacheImage from '../CacheImage';
 import styles from './styles';
 
 class ItemImagePicker extends React.Component<Props> {
@@ -66,24 +67,43 @@ class ItemImagePicker extends React.Component<Props> {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: false,
-        quality: 0.3
+        quality: 0.1
       });
 
       if (!result.cancelled) {
-        const fileName = `${getTimeStampString()}.jpeg`;
-        const itemImage = await props
-          .uploadImage(
-            result.uri,
-            10,
-            'image/jpeg',
-            fileName,
-            'userAvatar',
-            'public-read'
-          );
+        const resultEdited = await ImageManipulator.manipulate(
+          result.uri,
+          [{ resize: { width: 200 }}],
+          { format: 'jpeg', compress: 0.1 }
+        );
 
-        console.log(itemImage);
+        this.setState({
+          selectImageThroughImagePicker: true
+        }, () => {
+          this.setState({ tempImage: resultEdited.uri });
 
-        await props.addNewImageComponent(itemImage);
+          const fileName = `${getTimeStampString()}.jpeg`;
+          this.props
+            .uploadImage(
+              resultEdited.uri,
+              10,
+              'image/jpeg',
+              fileName,
+              'userAvatar',
+              'public-read'
+            )
+            .then(async itemImage => {
+              this.props.addNewImageComponent(itemImage).then(() => {
+                this.setState({
+                  selectImageThroughImagePicker: false
+                }, () => {
+                  this.setState({
+                    tempImage: itemImage
+                  });
+                });
+              }).catch(err => {});
+            });
+        });
       }
     } catch(err) {
       showAlertWithMessage('Uh-oh!', err);
@@ -98,17 +118,24 @@ class ItemImagePicker extends React.Component<Props> {
       });
 
       if (!result.cancelled) {
+        const resultEdited = await ImageManipulator.manipulate(
+          result.uri,
+          [{ resize: { width: 200 }}],
+          { format: 'jpeg', compress: 0.1 }
+        );
         const fileName = `${getTimeStampString()}.jpeg`;
-        const itemImage = await props
+        this.props
           .uploadImage(
-            result.uri,
+            resultEdited.uri,
             10,
             'image/jpeg',
             fileName,
             'userAvatar',
             'public-read'
-          );
-        await props.addNewImageComponent(itemImage);
+          )
+          .then(async itemImage => {
+            this.props.addNewImageComponent(itemImage);
+          });
       }
     } catch(err) {
       showAlertWithMessage('Uh-oh!', err);

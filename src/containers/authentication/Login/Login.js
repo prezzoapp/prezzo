@@ -23,6 +23,7 @@ import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
 import { Constants } from 'expo';
 import LoadingComponent from '../../../components/LoadingComponent';
+import CacheImage from '../../../components/CacheImage';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 type Props = {
