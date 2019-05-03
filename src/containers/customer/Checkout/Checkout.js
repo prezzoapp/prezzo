@@ -220,8 +220,6 @@ export default class Checkout extends Component {
               setCurrentIndex={this.setCurrentIndex}
               hideModal={this.hideModal}
               isSelectedPaymentMethod={this.isSelectedPaymentMethod}
-              // setType={this.setType}
-              // type={this.props.type}
             />
           </View>
         </View>

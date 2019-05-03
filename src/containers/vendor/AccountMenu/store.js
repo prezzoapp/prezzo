@@ -6,11 +6,12 @@ import { userLogout } from '../../../modules/auth';
 export const mapStateToProps = state => {
   const vendor = state.get('vendor') && state.get('vendor').get('data');
   const avatarURL = vendor && vendor.get('avatarURL');
+  const menu = state.get('menu').get('data');
 
   return {
     vendor,
     avatarURL,
-    menu: state.get('menu').get('data')
+    menu
   };
 };
 

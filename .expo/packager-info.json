@@ -1,10 +1,10 @@
 {
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 5044,
+  "expoServerNgrokUrl": "https://2k-yh7.anonymous.prezzo-9-aug-18.exp.direct",
+  "packagerNgrokUrl": "https://packager.2k-yh7.anonymous.prezzo-9-aug-18.exp.direct",
+  "ngrokPid": 5063,
   "devToolsPort": 19002,
   "webpackServerPort": null
 }

@@ -40,7 +40,19 @@ import {
   DELETE_QUEUED_REQUEST,
   SECTION_CHANGE,
   LAYOUT_CHANGE,
-  CLOSED_TABLE_SECTION_CHANGE
+  CLOSED_TABLE_SECTION_CHANGE,
+
+  LOAD_MORE_OPEN_TABLE_LIST_REQUEST,
+  LOAD_MORE_OPEN_TABLE_LIST_SUCCESS,
+  LOAD_MORE_OPEN_TABLE_LIST_FAILURE,
+
+  LOAD_MORE_QUEUED_TABLE_LIST_REQUEST,
+  LOAD_MORE_QUEUED_TABLE_LIST_SUCCESS,
+  LOAD_MORE_QUEUED_TABLE_LIST_FAILURE,
+
+  LOAD_MORE_CLOSED_TABLE_LIST_REQUEST,
+  LOAD_MORE_CLOSED_TABLE_LIST_SUCCESS,
+  LOAD_MORE_CLOSED_TABLE_LIST_FAILURE
 } from './types';
 
 import { get, post } from '../../utils/api';
@@ -60,6 +72,72 @@ export const listOpenTable = async (vendorId: string) => async dispatch => {
   } catch (e) {
     dispatch({
       type: LIST_OPEN_TABLE_FAILURE,
+      payload: e && e.message ? e.message : e
+    });
+
+    throw e;
+  }
+};
+
+export const loadMoreOpenTableList = async(vendorId: string, lastId: string) => async dispatch => {
+  dispatch({ type: LOAD_MORE_OPEN_TABLE_LIST_REQUEST });
+
+  try {
+    const order = await get(
+      `v1/vendors/${vendorId}/orders?status=active&type=table&lastId=${lastId}`
+    );
+
+    return dispatch({
+      type: LOAD_MORE_OPEN_TABLE_LIST_SUCCESS,
+      payload: fromJS(order)
+    });
+  } catch (e) {
+    dispatch({
+      type: LOAD_MORE_OPEN_TABLE_LIST_FAILURE,
+      payload: e && e.message ? e.message : e
+    });
+
+    throw e;
+  }
+};
+
+export const loadMoreQueuedTableList = async(vendorId: string, lastId: string) => async dispatch => {
+  dispatch({ type: LOAD_MORE_QUEUED_TABLE_LIST_REQUEST });
+
+  try {
+    const order = await get(
+      `v1/vendors/${vendorId}/orders?status=pending&type=table&lastId=${lastId}`
+    );
+
+    return dispatch({
+      type: LOAD_MORE_QUEUED_TABLE_LIST_SUCCESS,
+      payload: fromJS(order)
+    });
+  } catch (e) {
+    dispatch({
+      type: LOAD_MORE_QUEUED_TABLE_LIST_FAILURE,
+      payload: e && e.message ? e.message : e
+    });
+
+    throw e;
+  }
+};
+
+export const loadMoreClosedTableList = async(vendorId: string, lastId: string) => async dispatch => {
+  dispatch({ type: LOAD_MORE_CLOSED_TABLE_LIST_REQUEST });
+
+  try {
+    const order = await get(
+      `v1/vendors/${vendorId}/orders?status=complete&type=table&lastId=${lastId}`
+    );
+
+    return dispatch({
+      type: LOAD_MORE_CLOSED_TABLE_LIST_SUCCESS,
+      payload: fromJS(order)
+    });
+  } catch (e) {
+    dispatch({
+      type: LOAD_MORE_CLOSED_TABLE_LIST_FAILURE,
       payload: e && e.message ? e.message : e
     });
 

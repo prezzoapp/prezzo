@@ -11,7 +11,7 @@ export const mapStateToProps = state => {
   const paymentType = state.get('restaurant').get('paymentType');
   const creditCardList = state
     .get('paymentMethods')
-    .get('data').toJS();
+    .get('data');
 
   return {
     data,
