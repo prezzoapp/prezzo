@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
-import { Header } from 'react-navigation';
-import { LinearGradient, BlurView, Constants } from 'expo';
+
+import { LinearGradient, BlurView } from 'expo';
+
 import { Feather } from '@expo/vector-icons';
-import { List } from 'immutable';
 
 import styles from './styles';
 import RestaurantItem from '../../../components/RestaurantItem';
