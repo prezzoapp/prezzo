@@ -18,6 +18,10 @@ import RatingBar from '../RatingBar';
 
 import Button from '../Button';
 
+// import whyDidYouUpdate from "why-did-you-update";
+//
+// whyDidYouUpdate(React);
+
 import {
   COLOR_WHITE,
   SF_PRO_TEXT_REGULAR,

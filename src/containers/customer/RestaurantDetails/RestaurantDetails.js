@@ -6,8 +6,7 @@ import {
   TouchableOpacity,
   Animated,
   InteractionManager,
-  ActivityIndicator,
-  Platform
+  ActivityIndicator
 } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
@@ -476,6 +475,13 @@ export default class RestaurantDetails extends Component {
       paddingHorizontal: wp('4%')
     };
 
+    const animatedHeaderStyle = [
+      styles.animatedHeaderStyle, {
+        height: animatedHeader,
+        opacity: animatedOpacity
+      }
+    ];
+
     return (
       <View style={styles.container}>
         <ImageBackground
@@ -488,20 +494,7 @@ export default class RestaurantDetails extends Component {
         </ImageBackground>
 
         <Animated.View
-          style={{
-            height: animatedHeader,
-            overflow: 'hidden',
-            opacity: animatedOpacity,
-            paddingHorizontal: wp('4%'),
-            position: 'absolute',
-            top:
-              Header.HEIGHT +
-              Constants.statusBarHeight -
-              (Platform.OS === 'ios' ? 20 : 0),
-            left: 0,
-            right: 0,
-            zIndex: 99
-          }}
+          style={animatedHeaderStyle}
         >
           <View style={styles.contentContainer}>
             <Image

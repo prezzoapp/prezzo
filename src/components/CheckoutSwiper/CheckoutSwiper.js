@@ -28,8 +28,6 @@ export default class CheckoutSwiper extends Component {
       selectedPaymentMethod: ''
     };
 
-    // this.index = 0;
-
     this.cartItems = [];
   }
 
@@ -38,15 +36,6 @@ export default class CheckoutSwiper extends Component {
     props.onScrollingEnd(index);
     this.props.setCurrentIndex(index);
   }
-
-  // setPlaceOrderType(type) {
-  //   if (type === 'delivery') {
-  //     showGenericAlert(null, "This feature isn't available yet");
-  //   }
-  //   if (this.props.type !== type) {
-  //     this.props.setType(type);
-  //   }
-  // }
 
   setPaymentType(paymentType) {
     if (this.state.setPaymentType !== paymentType) {

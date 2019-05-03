@@ -13,7 +13,7 @@ export const mapStateToProps = state => {
   const newlyAddedCard = state.get('paymentMethods').get('newlyAddedCard');
   const creditCardList = state
     .get('paymentMethods')
-    .get('data').toJS();
+    .get('data');
 
   return {
     data,

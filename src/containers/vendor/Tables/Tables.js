@@ -161,6 +161,82 @@ class Tables extends Component {
     );
   };
 
+  calculateLayout = event => {
+    this.visibleRows = parseInt(event.nativeEvent.layout.height / wp('21.68%'));
+    console.log(this.visibleRows);
+  };
+
+  onEndReached = () => {
+    let list;
+    if(this.props.section === 0) {
+      list = this.props.openTableList;
+    } else if(this.props.section === 1) {
+      list = this.props.queuedTableList;
+    } else {
+      list = this.props.closedTableList;
+    }
+
+    if(
+      this.props.currentListSize > 0 &&
+      list.size > this.visibleRows &&
+      !this.isLoading
+    ) {
+      this.isLoading = true;
+      this.setState({
+        showEndLoading: true
+      }, () => {
+        if(this.props.section === 0) {
+          this.props.loadMoreOpenTableList(
+            this.props.vendorData.get('_id'),
+            list.last().get('_id')
+          ).then(() => {})
+            .catch(err => {})
+              .finally(() => {
+                this.isLoading = false;
+                this.setState({
+                  showEndLoading: false
+                });
+              });
+        } else if(this.props.section === 1) {
+          this.props.loadMoreQueuedTableList(
+            this.props.vendorData.get('_id'),
+            list.last().get('_id')
+          ).then(() => {})
+            .catch(err => {})
+              .finally(() => {
+                this.isLoading = false;
+                this.setState({
+                  showEndLoading: false
+                });
+              });
+        } else {
+          this.props.loadMoreClosedTableList(
+            this.props.vendorData.get('_id'),
+            list.last().get('_id')
+          ).then(() => {})
+            .catch(err => {})
+              .finally(() => {
+                this.isLoading = false;
+                this.setState({
+                  showEndLoading: false
+                });
+              });
+        }
+      });
+    }
+  }
+
+  renderFooter = () => {
+    if(this.state.showEndLoading) {
+      return (
+        <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size='small' color='white'/>
+        </View>
+      );
+    }
+    return null;
+  };
+
   renderOpenTableData = data => {
     if (this.props.layout === 'list') {
       return (
@@ -201,7 +277,7 @@ class Tables extends Component {
         tableType={this.props.section}
         navigate={this.props.navigate}
         data={data.item}
-        checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
+        checkAndChangeQueueOrderStatus={this.checkAndChangeQueueOrderStatus}
         listQueuedTable={this.props.listQueuedTable}
         innerTab="closed"
         tabName="tables"
@@ -233,55 +309,58 @@ class Tables extends Component {
 
   renderOpenTable() {
     return (
-      <View style={styles.flex1}>
-        <FlatList
-          keyExtractor={item => item.get('_id').toString()}
-          showsVerticalScrollIndicator={false}
-          ListEmptyComponent={this.listEmptyComponent}
-          ItemSeparatorComponent={this.renderSeparator}
-          onRefresh={this.onRefresh}
-          refreshing={this.state.isFetching}
-          contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.openTableList.size === 0) ? 'center' : null }]}
-          data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
-          renderItem={this.renderOpenTableData}
-        />
-      </View>
+      <FlatList
+        keyExtractor={item => item.get('_id').toString()}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={this.listEmptyComponent}
+        ItemSeparatorComponent={this.renderSeparator}
+        onRefresh={this.onRefresh}
+        refreshing={this.state.isFetching}
+        contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.openTableList.size === 0) ? 'center' : null }]}
+        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
+        renderItem={this.renderOpenTableData}
+        ListFooterComponent={this.renderFooter}
+        onEndReached={this.onEndReached}
+        onEndReachedThreshold={0.3}
+      />
     );
   }
 
   renderQueueTable() {
     return (
-      <View style={styles.flex1}>
-        <FlatList
-          keyExtractor={item => item.get('_id').toString()}
-          showsVerticalScrollIndicator={false}
-          ListEmptyComponent={this.listEmptyComponent}
-          ItemSeparatorComponent={this.renderSeparator}
-          onRefresh={this.onRefresh}
-          refreshing={this.state.isFetching}
-          contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.queuedTableList.size === 0) ? 'center' : null }]}
-          data={this.props.queuedTableList.size !== 0 ? this.props.queuedTableList.toArray() : []}
-          renderItem={this.renderQueuedTableData}
-        />
-      </View>
+      <FlatList
+        keyExtractor={item => item.get('_id').toString()}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={this.listEmptyComponent}
+        ItemSeparatorComponent={this.renderSeparator}
+        onRefresh={this.onRefresh}
+        refreshing={this.state.isFetching}
+        contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.queuedTableList.size === 0) ? 'center' : null }]}
+        data={this.props.queuedTableList.size !== 0 ? this.props.queuedTableList.toArray() : []}
+        renderItem={this.renderQueuedTableData}
+        ListFooterComponent={this.renderFooter}
+        onEndReached={this.onEndReached}
+        onEndReachedThreshold={0.3}
+      />
     );
   }
 
   renderClosedTable() {
     return (
-      <View style={{ flex: 1 }}>
-        <FlatList
-          keyExtractor={item => item.get('_id').toString()}
-          showsVerticalScrollIndicator={false}
-          ListEmptyComponent={this.listEmptyComponent}
-          ItemSeparatorComponent={this.renderSeparator}
-          onRefresh={this.onRefresh}
-          refreshing={this.state.isFetching}
-          contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
-          data={this.props.closedTableList.size !== 0 ? this.props.closedTableList.toArray() : []}
-          renderItem={this.renderClosedTableData}
-        />
-      </View>
+      <FlatList
+        keyExtractor={item => item.get('_id').toString()}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={this.listEmptyComponent}
+        ItemSeparatorComponent={this.renderSeparator}
+        onRefresh={this.onRefresh}
+        refreshing={this.state.isFetching}
+        contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
+        data={this.props.closedTableList.size !== 0 ? this.props.closedTableList.toArray() : []}
+        renderItem={this.renderClosedTableData}
+        ListFooterComponent={this.renderFooter}
+        onEndReached={this.onEndReached}
+        onEndReachedThreshold={0.3}
+      />
     );
   }
 
@@ -440,7 +519,9 @@ class Tables extends Component {
                     onChangeLayout={this.changeLayout}
                     onListTypeSelection={this.onSectionChange}
                   />
-                  {this.renderSection()}
+                  <View style={styles.flex1} onLayout={this.calculateLayout}>
+                    {this.renderSection()}
+                  </View>
                 </View>
 
                 {this.state.showList &&
