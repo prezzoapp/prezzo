@@ -24,7 +24,7 @@ import {
   updateSubscriptionToPromotions
 } from '../../../modules/Signup';
 import { isValidEmail } from '../../../utils/validators';
-import showGenericAlert from '../../../components/GenericAlert';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 import {
   FONT_FAMILY_MEDIUM,
   FONT_FAMILY_BOLD,
@@ -93,10 +93,7 @@ const styles = StyleSheet.create({
     marginTop: wp('4.26%')
   },
   checkbox: {
-    //width: checkboxSize,
-    //height: checkboxSize,
-    marginRight: wp('3.2%'),
-    //resizeMode: 'contain'
+    marginRight: wp('3.2%')
   },
   promotionalText: {
     fontSize: wp('4.53%'),
@@ -159,13 +156,6 @@ class SignupEmail extends React.Component<Props> {
     this.props.navigate({ routeName: 'SignupPassword' });
   }
 
-  showAlert(title, message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      showGenericAlert(title, message);
-    }, duration);
-  }
-
   async checkEmailValidity() {
     try {
       const user = await this.props.findUser(this.props.email);
@@ -174,7 +164,7 @@ class SignupEmail extends React.Component<Props> {
       }
       this.navigateToPassword();
     } catch(err) {
-      this.showAlert('Uh-oh!', err.message, 300);
+      showAlertWithMessage('Uh-oh!', err);
     }
   }
 
