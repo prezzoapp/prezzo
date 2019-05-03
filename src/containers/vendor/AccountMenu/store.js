@@ -7,12 +7,13 @@ export const mapStateToProps = state => {
   const vendor = state.get('vendor') && state.get('vendor').get('data');
   const avatarURL = vendor && vendor.get('avatarURL');
   const isBusy = state.get('auth').get('isBusy');
+  const menu = state.get('menu').get('data');
 
   return {
     vendor,
     avatarURL,
     isBusy,
-    menu: state.get('menu').get('data')
+    menu
   };
 };
 

@@ -239,6 +239,82 @@ class Tables extends Component {
     );
   };
 
+  calculateLayout = event => {
+    this.visibleRows = parseInt(event.nativeEvent.layout.height / wp('21.68%'));
+    console.log(this.visibleRows);
+  };
+
+  onEndReached = () => {
+    let list;
+    if(this.props.section === 0) {
+      list = this.props.openTableList;
+    } else if(this.props.section === 1) {
+      list = this.props.queuedTableList;
+    } else {
+      list = this.props.closedTableList;
+    }
+
+    if(
+      this.props.currentListSize > 0 &&
+      list.size > this.visibleRows &&
+      !this.isLoading
+    ) {
+      this.isLoading = true;
+      this.setState({
+        showEndLoading: true
+      }, () => {
+        if(this.props.section === 0) {
+          this.props.loadMoreOpenTableList(
+            this.props.vendorData.get('_id'),
+            list.last().get('_id')
+          ).then(() => {})
+            .catch(err => {})
+              .finally(() => {
+                this.isLoading = false;
+                this.setState({
+                  showEndLoading: false
+                });
+              });
+        } else if(this.props.section === 1) {
+          this.props.loadMoreQueuedTableList(
+            this.props.vendorData.get('_id'),
+            list.last().get('_id')
+          ).then(() => {})
+            .catch(err => {})
+              .finally(() => {
+                this.isLoading = false;
+                this.setState({
+                  showEndLoading: false
+                });
+              });
+        } else {
+          this.props.loadMoreClosedTableList(
+            this.props.vendorData.get('_id'),
+            list.last().get('_id')
+          ).then(() => {})
+            .catch(err => {})
+              .finally(() => {
+                this.isLoading = false;
+                this.setState({
+                  showEndLoading: false
+                });
+              });
+        }
+      });
+    }
+  }
+
+  renderFooter = () => {
+    if(this.state.showEndLoading) {
+      return (
+        <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size='small' color='white'/>
+        </View>
+      );
+    }
+    return null;
+  };
+
   renderOpenTableData = data => {
     if (this.props.layout === 'list') {
       return (
@@ -279,7 +355,7 @@ class Tables extends Component {
         tableType={this.props.section}
         navigate={this.props.navigate}
         data={data.item}
-        checkAndChangeQueueOrderStatus={(orderId, status) => this.checkAndChangeQueueOrderStatus(orderId, status)}
+        checkAndChangeQueueOrderStatus={this.checkAndChangeQueueOrderStatus}
         listQueuedTable={this.props.listQueuedTable}
         innerTab="closed"
         tabName="tables"

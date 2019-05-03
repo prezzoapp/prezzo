@@ -48,13 +48,12 @@ const TableGridItem = props => {
       const newObj = obj.set('quantity', 0);
       newArray = newArray.push(newObj);
     }
-    newArray.map(o => {
+    newArray = newArray.map(o => {
       if (o.get('title') === obj.get('title')) {
-        o.set('quantity', o.get('quantity') + 1);
-        console.log(o.toObject());
+        return o.update('quantity', () => o.get('quantity') + 1);
       }
       return o;
-    })
+    });
   });
 
   renderItem = data => <OrderedItem data={data.item} />;
