@@ -36,7 +36,7 @@ import { getTimeStampString } from '../../../services/commonFunctions';
 import { Feather } from '../../../components/VectorIcons';
 import LoadingComponent from '../../../components/LoadingComponent';
 import CacheImage from '../../../components/CacheImage';
-import showGenericAlert from '../../../components/GenericAlert';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 type Props = {
   firstName: string,
@@ -296,53 +296,45 @@ class SignupPassword extends React.Component<Props, State> {
   }
 
   async uploadPhoto() {
-    if (!this.state.upload) {
-      return;
+    try {
+      if (!this.state.upload) {
+        return;
+      }
+
+      const { uri } = this.state.upload;
+      const { updateUser, uploadImage } = this.props;
+      const fileName = getTimeStampString() + '.jpg'
+
+      const avatarURL = await uploadImage(
+        uri,
+        0,
+        'image/jpeg',
+        fileName,
+        'userAvatar',
+        'public-read'
+      );
+
+      console.log('got avatarURL', avatarURL);
+
+      this.setState({
+        avatarURL,
+        upload: null
+      });
+
+      await updateUser(avatarURL);
+    } catch(e) {
+      throw e;
     }
-
-    const { uri } = this.state.upload;
-    const { updateUser, uploadImage } = this.props;
-    const fileName = getTimeStampString() + '.jpg'
-
-    const avatarURL = await uploadImage(
-      uri,
-      0,
-      'image/jpeg',
-      fileName,
-      'userAvatar',
-      'public-read'
-    );
-
-    console.log('got avatarURL', avatarURL);
-
-    this.setState({
-      avatarURL,
-      upload: null
-    });
-
-    await updateUser(avatarURL);
-  }
-
-  showAlert(title, message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      showGenericAlert(title, message);
-    }, duration);
   }
 
   signup() {
-    this.setState({ isBusy: true });
-    this.props.signup()
-      .then(() => this.uploadPhoto())
-      .then(() => this.navigateToSignupComplete())
-      .catch(err => {
-        if(e.message === NETWORK_REQUEST_FAILED) {
-          this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-        } else {
-          this.showAlert('Uh-oh!', e.message, TIME_OUT);
-        }
-      })
-      .finally(() => this.setState({ isBusy: false }));
+    this.setState({ isBusy: true }, () => {
+      this.props.signup()
+        .then(() => this.uploadPhoto())
+        .then(() => this.navigateToSignupComplete())
+        .catch(err => showAlertWithMessage('Uh-oh!', err))
+        .finally(() => this.setState({ isBusy: false }));
+    });
   }
 
   navigateToSignupComplete() {
@@ -437,9 +429,7 @@ class SignupPassword extends React.Component<Props, State> {
                   <LoginTextInput
                     type='password'
                     label='Password'
-                    // height={wp('19.46%')}
                     value={password}
-                    // labelPaddingBottom={wp('4%')}
                     onChange={value => this.props.updatePassword(value)}
                   />
                 </View>
@@ -457,6 +447,7 @@ class SignupPassword extends React.Component<Props, State> {
             }
           </ScrollView>
         </KeyboardAvoidingView>
+        <LoadingComponent visible={this.state.isBusy} />
       </CacheImage>
     );
   }

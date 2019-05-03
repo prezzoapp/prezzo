@@ -34,6 +34,8 @@ export const findUser = async (id: string) => async (
       type: FIND_USER_FAILURE,
       payload: err
     });
+
+    throw err;
   }
 };
 

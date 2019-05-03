@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, Image } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import CacheImage from '../../../components/CacheImage';
 
 type State = {
   isBusy: boolean
@@ -85,8 +86,9 @@ class Button extends Component<State, Props> {
         activeOpacity={disabled ? 0.5 : 0.7}
         style={containerStyle}
       >
-        <Image
+        <CacheImage
           style={styles.icon}
+          type='image'
           source={require('../../../../assets/images/icons/arrow-right.png')}
         />
       </TouchableOpacity>

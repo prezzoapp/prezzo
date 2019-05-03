@@ -18,6 +18,7 @@ import alert from '../../../components/GenericAlert';
 import NextButton from './NextButton';
 import { Feather } from '../../../components/VectorIcons';
 import CacheImage from '../../../components/CacheImage';
+import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 type Props = {
   firstName: string,
@@ -198,13 +199,6 @@ class SignupMergeFacebook extends React.Component<Props, State> {
     super();
   }
 
-  showAlert(title, message, duration) {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      showGenericAlert(title, message);
-    }, duration);
-  }
-
   isFormValid() {
     const { password } = this.props;
     return password ? true : false;
@@ -219,16 +213,13 @@ class SignupMergeFacebook extends React.Component<Props, State> {
       facebookToken
     } = this.props;
 
-    if(this.connected) {
-      this.setState({ isBusy: true });
+    this.setState({ isBusy: true }, () => {
       this.props.loginWithEmail(email, password)
         .then(() => this.props.updateFacebookAccount(facebookId, facebookToken))
         .then(() => this.navigateToMain())
-        .catch(error => alert('Uh-oh!', error.message || error))
+        .catch(error => showAlertWithMessage('Uh-oh!', error))
         .finally(() => this.setState({ isBusy: false }));
-    } else {
-      this.showAlert('Uh-oh!', INTERNET_NOT_CONNECTED, TIME_OUT);
-    }
+    });
   }
 
   navigateToMain() {
