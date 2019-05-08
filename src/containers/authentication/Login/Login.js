@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { Header } from 'react-navigation';
-import {
+import ReactNative, {
   View,
   Text,
   TouchableOpacity,
@@ -9,8 +9,11 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
-  NetInfo,
-  InteractionManager
+  ImageBackground,
+  findNodeHandle,
+  UIManager,
+  Dimensions,
+  Keyboard
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -26,6 +29,13 @@ import { Constants } from 'expo';
 import CacheImage from '../../../components/CacheImage';
 import LoadingComponent from '../../../components/LoadingComponent';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
+
+const windowHeight = Dimensions.get('window').height;
+let keyboardDidShowCalled = false;
+
+const buttonRef = React.createRef();
+const scrollViewRef = React.createRef();
+let gap = 0;
 
 type Props = {
   loginWithEmail: Function,
@@ -103,6 +113,43 @@ class Login extends React.Component<Props, State> {
     }
   }
 
+  componentWillMount() {
+    this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardShow.remove();
+    this.keyboardHide.remove();
+  }
+
+  keyboardDidShow = event => {
+    if(keyboardDidShowCalled === false) {
+      keyboardDidShowCalled = true;
+      const keyboardHeight = event.endCoordinates.height;
+      const button = ReactNative.findNodeHandle(buttonRef.current);
+      UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
+        const fieldHeight = height;
+        const fieldTop = pageY;
+        gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
+        if (gap < 0) {
+          scrollViewRef.current.scrollTo({
+            x: 0, y: -gap, animated: true
+          });
+        } else {
+          console.log('Gap: ', gap);
+        }
+      });
+    }
+  }
+
+  keyboardDidHide = event => {
+    scrollViewRef.current.scrollTo({
+      x: 0, y: 0, animated: true
+    });
+    keyboardDidShowCalled = false;
+  }
+
   render() {
     const { email, password } = this.state;
     return (
@@ -113,8 +160,10 @@ class Login extends React.Component<Props, State> {
       >
         <KeyboardAvoidingView
           style={{ flex: 1 }}
-          behavior='padding'>
+          behavior='padding'
+        >
           <ScrollView
+            ref={scrollViewRef}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text testID="welcomeText" style={styles.headerText}>
@@ -136,6 +185,7 @@ class Login extends React.Component<Props, State> {
               type="password"
               label="Password"
               value={password}
+              containerPaddingBottom={0}
               onChange={password => this.setState({ password })}
             />
 
@@ -151,6 +201,7 @@ class Login extends React.Component<Props, State> {
 
             <View style={styles.buttonContainer}>
               <Button
+                ref={buttonRef}
                 style={buttonStyles.login}
                 textStyle={buttonStyles.loginText}
                 onPress={() => this.login()}
@@ -179,7 +230,7 @@ const styles = StyleSheet.create({
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
     paddingTop: SCROLL_VIEW_TOP_PADDING,
-    paddingBottom: hp('5%')
+    paddingBottom: hp('3%')
   },
   headerText: {
     fontSize: wp('10.16%'),
@@ -201,8 +252,7 @@ const styles = StyleSheet.create({
   signupLabelContainer: {
     width: '100%',
     height: 'auto',
-    marginBottom: wp('17.33%'),
-    marginTop: wp('10.66%'),
+    marginVertical: wp('6%'),
     backgroundColor: 'transparent',
     flexDirection: 'row',
     display: 'flex'

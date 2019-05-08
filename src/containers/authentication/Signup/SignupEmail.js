@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {
+import ReactNative, {
   Text,
   TouchableOpacity,
   Image,
@@ -9,8 +9,10 @@ import {
   Platform,
   KeyboardAvoidingView,
   ScrollView,
-  NetInfo,
-  InteractionManager
+  Keyboard,
+  findNodeHandle,
+  Dimensions,
+  UIManager
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -37,6 +39,13 @@ import alert from '../../../components/GenericAlert';
 import CacheImage from '../../../components/CacheImage';
 import NextButton from './NextButton';
 
+const windowHeight = Dimensions.get('screen').height;
+let keyboardDidShowCalled = false;
+
+const buttonRef = React.createRef();
+const scrollViewRef = React.createRef();
+let gap = 0;
+
 type Props = {
   updateEmail: Function,
   updateSubscriptionToPromotions: Function,
@@ -59,7 +68,7 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: hp('5%'),
+    paddingBottom: hp('3%'),
     paddingTop: SCROLL_VIEW_TOP_PADDING
   },
   headerTextLine1: {
@@ -158,7 +167,46 @@ class SignupEmail extends React.Component<Props> {
   }
 
   navigateToPassword() {
-    this.props.navigate({ routeName: 'SignupPassword' });
+    this.props.navigate({ routeName: 'SignupMergeFacebook' });
+  }
+
+  componentWillMount() {
+    this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardShow.remove();
+    this.keyboardHide.remove();
+  }
+
+  keyboardDidShow = event => {
+    if(keyboardDidShowCalled === false) {
+      keyboardDidShowCalled = true;
+      console.log('KeyboardDidShow called!');
+      const keyboardHeight = event.endCoordinates.height;
+      const button = ReactNative.findNodeHandle(buttonRef.current);
+      UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
+        const fieldHeight = height;
+        const fieldTop = pageY;
+        gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
+        if (gap < 0) {
+          scrollViewRef.current.scrollTo({
+            x: 0, y: -gap, animated: true
+          });
+        } else {
+          console.log('Gap: ', gap);
+        }
+      });
+    }
+  }
+
+  keyboardDidHide = event => {
+    console.log('KeyboardDidHide called!');
+    scrollViewRef.current.scrollTo({
+      x: 0, y: 0, animated: true
+    });
+    keyboardDidShowCalled = false;
   }
 
   async checkEmailValidity() {
@@ -189,6 +237,7 @@ class SignupEmail extends React.Component<Props> {
           style={{ flex: 1 }}
           behavior='padding'>
           <ScrollView
+            ref={scrollViewRef}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text style={styles.headerTextLine1}>And, your</Text>
@@ -220,6 +269,7 @@ class SignupEmail extends React.Component<Props> {
 
             <NextButton
               style={nextButtonStyle}
+              ref={buttonRef}
               disabled={!this.isFormValid()}
               onPress={() => this.checkEmailValidity()}
             />
