@@ -247,12 +247,6 @@ class Profile extends Component {
   render() {
     const {
       avatarURL,
-      firstName,
-      lastName,
-      phone,
-      address,
-      zip,
-      city,
       selectImageThroughImagePicker
     } = this.state;
 
