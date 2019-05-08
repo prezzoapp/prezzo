@@ -3,8 +3,11 @@ import React, { Component } from 'react';
 import { Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { ActionSheet } from 'native-base';
+import { ImagePicker, Permissions, ImageManipulator, FileSystem } from 'expo';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
+import { getTimeStampString } from '../../../services/commonFunctions';
 import LoadingComponent from '../../../components/LoadingComponent';
 import CacheImage from '../../../components/CacheImage';
 import {
@@ -46,6 +49,33 @@ class Profile extends Component {
     userLogout: PropTypes.func.isRequired
   };
 
+  constructor(props) {
+    super(props);
+    const { address, avatarURL, city, firstName, lastName, phone, zip } = props;
+
+    this.state = {
+      address,
+      avatarURL,
+      city,
+      firstName,
+      lastName,
+      phone,
+      upload: null,
+      zip,
+      selectImageThroughImagePicker: false
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('ReceiveProps called!');
+    if(nextProps.avatarURL !== this.props.avatarURL) {
+      console.log('In.....');
+      this.setState({
+        avatarURL: nextProps.avatarURL
+      });
+    }
+  }
+
   async logout() {
     try {
       await this.props.userLogout();
@@ -59,24 +89,172 @@ class Profile extends Component {
     this.props.navigate({ routeName: 'EditProfile' });
   }
 
+  async save() {
+    const { isBusy, updateUser } = this.props;
+
+    if (isBusy) {
+      console.log('is busy');
+      return;
+    }
+
+    try {
+      await this.uploadPhoto();
+    } catch (e) {
+      console.warn('error uploading image', e);
+    }
+
+    const {
+      avatarURL,
+      firstName,
+      lastName,
+      phone,
+      address,
+      zip,
+      city
+    } = this.state;
+
+    updateUser(avatarURL, firstName, lastName, phone, address, zip, city)
+      .then(() => {})
+      .catch(e => console.log(e));
+  }
+
+  async uploadPhoto() {
+    if (!this.state.upload) {
+      return;
+    }
+
+    const { upload } = this.state;
+    const { uri } = upload;
+    const fileName = `${getTimeStampString()}.jpg`;
+    await this.props
+      .uploadImage(uri, 10, 'image/jpeg', fileName, 'userAvatar', 'public-read')
+      .then(async avatarURL => {
+        console.log('got avatarURL', avatarURL);
+
+      this.setState({
+        selectImageThroughImagePicker: false
+      }, () => {
+        this.setState({
+          avatarURL,
+          upload: null
+        });
+      });
+    });
+  }
+
+  showAvatarActionSheet() {
+    ActionSheet.show(
+      {
+        options: ['Take Photo', 'Choose from Library', 'Cancel'],
+        cancelButtonIndex: 2,
+        title: "Select an avatar"
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          this.requestCameraPermission();
+        } else if (buttonIndex === 1) {
+          this.requestPhotoLibraryPermission();
+        }
+      }
+    );
+  }
+
+  requestPhotoLibraryPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      this.openImageGallery()
+    }
+  }
+
+  requestCameraPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status === 'granted') {
+      this.openCamera()
+    }
+  }
+
+  openImageGallery = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: false,
+      quality: 0.3
+    });
+    if (!result.cancelled) {
+      const resultEdited = await ImageManipulator.manipulate(
+        result.uri,
+        [{ resize: { width: 150 }}],
+        { format: 'jpeg', compress: 0.3 }
+      );
+      this.setState({
+        selectImageThroughImagePicker: true
+      }, () => {
+        this.setState({ upload: resultEdited, avatarURL: resultEdited.uri }, () => {
+          this.save();
+        });
+      })
+    }
+  };
+
+  openCamera = async () => {
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: false,
+      quality: 0.3
+    });
+    if (!result.cancelled) {
+      const resultEdited = await ImageManipulator.manipulate(
+        result.uri,
+        [{ resize: { width: 150 }}],
+        { format: 'jpeg', compress: 0.3 }
+      );
+      this.setState({
+        selectImageThroughImagePicker: true
+      }, () => {
+        this.setState({ upload: resultEdited, avatarURL: resultEdited.uri }, () => {
+          this.save();
+        });
+      })
+    }
+  };
+
   render() {
-    const { avatarURL } = this.props;
-    console.log(this.props.logoutIsBusy);
+    const {
+      avatarURL,
+      firstName,
+      lastName,
+      phone,
+      address,
+      zip,
+      city,
+      selectImageThroughImagePicker
+    } = this.state;
 
     return (
       <View style={styles.parent}>
         <View style={styles.container}>
           <View style={styles.headerContainer}>
-            <View style={styles.imageHolder}>
+            <TouchableOpacity
+             style= {{position: 'relative'}}
+              onPress={() => this.showAvatarActionSheet()}
+            >
+              <View style={styles.imageHolder}>
+                <CacheImage
+                  style={styles.avatar}
+                  type='image'
+                  selectImageThroughImagePicker={selectImageThroughImagePicker}
+                  source={
+                    avatarURL
+                    ? avatarURL
+                    : require('../../../../assets/images/etc/default-avatar.png')}
+                />
+              </View>
+
               <CacheImage
-                style={styles.avatar}
                 type='image'
+                style={styles.editBtnImage}
                 source={
-                  avatarURL
-                  ? avatarURL
-                  : require('../../../../assets/images/etc/default-avatar.png')}
+                 require('../../../../assets/images/etc/EditIcon.png')
+                }
               />
-            </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.bodyContainer}>
             <MenuButton
@@ -116,7 +294,7 @@ class Profile extends Component {
           </View>
         </View>
 
-        <LoadingComponent visible={this.props.logoutIsBusy} />
+        <LoadingComponent visible={this.props.isBusy} />
       </View>
     );
   }
@@ -180,6 +358,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR_BLACK,
     flex: 1,
     justifyContent: 'center'
+  },
+  editBtnImage: {
+    width: wp('7.46%'),
+    height: wp('7.46%'),
+    position: 'absolute',
+    right: 5,
+    top: 0
   }
 });
 
