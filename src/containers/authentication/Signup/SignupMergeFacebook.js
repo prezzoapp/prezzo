@@ -1,6 +1,19 @@
 // @flow
 import React from 'react';
-import { View, Text, Image, StyleSheet, Platform, KeyboardAvoidingView, ScrollView, TouchableOpacity} from 'react-native';
+import ReactNative, {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Platform,
+  KeyboardAvoidingView,
+  ScrollView,
+  TouchableOpacity,
+  findNodeHandle,
+  UIManager,
+  Dimensions,
+  Keyboard
+} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigationActions, Header } from 'react-navigation';
@@ -19,6 +32,13 @@ import NextButton from './NextButton';
 import { Feather } from '@expo/vector-icons';
 import CacheImage from '../../../components/CacheImage';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
+
+const windowHeight = Dimensions.get('screen').height;
+let keyboardDidShowCalled = false;
+
+const buttonRef = React.createRef();
+const scrollViewRef = React.createRef();
+let gap = 0;
 
 type Props = {
   firstName: string,
@@ -52,7 +72,7 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: hp('5%'),
+    paddingBottom: hp('3%'),
     paddingTop: SCROLL_VIEW_TOP_PADDING
   },
   headerTextLine1: {
@@ -199,6 +219,45 @@ class SignupMergeFacebook extends React.Component<Props, State> {
     super();
   }
 
+  componentWillMount() {
+    this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardShow.remove();
+    this.keyboardHide.remove();
+  }
+
+  keyboardDidShow = event => {
+    if(keyboardDidShowCalled === false) {
+      keyboardDidShowCalled = true;
+      console.log('KeyboardDidShow called!');
+      const keyboardHeight = event.endCoordinates.height;
+      const button = ReactNative.findNodeHandle(buttonRef.current);
+      UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
+        const fieldHeight = height;
+        const fieldTop = pageY;
+        gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
+        if (gap < 0) {
+          scrollViewRef.current.scrollTo({
+            x: 0, y: -gap, animated: true
+          });
+        } else {
+          console.log('Gap: ', gap);
+        }
+      });
+    }
+  }
+
+  keyboardDidHide = event => {
+    console.log('KeyboardDidHide called!');
+    scrollViewRef.current.scrollTo({
+      x: 0, y: 0, animated: true
+    });
+    keyboardDidShowCalled = false;
+  }
+
   isFormValid() {
     const { password } = this.props;
     return password ? true : false;
@@ -240,6 +299,7 @@ class SignupMergeFacebook extends React.Component<Props, State> {
           style={{ flex: 1 }}
           behavior='padding'>
           <ScrollView
+            ref={scrollViewRef}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text style={styles.headerTextLine1}>You're already</Text>
@@ -307,6 +367,7 @@ class SignupMergeFacebook extends React.Component<Props, State> {
             {
               showPassword && (
                 <NextButton
+                  ref={buttonRef}
                   style={buttonStyles.next}
                   disabled={!this.isFormValid()}
                   isBusy={isBusy}
