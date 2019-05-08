@@ -24,6 +24,10 @@ class Prezzo extends Component {
 
   async loadFonts() {
     console.log('loading fonts...');
+    const images = [
+      require('./assets/images/etc/default-avatar.png'),
+      require('./assets/images/icons/edit.png')
+    ];
 
     const images = [
       require('./assets/images/etc/default-avatar.png')
