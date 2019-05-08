@@ -25,6 +25,12 @@ export default class App extends Component {
 
 
   async loadFonts() {
+    console.log('loading fonts...');
+    const images = [
+      require('./assets/images/etc/default-avatar.png'),
+      require('./assets/images/icons/edit.png')
+    ];
+
     try {
       await Font.loadAsync({
         'ClearSans-Light': require('./assets/fonts/clear-sans/ClearSans-Light.ttf'),
@@ -58,6 +64,8 @@ export default class App extends Component {
         'zocial': require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/Zocial.ttf'),
         'simple-line-icons': require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/SimpleLineIcons.ttf')
       });
+
+      images.map(async (image) => await Asset.fromModule(image).downloadAsync());
 
       this.setState({ didFontsLoad: true });
     } catch (e) {
