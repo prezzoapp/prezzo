@@ -30,14 +30,14 @@ class LoginTextInput extends Component<Props, State> {
     value: PropTypes.string,
     height: PropTypes.number,
     labelPaddingBottom: PropTypes.number,
-    textInputPaddingBottom: PropTypes.number
+    containerPaddingBottom: PropTypes.number
   };
 
   static defaultProps = {
     value: '',
     height: null,
     labelPaddingBottom: wp('3%'),
-    textInputPaddingBottom: wp('3%')
+    containerPaddingBottom: wp('8.53%')
   };
 
   state = {
@@ -50,11 +50,11 @@ class LoginTextInput extends Component<Props, State> {
   }
 
   render() {
-    const { onChange, label, type, value, height, labelPaddingBottom, textInputPaddingBottom } = this.props;
+    const { onChange, label, type, value, height, labelPaddingBottom, containerPaddingBottom } = this.props;
     const { isShowingPassword } = this.state;
 
     return (
-      <View style={[styles.container, { height }]}>
+      <View style={[styles.container, { height, marginBottom: containerPaddingBottom }]}>
         <View style={styles.labelContainer}>
           <Text style={[styles.label, { paddingBottom: labelPaddingBottom }]}>{label}</Text>
           {type === 'password' && (
@@ -69,7 +69,7 @@ class LoginTextInput extends Component<Props, State> {
         <TextInput
           testID={'loginTextInput'}
           underlineColorAndroid='transparent'
-          style={[styles.input, { paddingBottom: textInputPaddingBottom }]}
+          style={styles.input}
           secureTextEntry={type === 'password' && !isShowingPassword}
           autoCapitalize={type === 'name' ? 'words' : 'none'}
           onChangeText={text => onChange && onChange(text)}
@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 'auto',
-    marginBottom: wp('8.53%'),
     borderBottomWidth: 2,
     borderBottomColor: '#0DD24A',
     backgroundColor: 'transparent'
@@ -114,7 +113,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: wp('5.33%'),
     fontWeight: '600',
-    fontFamily: FONT_FAMILY_MEDIUM
+    fontFamily: FONT_FAMILY_MEDIUM,
+    paddingBottom: wp('3%')
   }
 });
 

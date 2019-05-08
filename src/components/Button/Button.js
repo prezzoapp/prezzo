@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { FONT_FAMILY } from '../../services/constants';
@@ -11,43 +11,46 @@ import { FONT_FAMILY } from '../../services/constants';
 // };
 type Props = {};
 
-const Button = ({ disabled, onPress, style, textStyle, children }: Props) => {
-  let newStyle = {};
-  let newTextStyle = {};
+class Button extends Component {
+  render() {
+    const { disabled, onPress, style, textStyle, children } = this.props;
+    let newStyle = {};
+    let newTextStyle = {};
 
-  if (style instanceof Array) {
-    newStyle = style.reduce((result, current) => {
-      return Object.assign(result, current);
-    }, {});
-  } else {
-    newStyle = { ...style };
+    if (style instanceof Array) {
+      newStyle = style.reduce((result, current) => {
+        return Object.assign(result, current);
+      }, {});
+    } else {
+      newStyle = { ...style };
+    }
+
+    if(textStyle instanceof Array) {
+      newTextStyle = textStyle.reduce((result, current) => {
+        return Object.assign(result, current);
+      }, {});
+    } else {
+      newTextStyle = { ...textStyle };
+    }
+
+    const buttonStyleFinal = { ...styles.button, ...newStyle };
+    const textStyleFinal = { ...styles.text, ...newTextStyle };
+
+    return (
+      <TouchableOpacity
+        testID={'buttonComponent'}
+        onPress={() => !disabled && onPress && onPress()}
+        activeOpacity={disabled ? 1 : 0.7}
+        style={buttonStyleFinal}
+      >
+        {children.type !== undefined && children.type.name === 'View' ? (
+          children
+        ) : (
+            <Text style={textStyleFinal}>{children}</Text>
+          )}
+      </TouchableOpacity>
+    );
   }
-
-  if(textStyle instanceof Array) {
-    newTextStyle = textStyle.reduce((result, current) => {
-      return Object.assign(result, current);
-    }, {});
-  } else {
-    newTextStyle = { ...textStyle };
-  }
-
-  const buttonStyleFinal = { ...styles.button, ...newStyle };
-  const textStyleFinal = { ...styles.text, ...newTextStyle };
-
-  return (
-    <TouchableOpacity
-      testID={'buttonComponent'}
-      onPress={() => !disabled && onPress && onPress()}
-      activeOpacity={disabled ? 1 : 0.7}
-      style={buttonStyleFinal}
-    >
-      {children.type !== undefined && children.type.name === 'View' ? (
-        children
-      ) : (
-          <Text style={textStyleFinal}>{children}</Text>
-        )}
-    </TouchableOpacity>
-  );
 };
 
 const styles = {
