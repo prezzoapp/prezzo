@@ -166,7 +166,46 @@ class SignupEmail extends React.Component<Props> {
   }
 
   navigateToPassword() {
-    this.props.navigate({ routeName: 'SignupPassword' });
+    this.props.navigate({ routeName: 'SignupMergeFacebook' });
+  }
+
+  componentWillMount() {
+    this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardShow.remove();
+    this.keyboardHide.remove();
+  }
+
+  keyboardDidShow = event => {
+    if(keyboardDidShowCalled === false) {
+      keyboardDidShowCalled = true;
+      console.log('KeyboardDidShow called!');
+      const keyboardHeight = event.endCoordinates.height;
+      const button = ReactNative.findNodeHandle(buttonRef.current);
+      UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
+        const fieldHeight = height;
+        const fieldTop = pageY;
+        gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
+        if (gap < 0) {
+          scrollViewRef.current.scrollTo({
+            x: 0, y: -gap, animated: true
+          });
+        } else {
+          console.log('Gap: ', gap);
+        }
+      });
+    }
+  }
+
+  keyboardDidHide = event => {
+    console.log('KeyboardDidHide called!');
+    scrollViewRef.current.scrollTo({
+      x: 0, y: 0, animated: true
+    });
+    keyboardDidShowCalled = false;
   }
 
   componentWillMount() {
