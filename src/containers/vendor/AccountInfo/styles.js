@@ -256,7 +256,8 @@ export default StyleSheet.create({
   },
 
   footerSection: {
-    paddingBottom: wp('5.33%')
+    paddingBottom: wp('5.33%'),
+    alignItems: 'center'
   }
 });
 
