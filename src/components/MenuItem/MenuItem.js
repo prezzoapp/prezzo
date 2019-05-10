@@ -62,6 +62,13 @@ export default class MenuItem extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const item = this.props.item;
+    const nextItem = nextProps.item;
+
+    if(item.title !== nextItem.title) this.setState({ title: nextItem.title });
+    if(item.price !== nextItem.price) this.setState({ price: nextItem.price });
+    if(item.description !== nextItem.description) this.setState({ description: nextItem.description });
+
     if (nextProps !== this.props) {
       const resetImages = this.state.resetImages;
       const imageArray = [ ... this.state.imageArray ];
@@ -74,10 +81,6 @@ export default class MenuItem extends Component {
 
       this.setState(() => {
         return {
-          title: nextProps.item.title,
-          price: nextProps.item.price,
-          description: nextProps.item.description,
-          editItem: false,
           imageArray: resetImages ? nextPropsImageURLs : imageArray
         }
       });
@@ -93,7 +96,9 @@ export default class MenuItem extends Component {
   }
 
   reloadImages() {
-    this.setState({ imageArray: [ ...this.props.item.imageURLs ] });
+    this.setState({ imageArray: [ ...this.props.item.imageURLs ] }, () => {
+      console.log(this.state.imageArray);
+    });
   }
 
   editItem() {
@@ -145,6 +150,14 @@ export default class MenuItem extends Component {
     }, () => {
       menuItemImageRef.current.showAvatarActionSheet();
     });
+  }
+
+  deleteImageComponent(imageURL) {
+    this.props.deleteImageComponent(imageURL)
+    .then(() => {
+      console.log('Then called!');
+      this.reloadImages();
+    }).catch(err => console.log(err));
   }
 
   render() {
@@ -281,10 +294,7 @@ export default class MenuItem extends Component {
                 addNewImageComponent={imageURL =>
                   this.props.addNewImageComponent(imageURL)
                 }
-                deleteImageComponent={imageURL => {
-                  this.reloadImages();
-                  return this.props.deleteImageComponent(imageURL)
-                }}
+                deleteImageComponent={imageURL => this.deleteImageComponent(imageURL)}
                 uploadImage={(uri, size, mime, name, type, acl) => {
                   this.state.imageArray[index] = uri;
                   return this.props.uploadImage(uri, size, mime, name, type, acl)

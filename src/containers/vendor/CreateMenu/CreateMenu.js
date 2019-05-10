@@ -159,20 +159,26 @@ export default class CreateMenu extends Component<Props> {
   }
 
   async deleteImage(menuId, sectionId, itemId, imageURL) {
-    await this.props.deleteImage(
-      menuId,
-      sectionId,
-      itemId,
-      imageURL
-    );
+    try {
+      if(imageURL !== '') {
+        await this.props.deleteImage(
+          menuId,
+          sectionId,
+          itemId,
+          imageURL
+        );
 
-    const name = shorthash.unique(imageURL);
-    const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
-    const image = await FileSystem.getInfoAsync(path);
+        const name = shorthash.unique(imageURL);
+        const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+        const image = await FileSystem.getInfoAsync(path);
 
-    if(image.exists) {
-      await FileSystem.deleteAsync(image.uri);
-      console.log('Image deleted from cache!');
+        if(image.exists) {
+          await FileSystem.deleteAsync(image.uri);
+          console.log('Image deleted from cache!');
+        }
+      }
+    } catch(err) {
+      throw err;
     }
   }
 
@@ -203,6 +209,7 @@ export default class CreateMenu extends Component<Props> {
           <SectionList
             showsVerticalScrollIndicator
             extraData={array}
+            keyboardShouldPersistTaps="handled"
             initialNumToRender={2}
             contentContainerStyle={styles.sectionListContentContainerStyle}
             style={styles.sectionListStyle}

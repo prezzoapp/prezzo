@@ -187,6 +187,7 @@ export const deleteItem = async (
     });
   } catch (e) {
     dispatch({ type: MENU_DELETE_ITEM_FAILURE });
+    throw e;
   }
 };
 
@@ -235,5 +236,6 @@ export const deleteImage = async (
     });
   } catch (e) {
     dispatch({ type: MENU_DELETE_IMAGE_FAILURE });
+    throw e;
   }
 };
