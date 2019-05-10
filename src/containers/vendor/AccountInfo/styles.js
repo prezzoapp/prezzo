@@ -253,6 +253,11 @@ export default StyleSheet.create({
 
   extra4Padding: {
     paddingTop: wp('1.06%')
+  },
+
+  footerSection: {
+    paddingBottom: wp('5.33%'),
+    alignItems: 'center'
   }
 });
 
