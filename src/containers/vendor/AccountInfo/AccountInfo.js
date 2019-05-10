@@ -26,7 +26,7 @@ import FilterItem from '../../../components/FilterItem';
 import Button from '../../../components/Button';
 import LoadingComponent from '../../../components/LoadingComponent';
 import CacheImage from '../../../components/CacheImage';
-import { manuallyLogout } from '../../../services/commonFunctions';
+import { isValidURL } from '../../../utils/validators';
 
 const price2Indicator = wp('85%') * 0.33 - wp('8.5%');
 
@@ -39,7 +39,8 @@ import {
   FONT_FAMILY,
   COLOR_BLACK,
   COLOR_WHITE,
-  SF_PRO_DISPLAY_REGULAR
+  SF_PRO_DISPLAY_REGULAR,
+  SF_PRO_TEXT_BOLD
 } from '../../../services/constants';
 
 let disableBtn = false;
@@ -72,13 +73,13 @@ export default class AccountInfo extends React.Component {
       fontSize: wp('6.4%')
     },
     headerTintColor: '#fff',
-    headerRight: (
-      <Button
-        onPress={() => AccountInfo.currentContext.save()}
-        style={buttonStyles.saveBtn}
-        textStyle={buttonStyles.saveBtnText}
-      >Save</Button>
-    ),
+    // headerRight: (
+    //   <Button
+    //     onPress={() => AccountInfo.currentContext.save()}
+    //     style={buttonStyles.saveBtn}
+    //     textStyle={buttonStyles.saveBtnText}
+    //   >Save</Button>
+    // ),
     headerLeft: (
       <TouchableOpacity
         activeOpacity={0.8}
@@ -167,14 +168,44 @@ export default class AccountInfo extends React.Component {
       website: vendor.get('website') || '',
       filters: vendor.get('filters').toJS() || [],
       email: '',
-      selectImageThroughImagePicker: false
+      selectImageThroughImagePicker: false,
+      isFormValid: false
     };
 
     this.toggle = this.toggle.bind(this);
   }
 
+  validForm() {
+    console.log(this.state.website);
+    if(
+      this.state.avatarURL &&
+      (this.state.avatarURL !== undefined || null || '') &&
+      (this.state.name.trim() !== '') &&
+      (this.state.website.trim() !== '') &&
+      (isValidURL(this.state.website.trim())) &&
+      this.state.location &&
+      (this.state.location.address !== undefined || '') &&
+      (this.state.location.city !== undefined || '') &&
+      (this.state.location.country !== undefined || '') &&
+      (this.state.location.region !== undefined || '') &&
+      (this.state.location.postalCode !== undefined || '') &&
+      (this.state.hours.length !== 0) &&
+      (this.state.categories.length !== 0)
+    ) {
+      console.log('Button enabled!');
+      this.setState({
+        isFormValid: true
+      });
+    } else {
+      console.log('Button disabled!');
+      this.setState({
+        isFormValid: false
+      });
+    }
+  }
+
   componentDidMount() {
-    this.constructor.currentContext = this;
+    // this.constructor.currentContext = this;
 
     const newCategories = this.state.temp_restaurantCategories
     .filter(val => !this.state.categories.includes(val));
@@ -184,7 +215,9 @@ export default class AccountInfo extends React.Component {
         temp_restaurantCategories: newCategories,
         selectedCategory: newCategories[0]
       }
-    })
+    }, () => {
+      this.validForm();
+    });
   }
 
   showAvatarActionSheet = () => {
@@ -235,6 +268,8 @@ export default class AccountInfo extends React.Component {
         this.setState({
           upload: resultEdited,
           avatarURL: resultEdited.uri
+        }, () => {
+            this.validForm();
         });
       });
     }
@@ -257,6 +292,8 @@ export default class AccountInfo extends React.Component {
         this.setState({
           upload: resultEdited,
           avatarURL: resultEdited.uri
+        }, () => {
+            this.validForm();
         });
       });
     }
@@ -272,7 +309,9 @@ export default class AccountInfo extends React.Component {
     const newCategories = [...categories];
     newCategories.push(selectedCategory);
 
-    this.setState({ categories: newCategories });
+    this.setState({ categories: newCategories }, () => {
+      this.validForm();
+    });
 
     const array = this.state.temp_restaurantCategories;
     const index = array.indexOf(selectedCategory);
@@ -288,10 +327,9 @@ export default class AccountInfo extends React.Component {
     const newCategories = [...categories];
 
     newCategories.splice(index, 1);
-    this.setState(() => ({
-      categories: newCategories
-    }));
-
+    this.setState({ categories: newCategories }, () => {
+      this.validForm();
+    });
     const array = [...restaurantCategories]; // make a separate copy of the array
 
     for (let i = 0; i < newCategories.length; i++) {
@@ -394,9 +432,10 @@ export default class AccountInfo extends React.Component {
           openTimeMinutes
         });
 
-        this.setState(() => ({
-          hours: newHours
-        }));
+        this.setState({ hours: newHours }, () => {
+          console.log(this.state.hours);
+          this.validForm();
+        });
       }
     } else if (
       this.checkCloseBeforeOpen(openTimeHour, closeTimeHour) ||
@@ -424,9 +463,10 @@ export default class AccountInfo extends React.Component {
         openTimeMinutes
       });
 
-      this.setState(() => ({
-        hours: newHours
-      }));
+      this.setState({ hours: newHours }, () => {
+        console.log(this.state.hours);
+        this.validForm();
+      });
     }
 
     this.checkIntervalHours(newHours, openTimeHour, closeTimeHour);
@@ -436,7 +476,10 @@ export default class AccountInfo extends React.Component {
     const { hours } = this.state;
     const newHours = [...hours];
     newHours.splice(index, 1);
-    this.setState({ hours: newHours });
+    this.setState({ hours: newHours }, () => {
+      console.log(this.state.hours);
+      this.validForm();
+    });
   }
 
   openTimeFormat(hour, minutes) {
@@ -501,15 +544,14 @@ export default class AccountInfo extends React.Component {
 
         delete params.upload;
 
-        if (!params.avatarURL) {
-          delete params.avatarURL;
-        }
-
         if (vendor) {
+          console.log('updating vendor');
           await updateVendor(vendor.get('_id'), params);
         } else {
+          console.log('create vendor');
           await createVendor(params);
         }
+        this.props.navigation.goBack();
 
         disableBtn = false;
 
@@ -536,7 +578,10 @@ export default class AccountInfo extends React.Component {
       routeName: 'LocationSearch',
       params: {
         onSelect: location => {
-          this.setState({ location });
+          console.log('got location', location);
+          this.setState({ location }, () => {
+            this.validForm();
+          });
         },
         onError: () => {
           console.log('error getting location');
@@ -667,7 +712,11 @@ export default class AccountInfo extends React.Component {
             <View style={styles.sectionBody}>
               <ProfileTextInput
                 label="Business Name"
-                onChange={val => this.setState({ name: val })}
+                onChange={val => {
+                  this.setState({ name: val }, () => {
+                    this.validForm();
+                  });
+                }}
                 placeholder=""
                 showInputBottomBorder={false}
                 type="name"
@@ -675,7 +724,11 @@ export default class AccountInfo extends React.Component {
               />
               <ProfileTextInput
                 label="Web Address"
-                onChange={val => this.setState({ website: val })}
+                onChange={val => {
+                  this.setState({ website: val }, () => {
+                    this.validForm();
+                  });
+                }}
                 placeholder=""
                 showInputBottomBorder={false}
                 type="url"
@@ -1165,6 +1218,18 @@ export default class AccountInfo extends React.Component {
               value={email}
             />
           </View>
+          <View style={styles.footerSection}>
+            <Button
+              style={[submitBtnVendor.styles, {
+                borderColor: !this.state.isFormValid ? 'grey' : 'rgb(15,209,74)'
+              }]}
+              disabled={!this.state.isFormValid}
+              textStyle={submitBtnVendor.textStyles}
+              onPress={() => this.save()}
+            >
+              Submit Vendor
+            </Button>
+          </View>
         </ScrollView>
         <View style={styles.bottomSeparator} />
         <LoadingComponent visible={isBusy} />
@@ -1188,5 +1253,25 @@ const buttonStyles = {
     paddingBottom: 0,
     fontFamily: FONT_FAMILY,
     fontSize: wp('4.5%')
+  }
+};
+
+const submitBtnVendor = {
+  styles: {
+    width: wp('53.33%'),
+    height: wp('9.6%'),
+    borderRadius: 8,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent'
+  },
+  textStyles: {
+    color: 'white',
+    fontFamily: SF_PRO_TEXT_BOLD,
+    fontSize: wp('3.46%'),
+    paddingTop: 0,
+    paddingBottom: 0,
+    textAlign: 'center'
   }
 };
