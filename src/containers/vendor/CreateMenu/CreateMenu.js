@@ -366,6 +366,7 @@ export default class CreateMenu extends Component<Props> {
           <SectionList
             showsVerticalScrollIndicator
             extraData={array}
+            keyboardShouldPersistTaps="handled"
             initialNumToRender={2}
             contentContainerStyle={styles.sectionListContentContainerStyle}
             style={styles.sectionListStyle}
