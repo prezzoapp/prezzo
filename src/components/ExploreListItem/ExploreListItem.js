@@ -18,8 +18,9 @@ const ExploreListItem = props => {
         activeOpacity={0.6}
         onPress={() => moveToDetails(props.item)}
       >
-        <ImageBackground
-          source={{ uri: avatarURL }}
+        <CacheImage
+          source={avatarURL}
+          type='backgroundImage'
           style={styles.image}
           imageStyle={{ borderRadius: 5 }}
         />

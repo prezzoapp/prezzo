@@ -12,10 +12,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { fromJS } from 'immutable';
 import PropTypes from 'prop-types';
 import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import { Feather } from '../../../components/VectorIcons';
+import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 
 import {
@@ -47,7 +49,7 @@ export default class VendorAdminActivityDetails extends Component {
             source={
               navigation.state.params.userImage === ''
                 ? require('../../../../assets/images/etc/default-avatar.png')
-                : { uri: navigation.state.params.userImage }
+                : navigation.state.params.userImage
             }
           />
           <Text style={styles.headerText} numberOfLines={1}>
@@ -137,7 +139,7 @@ export default class VendorAdminActivityDetails extends Component {
   }
 
   render() {
-    const selectedItem = this.props.waiterRequestedSelectedItem;
+    const selectedItem = fromJS(this.props.waiterRequestedSelectedItem);
     return (
       <Container style={styles.container}>
         {(() => {

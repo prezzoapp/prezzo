@@ -104,9 +104,10 @@ const RestaurantItem = props => {
         loop={false}
         showsPagination={false}>
         {props.item.imageURLs && props.item.imageURLs.map(image => (
-            <ImageBackground
+          <CacheImage
               key={image}
-              source={{ uri: image }}
+              source={image}
+              type='backgroundImage'
               style={styles.itemImage}
             >
               <LinearGradient
@@ -114,7 +115,7 @@ const RestaurantItem = props => {
                 locations={[0, 0.95]}
                 style={styles.itemImageLinearGradient}
               />
-          </ImageBackground>
+          </CacheImage>
         ))}
       </Swiper>
 

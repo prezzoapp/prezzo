@@ -5,22 +5,30 @@ import PropTypes from 'prop-types';
 import { Feather } from '../VectorIcons';
 import CacheImage from '../CacheImage';
 import styles from './styles';
-import showGenericAlert from '../GenericAlert';
 
-const ActivityListItem = props => {
-  checkAndCancelOrderItem = (orderId, itemId) => {
-    showGenericAlert(null, 'Are you sure you want to cancel?', [
-      {
-        text: 'No',
-        onPress: () => null,
-        style: 'cancel'
-      },
-      {
-        text: 'Yes',
-        onPress: () => props.checkStatusAndCancelItem(orderId, itemId)
-      }
-    ]);
+class ActivityListItem extends Component {
+  shouldComponentUpdate(nextProps) {
+    if(nextProps.item.get('status') !== this.props.item.get('status')) return true;
+    return false;
   }
+
+  checkAndCancelOrderItem = itemId => {
+    Alert.alert(
+      '',
+      'Are you sure you want to cancel?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel'
+        },
+        {
+          text: 'OK', onPress: () => this.props.checkStatusAndCancelItem(itemId)
+        }
+      ],
+      { cancelable: false }
+    );
+  };
 
   render() {
     const item = this.props.item;
@@ -75,22 +83,16 @@ const ActivityListItem = props => {
             ) : null}
           </View>
         </View>
-      </View>
-    );
+      );
+    }
+
+    return null;
   }
 };
 
 ActivityListItem.propTypes = {
   item: PropTypes.object.isRequired,
-  type: PropTypes.string,
-  innerTab: PropTypes.string,
-  orderId: PropTypes.string.isRequired,
   checkStatusAndCancelItem: PropTypes.func.isRequired
-};
-
-ActivityListItem.defaultProps = {
-  type: '',
-  innerTab: 'open'
 };
 
 export default ActivityListItem;

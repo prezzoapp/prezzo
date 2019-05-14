@@ -23,6 +23,7 @@ import { Feather } from '../../../components/VectorIcons';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
 import { Constants } from 'expo';
+import CacheImage from '../../../components/CacheImage';
 import LoadingComponent from '../../../components/LoadingComponent';
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 

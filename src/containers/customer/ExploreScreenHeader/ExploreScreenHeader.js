@@ -58,9 +58,11 @@ const ExploreScreenHeader = props => {
                 style={{ marginLeft: 10 }}
                 onPress={() => this.moveToMap()}
               >
-                <Image
+                <CacheImage
                   source={require('../../../../assets/images/location_icon.png')}
-                  style={styles.locationPin} />
+                  type='image'
+                  style={styles.locationPin}
+                />
               </TouchableOpacity>
             </View>
           </View>

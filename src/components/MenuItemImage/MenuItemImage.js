@@ -9,6 +9,12 @@ import { Ionicons } from '../VectorIcons';
 import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
 import styles from './styles';
 import showGenericAlert from '../GenericAlert';
+import CacheImage from '../CacheImage';
+
+class ItemImagePicker extends React.Component<Props> {
+  state = {
+    selectImageThroughImagePicker: false
+  };
 
   showAvatarActionSheet = () => {
     ActionSheet.show(
@@ -45,24 +51,41 @@ import showGenericAlert from '../GenericAlert';
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: false,
-        quality: 0.3
+        quality: 0.2
       });
 
       if (!result.cancelled) {
-        const fileName = `${getTimeStampString()}.jpeg`;
-        const itemImage = await props
-          .uploadImage(
-            result.uri,
-            10,
-            'image/jpeg',
-            fileName,
-            'userAvatar',
-            'public-read'
-          );
+        const resultEdited = await ImageManipulator.manipulate(
+          result.uri,
+          [{ resize: { width: 200 }}],
+          { format: 'jpeg', compress: 0.8 }
+        );
 
-        console.log(itemImage);
+        this.setState({
+          selectImageThroughImagePicker: true
+        }, async () => {
+          this.setState({ tempImage: resultEdited.uri });
+          const fileName = `${getTimeStampString()}.jpeg`;
+          const itemImage = await this.props
+            .uploadImage(
+              resultEdited.uri,
+              10,
+              'image/jpeg',
+              fileName,
+              'userAvatar',
+              'public-read'
+            );
 
-        await props.addNewImageComponent(itemImage);
+          await this.props.addNewImageComponent(itemImage);
+
+          this.setState({
+            selectImageThroughImagePicker: false
+          }, () => {
+            this.setState({
+              tempImage: itemImage
+            });
+          });
+        });
       }
     } catch(err) {
       showAlertWithMessage('Uh-oh!', err);
@@ -71,23 +94,43 @@ import showGenericAlert from '../GenericAlert';
 
   openCamera = async () => {
     try {
-      const result = await ImagePicker.launchCameraAsync({
+      const result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: false,
-        quality: 0.3
+        quality: 0.2
       });
 
       if (!result.cancelled) {
-        const fileName = `${getTimeStampString()}.jpeg`;
-        const itemImage = await props
-          .uploadImage(
-            result.uri,
-            10,
-            'image/jpeg',
-            fileName,
-            'userAvatar',
-            'public-read'
-          );
-        await props.addNewImageComponent(itemImage);
+        const resultEdited = await ImageManipulator.manipulate(
+          result.uri,
+          [{ resize: { width: 200 }}],
+          { format: 'jpeg', compress: 0.8 }
+        );
+
+        this.setState({
+          selectImageThroughImagePicker: true
+        }, async () => {
+          this.setState({ tempImage: resultEdited.uri });
+          const fileName = `${getTimeStampString()}.jpeg`;
+          const itemImage = await this.props
+            .uploadImage(
+              resultEdited.uri,
+              10,
+              'image/jpeg',
+              fileName,
+              'userAvatar',
+              'public-read'
+            );
+
+          await this.props.addNewImageComponent(itemImage);
+
+          this.setState({
+            selectImageThroughImagePicker: false
+          }, () => {
+            this.setState({
+              tempImage: itemImage
+            });
+          });
+        });
       }
     } catch(err) {
       showAlertWithMessage('Uh-oh!', err);
@@ -98,7 +141,7 @@ import showGenericAlert from '../GenericAlert';
     showGenericAlert(null, 'Are you sure you want to delete this menu item image?', [
       {
         text: 'Yes',
-        onPress: () => props.deleteImageComponent()
+        onPress: () => this.props.deleteImageComponent()
       },
       {
         text: 'No',
@@ -108,52 +151,51 @@ import showGenericAlert from '../GenericAlert';
     ]);
   };
 
-  return (
-    <View style={styles.holder}>
-      {props.editable && (
-        <TouchableOpacity
-          style={styles.closeBtn}
-          activeOpacity={0.6}
-          onPress={() => deleteImageComponent()}
-        >
-          <Ionicons
-            title="Delete"
-            name="md-close"
-            color="black"
-            size={wp('3%')}
-            style={{ padding: 0, top: wp('0.17%'), position: 'relative', left: wp('0.13%') }}
-          />
-        </TouchableOpacity>
-      )}
+  render() {
+    const image = this.state.tempImage || this.props.image || '';
 
-      {props.image === '' ? (
-        <TouchableOpacity
-          onPress={this.showAvatarActionSheet}
-          style={styles.itemImagePickerBtn}
-        >
-          <Image
-            style={styles.itemImage}
-            source={
-              props.image
-                ? { uri: props.image }
-                : require('../../../assets/images/default_image_placeholder.png')
-            }
-          />
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.itemImagePickerBtn}>
-          <Image
-            style={styles.itemImage}
-            source={
-              props.image
-                ? { uri: props.image }
-                : require('../../../assets/images/default_image_placeholder.png')
-            }
-          />
-        </View>
-      )}
-    </View>
-  );
+    return (
+      <View style={styles.holder}>
+        {this.props.editable && (
+          <TouchableOpacity
+            style={styles.closeBtn}
+            activeOpacity={0.6}
+            onPress={() => this.deleteImageComponent()}
+          >
+            <Ionicons
+              title="Delete"
+              name="md-close"
+              color="black"
+              size={wp('3%')}
+              style={{ padding: 0, top: wp('0.17%'), position: 'relative', left: wp('0.13%') }}
+            />
+          </TouchableOpacity>
+        )}
+
+        {image === '' ? (
+          <TouchableOpacity
+            onPress={this.showAvatarActionSheet}
+            style={styles.itemImagePickerBtn}
+          >
+            <CacheImage
+              style={styles.itemImage}
+              type='image'
+              source={require('../../../assets/images/default_image_placeholder.png')}
+            />
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.itemImagePickerBtn}>
+            <CacheImage
+              style={styles.itemImage}
+              type='image'
+              selectImageThroughImagePicker={this.state.selectImageThroughImagePicker}
+              source={image}
+            />
+          </View>
+        )}
+      </View>
+    );
+  }
 }
 
 ItemImagePicker.propTypes = {

@@ -17,6 +17,7 @@ import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import styles from './styles';
 import { Feather } from '../../../components/VectorIcons';
+import CacheImage from '../../../components/CacheImage';
 import { TAX } from '../../../services/constants';
 import {
   showAlertWithMessage,
@@ -87,13 +88,17 @@ export default class OpenTableDetails extends Component {
       this.props.makePaymentAndCompleteOrder(
           order.get('_id'),
           order.getIn(['paymentMethod', 'token']),
-          price
+          price,
+          'card',
+          order.get('vendor')
         )
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
             this.props.navigation.goBack();
             showAlertWithMessage('Success', {
               message: 'Order has been completed.'
+            }, () => {
+              disableBtn = false;
             });
           }
         })
@@ -106,17 +111,21 @@ export default class OpenTableDetails extends Component {
             });
           }
         });
-    } else if(this.props.openTableSelectedItem.paymentType === 'card') {
+    } else if(order.get('paymentType') === 'card') {
       this.props.makePaymentAndCompleteOrder(
           order.get('_id'),
           '',
-          price
+          price,
+          'card',
+          order.get('vendor')
         )
       .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
             this.props.navigation.goBack();
             showAlertWithMessage('Success', {
               message: 'Order has been completed.'
+            }, () => {
+              disableBtn = false;
             });
           }
         })
@@ -134,13 +143,16 @@ export default class OpenTableDetails extends Component {
           order.get('_id'),
           '',
           price,
-          'cash'
+          'cash',
+          order.get('vendor')
         )
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
             this.props.navigation.goBack();
             showAlertWithMessage('Success', {
               message: 'Order has been completed.'
+            }, () => {
+              disableBtn = false;
             });
           }
         })
@@ -157,15 +169,17 @@ export default class OpenTableDetails extends Component {
   }
 
   completeOrder(id) {
+    const order = this.props.openTableSelectedItem;
     if(disableBtn === false) {
       disableBtn = true;
 
       this.props
         .checkOpenOrderStatus(id)
         .then(() => {
+          const openOrderFinalStatus = this.props.openOrderFinalStatus;
           if (
-            this.props.openOrderFinalStatus &&
-            this.props.openOrderFinalStatus === 'complete'
+            openOrderFinalStatus &&
+            openOrderFinalStatus === 'complete'
           ) {
             // If order has been already completed.
 
@@ -174,8 +188,8 @@ export default class OpenTableDetails extends Component {
               message: 'Order has been already completed.'
             });
           } else if (
-            this.props.openOrderFinalStatus &&
-            this.props.openOrderFinalStatus === 'denied'
+            openOrderFinalStatus &&
+            openOrderFinalStatus === 'denied'
           ) {
             // If order has been already denied.
 
@@ -187,11 +201,11 @@ export default class OpenTableDetails extends Component {
             let pendingItems = 0;
             let price = 0;
 
-            this.props.openTableSelectedItem.items.filter(item => {
-              if(item.status === 'pending') {
+            order.get('items').filter(item => {
+              if(item.get('status') === 'pending') {
                 pendingItems += 1;
-              } else if(item.status !== 'denied') {
-                price += item.price;
+              } else if(item.get('status') !== 'denied') {
+                price += item.get('price');
               }
             });
 
@@ -199,10 +213,10 @@ export default class OpenTableDetails extends Component {
 
             const message =
               pendingItems === 0
-                ? this.props.openTableSelectedItem.paymentType === 'card'
+                ? order.get('paymentType') === 'card'
                   ? `Continue to pay $${price}`
                   : 'Are you sure you want to complete?'
-                : this.props.openTableSelectedItem.paymentType === 'card'
+                : order.get('paymentType') === 'card'
                   ? price === 0
                     ? `You have ${pendingItems} pending item(s). Are you sure you want to cancel them?`
                     : `You have ${pendingItems} pending item(s). Are you sure you want to cancel them and pay $${price}?`
@@ -247,7 +261,7 @@ export default class OpenTableDetails extends Component {
         } else {
           const item = order.get('items').find(item => item.get('_id') === itemId);
           if(item) {
-            if(item.status === 'denied') {
+            if(item.get('status') === 'denied') {
               showAlertWithMessage('Success', {
                 message: 'Item has been successfully canceled.'
               });
@@ -297,11 +311,11 @@ export default class OpenTableDetails extends Component {
                 >
                   <OpenOrdersList
                     data={selectedItem}
-                    checkStatusAndCancelItem={(orderId, itemId) =>
-                      this.checkStatusAndCancelItem(orderId, itemId)
+                    checkStatusAndCancelItem={itemId =>
+                      this.checkStatusAndCancelItem(selectedItem.get('_id'), itemId)
                     }
                     completeOrder={() => {
-                      this.completeOrder(selectedItem._id)
+                      this.completeOrder(selectedItem.get('_id'))
                     }}
                     innerTab={this.props.navigation.state.params.innerTab}
                   />
@@ -321,7 +335,7 @@ export default class OpenTableDetails extends Component {
                           data={selectedItem}
                           innerTab={this.props.navigation.state.params.innerTab}
                           completeOrder={() =>
-                            this.completeOrder(selectedItem._id)
+                            this.completeOrder(selectedItem.get('_id'))
                           }
                         />
                       </Tab>

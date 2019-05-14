@@ -25,6 +25,7 @@ import styles, { stylesRaw } from './styles';
 import FilterItem from '../../../components/FilterItem';
 import Button from '../../../components/Button';
 import LoadingComponent from '../../../components/LoadingComponent';
+import CacheImage from '../../../components/CacheImage';
 import { manuallyLogout } from '../../../services/commonFunctions';
 
 const price2Indicator = wp('85%') * 0.33 - wp('8.5%');

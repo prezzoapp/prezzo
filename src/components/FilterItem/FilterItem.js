@@ -27,7 +27,11 @@ const FilterItems = props => {
         ]}
         onPress={props.toggleFilter}
       >
-        <Image source={props.image} style={styles.itemImage} />
+        <CacheImage
+          source={props.image}
+          type='image'
+          style={styles.itemImage}
+        />
       </TouchableOpacity>
       <Text style={styles.itemName}>{props.name}</Text>
     </View>

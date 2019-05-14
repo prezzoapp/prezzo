@@ -144,26 +144,26 @@ export default class CreateMenu extends Component<Props> {
     }
   }
 
-  deleteCategory(categoryId) {
-    if(disableBtn === false) {
-      disableBtn = true;
-
-      this.props.deleteCategory(this.props.menuId, categoryId)
-        .then(() => {
-          disableBtn = false;
-        })
-        .catch(err => {
-          if(err.code === 401) {
-            disableBtn = false;
-            manuallyLogout(err, () => this.props.userLogout());
-          } else {
-            showAlertWithMessage('Uh-oh!', err, () => {
-              disableBtn = false;
-            });
-          }
-        });
-    }
-  }
+  // deleteCategory(categoryId) {
+  //   if(disableBtn === false) {
+  //     disableBtn = true;
+  //
+  //     this.props.deleteCategory(this.props.menuId, categoryId)
+  //       .then(() => {
+  //         disableBtn = false;
+  //       })
+  //       .catch(err => {
+  //         if(err.code === 401) {
+  //           disableBtn = false;
+  //           manuallyLogout(err, () => this.props.userLogout());
+  //         } else {
+  //           showAlertWithMessage('Uh-oh!', err, () => {
+  //             disableBtn = false;
+  //           });
+  //         }
+  //       });
+  //   }
+  // }
 
   addItem(categoryId) {
     if(disableBtn === false) {
@@ -213,48 +213,6 @@ export default class CreateMenu extends Component<Props> {
     }
   }
 
-  deleteItem(sectionId, itemId) {
-    if(disableBtn === false) {
-      disableBtn = true;
-
-      this.props.deleteItem(this.props.menuId, sectionId, itemId)
-        .then(() => {
-          disableBtn = false;
-        })
-        .catch(err => {
-          if(err.code === 401) {
-            disableBtn = false;
-            manuallyLogout(err, () => this.props.userLogout());
-          } else {
-            showAlertWithMessage('Uh-oh!', err, () => {
-              disableBtn = false;
-            });
-          }
-        });
-    }
-  }
-
-  deleteImage(sectionId, itemId, imageURL) {
-    if(disableBtn === false) {
-      disableBtn = true;
-
-      this.props.deleteImage(this.props.menuId, sectionId, itemId, imageURL)
-        .then(() => {
-          disableBtn = false;
-        })
-        .catch(err => {
-          if(err.code === 401) {
-            disableBtn = false;
-            manuallyLogout(err, () => this.props.userLogout());
-          } else {
-            showAlertWithMessage('Uh-oh!', err, () => {
-              disableBtn = false;
-            });
-          }
-        });
-    }
-  }
-
   renderListFooter = () => (
     <View style={styles.listFooterHolder}>
       <TouchableOpacity
@@ -288,19 +246,62 @@ export default class CreateMenu extends Component<Props> {
   renderSectionHeader = section => (
     <MenuListCategoriesHeader
       section={section}
-      deleteCategory={categoryId => this.deleteCategory(categoryId)}
+      deleteCategory={categoryId =>
+        this.deleteCategory(this.props.menuId, categoryId, section)
+      }
       updateCategory={(categoryId, title) =>
-        this.updateCategory(categoryId, title)
+        this.props.updateCategory(categoryId, title)
       }
     />
   );
 
   async deleteCategory(menuId, categoryId, section) {
-    await this.props.deleteCategory(menuId, categoryId);
+    try {
+      if(disableBtn === false) {
+        disableBtn = true;
 
-    section.data.forEach(async data => {
-      data.imageURLs.forEach(async imageEle => {
-        const name = shorthash.unique(imageEle);
+        await this.props.deleteCategory(menuId, categoryId);
+
+        section.data.forEach(async data => {
+          data.imageURLs.forEach(async imageEle => {
+            const name = shorthash.unique(imageEle);
+            const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+            const image = await FileSystem.getInfoAsync(path);
+
+            if(image.exists) {
+              await FileSystem.deleteAsync(image.uri);
+              console.log('Image deleted from cache!');
+            }
+          });
+        });
+
+        disableBtn = false;
+      }
+    } catch (err) {
+      if(err.code === 401) {
+        disableBtn = false;
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false;
+        });
+      }
+    }
+  }
+
+  async deleteImage(menuId, sectionId, itemId, imageURL) {
+    try {
+      if(disableBtn === false) {
+        disableBtn = true;
+
+        await this.props.deleteImage(
+          menuId,
+          sectionId,
+          itemId,
+          imageURL
+        );
+
+        const name = shorthash.unique(imageURL);
         const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
         const image = await FileSystem.getInfoAsync(path);
 
@@ -308,41 +309,51 @@ export default class CreateMenu extends Component<Props> {
           await FileSystem.deleteAsync(image.uri);
           console.log('Image deleted from cache!');
         }
-      });
-    });
-  }
 
-  async deleteImage(menuId, sectionId, itemId, imageURL) {
-    await this.props.deleteImage(
-      menuId,
-      sectionId,
-      itemId,
-      imageURL
-    );
-
-    const name = shorthash.unique(imageURL);
-    const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
-    const image = await FileSystem.getInfoAsync(path);
-
-    if(image.exists) {
-      await FileSystem.deleteAsync(image.uri);
-      console.log('Image deleted from cache!');
+        disableBtn = false;
+      }
+    } catch (err) {
+      if(err.code === 401) {
+        disableBtn = false;
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false;
+        });
+      }
     }
   }
 
   async deleteItem(menuId, sectionId, item) {
-    await this.props.deleteItem(menuId, sectionId, item._id);
+    try {
+      if(disableBtn === false) {
+        disableBtn = true;
 
-    item.imageURLs.forEach(async imageEle => {
-      const name = shorthash.unique(imageEle);
-      const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
-      const image = await FileSystem.getInfoAsync(path);
+        await this.props.deleteItem(menuId, sectionId, item._id);
 
-      if(image.exists) {
-        await FileSystem.deleteAsync(image.uri);
-        console.log('Image deleted from cache!');
+        item.imageURLs.forEach(async imageEle => {
+          const name = shorthash.unique(imageEle);
+          const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+          const image = await FileSystem.getInfoAsync(path);
+
+          if(image.exists) {
+            await FileSystem.deleteAsync(image.uri);
+            console.log('Image deleted from cache!');
+          }
+        });
+
+        disableBtn = false;
       }
-    });
+    } catch (err) {
+      if(err.code === 401) {
+        disableBtn = false;
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false;
+        });
+      }
+    }
   }
 
   render() {
@@ -382,7 +393,13 @@ export default class CreateMenu extends Component<Props> {
                     price
                   )
                 }
-                deleteItem={() => this.deleteItem(section._id, item._id)}
+                deleteItem={() =>
+                  this.deleteItem(
+                    this.props.menuId,
+                    section._id,
+                    item._id
+                  )
+                }
                 addNewImageComponent={imageURL =>
                   this.props.addImage(
                     this.props.menuId,
@@ -392,7 +409,7 @@ export default class CreateMenu extends Component<Props> {
                   )
                 }
                 deleteImageComponent={imageURL =>
-                  this.deleteImage(section._id, item._id, imageURL)
+                  this.deleteImage(this.props.menuId, section._id, item._id, imageURL)
                 }
                 uploadImage={(uri, size, mime, name, type, acl) =>
                   this.props.uploadImage(uri, size, mime, name, type, acl)

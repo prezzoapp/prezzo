@@ -11,6 +11,8 @@ import { Feather } from '../../../components/VectorIcons';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';
+import CacheImage from '../../../components/CacheImage';
+import CustomMarker from './CustomMarker';
 import {
   FONT_FAMILY_MEDIUM,
   COLOR_WHITE,

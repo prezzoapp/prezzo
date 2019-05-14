@@ -5,6 +5,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import showGenericAlert from '../GenericAlert';
+import CacheImage from '../CacheImage';
 
 const EditableListItem = props => {
   const { onRemove, text, leftIcon, expDate } = props;

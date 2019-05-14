@@ -5,6 +5,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { FontAwesome, MaterialIcons } from '../VectorIcons';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../services/constants';
+import CacheImage from '../CacheImage';
 import styles from './styles';
 
 const QueuedTableItem = props => {
