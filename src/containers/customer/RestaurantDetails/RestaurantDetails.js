@@ -48,6 +48,8 @@ const checkoutModal = React.createRef();
 
 let disableBtn = false;
 
+let disableBtn = false;
+
 export default class RestaurantDetails extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerStyle: {

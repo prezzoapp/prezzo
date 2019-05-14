@@ -10,28 +10,6 @@ import { getTimeStampString, showAlertWithMessage } from '../../services/commonF
 import styles from './styles';
 import showGenericAlert from '../GenericAlert';
 
-class ItemImagePicker extends React.Component<Props> {
-  state = {
-    selectImageThroughImagePicker: false
-  };
-
-  showAvatarActionSheet = () => {
-    ActionSheet.show(
-      {
-        options: ['Take Photo', 'Choose from Library', 'Cancel'],
-        cancelButtonIndex: 2,
-        title: "Select an Item's Image"
-      },
-      buttonIndex => {
-        if (buttonIndex === 0) {
-          this.requestCameraPermission();
-        } else if (buttonIndex === 1) {
-          this.requestPhotoLibraryPermission();
-        }
-      }
-    );
-  }
-
   showAvatarActionSheet = () => {
     ActionSheet.show(
       {

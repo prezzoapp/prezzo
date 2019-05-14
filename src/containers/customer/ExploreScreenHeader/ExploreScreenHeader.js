@@ -39,36 +39,6 @@ const ExploreScreenHeader = props => {
       <LinearGradient
         colors={['rgb(0,0,0)', 'transparent']}
       >
-<<<<<<< HEAD
-        <LinearGradient
-          colors={['rgb(0,0,0)', 'transparent']}
-        >
-          <View style={styles.filterPanel}>
-            <Text style={styles.nearMeText}>Near Me</Text>
-            <View style={styles.mainTitleFilterAndMapIconHolder}>
-              <Text style={styles.restaurantTitle}>Restaurants</Text>
-              <View style={styles.filterButtonAndMapIconHolder}>
-                <TouchableOpacity activeOpacity={0.6}
-                  style={styles.filterBtn}
-                  onPress={() =>
-                    this.props.showFilters()
-                  }
-                >
-                  <Text style={styles.filter}> Filter</Text>
-                  <EvilIcons name="chevron-down" size={wp('6.66%')} color="#fafafa" style={styles.dropArrowIcon} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  activeOpacity={0.6}
-                  style={{ marginLeft: 10 }}
-                  onPress={() => this.moveToMap()}
-                >
-                  <CacheImage
-                    source={require('../../../../assets/images/location_icon.png')}
-                    type='image'
-                    style={styles.locationPin} />
-                </TouchableOpacity>
-              </View>
-=======
         <View style={styles.filterPanel}>
           <Text style={styles.nearMeText}>Near Me</Text>
           <View style={styles.mainTitleFilterAndMapIconHolder}>
@@ -92,7 +62,6 @@ const ExploreScreenHeader = props => {
                   source={require('../../../../assets/images/location_icon.png')}
                   style={styles.locationPin} />
               </TouchableOpacity>
->>>>>>> - Add functionality(where required) to show popup to allow the user to logout from app in case if session expires.
             </View>
           </View>
         </View>

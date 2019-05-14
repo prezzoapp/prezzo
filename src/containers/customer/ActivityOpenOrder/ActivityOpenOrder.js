@@ -26,8 +26,8 @@ import {
 let disableBtn = false;
 
 class ActivityOpenOrder extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = { isFetching: false };
   }
