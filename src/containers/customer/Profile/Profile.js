@@ -299,7 +299,7 @@ class Profile extends Component {
               icon="chevron-right"
             />
             <MenuButton
-              onPress={() => null}
+              onPress={() => this.props.navigate({ routeName: 'MyHistory' })}
               title="My History"
               icon="chevron-right"
             />
