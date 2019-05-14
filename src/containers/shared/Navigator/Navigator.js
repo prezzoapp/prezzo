@@ -27,6 +27,7 @@ import Profile from '../../customer/Profile';
 import EditProfile from '../../customer/EditProfile';
 import PaymentMenu from '../../customer/PaymentMenu';
 import PaymentDetails from '../../customer/PaymentDetails';
+import MyHistory from '../../customer/MyHistory';
 
 import CustomerActivity from '../../customer/Activity';
 
@@ -112,6 +113,7 @@ const CustomerProfileNavigator = createStackNavigator({
     EditProfile: { screen: EditProfile },
     PaymentMenu: { screen: PaymentMenu },
     PaymentDetails: { screen: PaymentDetails },
+    MyHistory: { screen: MyHistory },
     LocationSearch: { screen: LocationSearch }
   },
   {
