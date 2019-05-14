@@ -322,6 +322,7 @@ class ActivityOpenOrder extends Component {
 
   render() {
     const data = this.props.data;
+    console.log(data);
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
