@@ -180,6 +180,7 @@ export default class VendorAdminActivityDetails extends Component {
                 >
                   <OpenTablePayment
                     data={selectedItem}
+                    innerTab={this.props.navigation.state.params.innerTab}
                     completeOrder={() => null}
                   />
                 </Tab>
