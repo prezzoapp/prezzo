@@ -20,7 +20,7 @@ const OrderedItem = props => {
         <CacheImage
           style={styles.itemImage}
           type='image'
-          source={props.data.imageURLs[0]}
+          source={data.imageURLs[0]}
         />
       </View>
       <View style={styles.itemTextContainer}>

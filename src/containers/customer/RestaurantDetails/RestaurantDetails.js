@@ -43,7 +43,6 @@ import Checkout from '../Checkout';
 
 import CustomPopup from '../../../components/CustomPopup';
 import CacheImage from '../../../components/CacheImage';
-import showGenericAlert from '../../../components/GenericAlert';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 const headerHeight = wp('44.97%');
@@ -123,7 +122,6 @@ export default class RestaurantDetails extends Component {
 
   onPlaceOrderBtnClick() {
     console.log(this.state.currentSlideIndex);
-    // this.modal.getWrappedInstance().scrollReset();
     this.setState({
       showCheckoutView: true
     }, () => {
@@ -181,10 +179,10 @@ export default class RestaurantDetails extends Component {
          title: cart.get('title'),
          description: cart.get('description'),
          status: 'pending',
-         notes: cart.description,
-         price: cart.price,
-         rating: cart.rating,
-         imageURLs: cart.imageURLs
+         notes: cart.get('description'),
+         price: cart.get('price'),
+         rating: cart.get('rating'),
+         imageURLs: cart.get('imageURLs')
        });
      }
     });
@@ -288,12 +286,13 @@ export default class RestaurantDetails extends Component {
     });
   }
 
-  listFooterComponent() {
+  listFooterComponent = () => {
+    console.log(this.flag);
     if(this.flag === 1) {
       return <View style={{ height: wp('18.66%') }} />;
     }
     return null;
-  }
+  };
 
   renderFooter() {
     const data = this.props.data.get('data');
@@ -301,8 +300,13 @@ export default class RestaurantDetails extends Component {
 
     if(data) {
       const categories = data.getIn(['menu', 'categories']);
-      const qtyArray = categories.map(category => category.get('data').map(item => item.get('quantity')));
+      const qtyArray = categories.map(category => {
+        return category.get('data').map(item => {
+          return item.get('quantity')
+        })
+      });
       const netQtyArray = qtyArray.map(item => item.reduce((prev,curr) => prev + curr));
+      console.log(netQtyArray.toJS());
       const totalQty = netQtyArray.reduce((prev,curr) => prev + curr);
 
       console.log(totalQty);
@@ -399,23 +403,58 @@ export default class RestaurantDetails extends Component {
     </View>
   );
 
-  renderSectionSeparatorComponent(leadingItem) {
-    if(leadingItem) {
+  renderItem = data => (
+    <RestaurantItem
+      item={data.item}
+      section={data.section}
+      showText={this.state.showText}
+      addRemoveItemQuantity={(itemId, op) =>
+        this.props.addRemoveItemQuantity(
+          data.section._id,
+          itemId,
+          op
+        )
+      }
+      changeItemRating={(itemId, rating) =>
+        this.props.changeItemRating(data.section._id, itemId, rating)
+      }
+    />
+  );
+
+  sectionSeparator = data => {
+    if(data.leadingItem) {
       return (
         <View
           style={{
-            paddingBottom: !this.state.showText ? wp('5.33%') : wp('14.4%')
+            paddingBottom: !this.state.showText
+              ? wp('3.33%')
+              : wp('12.4%')
           }}
         />
       );
     }
     return (
-      <View style={{
-          paddingBottom: wp('5.33%')
+      <View
+        style={{
+          paddingBottom: wp('3.33%')
         }}
       />
     );
-  }
+  };
+
+  itemSeparator = () => (
+    <View
+      style={{
+        paddingBottom: this.state.showText
+          ? wp('8.8%')
+          : wp('9.4%')
+      }}
+    />
+  );
+
+  hideModal = () => {
+    this.setState({ modalVisible: false });
+  };
 
   render() {
     const data = this.props.data.get('data');
@@ -573,18 +612,8 @@ export default class RestaurantDetails extends Component {
               return (
                 <AnimatedSectionList
                   stickySectionHeadersEnabled
-                  SectionSeparatorComponent={({ leadingItem }) =>
-                    this.renderSectionSeparatorComponent(leadingItem)
-                  }
-                  ItemSeparatorComponent={() =>
-                    <View
-                      style={{
-                        paddingBottom: this.state.showText
-                          ? wp('8.8%')
-                          : wp('9.4%')
-                      }}
-                    />
-                  }
+                  SectionSeparatorComponent={this.sectionSeparator}
+                  ItemSeparatorComponent={this.itemSeparator}
                   keyExtractor={item => item._id.toString()}
                   onScroll={Animated.event([
                     {
@@ -593,38 +622,17 @@ export default class RestaurantDetails extends Component {
                       }
                     }]
                   )}
-                  style={{
-                    paddingTop: wp('5.33%')
-                  }}
-                  contentContainerStyle={{
-                    paddingBottom: !this.state.showText ? wp('10%') : 0,
-                    paddingHorizontal: 15,
-                    paddingTop: headerHeight
-                  }}
-                  ListFooterComponent={() => this.listFooterComponent()}
+                  style={listStyle}
+                  contentContainerStyle={listContainerStyle}
+                  ListFooterComponent={this.listFooterComponent}
                   sections={
                     data.get('menu') &&
                     data.getIn(['menu', 'categories'])
                       ? data.getIn(['menu', 'categories']).toJS()
                       : []
                   }
-                  renderSectionHeader={({ section }) =>
-                    this.renderSectionHeader(section)
-                  }
-                  renderItem={({ item, section }) =>
-                    <RestaurantItem
-                      item={item}
-                      section={section}
-                      showText={this.state.showText}
-                      addRemoveItemQuantity={(itemId, op) =>
-                        this.props.addRemoveItemQuantity(
-                          section._id,
-                          itemId,
-                          op
-                        )
-                      }
-                    />
-                  }
+                  renderSectionHeader={this.renderSectionHeader}
+                  renderItem={this.renderItem}
                 />
               );
             }

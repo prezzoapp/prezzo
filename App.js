@@ -5,7 +5,7 @@ import { AppRegistry, View, StyleSheet, ActivityIndicator } from 'react-native';
 import { MaterialIcons, EvilIcons, Ionicons, Feather, FontAwesome, Entypo, Foundation } from '@expo/vector-icons';
 import {API_ROOT} from './env';
 import {setConfiguration} from './src/utils/configuration';
-import { Font, Icon } from 'expo';
+import { Font, Icon, Asset } from 'expo';
 import 'expo';
 require('react-native-browser-polyfill');
 
@@ -24,6 +24,10 @@ class Prezzo extends Component {
 
   async loadFonts() {
     console.log('loading fonts...');
+
+    const images = [
+      require('./assets/images/etc/default-avatar.png')
+    ];
 
     try {
       await Font.loadAsync({
@@ -58,6 +62,8 @@ class Prezzo extends Component {
         'zocial': require('@expo/vector-icons/fonts/Zocial.ttf'),
         'simple-line-icons': require('@expo/vector-icons/fonts/SimpleLineIcons.ttf')
       });
+
+      images.map(async (image) => await Asset.fromModule(image).downloadAsync());
 
       this.setState({ didFontsLoad: true });
       console.log('loaded fonts', Font, typeof Font, ' ');

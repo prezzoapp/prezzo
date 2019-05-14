@@ -20,6 +20,7 @@ const ExploreListItem = props => {
       >
         <CacheImage
           source={avatarURL}
+          type='backgroundImage'
           style={styles.image}
           type='backgroundImage'
           imageStyle={styles.imageStyle}

@@ -10,6 +10,12 @@ import { getTimeStampString, showAlertWithMessage } from '../../services/commonF
 import CacheImage from '../CacheImage';
 import styles from './styles';
 import showGenericAlert from '../GenericAlert';
+import CacheImage from '../CacheImage';
+
+class ItemImagePicker extends React.Component<Props> {
+  state = {
+    selectImageThroughImagePicker: false
+  };
 
 class ItemImagePicker extends React.Component<Props> {
   state = {
@@ -127,11 +133,10 @@ class ItemImagePicker extends React.Component<Props> {
 
         this.setState({
           selectImageThroughImagePicker: true
-        }, () => {
+        }, async () => {
           this.setState({ tempImage: resultEdited.uri });
-
           const fileName = `${getTimeStampString()}.jpeg`;
-          this.props
+          const itemImage = await this.props
             .uploadImage(
               resultEdited.uri,
               10,
@@ -139,18 +144,17 @@ class ItemImagePicker extends React.Component<Props> {
               fileName,
               'userAvatar',
               'public-read'
-            )
-            .then(async itemImage => {
-              this.props.addNewImageComponent(itemImage).then(() => {
-                this.setState({
-                  selectImageThroughImagePicker: false
-                }, () => {
-                  this.setState({
-                    tempImage: itemImage
-                  });
-                });
-              }).catch(err => {});
+            );
+
+          await this.props.addNewImageComponent(itemImage);
+
+          this.setState({
+            selectImageThroughImagePicker: false
+          }, () => {
+            this.setState({
+              tempImage: itemImage
             });
+          });
         });
       }
     } catch(err) {
@@ -160,9 +164,9 @@ class ItemImagePicker extends React.Component<Props> {
 
   openCamera = async () => {
     try {
-      const result = await ImagePicker.launchCameraAsync({
+      const result = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: false,
-        quality: 0.3
+        quality: 0.2
       });
 
       if (!result.cancelled) {
@@ -194,7 +198,7 @@ class ItemImagePicker extends React.Component<Props> {
     showGenericAlert(null, 'Are you sure you want to delete this menu item image?', [
       {
         text: 'Yes',
-        onPress: () => props.deleteImageComponent()
+        onPress: () => this.props.deleteImageComponent()
       },
       {
         text: 'No',
@@ -204,52 +208,51 @@ class ItemImagePicker extends React.Component<Props> {
     ]);
   };
 
-  return (
-    <View style={styles.holder}>
-      {props.editable && (
-        <TouchableOpacity
-          style={styles.closeBtn}
-          activeOpacity={0.6}
-          onPress={() => deleteImageComponent()}
-        >
-          <Ionicons
-            title="Delete"
-            name="md-close"
-            color="black"
-            size={wp('3%')}
-            style={{ padding: 0, top: wp('0.17%'), position: 'relative', left: wp('0.13%') }}
-          />
-        </TouchableOpacity>
-      )}
+  render() {
+    const image = this.state.tempImage || this.props.image || '';
 
-      {props.image === '' ? (
-        <TouchableOpacity
-          onPress={this.showAvatarActionSheet}
-          style={styles.itemImagePickerBtn}
-        >
-          <Image
-            style={styles.itemImage}
-            source={
-              props.image
-                ? { uri: props.image }
-                : require('../../../assets/images/default_image_placeholder.png')
-            }
-          />
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.itemImagePickerBtn}>
-          <Image
-            style={styles.itemImage}
-            source={
-              props.image
-                ? { uri: props.image }
-                : require('../../../assets/images/default_image_placeholder.png')
-            }
-          />
-        </View>
-      )}
-    </View>
-  );
+    return (
+      <View style={styles.holder}>
+        {this.props.editable && (
+          <TouchableOpacity
+            style={styles.closeBtn}
+            activeOpacity={0.6}
+            onPress={() => this.deleteImageComponent()}
+          >
+            <Ionicons
+              title="Delete"
+              name="md-close"
+              color="black"
+              size={wp('3%')}
+              style={{ padding: 0, top: wp('0.17%'), position: 'relative', left: wp('0.13%') }}
+            />
+          </TouchableOpacity>
+        )}
+
+        {image === '' ? (
+          <TouchableOpacity
+            onPress={this.showAvatarActionSheet}
+            style={styles.itemImagePickerBtn}
+          >
+            <CacheImage
+              style={styles.itemImage}
+              type='image'
+              source={require('../../../assets/images/default_image_placeholder.png')}
+            />
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.itemImagePickerBtn}>
+            <CacheImage
+              style={styles.itemImage}
+              type='image'
+              selectImageThroughImagePicker={this.state.selectImageThroughImagePicker}
+              source={image}
+            />
+          </View>
+        )}
+      </View>
+    );
+  }
 }
 
 ItemImagePicker.propTypes = {

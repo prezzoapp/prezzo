@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import styles from './styles';
 
 import CheckoutSwiper from '../../../components/CheckoutSwiper';
+import CacheImage from '../../../components/CacheImage';
 
 import {
   showAlertWithMessage,
