@@ -9,13 +9,12 @@ import PropTypes from 'prop-types';
 import {
   COLOR_GREEN,
   FONT_FAMILY_MEDIUM,
-  COLOR_WHITE
+  COLOR_WHITE,
+  TAX
 } from '../../services/constants';
 
 import styles from './styles';
 import Button from '../Button';
-
-const TAX = 5.95;
 
 const OpenTablePayment = props => {
   const data = props.data;
@@ -118,18 +117,21 @@ const OpenTablePayment = props => {
             <Button
               style={buttonStyles.requestBtn}
               textStyle={buttonStyles.requestBtnText}
-              onPress={() => props.completeOrder(data.get('_id'))}
+              onPress={() => props.completeOrder()}
             >
               Request
             </Button>
           )}
 
           <Text
-            style={[styles.total, {
+            style={[
+              styles.total,
+              {
                 paddingLeft: props.innerTab !== 'closed' ? wp('11.46%') : 0
-            }]}
+              }
+            ]}
           >
-            Total ${((subTotal * TAX) / 100 + subTotal).toFixed(2)}
+            Total ${(TAX + subTotal).toFixed(2)}
           </Text>
         </LinearGradient>
       </View>
