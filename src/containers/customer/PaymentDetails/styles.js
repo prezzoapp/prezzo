@@ -1,9 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
 import { FONT_FAMILY } from '../../../services/constants';
+import { Header } from 'react-navigation';
+import { Constants } from 'expo';
 
 const checkboxSize: number = 25;
 
@@ -11,7 +13,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2B2C2C',
-    paddingBottom: hp('9%')
+    paddingTop: Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0)
   },
 
   scrollView: {
