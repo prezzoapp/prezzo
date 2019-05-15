@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
-import {
+import ReactNative, {
   View,
   TouchableOpacity,
   Text,
   AsyncStorage,
   KeyboardAvoidingView,
   ScrollView,
-  InteractionManager
+  InteractionManager,
+  findNodeHandle,
+  UIManager,
+  Dimensions,
+  Keyboard
 } from 'react-native';
 import { CreditCardInput } from 'react-native-credit-card-input';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
 import { WebView } from 'react-native-webview-messaging/WebView';
 import { Feather } from '../../../components/VectorIcons';
@@ -20,17 +25,12 @@ import styles from './styles';
 import Button from '../../../components/Button';
 import showGenericAlert from '../../../components/GenericAlert';
 
-import {
-  FONT_FAMILY_MEDIUM,
-  COLOR_WHITE,
-  NETWORK_REQUEST_FAILED
-} from '../../../services/constants';
-import {
-  showAlertWithMessage,
-  manuallyLogout
-} from '../../../services/commonFunctions';
-
-let disableBtn = false;
+import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+const windowHeight = Dimensions.get('window').height;
+let keyboardDidShowCalled = false;
+const scrollViewRef = React.createRef();
+const buttonRef = React.createRef();
 
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -53,7 +53,11 @@ class PaymentDetails extends Component {
         backgroundColor: '#2B2C2C',
         shadowColor: 'transparent',
         borderBottomWidth: 0,
-        elevation: 0
+        elevation: 0,
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0
       },
       headerTintColor: '#fff',
       headerLeft: (
@@ -213,11 +217,50 @@ class PaymentDetails extends Component {
     }
   }
 
+  componentWillMount() {
+    this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardShow.remove();
+    this.keyboardHide.remove();
+  }
+
+  keyboardDidShow = event => {
+    if(keyboardDidShowCalled === false) {
+      keyboardDidShowCalled = true;
+      const keyboardHeight = event.endCoordinates.height;
+      const button = ReactNative.findNodeHandle(buttonRef.current);
+      UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
+        const fieldHeight = height;
+        const fieldTop = pageY;
+        gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
+        if (gap < 0) {
+          scrollViewRef.current.scrollTo({
+            x: 0, y: -gap, animated: true
+          });
+        } else {
+          console.log('Gap: ', gap);
+        }
+      });
+    }
+  }
+
+  keyboardDidHide = event => {
+    keyboardDidShowCalled = false;
+  }
+
+
   render() {
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
         <View style={styles.container}>
-          <ScrollView contentContainerStyle={styles.scrollView}>
+          <ScrollView
+            ref={scrollViewRef}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.scrollView}
+          >
             <CreditCardInput
               inputStyle={styles.textStyle}
               labelStyle={styles.textStyle}
@@ -244,6 +287,7 @@ class PaymentDetails extends Component {
 
             <View style={styles.btnHolder}>
               <Button
+                ref={buttonRef}
                 style={buttonStyles.submitBtn}
                 disabled={!this.state.dataValid}
                 textStyle={[
