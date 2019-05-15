@@ -14,7 +14,7 @@ import { Feather } from '../VectorIcons';
 
 import Button from '../Button';
 
-import { FONT_FAMILY, COLOR_WHITE } from '../../services/constants';
+import { FONT_FAMILY, COLOR_WHITE, TAX } from '../../services/constants';
 
 import styles, { stylesRaw } from './styles';
 
@@ -218,7 +218,7 @@ export default class CheckoutSwiper extends Component {
                 <Text
                   style={[styles.reviewOrderFooterText, { textAlign: 'right' }]}
                 >
-                  + $2.43
+                  + ${TAX}
                 </Text>
               </View>
             </View>

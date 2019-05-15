@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { FlatList, View, TouchableOpacity, Text } from 'react-native';
+import { FlatList, View, TouchableOpacity, Text, ActivityIndicator, InteractionManager } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE, COLOR_BLACK } from '../../../services/constants';
 import MyHistoryItem from '../../../components/MyHistoryItem';
+import LoadingComponent from '../../../components/LoadingComponent';
 import styles from './styles';
 
 class MyHistory extends Component {
@@ -46,52 +47,37 @@ class MyHistory extends Component {
 
   static displayName = 'MyHistory';
 
-  constructor() {
-    super();
-    this.data = [{
-      id: 1,
-      date: '03-15-18',
-      restaurantName: 'Erewhon Market',
-      type: 'Dine in - $43.90',
-      status: 'complete'
-    }, {
-      id: 2,
-      date: '04-15-18',
-      restaurantName: 'Erewhon Market',
-      type: 'Dine in - $43.90',
-      status: 'complete'
-    }, {
-      id: 3,
-      date: '05-15-18',
-      restaurantName: 'Erewhon Market',
-      type: 'Dine in - $43.90',
-      status: 'complete'
-    }, {
-      id: 4,
-      date: '06-15-18',
-      restaurantName: 'Erewhon Market',
-      type: 'Dine in - $43.90',
-      status: 'complete'
-    }, {
-      id: 5,
-      date: '07-15-18',
-      restaurantName: 'Erewhon Market',
-      type: 'Dine in - $43.90',
-      status: 'complete'
-    }]
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.props.listCompletedOrders(this.props.userId, 'complete');
+    });
   }
 
   renderItem = data => <MyHistoryItem item={data.item} />;
 
+  listEmptyComponent() {
+    return (
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.message}>No items found!</Text>
+      </View>
+    );
+  }
+
   render() {
+    const data = this.props.data;
     return (
       <View style={styles.container}>
         <FlatList
-          contentContainerStyle={styles.contentContainerStyle}
-          keyExtractor={item => item.id.toString()}
-          data={this.data}
+          contentContainerStyle={[
+            styles.contentContainerStyle,
+            { justifyContent: (data.size === 0) ? 'center' : null }
+          ]}
+          ListEmptyComponent={this.listEmptyComponent}
+          keyExtractor={item => item.get('_id').toString()}
+          data={data.toArray()}
           renderItem={this.renderItem}
         />
+        <LoadingComponent visible={this.props.isBusy} />
       </View>
     );
   }

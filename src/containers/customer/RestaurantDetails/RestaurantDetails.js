@@ -29,7 +29,7 @@ import RestaurantItem from '../../../components/RestaurantItem';
 
 import Button from '../../../components/Button';
 
-import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
+import { FONT_FAMILY_MEDIUM, COLOR_WHITE, TAX } from '../../../services/constants';
 
 import Checkout from '../Checkout';
 
@@ -368,8 +368,7 @@ export default class RestaurantDetails extends Component {
             <Text style={styles.totalPrice}>
               Total $
               {parseFloat(
-                this.props.data.get('totalPrice') +
-                  (this.props.data.get('totalPrice') * 2.43) / 100
+                this.props.data.get('totalPrice') + TAX
               ).toFixed(2)}
             </Text>
           </View>

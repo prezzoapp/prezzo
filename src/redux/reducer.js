@@ -12,11 +12,11 @@ import { USER_LOGOUT_SUCCESS } from '../modules/auth/types';
 import VendorReducer from '../modules/vendor';
 import ExploreReducer from '../modules/explore';
 import RestaurantDetails from '../modules/restaurant';
-import paymentMethods from '../modules/paymentMethods';
+import PaymentMethods from '../modules/paymentMethods';
 import TableReducer from '../modules/table';
-// import DeliveryReducer from '../modules/delivery';
 import VendorActivityReducer from '../modules/vendorActivity';
 import UserActivityReducer from '../modules/userActivity';
+import UserHistoryReducer from '../modules/userHistory';
 
 const reducers = {
   navigatorState: NavigatorStateReducer,
@@ -29,9 +29,9 @@ const reducers = {
   signup: SignupReducer,
   vendor: VendorReducer,
   restaurant: RestaurantDetails,
-  paymentMethods,
+  paymentMethods: PaymentMethods,
   table: TableReducer,
-  // delivery: DeliveryReducer,
+  userHistory: UserHistoryReducer,
   vendorActivity: VendorActivityReducer,
   userActivity: UserActivityReducer
 };
