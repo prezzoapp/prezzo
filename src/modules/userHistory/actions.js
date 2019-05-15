@@ -14,8 +14,7 @@ export const listCompletedOrders = async (
   dispatch({ type: GET_USER_COMPLETED_ORDERS_REQUEST });
 
   try {
-    const data = await get(`/v1/users/${userId}/orders?status=${status}`);
-    console.log('data: ', data);
+    const data = await get(`/v1/users/${userId}/orders?status=${status}&userType=customer`);
 
     return dispatch({
       type: GET_USER_COMPLETED_ORDERS_SUCCESS,
