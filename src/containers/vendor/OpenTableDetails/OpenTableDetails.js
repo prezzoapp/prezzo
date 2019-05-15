@@ -89,8 +89,7 @@ export default class OpenTableDetails extends Component {
           order.get('_id'),
           order.getIn(['paymentMethod', 'token']),
           price,
-          'card',
-          order.get('vendor')
+          'card'
         )
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
@@ -116,8 +115,7 @@ export default class OpenTableDetails extends Component {
           order.get('_id'),
           '',
           price,
-          'card',
-          order.get('vendor')
+          'card'
         )
       .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
@@ -143,8 +141,7 @@ export default class OpenTableDetails extends Component {
           order.get('_id'),
           '',
           price,
-          'cash',
-          order.get('vendor')
+          'cash'
         )
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
