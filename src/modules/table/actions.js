@@ -147,8 +147,7 @@ export const makePaymentAndCompleteOrder = async (
   order: string,
   token: string,
   amount: string,
-  paymentType: string,
-  vendor: string
+  paymentType: string
 ) => async dispatch => {
   dispatch({ type: MAKE_PAYMENT_AND_COMPLETE_ORDER_REQUEST });
 
@@ -157,8 +156,7 @@ export const makePaymentAndCompleteOrder = async (
       order,
       token,
       amount,
-      paymentType,
-      vendor
+      paymentType
     });
 
     return dispatch({

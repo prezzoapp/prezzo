@@ -103,8 +103,7 @@ class ActivityOpenOrder extends Component {
           data.get('_id'),
           data.getIn(['paymentMethod', 'token']),
           price,
-          'card',
-          data.get('vendor')
+          'card'
         )
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
@@ -129,7 +128,7 @@ class ActivityOpenOrder extends Component {
           }
         });
     } else if(data.get('paymentType') === 'card') {
-      this.props.makePaymentAndCompleteOrder(data.get('_id'), '', price, 'card', data.get('vendor'))
+      this.props.makePaymentAndCompleteOrder(data.get('_id'), '', price, 'card')
         .then(() => {
           if(this.props.openOrderFinalStatus === 'complete') {
             showAlertWithMessage(
@@ -154,7 +153,7 @@ class ActivityOpenOrder extends Component {
         });
     } else {
       this.props
-        .makePaymentAndCompleteOrder(data.get('_id'), '', price, 'cash', data.get('vendor'))
+        .makePaymentAndCompleteOrder(data.get('_id'), '', price, 'cash')
         .then(() => {
           if (this.props.openOrderFinalStatus === 'complete') {
             showAlertWithMessage(
