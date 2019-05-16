@@ -258,14 +258,15 @@ class PaymentDetails extends Component {
           scrollViewRef.current.scrollTo({
             x: 0, y: -gap, animated: true
           });
-        } else {
-          console.log('Gap: ', gap);
         }
       });
     }
   }
 
   keyboardDidHide = event => {
+    scrollViewRef.current.scrollTo({
+      x: 0, y: 0, animated: true
+    })
     keyboardDidShowCalled = false;
   }
 
