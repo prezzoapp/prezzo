@@ -11,7 +11,8 @@ import ReactNative, {
   KeyboardAvoidingView,
   findNodeHandle,
   UIManager,
-  Dimensions
+  Dimensions,
+  Keyboard
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -390,7 +391,7 @@ class SignupPassword extends React.Component<Props, State> {
           style={{ flex: 1 }}
           behavior="padding">
           <ScrollView
-            ref={buttonRef}
+            ref={scrollViewRef}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text style={styles.headerTextLine1}>
