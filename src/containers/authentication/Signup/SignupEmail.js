@@ -39,7 +39,7 @@ import alert from '../../../components/GenericAlert';
 import CacheImage from '../../../components/CacheImage';
 import NextButton from './NextButton';
 
-const windowHeight = Dimensions.get('screen').height;
+const windowHeight = Dimensions.get('window').height;
 let keyboardDidShowCalled = false;
 
 const buttonRef = React.createRef();
@@ -167,7 +167,7 @@ class SignupEmail extends React.Component<Props> {
   }
 
   navigateToPassword() {
-    this.props.navigate({ routeName: 'SignupMergeFacebook' });
+    this.props.navigate({ routeName: 'SignupPassword' });
   }
 
   componentWillMount() {
@@ -183,7 +183,6 @@ class SignupEmail extends React.Component<Props> {
   keyboardDidShow = event => {
     if(keyboardDidShowCalled === false) {
       keyboardDidShowCalled = true;
-      console.log('KeyboardDidShow called!');
       const keyboardHeight = event.endCoordinates.height;
       const button = ReactNative.findNodeHandle(buttonRef.current);
       UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
@@ -202,7 +201,6 @@ class SignupEmail extends React.Component<Props> {
   }
 
   keyboardDidHide = event => {
-    console.log('KeyboardDidHide called!');
     scrollViewRef.current.scrollTo({
       x: 0, y: 0, animated: true
     });

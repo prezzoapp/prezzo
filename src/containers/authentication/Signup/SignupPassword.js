@@ -40,7 +40,7 @@ import { Feather } from '../../../components/VectorIcons';
 import LoadingComponent from '../../../components/LoadingComponent';
 import CacheImage from '../../../components/CacheImage';
 
-const windowHeight = Dimensions.get('screen').height;
+const windowHeight = Dimensions.get('window').height;
 let keyboardDidShowCalled = false;
 
 const buttonRef = React.createRef();
@@ -373,7 +373,6 @@ class SignupPassword extends React.Component<Props, State> {
   keyboardDidShow = event => {
     if(keyboardDidShowCalled === false) {
       keyboardDidShowCalled = true;
-      console.log('KeyboardDidShow called!');
       const keyboardHeight = event.endCoordinates.height;
       const button = ReactNative.findNodeHandle(buttonRef.current);
       UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
@@ -392,7 +391,6 @@ class SignupPassword extends React.Component<Props, State> {
   }
 
   keyboardDidHide = event => {
-    console.log('KeyboardDidHide called!');
     scrollViewRef.current.scrollTo({
       x: 0, y: 0, animated: true
     });
