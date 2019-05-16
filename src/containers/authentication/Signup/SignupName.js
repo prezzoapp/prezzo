@@ -26,14 +26,13 @@ import {FONT_FAMILY_MEDIUM} from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import NextButton from './NextButton';
 
-// const { State: TextInputState } = TextInput;
-
-const windowHeight = Dimensions.get('screen').height;
+const windowHeight = Dimensions.get('window').height;
 let keyboardDidShowCalled = false;
 
 const buttonRef = React.createRef();
 const scrollViewRef = React.createRef();
 let gap = 0;
+let btnPosition = 0;
 
 type Props = {
   updateFirstName: PropTypes.func.isRequired,
@@ -160,7 +159,6 @@ class SignupName extends React.Component<Props, State> {
   keyboardDidShow = event => {
     if(keyboardDidShowCalled === false) {
       keyboardDidShowCalled = true;
-      console.log('KeyboardDidShow called!');
       const keyboardHeight = event.endCoordinates.height;
       const button = ReactNative.findNodeHandle(buttonRef.current);
       UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
@@ -179,7 +177,6 @@ class SignupName extends React.Component<Props, State> {
   }
 
   keyboardDidHide = event => {
-    console.log('KeyboardDidHide called!');
     scrollViewRef.current.scrollTo({
       x: 0, y: 0, animated: true
     });
