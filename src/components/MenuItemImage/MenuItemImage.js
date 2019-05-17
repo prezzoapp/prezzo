@@ -8,8 +8,6 @@ import PropTypes from 'prop-types';
 import { Ionicons } from '../VectorIcons';
 import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
 import CacheImage from '../CacheImage';
-import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
-import CacheImage from '../CacheImage';
 import styles from './styles';
 
 class ItemImagePicker extends React.Component<Props> {

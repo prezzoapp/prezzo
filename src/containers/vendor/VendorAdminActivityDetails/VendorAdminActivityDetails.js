@@ -13,9 +13,8 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import { fromJS } from 'immutable';
-import OpenOrdersList from '../OpenOrdersList';
-import OpenTablePayment from '../OpenTablePayment';
-import CacheImage from '../CacheImage';
+import OpenOrdersList from '../../../components/OpenOrdersList';
+import OpenTablePayment from '../../../components/OpenTablePayment';
 import Button from '../../../components/Button';
 import { Feather } from '../../../components/VectorIcons';
 import CacheImage from '../../../components/CacheImage';
