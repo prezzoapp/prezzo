@@ -34,21 +34,6 @@ import Button from '../../../components/Button';
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 
 import { showAlertWithMessage } from '../../../services/commonFunctions';
-
-import { showAlertWithMessage } from '../../../services/commonFunctions';
-
-import { showAlertWithMessage } from '../../../services/commonFunctions';
-
-import { showAlertWithMessage } from '../../../services/commonFunctions';
-
-import { showAlertWithMessage } from '../../../services/commonFunctions';
-
-import { showAlertWithMessage } from '../../../services/commonFunctions';
-
-import { showAlertWithMessage } from '../../../services/commonFunctions';
-
-import { showAlertWithMessage } from '../../../services/commonFunctions';
-
 import Checkout from '../Checkout';
 
 import CustomPopup from '../../../components/CustomPopup';
