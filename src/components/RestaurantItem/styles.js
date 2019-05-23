@@ -50,17 +50,17 @@ const styles = StyleSheet.create({
     lineHeight: wp('6.4%')
   },
 
-  swiper: {
-    height: hp('44.55%')
-  },
+  // swiper: {
+  //   height: hp('44.55%')
+  // },
 
   itemImage: {
     flex: 1,
     height: hp('44.55%'),
     marginHorizontal: 10,
-    borderRadius: 13,
     overflow: 'hidden',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    borderRadius: 13
   },
 
   itemContainer: {
@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: wp('7%')
+    paddingLeft: wp('7%'),
+    paddingRight: wp('14%')
   },
 
   controlButtons: {
@@ -103,6 +104,10 @@ const styles = StyleSheet.create({
   pagination: {
     bottom: 7,
     zIndex: 999
+  },
+
+  imageStyle: {
+    borderRadius: 13
   }
 });
 
