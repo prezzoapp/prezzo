@@ -13,7 +13,7 @@ type Props = {};
 
 class Button extends Component {
   render() {
-    const { disabled, onPress, style, textStyle, children } = this.props;
+    const { disabled, onPress, style, textStyle, childrenEle, children } = this.props;
     let newStyle = {};
     let newTextStyle = {};
 
@@ -36,21 +36,16 @@ class Button extends Component {
     const buttonStyleFinal = { ...styles.button, ...newStyle };
     const textStyleFinal = { ...styles.text, ...newTextStyle };
 
-    return (
-      <TouchableOpacity
-        testID={'buttonComponent'}
-        onPress={() => !disabled && onPress && onPress()}
-        activeOpacity={disabled ? 1 : 0.7}
-        style={buttonStyleFinal}
-      >
-        {children.type !== undefined && children.type.name === 'View' ? (
-          children
-        ) : (
-            <Text style={textStyleFinal}>{children}</Text>
-          )}
-      </TouchableOpacity>
-    );
-  }
+  return (
+    <TouchableOpacity
+      testID={'buttonComponent'}
+      onPress={() => !disabled && onPress && onPress()}
+      activeOpacity={disabled ? 1 : 0.7}
+      style={buttonStyleFinal}
+    >
+      {childrenEle === 'View' ? children : <Text style={textStyleFinal}>{children}</Text>}
+    </TouchableOpacity>
+  );
 };
 
 const styles = {
@@ -75,6 +70,7 @@ const styles = {
 Button.propTypes = {
   disabled: PropTypes.bool,
   onPress: PropTypes.func.isRequired,
+  childrenEle: PropTypes.string,
   style: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   textStyle: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
@@ -83,7 +79,8 @@ Button.propTypes = {
 Button.defaultProps = {
   disabled: false,
   style: {},
-  textStyle: {}
+  textStyle: {},
+  childrenEle: 'Text'
 };
 
 export default Button;

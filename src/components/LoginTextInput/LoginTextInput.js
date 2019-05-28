@@ -100,14 +100,14 @@ const styles = StyleSheet.create({
     color: '#959595',
     fontSize: wp('4.53%'),
     fontWeight: '600',
-    fontFamily: FONT_FAMILY,
+    fontFamily: 'ClearSans-Light',
     lineHeight: wp('5.86%')
   },
   togglePasswordVisibility: {
     color: '#959595',
     fontSize: wp('4.53%'),
     fontWeight: '600',
-    fontFamily: FONT_FAMILY
+    fontFamily: 'ClearSans-Light'
   },
   input: {
     color: 'white',

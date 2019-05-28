@@ -257,7 +257,7 @@ export default class AccountInfo extends React.Component {
       quality: 0.3
     });
     if (!result.cancelled) {
-      const resultEdited = await ImageManipulator.manipulate(
+      const resultEdited = await ImageManipulator.manipulateAsync(
         result.uri,
         [{ resize: { width: 250 }}],
         { format: 'jpeg', compress: 0.3 }
@@ -281,7 +281,7 @@ export default class AccountInfo extends React.Component {
       quality: 0.3
     });
     if (!result.cancelled) {
-      const resultEdited = await ImageManipulator.manipulate(
+      const resultEdited = await ImageManipulator.manipulateAsync(
         result.uri,
         [{ resize: { width: 250 }}],
         { format: 'jpeg', compress: 0.3 }
@@ -820,8 +820,8 @@ export default class AccountInfo extends React.Component {
                   mode="dropdown"
                   iosHeader="Select a day"
                   iosIcon={
-                    <Ionicons
-                      name="ios-arrow-down-outline"
+                    <Feather
+                      name="chevron-down"
                       style={stylesRaw.pickerIcon}
                     />
                   }
@@ -839,8 +839,8 @@ export default class AccountInfo extends React.Component {
                   mode="dropdown"
                   iosHeader="Select an opening time"
                   iosIcon={
-                    <Ionicons
-                      name="ios-arrow-down-outline"
+                    <Feather
+                      name="chevron-down"
                       style={stylesRaw.pickerIcon}
                     />
                   }
@@ -864,8 +864,8 @@ export default class AccountInfo extends React.Component {
                   mode="dropdown"
                   iosHeader="Select a closing time"
                   iosIcon={
-                    <Ionicons
-                      name="ios-arrow-down-outline"
+                    <Feather
+                      name="chevron-down"
                       style={stylesRaw.pickerIcon}
                     />
                   }
@@ -915,8 +915,8 @@ export default class AccountInfo extends React.Component {
                         mode="dropdown"
                         iosHeader="Select a category"
                         iosIcon={
-                          <Ionicons
-                            name="ios-arrow-down-outline"
+                          <Feather
+                            name="chevron-down"
                             style={stylesRaw.pickerIcon}
                           />
                         }

@@ -313,12 +313,15 @@ class PaymentDetails extends Component {
               }
               return null;
             })()}
-            <WebView
-              ref={webViewRef}
-              source={require('../../../../dist/index.html')}
-              style={styles.webViewStyle}
-            />
           </ScrollView>
+        </View>
+        <View style={styles.webViewContainer}>
+          <WebView
+            ref={webview => {
+              this.webview = webview;
+            }}
+            source={require('../../../../dist/index.html')}
+          />
         </View>
       </KeyboardAvoidingView>
     );

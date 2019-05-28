@@ -227,6 +227,7 @@ export default class CheckoutSwiper extends Component {
                       style={paymentBtnStyles.commonBtn}
                       onPress={() => this.setPaymentType(CREDIT_CARD)}
                       disabled={this.state.selectedPaymentType === CREDIT_CARD}
+                      childrenEle='View'
                     >
                       <View>
                         <Image
@@ -251,6 +252,7 @@ export default class CheckoutSwiper extends Component {
                       style={paymentBtnStyles.commonBtn}
                       onPress={() => this.setPaymentType(CASH)}
                       disabled={this.state.selectedPaymentType === CASH}
+                      childrenEle='View'
                     >
                       <View>
                         <Image

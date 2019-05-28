@@ -6,7 +6,8 @@ import {
   toggleFilter,
   updateDistance,
   updatePrice,
-  getUserCurrentLocation
+  getUserCurrentLocation,
+  callWaiterBtnFunc
 } from '../../../modules/explore';
 import { userLogout } from '../../../modules/auth';
 
@@ -20,6 +21,9 @@ export const mapStateToProps = state => {
     state.get('paymentMethods').get('isBusy');
   const minDistance = state.get('explore').get('minDistance');
   const maxDistance = state.get('explore').get('maxDistance');
+  const callWaiterBtnState = state.get('explore').get('callWaiterBtnState')
+  const userName = state.get('user').get('account').get('fullName');
+  const isUserOpenOrder = state.get('userActivity').get('data').size !== 0 ? true : false
 
   return {
     filters,
@@ -27,7 +31,10 @@ export const mapStateToProps = state => {
     pricing,
     isBusy,
     minDistance,
-    maxDistance
+    maxDistance,
+    userName,
+    callWaiterBtnState,
+    isUserOpenOrder
   };
 };
 
@@ -38,5 +45,6 @@ export const mapDispatchToProps = dispatch => ({
   updateDistance: bindActionCreators(updateDistance, dispatch),
   updatePrice: bindActionCreators(updatePrice, dispatch),
   getUserCurrentLocation: bindActionCreators(getUserCurrentLocation, dispatch),
-  userLogout: bindActionCreators(userLogout, dispatch)
+  userLogout: bindActionCreators(userLogout, dispatch),
+  callWaiterBtnFunc: bindActionCreators(callWaiterBtnFunc, dispatch)
 });

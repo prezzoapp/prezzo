@@ -201,8 +201,8 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     borderRadius: 8,
     borderWidth: 1,
-    height: 35,
-    marginTop: 15
+    height: wp('9.33%'),
+    marginTop: wp('4%')
   },
 
   cardPickerText: {
@@ -216,7 +216,10 @@ export const stylesRaw = {
     position: 'absolute',
     color: '#fff',
     fontSize: wp('4.26%'),
-    right: wp('3.5%')
+    marginLeft: 0,
+    position: 'relative',
+    top: -wp('1.3%'),
+    right: wp('2%')
   }
 };
 
