@@ -309,58 +309,64 @@ class Tables extends Component {
 
   renderOpenTable() {
     return (
-      <FlatList
-        keyExtractor={item => item.get('_id').toString()}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={this.listEmptyComponent}
-        ItemSeparatorComponent={this.renderSeparator}
-        onRefresh={this.onRefresh}
-        refreshing={this.state.isFetching}
-        contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.openTableList.size === 0) ? 'center' : null }]}
-        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
-        renderItem={this.renderOpenTableData}
-        ListFooterComponent={this.renderFooter}
-        onEndReached={this.onEndReached}
-        onEndReachedThreshold={0.3}
-      />
+      <View style={styles.listsContainer}>
+        <FlatList
+          keyExtractor={item => item.get('_id').toString()}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={this.listEmptyComponent}
+          ItemSeparatorComponent={this.renderSeparator}
+          onRefresh={this.onRefresh}
+          refreshing={this.state.isFetching}
+          contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.openTableList.size === 0) ? 'center' : null }]}
+          data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
+          renderItem={this.renderOpenTableData}
+          ListFooterComponent={this.renderFooter}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={0.1}
+        />
+      </View>
     );
   }
 
   renderQueueTable() {
     return (
-      <FlatList
-        keyExtractor={item => item.get('_id').toString()}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={this.listEmptyComponent}
-        ItemSeparatorComponent={this.renderSeparator}
-        onRefresh={this.onRefresh}
-        refreshing={this.state.isFetching}
-        contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.queuedTableList.size === 0) ? 'center' : null }]}
-        data={this.props.queuedTableList.size !== 0 ? this.props.queuedTableList.toArray() : []}
-        renderItem={this.renderQueuedTableData}
-        ListFooterComponent={this.renderFooter}
-        onEndReached={this.onEndReached}
-        onEndReachedThreshold={0.3}
-      />
+      <View style={styles.listsContainer}>
+        <FlatList
+          keyExtractor={item => item.get('_id').toString()}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={this.listEmptyComponent}
+          ItemSeparatorComponent={this.renderSeparator}
+          onRefresh={this.onRefresh}
+          refreshing={this.state.isFetching}
+          contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.queuedTableList.size === 0) ? 'center' : null }]}
+          data={this.props.queuedTableList.size !== 0 ? this.props.queuedTableList.toArray() : []}
+          renderItem={this.renderQueuedTableData}
+          ListFooterComponent={this.renderFooter}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={0.1}
+        />
+      </View>
     );
   }
 
   renderClosedTable() {
     return (
-      <FlatList
-        keyExtractor={item => item.get('_id').toString()}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={this.listEmptyComponent}
-        ItemSeparatorComponent={this.renderSeparator}
-        onRefresh={this.onRefresh}
-        refreshing={this.state.isFetching}
-        contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
-        data={this.props.closedTableList.size !== 0 ? this.props.closedTableList.toArray() : []}
-        renderItem={this.renderClosedTableData}
-        ListFooterComponent={this.renderFooter}
-        onEndReached={this.onEndReached}
-        onEndReachedThreshold={0.3}
-      />
+      <View style={styles.listsContainer}>
+        <FlatList
+          keyExtractor={item => item.get('_id').toString()}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={this.listEmptyComponent}
+          ItemSeparatorComponent={this.renderSeparator}
+          onRefresh={this.onRefresh}
+          refreshing={this.state.isFetching}
+          contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
+          data={this.props.closedTableList.size !== 0 ? this.props.closedTableList.toArray() : []}
+          renderItem={this.renderClosedTableData}
+          ListFooterComponent={this.renderFooter}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={0.1}
+        />
+      </View>
     );
   }
 

@@ -12,7 +12,11 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import styles from './styles';
 
+<<<<<<< HEAD
 import { Feather } from '@expo/vector-icons'
+=======
+import { Feather } from '@expo/vector-icons';
+>>>>>>> - Add call a waiter functionality(statically) and upgrade expo version.
 
 import RatingBar from '../RatingBar';
 

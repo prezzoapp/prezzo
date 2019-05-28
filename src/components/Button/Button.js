@@ -35,17 +35,16 @@ class Button extends Component {
 
     const buttonStyleFinal = { ...styles.button, ...newStyle };
     const textStyleFinal = { ...styles.text, ...newTextStyle };
-
-  return (
-    <TouchableOpacity
-      testID={'buttonComponent'}
-      onPress={() => !disabled && onPress && onPress()}
-      activeOpacity={disabled ? 1 : 0.7}
-      style={buttonStyleFinal}
-    >
-      {childrenEle === 'View' ? children : <Text style={textStyleFinal}>{children}</Text>}
-    </TouchableOpacity>
-  );
+    return (
+      <TouchableOpacity
+        testID={'buttonComponent'}
+        onPress={() => !disabled && onPress && onPress()}
+        activeOpacity={disabled ? 1 : 0.7}
+        style={buttonStyleFinal}
+      >
+        {childrenEle === 'View' ? children : <Text style={textStyleFinal}>{children}</Text>}
+      </TouchableOpacity>
+    );
 };
 
 const styles = {

@@ -2,6 +2,7 @@
 import React, { PureComponent } from 'react';
 import { View, ActivityIndicator, Text, Modal, Animated, FlatList, TouchableOpacity } from 'react-native';
 import { LinearGradient, BlurView, Location, Permissions } from 'expo';
+import PropTypes from 'prop-types';
 import ExploreSearch from '../ExploreSearch';
 import ExploreScreenHeader from '../ExploreScreenHeader';
 import ExploreList from '../ExploreList';
@@ -11,9 +12,15 @@ import Slider from 'react-native-slider';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import styles from './styles';
 import { get } from '../../../utils/api';
-import showGenericAlert from '../../../components/GenericAlert';
+import LoadingComponent from '../../../components/LoadingComponent';
+import {
+  COLOR_GREEN,
+  FONT_FAMILY_MEDIUM,
+  SF_PRO_DISPLAY_REGULAR
+} from '../../../services/constants';
+
+import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
-import { COLOR_GREEN, FONT_FAMILY_MEDIUM, SF_PRO_DISPLAY_REGULAR } from '../../../services/constants';
 import { convertToTitleCase } from '../../../services/commonFunctions';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');

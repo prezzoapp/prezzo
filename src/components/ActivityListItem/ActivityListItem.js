@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { Feather } from '@expo/vector-icons';
-import CacheImage from '../CacheImage';
 import styles from './styles';
 import CacheImage from '../CacheImage';
 

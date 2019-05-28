@@ -323,10 +323,9 @@ class PaymentDetails extends Component {
         </View>
         <View style={styles.webViewContainer}>
           <WebView
-            ref={webview => {
-              this.webview = webview;
-            }}
+            ref={webViewRef}
             source={require('../../../../dist/index.html')}
+            style={styles.webViewStyle}
           />
         </View>
       </KeyboardAvoidingView>
