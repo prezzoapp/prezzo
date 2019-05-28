@@ -19,7 +19,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { Constants } from 'expo';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import {bindActionCreators} from 'redux';
 import {NavigationActions} from 'react-navigation';
 import {updateFirstName, updateLastName} from '../../../modules/Signup';

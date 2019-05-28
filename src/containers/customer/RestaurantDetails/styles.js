@@ -25,13 +25,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
 
-  photo_back: {
+  photoBack: {
     position: 'absolute',
-    height: '40%',
+    height: wp('60%') + Constants.statusBarHeight,
     width: null,
     left: 0,
     right: 0,
     top: 0
+  },
+
+  photoBackImageStyle: {
+    resizeMode: 'cover'
   },
 
   LinearGradientStyle: {

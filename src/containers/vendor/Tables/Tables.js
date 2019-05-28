@@ -309,7 +309,7 @@ class Tables extends Component {
 
   renderOpenTable() {
     return (
-      <View style={styles.flex1}>
+      <View style={styles.listsContainer}>
         <FlatList
           keyExtractor={item => item.get('_id').toString()}
           showsVerticalScrollIndicator={false}
@@ -330,7 +330,7 @@ class Tables extends Component {
 
   renderQueueTable() {
     return (
-      <View style={styles.flex1}>
+      <View style={styles.listsContainer}>
         <FlatList
           keyExtractor={item => item.get('_id').toString()}
           showsVerticalScrollIndicator={false}
@@ -351,7 +351,7 @@ class Tables extends Component {
 
   renderClosedTable() {
     return (
-      <View style={styles.flex1}>
+      <View style={styles.listsContainer}>
         <FlatList
           keyExtractor={item => item.get('_id').toString()}
           showsVerticalScrollIndicator={false}

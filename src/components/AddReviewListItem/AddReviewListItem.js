@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo';
 import PropTypes from 'prop-types';
-import { Feather } from '../VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import styles from './styles';
 import MenuItemImage from '../MenuItemImage';
 import RatingBar from '../RatingBar';

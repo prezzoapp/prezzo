@@ -16,7 +16,7 @@ import {
 import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import styles from './styles';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import CacheImage from '../../../components/CacheImage';
 import Loader from '../../../components/Loader';
 import { TAX } from '../../../services/constants';

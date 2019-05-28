@@ -1,9 +1,8 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { View, ActivityIndicator, Text, Modal, Animated, FlatList, Platform, NetInfo } from 'react-native';
+import { View, ActivityIndicator, Text, Modal, Animated, FlatList, TouchableOpacity } from 'react-native';
 import { LinearGradient, BlurView, Location, Permissions } from 'expo';
 import PropTypes from 'prop-types';
-import { MaterialIcons } from '../../../components/VectorIcons';
 import ExploreSearch from '../ExploreSearch';
 import ExploreScreenHeader from '../ExploreScreenHeader';
 import ExploreList from '../ExploreList';
@@ -21,6 +20,8 @@ import {
 } from '../../../services/constants';
 
 import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { convertToTitleCase } from '../../../services/commonFunctions';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
@@ -193,7 +194,30 @@ class Explore extends PureComponent<Props> {
     />
   );
 
+  callWaiter = () => {
+    if(this.props.callWaiterBtnState) {
+      showGenericAlert(
+        'Cancel Waiter',
+        convertToTitleCase(this.props.userName) + '\n' + '@Table 2345',
+        [
+          { text: 'Yes', onPress: () => this.props.callWaiterBtnFunc(false) },
+          { text: 'No', onPress: () => null }
+        ]
+      );
+    } else {
+      showGenericAlert(
+        'Call Waiter',
+        convertToTitleCase(this.props.userName) + '\n' + '@Table 2345',
+        [
+          { text: 'Yes', onPress: () => this.props.callWaiterBtnFunc(true) },
+          { text: 'No', onPress: () => null }
+        ]
+      );
+    }
+  };
+
   render() {
+    const { callWaiterBtnState, isUserOpenOrder } = this.props;
     const filters = this.props.filters;
     return (
       <LinearGradient
@@ -202,6 +226,14 @@ class Explore extends PureComponent<Props> {
         locations={[0.1, 0.4, 0.4, 0.4, 0.4]}
         style={styles.container}
       >
+        {isUserOpenOrder &&
+          <TouchableOpacity
+            style={[ styles.bellBtnHolder, { backgroundColor: callWaiterBtnState ? '#2ED573' : 'transparent' }]}
+            onPress={this.callWaiter}
+          >
+            <Feather name="bell" size={wp('6.4%')} color={ callWaiterBtnState ? '#d3d3d3' : 'white' } />
+          </TouchableOpacity>
+        }
         <View style={{ flex: 1 }}>
           <ExploreSearchInput
             showList={this.showList}

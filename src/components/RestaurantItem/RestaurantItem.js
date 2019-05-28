@@ -12,7 +12,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import styles from './styles';
 
-import { Feather } from '../VectorIcons';
+import { Feather } from '@expo/vector-icons';
 
 import RatingBar from '../RatingBar';
 

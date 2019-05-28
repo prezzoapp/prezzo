@@ -8,7 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { MaterialIcons, Feather } from '../../../components/VectorIcons';
+import { MaterialIcons, Feather } from '@expo/vector-icons';
 import Tutorial from '../../authentication/Tutorial';
 import EnableNotifications from '../../authentication/EnableNotifications';
 import Login from '../../authentication/Login';

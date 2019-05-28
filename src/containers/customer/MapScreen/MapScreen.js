@@ -15,7 +15,7 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import CustomMarker from './CustomMarker';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import styles from './styles';
 import MapStyle from '../../../services/mapStyle';
 import FilteredVendorBottomCard from '../../../components/FilteredVendorBottomCard';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Image, Text, View } from 'react-native';
-import Expo from 'expo';
+import { BlurView } from 'expo';
 
 import {
   widthPercentageToDP as wp,
@@ -27,7 +27,7 @@ const CustomPopup = props => (
     }}>
     <View style={styles.container}>
       <View style={styles.modalView}>
-        <Expo.BlurView style={styles.blurView} tint="dark" intensity={100} />
+        <BlurView style={styles.blurView} tint="dark" intensity={100} />
         <CacheImage
           source={props.image}
           type='image'

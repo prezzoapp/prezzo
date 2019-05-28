@@ -20,7 +20,7 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
 import { WebView } from 'react-native-webview-messaging/WebView';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import styles from './styles';
 import Button from '../../../components/Button';
 import showGenericAlert from '../../../components/GenericAlert';
@@ -327,12 +327,14 @@ class PaymentDetails extends Component {
               }
               return null;
             })()}
-            <WebView
-              ref={webViewRef}
-              source={require('../../../../dist/index.html')}
-              style={styles.webViewStyle}
-            />
           </ScrollView>
+        </View>
+        <View style={styles.webViewContainer}>
+          <WebView
+            ref={webViewRef}
+            source={require('../../../../dist/index.html')}
+            style={styles.webViewStyle}
+          />
         </View>
       </KeyboardAvoidingView>
     );

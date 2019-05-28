@@ -54,8 +54,9 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
 
-  flex1: {
-    flex: 1
+  listsContainer: {
+    flex: 1,
+    overflow: 'hidden'
   },
 
   accountNotFoundContainer: {

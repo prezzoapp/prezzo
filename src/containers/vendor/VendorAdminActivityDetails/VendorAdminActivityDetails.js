@@ -15,7 +15,7 @@ import { fromJS } from 'immutable';
 import PropTypes from 'prop-types';
 import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 

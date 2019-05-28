@@ -5,7 +5,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ImagePicker, ImageManipulator, Permissions } from 'expo';
 import { ActionSheet } from 'native-base';
 import PropTypes from 'prop-types';
-import { Ionicons } from '../VectorIcons';
+import { Ionicons } from '@expo/vector-icons';
 import {
   getTimeStampString,
   showAlertWithMessage,
@@ -59,7 +59,7 @@ class ItemImagePicker extends React.Component<Props> {
       });
 
       if (!result.cancelled) {
-        const resultEdited = await ImageManipulator.manipulate(
+        const resultEdited = await ImageManipulator.manipulateAsync(
           result.uri,
           [{ resize: { width: 200 }}],
           { format: 'jpeg', compress: 0.8 }
@@ -116,7 +116,7 @@ class ItemImagePicker extends React.Component<Props> {
       });
 
       if (!result.cancelled) {
-        const resultEdited = await ImageManipulator.manipulate(
+        const resultEdited = await ImageManipulator.manipulateAsync(
           result.uri,
           [{ resize: { width: 200 }}],
           { format: 'jpeg', compress: 0.8 }

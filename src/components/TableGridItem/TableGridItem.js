@@ -10,7 +10,7 @@ import {
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { List } from 'immutable';
-import { Entypo, FontAwesome, MaterialIcons } from '../VectorIcons';
+import { Entypo, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import styles from './styles';
 import OrderedItem from '../OrderedItem';
 import CacheImage from '../CacheImage';

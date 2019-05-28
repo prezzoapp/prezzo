@@ -22,7 +22,7 @@ import {
   FONT_FAMILY_REGULAR,
   FONT_FAMILY_MEDIUM
 } from '../../../services/constants';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
 import { Constants } from 'expo';

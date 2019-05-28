@@ -38,7 +38,7 @@ import Button from '../../../components/Button';
 import NextButton from './NextButton';
 import { ImagePicker, Permissions, Constants } from 'expo';
 import { getTimeStampString, showAlertWithMessage } from '../../../services/commonFunctions';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import LoadingComponent from '../../../components/LoadingComponent';
 import CacheImage from '../../../components/CacheImage';
 

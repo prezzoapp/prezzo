@@ -15,7 +15,7 @@ import { ActionSheet } from 'native-base';
 import { ImagePicker, Permissions, ImageManipulator, FileSystem } from 'expo';
 import PropTypes from 'prop-types';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
-import { MaterialIcons, Feather } from '../../../components/VectorIcons';
+import { MaterialIcons, Feather } from '@expo/vector-icons';
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import LoadingComponent from '../../../components/LoadingComponent';
@@ -231,7 +231,7 @@ class EditProfile extends Component<Props, State> {
       quality: 0.3
     });
     if (!result.cancelled) {
-      const resultEdited = await ImageManipulator.manipulate(
+      const resultEdited = await ImageManipulator.manipulateAsync(
         result.uri,
         [{ resize: { width: 150 }}],
         { format: 'jpeg', compress: 0.3 }
@@ -252,7 +252,7 @@ class EditProfile extends Component<Props, State> {
       quality: 0.3
     });
     if (!result.cancelled) {
-      const resultEdited = await ImageManipulator.manipulate(
+      const resultEdited = await ImageManipulator.manipulateAsync(
         result.uri,
         [{ resize: { width: 150 }}],
         { format: 'jpeg', compress: 0.3 }

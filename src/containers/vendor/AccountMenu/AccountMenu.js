@@ -3,7 +3,7 @@ import * as React from 'react';
 import { View, Alert, TouchableOpacity, Text, InteractionManager } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { MaterialIcons } from '../../../components/VectorIcons';
+import { MaterialIcons } from '@expo/vector-icons';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
 import LoadingComponent from '../../../components/LoadingComponent';

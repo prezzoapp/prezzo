@@ -64,7 +64,8 @@ const styles = StyleSheet.create({
   },
 
   itemContainer: {
-    flex: 1
+    flex: 1,
+    overflow: 'hidden'
   },
 
   itemImageLinearGradient: {

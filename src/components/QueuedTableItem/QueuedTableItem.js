@@ -2,8 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import PropTypes from 'prop-types';
-import { FontAwesome, MaterialIcons } from '../VectorIcons';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../services/constants';
 import CacheImage from '../CacheImage';
 import styles from './styles';

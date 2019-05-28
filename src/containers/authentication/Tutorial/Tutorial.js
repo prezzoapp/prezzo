@@ -8,7 +8,7 @@ import { Constants } from 'expo';
 import TutorialScreen from './TutorialScreen';
 import Button from '../../../components/Button';
 import FacebookButton from '../../../components/FacebookButton';
-import { FONT_FAMILY_REGULAR } from '../../../services/constants';
+// import { FONT_FAMILY_REGULAR } from '../../../services/constants';
 import { getUserInfo } from '../../../services/facebook';
 
 const images = {
@@ -199,8 +199,8 @@ const styles = StyleSheet.create({
   },
   login: {
     fontSize: wp('5.33%'),
-    fontFamily: FONT_FAMILY_REGULAR,
     letterSpacing: 0,
+    fontFamily: 'ClearSans-Regular',
     marginRight: wp('5.33%'),
     color: '#fff',
     alignSelf: 'flex-end',

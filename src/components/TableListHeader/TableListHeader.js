@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import styles from './styles';
-import { Feather, Ionicons } from '../VectorIcons';
+import { Feather, Ionicons } from '@expo/vector-icons';
 
 const TableListHeader = props => {
   function onListTypeSelection(index) {
