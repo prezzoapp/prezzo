@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import { Text, Image, TouchableOpacity } from 'react-native';
-import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Facebook } from 'expo';
 import { FONT_FAMILY } from '../../services/constants';

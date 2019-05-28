@@ -16,7 +16,7 @@ import FacebookButton from '../../../components/FacebookButton';
 import Button from '../../../components/Button';
 import alert from '../../../components/GenericAlert';
 import NextButton from './NextButton';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import CacheImage from '../../../components/CacheImage';
 
 type Props = {

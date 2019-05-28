@@ -6,11 +6,11 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
-import { Icon as NativeBaseIcon, Picker } from 'native-base';
+import { Picker } from 'native-base';
 
 import PropTypes from 'prop-types';
 
-import { Feather } from '../VectorIcons';
+import { Feather } from '@expo/vector-icons';
 
 import Button from '../Button';
 
@@ -240,6 +240,7 @@ export default class CheckoutSwiper extends Component {
                       style={paymentBtnStyles.commonBtn}
                       onPress={() => this.setPaymentType(CREDIT_CARD)}
                       disabled={this.state.selectedPaymentType === CREDIT_CARD}
+                      childrenEle='View'
                     >
                       <View>
                         <CacheImage
@@ -269,6 +270,7 @@ export default class CheckoutSwiper extends Component {
                       style={paymentBtnStyles.commonBtn}
                       onPress={() => this.setPaymentType(CASH)}
                       disabled={this.state.selectedPaymentType === CASH}
+                      childrenEle='View'
                     >
                       <View>
                         <CacheImage
@@ -301,35 +303,36 @@ export default class CheckoutSwiper extends Component {
                           PAYMENT DETAILS
                         </Text>
                         <Picker
-                          mode="dropdown"
+                          textStyle={styles.cardPickerText}
                           iosIcon={
-                            <NativeBaseIcon
-                              name="ios-arrow-down-outline"
+                            <Feather
+                              name="chevron-down"
                               style={stylesRaw.pickerIcon}
                             />
                           }
                           selectedValue={this.state.selectedPaymentMethod}
-                          onValueChange={val => this.selectPaymentMethod(val)}
+                          onValueChange={(itemValue, itemIndex) => this.selectPaymentMethod(itemValue)}
                           style={styles.cardPicker}
-                          textStyle={styles.cardPickerText}
                         >
                           <Picker.Item
                             label="Select a payment method"
                             value=""
                           />
 
-                          {this.props.creditCardList.map(item => (
-                            <Picker.Item
-                              label={`${item.type
-                                .slice(10)
-                                .charAt(0)
-                                .toUpperCase() + item.type.slice(11)} - ${
-                                item.readableIdentifier
-                              }`}
-                              value={item._id}
-                              key={item._id}
-                            />
-                          ))}
+                          {this.props.creditCardList.toArray().map(item => {
+                            return (
+                              <Picker.Item
+                                label={`${item.get('type')
+                                  .slice(10)
+                                  .charAt(0)
+                                  .toUpperCase() + item.get('type').slice(11)} - ${
+                                  item.get('readableIdentifier')
+                                }`}
+                                value={item.get('_id')}
+                                key={item.get('_id')}
+                              />
+                            )
+                          })}
 
                           <Picker.Item
                             label="Add new card"
@@ -391,5 +394,5 @@ CheckoutSwiper.propTypes = {
   data: PropTypes.object.isRequired,
   hideModal: PropTypes.func.isRequired,
   setType: PropTypes.func.isRequired,
-  creditCardList: PropTypes.array
+  creditCardList: PropTypes.object.isRequired
 };

@@ -17,7 +17,7 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import MenuButton from '../../../components/MenuButton';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import EditableListItem from '../../../components/EditableListItem';
 import CacheImage from '../../../components/CacheImage';
 import styles from './styles';

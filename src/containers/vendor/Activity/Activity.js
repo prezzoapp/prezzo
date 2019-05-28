@@ -14,7 +14,7 @@ import { BlurView, LinearGradient } from 'expo';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import TableScreenHeader from '../TableScreenHeader';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import OpenTableItem from '../../../components/OpenTableItem';
 import QueuedTableItem from '../../../components/QueuedTableItem';
 import TableListHeader from '../../../components/TableListHeader';

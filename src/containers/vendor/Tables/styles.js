@@ -53,6 +53,11 @@ const styles = StyleSheet.create({
     color: COLOR_WHITE,
     fontFamily: FONT_FAMILY,
     textAlign: 'center'
+  },
+
+  listsContainer: {
+    flex: 1,
+    overflow: 'hidden'
   }
 });
 

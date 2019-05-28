@@ -21,7 +21,7 @@ import { LinearGradient, BlurView, Constants } from 'expo';
 
 import { List } from 'immutable';
 
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 
 import styles from './styles';
 
@@ -484,7 +484,8 @@ export default class RestaurantDetails extends Component {
         <CacheImage
           source={require('../../../../assets/images/photo_back.jpg')}
           type='backgroundImage'
-          style={styles.photo_back}>
+          imageStyle={styles.photoBackImageStyle}
+          style={styles.photoBack}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.LinearGradientStyle}

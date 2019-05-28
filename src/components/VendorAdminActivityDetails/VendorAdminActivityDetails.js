@@ -11,7 +11,7 @@ import OpenTablePayment from '../OpenTablePayment';
 import CacheImage from '../CacheImage';
 import styles from './styles';
 import Button from '../Button';
-import { Feather } from '../VectorIcons';
+import { Feather } from '@expo/vector-icons';
 
 import {
   FONT_FAMILY_MEDIUM,

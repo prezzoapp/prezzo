@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import styles from './styles';
-import { Entypo } from '../VectorIcons';
+import { Entypo } from '@expo/vector-icons';
 import {
   FONT_FAMILY_MEDIUM
 } from '../../services/constants';

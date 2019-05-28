@@ -12,7 +12,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import styles from './styles';
 
-import { Feather } from '../VectorIcons';
+import { Feather } from '@expo/vector-icons';
 
 import RatingBar from '../RatingBar';
 

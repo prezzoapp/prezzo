@@ -161,7 +161,7 @@ class Tables extends Component {
 
   renderOpenTable() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.listsContainer}>
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
@@ -210,7 +210,7 @@ class Tables extends Component {
 
   renderQueueTable() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      <View style={styles.listsContainer}>
         <FlatList
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
@@ -263,54 +263,47 @@ class Tables extends Component {
 
   renderClosedTable() {
     return (
-      <View style={{ flex: 1 }}>
-        {/*<ClosedTableTabs
-          currentTab={this.props.closedTableSection}
-          tabNames={['24 Hours', '3 Days', '1 Week']}
-          onListTypeSelection={index => this.props.changeClosedSection(index)}
-        />*/}
-        <View style={{ flex: 1 }}>
-          <FlatList
-            keyExtractor={(item, index) => index.toString()}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={this.listEmptyComponent}
-            ItemSeparatorComponent={() => {
-              if(this.props.layout !== 'list') {
-                return (
-                  <View style={styles.gridSeparator}/>
-                );
-              }
+      <View style={styles.listsContainer}>
+        <FlatList
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={this.listEmptyComponent}
+          ItemSeparatorComponent={() => {
+            if(this.props.layout !== 'list') {
               return (
-                <View style={styles.separator}/>
+                <View style={styles.gridSeparator}/>
               );
-            }}
-            onRefresh={() => this.onRefresh()}
-            refreshing={this.state.isFetching}
-            contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
-            data={this.props.closedTableList.length !== 0 ? this.props.closedTableList.toJS() : []}
-            renderItem={rowData => {
-              if (this.props.layout === 'list') {
-                return (
-                  <OpenTableItem
-                    data={rowData}
-                    navigate={this.props.navigate}
-                    tabName="tables"
-                    innerTab="closed"
-                  />
-                );
-              }
+            }
+            return (
+              <View style={styles.separator}/>
+            );
+          }}
+          onRefresh={() => this.onRefresh()}
+          refreshing={this.state.isFetching}
+          contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.closedTableList.size === 0) ? 'center' : null }]}
+          data={this.props.closedTableList.length !== 0 ? this.props.closedTableList.toJS() : []}
+          renderItem={rowData => {
+            if (this.props.layout === 'list') {
               return (
-                <TableGridItem
-                  tableType={this.props.section}
-                  navigate={this.props.navigate}
+                <OpenTableItem
                   data={rowData}
-                  innerTab="closed"
+                  navigate={this.props.navigate}
                   tabName="tables"
+                  innerTab="closed"
                 />
               );
-            }}
-          />
-        </View>
+            }
+            return (
+              <TableGridItem
+                tableType={this.props.section}
+                navigate={this.props.navigate}
+                data={rowData}
+                innerTab="closed"
+                tabName="tables"
+              />
+            );
+          }}
+        />
       </View>
     );
   }

@@ -17,7 +17,8 @@ import {
   DISABLE_VENDOR_LIST_ITEM,
   GET_USER_CURRENT_LOCATION_REQUEST,
   GET_USER_CURRENT_LOCATION_SUCCESS,
-  GET_USER_CURRENT_LOCATION_FAILURE
+  GET_USER_CURRENT_LOCATION_FAILURE,
+  CALL_WAITER
 } from './types';
 import { get } from '../../utils/api';
 
@@ -145,3 +146,10 @@ export const getUserCurrentLocation = async () => async dispatch => {
     throw err;
   }
 }
+
+export const callWaiterBtnFunc = param => dispatch => {
+  dispatch({
+    type: CALL_WAITER,
+    payload: param
+  })
+};

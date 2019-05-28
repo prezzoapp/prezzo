@@ -197,20 +197,22 @@ export default class ExploreList extends PureComponent {
   render(){
     const { restaurants } = this.props;
     return (
-      <FlatList
-        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: restaurants.length === 0 ? 'center' : null }]}
-        style={styles.flatListStyle}
-        ItemSeparatorComponent={this.itemSeparator}
-        initialNumToRender={10}
-        ListEmptyComponent={this.listEmptyComponent}
-        onRefresh={() => this.onRefresh()}
-        refreshing={this.state.isFetching}
-        keyExtractor={(item, index) => index.toString()}
-        data={restaurants}
-        renderItem={({ item }) => (
-          <ExploreListItem item={item} navigate={this.props.navigate} />
-        )}
-      />
+      <View style={{ flex: 1, overflow: 'hidden' }}>
+        <FlatList
+          contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: restaurants.length === 0 ? 'center' : null }]}
+          style={styles.flatListStyle}
+          ItemSeparatorComponent={this.itemSeparator}
+          initialNumToRender={10}
+          ListEmptyComponent={this.listEmptyComponent}
+          onRefresh={() => this.onRefresh()}
+          refreshing={this.state.isFetching}
+          keyExtractor={(item, index) => index.toString()}
+          data={restaurants}
+          renderItem={({ item }) => (
+            <ExploreListItem item={item} navigate={this.props.navigate} />
+          )}
+        />
+      </View>
     );
   }
 }

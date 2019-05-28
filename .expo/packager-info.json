@@ -1,9 +1,10 @@
 {
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 97725,
-  "expoServerNgrokUrl": "https://ea-vek.prezzo.prezzo.exp.direct",
-  "packagerNgrokUrl": "https://packager.ea-vek.prezzo.prezzo.exp.direct",
-  "ngrokPid": 97767,
-  "devToolsPort": 19002
+  "packagerPid": 7013,
+  "expoServerNgrokUrl": "https://gi-ezz.anonymous.prezzo-9-aug-18.exp.direct",
+  "packagerNgrokUrl": "https://packager.gi-ezz.anonymous.prezzo-9-aug-18.exp.direct",
+  "ngrokPid": 7032,
+  "devToolsPort": 19002,
+  "webpackServerPort": null
 }

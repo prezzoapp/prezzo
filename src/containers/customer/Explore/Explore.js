@@ -1,8 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { View, ActivityIndicator, Text, Modal, Animated, FlatList } from 'react-native';
+import { View, ActivityIndicator, Text, Modal, Animated, FlatList, TouchableOpacity } from 'react-native';
 import { LinearGradient, BlurView, Location, Permissions } from 'expo';
-import { MaterialIcons } from '../../../components/VectorIcons';
 import ExploreSearch from '../ExploreSearch';
 import ExploreScreenHeader from '../ExploreScreenHeader';
 import ExploreList from '../ExploreList';
@@ -13,7 +12,9 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import styles from './styles';
 import { get } from '../../../utils/api';
 import showGenericAlert from '../../../components/GenericAlert';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { COLOR_GREEN, FONT_FAMILY_MEDIUM, SF_PRO_DISPLAY_REGULAR } from '../../../services/constants';
+import { convertToTitleCase } from '../../../services/commonFunctions';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
@@ -166,8 +167,30 @@ class Explore extends PureComponent<Props> {
     });
   }
 
+  callWaiter = () => {
+    if(this.props.callWaiterBtnState) {
+      showGenericAlert(
+        'Cancel Waiter',
+        convertToTitleCase(this.props.userName) + '\n' + '@Table 2345',
+        [
+          { text: 'Yes', onPress: () => this.props.callWaiterBtnFunc(false) },
+          { text: 'No', onPress: () => null }
+        ]
+      );
+    } else {
+      showGenericAlert(
+        'Call Waiter',
+        convertToTitleCase(this.props.userName) + '\n' + '@Table 2345',
+        [
+          { text: 'Yes', onPress: () => this.props.callWaiterBtnFunc(true) },
+          { text: 'No', onPress: () => null }
+        ]
+      );
+    }
+  };
+
   render() {
-    const { filters } = this.props;
+    const { filters, callWaiterBtnState, isUserOpenOrder } = this.props;
     return (
       <LinearGradient
         testID="linearGradient"
@@ -175,6 +198,14 @@ class Explore extends PureComponent<Props> {
         locations={[0.1, 0.4, 0.4, 0.4, 0.4]}
         style={styles.container}
       >
+        {isUserOpenOrder &&
+          <TouchableOpacity
+            style={[ styles.bellBtnHolder, { backgroundColor: callWaiterBtnState ? '#2ED573' : 'transparent' }]}
+            onPress={this.callWaiter}
+          >
+            <Feather name="bell" size={wp('6.4%')} color={ callWaiterBtnState ? '#d3d3d3' : 'white' } />
+          </TouchableOpacity>
+        }
         <View style={{ flex: 1 }}>
           <ExploreSearchInput
             showList={value => this.showList(value)}
@@ -449,7 +480,7 @@ class Explore extends PureComponent<Props> {
             />
           }
         </View>
-        {/*<Modal
+        <Modal
           transparent
           animationType="none"
           visible={this.props.isBusy}>
@@ -459,7 +490,7 @@ class Explore extends PureComponent<Props> {
               Please wait, While fetching restaurants.
             </Text>
           </View>
-        </Modal>*/}
+        </Modal>
       </LinearGradient>
     );
   }

@@ -14,7 +14,7 @@ import Slider from 'react-native-slider';
 import shorthash from 'shorthash';
 import { ImagePicker, Permissions, ImageManipulator, FileSystem } from 'expo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Ionicons, Feather } from '../../../components/VectorIcons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import { getTimeStampString } from '../../../services/commonFunctions';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import ProfileDataField from '../../../components/ProfileDataField';
@@ -218,7 +218,7 @@ export default class AccountInfo extends React.Component {
       quality: 0.3
     });
     if (!result.cancelled) {
-      const resultEdited = await ImageManipulator.manipulate(
+      const resultEdited = await ImageManipulator.manipulateAsync(
         result.uri,
         [{ resize: { width: 250 }}],
         { format: 'jpeg', compress: 0.3 }
@@ -240,7 +240,7 @@ export default class AccountInfo extends React.Component {
       quality: 0.3
     });
     if (!result.cancelled) {
-      const resultEdited = await ImageManipulator.manipulate(
+      const resultEdited = await ImageManipulator.manipulateAsync(
         result.uri,
         [{ resize: { width: 250 }}],
         { format: 'jpeg', compress: 0.3 }
@@ -753,8 +753,8 @@ export default class AccountInfo extends React.Component {
                   mode="dropdown"
                   iosHeader="Select a day"
                   iosIcon={
-                    <Ionicons
-                      name="ios-arrow-down-outline"
+                    <Feather
+                      name="chevron-down"
                       style={stylesRaw.pickerIcon}
                     />
                   }
@@ -772,8 +772,8 @@ export default class AccountInfo extends React.Component {
                   mode="dropdown"
                   iosHeader="Select an opening time"
                   iosIcon={
-                    <Ionicons
-                      name="ios-arrow-down-outline"
+                    <Feather
+                      name="chevron-down"
                       style={stylesRaw.pickerIcon}
                     />
                   }
@@ -797,8 +797,8 @@ export default class AccountInfo extends React.Component {
                   mode="dropdown"
                   iosHeader="Select a closing time"
                   iosIcon={
-                    <Ionicons
-                      name="ios-arrow-down-outline"
+                    <Feather
+                      name="chevron-down"
                       style={stylesRaw.pickerIcon}
                     />
                   }
@@ -848,8 +848,8 @@ export default class AccountInfo extends React.Component {
                         mode="dropdown"
                         iosHeader="Select a category"
                         iosIcon={
-                          <Ionicons
-                            name="ios-arrow-down-outline"
+                          <Feather
+                            name="chevron-down"
                             style={stylesRaw.pickerIcon}
                           />
                         }

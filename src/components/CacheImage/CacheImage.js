@@ -59,6 +59,7 @@ export default class CacheImage extends Component {
         });
       } else {
         await asset.downloadAsync();
+        console.log(asset.localUri);
         if(asset.localUri && this._isMounted) {
           this.setState({
             imgSource: {uri: asset.localUri}

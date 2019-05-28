@@ -202,20 +202,24 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     borderRadius: 8,
     borderWidth: 1,
-    height: 35,
-    marginTop: 15
+    height: wp('9.33%'),
+    marginTop: wp('4%')
   },
 
   cardPickerText: {
     color: '#fff',
-    fontSize: 16
+    fontSize: wp('4.26%')
   }
 });
 
 export const stylesRaw = {
   pickerIcon: {
     color: '#fff',
-    fontSize: 16
+    fontSize: wp('4.26%'),
+    marginLeft: 0,
+    position: 'relative',
+    top: -wp('1.3%'),
+    right: wp('2%')
   }
 };
 

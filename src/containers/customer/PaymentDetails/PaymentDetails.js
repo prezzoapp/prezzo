@@ -17,7 +17,7 @@ import {
 } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { WebView } from 'react-native-webview-messaging/WebView';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import styles from './styles';
 import Button from '../../../components/Button';
 import { get, post } from '../../../utils/api';
@@ -285,20 +285,15 @@ class PaymentDetails extends Component {
               }
               return null;
             })()}
-            <WebView
-              ref={webview => {
-                this.webview = webview;
-              }}
-              source={require('../../../../dist/index.html')}
-              style={{
-                position: 'absolute',
-                top: '100%',
-                bottom: 0,
-                right: 0,
-                left: 0
-              }}
-            />
           </ScrollView>
+        </View>
+        <View style={styles.webViewContainer}>
+          <WebView
+            ref={webview => {
+              this.webview = webview;
+            }}
+            source={require('../../../../dist/index.html')}
+          />
         </View>
       </KeyboardAvoidingView>
     );

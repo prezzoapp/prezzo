@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { FileSystem } from 'expo';
 import shorthash from 'shorthash';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { MaterialIcons, Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import MenuItem from '../../../components/MenuItem';
 import {
   COLOR_BLACK,
@@ -50,9 +50,6 @@ export default class CreateMenu extends Component<Props> {
       fontFamily: FONT_FAMILY_MEDIUM,
       fontSize: wp('6.4%')
     },
-    tabBarIcon: props => (
-      <MaterialIcons name="person-outline" size={24} color={props.tintColor} />
-    ),
     headerLeft: (
       <TouchableOpacity
         activeOpacity={0.8}

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
   scrollView: {
     paddingTop: hp('3.69%'),
-    backgroundColor: 'transparent'
+    backgroundColor: '#2B2C2C',
   },
 
   textStyle: {
@@ -66,6 +66,15 @@ const styles = StyleSheet.create({
 
   headerLeftBtn: {
     marginLeft: wp('4.4%')
+  },
+
+  webViewContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+    overflow: 'hidden'
   }
 });
 

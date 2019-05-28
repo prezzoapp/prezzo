@@ -11,7 +11,7 @@ import { FONT_FAMILY } from '../../services/constants';
 // };
 type Props = {};
 
-const Button = ({ disabled, onPress, style, textStyle, children }: Props) => {
+const Button = ({ disabled, onPress, style, textStyle, childrenEle, children }: Props) => {
   let newStyle = {};
   let newTextStyle = {};
 
@@ -41,11 +41,7 @@ const Button = ({ disabled, onPress, style, textStyle, children }: Props) => {
       activeOpacity={disabled ? 1 : 0.7}
       style={buttonStyleFinal}
     >
-      {children.type !== undefined && children.type.name === 'View' ? (
-        children
-      ) : (
-          <Text style={textStyleFinal}>{children}</Text>
-        )}
+      {childrenEle === 'View' ? children : <Text style={textStyleFinal}>{children}</Text>}
     </TouchableOpacity>
   );
 };
@@ -72,6 +68,7 @@ const styles = {
 Button.propTypes = {
   disabled: PropTypes.bool,
   onPress: PropTypes.func.isRequired,
+  childrenEle: PropTypes.string,
   style: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   textStyle: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
@@ -80,7 +77,8 @@ Button.propTypes = {
 Button.defaultProps = {
   disabled: false,
   style: {},
-  textStyle: {}
+  textStyle: {},
+  childrenEle: 'Text'
 };
 
 export default Button;
