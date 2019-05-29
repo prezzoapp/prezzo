@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Permissions } from 'expo';
 import {
   FONT_FAMILY,
   FONT_FAMILY_MEDIUM,
@@ -34,27 +35,30 @@ class EnableNotificationsView extends React.Component<Props, State> {
     return true;
   }
 
-  async checkNotificationPermission() {
-    const { Permissions } = Expo;
-    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    this.setState({
-      notificationPermission: status
-    })
-  }
-
-  requestPermission = async () => {
-    const { Permissions } = Expo;
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-    this.setState({
-      notificationPermission: status
-    })
-  }
+  checkNotificationPermission = async () => {
+    const getResult = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    if(getResult.status !== 'granted') {
+      const askResult = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      if(askResult.status === 'granted') {
+        this.navigateToSignup();
+      }
+      this.setState({
+        notificationPermission: askResult.status
+      });
+    } else if(getResult.status === 'granted') {
+      this.setState({
+        notificationPermission: getResult.status
+      }, () => {
+        this.navigateToSignup();
+      });
+    }
+  };
 
   navigateToTutorial() {
     this.props.navigate({ routeName: 'Home' });
   }
 
-  navigateToSignup() {
+  navigateToSignup = () => {
     this.props.navigate({ routeName: 'SignupName' });
   }
 
@@ -87,14 +91,14 @@ class EnableNotificationsView extends React.Component<Props, State> {
           style={notifyButtonStyle}
           textStyle={buttonStyles.notifyText}
           disabled={doesHavePermission}
-          onPress={() => this.requestPermission()}
+          onPress={this.checkNotificationPermission}
         >
           Yes, Notify Me
         </Button>
         <Button
           style={buttonStyles.skip}
           textStyle={buttonStyles.skipText}
-          onPress={() => this.navigateToSignup()}
+          onPress={this.navigateToSignup}
         >
           Skip
         </Button>
