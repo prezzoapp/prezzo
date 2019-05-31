@@ -61,7 +61,8 @@ const ExploreScreenHeader = props => {
                 <CacheImage
                   source={require('../../../../assets/images/location_icon.png')}
                   type='image'
-                  style={styles.locationPin} />
+                  style={styles.locationPin}
+                />
               </TouchableOpacity>
             </View>
           </View>

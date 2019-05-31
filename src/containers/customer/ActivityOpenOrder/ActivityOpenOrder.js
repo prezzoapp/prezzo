@@ -25,15 +25,11 @@ import {
 
 let disableBtn = false;
 
-let disableBtn = false;
-
 class ActivityOpenOrder extends Component {
   constructor(props) {
-    super(props);
+    super();
 
-    this.state = { isFetching: false }
-
-    this.timer = -1;
+    this.state = { isFetching: false };
 
     props.navigation.setParams({
       onTabFocus: this.listOpenOrders
@@ -87,14 +83,6 @@ class ActivityOpenOrder extends Component {
       }
     );
   }
-
-  listOpenOrders = () => {
-    this.props.listOpenOrders(this.props.userId, 'pending')
-      .then(() => {})
-      .catch(err => {
-        showAlertWithMessage('Uh-oh!', err);
-      });
-  };
 
   finalizeOrder(price) {
     const data = this.props.data.first();
@@ -186,7 +174,6 @@ class ActivityOpenOrder extends Component {
       this.props
         .checkOrderStatus(id)
         .then(() => {
-          const data = this.props.data.first();
           const openOrderFinalStatus = this.props.openOrderFinalStatus;
           if (
             openOrderFinalStatus &&

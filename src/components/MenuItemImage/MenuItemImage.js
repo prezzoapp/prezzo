@@ -7,7 +7,6 @@ import { ActionSheet } from 'native-base';
 import PropTypes from 'prop-types';
 import { Ionicons } from '../VectorIcons';
 import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
-import CacheImage from '../CacheImage';
 import styles from './styles';
 import showGenericAlert from '../GenericAlert';
 import CacheImage from '../CacheImage';
@@ -16,28 +15,6 @@ class ItemImagePicker extends React.Component<Props> {
   state = {
     selectImageThroughImagePicker: false
   };
-
-class ItemImagePicker extends React.Component<Props> {
-  state = {
-    selectImageThroughImagePicker: false
-  };
-
-  showAvatarActionSheet = () => {
-    ActionSheet.show(
-      {
-        options: ['Take Photo', 'Choose from Library', 'Cancel'],
-        cancelButtonIndex: 2,
-        title: "Select an Item's Image"
-      },
-      buttonIndex => {
-        if (buttonIndex === 0) {
-          this.requestCameraPermission();
-        } else if (buttonIndex === 1) {
-          this.requestPhotoLibraryPermission();
-        }
-      }
-    );
-  }
 
   showAvatarActionSheet = () => {
     ActionSheet.show(
@@ -81,54 +58,7 @@ class ItemImagePicker extends React.Component<Props> {
         const resultEdited = await ImageManipulator.manipulate(
           result.uri,
           [{ resize: { width: 200 }}],
-          { format: 'jpeg', compress: 0.1 }
-        );
-
-        this.setState({
-          selectImageThroughImagePicker: true
-        }, () => {
-          this.setState({ tempImage: resultEdited.uri });
-
-          const fileName = `${getTimeStampString()}.jpeg`;
-          this.props
-            .uploadImage(
-              resultEdited.uri,
-              10,
-              'image/jpeg',
-              fileName,
-              'userAvatar',
-              'public-read'
-            )
-            .then(async itemImage => {
-              this.props.addNewImageComponent(itemImage).then(() => {
-                this.setState({
-                  selectImageThroughImagePicker: false
-                }, () => {
-                  this.setState({
-                    tempImage: itemImage
-                  });
-                });
-              }).catch(err => {});
-            });
-        });
-      }
-    } catch(err) {
-      showAlertWithMessage('Uh-oh!', err);
-    }
-  };
-
-  openCamera = async () => {
-    try {
-      const result = await ImagePicker.launchCameraAsync({
-        allowsEditing: false,
-        quality: 0.3
-      });
-
-      if (!result.cancelled) {
-        const resultEdited = await ImageManipulator.manipulate(
-          result.uri,
-          [{ resize: { width: 200 }}],
-          { format: 'jpeg', compress: 0.1 }
+          { format: 'jpeg', compress: 0.8 }
         );
 
         this.setState({
@@ -173,21 +103,34 @@ class ItemImagePicker extends React.Component<Props> {
         const resultEdited = await ImageManipulator.manipulate(
           result.uri,
           [{ resize: { width: 200 }}],
-          { format: 'jpeg', compress: 0.1 }
+          { format: 'jpeg', compress: 0.8 }
         );
-        const fileName = `${getTimeStampString()}.jpeg`;
-        const itemImage = await props
-          .uploadImage(
-            result.uri,
-            10,
-            'image/jpeg',
-            fileName,
-            'userAvatar',
-            'public-read'
-          )
-          .then(async itemImage => {
-            this.props.addNewImageComponent(itemImage);
+
+        this.setState({
+          selectImageThroughImagePicker: true
+        }, async () => {
+          this.setState({ tempImage: resultEdited.uri });
+          const fileName = `${getTimeStampString()}.jpeg`;
+          const itemImage = await this.props
+            .uploadImage(
+              resultEdited.uri,
+              10,
+              'image/jpeg',
+              fileName,
+              'userAvatar',
+              'public-read'
+            );
+
+          await this.props.addNewImageComponent(itemImage);
+
+          this.setState({
+            selectImageThroughImagePicker: false
+          }, () => {
+            this.setState({
+              tempImage: itemImage
+            });
           });
+        });
       }
     } catch(err) {
       showAlertWithMessage('Uh-oh!', err);

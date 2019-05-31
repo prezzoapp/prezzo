@@ -16,14 +16,13 @@ const ExploreListItem = props => {
     <View>
       <TouchableOpacity
         activeOpacity={0.6}
-        onPress={() => this.moveToDetails(this.props.item)}
+        onPress={() => moveToDetails(props.item)}
       >
         <CacheImage
           source={avatarURL}
           type='backgroundImage'
           style={styles.image}
-          type='backgroundImage'
-          imageStyle={styles.imageStyle}
+          imageStyle={{ borderRadius: 5 }}
         />
       </TouchableOpacity>
 

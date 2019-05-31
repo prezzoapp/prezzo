@@ -13,6 +13,7 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import { fromJS } from 'immutable';
+import PropTypes from 'prop-types';
 import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import { Feather } from '../../../components/VectorIcons';
@@ -138,7 +139,7 @@ export default class VendorAdminActivityDetails extends Component {
   }
 
   render() {
-    const selectedItem = this.props.waiterRequestedSelectedItem;
+    const selectedItem = fromJS(this.props.waiterRequestedSelectedItem);
     return (
       <Container style={styles.container}>
         {(() => {
@@ -179,6 +180,7 @@ export default class VendorAdminActivityDetails extends Component {
                 >
                   <OpenTablePayment
                     data={selectedItem}
+                    innerTab={this.props.navigation.state.params.innerTab}
                     completeOrder={() => null}
                   />
                 </Tab>

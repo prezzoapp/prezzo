@@ -14,7 +14,11 @@ const ReviewUserPhoto = props => {
   itemSeparatorComponent = () => {
     return <View style={{ backgroundColor: 'transparent', width: wp('4%') }} />;
   }
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 74dcf6c1d277af66709c0b985a628a78ea5b070a
   return (
     <View style={styles.item}>
       <View style={styles.titleHolder}>

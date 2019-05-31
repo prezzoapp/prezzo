@@ -255,10 +255,81 @@ export default class CreateMenu extends Component<Props> {
 
   async deleteCategory(menuId, categoryId, section) {
     try {
-      await this.props.deleteCategory(menuId, categoryId);
+      if(disableBtn === false) {
+        disableBtn = true;
 
-      section.data.forEach(async data => {
-        data.imageURLs.forEach(async imageEle => {
+        await this.props.deleteCategory(menuId, categoryId);
+
+        section.data.forEach(async data => {
+          data.imageURLs.forEach(async imageEle => {
+            const name = shorthash.unique(imageEle);
+            const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+            const image = await FileSystem.getInfoAsync(path);
+
+            if(image.exists) {
+              await FileSystem.deleteAsync(image.uri);
+              console.log('Image deleted from cache!');
+            }
+          });
+        });
+
+        disableBtn = false;
+      }
+    } catch (err) {
+      if(err.code === 401) {
+        disableBtn = false;
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false;
+        });
+      }
+    }
+  }
+
+  async deleteImage(menuId, sectionId, itemId, imageURL) {
+    try {
+      if(disableBtn === false) {
+        disableBtn = true;
+
+        await this.props.deleteImage(
+          menuId,
+          sectionId,
+          itemId,
+          imageURL
+        );
+
+        const name = shorthash.unique(imageURL);
+        const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+        const image = await FileSystem.getInfoAsync(path);
+
+        if(image.exists) {
+          await FileSystem.deleteAsync(image.uri);
+          console.log('Image deleted from cache!');
+        }
+
+        disableBtn = false;
+      }
+    } catch (err) {
+      if(err.code === 401) {
+        disableBtn = false;
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false;
+        });
+      }
+    }
+  }
+
+  async deleteItem(menuId, sectionId, item) {
+    try {
+      if(disableBtn === false) {
+        disableBtn = true;
+
+        await this.props.deleteItem(menuId, sectionId, item._id);
+
+        item.imageURLs.forEach(async imageEle => {
           const name = shorthash.unique(imageEle);
           const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
           const image = await FileSystem.getInfoAsync(path);
@@ -268,48 +339,18 @@ export default class CreateMenu extends Component<Props> {
             console.log('Image deleted from cache!');
           }
         });
-      });
-    } catch(err) {
-      showAlertWithMessage('Uh-oh!', err);
-    }
-  }
-
-  async deleteImage(menuId, sectionId, itemId, imageURL) {
-    try {
-      await this.props.deleteImage(
-        menuId,
-        sectionId,
-        itemId,
-        imageURL
-      );
-
-      const name = shorthash.unique(imageURL);
-      const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
-      const image = await FileSystem.getInfoAsync(path);
 
         disableBtn = false;
       }
-    } catch(err) {
-      showAlertWithMessage('Uh-oh!', err);
-    }
-  }
-
-  async deleteItem(menuId, sectionId, item) {
-    try {
-      await this.props.deleteItem(menuId, sectionId, item._id);
-
-      item.imageURLs.forEach(async imageEle => {
-        const name = shorthash.unique(imageEle);
-        const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
-        const image = await FileSystem.getInfoAsync(path);
-
-        if(image.exists) {
-          await FileSystem.deleteAsync(image.uri);
-          console.log('Image deleted from cache!');
-        }
-      });
-    } catch(err) {
-      showAlertWithMessage('Uh-oh!', err);
+    } catch (err) {
+      if(err.code === 401) {
+        disableBtn = false;
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err, () => {
+          disableBtn = false;
+        });
+      }
     }
   }
 
