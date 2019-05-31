@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { TouchableOpacity, Image } from 'react-native';
 import CacheImage from '../../../components/CacheImage';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import CacheImage from '../../../components/CacheImage';
 
 type State = {
   isBusy: boolean

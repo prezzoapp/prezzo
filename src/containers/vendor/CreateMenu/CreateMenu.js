@@ -165,10 +165,10 @@ export default class CreateMenu extends Component<Props> {
   //   }
   // }
 
-  addItem(categoryId) {
+  addItem(menuId, categoryId) {
     if(disableBtn === false) {
       disableBtn = true;
-      this.props.addItem(this.props.menuId, categoryId, 'Item', 'Description', 0)
+      this.props.addItem(menuId, categoryId, 'Item', 'Description', 0)
         .then(() => {
           disableBtn = false;
         })
@@ -185,12 +185,12 @@ export default class CreateMenu extends Component<Props> {
     }
   }
 
-  updateItem(sectionId, itemId, title, description, price) {
+  updateItem(menuId, sectionId, itemId, title, description, price) {
     if(disableBtn === false) {
       disableBtn = true;
 
       this.props.updateItem(
-          this.props.menuId,
+          menuId,
           sectionId,
           itemId,
           title,

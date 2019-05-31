@@ -25,10 +25,6 @@ import Button from '../../../components/Button';
 import { Constants } from 'expo';
 import CacheImage from '../../../components/CacheImage';
 import LoadingComponent from '../../../components/LoadingComponent';
-<<<<<<< HEAD
-import CacheImage from '../../../components/CacheImage';
-=======
->>>>>>> 74dcf6c1d277af66709c0b985a628a78ea5b070a
 import { showAlertWithMessage } from '../../../services/commonFunctions';
 
 type Props = {

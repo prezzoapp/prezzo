@@ -6,11 +6,11 @@ import styles from './styles';
 import { Feather, Ionicons } from '../VectorIcons';
 
 const TableListHeader = props => {
-  onListTypeSelection = index => {
+  function onListTypeSelection(index) {
     props.onListTypeSelection(index);
   };
 
-  onChangeLayout = layout => {
+  function onChangeLayout(layout) {
     props.onChangeLayout(layout);
   };
 
@@ -26,7 +26,7 @@ const TableListHeader = props => {
               <TouchableOpacity
                 key={item}
                 activeOpacity={0.8}
-                onPress={() => this.onListTypeSelection(index)}
+                onPress={() => onListTypeSelection(index)}
                 style={styles.textContainer}
               >
                 <View style={
@@ -52,7 +52,7 @@ const TableListHeader = props => {
         <View style={{ flexDirection: 'row' }}>
           <TouchableOpacity
             disabled={props.screenName === 'activity'}
-            onPress={() => this.onChangeLayout('list')}
+            onPress={() => onChangeLayout('list')}
             style={[
               styles.icons,
               { marginRight: wp('9.33%'), marginTop: -2.5 }
@@ -72,7 +72,7 @@ const TableListHeader = props => {
           </TouchableOpacity>
           <TouchableOpacity
             disabled={props.screenName === 'activity'}
-            onPress={() => this.onChangeLayout('grid')}
+            onPress={() => onChangeLayout('grid')}
             style={styles.icons}
           >
             <Ionicons

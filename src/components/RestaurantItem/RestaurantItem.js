@@ -102,7 +102,11 @@ const RestaurantItem = props => {
         style={styles.swiper}
         loadMinimal
         loop={false}
-        showsPagination={false}>
+        showsPagination
+        paginationStyle={styles.pagination}
+        activeDotColor='#0DD24A'
+        dotColor='#808080'
+      >
         {props.item.imageURLs && props.item.imageURLs.map(image => (
           <CacheImage
               key={image}

@@ -37,8 +37,6 @@ import {
   showAlertWithMessage,
   manuallyLogout
 } from '../../../services/commonFunctions';
-
-import { showAlertWithMessage } from '../../../services/commonFunctions';
 import Checkout from '../Checkout';
 
 import CustomPopup from '../../../components/CustomPopup';

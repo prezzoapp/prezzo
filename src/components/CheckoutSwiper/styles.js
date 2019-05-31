@@ -208,17 +208,16 @@ const styles = StyleSheet.create({
 
   cardPickerText: {
     color: '#fff',
-    fontSize: 16
+    fontSize: wp('4.26%')
   }
 });
 
 export const stylesRaw = {
   pickerIcon: {
+    position: 'absolute',
     color: '#fff',
-    fontSize: 16,
-    marginLeft: 0,
-    top: -wp('1%'),
-    right: wp('2%')
+    fontSize: wp('4.26%'),
+    right: wp('3.5%')
   }
 };
 

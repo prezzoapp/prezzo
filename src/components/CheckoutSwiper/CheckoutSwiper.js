@@ -6,11 +6,11 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
-import { Icon as NativeBaseIcon, Picker } from 'native-base';
+import { Picker } from 'native-base';
 
 import PropTypes from 'prop-types';
 
-import { Feather } from '../VectorIcons';
+import { Feather, Ionicons } from '../VectorIcons';
 
 import Button from '../Button';
 
@@ -324,7 +324,7 @@ export default class CheckoutSwiper extends Component {
                         <Picker
                           mode="dropdown"
                           iosIcon={
-                            <NativeBaseIcon
+                            <Ionicons
                               name="ios-arrow-down-outline"
                               style={stylesRaw.pickerIcon}
                             />
@@ -332,6 +332,7 @@ export default class CheckoutSwiper extends Component {
                           selectedValue={this.state.selectedPaymentMethod}
                           onValueChange={val => this.selectPaymentMethod(val)}
                           style={styles.cardPicker}
+                          placeholderStyle={{ width: 100 }}
                           textStyle={styles.cardPickerText}
                         >
                           <Picker.Item
