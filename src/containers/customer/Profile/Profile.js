@@ -122,29 +122,30 @@ class Profile extends Component {
     const { isBusy, updateUser } = this.props;
 
     if (isBusy) {
-      console.log('is busy');
       return;
     }
 
     try {
       await this.uploadPhoto();
-    } catch (e) {
-      console.warn('error uploading image', e);
+
+      const {
+        avatarURL,
+        firstName,
+        lastName,
+        phone,
+        address,
+        zip,
+        city
+      } = this.state;
+
+      await updateUser(avatarURL, firstName, lastName, phone, address, zip, city);
+    } catch(err) {
+      if(err.code === 401) {
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err);
+      }
     }
-
-    const {
-      avatarURL,
-      firstName,
-      lastName,
-      phone,
-      address,
-      zip,
-      city
-    } = this.state;
-
-    updateUser(avatarURL, firstName, lastName, phone, address, zip, city)
-      .then(() => {})
-      .catch(e => console.log(e));
   }
 
   async uploadPhoto() {
