@@ -29,10 +29,6 @@ class Prezzo extends Component {
       require('./assets/images/icons/edit.png')
     ];
 
-    const images = [
-      require('./assets/images/etc/default-avatar.png')
-    ];
-
     try {
       await Font.loadAsync({
         'ClearSans-Light': require('./assets/fonts/clear-sans/ClearSans-Light.ttf'),
