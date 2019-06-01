@@ -33,13 +33,20 @@ class ActivityOpenOrder extends Component {
 
   componentDidMount() {
     console.log('User activity component mounted!');
-    this.listOpenOrders().then(() => {
-    }).catch(e => {})
-    .finally(() => {
-      this.props.navigation.setParams({
-        onTabFocus: this.listOpenOrders
+    this.props.listOpenOrders(this.props.userId, 'pending')
+      .then(() => {})
+      .catch(err => {
+        if(err.code === 401) {
+          manuallyLogout(err, () => this.props.userLogout());
+        } else {
+          showAlertWithMessage('Uh-oh!', err)
+        }
+      })
+      .finally(() => {
+        this.props.navigation.setParams({
+          onTabFocus: this.listOpenOrders
+        });
       });
-    });
   }
 
   listOpenOrders = () => {
