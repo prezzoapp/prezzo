@@ -20,10 +20,14 @@
           }
         }]
       ]
+    },
+    "production": {
+      "plugin": [
+        "transform-remove-console"
+      ]
     }
   },
   "plugins": [
-    "transform-remove-console",
     ["module-resolver", {
       "root": ["./"],
       "alias": {

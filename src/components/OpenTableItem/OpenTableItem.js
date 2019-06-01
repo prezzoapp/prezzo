@@ -66,11 +66,11 @@ const OpenTableItem = props => {
                     styles.statusText,
                     {
                       color:
-                        this.props.innerTabName !== 'photoReview' ? '#2ED573' : 'white'
+                        props.innerTabName !== 'photoReview' ? '#2ED573' : 'white'
                     }
                   ]}
                 >
-                  {this.props.innerTabName !== 'photoReview'
+                  {props.innerTabName !== 'photoReview'
                     ? ' •  Waiter Reqested'
                     : <Text style={{ fontFamily: FONT_FAMILY_MEDIUM }}>- {itemImagesLength} Photo(s)</Text>}
                 </Text>

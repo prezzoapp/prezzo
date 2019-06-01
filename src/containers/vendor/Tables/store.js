@@ -43,5 +43,6 @@ export const mapDispatchToProps = dispatch => ({
   checkQueueOrderStatus: bindActionCreators(checkQueueOrderStatus, dispatch),
   loadMoreOpenTableList: bindActionCreators(loadMoreOpenTableList, dispatch),
   loadMoreQueuedTableList: bindActionCreators(loadMoreQueuedTableList, dispatch),
-  loadMoreClosedTableList: bindActionCreators(loadMoreClosedTableList, dispatch)
+  loadMoreClosedTableList: bindActionCreators(loadMoreClosedTableList, dispatch),
+  userLogout: bindActionCreators(userLogout, dispatch)
 });
