@@ -2,6 +2,7 @@
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { listCompletedOrders } from '../../../modules/userHistory';
+import { userLogout } from '../../../modules/auth';
 
 export const mapStateToProps = state => {
   const data = state.get('userHistory').get('data');
@@ -20,5 +21,6 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => ({
   navigate: bindActionCreators(NavigationActions.navigate, dispatch),
-  listCompletedOrders: bindActionCreators(listCompletedOrders, dispatch)
+  listCompletedOrders: bindActionCreators(listCompletedOrders, dispatch),
+  userLogout: bindActionCreators(userLogout, dispatch)
 });

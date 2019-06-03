@@ -22,7 +22,7 @@
       ]
     },
     "production": {
-      "plugin": [
+      "plugins": [
         "transform-remove-console"
       ]
     }

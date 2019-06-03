@@ -545,7 +545,7 @@ class Tables extends Component {
             </View>
           );
         })()}
-      {/*<LoadingComponent visible={this.props.isBusy} />*/}
+        <LoadingComponent visible={this.props.isBusy} />
       </View>
     );
   }

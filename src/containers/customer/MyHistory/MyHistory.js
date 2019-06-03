@@ -5,6 +5,10 @@ import { MaterialIcons, Feather } from '../../../components/VectorIcons';
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE, COLOR_BLACK } from '../../../services/constants';
 import MyHistoryItem from '../../../components/MyHistoryItem';
 import LoadingComponent from '../../../components/LoadingComponent';
+import {
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../../services/commonFunctions';
 import styles from './styles';
 
 class MyHistory extends Component {
@@ -49,7 +53,15 @@ class MyHistory extends Component {
 
   componentDidMount() {
     InteractionManager.runAfterInteractions(() => {
-      this.props.listCompletedOrders(this.props.userId, 'complete');
+      this.props.listCompletedOrders(this.props.userId, 'complete')
+        .then(() => {})
+        .catch(err => {
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err);
+          }
+        });
     });
   }
 
