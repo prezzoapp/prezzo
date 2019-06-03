@@ -149,7 +149,7 @@ export default class MenuItem extends Component {
   }
 
   updateItem(title, price, description) {
-    this.editItem();
+    // this.editItem();
     this.props.updateItem(title, parseFloat(price), description);
   }
 

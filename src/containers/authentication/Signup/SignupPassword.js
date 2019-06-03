@@ -12,7 +12,8 @@ import ReactNative, {
   findNodeHandle,
   UIManager,
   Dimensions,
-  Keyboard
+  Keyboard,
+  InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

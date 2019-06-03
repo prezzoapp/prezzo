@@ -11,7 +11,8 @@ import ReactNative, {
   Keyboard,
   UIManager,
   Dimensions,
-  findNodeHandle
+  findNodeHandle,
+  InteractionManager
 } from 'react-native';
 import { Header } from 'react-navigation';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -145,6 +146,43 @@ class SignupName extends React.Component<Props, State> {
     InteractionManager.runAfterInteractions(() => {
       disableBtn = false;
     });
+  }
+
+  componentWillMount() {
+    this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardShow.remove();
+    this.keyboardHide.remove();
+  }
+
+  keyboardDidShow = event => {
+    if(keyboardDidShowCalled === false) {
+      keyboardDidShowCalled = true;
+      const keyboardHeight = event.endCoordinates.height;
+      const button = ReactNative.findNodeHandle(buttonRef.current);
+      UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
+        const fieldHeight = height;
+        const fieldTop = pageY;
+        gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
+        if (gap < 0) {
+          scrollViewRef.current.scrollTo({
+            x: 0, y: -gap, animated: true
+          });
+        } else {
+          console.log('Gap: ', gap);
+        }
+      });
+    }
+  }
+
+  keyboardDidHide = event => {
+    scrollViewRef.current.scrollTo({
+      x: 0, y: 0, animated: true
+    });
+    keyboardDidShowCalled = false;
   }
 
   componentWillMount() {
