@@ -87,6 +87,10 @@ export default class CreateMenu extends Component<Props> {
     });
   }
 
+  enableBtns = () => {
+    disableBtn = false;
+  }
+
   addCategory(length) {
     if(disableBtn === false) {
       disableBtn = true;
@@ -100,20 +104,20 @@ export default class CreateMenu extends Component<Props> {
 
       if(found) {
         length += 1;
-        disableBtn = false;
+        this.enableBtns();
         this.addCategory(length);
       } else {
         this.props.addCategory(this.props.menuId, categoryName)
           .then(() => {
-            disableBtn = false;
+            this.enableBtns();
           })
           .catch(err => {
             if(err.code === 401) {
-              disableBtn = false;
+              this.enableBtns();
               manuallyLogout(err, () => this.props.userLogout());
             } else {
               showAlertWithMessage('Uh-oh!', err, () => {
-                disableBtn = false;
+                this.enableBtns();
               });
             }
           });
@@ -126,56 +130,35 @@ export default class CreateMenu extends Component<Props> {
       disableBtn = true;
       this.props.updateCategory(this.props.menuId, categoryId, title)
         .then(() => {
-          disableBtn = false;
+          this.enableBtns();
         })
         .catch(err => {
           if(err.code === 401) {
-            disableBtn = false;
+            this.enableBtns();
             manuallyLogout(err, () => this.props.userLogout());
           } else {
             showAlertWithMessage('Uh-oh!', err, () => {
-              disableBtn = false;
+              this.enableBtns();
             });
           }
         });
     }
   }
 
-  // deleteCategory(categoryId) {
-  //   if(disableBtn === false) {
-  //     disableBtn = true;
-  //
-  //     this.props.deleteCategory(this.props.menuId, categoryId)
-  //       .then(() => {
-  //         disableBtn = false;
-  //       })
-  //       .catch(err => {
-  //         if(err.code === 401) {
-  //           disableBtn = false;
-  //           manuallyLogout(err, () => this.props.userLogout());
-  //         } else {
-  //           showAlertWithMessage('Uh-oh!', err, () => {
-  //             disableBtn = false;
-  //           });
-  //         }
-  //       });
-  //   }
-  // }
-
   addItem(menuId, categoryId) {
     if(disableBtn === false) {
       disableBtn = true;
       this.props.addItem(menuId, categoryId, 'Item', 'Description', 0)
         .then(() => {
-          disableBtn = false;
+          this.enableBtns();
         })
         .catch(err => {
           if(err.code === 401) {
-            disableBtn = false;
+            this.enableBtns();
             manuallyLogout(err, () => this.props.userLogout());
           } else {
             showAlertWithMessage('Uh-oh!', err, () => {
-              disableBtn = false;
+              this.enableBtns();
             });
           }
         });
@@ -195,15 +178,15 @@ export default class CreateMenu extends Component<Props> {
           price
         )
         .then(() => {
-          disableBtn = false;
+          this.enableBtns();
         })
         .catch(err => {
           if(err.code === 401) {
-            disableBtn = false;
+            this.enableBtns();
             manuallyLogout(err, () => this.props.userLogout());
           } else {
             showAlertWithMessage('Uh-oh!', err, () => {
-              disableBtn = false;
+              this.enableBtns();
             });
           }
         });
@@ -270,42 +253,18 @@ export default class CreateMenu extends Component<Props> {
           });
         });
 
-        disableBtn = false;
+        this.enableBtns();
       }
     } catch (err) {
       if(err.code === 401) {
-        disableBtn = false;
+        this.enableBtns();
         manuallyLogout(err, () => this.props.userLogout());
       } else {
         showAlertWithMessage('Uh-oh!', err, () => {
-          disableBtn = false;
+          this.enableBtns();
         });
       }
     }
-  }
-
-  async deleteImage(menuId, sectionId, itemId, imageURL) {
-    try {
-      if(disableBtn === false) {
-        disableBtn = true;
-
-        await this.props.deleteImage(
-          menuId,
-          sectionId,
-          itemId,
-          imageURL
-        );
-
-        const name = shorthash.unique(imageURL);
-        const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
-        const image = await FileSystem.getInfoAsync(path);
-
-        if(image.exists) {
-          await FileSystem.deleteAsync(image.uri);
-          console.log('Image deleted from cache!');
-        }
-      });
-    });
   }
 
   async deleteImage(menuId, sectionId, itemId, imageURL) {
@@ -350,15 +309,15 @@ export default class CreateMenu extends Component<Props> {
           }
         });
 
-        disableBtn = false;
+        this.enableBtns();
       }
     } catch (err) {
       if(err.code === 401) {
-        disableBtn = false;
+        this.enableBtns();
         manuallyLogout(err, () => this.props.userLogout());
       } else {
         showAlertWithMessage('Uh-oh!', err, () => {
-          disableBtn = false;
+          this.enableBtns();
         });
       }
     }
@@ -415,6 +374,8 @@ export default class CreateMenu extends Component<Props> {
                 deleteImageComponent={imageURL =>
                   this.deleteImage(this.props.menuId, section._id, item._id, imageURL)
                 }
+                userLogout={this.props.userLogout}
+                enableBtns={this.enableBtns}
                 uploadImage={(uri, size, mime, name, type, acl) =>
                   this.props.uploadImage(uri, size, mime, name, type, acl)
                 }

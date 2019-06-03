@@ -6,7 +6,11 @@ import PropTypes from 'prop-types';
 import MenuItemImage from '../MenuItemImage';
 import styles from './styles';
 import { COLOR_DANGER } from '../../services/constants';
-import { getTimeStampString } from '../../services/commonFunctions';
+import {
+  getTimeStampString,
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../services/commonFunctions';
 import showGenericAlert from '../GenericAlert';
 import CacheImage from '../CacheImage';
 
@@ -170,9 +174,17 @@ export default class MenuItem extends Component {
   deleteImageComponent(imageURL) {
     this.props.deleteImageComponent(imageURL)
     .then(() => {
-      console.log('Then called!');
       this.reloadImages();
-    }).catch(err => console.log(err));
+    }).catch(err => {
+      if(err.code === 401) {
+        this.props.enableBtns();
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err, () => {
+          this.props.enableBtns();
+        });
+      }
+    });
   }
 
   render() {
