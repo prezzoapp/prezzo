@@ -150,84 +150,6 @@ class Tables extends Component {
     );
   }
 
-  calculateLayout = event => {
-    console.log(event.nativeEvent.layout.height);
-    this.visibleRows = parseInt(event.nativeEvent.layout.height / wp('21.68%'));
-    console.log(this.visibleRows);
-  };
-
-  onEndReached = () => {
-    let list;
-    if(this.props.section === 0) {
-      list = this.props.openTableList;
-    } else if(this.props.section === 1) {
-      list = this.props.queuedTableList;
-    } else {
-      list = this.props.closedTableList;
-    }
-
-    if(
-      this.props.currentListSize > 0 &&
-      list.size > this.visibleRows &&
-      !this.isLoading
-    ) {
-      console.log(list.size, this.visibleRows);
-      this.isLoading = true;
-      this.setState({
-        showEndLoading: true
-      }, () => {
-        if(this.props.section === 0) {
-          this.props.loadMoreOpenTableList(
-            this.props.vendorData.get('_id'),
-            list.last().get('_id')
-          ).then(() => {})
-            .catch(err => {})
-              .finally(() => {
-                this.isLoading = false;
-                this.setState({
-                  showEndLoading: false
-                });
-              });
-        } else if(this.props.section === 1) {
-          this.props.loadMoreQueuedTableList(
-            this.props.vendorData.get('_id'),
-            list.last().get('_id')
-          ).then(() => {})
-            .catch(err => {})
-              .finally(() => {
-                this.isLoading = false;
-                this.setState({
-                  showEndLoading: false
-                });
-              });
-        } else {
-          this.props.loadMoreClosedTableList(
-            this.props.vendorData.get('_id'),
-            list.last().get('_id')
-          ).then(() => {})
-            .catch(err => {})
-              .finally(() => {
-                this.isLoading = false;
-                this.setState({
-                  showEndLoading: false
-                });
-              });
-        }
-      });
-    }
-  }
-
-  renderFooter = () => {
-    if(this.state.showEndLoading) {
-      return (
-        <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size='small' color='white'/>
-        </View>
-      );
-    }
-    return null;
-  };
-
   renderSeparator = () => {
     if(this.props.layout !== 'list') {
       return (
@@ -402,7 +324,83 @@ class Tables extends Component {
           onEndReached={this.onEndReached}
           onEndReachedThreshold={0.1}
         />
-      </View>
+      );
+    }
+    return (
+      <TableGridItem
+        tableType={this.props.section}
+        navigate={this.props.navigate}
+        data={data.item}
+        tabName="tables"
+        innerTab="open"
+      />
+    );
+  };
+
+  renderQueuedTableData = data => {
+    if (this.props.layout === 'list') {
+      return (
+        <QueuedTableItem
+          handleQueuedTableItem={this.handleQueuedTableItem}
+          navigate={this.props.navigate}
+          data={data.item}
+          tabName="tables"
+          innerTab="queue"
+          checkAndChangeQueueOrderStatus={this.checkAndChangeQueueOrderStatus}
+        />
+      );
+    }
+    return (
+      <TableGridItem
+        tableType={this.props.section}
+        navigate={this.props.navigate}
+        data={data.item}
+        checkAndChangeQueueOrderStatus={this.checkAndChangeQueueOrderStatus}
+        listQueuedTable={this.props.listQueuedTable}
+        innerTab="closed"
+        tabName="tables"
+      />
+    );
+  };
+
+  renderClosedTableData = data => {
+    if (this.props.layout === 'list') {
+      return (
+        <OpenTableItem
+          data={data.item}
+          navigate={this.props.navigate}
+          tabName="tables"
+          innerTab="closed"
+        />
+      );
+    }
+    return (
+      <TableGridItem
+        tableType={this.props.section}
+        navigate={this.props.navigate}
+        data={data.item}
+        innerTab="closed"
+        tabName="tables"
+      />
+    );
+  };
+
+  renderOpenTable() {
+    return (
+      <FlatList
+        keyExtractor={item => item.get('_id').toString()}
+        showsVerticalScrollIndicator={false}
+        ListEmptyComponent={this.listEmptyComponent}
+        ItemSeparatorComponent={this.renderSeparator}
+        onRefresh={this.onRefresh}
+        refreshing={this.state.isFetching}
+        contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.openTableList.size === 0) ? 'center' : null }]}
+        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
+        renderItem={this.renderOpenTableData}
+        ListFooterComponent={this.renderFooter}
+        onEndReached={this.onEndReached}
+        onEndReachedThreshold={0.3}
+      />
     );
   }
 

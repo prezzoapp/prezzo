@@ -259,6 +259,10 @@ export default class MapScreen extends Component {
     Keyboard.dismiss();
   };
 
+  mapMarkerPress = item => {
+    filteredListRef.current.callMethod(item);
+  };
+
   render() {
     const query = {
       key: 'AIzaSyBhuq8RXrtTXm7e0TewsesDWW9e9CGJNYw',
@@ -310,7 +314,7 @@ export default class MapScreen extends Component {
               <CustomMarker
                 key={item._id.toString()}
                 coordinates={item.location}
-                onPress={() => this.filteredListRef.callMethod(item)}
+                onPress={this.mapMarkerPress}
               />
             ))}
           </MapView>

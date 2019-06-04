@@ -43,9 +43,8 @@ export default class VendorAdminActivityDetails extends Component {
             />
           </TouchableOpacity>
 
-          <CacheImage
+          <Image
             style={styles.headerImage}
-            type='image'
             source={
               navigation.state.params.userImage === ''
                 ? require('../../../../assets/images/etc/default-avatar.png')

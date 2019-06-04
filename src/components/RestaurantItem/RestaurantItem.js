@@ -203,7 +203,8 @@ export default class RestaurantItem extends Component {
                   this.props.item._id,
                   'add'
                 )
-              }>
+              }
+            >
               Order
             </Button>
           ) : (

@@ -44,6 +44,8 @@ let disableBtn = false;
 
 const webViewRef = React.createRef();
 
+const webViewRef = React.createRef();
+
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {

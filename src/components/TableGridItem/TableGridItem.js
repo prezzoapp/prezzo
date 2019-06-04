@@ -41,7 +41,7 @@ const TableGridItem = props => {
   }
 
   itemSeparatorComponent = () => <View style={styles.separator} />;
-  
+
   let newArray = List();
   item.get('items').forEach(obj => {
     if (!newArray.some(o => o.get('title') === obj.get('title'))) {
@@ -57,6 +57,20 @@ const TableGridItem = props => {
   });
 
   renderItem = data => <OrderedItem data={data.item} />;
+
+  let newArray = List();
+  item.get('items').forEach(obj => {
+    if (!newArray.some(o => o.get('title') === obj.get('title'))) {
+      const newObj = obj.set('quantity', 0);
+      newArray = newArray.push(newObj);
+    }
+    newArray = newArray.map(o => {
+      if (o.get('title') === obj.get('title')) {
+        return o.update('quantity', () => o.get('quantity') + 1);
+      }
+      return o;
+    });
+  });
 
   return (
     <View style={styles.container}>
