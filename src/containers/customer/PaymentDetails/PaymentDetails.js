@@ -25,12 +25,22 @@ import styles from './styles';
 import Button from '../../../components/Button';
 import showGenericAlert from '../../../components/GenericAlert';
 
-import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+import {
+  FONT_FAMILY_MEDIUM,
+  COLOR_WHITE,
+  NETWORK_REQUEST_FAILED
+} from '../../../services/constants';
+import {
+  manuallyLogout,
+  showAlertWithMessage
+} from '../../../services/commonFunctions';
+
 const windowHeight = Dimensions.get('window').height;
 let keyboardDidShowCalled = false;
 const scrollViewRef = React.createRef();
 const buttonRef = React.createRef();
+
+let disableBtn = false;
 
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
