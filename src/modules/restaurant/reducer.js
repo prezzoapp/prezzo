@@ -56,7 +56,6 @@ export default (state = INITIAL_STATE, action) => {
     // case REMOVE_RESTAURANT_DETAIL_REQUEST:
     // case ADD_REMOVE_ITEM_QUANTITY_REQUEST:
     case CHANGE_ITEM_RATING_REQUEST:
-    case CLEAR_CART_DATA_REQUEST:
     case SET_TYPE_REQUEST:
     case CREATE_ORDER_REQUEST:
       return state.update('isBusy', () => true);
@@ -65,11 +64,8 @@ export default (state = INITIAL_STATE, action) => {
     // case REMOVE_RESTAURANT_DETAIL_FAILURE:
     // case ADD_REMOVE_ITEM_QUANTITY_FAILURE:
     case CHANGE_ITEM_RATING_FAILURE:
-    case CLEAR_CART_DATA_FAILURE:
     case SET_TYPE_FAILURE:
     case CREATE_ORDER_FAILURE:
-      return state.update('isBusy', () => false);
-
     case CREATE_ORDER_SUCCESS:
       return state.update('isBusy', () => false);
 

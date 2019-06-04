@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'white',
     backgroundColor: 'black',
-    paddingVertical: wp('3%'),
+    paddingBottom: wp('3%'),
     paddingHorizontal: wp('4%')
   }
 });
