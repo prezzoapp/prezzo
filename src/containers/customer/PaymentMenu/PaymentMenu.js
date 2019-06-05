@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
@@ -19,6 +18,7 @@ import EditableListItem from '../../../components/EditableListItem';
 import styles from './styles';
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 import LoadingComponent from '../../../components/LoadingComponent';
+import CacheImage from '../../../components/CacheImage';
 import {
   showAlertWithMessage,
   manuallyLogout
@@ -122,29 +122,33 @@ class PaymentMenu extends Component {
   renderLeftIcon(item) {
     if (item.get('type') === 'braintree-visa') {
       return (
-        <Image
+        <CacheImage
           source={require('../../../../assets/images/icons/stp_card_visa.png')}
+          type='image'
           style={styles.ccIcon}
         />
       );
     } else if (item.get('type') === 'braintree-mastercard') {
       return (
-        <Image
+        <CacheImage
           source={require('../../../../assets/images/icons/stp_card_mastercard.png')}
+          type='image'
           style={styles.ccIcon}
         />
       );
     } else if (item.get('type') === 'braintree-discover') {
       return (
-        <Image
+        <CacheImage
           source={require('../../../../assets/images/icons/stp_card_discover.png')}
+          type='image'
           style={styles.ccIcon}
         />
       );
     } else if (item.get('type') === 'braintree-jcb') {
       return (
-        <Image
+        <CacheImage
           source={require('../../../../assets/images/icons/stp_card_jcb.png')}
+          type='image'
           style={styles.ccIcon}
         />
       );
@@ -161,8 +165,9 @@ class PaymentMenu extends Component {
             title="Add Credit Card"
             icon="add"
             leftIcon={
-              <Image
+              <CacheImage
                 source={require('../../../../assets/images/Credit-Card.png')}
+                type='image'
                 style={styles.creditCardIcon}
               />
             }
@@ -174,8 +179,8 @@ class PaymentMenu extends Component {
               data.map((item, key) => (
                 <View key={item.get('_id').toString()}>
                   <EditableListItem
-                    text={item.readableIdentifier}
-                    expDate={item.expDate}
+                    text={item.get('readableIdentifier')}
+                    expDate={item.get('expDate')}
                     onRemove={() => this.removeCardAtIndex(item.get('_id'))}
                     leftIcon={this.renderLeftIcon(item)}
                 />

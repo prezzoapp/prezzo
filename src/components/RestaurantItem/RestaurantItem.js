@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { View, Text, TouchableOpacity, ImageBackground, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, Platform } from 'react-native';
 
 import PropTypes from 'prop-types';
 
@@ -19,10 +19,6 @@ import RatingBar from '../RatingBar';
 import RestaurantItemImages from './RestaurantItemImages';
 
 import Button from '../Button';
-
-// import whyDidYouUpdate from "why-did-you-update";
-//
-// whyDidYouUpdate(React);
 
 import {
   COLOR_WHITE,

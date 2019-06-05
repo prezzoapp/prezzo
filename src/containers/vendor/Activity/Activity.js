@@ -19,6 +19,7 @@ import { Feather } from '../../../components/VectorIcons';
 import OpenTableItem from '../../../components/OpenTableItem';
 import QueuedTableItem from '../../../components/QueuedTableItem';
 import TableListHeader from '../../../components/TableListHeader';
+import Loader from '../../../components/Loader';
 import {
   ACCEPT_ORDER,
   DELETE_ORDER,
@@ -198,11 +199,11 @@ class Activity extends Component {
     });
   };
 
-  onRefresh() {
+  onRefresh = () => {
     this.setState({ isFetching: true }, () => {
       this.getData();
     });
-  }
+  };
 
   getData(sectionIndex = null) {
     if(disableBtn === false) {
@@ -269,8 +270,8 @@ class Activity extends Component {
   }
 
   show(rowData) {
-    rowData.item.items.map(ele => {
-      if(ele.imageURLs.length !== 0) {
+    rowData.item.get('items').map(ele => {
+      if(ele.get('imageURLs').size !== 0) {
         Animated.timing(this.showModalAnimatedValue, {
           toValue: 1,
           duration: 300,
@@ -336,7 +337,7 @@ class Activity extends Component {
       data={data.item}
       tabName="activity"
       innerTabName="photoReview"
-      onPress={() => this.show()}
+      onPress={() => this.show(data)}
     />
   );
 
@@ -347,12 +348,12 @@ class Activity extends Component {
       <FlatList
         keyExtractor={item => item.get('_id').toString()}
         showsVerticalScrollIndicator={false}
-        onRefresh={() => this.onRefresh()}
+        onRefresh={this.onRefresh}
         refreshing={this.state.isFetching}
         ItemSeparatorComponent={this.renderSeparator}
         contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.waiterRequestedTableList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
-        data={this.props.waiterRequestedTableList.size !== 0 ? this.props.waiterRequestedTableList.toJS() : []}
+        data={this.props.waiterRequestedTableList.size !== 0 ? this.props.waiterRequestedTableList.toArray() : []}
         renderItem={this.renderWaiterRequestTableData}
       />
     );
@@ -363,12 +364,12 @@ class Activity extends Component {
       <FlatList
         keyExtractor={item => item.get('_id').toString()}
         showsVerticalScrollIndicator={false}
-        onRefresh={() => this.onRefresh()}
+        onRefresh={this.onRefresh}
         refreshing={this.state.isFetching}
         ItemSeparatorComponent={this.renderSeparator}
-        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.openTableList.size === 0 ? 'center' : null }]}
+        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.photoReviewList.size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
-        data={this.props.photoReviewList.size !== 0 ? this.props.photoReviewList.toJS() : []}
+        data={this.props.photoReviewList.size !== 0 ? this.props.photoReviewList.toArray() : []}
         renderItem={this.renderPhotoReviewTableData}
       />
     );
@@ -419,6 +420,15 @@ class Activity extends Component {
       }
     });
   }
+
+  renderPhotoReviewItem = data => (
+    <ReviewUserPhoto
+      item={data.item}
+      callbackFromParent={(itemIndex, imageIndex) =>
+        this.myCallback(itemIndex, imageIndex)
+      }
+    />
+  );
 
   render() {
     const animatedValue = this.showModalAnimatedValue.interpolate({
@@ -474,28 +484,13 @@ class Activity extends Component {
                           <FlatList
                             keyExtractor={(item, index) => index.toString()}
                             showsVerticalScrollIndicator={false}
-                            data={this.props.photoReviewSelectedItem.get('items').size !== 0 ? this.props.photoReviewSelectedItem.get('items').toJS() : []}
-                            ListHeaderComponent={() => this.renderHeader()}
-                            ListFooterComponent={() => this.renderFooter()}
-                            renderItem={({ item }) => (
-                              <ReviewUserPhoto
-                                item={item}
-                                callbackFromParent={(itemIndex, imageIndex) =>
-                                  this.myCallback(itemIndex, imageIndex)
-                                }
-                              />
-                            )}
+                            data={this.props.photoReviewSelectedItem.get('items').size !== 0 ? this.props.photoReviewSelectedItem.get('items').toArray() : []}
+                            ListHeaderComponent={this.renderHeader}
+                            ListFooterComponent={this.renderFooter}
+                            renderItem={this.renderPhotoReviewItem}
                           />
                         ) : (
-                          <View
-                            style={{
-                              flex: 1,
-                              justifyContent: 'center',
-                              alignItems: 'center'
-                            }}
-                          >
-                            <ActivityIndicator size="large" color="white"/>
-                          </View>
+                          <Loader />
                         )
                       }
                     </View>

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
   InteractionManager,
   ActivityIndicator
@@ -43,8 +42,9 @@ export default class VendorAdminActivityDetails extends Component {
             />
           </TouchableOpacity>
 
-          <Image
+          <CacheImage
             style={styles.headerImage}
+            type='image'
             source={
               navigation.state.params.userImage === ''
                 ? require('../../../../assets/images/etc/default-avatar.png')

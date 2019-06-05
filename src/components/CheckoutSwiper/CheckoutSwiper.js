@@ -20,6 +20,8 @@ import styles, { stylesRaw } from './styles';
 
 import showGenericAlert from '../GenericAlert';
 
+import CacheImage from '../CacheImage';
+
 const CREDIT_CARD = 'credit_card';
 const CASH = 'cash';
 
@@ -78,12 +80,10 @@ export default class CheckoutSwiper extends Component {
     }
   }
 
-  selectPaymentMethod(val) {
-    this.setState(
-      () => ({
-        selectedPaymentMethod: val
-      }),
-      () => {
+  selectPaymentMethod = val => {
+    this.setState({
+      selectedPaymentMethod: val
+    }, () => {
         if (this.state.selectedPaymentMethod === 'add_new_card') {
           this.props.navigate({
             routeName: 'CheckoutPaymentDetails',
@@ -200,7 +200,7 @@ export default class CheckoutSwiper extends Component {
                 <Text
                   style={[styles.reviewOrderFooterText, { textAlign: 'right' }]}
                 >
-                  ${this.props.data.get('totalPrice')}
+                  ${parseFloat(this.props.data.get('totalPrice').toFixed(2))}
                 </Text>
               </View>
 
@@ -233,8 +233,9 @@ export default class CheckoutSwiper extends Component {
                       disabled={this.state.selectedPaymentType === CREDIT_CARD}
                     >
                       <View>
-                        <Image
+                        <CacheImage
                           source={require('../../../assets/images/etc/visa_icon.png')}
+                          type='image'
                           style={styles.paymentIcons}
                         />
                       </View>
@@ -257,8 +258,9 @@ export default class CheckoutSwiper extends Component {
                       disabled={this.state.selectedPaymentType === CASH}
                     >
                       <View>
-                        <Image
+                        <CacheImage
                           source={require('../../../assets/images/etc/cash_icon.png')}
+                          type='image'
                           style={styles.paymentIcons}
                         />
                       </View>
@@ -282,7 +284,7 @@ export default class CheckoutSwiper extends Component {
                     <Picker
                       mode="dropdown"
                       iosIcon={
-                        <NativeBaseIcon
+                        <Ionicons
                           name="ios-arrow-down-outline"
                           style={stylesRaw.pickerIcon}
                         />

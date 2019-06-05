@@ -147,7 +147,7 @@ export default class Checkout extends Component {
   };
 
   addRemoveItemQuantity = (sectionId, itemId, op) => {
-    this.props.addRemoveItemQuantity(sectionId, itemId, op);
+    return this.props.addRemoveItemQuantity(sectionId, itemId, op);
   };
 
   setCurrentIndex = index => {
@@ -184,8 +184,9 @@ export default class Checkout extends Component {
               {...this.panResponder.panHandlers}
               style={styles.bottomArrowIconContainer}
             >
-              <Image
+              <CacheImage
                 source={require('../../../../assets/images/icons/bottom_arrow.png')}
+                type='image'
                 style={styles.bottom_arrow}
               />
             </View>
@@ -203,8 +204,9 @@ export default class Checkout extends Component {
                   onPress={() => null}
                   style={styles.tabBarIconsHolder}
                 >
-                  <Image
+                  <CacheImage
                     source={require('../../../../assets/images/checkout_icons/review_icon.png')}
+                    type='image'
                     style={styles.icon}
                   />
                 </TouchableOpacity>
@@ -215,8 +217,9 @@ export default class Checkout extends Component {
                   onPress={() => null}
                   style={styles.tabBarIconsHolder}
                 >
-                  <Image
+                  <CacheImage
                     source={require('../../../../assets/images/checkout_icons/payment_icon.png')}
+                    type='image'
                     style={styles.icon}
                   />
                 </TouchableOpacity>

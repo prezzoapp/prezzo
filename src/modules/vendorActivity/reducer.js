@@ -44,9 +44,11 @@ const reducer = (state = INITIAL_STATE, action) => {
       return state.update('isBusy', () => false);
 
     case WAITER_REQUESTED_TABLE_SUCCESS:
-      return state.update('waiterRequestedTableList', () => action.payload).update('isBusy', () => false);
+      return state.update('isBusy', () => false);
+      // return state.update('waiterRequestedTableList', () => action.payload).update('isBusy', () => false);
     case PHOTO_REVIEW_TABLE_SUCCESS:
-      return state.update('photoReviewList', () => action.payload).update('isBusy', () => false);
+      return state.update('isBusy', () => false);
+      // return state.update('photoReviewList', () => action.payload).update('isBusy', () => false);
 
     case SECTION_CHANGE:
       return state.update('section', () => action.payload);

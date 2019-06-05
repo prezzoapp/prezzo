@@ -112,7 +112,7 @@ export default class ExploreList extends PureComponent {
 }
 
 ExploreList.propTypes = {
-  filters: PropTypes.array.isRequired,
+  filters: PropTypes.object.isRequired,
   getUserCurrentLocation: PropTypes.func.isRequired,
   listVendors: PropTypes.func.isRequired,
   distance: PropTypes.number.isRequired,

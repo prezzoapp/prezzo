@@ -2,15 +2,21 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import PropTypes from 'prop-types';
+import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 
 const TableScreenHeader = props => {
   return (
     <View style={styles.header}>
       <View style={styles.detailContainer}>
-        <Image
-          source={require('../../../../assets/images/item5.png')}
+        <CacheImage
           style={styles.vendorImage}
+          type='image'
+          source={
+            props.vendorData.get('avatarURL')
+              ? props.vendorData.get('avatarURL')
+              : require('../../../../assets/images/etc/default-avatar.png')
+          }
         />
         <View style={styles.nameContainer}>
           <Text style={styles.vendorName} numberOfLines={1}>

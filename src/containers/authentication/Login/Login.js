@@ -9,7 +9,6 @@ import ReactNative, {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
-  ImageBackground,
   findNodeHandle,
   UIManager,
   Dimensions,
@@ -133,7 +132,7 @@ class Login extends React.Component<Props, State> {
         const fieldHeight = height;
         const fieldTop = pageY;
         gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
-        if (gap < 0) {
+        if (gap < 0 && scrollViewRef.current) {
           scrollViewRef.current.scrollTo({
             x: 0, y: -gap, animated: true
           });
@@ -145,54 +144,20 @@ class Login extends React.Component<Props, State> {
   }
 
   keyboardDidHide = event => {
-    scrollViewRef.current.scrollTo({
-      x: 0, y: 0, animated: true
-    });
-    keyboardDidShowCalled = false;
-  }
-
-  componentWillMount() {
-    this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-    this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
-  }
-
-  componentWillUnmount() {
-    this.keyboardShow.remove();
-    this.keyboardHide.remove();
-  }
-
-  keyboardDidShow = event => {
-    if(keyboardDidShowCalled === false) {
-      keyboardDidShowCalled = true;
-      const keyboardHeight = event.endCoordinates.height;
-      const button = ReactNative.findNodeHandle(buttonRef.current);
-      UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
-        const fieldHeight = height;
-        const fieldTop = pageY;
-        gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
-        if (gap < 0) {
-          scrollViewRef.current.scrollTo({
-            x: 0, y: -gap, animated: true
-          });
-        } else {
-          console.log('Gap: ', gap);
-        }
+    if(scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: 0, y: 0, animated: true
       });
     }
-  }
-
-  keyboardDidHide = event => {
-    scrollViewRef.current.scrollTo({
-      x: 0, y: 0, animated: true
-    });
     keyboardDidShowCalled = false;
   }
 
   render() {
     const { email, password } = this.state;
     return (
-      <ImageBackground
+      <CacheImage
         style={styles.container}
+        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -249,7 +214,7 @@ class Login extends React.Component<Props, State> {
           </ScrollView>
         </KeyboardAvoidingView>
         <LoadingComponent visible={this.props.isBusy} />
-      </ImageBackground>
+      </CacheImage>
     );
   }
 }

@@ -4,7 +4,8 @@ import {
   Text,
   TouchableOpacity,
   InteractionManager,
-  Keyboard
+  Keyboard,
+  Image, Platform
 } from 'react-native';
 import { LinearGradient, MapView } from 'expo';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -241,10 +242,11 @@ export default class MapScreen extends Component {
   moveToPosition = (id, coordinates) => {
     this.btnClicked = true;
     this.props.disableVendorListItem(id);
-    this.moveMapPositionOnSearch(coordinates[1], coordinates[0]);
+    this.moveMapPositionOnSearch(coordinates.last(), coordinates.first());
   }
 
   moveMapPositionOnSearch = (lat, lng) => {
+    console.log(lat, lng);
     if(mapRef.current) {
       mapRef.current.animateToRegion({
         latitude: lat,
@@ -301,20 +303,22 @@ export default class MapScreen extends Component {
                     latitude: this.state.customRegion.latitude,
                     longitude: this.state.customRegion.longitude
                   }}
+                  image={Platform.OS === 'android' ? require('../../../../assets/images/location.png') : null}
                 >
-                  <CacheImage
-                    style={{ width: wp('23.73%'), aspectRatio: 1, resizeMode: 'contain' }}
-                    type='image'
-                    source={require('../../../../assets/images/location.png')}
-                  />
+                  {Platform.OS === 'ios' &&
+                    <Image
+                      style={{ width: wp('23.73%'), flex: 1, resizeMode: 'contain' }}
+                      source={require('../../../../assets/images/location.png')}
+                    />
+                  }
                 </MapView.Marker>
               )}
 
             {this.props.data.map(item => (
               <CustomMarker
-                key={item._id.toString()}
-                coordinates={item.location}
-                onPress={this.mapMarkerPress}
+                key={item.get('_id').toString()}
+                coordinates={item.get('location')}
+                onPress={() => this.mapMarkerPress(item)}
               />
             ))}
           </MapView>

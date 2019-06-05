@@ -26,7 +26,9 @@ class Prezzo extends Component {
     console.log('loading fonts...');
     const images = [
       require('./assets/images/etc/default-avatar.png'),
-      require('./assets/images/icons/edit.png')
+      require('./assets/images/icons/edit.png'),
+      require('./assets/images/location.png'),
+      require('./assets/images/map-pin.png')
     ];
 
     try {
@@ -63,7 +65,9 @@ class Prezzo extends Component {
         'simple-line-icons': require('@expo/vector-icons/fonts/SimpleLineIcons.ttf')
       });
 
-      images.map(async (image) => await Asset.fromModule(image).downloadAsync());
+      await Promise.all([
+        images.map(image => Asset.fromModule(image).downloadAsync())
+      ]);
 
       this.setState({ didFontsLoad: true });
       console.log('loaded fonts', Font, typeof Font, ' ');

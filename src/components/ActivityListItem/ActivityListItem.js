@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { Feather } from '../VectorIcons';
 import styles from './styles';
+import CacheImage from '../CacheImage';
 
 class ActivityListItem extends Component {
   shouldComponentUpdate(nextProps) {
@@ -37,7 +38,8 @@ class ActivityListItem extends Component {
         <View style={styles.item}>
           <View style={styles.leftSide}>
             <View style={styles.statusIconHolder}>
-              <Image
+              <CacheImage
+                type='image'
                 source={
                 item.get('status') === 'complete'
                     ? require('../../../assets/images/icons/active_status.png')

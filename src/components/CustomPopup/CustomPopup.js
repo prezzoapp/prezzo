@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
 
 import Button from '../Button';
 
+import CacheImage from '../CacheImage';
+
 import { COLOR_WHITE, SF_PRO_TEXT_BOLD } from '../../services/constants';
 
 import styles from './styles';
@@ -26,8 +28,9 @@ const CustomPopup = props => (
     <View style={styles.container}>
       <View style={styles.modalView}>
         <Expo.BlurView style={styles.blurView} tint="dark" intensity={100} />
-        <Image
+        <CacheImage
           source={props.image}
+          type='image'
           style={styles.imageIcon}
         />
         <Text style={styles.title}>{props.title}</Text>

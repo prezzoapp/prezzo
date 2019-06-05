@@ -4,6 +4,7 @@ import { View, Text, Image } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import styles from './styles';
+import CacheImage from '../CacheImage';
 import { FontAwesome, Entypo } from '../VectorIcons';
 
 const OrderedItem = props => {
@@ -11,9 +12,10 @@ const OrderedItem = props => {
   return (
     <View style={styles.container}>
       <View style={styles.itemImageContainer}>
-        <Image
+        <CacheImage
           style={styles.itemImage}
-          source={{ uri: data.get('imageURLs').first() }}
+          type='image'
+          source={data.get('imageURLs').first()}
         />
       </View>
       <View style={styles.itemTextContainer}>

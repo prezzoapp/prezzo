@@ -10,11 +10,11 @@ import styles from './styles';
 
 class QueuedTableItem extends Component {
   shouldComponentUpdate(nextProps, nextState) {
-    // const oldItems = this.props.data.get('items');
-    // const newItems = nextProps.data.get('items');
-    // const objectsAreSame = !oldItems.some(
-    //   (item, index) => newItems.getIn([index, 'status']) !== item.get('status')
-    // );
+    const oldItems = this.props.data.get('items');
+    const newItems = nextProps.data.get('items');
+    const objectsAreSame = !oldItems.some(
+      (item, index) => newItems.getIn([index, 'status']) !== item.get('status')
+    );
 
     console.log(this.props.data.get('_id'));
     console.log(nextProps.data.get('_id'));
@@ -61,11 +61,12 @@ class QueuedTableItem extends Component {
         }})}
       >
         <View style={styles.userImageContainer}>
-          <Image
+          <CacheImage
             style={styles.userImage}
+            type='image'
             source={
               item.getIn(['creator', 'avatarURL']) !== ''
-                ? { uri: item.getIn(['creator', 'avatarURL']) }
+                ? item.getIn(['creator', 'avatarURL'])
                 : require('../../../assets/images/etc/default-avatar.png')
             }
           />

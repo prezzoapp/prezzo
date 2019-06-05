@@ -474,7 +474,7 @@ class Explore extends PureComponent<Props> {
 }
 
 Explore.propTypes = {
-  filters: PropTypes.array.isRequired,
+  filters: PropTypes.object.isRequired,
   getUserCurrentLocation: PropTypes.func.isRequired,
   updateDistance: PropTypes.func.isRequired,
   updatePrice: PropTypes.func.isRequired,

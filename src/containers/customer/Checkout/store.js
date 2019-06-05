@@ -27,7 +27,6 @@ export const mapStateToProps = state => {
 export const mapDispatchToProps = dispatch => ({
   navigate: bindActionCreators(NavigationActions.navigate, dispatch),
   addRemoveItemQuantity: bindActionCreators(addRemoveItemQuantity, dispatch),
-  setType: bindActionCreators(setType, dispatch),
   listCreditCards: bindActionCreators(listCreditCards, dispatch),
   userLogout: bindActionCreators(userLogout, dispatch)
 });

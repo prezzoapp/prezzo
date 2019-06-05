@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Image, Text, TouchableOpacity, View, StyleSheet, InteractionManager } from 'react-native';
+import { Text, TouchableOpacity, View, StyleSheet, InteractionManager } from 'react-native';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ActionSheet } from 'native-base';

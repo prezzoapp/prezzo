@@ -8,6 +8,7 @@ import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
 import LoadingComponent from '../../../components/LoadingComponent';
 import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
+import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 import {
   FONT_FAMILY_MEDIUM,
@@ -130,11 +131,12 @@ export default class AccountMenu extends React.Component {
         <View style={styles.container}>
           <View style={styles.headerContainer}>
             <View style={styles.avatarContainer}>
-              <Image
+              <CacheImage
                 style={styles.avatar}
+                type='image'
                 source={
                   avatarURL
-                    ? {uri: avatarURL}
+                    ? avatarURL
                     : require('../../../../assets/images/etc/default-avatar.png')
                 }
               />

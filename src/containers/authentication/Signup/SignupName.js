@@ -26,6 +26,7 @@ import {updateFirstName, updateLastName} from '../../../modules/Signup';
 import {FONT_FAMILY_MEDIUM} from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import NextButton from './NextButton';
+import CacheImage from '../../../components/CacheImage';
 
 const windowHeight = Dimensions.get('window').height;
 let keyboardDidShowCalled = false;
@@ -166,7 +167,7 @@ class SignupName extends React.Component<Props, State> {
         const fieldHeight = height;
         const fieldTop = pageY;
         gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
-        if (gap < 0) {
+        if (gap < 0 && scrollViewRef.current) {
           scrollViewRef.current.scrollTo({
             x: 0, y: -gap, animated: true
           });
@@ -178,9 +179,11 @@ class SignupName extends React.Component<Props, State> {
   }
 
   keyboardDidHide = event => {
-    scrollViewRef.current.scrollTo({
-      x: 0, y: 0, animated: true
-    });
+    if(scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: 0, y: 0, animated: true
+      });
+    }
     keyboardDidShowCalled = false;
   }
 
@@ -224,8 +227,9 @@ class SignupName extends React.Component<Props, State> {
   render() {
     const {firstName, lastName} = this.props;
     return (
-      <ImageBackground
+      <CacheImage
         style={styles.container}
+        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -262,7 +266,7 @@ class SignupName extends React.Component<Props, State> {
             />
           </ScrollView>
         </KeyboardAvoidingView>
-      </ImageBackground>
+      </CacheImage>
     );
   }
 }

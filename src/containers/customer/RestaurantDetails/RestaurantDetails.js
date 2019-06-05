@@ -36,6 +36,7 @@ import Checkout from '../Checkout';
 
 import CustomPopup from '../../../components/CustomPopup';
 import CacheImage from '../../../components/CacheImage';
+import Loader from '../../../components/Loader';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 const headerHeight = wp('44.97%');
@@ -491,22 +492,24 @@ export default class RestaurantDetails extends Component {
 
     return (
       <View style={styles.container}>
-        <ImageBackground
+        <CacheImage
           source={require('../../../../assets/images/photo_back.jpg')}
+          type='backgroundImage'
           style={styles.photo_back}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.LinearGradientStyle}
           />
-        </ImageBackground>
+        </CacheImage>
 
         <Animated.View
           style={animatedHeaderStyle}
         >
           <View style={styles.contentContainer}>
-            <Image
-              source={{ uri: this.props.navigation.state.params.item.avatarURL }}
+            <CacheImage
+              source={this.props.navigation.state.params.item.avatarURL}
               style={styles.logo}
+              type='image'
             />
             <View style={[styles.headerTextContainer, styles.transparent]}>
               <Text style={styles.headerTitleText}>

@@ -324,85 +324,9 @@ class Tables extends Component {
           onEndReached={this.onEndReached}
           onEndReachedThreshold={0.1}
         />
-      );
-    }
-    return (
-      <TableGridItem
-        tableType={this.props.section}
-        navigate={this.props.navigate}
-        data={data.item}
-        tabName="tables"
-        innerTab="open"
-      />
+      </View>
     );
   };
-
-  renderQueuedTableData = data => {
-    if (this.props.layout === 'list') {
-      return (
-        <QueuedTableItem
-          handleQueuedTableItem={this.handleQueuedTableItem}
-          navigate={this.props.navigate}
-          data={data.item}
-          tabName="tables"
-          innerTab="queue"
-          checkAndChangeQueueOrderStatus={this.checkAndChangeQueueOrderStatus}
-        />
-      );
-    }
-    return (
-      <TableGridItem
-        tableType={this.props.section}
-        navigate={this.props.navigate}
-        data={data.item}
-        checkAndChangeQueueOrderStatus={this.checkAndChangeQueueOrderStatus}
-        listQueuedTable={this.props.listQueuedTable}
-        innerTab="closed"
-        tabName="tables"
-      />
-    );
-  };
-
-  renderClosedTableData = data => {
-    if (this.props.layout === 'list') {
-      return (
-        <OpenTableItem
-          data={data.item}
-          navigate={this.props.navigate}
-          tabName="tables"
-          innerTab="closed"
-        />
-      );
-    }
-    return (
-      <TableGridItem
-        tableType={this.props.section}
-        navigate={this.props.navigate}
-        data={data.item}
-        innerTab="closed"
-        tabName="tables"
-      />
-    );
-  };
-
-  renderOpenTable() {
-    return (
-      <FlatList
-        keyExtractor={item => item.get('_id').toString()}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={this.listEmptyComponent}
-        ItemSeparatorComponent={this.renderSeparator}
-        onRefresh={this.onRefresh}
-        refreshing={this.state.isFetching}
-        contentContainerStyle={[styles.flatListStyle, { justifyContent: (this.props.openTableList.size === 0) ? 'center' : null }]}
-        data={this.props.openTableList.size !== 0 ? this.props.openTableList.toArray() : []}
-        renderItem={this.renderOpenTableData}
-        ListFooterComponent={this.renderFooter}
-        onEndReached={this.onEndReached}
-        onEndReachedThreshold={0.3}
-      />
-    );
-  }
 
   renderQueueTable() {
     return (
@@ -446,11 +370,11 @@ class Tables extends Component {
     );
   }
 
-  onRefresh() {
+  onRefresh = () => {
     this.setState({ isFetching: true }, () => {
       this.getData();
     });
-  }
+  };
 
   getData(sectionIndex = null) {
     if(disableBtn === false) {
