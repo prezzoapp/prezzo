@@ -4,6 +4,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import { COLOR_GREEN } from '../../services/constants';
+import CacheImage from '../CacheImage';
 
 const ReviewUserPhoto = props => {
   addImageComponent = (itemIndex, imageIndex) => {
@@ -17,15 +18,14 @@ const ReviewUserPhoto = props => {
     <View style={styles.item}>
       <View style={styles.titleHolder}>
         <Text style={styles.title} numberOfLines={2}>
-          {props.item.title}
+          {props.item.get('title')}
         </Text>
       </View>
       <FlatList
         horizontal
         keyExtractor={item => item}
         showsHorizontalScrollIndicator={false}
-        data={props.item.imageURLs}
-        extraData={this.state}
+        data={props.item.get('imageURLs').toArray()}
         ItemSeparatorComponent={this.itemSeparatorComponent}
         renderItem={({ item }) => (
           <View
@@ -40,12 +40,16 @@ const ReviewUserPhoto = props => {
             ]}
           >
             <TouchableOpacity onPress={() => null} activeOpacity={0.8}>
-              <Image source={{ uri: item.key }} style={styles.bigImage} />
-              {(() => {
-                if (item.selected) {
+              <CacheImage
+                source={item}
+                style={styles.bigImage}
+              />
+              {/*(() => {
+                if (item.get('selected')) {
                   return (
                     <View style={styles.checkImageContainer}>
-                      <Image
+                      <CacheImage
+                        type='image'
                         style={styles.checkImage}
                         source={require('../../../assets/images/checkMenu.png')}
                       />
@@ -53,7 +57,7 @@ const ReviewUserPhoto = props => {
                   );
                 }
                 return null;
-              })()}
+              })()*/}
             </TouchableOpacity>
           </View>
         )}

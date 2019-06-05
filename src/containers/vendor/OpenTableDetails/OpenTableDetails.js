@@ -18,6 +18,7 @@ import { Feather } from '@expo/vector-icons';
 import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import styles from './styles';
+import Loader from '../../../components/Loader';
 import CacheImage from '../../../components/CacheImage';
 import { TAX } from '../../../services/constants';
 import {
@@ -43,12 +44,13 @@ export default class OpenTableDetails extends Component {
           />
         </TouchableOpacity>
 
-        <Image
+        <CacheImage
           style={styles.headerImage}
+          type='image'
           source={
             navigation.state.params.userImage === ''
               ? require('../../../../assets/images/etc/default-avatar.png')
-              : {uri: navigation.state.params.userImage}
+              : navigation.state.params.userImage
           }
         />
         <Text style={styles.headerText} numberOfLines={1}>
@@ -330,7 +332,7 @@ export default class OpenTableDetails extends Component {
             </Tab>
           ): null}
         </Tabs>
-      ) : null}
+      ) : <Loader />}
       </Container>
     );
   }

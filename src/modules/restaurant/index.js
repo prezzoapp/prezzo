@@ -5,7 +5,6 @@ import {
   addRemoveItemQuantity,
   clearCartData,
   changeItemRating,
-  setType,
   createOrder,
   showLoadingWhileAnimatingScreen,
   hideLoadingAfterScreenAnimationComplete
@@ -18,7 +17,6 @@ export {
   addRemoveItemQuantity,
   clearCartData,
   changeItemRating,
-  setType,
   createOrder,
   showLoadingWhileAnimatingScreen,
   hideLoadingAfterScreenAnimationComplete

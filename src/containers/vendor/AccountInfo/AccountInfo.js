@@ -677,17 +677,18 @@ export default class AccountInfo extends React.Component {
               onPress={() => this.showAvatarActionSheet()}
             >
               <View style={styles.imageHolder}>
-                <Image
+                <CacheImage
                   style={styles.avatar}
                   source={
                     avatarURL
-                      ? {uri: avatarURL}
+                      ? avatarURL
                       : require('../../../../assets/images/etc/default-avatar.png')
                   }
                 />
               </View>
-              <Image
+              <CacheImage
                 style={styles.editAvatarIcon}
+                type='image'
                 source={require('../../../../assets/images/etc/EditIcon.png')}
               />
             </TouchableOpacity>

@@ -238,7 +238,7 @@ class SignupMergeFacebook extends React.Component<Props, State> {
         const fieldHeight = height;
         const fieldTop = pageY;
         gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
-        if (gap < 0) {
+        if (gap < 0 && scrollViewRef.current) {
           scrollViewRef.current.scrollTo({
             x: 0, y: -gap, animated: true
           });
@@ -250,9 +250,11 @@ class SignupMergeFacebook extends React.Component<Props, State> {
   }
 
   keyboardDidHide = event => {
-    scrollViewRef.current.scrollTo({
-      x: 0, y: 0, animated: true
-    });
+    if(scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: 0, y: 0, animated: true
+      });
+    }
     keyboardDidShowCalled = false;
   }
 

@@ -9,7 +9,6 @@ import ReactNative, {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
-  ImageBackground,
   findNodeHandle,
   UIManager,
   Dimensions,
@@ -132,7 +131,7 @@ class Login extends React.Component<Props, State> {
         const fieldHeight = height;
         const fieldTop = pageY;
         gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
-        if (gap < 0) {
+        if (gap < 0 && scrollViewRef.current) {
           scrollViewRef.current.scrollTo({
             x: 0, y: -gap, animated: true
           });
@@ -144,17 +143,20 @@ class Login extends React.Component<Props, State> {
   }
 
   keyboardDidHide = event => {
-    scrollViewRef.current.scrollTo({
-      x: 0, y: 0, animated: true
-    });
+    if(scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: 0, y: 0, animated: true
+      });
+    }
     keyboardDidShowCalled = false;
   }
 
   render() {
     const { email, password } = this.state;
     return (
-      <ImageBackground
+      <CacheImage
         style={styles.container}
+        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <KeyboardAvoidingView
@@ -211,7 +213,7 @@ class Login extends React.Component<Props, State> {
           </ScrollView>
         </KeyboardAvoidingView>
         <LoadingComponent visible={this.props.isBusy} />
-      </ImageBackground>
+      </CacheImage>
     );
   }
 }

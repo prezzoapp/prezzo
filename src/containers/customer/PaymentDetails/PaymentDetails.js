@@ -101,12 +101,12 @@ class PaymentDetails extends Component {
         const response = await this.props.getToken();
 
         this.getToken = response.token;
-        webview.current.messagesChannel.on('isTokenizationComplete', nonce => {
+        webViewRef.current.messagesChannel.on('isTokenizationComplete', nonce => {
           console.log('isTokenizationComplete function called!');
           this.isTokenizationComplete(nonce);
         });
 
-        webview.current.messagesChannel.on('isError', error => {
+        webViewRef.current.messagesChannel.on('isError', error => {
           console.log('isError function called!');
           this.props.hideLoading();
           if(error.message.code === 'CLIENT_GATEWAY_NETWORK') {
@@ -199,7 +199,7 @@ class PaymentDetails extends Component {
     })
   };
 
-  cardTokenize() {
+  cardTokenize = () => {
     if(disableBtn === false) {
       disableBtn = true;
       const card = {
@@ -214,12 +214,12 @@ class PaymentDetails extends Component {
         showGenericAlert('Uh-oh!', 'Invalid token');
       } else {
         this.props.showLoading();
-        this.webview.sendJSON({
+        webViewRef.current.sendJSON({
           payload: card
         });
       }
     }
-  }
+  };
 
   componentWillMount() {
     this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
@@ -240,7 +240,7 @@ class PaymentDetails extends Component {
         const fieldHeight = height;
         const fieldTop = pageY;
         gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
-        if (gap < 0) {
+        if (gap < 0 && scrollViewRef.current) {
           scrollViewRef.current.scrollTo({
             x: 0, y: -gap, animated: true
           });
@@ -250,9 +250,11 @@ class PaymentDetails extends Component {
   }
 
   keyboardDidHide = event => {
-    scrollViewRef.current.scrollTo({
-      x: 0, y: 0, animated: true
-    })
+    if(scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: 0, y: 0, animated: true
+      });
+    }
     keyboardDidShowCalled = false;
   }
 

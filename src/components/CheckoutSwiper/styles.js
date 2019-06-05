@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
 
   paymentIcons: {
     resizeMode: 'contain',
-    width: wp('14.93%')
+    width: wp('14.93%'),
+    flex: 1
   },
 
   paymentScreenBtnsContainer: {

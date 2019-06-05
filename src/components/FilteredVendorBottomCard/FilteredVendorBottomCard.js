@@ -62,6 +62,7 @@ class FilteredVendorBottomCard extends Component {
   }
 
   callMethod(item) {
+    console.log(item);
     this.setState({
       item
     }, () => {
@@ -141,29 +142,32 @@ class FilteredVendorBottomCard extends Component {
                 onPress={this.backToList}
                 activeOpacity={0.8}
               >
-                <Image
+                <CacheImage
                   source={require('../../../assets/images/icons/bottom_arrow.png')}
+                  type='image'
                   style={styles.bottom_arrow}
                 />
               </TouchableOpacity>
             </View>
             <View style={styles.contentHolder}>
               <View style={styles.vendorIconHolder}>
-                <Image
-                  source={{ uri: this.state.item.avatarURL }}
+                <CacheImage
+                  source={this.state.item && this.state.item.get('avatarURL')}
+                  type='image'
                   style={styles.vendorIcon}
                 />
               </View>
               <View style={styles.vendorContentHolder}>
                 <Text numberOfLines={1} style={styles.vendorName}>
-                  {this.state.item.name}
+                  {this.state.item.get('name')}
                 </Text>
                 <Text style={styles.vendorAddress} numberOfLines={1}>
-                  {this.state.item.location.city}, {this.state.item.location.region}
+                  {this.state.item.getIn(['location', 'city'])}, {this.state.item.getIn(['location', 'region'])}
                 </Text>
                 <View style={[styles.statusHolder, styles.extraStatusHolderStyle]}>
-                  <Image
+                  <CacheImage
                     source={require("../../../assets/images/open_restaurant_status.png")}
+                    type='image'
                     style={styles.statusImage}
                   />
                   <Text style={[styles.status, styles.extraStatusStyle]}>Open Now</Text>
@@ -182,7 +186,7 @@ class FilteredVendorBottomCard extends Component {
               <Button
                 style={buttonStyles.goBtn}
                 textStyle={buttonStyles.goBtnText}
-                onPress={() => this.callMethod(this.state.item)}
+                onPress={() => null}
               >
                 Go
               </Button>

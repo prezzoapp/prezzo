@@ -5,8 +5,12 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ImagePicker, ImageManipulator, Permissions } from 'expo';
 import { ActionSheet } from 'native-base';
 import PropTypes from 'prop-types';
-import { Ionicons } from '@expo/vector-icons'
-import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
+import { Ionicons } from '../VectorIcons';
+import {
+  getTimeStampString,
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../services/commonFunctions';
 import styles from './styles';
 import showGenericAlert from '../GenericAlert';
 import CacheImage from '../CacheImage';
@@ -87,12 +91,20 @@ class ItemImagePicker extends React.Component<Props> {
               });
             });
           } catch(err) {
-            showAlertWithMessage('Uh-oh!', err);
+            if(err.code === 401) {
+              manuallyLogout(err, () => this.props.userLogout());
+            } else {
+              showAlertWithMessage('Uh-oh!', err);
+            }
           }
         });
       }
     } catch(err) {
-      showAlertWithMessage('Uh-oh!', err);
+      if(err.code === 401) {
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err);
+      }
     }
   };
 
@@ -136,12 +148,20 @@ class ItemImagePicker extends React.Component<Props> {
               });
             });
           } catch(err) {
-            showAlertWithMessage('Uh-oh!', err);
+            if(err.code === 401) {
+              manuallyLogout(err, () => this.props.userLogout());
+            } else {
+              showAlertWithMessage('Uh-oh!', err);
+            }
           }
         });
       }
     } catch(err) {
-      showAlertWithMessage('Uh-oh!', err);
+      if(err.code === 401) {
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err);
+      }
     }
   };
 
@@ -185,14 +205,15 @@ class ItemImagePicker extends React.Component<Props> {
             onPress={this.showAvatarActionSheet}
             style={styles.itemImagePickerBtn}
           >
-            <Image
+            <CacheImage
               style={styles.itemImage}
+              type='image'
               source={require('../../../assets/images/default_image_placeholder.png')}
             />
           </TouchableOpacity>
         ) : (
           <View style={styles.itemImagePickerBtn}>
-            <Image
+            <CacheImage
               style={styles.itemImage}
               type='image'
               selectImageThroughImagePicker={this.state.selectImageThroughImagePicker}

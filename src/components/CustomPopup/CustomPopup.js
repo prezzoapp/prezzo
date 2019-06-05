@@ -11,6 +11,8 @@ import PropTypes from 'prop-types';
 
 import Button from '../Button';
 
+import CacheImage from '../CacheImage';
+
 import { COLOR_WHITE, SF_PRO_TEXT_BOLD } from '../../services/constants';
 
 import styles from './styles';

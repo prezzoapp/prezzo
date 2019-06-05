@@ -364,11 +364,11 @@ class Tables extends Component {
     );
   }
 
-  onRefresh() {
+  onRefresh = () => {
     this.setState({ isFetching: true }, () => {
       this.getData();
     });
-  }
+  };
 
   getData(sectionIndex = null) {
     if(disableBtn === false) {

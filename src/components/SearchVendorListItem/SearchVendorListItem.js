@@ -3,6 +3,7 @@ import { Image, View, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import RatingBar from '../RatingBar';
 import styles from './styles';
+import CacheImage from '../CacheImage';
 
 const SearchVendorListItem = props => {
   return (
@@ -16,8 +17,9 @@ const SearchVendorListItem = props => {
         })
       }
     >
-      <Image
-        source={{ uri: props.item.avatarURL }}
+      <CacheImage
+        source={props.item.avatarURL}
+        type='image'
         style={styles.vendorImage}
       />
       <View style={styles.infoHolder}>

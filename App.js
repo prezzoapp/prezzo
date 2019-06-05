@@ -49,12 +49,25 @@ export default class Prezzo extends Component {
     didFontsLoad: false
   }
 
+
   async componentDidMount() {
-    console.log('Loading fonts.');
+    console.log('loading fonts...');
+    const images = [
+      require('./assets/images/etc/default-avatar.png'),
+      require('./assets/images/icons/edit.png'),
+      require('./assets/images/location.png'),
+      require('./assets/images/map-pin.png')
+    ];
+
     try {
       setConfiguration('API_ROOT', API_ROOT);
       await Promise.all(fonts.map(font => Font.loadAsync(font)));
 
+      await Promise.all([
+        images.map(image => Asset.fromModule(image).downloadAsync())
+      ]);
+
+      this.setState({ didFontsLoad: true });
       console.log('loaded fonts', Font, typeof Font, ' ');
 
       this.setState({ didFontsLoad: true });
