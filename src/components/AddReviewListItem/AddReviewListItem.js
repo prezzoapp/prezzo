@@ -3,7 +3,7 @@ import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 // import LinearGradient from 'react-native-linear-gradient';
 import { LinearGradient } from 'expo';
 import PropTypes from 'prop-types';
-import { Feather } from '../VectorIcons';
+import Feather from '@expo/vector-icons/Feather'
 import styles from './styles';
 import MenuItemImage from '../MenuItemImage';
 import CacheImage from '../CacheImage';

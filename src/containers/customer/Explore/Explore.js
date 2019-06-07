@@ -2,8 +2,8 @@
 import React, { PureComponent } from 'react';
 import { View, ActivityIndicator, Text, Modal, Animated, FlatList, Platform, NetInfo } from 'react-native';
 import { LinearGradient, BlurView, Location, Permissions } from 'expo';
+import { MaterialIcons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
-import { MaterialIcons } from '../../../components/VectorIcons';
 import ExploreSearch from '../ExploreSearch';
 import ExploreScreenHeader from '../ExploreScreenHeader';
 import ExploreList from '../ExploreList';

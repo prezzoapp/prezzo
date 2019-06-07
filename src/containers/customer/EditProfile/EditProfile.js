@@ -14,8 +14,9 @@ import {
 import { ActionSheet } from 'native-base';
 import { ImagePicker, Permissions, ImageManipulator, FileSystem } from 'expo';
 import PropTypes from 'prop-types';
+import { MaterialIcons, Feather } from '@expo/vector-icons';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
-import { MaterialIcons, Feather } from '../../../components/VectorIcons';
+
 import ProfileDataField from '../../../components/ProfileDataField';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import LoadingComponent from '../../../components/LoadingComponent';

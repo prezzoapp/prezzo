@@ -14,7 +14,7 @@ import Slider from 'react-native-slider';
 import shorthash from 'shorthash';
 import { ImagePicker, Permissions, ImageManipulator, FileSystem } from 'expo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Ionicons, Feather } from '../../../components/VectorIcons';
+import { Ionicons, Feather } from '@expo/vector-icons';
 import { getTimeStampString } from '../../../services/commonFunctions';
 import ProfileTextInput from '../../../components/ProfileTextInput';
 import ProfileDataField from '../../../components/ProfileDataField';

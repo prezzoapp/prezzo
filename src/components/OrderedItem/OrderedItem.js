@@ -3,9 +3,10 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
-import styles from './styles';
-import { FontAwesome, Entypo } from '../VectorIcons';
+import { FontAwesome, Entypo } from '@expo/vector-icons';
+
 import CacheImage from '../CacheImage';
+import styles from './styles';
 
 const OrderedItem = props => {
   itemSeparatorComponent = () => {

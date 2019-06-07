@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactNative, { View, FlatList, Text, Image, TouchableOpacity, PanResponder, Animated, Dimensions } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
-import { Feather } from '../VectorIcons';
+import { Feather } from '@expo/vector-icons'
 import Button from '../Button';
 import FilteredVendorBottomCardItem from './FilteredVendorBottomCardItem';
 

@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { FileSystem } from 'expo';
 import shorthash from 'shorthash';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { MaterialIcons, Feather } from '../../../components/VectorIcons';
+import { MaterialIcons, Feather } from '@expo/vector-icons';
 import MenuItem from '../../../components/MenuItem';
 import {
   COLOR_BLACK,

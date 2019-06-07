@@ -10,7 +10,7 @@ import OpenOrdersList from '../OpenOrdersList';
 import OpenTablePayment from '../OpenTablePayment';
 import OpenDelivery from '../OpenDelivery';
 import Button from '../Button';
-import { Feather } from '../VectorIcons';
+import { Feather } from '@expo/vector-icons'
 
 import {
   FONT_FAMILY_MEDIUM,

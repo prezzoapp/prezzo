@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import {
   View,
   Text,
@@ -10,35 +9,23 @@ import {
   ActivityIndicator,
   Platform
 } from 'react-native';
-
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-
 import PropTypes from 'prop-types';
-
 import { Header } from 'react-navigation';
-
 import { LinearGradient, BlurView, Constants } from 'expo';
-
+import { Feather } from '@expo/vector-icons';
 import { List } from 'immutable';
 
-import { Feather } from '../../../components/VectorIcons';
-
 import styles from './styles';
-
 import RestaurantItem from '../../../components/RestaurantItem';
-
 import LoadingComponent from '../../../components/LoadingComponent';
-
 import Button from '../../../components/Button';
-
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
-
 import {
   showAlertWithMessage,
   manuallyLogout
 } from '../../../services/commonFunctions';
 import Checkout from '../Checkout';
-
 import CustomPopup from '../../../components/CustomPopup';
 import CacheImage from '../../../components/CacheImage';
 

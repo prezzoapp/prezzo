@@ -17,9 +17,9 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import {
   FONT_FAMILY,
   FONT_FAMILY_REGULAR,
-  FONT_FAMILY_MEDIUM
+  FONT_FAMILY_MEDIUM 
 } from '../../../services/constants';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
 import { Constants } from 'expo';

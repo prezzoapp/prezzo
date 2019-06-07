@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
-import { Feather } from '../VectorIcons';
+import { Feather } from '@expo/vector-icons'
 import PropTypes from 'prop-types';
 import MenuItemImage from '../MenuItemImage';
 import styles from './styles';

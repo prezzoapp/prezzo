@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { Dimensions, Text, TouchableOpacity, View } from 'react-native';
-import { MaterialIcons } from '../VectorIcons';
+import { MaterialIcons } from '@expo/vector-icons'
 import PropTypes from 'prop-types'
 import { FONT_FAMILY, FONT_FAMILY_MEDIUM } from '../../services/constants';
 import {
