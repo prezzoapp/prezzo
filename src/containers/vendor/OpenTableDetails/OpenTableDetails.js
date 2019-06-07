@@ -13,10 +13,11 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { Feather } from '@expo/vector-icons';
+
 import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import styles from './styles';
-import { Feather } from '../../../components/VectorIcons';
 import CacheImage from '../../../components/CacheImage';
 import { TAX } from '../../../services/constants';
 import {

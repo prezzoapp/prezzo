@@ -1,20 +1,22 @@
-// @flow
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { AppRegistry, View, StyleSheet, ActivityIndicator } from 'react-native';
-import { MaterialIcons, EvilIcons, Ionicons, Feather, FontAwesome, Entypo, Foundation } from '@expo/vector-icons';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator
+} from 'react-native';
 import {API_ROOT} from './env';
-import {setConfiguration} from './src/utils/configuration';
-import { Font, Icon, Asset } from 'expo';
-import 'expo';
+import { setConfiguration } from './src/utils/configuration';
+import * as Font from 'expo-font';
 require('react-native-browser-polyfill');
 
 global.self = global;
 
-class Prezzo extends Component {
+export default class App extends Component {
   state = {
     didFontsLoad: false
-  };
+  }
 
   async componentDidMount() {
     setConfiguration('API_ROOT', API_ROOT);
@@ -23,12 +25,6 @@ class Prezzo extends Component {
 
 
   async loadFonts() {
-    console.log('loading fonts...');
-
-    const images = [
-      require('./assets/images/etc/default-avatar.png')
-    ];
-
     try {
       await Font.loadAsync({
         'ClearSans-Light': require('./assets/fonts/clear-sans/ClearSans-Light.ttf'),
@@ -50,36 +46,32 @@ class Prezzo extends Component {
         'SFProText-Bold': require('./assets/fonts/sfpro-text/SFProText-Bold.ttf'),
         'SFProText-SemiBold': require('./assets/fonts/sfpro-text/SFProText-SemiBold.ttf'),
 
-        'material': require('@expo/vector-icons/fonts/MaterialIcons.ttf'),
-        'ionicons': require('@expo/vector-icons/fonts/Ionicons.ttf'),
-        'entypo': require('@expo/vector-icons/fonts/Entypo.ttf'),
-        'feather': require('@expo/vector-icons/fonts/Feather.ttf'),
-        'evilicons': require('@expo/vector-icons/fonts/EvilIcons.ttf'),
-        'awesome' : require('@expo/vector-icons/fonts/FontAwesome.ttf'),
-        'foundation' : require('@expo/vector-icons/fonts/Foundation.ttf'),
-        'material-community': require('@expo/vector-icons/fonts/MaterialCommunityIcons.ttf'),
-        'octicons': require('@expo/vector-icons/fonts/Octicons.ttf'),
-        'zocial': require('@expo/vector-icons/fonts/Zocial.ttf'),
-        'simple-line-icons': require('@expo/vector-icons/fonts/SimpleLineIcons.ttf')
+        'material': require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/MaterialIcons.ttf'),
+        'ionicons': require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/Ionicons.ttf'),
+        'entypo': require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/Entypo.ttf'),
+        'feather': require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/Feather.ttf'),
+        'evilicons': require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/EvilIcons.ttf'),
+        'awesome' : require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf'),
+        'foundation' : require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/Foundation.ttf'),
+        'material-community': require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf'),
+        'octicons': require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/Octicons.ttf'),
+        'zocial': require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/Zocial.ttf'),
+        'simple-line-icons': require('@expo/vector-icons/src/vendor/react-native-vector-icons/Fonts/SimpleLineIcons.ttf')
       });
 
-      images.map(async (image) => await Asset.fromModule(image).downloadAsync());
-
       this.setState({ didFontsLoad: true });
-      console.log('loaded fonts', Font, typeof Font, ' ');
-
-    } catch (error) {
-      console.log('error loading fonts', error);
+    } catch (e) {
+      console.log('error loading fonts', e);
     }
-   }
+  }
 
   render() {
-    console.log('rendering...');
+    const { didFontsLoad } = this.state;
 
-    if (!this.state.didFontsLoad) {
+    if (!didFontsLoad) {
       return (
-        <View style={{ flex: 1 }}>
-          <ActivityIndicator style={styles.centered} />
+        <View style={styles.container}>
+          <ActivityIndicator style={styles.loading} />
         </View>
       );
     }
@@ -96,10 +88,14 @@ class Prezzo extends Component {
 }
 
 const styles = StyleSheet.create({
-  centered: {
+  container: {
+    flex: 1,
+    backgroundColor: '#333',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loading: {
     flex: 1,
     alignSelf: 'center'
   }
 });
-
-AppRegistry.registerComponent('Prezzo', () => Prezzo);

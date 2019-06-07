@@ -15,7 +15,7 @@ import { BlurView, LinearGradient } from 'expo';
 import PropTypes from 'prop-types';
 import styles from './styles';
 import TableScreenHeader from '../TableScreenHeader';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import OpenTableItem from '../../../components/OpenTableItem';
 import QueuedTableItem from '../../../components/QueuedTableItem';
 import TableListHeader from '../../../components/TableListHeader';
@@ -328,12 +328,13 @@ class Activity extends Component {
       <FlatList
         keyExtractor={(item, index) => item._id.toString()}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: this.props.waiterRequestedTableList.size === 0 ? 'center' : null }]}
+        contentContainerStyle={[styles.flatListContentContainerStyle, { justifyContent: (this.props.waiterRequestedTableList || {}).size === 0 ? 'center' : null }]}
         ListEmptyComponent={this.listEmptyComponent}
         onRefresh={() => this.onRefresh()}
         refreshing={this.state.isFetching}
         ItemSeparatorComponent={() => <View style={styles.separator}/>}
-        data={this.props.waiterRequestedTableList.size !== 0 ? this.props.waiterRequestedTableList.toJS() : []}
+        data={this.props.waiterRequestedTableList && this.props.waiterRequestedTableList.size !== 0 ?
+          this.props.waiterRequestedTableList.toJS() : []}
         renderItem={rowData => (
           <OpenTableItem
             data={rowData}

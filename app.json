@@ -1,23 +1,30 @@
 {
   "expo": {
-    "name": "Prezzo",
+    "name": "prezzo",
+    "slug": "prezzo",
+    "privacy": "public",
+    "sdkVersion": "33.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
     "icon": "./assets/images/app-icon/prezzo-1024@1x.ios.png",
-    "slug": "Prezzo",
-    "appKey": "Prezzo",
-    "sdkVersion": "28.0.0",
-    "privacy": "unlisted",
-    "facebookAppId": "2029030444036230",
-    "facebookDisplayName": "Prezzo",
-    "facebookScheme": "fb2029030444036230",
-    "packagerOpts": {
-      "assetExts": ["json", "ttf"]
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "bundleIdentifier": "io.prezzo.Prezzo"
-    },
-    "android": {
-      "package": "io.prezzo.Prezzo"
-    },
-    "version": "1.0.0"
+      "supportsTablet": true
+    }
   }
 }

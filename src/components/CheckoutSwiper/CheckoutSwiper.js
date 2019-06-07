@@ -5,21 +5,14 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-
 import { Picker } from 'native-base';
-
 import PropTypes from 'prop-types';
-
-import { Feather, Ionicons } from '../VectorIcons';
+import { Feather, Ionicons } from '@expo/vector-icons'
 
 import Button from '../Button';
-
 import { FONT_FAMILY, COLOR_WHITE } from '../../services/constants';
-
 import styles, { stylesRaw } from './styles';
-
 import showGenericAlert from '../GenericAlert';
-
 import CacheImage from '../CacheImage';
 
 const CREDIT_CARD = 'credit_card';

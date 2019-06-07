@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Slider from 'react-native-slider';
 import { LinearGradient } from 'expo';
-import { EvilIcons } from '../../../components/VectorIcons';
+import { EvilIcons } from '@expo/vector-icons';
 import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 import showGenericAlert from '../../../components/GenericAlert';

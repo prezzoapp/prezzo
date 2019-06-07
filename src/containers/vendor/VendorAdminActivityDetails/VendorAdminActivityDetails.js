@@ -16,9 +16,10 @@ import { fromJS } from 'immutable';
 import PropTypes from 'prop-types';
 import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
-import { Feather } from '../../../components/VectorIcons';
 import CacheImage from '../../../components/CacheImage';
+import Button from '../../../components/Button';
 import styles from './styles';
+import { Feather } from '@expo/vector-icons';
 
 import {
   FONT_FAMILY_MEDIUM,

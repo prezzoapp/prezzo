@@ -5,7 +5,7 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ImagePicker, ImageManipulator, Permissions } from 'expo';
 import { ActionSheet } from 'native-base';
 import PropTypes from 'prop-types';
-import { Ionicons } from '../VectorIcons';
+import { Ionicons } from '@expo/vector-icons'
 import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
 import styles from './styles';
 import showGenericAlert from '../GenericAlert';

@@ -15,7 +15,7 @@ import {
 } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { WebView } from 'react-native-webview-messaging/WebView';
-import { Feather } from '../../../components/VectorIcons';
+import { Feather } from '@expo/vector-icons';
 import styles from './styles';
 import Button from '../../../components/Button';
 import showGenericAlert from '../../../components/GenericAlert';

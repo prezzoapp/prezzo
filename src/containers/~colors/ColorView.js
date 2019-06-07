@@ -6,7 +6,7 @@ import {
   StyleSheet
 } from 'react-native';
 
-import { MaterialIcons } from '../../components/VectorIcons';
+import { MaterialIcons } from '@expo/vector-icons'
 
 const color = () => Math.floor(255 * Math.random());
 

@@ -16,7 +16,7 @@ import { LinearGradient } from 'expo';
 
 import PropTypes from 'prop-types';
 
-import { EvilIcons } from '../VectorIcons';
+import { EvilIcons } from '@expo/vector-icons'
 
 import styles from './styles';
 

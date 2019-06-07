@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import styles from './styles';
-import { Feather, Ionicons } from '../VectorIcons';
+import { Feather, Ionicons } from '@expo/vector-icons'
 
 export default class ClosedTableTabs extends Component {
   onListTypeSelection = section => {
