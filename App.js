@@ -9,6 +9,7 @@ import {
 import {API_ROOT} from './env';
 import { setConfiguration } from './src/utils/configuration';
 import * as Font from 'expo-font';
+import { Asset } from 'expo-asset';
 require('react-native-browser-polyfill');
 
 global.self = global;

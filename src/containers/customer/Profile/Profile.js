@@ -209,7 +209,7 @@ class Profile extends Component {
       quality: 0.3
     });
     if (!result.cancelled) {
-      const resultEdited = await ImageManipulator.manipulate(
+      const resultEdited = await ImageManipulator.manipulateAsync(
         result.uri,
         [{ resize: { width: 150 }}],
         { format: 'jpeg', compress: 0.3 }
@@ -230,7 +230,7 @@ class Profile extends Component {
       quality: 0.3
     });
     if (!result.cancelled) {
-      const resultEdited = await ImageManipulator.manipulate(
+      const resultEdited = await ImageManipulator.manipulateAsync(
         result.uri,
         [{ resize: { width: 150 }}],
         { format: 'jpeg', compress: 0.3 }
