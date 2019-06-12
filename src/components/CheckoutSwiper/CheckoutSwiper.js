@@ -324,7 +324,10 @@ export default class CheckoutSwiper extends Component {
                           />
                         </Picker>
                       </View>
-                    ): null}
+                    )
+                  }
+                  return null;
+                })()}
               </View>
             </View>
           </View>

@@ -39,6 +39,7 @@ import LoginTextInput from '../../../components/LoginTextInput';
 import alert from '../../../components/GenericAlert';
 import NextButton from './NextButton';
 import CacheImage from '../../../components/CacheImage';
+import LoadingComponent from '../../../components/LoadingComponent';
 
 const windowHeight = Dimensions.get('window').height;
 let keyboardDidShowCalled = false;
@@ -50,7 +51,8 @@ let gap = 0;
 type Props = {
   updateEmail: Function,
   updateSubscriptionToPromotions: Function,
-  navigate: Function
+  navigate: Function,
+  isBusy: Boolean
 };
 
 const containerPaddingLeftRight: number = wp('10.66%');
@@ -276,6 +278,7 @@ class SignupEmail extends React.Component<Props> {
             />
           </ScrollView>
         </KeyboardAvoidingView>
+        <LoadingComponent visible={this.props.isBusy} />
       </CacheImage>
     );
   }
@@ -283,7 +286,8 @@ class SignupEmail extends React.Component<Props> {
 
 export default connect(state => ({
   email: state.get('signup').get('email'),
-  isSubscribedToPromotions: state.get('signup').get('isSubscribedToPromotions')
+  isSubscribedToPromotions: state.get('signup').get('isSubscribedToPromotions'),
+  isBusy: state.get('user').get('isBusy')
 }), dispatch => {
   return {
     findUser: bindActionCreators(findUser, dispatch),

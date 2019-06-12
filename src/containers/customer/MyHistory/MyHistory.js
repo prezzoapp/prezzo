@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList, View, TouchableOpacity, Text, ActivityIndicator, InteractionManager } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { MaterialIcons, Feather } from '../../../components/VectorIcons';
+import { MaterialIcons, Feather } from '@expo/vector-icons';
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE, COLOR_BLACK } from '../../../services/constants';
 import MyHistoryItem from '../../../components/MyHistoryItem';
 import LoadingComponent from '../../../components/LoadingComponent';

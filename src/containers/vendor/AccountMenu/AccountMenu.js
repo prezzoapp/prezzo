@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { MaterialIcons } from '@expo/vector-icons';
 import MenuButton from '../../../components/MenuButton';
+import showGenericAlert from '../../../components/GenericAlert';
 import * as snapshot from '../../../utils/snapshot';
 import LoadingComponent from '../../../components/LoadingComponent';
 import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
@@ -59,24 +60,33 @@ export default class AccountMenu extends React.Component {
     });
   }
 
-  async logout() {
-    if(disableBtn === false) {
-      disableBtn = true;
-      try {
-        await this.props.userLogout(true);
-        await snapshot.clearSnapshot();
-        disableBtn = false;
-      } catch(e) {
-        if(e.code === 401) {
-          manuallyLogout(e, () => this.props.userLogout());
-        } else {
-          showAlertWithMessage('Uh-oh!', e, () => {
-            disableBtn = false;
-          });
-        }
-      }
-    }
-  }
+  logout = () => {
+    showGenericAlert(
+      'Logout',
+      'Are you sure?',
+      [
+        { text: 'Yes', onPress: async () => {
+          if(disableBtn === false) {
+            disableBtn = true;
+            try {
+              await this.props.userLogout(true);
+              await snapshot.clearSnapshot();
+              disableBtn = false;
+            } catch(err) {
+              if(err.code === 401) {
+                manuallyLogout(err, () => this.props.userLogout());
+              } else {
+                showAlertWithMessage('Uh-oh!', err, () => {
+                  disableBtn = false;
+                });
+              }
+            }
+          }
+        }},
+        { text: 'No', onPress: () => null }
+      ]
+    );
+  };
 
   createMenu(vendor, menu) {
     if(disableBtn === false) {

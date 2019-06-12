@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
+import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { ACCEPT_ORDER, DELETE_ORDER } from '../../services/constants';

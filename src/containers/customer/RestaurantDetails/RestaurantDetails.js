@@ -107,6 +107,15 @@ export default class RestaurantDetails extends Component {
     console.log('RestaurantDetails component mounted!');
     InteractionManager.runAfterInteractions(() => {
       this.props.addRestaurantDetail(this.props.navigation.state.params.item);
+      this.props.listCreditCards()
+        .then(() => {})
+        .catch(err => {
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err);
+          }
+        });
     });
   }
 
@@ -691,6 +700,7 @@ RestaurantDetails.propTypes = {
   navigation: PropTypes.object.isRequired,
   addRestaurantDetail: PropTypes.func.isRequired,
   removeRestaurantDetail: PropTypes.func.isRequired,
+  listCreditCards: PropTypes.func.isRequired,
   clearCartData: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   addRemoveItemQuantity: PropTypes.func.isRequired,

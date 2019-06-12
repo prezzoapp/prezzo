@@ -13,7 +13,7 @@ type Props = {};
 
 class Button extends Component {
   render() {
-    const { disabled, onPress, style, textStyle, children } = this.props;
+    const { disabled, onPress, style, textStyle, childrenEle, children } = this.props;
     let newStyle = {};
     let newTextStyle = {};
 
@@ -45,7 +45,8 @@ class Button extends Component {
         {childrenEle === 'View' ? children : <Text style={textStyleFinal}>{children}</Text>}
       </TouchableOpacity>
     );
-};
+  }
+}
 
 const styles = {
   text: {

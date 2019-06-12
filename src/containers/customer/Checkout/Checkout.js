@@ -80,18 +80,6 @@ export default class Checkout extends Component {
     });
   }
 
-  componentDidMount() {
-    this.props.listCreditCards()
-      .then(() => {})
-      .catch(err => {
-        if(err.code === 401) {
-          manuallyLogout(err, () => this.props.userLogout());
-        } else {
-          showAlertWithMessage('Uh-oh!', err);
-        }
-      });
-  }
-
   onScrollEnd = index => {
     scrollViewRef.current.scrollTo({
       x: parseFloat(width * index),
@@ -156,10 +144,6 @@ export default class Checkout extends Component {
 
   isSelectedPaymentMethod = val => {
     this.props.isSelectedPaymentMethod(val);
-  };
-
-  setType = type => {
-    this.props.setType(type);
   };
 
   render() {
@@ -252,11 +236,9 @@ Checkout.propTypes = {
   setCurrentIndex: PropTypes.func.isRequired,
   showNextOrderBtn: PropTypes.func.isRequired,
   hideNextOrderBtn: PropTypes.func.isRequired,
-  setType: PropTypes.func.isRequired,
-  listCreditCards: PropTypes.func.isRequired,
   userLogout: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired,
-  creditCardList: PropTypes.array.isRequired,
+  creditCardList: PropTypes.object.isRequired,
   isSelectedPaymentMethod: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired
 };

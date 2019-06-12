@@ -1,4 +1,3 @@
-// @flow
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { AppRegistry, View, StyleSheet, ActivityIndicator } from 'react-native';
@@ -45,31 +44,25 @@ const fonts = [
   }
 ];
 
+const images = [
+  require('./assets/images/etc/default-avatar.png'),
+  require('./assets/images/icons/edit.png'),
+  require('./assets/images/location.png'),
+  require('./assets/images/map-pin.png')
+];
+
 export default class Prezzo extends Component {
   state = {
     didFontsLoad: false
   };
 
   async componentDidMount() {
-    setConfiguration('API_ROOT', API_ROOT);
-    await this.loadFonts();
-  }
-
-
-  async loadFonts() {
-    console.log('loading fonts...');
-    const images = [
-      require('./assets/images/etc/default-avatar.png'),
-      require('./assets/images/icons/edit.png'),
-      require('./assets/images/location.png'),
-      require('./assets/images/map-pin.png')
-    ];
-
+    console.log('Loading fonts.');
     try {
       setConfiguration('API_ROOT', API_ROOT);
       await Promise.all([
-        fonts.map(font => Font.loadAsync(font)),
-        images.map(image => Asset.fromModule(image).downloadAsync())
+        ...fonts.map(font => Font.loadAsync(font)),
+        ...images.map(image => Asset.fromModule(image).downloadAsync())
       ]);
 
       console.log('loaded fonts', Font, typeof Font, ' ');
@@ -109,5 +102,3 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   }
 });
-
-// AppRegistry.registerComponent('Prezzo', () => Prezzo);

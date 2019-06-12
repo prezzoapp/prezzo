@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     borderRadius: 8,
     borderWidth: 1,
-    height: wp('9.33%'),
+    height: 34,
     marginTop: wp('4%')
   },
 
@@ -214,12 +214,10 @@ const styles = StyleSheet.create({
 
 export const stylesRaw = {
   pickerIcon: {
-    position: 'absolute',
     color: '#fff',
     fontSize: wp('4.26%'),
-    marginLeft: 0,
     position: 'relative',
-    top: -wp('1.3%'),
+    top: -wp('1%'),
     right: wp('2%')
   }
 };
