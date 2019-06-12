@@ -297,7 +297,6 @@ export default class CheckoutSwiper extends Component {
                           selectedValue={this.state.selectedPaymentMethod}
                           onValueChange={(itemValue, itemIndex) => this.selectPaymentMethod(itemValue)}
                           style={styles.cardPicker}
-                          textStyle={styles.cardPickerText}
                         >
                           <Picker.Item
                             label="Select a payment method"

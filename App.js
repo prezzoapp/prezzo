@@ -13,7 +13,6 @@ import {
 import {API_ROOT} from './env';
 import {setConfiguration} from './src/utils/configuration';
 import { Font, Icon, Asset } from 'expo';
-import 'expo';
 require('react-native-browser-polyfill');
 
 global.self = global;
@@ -68,13 +67,11 @@ export default class Prezzo extends Component {
 
     try {
       setConfiguration('API_ROOT', API_ROOT);
-      await Promise.all(fonts.map(font => Font.loadAsync(font)));
-
       await Promise.all([
+        fonts.map(font => Font.loadAsync(font)),
         images.map(image => Asset.fromModule(image).downloadAsync())
       ]);
 
-      this.setState({ didFontsLoad: true });
       console.log('loaded fonts', Font, typeof Font, ' ');
 
       this.setState({ didFontsLoad: true });
@@ -102,17 +99,6 @@ export default class Prezzo extends Component {
           <ActivityIndicator style={styles.centered} />
         </View>
       );
-
-      // console.log('App Loaded!');
-      // console.log(this.state.didFontsLoad);
-      // const AppViewContainer = require('./src/containers/shared/AppViewContainer').default;
-      // const store = require('./src/redux/store').default;
-      //
-      // return (
-      //   <Provider store={store}>
-      //     <AppViewContainer />
-      //   </Provider>
-      // );
     }
   }
 }

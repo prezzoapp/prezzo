@@ -90,23 +90,25 @@ export default class ExploreList extends PureComponent {
   render(){
     const restaurants = this.props.restaurants;
     return (
-      <FlatList
-        contentContainerStyle={[
-          styles.flatListContentContainerStyle,
-          {
-            justifyContent: restaurants.size === 0 ? 'center' : null
-          }
-        ]}
-        style={styles.flatListStyle}
-        ItemSeparatorComponent={this.itemSeparator}
-        initialNumToRender={10}
-        ListEmptyComponent={this.listEmptyComponent}
-        onRefresh={this.onRefresh}
-        refreshing={this.state.isFetching}
-        keyExtractor={item => item.get('_id').toString()}
-        data={restaurants.toArray()}
-        renderItem={this.renderItem}
-      />
+      <View style={{ flex: 1, overflow: 'hidden' }}>
+        <FlatList
+          contentContainerStyle={[
+            styles.flatListContentContainerStyle,
+            {
+              justifyContent: restaurants.size === 0 ? 'center' : null
+            }
+          ]}
+          style={styles.flatListStyle}
+          ItemSeparatorComponent={this.itemSeparator}
+          initialNumToRender={10}
+          ListEmptyComponent={this.listEmptyComponent}
+          onRefresh={this.onRefresh}
+          refreshing={this.state.isFetching}
+          keyExtractor={item => item.get('_id').toString()}
+          data={restaurants.toArray()}
+          renderItem={this.renderItem}
+        />
+      </View>
     );
   }
 }

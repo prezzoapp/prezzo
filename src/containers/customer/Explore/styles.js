@@ -85,7 +85,7 @@ export default StyleSheet.create({
     right: 0,
     bottom: -10.25
   },
-  
+
   thumbStyle: {
     height: 13,
     width: 13
