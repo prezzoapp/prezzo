@@ -196,7 +196,7 @@ class PaymentMenu extends Component {
 }
 
 PaymentMenu.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
   navigate: PropTypes.func.isRequired,
   listCreditCards: PropTypes.func.isRequired,
   removeCreditCard: PropTypes.func.isRequired,

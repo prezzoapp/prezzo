@@ -267,11 +267,6 @@ export const stylesRaw = {
     fontSize: 16,
     marginLeft: 0,
     position: 'absolute',
-    right: wp('2%')
-  },
-  spinnerContainer: {
-    position: 'absolute',
-    right: 14,
-    top: 60
+    right: wp('1.3%')
   }
 };

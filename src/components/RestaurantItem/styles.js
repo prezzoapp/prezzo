@@ -50,13 +50,9 @@ const styles = StyleSheet.create({
     lineHeight: wp('6.4%')
   },
 
-  // swiper: {
-  //   height: hp('44.55%')
-  // },
-
   itemImage: {
     flex: 1,
-    height: hp('44.55%'),
+    height: hp('43%'),
     marginHorizontal: 10,
     overflow: 'hidden',
     justifyContent: 'flex-end',
@@ -75,7 +71,7 @@ const styles = StyleSheet.create({
   bottomContentHolder: {
     justifyContent: 'space-between',
     position: 'absolute',
-    bottom: wp('6%'),
+    bottom: wp('4%'),
     left: 0,
     right: 0,
     flexDirection: 'row',

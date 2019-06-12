@@ -44,27 +44,27 @@ const fonts = [
   }
 ];
 
+const images = [
+  require('./assets/images/etc/default-avatar.png'),
+  require('./assets/images/icons/edit.png'),
+  require('./assets/images/location.png'),
+  require('./assets/images/map-pin.png')
+];
+
 export default class Prezzo extends Component {
   state = {
     didFontsLoad: false
-  }
-
+  };
 
   async componentDidMount() {
-    console.log('loading fonts...');
-    const images = [
-      require('./assets/images/etc/default-avatar.png'),
-      require('./assets/images/icons/edit.png'),
-      require('./assets/images/location.png'),
-      require('./assets/images/map-pin.png')
-    ];
-
+    console.log('Loading fonts.');
     try {
       setConfiguration('API_ROOT', API_ROOT);
       await Promise.all(fonts.map(font => Font.loadAsync(font)));
 
       await Promise.all([
-        images.map(image => Asset.fromModule(image).downloadAsync())
+        ...fonts.map(font => Font.loadAsync(font)),
+        ...images.map(image => Asset.fromModule(image).downloadAsync())
       ]);
 
       this.setState({ didFontsLoad: true });

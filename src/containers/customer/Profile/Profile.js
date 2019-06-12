@@ -8,6 +8,7 @@ import { ImagePicker, Permissions, ImageManipulator, FileSystem } from 'expo';
 import MenuButton from '../../../components/MenuButton';
 import * as snapshot from '../../../utils/snapshot';
 import { getTimeStampString } from '../../../services/commonFunctions';
+import showGenericAlert from '../../../components/GenericAlert';
 import LoadingComponent from '../../../components/LoadingComponent';
 import CacheImage from '../../../components/CacheImage';
 import {
@@ -79,24 +80,33 @@ class Profile extends Component {
     }
   }
 
-  async logout() {
-    if(disableBtn === false) {
-      disableBtn = true;
-      try {
-        await this.props.userLogout(true);
-        await snapshot.clearSnapshot();
-        disableBtn = false;
-      } catch(err) {
-        if(err.code === 401) {
-          manuallyLogout(err, () => this.props.userLogout());
-        } else {
-          showAlertWithMessage('Uh-oh!', err, () => {
-            disableBtn = false;
-          });
-        }
-      }
-    }
-  }
+  logout = () => {
+    showGenericAlert(
+      'Logout',
+      'Are you sure?',
+      [
+        { text: 'Yes', onPress: async () => {
+          if(disableBtn === false) {
+            disableBtn = true;
+            try {
+              await this.props.userLogout(true);
+              await snapshot.clearSnapshot();
+              disableBtn = false;
+            } catch(err) {
+              if(err.code === 401) {
+                manuallyLogout(err, () => this.props.userLogout());
+              } else {
+                showAlertWithMessage('Uh-oh!', err, () => {
+                  disableBtn = false;
+                });
+              }
+            }
+          }
+        }},
+        { text: 'No', onPress: () => null }
+      ]
+    );
+  };
 
   navigateToEditProfile() {
     if(disableBtn === false) {
@@ -310,7 +320,7 @@ class Profile extends Component {
                 <Text style={styles.footerText}>Help</Text>
               </View>
             </TouchableOpacity>*/}
-            <TouchableOpacity onPress={() => this.logout()}>
+            <TouchableOpacity onPress={this.logout}>
               <View style={styles.footerRight}>
                 <Text style={styles.footerText}>Log Out</Text>
               </View>
@@ -395,8 +405,7 @@ const styles = StyleSheet.create({
 Profile.propTypes = {
   navigate: PropTypes.func.isRequired,
   avatarURL: PropTypes.string.isRequired,
-  userLogout: PropTypes.func.isRequired,
-  logoutIsBusy: PropTypes.bool.isRequired
+  userLogout: PropTypes.func.isRequired
 };
 
 export default Profile;

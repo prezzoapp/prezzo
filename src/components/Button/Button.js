@@ -45,7 +45,8 @@ class Button extends Component {
         {childrenEle === 'View' ? children : <Text style={textStyleFinal}>{children}</Text>}
       </TouchableOpacity>
     );
-};
+  }
+}
 
 const styles = {
   text: {

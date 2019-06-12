@@ -10,6 +10,7 @@ import ExploreSearchInput from '../../../components/ExploreSearchInput';
 import FilterItem from '../../../components/FilterItem';
 import Slider from 'react-native-slider';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import showGenericAlert from '../../../components/GenericAlert';
 import styles from './styles';
 import { get } from '../../../utils/api';
 import LoadingComponent from '../../../components/LoadingComponent';
@@ -500,7 +501,7 @@ class Explore extends PureComponent<Props> {
             />
           }
         </View>
-        <LoadingComponent visible={this.props.isBusy} />
+        <LoadingComponent visible={false} />
       </LinearGradient>
     );
   }
