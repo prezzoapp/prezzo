@@ -31,7 +31,6 @@
     ]
   },
   "dependencies": {
-    "@welldone-software/why-did-you-render": "^3.0.7",
     "babel-eslint": "^8.2.6",
     "bluebird": "^3.3.5",
     "braintree-web": "^3.45.0",
@@ -61,7 +60,6 @@
     "react-native-slider": "^0.11.0",
     "react-native-snap-carousel": "^3.7.2",
     "react-native-swiper": "^1.5.13",
-    "react-native-vector-icons": "^6.4.2",
     "react-native-web": "^0.11.4",
     "react-native-webview-messaging": "^1.2.3",
     "react-navigation": "2.2.0",
@@ -99,6 +97,6 @@
     "react-native-mock": "~0.2.5",
     "react-test-renderer": "16.3.1",
     "rimraf": "^2.5.2",
-    "webpack": "^4.32.2",
+    "webpack": "^4.32.2"
   }
 }

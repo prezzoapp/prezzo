@@ -219,7 +219,8 @@ class Explore extends PureComponent<Props> {
   };
 
   render() {
-    const filters = this.props.filter;
+    const filters = this.props.filters;
+    console.log(filters);
     const { callWaiterBtnState, isUserOpenOrder } = this.props;
     return (
       <LinearGradient

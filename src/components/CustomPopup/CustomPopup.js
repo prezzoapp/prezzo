@@ -29,7 +29,7 @@ const CustomPopup = props => (
       <View style={styles.modalView}>
         <BlurView style={styles.blurView} tint="dark" intensity={100} />
         <CacheImage
-          source={props.image
+          source={props.image}
           type='image'
           style={styles.imageIcon}
         />

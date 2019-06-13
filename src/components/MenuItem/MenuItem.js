@@ -239,7 +239,6 @@ export default class MenuItem extends Component {
           >
             {this.state.editItem ? (
               <TextInput
-                autoFocus
                 underlineColorAndroid="transparent"
                 value={this.state.title}
                 style={[styles.textInput, styles.paddingBottom_21]}

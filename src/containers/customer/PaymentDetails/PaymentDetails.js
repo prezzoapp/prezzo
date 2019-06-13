@@ -219,7 +219,7 @@ class PaymentDetails extends Component {
       }
       if(card.token === '') {
         disableBtn = false;
-        showGenericAlert('Uh-oh!', 'Invalid token');
+        showGenericAlert('Uh-oh!', 'Invalid token!');
       } else {
         this.props.showLoading();
         webViewRef.current.sendJSON({
