@@ -12,7 +12,8 @@ import ReactNative, {
   findNodeHandle,
   UIManager,
   Dimensions,
-  Keyboard
+  Keyboard,
+  InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -62,6 +63,8 @@ const containerPaddingTopBottom: number = 80;
 const avatarSize: number = wp('17.33%');
 
 const SCROLL_VIEW_TOP_PADDING = hp('14.40%') - (Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 13 : 0));
+
+let disableBtn = false;
 
 const styles = StyleSheet.create({
   container: {
@@ -263,22 +266,33 @@ class SignupMergeFacebook extends React.Component<Props, State> {
     return password ? true : false;
   }
 
-  loginAndUpdateFacebook() {
-    const {
-      email,
-      password,
-      loginWithEmail,
-      facebookId,
-      facebookToken
-    } = this.props;
-
-    this.setState({ isBusy: true }, () => {
-      this.props.loginWithEmail(email, password)
-        .then(() => this.props.updateFacebookAccount(facebookId, facebookToken))
-        .then(() => this.navigateToMain())
-        .catch(error => showAlertWithMessage('Uh-oh!', error))
-        .finally(() => this.setState({ isBusy: false }));
+  enableBtns() {
+    InteractionManager.runAfterInteractions(() => {
+      disableBtn = false;
     });
+  }
+
+  loginAndUpdateFacebook() {
+    if(disableBtn === false) {
+      disableBtn = true;
+      const {
+        email,
+        password,
+        loginWithEmail,
+        facebookId,
+        facebookToken
+      } = this.props;
+
+      this.setState({ isBusy: true }, () => {
+        this.props.loginWithEmail(email, password)
+          .then(() => this.props.updateFacebookAccount(facebookId, facebookToken))
+          .then(() => this.navigateToMain())
+          .catch(error => showAlertWithMessage('Uh-oh!', error))
+          .finally(() => this.setState({ isBusy: false }, () => {
+            this.enableBtns();
+          }));
+      });
+    }
   }
 
   navigateToMain() {

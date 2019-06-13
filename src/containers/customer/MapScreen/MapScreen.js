@@ -92,6 +92,38 @@ const googlePlacesAutoCompleteStyle = {
   }
 };
 
+const mapRef = React.createRef();
+const filteredListRef = React.createRef();
+
+const googlePlacesAutoCompleteStyle = {
+  textInputContainer: {
+    paddingHorizontal: wp('4.26%'),
+    backgroundColor: 'transparent',
+    borderTopWidth: 0,
+    borderBottomWidth: 0
+  },
+  textInput: {
+    marginLeft: 0,
+    marginRight: 0,
+    height: hp('5.03%'),
+    fontSize: wp('4.26%'),
+    backgroundColor: '#414141',
+    color: 'white',
+    fontFamily: SF_PRO_TEXT_REGULAR
+  },
+  listView: {
+    zIndex: 99999,
+    top: hp('5.03%'),
+    position: 'absolute',
+    marginHorizontal: wp('4.26%'),
+    backgroundColor: '#414141'
+  },
+
+  description: {
+    color: 'white'
+  }
+};
+
 export default class MapScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -289,6 +321,10 @@ export default class MapScreen extends Component {
     Keyboard.dismiss();
   };
 
+  mapMarkerPress = item => {
+    filteredListRef.current.callMethod(item);
+  };
+
   render() {
     const query = {
       key: 'AIzaSyBhuq8RXrtTXm7e0TewsesDWW9e9CGJNYw',
@@ -342,7 +378,7 @@ export default class MapScreen extends Component {
               <CustomMarker
                 key={item.get('_id').toString()}
                 coordinates={item.get('location')}
-                onPress={() => this.filteredListRef.callMethod(item)}
+                onPress={() => this.mapMarkerPress(item)}
               />
             ))}
           </MapView>

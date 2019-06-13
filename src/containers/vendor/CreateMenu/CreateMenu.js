@@ -269,7 +269,9 @@ export default class CreateMenu extends Component<Props> {
 
   async deleteImage(menuId, sectionId, itemId, imageURL) {
     try {
-      if(imageURL !== '') {
+      if(disableBtn === false && imageURL !== '' && !imageURL.includes('file:///')) {
+        disableBtn = true;
+
         await this.props.deleteImage(
           menuId,
           sectionId,
@@ -285,8 +287,10 @@ export default class CreateMenu extends Component<Props> {
           await FileSystem.deleteAsync(image.uri);
           console.log('Image deleted from cache!');
         }
+
+        this.enableBtns();
       }
-    } catch(err) {
+    } catch (err) {
       throw err;
     }
   }

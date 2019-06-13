@@ -11,7 +11,8 @@ import ReactNative, {
   Keyboard,
   UIManager,
   Dimensions,
-  findNodeHandle
+  findNodeHandle,
+  InteractionManager
 } from 'react-native';
 import { Header } from 'react-navigation';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';

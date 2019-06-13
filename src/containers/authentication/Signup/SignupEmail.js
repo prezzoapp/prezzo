@@ -12,7 +12,8 @@ import ReactNative, {
   Keyboard,
   findNodeHandle,
   Dimensions,
-  UIManager
+  UIManager,
+  InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -208,43 +209,6 @@ class SignupEmail extends React.Component<Props> {
         x: 0, y: 0, animated: true
       });
     }
-    keyboardDidShowCalled = false;
-  }
-
-  componentWillMount() {
-    this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
-    this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
-  }
-
-  componentWillUnmount() {
-    this.keyboardShow.remove();
-    this.keyboardHide.remove();
-  }
-
-  keyboardDidShow = event => {
-    if(keyboardDidShowCalled === false) {
-      keyboardDidShowCalled = true;
-      const keyboardHeight = event.endCoordinates.height;
-      const button = ReactNative.findNodeHandle(buttonRef.current);
-      UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
-        const fieldHeight = height;
-        const fieldTop = pageY;
-        gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
-        if (gap < 0) {
-          scrollViewRef.current.scrollTo({
-            x: 0, y: -gap, animated: true
-          });
-        } else {
-          console.log('Gap: ', gap);
-        }
-      });
-    }
-  }
-
-  keyboardDidHide = event => {
-    scrollViewRef.current.scrollTo({
-      x: 0, y: 0, animated: true
-    });
     keyboardDidShowCalled = false;
   }
 

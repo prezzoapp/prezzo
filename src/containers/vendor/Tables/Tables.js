@@ -326,7 +326,7 @@ class Tables extends Component {
         />
       </View>
     );
-  }
+  };
 
   renderQueueTable() {
     return (

@@ -56,8 +56,6 @@ export default (state = INITIAL_STATE, action) => {
     // case REMOVE_RESTAURANT_DETAIL_FAILURE:
     // case ADD_REMOVE_ITEM_QUANTITY_FAILURE:
     case CREATE_ORDER_FAILURE:
-      return state.update('isBusy', () => false);
-
     case CREATE_ORDER_SUCCESS:
       return state.update('isBusy', () => false);
 

@@ -12,7 +12,8 @@ import ReactNative, {
   findNodeHandle,
   UIManager,
   Dimensions,
-  Keyboard
+  Keyboard,
+  InteractionManager
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';

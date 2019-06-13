@@ -11,7 +11,7 @@ import {
 } from '@expo/vector-icons';
 import {API_ROOT} from './env';
 import {setConfiguration} from './src/utils/configuration';
-import { Font, Icon } from 'expo';
+import { Font, Icon, Asset } from 'expo';
 require('react-native-browser-polyfill');
 
 global.self = global;
@@ -60,14 +60,11 @@ export default class Prezzo extends Component {
     console.log('Loading fonts.');
     try {
       setConfiguration('API_ROOT', API_ROOT);
-      await Promise.all(fonts.map(font => Font.loadAsync(font)));
-
       await Promise.all([
         ...fonts.map(font => Font.loadAsync(font)),
         ...images.map(image => Asset.fromModule(image).downloadAsync())
       ]);
 
-      this.setState({ didFontsLoad: true });
       console.log('loaded fonts', Font, typeof Font, ' ');
 
       this.setState({ didFontsLoad: true });

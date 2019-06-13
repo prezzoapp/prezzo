@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import { View, Text, TouchableOpacity, Platform } from 'react-native';
 
@@ -179,9 +179,9 @@ export default class RestaurantItem extends Component {
           layoutCardOffset={18}
           data={this.props.item.imageURLs}
           renderItem={this.renderItem}
-          sliderHeight={hp('44.55%')}
+          sliderHeight={hp('43%')}
           sliderWidth={wp('98%')}
-          itemHeight={hp('44.55%')}
+          itemHeight={hp('43%')}
           itemWidth={wp('84%')}
           scrollInterpolator={this.stackScrollInterpolator}
           slideInterpolatedStyle={this.stackAnimatedStyles}
@@ -271,5 +271,3 @@ RestaurantItem.propTypes = {
   showText: PropTypes.bool.isRequired,
   addRemoveItemQuantity: PropTypes.func.isRequired
 };
-
-export default RestaurantItem;
