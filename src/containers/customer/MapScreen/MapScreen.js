@@ -27,6 +27,10 @@ import {
   SF_PRO_TEXT_REGULAR,
   COLOR_GREEN
 } from '../../../services/constants';
+import {
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../../services/commonFunctions';
 
 const mapRef = React.createRef();
 const filteredListRef = React.createRef();

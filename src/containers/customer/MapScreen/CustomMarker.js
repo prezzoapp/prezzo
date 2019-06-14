@@ -44,7 +44,7 @@ export default class CustomMarker extends Component {
       >
         {Platform.OS === 'ios' &&
           <Image
-            style={{ width: wp('23.73%'), flex: 1, resizeMode: 'contain' }}
+            style={{ flex: 1, width: wp('7.5%'), resizeMode: 'contain' }}
             source={require('../../../../assets/images/map-pin.png')}
           />
         }
