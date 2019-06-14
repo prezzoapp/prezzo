@@ -5,7 +5,7 @@ import {
 } from 'react-native-responsive-screen';
 import { FONT_FAMILY } from '../../../services/constants';
 import { Header } from 'react-navigation';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 
 const checkboxSize: number = 25;
 

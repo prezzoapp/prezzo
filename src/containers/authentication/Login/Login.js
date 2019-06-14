@@ -25,7 +25,7 @@ import {
 import { Feather } from '@expo/vector-icons';
 import LoginTextInput from '../../../components/LoginTextInput';
 import Button from '../../../components/Button';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import CacheImage from '../../../components/CacheImage';
 import LoadingComponent from '../../../components/LoadingComponent';
 import { showAlertWithMessage } from '../../../services/commonFunctions';

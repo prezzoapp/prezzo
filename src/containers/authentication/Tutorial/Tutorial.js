@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity, StyleSheet, Platform, InteractionManager } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import TutorialScreen from './TutorialScreen';
 import Button from '../../../components/Button';
 import FacebookButton from '../../../components/FacebookButton';
-// import { FONT_FAMILY_REGULAR } from '../../../services/constants';
 import { getUserInfo } from '../../../services/facebook';
 
 const images = {

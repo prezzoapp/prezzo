@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigationActions, Header } from 'react-navigation';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import { uploadImage } from '../../../modules/upload';
 import { updateFacebookAccount } from '../../../modules/user';
 import { loginWithEmail } from '../../../modules/auth';

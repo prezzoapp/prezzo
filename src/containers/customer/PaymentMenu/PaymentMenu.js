@@ -5,7 +5,8 @@ import {
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
-  InteractionManager
+  InteractionManager,
+  Image
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
@@ -148,6 +149,46 @@ class PaymentMenu extends Component {
       return (
         <CacheImage
           source={require('../../../../assets/images/icons/stp_card_jcb.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else if (item.get('type') === 'braintree-american express') {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/icons/stp_card_amex.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else if (item.get('type') === 'braintree-maestro') {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/icons/stp_card_maestro.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else if (item.get('type') === 'braintree-paypal') {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/icons/stp_card_paypal.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else if (item.get('type') === 'braintree-unionpay') {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/icons/stp_card_unionpay.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/Credit-Card.png')}
           type='image'
           style={styles.ccIcon}
         />

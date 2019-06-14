@@ -20,7 +20,7 @@ import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { Header } from 'react-navigation';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import { Feather } from '@expo/vector-icons';
 import { findUser } from '../../../modules/user';
 import {

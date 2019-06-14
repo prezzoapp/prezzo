@@ -1,7 +1,7 @@
 import { StyleSheet, Platform } from 'react-native';
 
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import { Header } from 'react-navigation';
 
 import {

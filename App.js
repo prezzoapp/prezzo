@@ -62,8 +62,7 @@ export default class Prezzo extends Component {
     try {
       setConfiguration('API_ROOT', API_ROOT);
       await Promise.all([
-        ...fonts.map(font => Font.loadAsync(font)),
-        ...images.map(image => Asset.fromModule(image).downloadAsync())
+        ...fonts.map(font => Font.loadAsync(font))
       ]);
 
       console.log('loaded fonts', Font, typeof Font, ' ');

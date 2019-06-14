@@ -3,10 +3,12 @@ import RNMessageChannel from 'react-native-webview-messaging';
 const createClient = require('braintree-web/client').create;
 
 RNMessageChannel.on('json', text => {
+  console.log('Fired!');
   createClient({
       authorization: text.payload.token
     }, (createErr, clientInstance) => {
       if(createErr) {
+        console.log(createErr);
         RNMessageChannel.emit('isError', {
           message: createErr
         });
@@ -16,9 +18,6 @@ RNMessageChannel.on('json', text => {
           number: text.payload.number,
           cvv: text.payload.cvv,
           expirationDate: text.payload.expirationDate,
-          // billingAddress: {
-          //   postalCode: text.payload.postalCode
-          // },
           options: {
             validate: false
           }

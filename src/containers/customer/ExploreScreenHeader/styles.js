@@ -4,7 +4,7 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 
 import {
