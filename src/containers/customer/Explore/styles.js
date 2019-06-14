@@ -100,7 +100,6 @@ export default StyleSheet.create({
   },
 
   bellBtnHolder: {
-    zIndex: 1,
     height: wp('12.26%'),
     width: wp('12.26%'),
     borderRadius: wp('6.13%'),
@@ -111,5 +110,9 @@ export default StyleSheet.create({
     bottom: getBottomSpace() + 49 + wp('3.46%'),
     justifyContent: 'center',
     alignItems: 'center'
+  },
+
+  flex1: {
+    flex: 1
   }
 });

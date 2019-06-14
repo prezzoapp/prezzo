@@ -229,15 +229,7 @@ class Explore extends PureComponent<Props> {
         locations={[0.1, 0.4, 0.4, 0.4, 0.4]}
         style={styles.container}
       >
-        {isUserOpenOrder &&
-          <TouchableOpacity
-            style={[ styles.bellBtnHolder, { backgroundColor: callWaiterBtnState ? '#2ED573' : 'transparent' }]}
-            onPress={this.callWaiter}
-          >
-            <Feather name="bell" size={wp('6.4%')} color={ callWaiterBtnState ? '#d3d3d3' : 'white' } />
-          </TouchableOpacity>
-        }
-        <View style={{ flex: 1 }}>
+        <View style={styles.flex1}>
           <ExploreSearchInput
             showList={this.showList}
             showListValue={this.state.showList}
@@ -494,6 +486,14 @@ class Explore extends PureComponent<Props> {
           }
 
           <ExploreList testID="exploreList"/>
+          {isUserOpenOrder &&
+            <TouchableOpacity
+              style={[ styles.bellBtnHolder, { backgroundColor: callWaiterBtnState ? '#2ED573' : 'transparent' }]}
+              onPress={this.callWaiter}
+            >
+              <Feather name="bell" size={wp('6.4%')} color={ callWaiterBtnState ? '#d3d3d3' : 'white' } />
+            </TouchableOpacity>
+          }
           {this.state.showList &&
             <ExploreSearch
               testID="exploreSearch"
@@ -502,7 +502,7 @@ class Explore extends PureComponent<Props> {
             />
           }
         </View>
-        <LoadingComponent visible={false} />
+        <LoadingComponent visible={this.props.isBusy} />
       </LinearGradient>
     );
   }

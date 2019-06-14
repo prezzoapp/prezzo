@@ -84,7 +84,7 @@ class Tables extends Component {
     });
   }
 
-  checkAndChangeQueueOrderStatus(orderId, status) {
+  checkAndChangeQueueOrderStatus = (orderId, status) => {
     this.props.checkQueueOrderStatus(orderId).then(() => {
       if(this.props.openOrderFinalStatus === 'active') {
         showAlertWithMessage('Info', {
@@ -125,7 +125,7 @@ class Tables extends Component {
         showAlertWithMessage('Uh-oh!', err);
       }
     });
-  }
+  };
 
   onSectionChange = index => {
     this.props.changeSection(index).then(() => {
