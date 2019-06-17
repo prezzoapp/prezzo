@@ -1,6 +1,16 @@
 // @flow
 import React, { Component } from 'react';
-import { View, FlatList, Alert, Modal, ActivityIndicator, AsyncStorage, Text, NetInfo } from 'react-native';
+import {
+  View,
+  FlatList,
+  Alert,
+  Modal,
+  ActivityIndicator,
+  AsyncStorage,
+  Text,
+  NetInfo,
+  TouchableOpacity
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { LinearGradient } from 'expo';
@@ -60,12 +70,14 @@ class Tables extends Component {
      showList: false,
      filteredData: [],
      showLoader: false,
-     showEndLoading: false
+     showEndLoading: false,
+     showFooter: false
     }
 
     this.timeOutVar = -1;
     this.visibleRows = 0;
     this.isLoading = false;
+    this.showErrorAlert = false;
   }
 
   componentDidMount() {
@@ -130,6 +142,10 @@ class Tables extends Component {
   onSectionChange = index => {
     this.props.changeSection(index).then(() => {
       this.getData(index);
+      this.showErrorAlert = false;
+      this.setState({
+        showFooter: false
+      });
     });
   };
 
@@ -179,6 +195,7 @@ class Tables extends Component {
     if(
       this.props.currentListSize > 0 &&
       list.size > this.visibleRows &&
+      !this.showErrorAlert &&
       !this.isLoading
     ) {
       this.isLoading = true;
@@ -190,46 +207,100 @@ class Tables extends Component {
             this.props.vendorData.get('_id'),
             list.last().get('_id')
           ).then(() => {})
-            .catch(err => {})
-              .finally(() => {
-                this.isLoading = false;
-                this.setState({
-                  showEndLoading: false
-                });
+            .catch(err => {
+              this.setState({ showFooter: true });
+              this.showErrorAlert = true;
+              Alert.alert(
+                'Uh-oh!',
+                `${err.message}`,
+                [
+                  { text: 'OK', onPress: () => null }
+                ],
+                { cancelable: false }
+              );
+            })
+            .finally(() => {
+              this.isLoading = false;
+              this.setState({
+                showEndLoading: false
               });
+            });
         } else if(this.props.section === 1) {
           this.props.loadMoreQueuedTableList(
             this.props.vendorData.get('_id'),
             list.last().get('_id')
           ).then(() => {})
-            .catch(err => {})
-              .finally(() => {
-                this.isLoading = false;
-                this.setState({
-                  showEndLoading: false
-                });
+            .catch(err => {
+              this.setState({ showFooter: true });
+              this.showErrorAlert = true;
+              Alert.alert(
+                'Uh-oh!',
+                `${err.message}`,
+                [
+                  { text: 'OK', onPress: () => null }
+                ],
+                { cancelable: false }
+              );
+            })
+            .finally(() => {
+              this.isLoading = false;
+              this.setState({
+                showEndLoading: false
               });
+            });
         } else {
           this.props.loadMoreClosedTableList(
             this.props.vendorData.get('_id'),
             list.last().get('_id')
           ).then(() => {})
-            .catch(err => {})
-              .finally(() => {
-                this.isLoading = false;
-                this.setState({
-                  showEndLoading: false
-                });
+            .catch(err => {
+              this.setState({ showFooter: true });
+              this.showErrorAlert = true;
+              Alert.alert(
+                'Uh-oh!',
+                `${err.message}`,
+                [
+                  { text: 'OK', onPress: () => null }
+                ],
+                { cancelable: false }
+              );
+            })
+            .finally(() => {
+              this.isLoading = false;
+              this.setState({
+                showEndLoading: false
               });
+            });
         }
       });
     }
   }
 
   renderFooter = () => {
-    if(this.state.showEndLoading) {
+    if(this.state.showFooter) {
       return (
-        <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={styles.footerContainer}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              this.setState({
+                showFooter: false
+              }, () => {
+                this.showErrorAlert = false;
+                this.onEndReached();
+              })
+            }}
+            style={styles.tapToRetryBtn}
+          >
+            <Text style={styles.tapToRetryBtnText}>
+              Tap to retry.
+            </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    } else if(this.state.showEndLoading) {
+      return (
+        <View style={styles.activityIndicatorContainer}>
           <ActivityIndicator size='small' color='white'/>
         </View>
       );
@@ -322,7 +393,7 @@ class Tables extends Component {
           renderItem={this.renderOpenTableData}
           ListFooterComponent={this.renderFooter}
           onEndReached={this.onEndReached}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.3}
         />
       </View>
     );
@@ -343,7 +414,7 @@ class Tables extends Component {
           renderItem={this.renderQueuedTableData}
           ListFooterComponent={this.renderFooter}
           onEndReached={this.onEndReached}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.3}
         />
       </View>
     );
@@ -364,7 +435,7 @@ class Tables extends Component {
           renderItem={this.renderClosedTableData}
           ListFooterComponent={this.renderFooter}
           onEndReached={this.onEndReached}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.3}
         />
       </View>
     );
@@ -372,7 +443,10 @@ class Tables extends Component {
 
   onRefresh = () => {
     this.setState({ isFetching: true }, () => {
-      this.getData();
+      this.setState({ isFetching: true, showFooter: false }, () => {
+        this.showErrorAlert = false;
+        this.getData();
+      });
     });
   };
 

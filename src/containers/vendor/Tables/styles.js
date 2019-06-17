@@ -68,6 +68,28 @@ const styles = StyleSheet.create({
 
   flex1: {
     flex: 1
+  },
+
+  footerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  activityIndicatorContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: wp('2.66%'),
+    paddingTop: wp('5%')
+  },
+
+  tapToRetryBtn: {
+    paddingHorizontal: wp('2.66%'),
+    paddingTop: wp('5%')
+  },
+
+  tapToRetryBtnText: {
+    fontSize: wp('4.5%'),
+    color: 'white'
   }
 });
 
