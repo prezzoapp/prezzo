@@ -25,8 +25,7 @@ import TableGridItem from '../../../components/TableGridItem';
 import ClosedTableTabs from '../../../components/ClosedTableTabs';
 import {
   ACCEPT_ORDER,
-  DELETE_ORDER,
-  TIME_OUT
+  DELETE_ORDER
 } from '../../../services/constants';
 import { get } from '../../../utils/api';
 import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
@@ -208,16 +207,21 @@ class Tables extends Component {
             list.last().get('_id')
           ).then(() => {})
             .catch(err => {
-              this.setState({ showFooter: true });
-              this.showErrorAlert = true;
-              Alert.alert(
-                'Uh-oh!',
-                `${err.message}`,
-                [
-                  { text: 'OK', onPress: () => null }
-                ],
-                { cancelable: false }
-              );
+              if(err.code === 401) {
+                this.showErrorAlert = true;
+                manuallyLogout(err, () => this.props.userLogout());
+              } else {
+                this.setState({ showFooter: true });
+                this.showErrorAlert = true;
+                Alert.alert(
+                  'Uh-oh!',
+                  `${err.message}`,
+                  [
+                    { text: 'OK', onPress: () => null }
+                  ],
+                  { cancelable: false }
+                );
+              }
             })
             .finally(() => {
               this.isLoading = false;
@@ -231,16 +235,21 @@ class Tables extends Component {
             list.last().get('_id')
           ).then(() => {})
             .catch(err => {
-              this.setState({ showFooter: true });
-              this.showErrorAlert = true;
-              Alert.alert(
-                'Uh-oh!',
-                `${err.message}`,
-                [
-                  { text: 'OK', onPress: () => null }
-                ],
-                { cancelable: false }
-              );
+              if(err.code === 401) {
+                this.showErrorAlert = true;
+                manuallyLogout(err, () => this.props.userLogout());
+              } else {
+                this.setState({ showFooter: true });
+                this.showErrorAlert = true;
+                Alert.alert(
+                  'Uh-oh!',
+                  `${err.message}`,
+                  [
+                    { text: 'OK', onPress: () => null }
+                  ],
+                  { cancelable: false }
+                );
+              }
             })
             .finally(() => {
               this.isLoading = false;
@@ -254,16 +263,21 @@ class Tables extends Component {
             list.last().get('_id')
           ).then(() => {})
             .catch(err => {
-              this.setState({ showFooter: true });
-              this.showErrorAlert = true;
-              Alert.alert(
-                'Uh-oh!',
-                `${err.message}`,
-                [
-                  { text: 'OK', onPress: () => null }
-                ],
-                { cancelable: false }
-              );
+              if(err.code === 401) {
+                this.showErrorAlert = true;
+                manuallyLogout(err, () => this.props.userLogout());
+              } else {
+                this.setState({ showFooter: true });
+                this.showErrorAlert = true;
+                Alert.alert(
+                  'Uh-oh!',
+                  `${err.message}`,
+                  [
+                    { text: 'OK', onPress: () => null }
+                  ],
+                  { cancelable: false }
+                );
+              }
             })
             .finally(() => {
               this.isLoading = false;
