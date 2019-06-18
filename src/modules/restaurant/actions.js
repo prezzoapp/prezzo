@@ -7,31 +7,17 @@ import {
   ADD_REMOVE_ITEM_QUANTITY_REQUEST,
   ADD_REMOVE_ITEM_QUANTITY_SUCCESS,
   ADD_REMOVE_ITEM_QUANTITY_FAILURE,
-  // CHANGE_ITEM_RATING_REQUEST,
-  // CHANGE_ITEM_RATING_SUCCESS,
-  // CHANGE_ITEM_RATING_FAILURE,
   REMOVE_RESTAURANT_DETAIL_REQUEST,
   REMOVE_RESTAURANT_DETAIL_SUCCESS,
   REMOVE_RESTAURANT_DETAIL_FAILURE,
   CLEAR_CART_DATA_REQUEST,
   CLEAR_CART_DATA_SUCCESS,
   CLEAR_CART_DATA_FAILURE,
-  SET_TYPE_REQUEST,
-  SET_TYPE_SUCCESS,
-  SET_TYPE_FAILURE,
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
   CREATE_ORDER_FAILURE,
   SHOW_LOADING_WHILE_ANIMATING_SCREEN,
   HIDE_LOADING_AFTER_SCREEN_ANIMATION
-
-  // SET_PAYMENT_TYPE_REQUEST,
-  // SET_PAYMENT_TYPE_SUCCESS,
-  // SET_PAYMENT_TYPE_FAILURE,
-  //
-  // CREATE_ORDER_REQUEST,
-  // CREATE_ORDER_SUCCESS,
-  // CREATE_ORDER_FAILURE
 } from './types';
 
 import { post } from '../../utils/api';
@@ -63,9 +49,7 @@ export const createOrder = async (
       });
     }
 
-    return dispatch({
-      type: CREATE_ORDER_SUCCESS
-    });
+    dispatch({ type: CREATE_ORDER_SUCCESS });
   } catch (e) {
     dispatch({ type: CREATE_ORDER_FAILURE });
     throw e;
@@ -143,18 +127,18 @@ export const clearCartData = () => dispatch => {
   }
 };
 
-export const setType = async (type: string) => async dispatch => {
-  dispatch({ type: SET_TYPE_REQUEST });
-
-  try {
-    return dispatch({
-      type: SET_TYPE_SUCCESS,
-      payload: { type }
-    });
-  } catch (e) {
-    return dispatch({ type: SET_TYPE_FAILURE });
-  }
-};
+// export const setType = async (type: string) => async dispatch => {
+//   dispatch({ type: SET_TYPE_REQUEST });
+//
+//   try {
+//     return dispatch({
+//       type: SET_TYPE_SUCCESS,
+//       payload: { type }
+//     });
+//   } catch (e) {
+//     return dispatch({ type: SET_TYPE_FAILURE });
+//   }
+// };
 
 export const showLoadingWhileAnimatingScreen = () => dispatch => {
   dispatch({

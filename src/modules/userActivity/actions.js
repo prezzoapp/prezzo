@@ -22,7 +22,7 @@ export const listOpenOrders = async (
   dispatch({ type: GET_USER_OPEN_ORDER_REQUEST });
 
   try {
-    const data = await get(`/v1/users/${userId}/orders?status=${status}`);
+    const data = await get(`/v1/users/${userId}/orders?status=${status}&userType=customer`);
 
     return dispatch({
       type: GET_USER_OPEN_ORDER_SUCCESS,

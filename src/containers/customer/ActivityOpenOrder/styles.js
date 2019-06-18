@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2B2C2C',
     borderTopColor: '#2ED573',
     borderTopWidth: 1,
+    overflow: 'hidden',
     // marginTop: hp('2.58%')
     marginTop: wp('5.6%')
   },
@@ -64,6 +65,10 @@ const styles = StyleSheet.create({
 
   flatListContentContainerStyle: {
     flexGrow: 1
+  },
+
+  flex1: {
+    flex: 1
   }
 });
 

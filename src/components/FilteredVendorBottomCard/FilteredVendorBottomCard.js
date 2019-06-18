@@ -62,6 +62,7 @@ class FilteredVendorBottomCard extends Component {
   }
 
   callMethod(item) {
+    console.log(item);
     this.setState({
       item
     }, () => {
@@ -84,6 +85,19 @@ class FilteredVendorBottomCard extends Component {
     });
   }
 
+  renderItem = data => (
+    <FilteredVendorBottomCardItem
+      item={data.item}
+      customRegion={this.props.customRegion}
+      moveToPosition={() =>
+        this.props.moveToPosition(data.item.get('_id'), data.item.getIn(['location', 'coordinates']))
+      }
+      getDistanceFromCurrentLocation={
+        this.props.getDistanceFromCurrentLocation
+      }
+    />
+  );
+
   renderSeparator = () => <View style={styles.separator} />;
 
   backToList = () => {
@@ -105,22 +119,11 @@ class FilteredVendorBottomCard extends Component {
       <View style={styles.filteredRestaurantsBottomCardHolder}>
         <FlatList
           contentContainerStyle={styles.contentContainerStyle}
-          keyExtractor={item => item._id}
-          data={this.props.data}
+          keyExtractor={item => item.get('_id').toString()}
+          data={this.props.data.toArray()}
           showsVerticalScrollIndicator={false}
           ItemSeparatorComponent={this.renderSeparator}
-          renderItem={({ item }) =>
-            <FilteredVendorBottomCardItem
-              item={item}
-              customRegion={this.props.customRegion}
-              moveToPosition={() =>
-                this.props.moveToPosition(item._id, item.location.coordinates)
-              }
-              getDistanceFromCurrentLocation={
-                this.props.getDistanceFromCurrentLocation
-              }
-            />
-          }
+          renderItem={this.renderItem}
         />
         {this.state.showVendorInfo && (
           <Animated.View
@@ -139,8 +142,9 @@ class FilteredVendorBottomCard extends Component {
                 onPress={this.backToList}
                 activeOpacity={0.8}
               >
-                <Image
+                <CacheImage
                   source={require('../../../assets/images/icons/bottom_arrow.png')}
+                  type='image'
                   style={styles.bottom_arrow}
                 />
               </TouchableOpacity>
@@ -148,17 +152,17 @@ class FilteredVendorBottomCard extends Component {
             <View style={styles.contentHolder}>
               <View style={styles.vendorIconHolder}>
                 <CacheImage
-                  source={this.state.item.avatarURL}
+                  source={this.state.item && this.state.item.get('avatarURL')}
                   type='image'
                   style={styles.vendorIcon}
                 />
               </View>
               <View style={styles.vendorContentHolder}>
                 <Text numberOfLines={1} style={styles.vendorName}>
-                  {this.state.item.name}
+                  {this.state.item.get('name')}
                 </Text>
                 <Text style={styles.vendorAddress} numberOfLines={1}>
-                  {this.state.item.location.city}, {this.state.item.location.region}
+                  {this.state.item.getIn(['location', 'city'])}, {this.state.item.getIn(['location', 'region'])}
                 </Text>
                 <View style={[styles.statusHolder, styles.extraStatusHolderStyle]}>
                   <CacheImage
@@ -182,7 +186,7 @@ class FilteredVendorBottomCard extends Component {
               <Button
                 style={buttonStyles.goBtn}
                 textStyle={buttonStyles.goBtnText}
-                onPress={() => this.callMethod(this.state.item)}
+                onPress={() => null}
               >
                 Go
               </Button>
@@ -195,7 +199,7 @@ class FilteredVendorBottomCard extends Component {
 }
 
 FilteredVendorBottomCard.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.object.isRequired
 };
 
 const buttonStyles = {

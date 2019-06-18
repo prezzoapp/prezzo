@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { Text, StyleSheet, BackHandler } from 'react-native';
+import { Text, StyleSheet, BackHandler, Image, ImageBackground } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -103,9 +103,8 @@ class SignupComplete extends React.Component<Props> {
 
   render() {
     return (
-      <CacheImage
+      <ImageBackground
         style={styles.container}
-        type='backgroundImage'
         source={require('../../../../assets/images/bg/authentication.jpg')}
       >
         <CacheImage
@@ -127,7 +126,7 @@ class SignupComplete extends React.Component<Props> {
         >
           Explore
         </Button>
-      </CacheImage>
+      </ImageBackground>
     );
   }
 }

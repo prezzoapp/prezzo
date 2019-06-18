@@ -10,106 +10,117 @@ import {
 } from '../../services/constants';
 import CacheImage from '../CacheImage';
 
-const OpenTableItem = props => {
-  const { item } = props.data;
-  let itemImagesLength = 0;
+class OpenTableItem extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    const oldItems = this.props.data.get('items');
+    const newItems = nextProps.data.get('items');
+    const objectsAreSame = !oldItems.some(
+      (item, index) => newItems.getIn([index, 'status']) !== item.get('status')
+    );
 
-    item.items.map(ele => {
-      ele.imageURLs.map(image => {
+    console.log(this.props.data.get('_id'));
+    console.log(nextProps.data.get('_id'));
+
+    if(
+      nextProps.data.get('_id') !== this.props.data.get('_id') ||
+      objectsAreSame === false ||
+      nextProps.data.getIn(['creator', 'avatarURL']) !== this.props.data.getIn(['creator', 'avatarURL'])
+    ) return true;
+    return false;
+  }
+
+  render() {
+    console.log('OpenTableItem component rerender!');
+    const item = this.props.data;
+    let itemImagesLength = 0;
+
+    item.get('items').map(ele => {
+      ele.get('imageURLs').map(image => {
         itemImagesLength += 1;
       });
     });
 
-  return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() =>
-        props.onPress
-          ? props.onPress()
-          : props.navigate&& props.navigate({
-            routeName:
-              props.tabName === 'tables'
-                ? 'OpenTableDetails'
-                : 'VendorAdminActivityDetails',
-            params: {
-              userName:
-                props.tabName !== 'delivery'
-                  ? `${item.creator.fullName} - 9192`
-                  : `${item.userName}`,
-              userImage: item.creator.avatarURL,
-              item: item,
-              innerTab: props.innerTab
-          }
-        })
-      }
-    >
-      <View style={styles.userImageContainer}>
-        <CacheImage
-          style={styles.userImage}
-          type='image'
-          source={
-            item.creator.avatarURL !== ''
-              ? item.creator.avatarURL
-              : require('../../../assets/images/etc/default-avatar.png')
-          }
-        />
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.userName}>{item.creator.fullName}</Text>
-        {(() => {
-          if (props.tabName === 'tables') {
+    return (
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() =>
+          this.props.onPress
+            ? this.props.onPress()
+            : this.props.navigate&& this.props.navigate({
+              routeName:
+                this.props.tabName === 'tables'
+                  ? 'OpenTableDetails'
+                  : 'VendorAdminActivityDetails',
+              params: {
+                userName:
+                  this.props.tabName !== 'delivery'
+                    ? `${item.getIn(['creator', 'fullName'])} - 9192`
+                    : `${item.get('userName')}`,
+                userImage: item.getIn(['creator', 'avatarURL']),
+                item: item,
+                innerTab: this.props.innerTab,
+            }
+          })
+        }
+      >
+        <View style={styles.userImageContainer}>
+          <CacheImage
+            style={styles.userImage}
+            type='image'
+            source={
+              item.getIn(['creator', 'avatarURL']) !== ''
+                ? item.getIn(['creator', 'avatarURL'])
+                : require('../../../assets/images/etc/default-avatar.png')
+            }
+          />
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.userName}>{item.getIn(['creator', 'fullName'])}</Text>
+          {(() => {
+            if (this.props.tabName === 'tables') {
+              return (
+                <View style={styles.statusContainer}>
+                  <Text style={styles.tableId}>Table 9192 </Text>
+                  <Text style={[styles.statusText, { color: '#2ED573' }]}>
+                    • Waiter Reqested
+                  </Text>
+                </View>
+              );
+            } else if(this.props.tabName === 'delivery') {
+              return (
+                <View style={styles.statusContainer}>
+                  <Text numberOfLines={1} style={[styles.tableId]}>
+                    {item.get('address')}
+                  </Text>
+                </View>
+              )
+            }
             return (
               <View style={styles.statusContainer}>
-                <Text style={styles.tableId}>Table {item.tableId}</Text>
+                <Text style={styles.tableId}>Table {item.get('tableId')}</Text>
                 <Text
                   style={[
                     styles.statusText,
                     {
                       color:
-                        props.innerTabName !== 'photoReview' ? '#2ED573' : 'white'
+                        this.props.innerTabName !== 'photoReview' ? '#2ED573' : 'white'
                     }
                   ]}
                 >
-                  {props.innerTabName !== 'photoReview'
+                  {this.props.innerTabName !== 'photoReview'
                     ? ' •  Waiter Reqested'
                     : <Text style={{ fontFamily: FONT_FAMILY_MEDIUM }}>- {itemImagesLength} Photo(s)</Text>}
                 </Text>
               </View>
             );
-          } else if(props.tabName === 'delivery') {
-            return (
-              <View style={styles.statusContainer}>
-                <Text numberOfLines={1} style={[styles.tableId]}>
-                  {item.address}
-                </Text>
-              </View>
-            )
-          }
-          return (
-            <View style={styles.statusContainer}>
-              <Text style={styles.tableId}>Table 9192</Text>
-              <Text
-                style={[
-                  styles.statusText,
-                  {
-                    color:
-                      props.innerTab !== 'photoReview' ? '#2ED573' : 'white'
-                  }
-                ]}
-              >
-                {props.innerTab !== 'photoReview'
-                  ? ' •  Waiter Reqested'
-                  : <Text style={{ fontFamily: FONT_FAMILY_MEDIUM }}>- {itemImagesLength} Photo(s)</Text>}
-              </Text>
-            </View>
-          );
-        })()}
-      </View>
-      <View style={styles.arrow}>
-        <Entypo name="chevron-right" size={wp('8%')} color="white" />
-      </View>
-    </TouchableOpacity>
-  );
+          })()}
+        </View>
+        <View style={styles.arrow}>
+          <Entypo name="chevron-right" size={wp('8%')} color="white" />
+        </View>
+      </TouchableOpacity>
+    );
+  }
 };
 
 OpenTableItem.propTypes = {

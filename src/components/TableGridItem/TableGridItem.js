@@ -9,18 +9,19 @@ import {
 } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
+import { List } from 'immutable';
 import { Entypo, FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import styles from './styles';
 import OrderedItem from '../OrderedItem';
 import CacheImage from '../CacheImage';
 
 const TableGridItem = props => {
-  const { item } = props.data;
+  const item = props.data;
   const { tableType } = props;
   function showAcceptDeniedAlert(status) {
     Alert.alert(
       status === 'accept' ? 'Accept' : 'Remove',
-      `${item.creator.fullName} \n Table 9192`,
+      `${item.getIn(['creator', 'fullName'])} \n Table 9192`,
       [
         {
           text: 'Cancel',
@@ -31,7 +32,7 @@ const TableGridItem = props => {
           text: 'OK',
           onPress: () => {
             props.checkAndChangeQueueOrderStatus(
-              item._id,
+              item.get('_id'),
               status === 'accept' ? 'active' : 'denied'
             );
         }}
@@ -40,21 +41,22 @@ const TableGridItem = props => {
     );
   }
 
-  function itemSeparatorComponent() {
-    return <View style={styles.separator} />;
-  }
+  itemSeparatorComponent = () => <View style={styles.separator} />;
 
-  const newArray = [];
-  item.items.forEach(obj => {
-    if (!newArray.some(o => o.title === obj.title)) {
-      newArray.push({ ...obj, quantity: 0 })
+  renderItem = data => <OrderedItem data={data.item} />;
+
+  let newArray = List();
+  item.get('items').forEach(obj => {
+    if (!newArray.some(o => o.get('title') === obj.get('title'))) {
+      const newObj = obj.set('quantity', 0);
+      newArray = newArray.push(newObj);
     }
-    newArray.map(o => {
-      if (o.title === obj.title) {
-         o.quantity = o.quantity + 1;
+    newArray = newArray.map(o => {
+      if (o.get('title') === obj.get('title')) {
+        return o.update('quantity', () => o.get('quantity') + 1);
       }
       return o;
-    })
+    });
   });
 
   return (
@@ -65,14 +67,14 @@ const TableGridItem = props => {
             style={styles.userImage}
             type='image'
             source={
-              item.creator.avatarURL !== ''
-                ? item.creator.avatarURL
+              item.getIn(['creator', 'avatarURL']) !== ''
+                ? item.getIn(['creator', 'avatarURL'])
                 : require('../../../assets/images/etc/default-avatar.png')
             }
           />
         </View>
         <Text style={styles.userName}>
-          {item.creator.fullName} -{' '}
+          {item.getIn(['creator', 'fullName'])} -{' '}
           <Text style={styles.tableId}>Table 9192</Text>
         </Text>
         {tableType === 1 ? (
@@ -101,9 +103,9 @@ const TableGridItem = props => {
                   params: {
                       userName:
                       props.tabName !== 'delivery'
-                        ? `${item.creator.fullName} - 9192`
-                          : `${item.userName}`,
-                      userImage: item.creator.avatarURL,
+                        ? `${item.getIn(['creator', 'fullName'])} - 9192`
+                          : `${item.get('userName')}`,
+                      userImage: item.getIn(['creator', 'avatarURL']),
                     item,
                       innerTab: props.innerTab
                     }
@@ -115,13 +117,13 @@ const TableGridItem = props => {
         )}
       </View>
       <FlatList
-        keyExtractor={(item, index) => index.toString()}
-        data={newArray}
-        ItemSeparatorComponent={() => itemSeparatorComponent()}
+        keyExtractor={item => item.get('_id').toString()}
+        data={newArray.toArray()}
+        ItemSeparatorComponent={this.itemSeparatorComponent}
         contentContainerStyle={styles.itemImagesListStyle}
         showsHorizontalScrollIndicator={false}
         horizontal
-        renderItem={({ item }) => <OrderedItem data={item} />}
+        renderItem={this.renderItem}
       />
     </View>
   );

@@ -1,8 +1,7 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { View, ActivityIndicator, Text, Modal, Animated, FlatList, Platform, NetInfo } from 'react-native';
+import { View, ActivityIndicator, Text, Modal, Animated, FlatList, TouchableOpacity } from 'react-native';
 import { LinearGradient, BlurView, Location, Permissions } from 'expo';
-import { MaterialIcons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 import ExploreSearch from '../ExploreSearch';
 import ExploreScreenHeader from '../ExploreScreenHeader';
@@ -11,6 +10,7 @@ import ExploreSearchInput from '../../../components/ExploreSearchInput';
 import FilterItem from '../../../components/FilterItem';
 import Slider from 'react-native-slider';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import showGenericAlert from '../../../components/GenericAlert';
 import styles from './styles';
 import { get } from '../../../utils/api';
 import LoadingComponent from '../../../components/LoadingComponent';
@@ -21,6 +21,8 @@ import {
 } from '../../../services/constants';
 
 import { showAlertWithMessage, manuallyLogout } from '../../../services/commonFunctions';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { convertToTitleCase } from '../../../services/commonFunctions';
 
 const price2Indicator = wp('85%') * 0.33 - wp('6.66%');
 
@@ -52,8 +54,8 @@ class Explore extends PureComponent<Props> {
 
   componentDidMount() {
     this.props.filters.map(item => {
-      if(item.on) {
-        this.activeFilters.push(item.filterType);
+      if(item.get('on')) {
+        this.activeFilters.push(item.get('filterType'));
       }
     });
 
@@ -85,7 +87,7 @@ class Explore extends PureComponent<Props> {
     }));
   }
 
-  onTextChange(text) {
+  onTextChange = text => {
     if(this.state.showLoader === false) {
       this.setState(() => {
         return {
@@ -101,7 +103,7 @@ class Explore extends PureComponent<Props> {
     }
   }
 
-  clearTimer() {
+  clearTimer = () => {
     clearTimeout(this.timeOutVar);
     this.timeOutVar = -1;
   }
@@ -129,13 +131,23 @@ class Explore extends PureComponent<Props> {
       }
   }
 
-  showList(value) {
-    this.setState(() => {
-      return {
-        showList: value
-      }
-    });
-  }
+  showList = value => {
+    console.log("Show List function Called!");
+    if(value) {
+      this.setState(() => {
+        return {
+          showList: value
+        }
+      });
+    }
+    if(value === false) {
+      this.setState(() => {
+        return {
+          showList: value
+        }
+      });
+    }
+  };
 
   setFilterPanelPosition = (y, height) => {
     this.animatedValue.setValue(y + height);
@@ -146,36 +158,70 @@ class Explore extends PureComponent<Props> {
     this.setState({ showFilters: !this.state.showFilters });
   }
 
-  updateDistance(distance) {
+  updateDistance = distance => {
     const newDistance = parseFloat(distance.toFixed(1));
     this.props.updateDistance(newDistance).then(() => {
       this.hitAPI();
     });
-  }
+  };
 
-  updatePrice(price) {
+  updatePrice = price => {
     this.props.updatePrice(price).then(() => {
       this.hitAPI();
     });
-  }
+  };
 
-  toggleFilter = (id) => {
+  toggleFilter(id) {
     if(disableBtn === false) {
       disableBtn = true;
       this.activeFilters = [];
       this.props.toggleFilter(id).then(() => {
         this.props.filters.map(item => {
-          if(item.on) {
-            this.activeFilters.push(item.filterType);
-          }
-        });
-        this.hitAPI();
-      });
+            if(item.get('on')) {
+              this.activeFilters.push(item.get('filterType'));
+            }
+          });
+          this.hitAPI();
+        }
+      );
     }
   }
 
+  renderItem = data => (
+    <FilterItem
+      image={data.item.get('image')}
+      name={data.item.get('name')}
+      on={data.item.get('on')}
+      toggleFilter={() => this.toggleFilter(data.item.get('_id'))}
+    />
+  );
+
+  callWaiter = () => {
+    if(this.props.callWaiterBtnState) {
+      showGenericAlert(
+        'Cancel Waiter',
+        convertToTitleCase(this.props.userName) + '\n' + '@Table 2345',
+        [
+          { text: 'Yes', onPress: () => this.props.callWaiterBtnFunc(false) },
+          { text: 'No', onPress: () => null }
+        ]
+      );
+    } else {
+      showGenericAlert(
+        'Call Waiter',
+        convertToTitleCase(this.props.userName) + '\n' + '@Table 2345',
+        [
+          { text: 'Yes', onPress: () => this.props.callWaiterBtnFunc(true) },
+          { text: 'No', onPress: () => null }
+        ]
+      );
+    }
+  };
+
   render() {
-    const { filters } = this.props;
+    const filters = this.props.filters;
+    console.log(filters);
+    const { callWaiterBtnState, isUserOpenOrder } = this.props;
     return (
       <LinearGradient
         testID="linearGradient"
@@ -183,11 +229,11 @@ class Explore extends PureComponent<Props> {
         locations={[0.1, 0.4, 0.4, 0.4, 0.4]}
         style={styles.container}
       >
-        <View style={{ flex: 1 }}>
+        <View style={styles.flex1}>
           <ExploreSearchInput
-            showList={value => this.showList(value)}
+            showList={this.showList}
             showListValue={this.state.showList}
-            onTextChange={text => this.onTextChange(text)}
+            onTextChange={this.onTextChange}
             clearTimer={this.clearTimer}
           />
           <ExploreScreenHeader
@@ -207,17 +253,10 @@ class Explore extends PureComponent<Props> {
               <FlatList
                 horizontal
                 contentContainerStyle={styles.filtersList}
-                keyExtractor={item => item._id.toString()}
+                keyExtractor={item => item.get('_id').toString()}
                 showsHorizontalScrollIndicator={false}
-                data={filters}
-                renderItem={({ item }) =>
-                  <FilterItem
-                    image={item.image}
-                    name={item.name}
-                    on={item.on}
-                    toggleFilter={() => this.toggleFilter(item._id)}
-                  />
-                }
+                data={filters.toArray()}
+                renderItem={this.renderItem}
               />
 
               <View>
@@ -234,18 +273,17 @@ class Explore extends PureComponent<Props> {
                     minimumTrackTintColor="rgb(47,212,117)"
                     maximumTrackTintColor="rgb(230,230,230)"
                     thumbTintColor="rgb(255,254,255)"
-                    thumbStyle={{ height: 18, width: 18 }}
+                    thumbStyle={styles.thumbStyle}
                     value={this.props.distance}
-                    trackStyle={{ height: 3 }}
-                    thumbStyle={{ height: 13, width: 13 }}
-                    onSlidingComplete={value => this.updateDistance(value)}
+                    trackStyle={styles.trackStyle}
+                    onSlidingComplete={this.updateDistance}
                   />
                 </View>
                 {filters.map(item => {
-                  if (item.filterType === 'price' && item.on === true) {
+                  if (item.get('filterType') === 'price' && item.get('on') === true) {
                     return (
                       <View
-                        key={item._id}
+                        key={item.get('_id').toString()}
                         style={styles.priceSliderContainer}
                       >
                         <View
@@ -258,12 +296,11 @@ class Explore extends PureComponent<Props> {
                             minimumTrackTintColor="rgb(47,212,117)"
                             maximumTrackTintColor="rgb(230,230,230)"
                             thumbTintColor="rgb(255,254,255)"
-                            thumbStyle={{ height: 18, width: 18 }}
-                            style={{height: 31}}
+                            thumbStyle={styles.thumbStyle}
+                            style={styles.sliderHeight}
                             value={this.props.pricing - 1}
-                            onSlidingComplete={value => this.updatePrice(value)}
-                            trackStyle={{ height: 3 }}
-                            thumbStyle={{ height: 13, width: 13 }}
+                            onSlidingComplete={this.updatePrice}
+                            trackStyle={styles.trackStyle}
                           />
                         </View>
 
@@ -449,6 +486,14 @@ class Explore extends PureComponent<Props> {
           }
 
           <ExploreList testID="exploreList"/>
+          {isUserOpenOrder &&
+            <TouchableOpacity
+              style={[ styles.bellBtnHolder, { backgroundColor: callWaiterBtnState ? '#2ED573' : 'transparent' }]}
+              onPress={this.callWaiter}
+            >
+              <Feather name="bell" size={wp('6.4%')} color={ callWaiterBtnState ? '#d3d3d3' : 'white' } />
+            </TouchableOpacity>
+          }
           {this.state.showList &&
             <ExploreSearch
               testID="exploreSearch"
@@ -464,7 +509,7 @@ class Explore extends PureComponent<Props> {
 }
 
 Explore.propTypes = {
-  filters: PropTypes.array.isRequired,
+  filters: PropTypes.object.isRequired,
   getUserCurrentLocation: PropTypes.func.isRequired,
   updateDistance: PropTypes.func.isRequired,
   updatePrice: PropTypes.func.isRequired,

@@ -4,7 +4,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 
 import { FONT_FAMILY_MEDIUM } from '../../../services/constants';
 

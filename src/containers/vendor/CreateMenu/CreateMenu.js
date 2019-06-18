@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { FileSystem } from 'expo';
 import shorthash from 'shorthash';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { MaterialIcons, Feather } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import MenuItem from '../../../components/MenuItem';
 import {
   COLOR_BLACK,
@@ -56,9 +56,6 @@ export default class CreateMenu extends Component<Props> {
       fontFamily: FONT_FAMILY_MEDIUM,
       fontSize: wp('6.4%')
     },
-    tabBarIcon: props => (
-      <MaterialIcons name="person-outline" size={24} color={props.tintColor} />
-    ),
     headerLeft: (
       <TouchableOpacity
         activeOpacity={0.8}
@@ -90,6 +87,10 @@ export default class CreateMenu extends Component<Props> {
     });
   }
 
+  enableBtns = () => {
+    disableBtn = false;
+  }
+
   addCategory(length) {
     if(disableBtn === false) {
       disableBtn = true;
@@ -103,20 +104,20 @@ export default class CreateMenu extends Component<Props> {
 
       if(found) {
         length += 1;
-        disableBtn = false;
+        this.enableBtns();
         this.addCategory(length);
       } else {
         this.props.addCategory(this.props.menuId, categoryName)
           .then(() => {
-            disableBtn = false;
+            this.enableBtns();
           })
           .catch(err => {
             if(err.code === 401) {
-              disableBtn = false;
+              this.enableBtns();
               manuallyLogout(err, () => this.props.userLogout());
             } else {
               showAlertWithMessage('Uh-oh!', err, () => {
-                disableBtn = false;
+                this.enableBtns();
               });
             }
           });
@@ -129,56 +130,35 @@ export default class CreateMenu extends Component<Props> {
       disableBtn = true;
       this.props.updateCategory(this.props.menuId, categoryId, title)
         .then(() => {
-          disableBtn = false;
+          this.enableBtns();
         })
         .catch(err => {
           if(err.code === 401) {
-            disableBtn = false;
+            this.enableBtns();
             manuallyLogout(err, () => this.props.userLogout());
           } else {
             showAlertWithMessage('Uh-oh!', err, () => {
-              disableBtn = false;
+              this.enableBtns();
             });
           }
         });
     }
   }
 
-  // deleteCategory(categoryId) {
-  //   if(disableBtn === false) {
-  //     disableBtn = true;
-  //
-  //     this.props.deleteCategory(this.props.menuId, categoryId)
-  //       .then(() => {
-  //         disableBtn = false;
-  //       })
-  //       .catch(err => {
-  //         if(err.code === 401) {
-  //           disableBtn = false;
-  //           manuallyLogout(err, () => this.props.userLogout());
-  //         } else {
-  //           showAlertWithMessage('Uh-oh!', err, () => {
-  //             disableBtn = false;
-  //           });
-  //         }
-  //       });
-  //   }
-  // }
-
   addItem(menuId, categoryId) {
     if(disableBtn === false) {
       disableBtn = true;
       this.props.addItem(menuId, categoryId, 'Item', 'Description', 0)
         .then(() => {
-          disableBtn = false;
+          this.enableBtns();
         })
         .catch(err => {
           if(err.code === 401) {
-            disableBtn = false;
+            this.enableBtns();
             manuallyLogout(err, () => this.props.userLogout());
           } else {
             showAlertWithMessage('Uh-oh!', err, () => {
-              disableBtn = false;
+              this.enableBtns();
             });
           }
         });
@@ -198,15 +178,15 @@ export default class CreateMenu extends Component<Props> {
           price
         )
         .then(() => {
-          disableBtn = false;
+          this.enableBtns();
         })
         .catch(err => {
           if(err.code === 401) {
-            disableBtn = false;
+            this.enableBtns();
             manuallyLogout(err, () => this.props.userLogout());
           } else {
             showAlertWithMessage('Uh-oh!', err, () => {
-              disableBtn = false;
+              this.enableBtns();
             });
           }
         });
@@ -273,15 +253,15 @@ export default class CreateMenu extends Component<Props> {
           });
         });
 
-        disableBtn = false;
+        this.enableBtns();
       }
     } catch (err) {
       if(err.code === 401) {
-        disableBtn = false;
+        this.enableBtns();
         manuallyLogout(err, () => this.props.userLogout());
       } else {
         showAlertWithMessage('Uh-oh!', err, () => {
-          disableBtn = false;
+          this.enableBtns();
         });
       }
     }
@@ -289,7 +269,7 @@ export default class CreateMenu extends Component<Props> {
 
   async deleteImage(menuId, sectionId, itemId, imageURL) {
     try {
-      if(disableBtn === false) {
+      if(disableBtn === false && imageURL !== '' && !imageURL.includes('file:///')) {
         disableBtn = true;
 
         await this.props.deleteImage(
@@ -308,17 +288,10 @@ export default class CreateMenu extends Component<Props> {
           console.log('Image deleted from cache!');
         }
 
-        disableBtn = false;
+        this.enableBtns();
       }
     } catch (err) {
-      if(err.code === 401) {
-        disableBtn = false;
-        manuallyLogout(err, () => this.props.userLogout());
-      } else {
-        showAlertWithMessage('Uh-oh!', err, () => {
-          disableBtn = false;
-        });
-      }
+      throw err;
     }
   }
 
@@ -340,15 +313,15 @@ export default class CreateMenu extends Component<Props> {
           }
         });
 
-        disableBtn = false;
+        this.enableBtns();
       }
     } catch (err) {
       if(err.code === 401) {
-        disableBtn = false;
+        this.enableBtns();
         manuallyLogout(err, () => this.props.userLogout());
       } else {
         showAlertWithMessage('Uh-oh!', err, () => {
-          disableBtn = false;
+          this.enableBtns();
         });
       }
     }
@@ -366,6 +339,7 @@ export default class CreateMenu extends Component<Props> {
           <SectionList
             showsVerticalScrollIndicator
             extraData={array}
+            keyboardShouldPersistTaps="handled"
             initialNumToRender={2}
             contentContainerStyle={styles.sectionListContentContainerStyle}
             style={styles.sectionListStyle}
@@ -404,6 +378,8 @@ export default class CreateMenu extends Component<Props> {
                 deleteImageComponent={imageURL =>
                   this.deleteImage(this.props.menuId, section._id, item._id, imageURL)
                 }
+                userLogout={this.props.userLogout}
+                enableBtns={this.enableBtns}
                 uploadImage={(uri, size, mime, name, type, acl) =>
                   this.props.uploadImage(uri, size, mime, name, type, acl)
                 }

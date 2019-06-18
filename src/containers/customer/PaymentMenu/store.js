@@ -8,8 +8,7 @@ import { userLogout } from '../../../modules/auth';
 export const mapStateToProps = state => {
   const data = state
     .get('paymentMethods')
-    .get('data')
-    .toJS();
+    .get('data');
 
   const isBusy = state.get('paymentMethods').get('isBusy');
 

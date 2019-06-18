@@ -1,14 +1,14 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, InteractionManager } from 'react-native';
+import { View, Text, TouchableOpacity, InteractionManager } from 'react-native';
 import PropTypes from 'prop-types';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Slider from 'react-native-slider';
 import { LinearGradient } from 'expo';
 import { EvilIcons } from '@expo/vector-icons';
-import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 import showGenericAlert from '../../../components/GenericAlert';
+import CacheImage from '../../../components/CacheImage';
 
 let disableBtn = false;
 

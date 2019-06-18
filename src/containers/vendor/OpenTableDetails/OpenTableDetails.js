@@ -19,6 +19,7 @@ import OpenOrdersList from '../../../components/OpenOrdersList';
 import OpenTablePayment from '../../../components/OpenTablePayment';
 import styles from './styles';
 import CacheImage from '../../../components/CacheImage';
+import Loader from '../../../components/Loader';
 import { TAX } from '../../../services/constants';
 import {
   showAlertWithMessage,
@@ -80,7 +81,7 @@ export default class OpenTableDetails extends Component {
     this.props.removeTableItemDetails();
   }
 
-  finalizeOrder(price) {
+  finalizeOrder = price => {
     const order = this.props.openTableSelectedItem;
     if (
       order.get('paymentType') === 'card' &&
@@ -164,9 +165,9 @@ export default class OpenTableDetails extends Component {
           }
         });
     }
-  }
+  };
 
-  completeOrder(id) {
+  completeOrder = id => {
     if(disableBtn === false) {
       disableBtn = true;
       const order = this.props.openTableSelectedItem;
@@ -278,81 +279,60 @@ export default class OpenTableDetails extends Component {
           showAlertWithMessage('Uh-oh!', err);
         }
       });
-  }
+  };
+
+  renderTabBar = () => (
+    <ScrollableTab
+      style={styles.scrollableTabStyle}
+      tabsContainerStyle={styles.tabsContainerStyle}
+    />
+  );
 
   render() {
     const selectedItem = this.props.openTableSelectedItem;
 
     return (
       <Container style={styles.container}>
-        {(() => {
-          if(selectedItem) {
-            return (
-              <Tabs
-                locked
-                scrollWithoutAnimation
-                tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
-                renderTabBar={() => (
-                  <ScrollableTab
-                    style={styles.scrollableTabStyle}
-                    tabsContainerStyle={styles.tabsContainerStyle}
-                  />
-                )}
-              >
-                <Tab
-                  heading="Order"
-                  tabStyle={styles.orderTabStyle}
-                  activeTabStyle={styles.orderTabStyle}
-                  textStyle={styles.orderTabTextStyle}
-                  activeTextStyle={styles.orderTabTextStyle}
-                  style={styles.tabStyle}
-                >
-                  <OpenOrdersList
-                    data={selectedItem}
-                    checkStatusAndCancelItem={itemId =>
-                      this.checkStatusAndCancelItem(selectedItem.get('_id'), itemId)
-                    }
-                    completeOrder={() => {
-                      this.completeOrder(selectedItem.get('_id'))
-                    }}
-                    innerTab={this.props.navigation.state.params.innerTab}
-                  />
-                </Tab>
-                {(() => {
-                  if(this.props.navigation.state.params.innerTab !== 'queue') {
-                    return (
-                      <Tab
-                        heading="Payment"
-                        tabStyle={styles.paymentTabStyle}
-                        activeTabStyle={styles.paymentTabStyle}
-                        textStyle={styles.paymentTabTextStyle}
-                        activeTextStyle={styles.paymentTabTextStyle}
-                        style={styles.tabStyle}
-                      >
-                        <OpenTablePayment
-                          data={selectedItem}
-                          innerTab={this.props.navigation.state.params.innerTab}
-                          completeOrder={() => this.completeOrder(selectedItem.get('_id'))}
-                        />
-                      </Tab>
-                    );
-                  }
-                })()}
-              </Tabs>
-            );
-          }
-          return (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
+      {selectedItem ? (
+        <Tabs
+          locked
+          scrollWithoutAnimation
+          tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
+          renderTabBar={this.renderTabBar}
+        >
+          <Tab
+            heading="Order"
+            tabStyle={styles.orderTabStyle}
+            activeTabStyle={styles.orderTabStyle}
+            textStyle={styles.orderTabTextStyle}
+            activeTextStyle={styles.orderTabTextStyle}
+            style={styles.tabStyle}
+          >
+            <OpenOrdersList
+              data={selectedItem}
+              checkStatusAndCancelItem={this.checkStatusAndCancelItem}
+              completeOrder={this.completeOrder}
+              innerTab={this.props.navigation.state.params.innerTab}
+            />
+          </Tab>
+          {this.props.navigation.state.params.innerTab !== 'queue' ? (
+            <Tab
+              heading="Payment"
+              tabStyle={styles.paymentTabStyle}
+              activeTabStyle={styles.paymentTabStyle}
+              textStyle={styles.paymentTabTextStyle}
+              activeTextStyle={styles.paymentTabTextStyle}
+              style={styles.tabStyle}
             >
-              <ActivityIndicator size="large" color="white"/>
-            </View>
-          );
-        })()}
+              <OpenTablePayment
+                data={selectedItem}
+                innerTab={this.props.navigation.state.params.innerTab}
+                completeOrder={this.completeOrder}
+              />
+            </Tab>
+          ): null}
+        </Tabs>
+      ) : <Loader />}
       </Container>
     );
   }

@@ -16,7 +16,8 @@ import {
   DISABLE_VENDOR_LIST_ITEM,
   GET_USER_CURRENT_LOCATION_REQUEST,
   GET_USER_CURRENT_LOCATION_SUCCESS,
-  GET_USER_CURRENT_LOCATION_FAILURE
+  GET_USER_CURRENT_LOCATION_FAILURE,
+  CALL_WAITER
 } from './types';
 
 const restaurants = [];
@@ -50,7 +51,8 @@ const INITIAL_STATE = fromJS({
   minDistance: 1,
   maxDistance: 10,
   distance: 10,
-  pricing: 1
+  pricing: 1,
+  callWaiterBtnState: false
 });
 
 export default (state = INITIAL_STATE, action) => {
@@ -106,6 +108,8 @@ export default (state = INITIAL_STATE, action) => {
       });
       console.log(updatedRest.toJS());
       return state.update('restaurants', () => updatedRest);
+    case CALL_WAITER:
+      return state.update('callWaiterBtnState', () => action.payload);
     default:
       return state;
   }

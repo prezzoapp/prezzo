@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
   },
   vendorImage: {
     height: wp('15.73%'),
-    width: wp('15.73%')
+    width: wp('15.73%'),
+    borderRadius: 8
   },
   detailContainer: {
     flexDirection: 'row',

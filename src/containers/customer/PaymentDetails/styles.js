@@ -1,9 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp
 } from 'react-native-responsive-screen';
 import { FONT_FAMILY } from '../../../services/constants';
+import { Header } from 'react-navigation';
+import Constants from 'expo-constants';
 
 const checkboxSize: number = 25;
 
@@ -11,12 +13,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#2B2C2C',
-    paddingBottom: hp('9%')
+    paddingTop: Header.HEIGHT + Constants.statusBarHeight - (Platform.OS === 'ios' ? 20 : 0)
   },
 
   scrollView: {
     paddingTop: hp('3.69%'),
-    backgroundColor: 'transparent'
+    backgroundColor: '#2B2C2C',
   },
 
   textStyle: {
@@ -66,6 +68,15 @@ const styles = StyleSheet.create({
 
   headerLeftBtn: {
     marginLeft: wp('4.4%')
+  },
+
+  webViewContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+    overflow: 'hidden'
   }
 });
 

@@ -5,8 +5,12 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ImagePicker, ImageManipulator, Permissions } from 'expo';
 import { ActionSheet } from 'native-base';
 import PropTypes from 'prop-types';
-import { Ionicons } from '@expo/vector-icons'
-import { getTimeStampString, showAlertWithMessage } from '../../services/commonFunctions';
+import { Ionicons } from '@expo/vector-icons';
+import {
+  getTimeStampString,
+  showAlertWithMessage,
+  manuallyLogout
+} from '../../services/commonFunctions';
 import styles from './styles';
 import showGenericAlert from '../GenericAlert';
 import CacheImage from '../CacheImage';
@@ -55,7 +59,7 @@ class ItemImagePicker extends React.Component<Props> {
       });
 
       if (!result.cancelled) {
-        const resultEdited = await ImageManipulator.manipulate(
+        const resultEdited = await ImageManipulator.manipulateAsync(
           result.uri,
           [{ resize: { width: 200 }}],
           { format: 'jpeg', compress: 0.8 }
@@ -64,31 +68,43 @@ class ItemImagePicker extends React.Component<Props> {
         this.setState({
           selectImageThroughImagePicker: true
         }, async () => {
-          this.setState({ tempImage: resultEdited.uri });
-          const fileName = `${getTimeStampString()}.jpeg`;
-          const itemImage = await this.props
-            .uploadImage(
-              resultEdited.uri,
-              10,
-              'image/jpeg',
-              fileName,
-              'userAvatar',
-              'public-read'
-            );
+          try {
+            this.setState({ tempImage: resultEdited.uri });
+            const fileName = `${getTimeStampString()}.jpeg`;
+            const itemImage = await this.props
+              .uploadImage(
+                resultEdited.uri,
+                10,
+                'image/jpeg',
+                fileName,
+                'userAvatar',
+                'public-read'
+              );
 
-          await this.props.addNewImageComponent(itemImage);
+            await this.props.addNewImageComponent(itemImage);
 
-          this.setState({
-            selectImageThroughImagePicker: false
-          }, () => {
             this.setState({
-              tempImage: itemImage
+              selectImageThroughImagePicker: false
+            }, () => {
+              this.setState({
+                tempImage: itemImage
+              });
             });
-          });
+          } catch(err) {
+            if(err.code === 401) {
+              manuallyLogout(err, () => this.props.userLogout());
+            } else {
+              showAlertWithMessage('Uh-oh!', err);
+            }
+          }
         });
       }
     } catch(err) {
-      showAlertWithMessage('Uh-oh!', err);
+      if(err.code === 401) {
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err);
+      }
     }
   };
 
@@ -100,7 +116,7 @@ class ItemImagePicker extends React.Component<Props> {
       });
 
       if (!result.cancelled) {
-        const resultEdited = await ImageManipulator.manipulate(
+        const resultEdited = await ImageManipulator.manipulateAsync(
           result.uri,
           [{ resize: { width: 200 }}],
           { format: 'jpeg', compress: 0.8 }
@@ -109,39 +125,51 @@ class ItemImagePicker extends React.Component<Props> {
         this.setState({
           selectImageThroughImagePicker: true
         }, async () => {
-          this.setState({ tempImage: resultEdited.uri });
-          const fileName = `${getTimeStampString()}.jpeg`;
-          const itemImage = await this.props
-            .uploadImage(
-              resultEdited.uri,
-              10,
-              'image/jpeg',
-              fileName,
-              'userAvatar',
-              'public-read'
-            );
+          try {
+            this.setState({ tempImage: resultEdited.uri });
+            const fileName = `${getTimeStampString()}.jpeg`;
+            const itemImage = await this.props
+              .uploadImage(
+                resultEdited.uri,
+                10,
+                'image/jpeg',
+                fileName,
+                'userAvatar',
+                'public-read'
+              );
 
-          await this.props.addNewImageComponent(itemImage);
+            await this.props.addNewImageComponent(itemImage);
 
-          this.setState({
-            selectImageThroughImagePicker: false
-          }, () => {
             this.setState({
-              tempImage: itemImage
+              selectImageThroughImagePicker: false
+            }, () => {
+              this.setState({
+                tempImage: itemImage
+              });
             });
-          });
+          } catch(err) {
+            if(err.code === 401) {
+              manuallyLogout(err, () => this.props.userLogout());
+            } else {
+              showAlertWithMessage('Uh-oh!', err);
+            }
+          }
         });
       }
     } catch(err) {
-      showAlertWithMessage('Uh-oh!', err);
+      if(err.code === 401) {
+        manuallyLogout(err, () => this.props.userLogout());
+      } else {
+        showAlertWithMessage('Uh-oh!', err);
+      }
     }
   };
 
-  deleteImageComponent = () => {
+  deleteImageComponent = image => {
     showGenericAlert(null, 'Are you sure you want to delete this menu item image?', [
       {
         text: 'Yes',
-        onPress: () => this.props.deleteImageComponent()
+        onPress: () => this.props.deleteImageComponent(image)
       },
       {
         text: 'No',
@@ -160,7 +188,7 @@ class ItemImagePicker extends React.Component<Props> {
           <TouchableOpacity
             style={styles.closeBtn}
             activeOpacity={0.6}
-            onPress={() => this.deleteImageComponent()}
+            onPress={() => this.deleteImageComponent(image)}
           >
             <Ionicons
               title="Delete"

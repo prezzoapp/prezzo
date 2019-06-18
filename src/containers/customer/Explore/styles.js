@@ -7,6 +7,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { getBottomSpace } from 'react-native-iphone-x-helper';
 
 export default StyleSheet.create({
   container: {
@@ -83,5 +84,35 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     bottom: -10.25
+  },
+
+  thumbStyle: {
+    height: 13,
+    width: 13
+  },
+
+  trackStyle: {
+    height: 3
+  },
+
+  sliderHeight: {
+    height: 31
+  },
+
+  bellBtnHolder: {
+    height: wp('12.26%'),
+    width: wp('12.26%'),
+    borderRadius: wp('6.13%'),
+    borderWidth: 1,
+    borderColor: '#0DD24A',
+    position: 'absolute',
+    right: wp('6.13%'),
+    bottom: getBottomSpace() + 49 + wp('3.46%'),
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  flex1: {
+    flex: 1
   }
 });

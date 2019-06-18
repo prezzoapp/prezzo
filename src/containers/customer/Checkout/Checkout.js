@@ -5,7 +5,8 @@ import ReactNative, {
   TouchableOpacity,
   ScrollView,
   Dimensions,
-  PanResponder
+  PanResponder,
+  Image
 } from 'react-native';
 
 import { BlurView } from 'expo';
@@ -26,9 +27,9 @@ const { width, height } = Dimensions.get('screen');
 
 const checkoutSwiperRef = React.createRef();
 
-const parent = React.createRef();
-
-const child = React.createRef();
+// const parent = React.createRef();
+//
+// const child = React.createRef();
 
 const scrollViewRef = React.createRef();
 
@@ -41,8 +42,6 @@ export default class Checkout extends Component {
     this.hideModal = this.hideModal.bind(this);
 
     this.showModalAnimatedValue = new Animated.Value(height);
-
-    // this.index = 0;
 
     this.viewPosition = { x: 0, y: 0, width: 0, height: 0 };
 
@@ -57,16 +56,7 @@ export default class Checkout extends Component {
 
       onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
 
-      onMoveShouldSetPanResponder: (evt, gestureState) => {
-        if (
-          gestureState.moveY >= this.viewPosition.y &&
-          gestureState.moveY <= this.viewPosition.y + this.viewPosition.height
-        ) {
-          return true;
-        }
-
-        return false;
-      },
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
 
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
@@ -90,49 +80,33 @@ export default class Checkout extends Component {
     });
   }
 
-  componentDidMount() {
-    this.props.listCreditCards()
-      .then(() => {})
-      .catch(err => {
-        if(err.code === 401) {
-          manuallyLogout(err, () => this.props.userLogout());
-        } else {
-          showAlertWithMessage('Uh-oh!', err);
-        }
-      });
-  }
-
-  onScrollEnd(index) {
+  onScrollEnd = index => {
     scrollViewRef.current.scrollTo({
       x: parseFloat(width * index),
       y: 0,
       animated: true
     });
-  }
-
-  onLayout = () => {
-    if (child.current) this.calculateLayout();
   };
 
-  calculateLayout = () => {
-    child.current.measureLayout(
-      ReactNative.findNodeHandle(parent.current),
-      (xPos, yPos, Width, Height) => {
-        this.viewPosition.x = xPos;
-        this.viewPosition.y = yPos;
-        this.viewPosition.width = Width;
-        this.viewPosition.height = Height;
-      }
-    );
-  };
+  // onLayout = () => {
+  //   if (child.current) this.calculateLayout();
+  // };
+
+  // calculateLayout = () => {
+  //   child.current.measureLayout(
+  //     ReactNative.findNodeHandle(parent.current),
+  //     (xPos, yPos, Width, Height) => {
+  //       this.viewPosition.x = xPos;
+  //       this.viewPosition.y = yPos;
+  //       this.viewPosition.width = Width;
+  //       this.viewPosition.height = Height;
+  //     }
+  //   );
+  // };
 
   scrollForward() {
     checkoutSwiperRef.current.scrollForward();
   }
-
-  // scrollReset() {
-  //   this.checkoutSwiper.scrollReset();
-  // }
 
   showModal() {
     if (this.animationRunning === false) {
@@ -160,18 +134,27 @@ export default class Checkout extends Component {
     });
   };
 
+  addRemoveItemQuantity = (sectionId, itemId, op) => {
+    return this.props.addRemoveItemQuantity(sectionId, itemId, op);
+  };
+
+  setCurrentIndex = index => {
+    this.props.setCurrentIndex(index);
+  };
+
+  isSelectedPaymentMethod = val => {
+    this.props.isSelectedPaymentMethod(val);
+  };
+
   render() {
     return (
       <Animated.View
-        {...this.panResponder.panHandlers}
-        ref={parent}
         style={[
           styles.container,
           {
             transform: [{ translateY: this.showModalAnimatedValue }]
           }
         ]}
-        onLayout={this.onLayout}
       >
         <TouchableOpacity
           activeOpacity={1}
@@ -182,9 +165,8 @@ export default class Checkout extends Component {
           <BlurView style={styles.blurView} tint="dark" intensity={95} />
           <View style={{ flex: 1 }}>
             <View
-              ref={child}
+              {...this.panResponder.panHandlers}
               style={styles.bottomArrowIconContainer}
-              onLayout={this.calculateLayout}
             >
               <CacheImage
                 source={require('../../../../assets/images/icons/bottom_arrow.png')}
@@ -233,20 +215,12 @@ export default class Checkout extends Component {
               navigate={this.props.navigate}
               restaurantName={this.props.restaurantName}
               creditCardList={this.props.creditCardList}
-              onScrollingEnd={(xValue, index) =>
-                this.onScrollEnd(xValue, index)
-              }
+              onScrollingEnd={this.onScrollEnd}
               data={this.props.data}
-              addRemoveItemQuantity={(sectionId, itemId, op) =>
-                this.props.addRemoveItemQuantity(sectionId, itemId, op)
-              }
-              setCurrentIndex={index => this.props.setCurrentIndex(index)}
+              addRemoveItemQuantity={this.addRemoveItemQuantity}
+              setCurrentIndex={this.setCurrentIndex}
               hideModal={this.hideModal}
-              isSelectedPaymentMethod={val =>
-                this.props.isSelectedPaymentMethod(val)
-              }
-              setType={type => this.props.setType(type)}
-              type={this.props.type}
+              isSelectedPaymentMethod={this.isSelectedPaymentMethod}
             />
           </View>
         </View>
@@ -262,11 +236,9 @@ Checkout.propTypes = {
   setCurrentIndex: PropTypes.func.isRequired,
   showNextOrderBtn: PropTypes.func.isRequired,
   hideNextOrderBtn: PropTypes.func.isRequired,
-  setType: PropTypes.func.isRequired,
-  listCreditCards: PropTypes.func.isRequired,
   userLogout: PropTypes.func.isRequired,
   navigate: PropTypes.func.isRequired,
-  creditCardList: PropTypes.array.isRequired,
+  creditCardList: PropTypes.object.isRequired,
   isSelectedPaymentMethod: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired
 };

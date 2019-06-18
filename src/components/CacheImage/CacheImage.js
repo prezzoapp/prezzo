@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { ImageBackground, Image } from 'react-native';
 import shorthash from 'shorthash';
-import { FileSystem, Asset } from 'expo';
+import { FileSystem } from 'expo';
+import { Asset } from 'expo-asset';
 import PropTypes from 'prop-types';
 
 export default class CacheImage extends Component {
@@ -29,6 +30,7 @@ export default class CacheImage extends Component {
     try {
       const name = shorthash.unique(imageSource);
       const path = `${FileSystem.cacheDirectory}${name}.jpeg`;
+      console.log(path);
       const image = await FileSystem.getInfoAsync(path);
 
       if(image.exists && this._isMounted) {
@@ -54,11 +56,13 @@ export default class CacheImage extends Component {
     try {
       const asset = await Asset.fromModule(imageSource);
       if(asset.localUri && this._isMounted) {
+        console.log(asset.localUri);
         this.setState({
           imgSource: {uri: asset.localUri}
         });
       } else {
         await asset.downloadAsync();
+        console.log(asset.localUri);
         if(asset.localUri && this._isMounted) {
           this.setState({
             imgSource: {uri: asset.localUri}

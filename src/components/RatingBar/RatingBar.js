@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 import { View, TouchableOpacity, Image } from 'react-native';
 import PropTypes from 'prop-types';
+import CacheImage from '../CacheImage';
 
 import styles from './styles';
-import CacheImage from '../CacheImage';
 
 const MAX_RATING = 5;
 

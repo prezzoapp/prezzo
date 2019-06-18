@@ -2,8 +2,7 @@
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 
-import { addRemoveItemQuantity, setType } from '../../../modules/restaurant';
-import { listCreditCards } from '../../../modules/paymentMethods';
+import { addRemoveItemQuantity } from '../../../modules/restaurant';
 import { userLogout } from '../../../modules/auth';
 
 export const mapStateToProps = state => {
@@ -13,7 +12,7 @@ export const mapStateToProps = state => {
   const newlyAddedCard = state.get('paymentMethods').get('newlyAddedCard');
   const creditCardList = state
     .get('paymentMethods')
-    .get('data').toJS();
+    .get('data');
 
   return {
     data,
@@ -27,7 +26,5 @@ export const mapStateToProps = state => {
 export const mapDispatchToProps = dispatch => ({
   navigate: bindActionCreators(NavigationActions.navigate, dispatch),
   addRemoveItemQuantity: bindActionCreators(addRemoveItemQuantity, dispatch),
-  setType: bindActionCreators(setType, dispatch),
-  listCreditCards: bindActionCreators(listCreditCards, dispatch),
   userLogout: bindActionCreators(userLogout, dispatch)
 });

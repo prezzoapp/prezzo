@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {
+import ReactNative, {
   Text,
   StyleSheet,
   KeyboardAvoidingView,
@@ -8,11 +8,15 @@ import {
   Platform,
   View,
   TouchableOpacity,
+  Keyboard,
+  UIManager,
+  Dimensions,
+  findNodeHandle,
   InteractionManager
 } from 'react-native';
 import { Header } from 'react-navigation';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { Feather } from '@expo/vector-icons';
@@ -21,8 +25,16 @@ import {NavigationActions} from 'react-navigation';
 import {updateFirstName, updateLastName} from '../../../modules/Signup';
 import {FONT_FAMILY_MEDIUM} from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
-import CacheImage from '../../../components/CacheImage';
 import NextButton from './NextButton';
+import CacheImage from '../../../components/CacheImage';
+
+const windowHeight = Dimensions.get('window').height;
+let keyboardDidShowCalled = false;
+
+const buttonRef = React.createRef();
+const scrollViewRef = React.createRef();
+let gap = 0;
+let btnPosition = 0;
 
 type Props = {
   updateFirstName: PropTypes.func.isRequired,
@@ -51,7 +63,7 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: hp('5%'),
+    paddingBottom: hp('3%'),
     paddingTop: SCROLL_VIEW_TOP_PADDING
   },
   headerTextLine1: {
@@ -86,7 +98,8 @@ const styles = StyleSheet.create({
 
 const nextButtonStyle = {
   alignSelf: 'flex-end',
-  position: 'relative'
+  position: 'relative',
+  marginTop: wp('8.53%')
 };
 
 class SignupName extends React.Component<Props, State> {
@@ -135,6 +148,45 @@ class SignupName extends React.Component<Props, State> {
     });
   }
 
+  componentWillMount() {
+    this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardShow.remove();
+    this.keyboardHide.remove();
+  }
+
+  keyboardDidShow = event => {
+    if(keyboardDidShowCalled === false) {
+      keyboardDidShowCalled = true;
+      const keyboardHeight = event.endCoordinates.height;
+      const button = ReactNative.findNodeHandle(buttonRef.current);
+      UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
+        const fieldHeight = height;
+        const fieldTop = pageY;
+        gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
+        if (gap < 0 && scrollViewRef.current) {
+          scrollViewRef.current.scrollTo({
+            x: 0, y: -gap, animated: true
+          });
+        } else {
+          console.log('Gap: ', gap);
+        }
+      });
+    }
+  }
+
+  keyboardDidHide = event => {
+    if(scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: 0, y: 0, animated: true
+      });
+    }
+    keyboardDidShowCalled = false;
+  }
+
   render() {
     const {firstName, lastName} = this.props;
     return (
@@ -145,8 +197,10 @@ class SignupName extends React.Component<Props, State> {
       >
         <KeyboardAvoidingView
           style={{ flex: 1 }}
-          behavior='padding'>
+          behavior='padding'
+        >
           <ScrollView
+            ref={scrollViewRef}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text style={styles.headerTextLine1}>What's your</Text>
@@ -163,10 +217,12 @@ class SignupName extends React.Component<Props, State> {
               type='name'
               label='Last Name'
               value={lastName}
+              containerPaddingBottom={0}
               onChange={val => this.props.updateLastName(val)}
             />
 
             <NextButton
+              ref={buttonRef}
               style={nextButtonStyle}
               onPress={() => this.navigateToSignupEmail()}
               disabled={!this.isFormValid()}

@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
-import {
+import ReactNative, {
   View,
   TouchableOpacity,
   Text,
   AsyncStorage,
   KeyboardAvoidingView,
   ScrollView,
-  InteractionManager
+  InteractionManager,
+  findNodeHandle,
+  UIManager,
+  Dimensions,
+  Keyboard
 } from 'react-native';
 import { CreditCardInput } from 'react-native-credit-card-input';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
 import { WebView } from 'react-native-webview-messaging/WebView';
 import { Feather } from '@expo/vector-icons';
@@ -26,11 +31,18 @@ import {
   NETWORK_REQUEST_FAILED
 } from '../../../services/constants';
 import {
-  showAlertWithMessage,
-  manuallyLogout
+  manuallyLogout,
+  showAlertWithMessage
 } from '../../../services/commonFunctions';
 
+const windowHeight = Dimensions.get('window').height;
+let keyboardDidShowCalled = false;
+const scrollViewRef = React.createRef();
+const buttonRef = React.createRef();
+
 let disableBtn = false;
+
+const webViewRef = React.createRef();
 
 class PaymentDetails extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -53,7 +65,11 @@ class PaymentDetails extends Component {
         backgroundColor: '#2B2C2C',
         shadowColor: 'transparent',
         borderBottomWidth: 0,
-        elevation: 0
+        elevation: 0,
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0
       },
       headerTintColor: '#fff',
       headerLeft: (
@@ -93,12 +109,12 @@ class PaymentDetails extends Component {
         const response = await this.props.getToken();
 
         this.getToken = response.token;
-        this.webview.messagesChannel.on('isTokenizationComplete', nonce => {
+        webViewRef.current.messagesChannel.on('isTokenizationComplete', nonce => {
           console.log('isTokenizationComplete function called!');
           this.isTokenizationComplete(nonce);
         });
 
-        this.webview.messagesChannel.on('isError', error => {
+        webViewRef.current.messagesChannel.on('isError', error => {
           console.log('isError function called!');
           this.props.hideLoading();
           if(error.message.code === 'CLIENT_GATEWAY_NETWORK') {
@@ -127,7 +143,7 @@ class PaymentDetails extends Component {
     });
   }
 
-  onChange(data) {
+  onChange = data => {
     if(data.valid === true && this.state.dataValid === false) {
       this.setState(() => {
           return {
@@ -145,7 +161,7 @@ class PaymentDetails extends Component {
         }
       });
     }
-  }
+  };
 
   async checkResponseMessage(){
     await AsyncStorage.getItem('response_message').then((msg) => {
@@ -183,15 +199,15 @@ class PaymentDetails extends Component {
     }
   }
 
-  togglePreferredPayment() {
+  togglePreferredPayment = () => {
     this.setState(() => {
       return {
         selectCheckBox: !this.state.selectCheckBox
       }
     })
-  }
+  };
 
-  cardTokenize() {
+  cardTokenize = () => {
     if(disableBtn === false) {
       disableBtn = true;
       const card = {
@@ -203,21 +219,63 @@ class PaymentDetails extends Component {
       }
       if(card.token === '') {
         disableBtn = false;
-        showGenericAlert('Uh-oh!', 'Invalid token');
+        showGenericAlert('Uh-oh!', 'Invalid token!');
       } else {
         this.props.showLoading();
-        this.webview.sendJSON({
+        webViewRef.current.sendJSON({
           payload: card
         });
       }
     }
+  };
+
+  componentWillMount() {
+    this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
   }
+
+  componentWillUnmount() {
+    this.keyboardShow.remove();
+    this.keyboardHide.remove();
+  }
+
+  keyboardDidShow = event => {
+    if(keyboardDidShowCalled === false) {
+      keyboardDidShowCalled = true;
+      const keyboardHeight = event.endCoordinates.height;
+      const button = ReactNative.findNodeHandle(buttonRef.current);
+      UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
+        const fieldHeight = height;
+        const fieldTop = pageY;
+        gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
+        if (gap < 0 && scrollViewRef.current) {
+          scrollViewRef.current.scrollTo({
+            x: 0, y: -gap, animated: true
+          });
+        }
+      });
+    }
+  }
+
+  keyboardDidHide = event => {
+    if(scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: 0, y: 0, animated: true
+      });
+    }
+    keyboardDidShowCalled = false;
+  }
+
 
   render() {
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior='padding'>
         <View style={styles.container}>
-          <ScrollView contentContainerStyle={styles.scrollView}>
+          <ScrollView
+            ref={scrollViewRef}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.scrollView}
+          >
             <CreditCardInput
               inputStyle={styles.textStyle}
               labelStyle={styles.textStyle}
@@ -225,13 +283,13 @@ class PaymentDetails extends Component {
               allowScroll
               requiresPostalCode
               inputContainerStyle={styles.containerStyle}
-              onChange={data => this.onChange(data)}
+              onChange={this.onChange}
             />
 
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.promotionsContainer}
-              onPress={() => this.togglePreferredPayment()}
+              onPress={this.togglePreferredPayment}
             >
               <Feather
                 style={styles.checkbox}
@@ -244,6 +302,7 @@ class PaymentDetails extends Component {
 
             <View style={styles.btnHolder}>
               <Button
+                ref={buttonRef}
                 style={buttonStyles.submitBtn}
                 disabled={!this.state.dataValid}
                 textStyle={[
@@ -254,7 +313,7 @@ class PaymentDetails extends Component {
                       : 'rgba(255, 255, 255, 0.5)'
                   }
                 ]}
-                onPress={() => this.cardTokenize()}
+                onPress={this.cardTokenize}
               >
                 Submit
               </Button>
@@ -268,20 +327,14 @@ class PaymentDetails extends Component {
               }
               return null;
             })()}
-            <WebView
-              ref={webview => {
-                this.webview = webview;
-              }}
-              source={require('../../../../dist/index.html')}
-              style={{
-                position: 'absolute',
-                top: '100%',
-                bottom: 0,
-                right: 0,
-                left: 0
-              }}
-            />
           </ScrollView>
+        </View>
+        <View style={styles.webViewContainer}>
+          <WebView
+            ref={webViewRef}
+            source={require('../../../../dist/index.html')}
+            style={styles.webViewStyle}
+          />
         </View>
       </KeyboardAvoidingView>
     );

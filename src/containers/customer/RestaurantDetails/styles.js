@@ -1,7 +1,7 @@
 import { StyleSheet, Platform } from 'react-native';
 
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import { Header } from 'react-navigation';
 
 import {
@@ -25,13 +25,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
 
-  photo_back: {
+  photoBack: {
     position: 'absolute',
-    height: '40%',
+    height: wp('60%') + Constants.statusBarHeight,
     width: null,
     left: 0,
     right: 0,
     top: 0
+  },
+
+  photoBackImageStyle: {
+    resizeMode: 'cover'
   },
 
   LinearGradientStyle: {
@@ -140,7 +144,6 @@ const styles = StyleSheet.create({
 
   bottomViewHolder: {
     paddingHorizontal: wp('4.53%'),
-    // height: hp('8.62%'),
     height: wp('18.66%'),
     position: 'absolute',
     left: 0,
@@ -157,8 +160,7 @@ const styles = StyleSheet.create({
   totalPrice: {
     fontSize: wp('4.8%'),
     fontFamily: FONT_FAMILY_MEDIUM,
-    color: COLOR_WHITE,
-    // marginRight: wp('12%')
+    color: COLOR_WHITE
   },
 
   messageHolder: {
@@ -197,8 +199,21 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'white',
     backgroundColor: 'black',
-    paddingVertical: wp('3%'),
+    paddingBottom: wp('3%'),
     paddingHorizontal: wp('4%')
+  },
+
+  animatedHeaderStyle: {
+    overflow: 'hidden',
+    paddingHorizontal: wp('4%'),
+    position: 'absolute',
+    top:
+      Header.HEIGHT +
+      Constants.statusBarHeight -
+      (Platform.OS === 'ios' ? 20 : 0),
+    left: 0,
+    right: 0,
+    zIndex: 99
   }
 });
 

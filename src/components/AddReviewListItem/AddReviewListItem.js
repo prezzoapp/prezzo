@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
-// import LinearGradient from 'react-native-linear-gradient';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo';
 import PropTypes from 'prop-types';
-import Feather from '@expo/vector-icons/Feather'
+import { Feather } from '@expo/vector-icons';
 import styles from './styles';
 import MenuItemImage from '../MenuItemImage';
-import CacheImage from '../CacheImage';
 import RatingBar from '../RatingBar';
+import CacheImage from '../CacheImage';
 
 class AddReviewListItem extends Component {
   constructor(props) {

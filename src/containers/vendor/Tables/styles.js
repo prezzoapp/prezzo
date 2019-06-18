@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
   flatListStyle: {
     paddingTop: wp('6.66%'),
     paddingBottom: getBottomSpace() + 49 + wp('5%'),
-    // paddingHorizontal: wp('4.26%'),
     flexGrow: 1
   },
 
@@ -55,8 +54,42 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
 
+  listsContainer: {
+    flex: 1,
+    overflow: 'hidden'
+  },
+
+  accountNotFoundContainer: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
   flex1: {
     flex: 1
+  },
+
+  footerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  activityIndicatorContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: wp('2.66%'),
+    paddingTop: wp('5%')
+  },
+
+  tapToRetryBtn: {
+    paddingHorizontal: wp('2.66%'),
+    paddingTop: wp('5%')
+  },
+
+  tapToRetryBtnText: {
+    fontSize: wp('4.5%'),
+    color: 'white'
   }
 });
 

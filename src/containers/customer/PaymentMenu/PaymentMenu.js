@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
-  InteractionManager
+  InteractionManager,
+  Image
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
@@ -16,10 +16,10 @@ import {
 import MenuButton from '../../../components/MenuButton';
 import { Feather } from '@expo/vector-icons';
 import EditableListItem from '../../../components/EditableListItem';
-import CacheImage from '../../../components/CacheImage';
 import styles from './styles';
 import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
 import LoadingComponent from '../../../components/LoadingComponent';
+import CacheImage from '../../../components/CacheImage';
 import {
   showAlertWithMessage,
   manuallyLogout
@@ -120,7 +120,84 @@ class PaymentMenu extends Component {
     }
   }
 
+  renderLeftIcon(item) {
+    if (item.get('type') === 'braintree-visa') {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/icons/stp_card_visa.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else if (item.get('type') === 'braintree-mastercard') {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/icons/stp_card_mastercard.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else if (item.get('type') === 'braintree-discover') {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/icons/stp_card_discover.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else if (item.get('type') === 'braintree-jcb') {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/icons/stp_card_jcb.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else if (item.get('type') === 'braintree-american express') {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/icons/stp_card_amex.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else if (item.get('type') === 'braintree-maestro') {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/icons/stp_card_maestro.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else if (item.get('type') === 'braintree-paypal') {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/icons/stp_card_paypal.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else if (item.get('type') === 'braintree-unionpay') {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/icons/stp_card_unionpay.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    } else {
+      return (
+        <CacheImage
+          source={require('../../../../assets/images/Credit-Card.png')}
+          type='image'
+          style={styles.ccIcon}
+        />
+      );
+    }
+  };
+
   render() {
+    const data = this.props.data;
     return (
       <View style={styles.parent}>
         <View style={styles.container}>
@@ -132,92 +209,25 @@ class PaymentMenu extends Component {
               <CacheImage
                 source={require('../../../../assets/images/Credit-Card.png')}
                 type='image'
-                style={{
-                  width: wp('7.46%'),
-                  height: hp('2.33%'),
-                  resizeMode: 'contain'
-                }}
+                style={styles.creditCardIcon}
               />
             }
           />
 
           <ScrollView style={styles.scrollViewStyle}>
-            {this.props.data &&
-              this.props.data.map((item, key) => (
-                <View key={item._id}>
+            { data &&
+              data.size !== 0 &&
+              data.map((item, key) => (
+                <View key={item.get('_id').toString()}>
                   <EditableListItem
-                    text={item.readableIdentifier}
-                    expDate={item.expDate}
-                    onRemove={() => this.removeCardAtIndex(item._id)}
-                    leftIcon={(() => {
-                    if (item.type === 'braintree-visa') {
-                      return (
-                          <CacheImage
-                            source={require('../../../../assets/images/icons/stp_card_visa.png')}
-                            type='image'
-                            style={styles.ccIcon}
-                          />
-                        );
-                    } else if (item.type === 'braintree-mastercard') {
-                        return (
-                          <CacheImage
-                            source={require('../../../../assets/images/icons/stp_card_mastercard.png')}
-                            type='image'
-                            style={styles.ccIcon}
-                          />
-                        );
-                      } else if (item.type === 'braintree-discover') {
-                        return (
-                          <CacheImage
-                            source={require('../../../../assets/images/icons/stp_card_discover.png')}
-                            type='image'
-                            style={styles.ccIcon}
-                          />
-                        );
-                      } else if (item.type === 'braintree-jcb') {
-                        return (
-                          <CacheImage
-                            source={require('../../../../assets/images/icons/stp_card_jcb.png')}
-                            type='image'
-                            style={styles.ccIcon}
-                          />
-                      );
-                    }
-                  })()}
+                    text={item.get('readableIdentifier')}
+                    expDate={item.get('expDate')}
+                    onRemove={() => this.removeCardAtIndex(item.get('_id'))}
+                    leftIcon={this.renderLeftIcon(item)}
                 />
               </View>
             ))}
           </ScrollView>
-
-          {/*<MenuButton
-            onPress={() => {}}
-            title="Add Bitcoin"
-            icon="add"
-            leftIcon={
-              <Image
-                source={require('../../../../assets/images/bitcoin.png')}
-                style={{
-                  width: 20,
-                  resizeMode: 'contain'
-                }}
-              />
-            }
-          />
-
-          <MenuButton
-            onPress={() => {}}
-            title="Add Paypal"
-            icon="add"
-            leftIcon={
-              <Image
-                source={require('../../../../assets/images/Paypal-icon.png')}
-                style={{
-                  width: 25,
-                  resizeMode: 'contain'
-                }}
-              />
-            }
-          />*/}
         </View>
 
         <LoadingComponent visible={this.props.isBusy} />
@@ -227,7 +237,7 @@ class PaymentMenu extends Component {
 }
 
 PaymentMenu.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
   navigate: PropTypes.func.isRequired,
   listCreditCards: PropTypes.func.isRequired,
   removeCreditCard: PropTypes.func.isRequired,

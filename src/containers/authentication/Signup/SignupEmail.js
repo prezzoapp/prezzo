@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {
+import ReactNative, {
   Text,
   TouchableOpacity,
   Image,
@@ -9,7 +9,10 @@ import {
   Platform,
   KeyboardAvoidingView,
   ScrollView,
-  NetInfo,
+  Keyboard,
+  findNodeHandle,
+  Dimensions,
+  UIManager,
   InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -17,7 +20,7 @@ import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 import { Header } from 'react-navigation';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import { Feather } from '@expo/vector-icons';
 import { findUser } from '../../../modules/user';
 import {
@@ -34,13 +37,22 @@ import {
 } from '../../../services/constants';
 import LoginTextInput from '../../../components/LoginTextInput';
 import alert from '../../../components/GenericAlert';
-import CacheImage from '../../../components/CacheImage';
 import NextButton from './NextButton';
+import CacheImage from '../../../components/CacheImage';
+import LoadingComponent from '../../../components/LoadingComponent';
+
+const windowHeight = Dimensions.get('window').height;
+let keyboardDidShowCalled = false;
+
+const buttonRef = React.createRef();
+const scrollViewRef = React.createRef();
+let gap = 0;
 
 type Props = {
   updateEmail: Function,
   updateSubscriptionToPromotions: Function,
-  navigate: Function
+  navigate: Function,
+  isBusy: Boolean
 };
 
 const containerPaddingLeftRight: number = wp('10.66%');
@@ -59,7 +71,7 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: hp('5%'),
+    paddingBottom: hp('3%'),
     paddingTop: SCROLL_VIEW_TOP_PADDING
   },
   headerTextLine1: {
@@ -161,6 +173,45 @@ class SignupEmail extends React.Component<Props> {
     this.props.navigate({ routeName: 'SignupPassword' });
   }
 
+  componentWillMount() {
+    this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardShow.remove();
+    this.keyboardHide.remove();
+  }
+
+  keyboardDidShow = event => {
+    if(keyboardDidShowCalled === false) {
+      keyboardDidShowCalled = true;
+      const keyboardHeight = event.endCoordinates.height;
+      const button = ReactNative.findNodeHandle(buttonRef.current);
+      UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
+        const fieldHeight = height;
+        const fieldTop = pageY;
+        gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
+        if (gap < 0 && scrollViewRef.current) {
+          scrollViewRef.current.scrollTo({
+            x: 0, y: -gap, animated: true
+          });
+        } else {
+          console.log('Gap: ', gap);
+        }
+      });
+    }
+  }
+
+  keyboardDidHide = event => {
+    if(scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: 0, y: 0, animated: true
+      });
+    }
+    keyboardDidShowCalled = false;
+  }
+
   async checkEmailValidity() {
     try {
       if(disableBtn === false) {
@@ -189,6 +240,7 @@ class SignupEmail extends React.Component<Props> {
           style={{ flex: 1 }}
           behavior='padding'>
           <ScrollView
+            ref={scrollViewRef}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text style={styles.headerTextLine1}>And, your</Text>
@@ -220,11 +272,13 @@ class SignupEmail extends React.Component<Props> {
 
             <NextButton
               style={nextButtonStyle}
+              ref={buttonRef}
               disabled={!this.isFormValid()}
               onPress={() => this.checkEmailValidity()}
             />
           </ScrollView>
         </KeyboardAvoidingView>
+        <LoadingComponent visible={this.props.isBusy} />
       </CacheImage>
     );
   }
@@ -232,7 +286,8 @@ class SignupEmail extends React.Component<Props> {
 
 export default connect(state => ({
   email: state.get('signup').get('email'),
-  isSubscribedToPromotions: state.get('signup').get('isSubscribedToPromotions')
+  isSubscribedToPromotions: state.get('signup').get('isSubscribedToPromotions'),
+  isBusy: state.get('user').get('isBusy')
 }), dispatch => {
   return {
     findUser: bindActionCreators(findUser, dispatch),

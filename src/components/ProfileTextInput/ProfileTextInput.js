@@ -64,7 +64,7 @@ const styles = {
   container: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    marginBottom: hp('3.07%'),
+    marginBottom: wp('5.33%'),
     alignSelf: 'stretch',
     backgroundColor: 'transparent'
   },
@@ -76,7 +76,6 @@ const styles = {
     fontFamily: FONT_FAMILY,
     fontSize: wp('4.53%'),
     paddingTop: 2
-    // lineHeight: wp('6%')
   },
   labelContainer: {
     paddingTop: 0,

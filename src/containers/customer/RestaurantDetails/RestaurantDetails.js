@@ -6,21 +6,20 @@ import {
   TouchableOpacity,
   Animated,
   InteractionManager,
-  ActivityIndicator,
-  Platform
+  ActivityIndicator
 } from 'react-native';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import PropTypes from 'prop-types';
-import { Header } from 'react-navigation';
-import { LinearGradient, BlurView, Constants } from 'expo';
+
+import { LinearGradient, BlurView } from 'expo';
+
 import { Feather } from '@expo/vector-icons';
-import { List } from 'immutable';
 
 import styles from './styles';
 import RestaurantItem from '../../../components/RestaurantItem';
 import LoadingComponent from '../../../components/LoadingComponent';
 import Button from '../../../components/Button';
-import { FONT_FAMILY_MEDIUM, COLOR_WHITE } from '../../../services/constants';
+import { FONT_FAMILY_MEDIUM, COLOR_WHITE, TAX } from '../../../services/constants';
 import {
   showAlertWithMessage,
   manuallyLogout
@@ -28,6 +27,7 @@ import {
 import Checkout from '../Checkout';
 import CustomPopup from '../../../components/CustomPopup';
 import CacheImage from '../../../components/CacheImage';
+import Loader from '../../../components/Loader';
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 const headerHeight = wp('44.97%');
@@ -98,6 +98,15 @@ export default class RestaurantDetails extends Component {
     console.log('RestaurantDetails component mounted!');
     InteractionManager.runAfterInteractions(() => {
       this.props.addRestaurantDetail(this.props.navigation.state.params.item);
+      this.props.listCreditCards()
+        .then(() => {})
+        .catch(err => {
+          if(err.code === 401) {
+            manuallyLogout(err, () => this.props.userLogout());
+          } else {
+            showAlertWithMessage('Uh-oh!', err);
+          }
+        });
     });
   }
 
@@ -140,13 +149,13 @@ export default class RestaurantDetails extends Component {
     }
   }
 
-  setIndex(index) {
+  setIndex = index => {
     this.setState(() => {
       return {
         currentSlideIndex: index
       }
     });
-  }
+  };
 
   attemptToCreateOrder() {
     const modifiedCartItems = [];
@@ -228,7 +237,7 @@ export default class RestaurantDetails extends Component {
       });
   }
 
-  isSelectedPaymentMethod(val) {
+  isSelectedPaymentMethod = val => {
     if(val === '') {
       this.selectedPaymentMethod = '';
     } else if(val !== 'cash') {
@@ -251,7 +260,7 @@ export default class RestaurantDetails extends Component {
         }
       })
     }
-  }
+  };
 
   showNextOrderBtn() {
     this.setState(() => {
@@ -364,8 +373,7 @@ export default class RestaurantDetails extends Component {
             <Text style={styles.totalPrice}>
               Total $
               {parseFloat(
-                this.props.data.get('totalPrice') +
-                  (this.props.data.get('totalPrice') * 2.43) / 100
+                this.props.data.get('totalPrice') + TAX
               ).toFixed(2)}
             </Text>
           </View>
@@ -475,12 +483,20 @@ export default class RestaurantDetails extends Component {
       paddingHorizontal: wp('4%')
     };
 
+    const animatedHeaderStyle = [
+      styles.animatedHeaderStyle, {
+        height: animatedHeader,
+        opacity: animatedOpacity
+      }
+    ];
+
     return (
       <View style={styles.container}>
         <CacheImage
           source={require('../../../../assets/images/photo_back.jpg')}
           type='backgroundImage'
-          style={styles.photo_back}>
+          imageStyle={styles.photoBackImageStyle}
+          style={styles.photoBack}>
           <LinearGradient
             colors={['transparent', 'black']}
             style={styles.LinearGradientStyle}
@@ -488,20 +504,7 @@ export default class RestaurantDetails extends Component {
         </CacheImage>
 
         <Animated.View
-          style={{
-            height: animatedHeader,
-            overflow: 'hidden',
-            opacity: animatedOpacity,
-            paddingHorizontal: wp('4%'),
-            position: 'absolute',
-            top:
-              Header.HEIGHT +
-              Constants.statusBarHeight -
-              (Platform.OS === 'ios' ? 20 : 0),
-            left: 0,
-            right: 0,
-            zIndex: 99
-          }}
+          style={animatedHeaderStyle}
         >
           <View style={styles.contentContainer}>
             <CacheImage
@@ -627,17 +630,7 @@ export default class RestaurantDetails extends Component {
                 />
               );
             }
-            return (
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-              >
-                <ActivityIndicator size="large" color="white" />
-              </View>
-            );
+            return <Loader />;
           })()}
         </View>
 
@@ -659,14 +652,12 @@ export default class RestaurantDetails extends Component {
             return (
               <Checkout
                 ref={checkoutModal}
-                setCurrentIndex={index => this.setIndex(index)}
+                setCurrentIndex={this.setIndex}
                 restaurantName={data.get('name')}
                 showNextOrderBtn={this.showNextOrderBtn}
                 hideNextOrderBtn={this.hideNextOrderBtn}
                 hideCheckoutModal={this.hideCheckoutModal}
-                isSelectedPaymentMethod={val =>
-                  this.isSelectedPaymentMethod(val)
-                }
+                isSelectedPaymentMethod={this.isSelectedPaymentMethod}
               />
             );
           }
@@ -700,6 +691,7 @@ RestaurantDetails.propTypes = {
   navigation: PropTypes.object.isRequired,
   addRestaurantDetail: PropTypes.func.isRequired,
   removeRestaurantDetail: PropTypes.func.isRequired,
+  listCreditCards: PropTypes.func.isRequired,
   clearCartData: PropTypes.func.isRequired,
   data: PropTypes.object.isRequired,
   addRemoveItemQuantity: PropTypes.func.isRequired,

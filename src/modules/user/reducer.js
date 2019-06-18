@@ -6,7 +6,10 @@ import {SIGNUP_SUCCESS} from '../Signup/types';
 import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE
+  UPDATE_USER_FAILURE,
+  FIND_USER_REQUEST,
+  FIND_USER_SUCCESS,
+  FIND_USER_FAILURE
 } from './types';
 import {
   LOGIN_WITH_EMAIL_SUCCESS,
@@ -23,8 +26,11 @@ const INITIAL_STATE: State = Map({
 const reducer = (state: State = INITIAL_STATE, action) => {
   switch (action.type) {
     case UPDATE_USER_REQUEST:
+    case FIND_USER_REQUEST:
       return state.update('isBusy', () => true);
     case UPDATE_USER_FAILURE:
+    case FIND_USER_FAILURE:
+    case FIND_USER_SUCCESS:
       return state.update('isBusy', () => false);
     case SIGNUP_SUCCESS:
     case UPDATE_USER_SUCCESS:

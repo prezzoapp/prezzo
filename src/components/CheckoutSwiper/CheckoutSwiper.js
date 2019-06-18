@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 import {
   widthPercentageToDP as wp,
@@ -7,12 +7,15 @@ import {
 } from 'react-native-responsive-screen';
 import { Picker } from 'native-base';
 import PropTypes from 'prop-types';
-import { Feather, Ionicons } from '@expo/vector-icons'
+import { Feather } from '@expo/vector-icons'
 
 import Button from '../Button';
-import { FONT_FAMILY, COLOR_WHITE } from '../../services/constants';
+
+import { FONT_FAMILY, COLOR_WHITE, TAX } from '../../services/constants';
+
 import styles, { stylesRaw } from './styles';
 import showGenericAlert from '../GenericAlert';
+
 import CacheImage from '../CacheImage';
 
 const CREDIT_CARD = 'credit_card';
@@ -29,8 +32,6 @@ export default class CheckoutSwiper extends Component {
       selectedPaymentMethod: ''
     };
 
-    // this.index = 0;
-
     this.cartItems = [];
   }
 
@@ -38,15 +39,6 @@ export default class CheckoutSwiper extends Component {
     this.index = index;
     props.onScrollingEnd(index);
     this.props.setCurrentIndex(index);
-  }
-
-  setPlaceOrderType(type) {
-    if (type === 'delivery') {
-      showGenericAlert(null, "This feature isn't available yet.");
-    }
-    if (this.props.type !== type) {
-      this.props.setType(type);
-    }
   }
 
   setPaymentType(paymentType) {
@@ -84,12 +76,10 @@ export default class CheckoutSwiper extends Component {
     }
   }
 
-  selectPaymentMethod(val) {
-    this.setState(
-      () => ({
-        selectedPaymentMethod: val
-      }),
-      () => {
+  selectPaymentMethod = val => {
+    this.setState({
+      selectedPaymentMethod: val
+    }, () => {
         if (this.state.selectedPaymentMethod === 'add_new_card') {
           this.props.navigate({
             routeName: 'CheckoutPaymentDetails',
@@ -105,24 +95,11 @@ export default class CheckoutSwiper extends Component {
         this.props.isSelectedPaymentMethod(this.state.selectedPaymentMethod);
       }
     );
-  }
-
-  // moveToIndex(index = null) {
-  //   if (index !== null || index !== undefined || typeof index !== 'string') {
-  //     this.swiper.scrollBy(index - this.index, false);
-  //   }
-  // }
+  };
 
   scrollForward() {
     checkoutSwiperRef.current.scrollBy(1, true);
   }
-
-  // scrollReset() {
-  //   if (this.index > 0) {
-  //     this.swiper.scrollBy(this.index * -1, false);
-  //   }
-  //   this.setPaymentType('');
-  // }
 
   removeItemFromCart(item) {
     this.props
@@ -199,20 +176,16 @@ export default class CheckoutSwiper extends Component {
               </Text>
 
               <Text style={styles.reviewOrderText}>Review Order</Text>
-              {(() => {
-                if (data.get('menu')) {
-                  return (
-                    <FlatList
-                      data={this.cartItems.toArray()}
-                      showsVerticalScrollIndicator={false}
-                      style={styles.flatList}
-                      contentContainerStyle={{ flexGrow: 1 }}
-                      keyExtractor={item => item.get('_id').toString()}
-                      renderItem={this.renderItem}
-                    />
-                  );
-                }
-              })()}
+              {data.get('menu') ? (
+                <FlatList
+                  data={this.cartItems.toArray()}
+                  showsVerticalScrollIndicator={false}
+                  style={styles.flatList}
+                  contentContainerStyle={{ flexGrow: 1 }}
+                  keyExtractor={item => item.get('_id').toString()}
+                  renderItem={this.renderItem}
+                />
+              ) : null}
             </View>
 
             <View style={styles.reviewOrderFooter}>
@@ -223,7 +196,7 @@ export default class CheckoutSwiper extends Component {
                 <Text
                   style={[styles.reviewOrderFooterText, { textAlign: 'right' }]}
                 >
-                  ${this.props.data.get('totalPrice')}
+                  ${parseFloat(this.props.data.get('totalPrice').toFixed(2))}
                 </Text>
               </View>
 
@@ -232,7 +205,7 @@ export default class CheckoutSwiper extends Component {
                 <Text
                   style={[styles.reviewOrderFooterText, { textAlign: 'right' }]}
                 >
-                  + $2.43
+                  + ${TAX}
                 </Text>
               </View>
             </View>
@@ -254,6 +227,7 @@ export default class CheckoutSwiper extends Component {
                       style={paymentBtnStyles.commonBtn}
                       onPress={() => this.setPaymentType(CREDIT_CARD)}
                       disabled={this.state.selectedPaymentType === CREDIT_CARD}
+                      childrenEle='View'
                     >
                       <View>
                         <CacheImage
@@ -263,19 +237,15 @@ export default class CheckoutSwiper extends Component {
                         />
                       </View>
                     </Button>
-                    {(() => {
-                      if (this.state.selectedPaymentType === CREDIT_CARD) {
-                        return (
-                          <View style={styles.checkMarkIconHolder}>
-                            <Feather
-                              name="check"
-                              size={wp('4%')}
-                              color="white"
-                            />
-                          </View>
-                        );
-                      }
-                    })()}
+                    {this.state.selectedPaymentType === CREDIT_CARD ? (
+                      <View style={styles.checkMarkIconHolder}>
+                        <Feather
+                          name="check"
+                          size={wp('4%')}
+                          color="white"
+                        />
+                      </View>
+                    ) : null}
                   </View>
 
                   <View style={styles.paymentBtnHolder}>
@@ -283,6 +253,7 @@ export default class CheckoutSwiper extends Component {
                       style={paymentBtnStyles.commonBtn}
                       onPress={() => this.setPaymentType(CASH)}
                       disabled={this.state.selectedPaymentType === CASH}
+                      childrenEle='View'
                     >
                       <View>
                         <CacheImage
@@ -292,69 +263,60 @@ export default class CheckoutSwiper extends Component {
                         />
                       </View>
                     </Button>
-                    {(() => {
-                      if (this.state.selectedPaymentType === CASH) {
-                        return (
-                          <View style={styles.checkMarkIconHolder}>
-                            <Feather
-                              name="check"
-                              size={wp('4%')}
-                              color="white"
-                            />
-                          </View>
-                        );
-                      }
-                    })()}
+                    {this.state.selectedPaymentType === CASH ? (
+                      <View style={styles.checkMarkIconHolder}>
+                        <Feather
+                          name="check"
+                          size={wp('4%')}
+                          color="white"
+                        />
+                      </View>
+                    ) : null}
                   </View>
                 </View>
-                {(() => {
-                  if (this.state.selectedPaymentType === CREDIT_CARD) {
-                    return (
-                      <View style={styles.paymentInfoContainer}>
-                        <Text style={styles.paymentInfoTitle}>
-                          PAYMENT DETAILS
-                        </Text>
-                        <Picker
-                          mode="dropdown"
-                          iosIcon={
-                            <Ionicons
-                              name="ios-arrow-down-outline"
-                              style={stylesRaw.pickerIcon}
-                            />
-                          }
-                          selectedValue={this.state.selectedPaymentMethod}
-                          onValueChange={val => this.selectPaymentMethod(val)}
-                          style={styles.cardPicker}
-                          placeholderStyle={{ width: 100 }}
-                          textStyle={styles.cardPickerText}
-                        >
-                          <Picker.Item
-                            label="Select a payment method"
-                            value=""
-                          />
+                {this.state.selectedPaymentType === CREDIT_CARD ? (
+                  <View style={styles.paymentInfoContainer}>
+                    <Text style={styles.paymentInfoTitle}>
+                      PAYMENT DETAILS
+                    </Text>
+                    <Picker
+                      mode="dropdown"
+                      iosIcon={
+                        <Feather
+                          name="chevron-down"
+                          style={stylesRaw.pickerIcon}
+                        />
+                      }
+                      selectedValue={this.state.selectedPaymentMethod}
+                      onValueChange={this.selectPaymentMethod}
+                      style={styles.cardPicker}
+                      textStyle={styles.cardPickerText}
+                    >
+                      <Picker.Item
+                        label="Select a payment method"
+                        value=""
+                      />
 
-                          {this.props.creditCardList.map(item => (
-                            <Picker.Item
-                              label={`${item.type
-                                .slice(10)
-                                .charAt(0)
-                                .toUpperCase() + item.type.slice(11)} - ${
-                                item.readableIdentifier
-                              }`}
-                              value={item._id}
-                              key={item._id}
-                            />
-                          ))}
+                      {this.props.creditCardList.toArray().map(item => (
+                        <Picker.Item
+                          label={`${item.get('type')
+                            .slice(10)
+                            .charAt(0)
+                            .toUpperCase() + item.get('type').slice(11)} - ${
+                            item.get('readableIdentifier')
+                          }`}
+                          value={item.get('_id')}
+                          key={item.get('_id')}
+                        />
+                      ))}
 
-                          <Picker.Item
-                            label="Add new card"
-                            value="add_new_card"
-                          />
-                        </Picker>
-                      </View>
-                    );
-                  }
-                })()}
+                      <Picker.Item
+                        label="Add new card"
+                        value="add_new_card"
+                      />
+                    </Picker>
+                  </View>
+                ): null}
               </View>
             </View>
           </View>
@@ -405,6 +367,5 @@ CheckoutSwiper.propTypes = {
   restaurantName: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   hideModal: PropTypes.func.isRequired,
-  setType: PropTypes.func.isRequired,
-  creditCardList: PropTypes.array.isRequired
+  creditCardList: PropTypes.object.isRequired
 };

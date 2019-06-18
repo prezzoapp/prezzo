@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   paymentIcons: {
     resizeMode: 'contain',
     width: wp('14.93%'),
-    aspectRatio: 1
+    flex: 1
   },
 
   paymentScreenBtnsContainer: {
@@ -202,8 +202,8 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
     borderRadius: 8,
     borderWidth: 1,
-    height: 35,
-    marginTop: 15
+    height: 34,
+    marginTop: wp('4%')
   },
 
   cardPickerText: {
@@ -214,10 +214,11 @@ const styles = StyleSheet.create({
 
 export const stylesRaw = {
   pickerIcon: {
-    position: 'absolute',
     color: '#fff',
     fontSize: wp('4.26%'),
-    right: wp('3.5%')
+    position: 'relative',
+    top: -wp('1%'),
+    right: wp('2%')
   }
 };
 

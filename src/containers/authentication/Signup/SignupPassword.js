@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {
+import ReactNative, {
   View,
   Text,
   TouchableOpacity,
@@ -9,6 +9,10 @@ import {
   ScrollView,
   Platform,
   KeyboardAvoidingView,
+  findNodeHandle,
+  UIManager,
+  Dimensions,
+  Keyboard,
   InteractionManager
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -32,11 +36,19 @@ import LoginTextInput from '../../../components/LoginTextInput';
 import FacebookButton from '../../../components/FacebookButton';
 import Button from '../../../components/Button';
 import NextButton from './NextButton';
-import { ImagePicker, Permissions, Constants } from 'expo';
+import { ImagePicker, Permissions } from 'expo';
+import Constants from 'expo-constants';
 import { getTimeStampString, showAlertWithMessage } from '../../../services/commonFunctions';
 import { Feather } from '@expo/vector-icons';
 import LoadingComponent from '../../../components/LoadingComponent';
 import CacheImage from '../../../components/CacheImage';
+
+const windowHeight = Dimensions.get('window').height;
+let keyboardDidShowCalled = false;
+
+const buttonRef = React.createRef();
+const scrollViewRef = React.createRef();
+let gap = 0;
 
 type Props = {
   firstName: string,
@@ -71,7 +83,7 @@ const styles = StyleSheet.create({
   scrollView: {
     paddingLeft: containerPaddingLeftRight,
     paddingRight: containerPaddingLeftRight,
-    paddingBottom: hp('5%'),
+    paddingBottom: hp('3%'),
     paddingTop: SCROLL_VIEW_TOP_PADDING
   },
   headerTextLine1: {
@@ -351,6 +363,45 @@ class SignupPassword extends React.Component<Props, State> {
     this.props.navigate({ routeName: 'SignupComplete' });
   }
 
+  componentWillMount() {
+    this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
+    this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+  }
+
+  componentWillUnmount() {
+    this.keyboardShow.remove();
+    this.keyboardHide.remove();
+  }
+
+  keyboardDidShow = event => {
+    if(keyboardDidShowCalled === false) {
+      keyboardDidShowCalled = true;
+      const keyboardHeight = event.endCoordinates.height;
+      const button = ReactNative.findNodeHandle(buttonRef.current);
+      UIManager.measure(button, (originX, originY, width, height, pageX, pageY) => {
+        const fieldHeight = height;
+        const fieldTop = pageY;
+        gap = (windowHeight - keyboardHeight) - (fieldTop + fieldHeight);
+        if (gap < 0 && scrollViewRef.current) {
+          scrollViewRef.current.scrollTo({
+            x: 0, y: -gap, animated: true
+          });
+        } else {
+          console.log('Gap: ', gap);
+        }
+      });
+    }
+  }
+
+  keyboardDidHide = event => {
+    if(scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: 0, y: 0, animated: true
+      });
+    }
+    keyboardDidShowCalled = false;
+  }
+
   render() {
     const { showPassword, isBusy } = this.state;
     const { firstName, email, password, avatarURL } = this.props;
@@ -366,6 +417,7 @@ class SignupPassword extends React.Component<Props, State> {
           style={{ flex: 1 }}
           behavior="padding">
           <ScrollView
+            ref={scrollViewRef}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.scrollView}>
             <Text style={styles.headerTextLine1}>
@@ -389,9 +441,8 @@ class SignupPassword extends React.Component<Props, State> {
                   }
                 />
                 <View style={styles.editIconContainer}>
-                  <CacheImage
+                  <Image
                     style={styles.editAvatarIcon}
-                    type='image'
                     source={require('../../../../assets/images/icons/edit.png')}
                   />
                 </View>
@@ -449,6 +500,7 @@ class SignupPassword extends React.Component<Props, State> {
             {
               showPassword && !isBusy && (
                 <NextButton
+                  ref={buttonRef}
                   style={buttonStyles.next}
                   disabled={!this.isFormValid()}
                   onPress={() => this.signup()}
