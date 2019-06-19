@@ -39,6 +39,7 @@ yarn-error.log
 
 # Expo
 .expo
+.expo/*
 
 # BUCK
 buck-out/
