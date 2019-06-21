@@ -9,7 +9,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/images/app-icon/prezzo-1024@1x.ios.png",
     "splash": {
@@ -24,7 +24,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "io.prezzo.Prezzo",
+      "buildNumber": "2"
     }
   }
 }
