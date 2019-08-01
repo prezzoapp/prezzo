@@ -220,11 +220,19 @@ class SignupEmail extends React.Component<Props> {
         if(user) {
           throw Error('This email is taken.');
         }
+
         this.navigateToPassword();
         this.enableBtns();
       }
     } catch(err) {
+      if (err.code === 404) {
+        this.navigateToPassword();
+        this.enableBtns();
+        return;
+      }
+
       showAlertWithMessage('Uh-oh!', err);
+      console.log('error finding user', err);
       disableBtn = false;
     }
   }

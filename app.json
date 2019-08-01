@@ -26,7 +26,12 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "io.prezzo.Prezzo",
-      "buildNumber": "2"
+      "buildNumber": "2",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Prezzo uses your camera to allow you to upload pictures of your food when leaving reviews.",
+        "NSPhotoLibraryUsageDescription": "Prezzo allows you to upload photos from your libary of the pictures you've taken of your food.",
+        "NSLocationWhenInUseUsageDescription":  "Prezzo uses your location to show you nearby restaurants."
+      }
     }
   }
 }
