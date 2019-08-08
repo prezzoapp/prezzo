@@ -27,7 +27,7 @@ class Profile extends Component {
       <Text
         style={{
           flex: 1,
-          fontSize: wp('6.4%'),
+          fontSize: wp('5%'),
           fontFamily: FONT_FAMILY_MEDIUM,
           color: COLOR_WHITE,
           textAlign: 'center'
@@ -341,8 +341,8 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   imageHolder: {
-    height: wp('27.2%'),
-    width: wp('27.2%'),
+    height: wp('23.2%'),
+    width: wp('23.2%'),
     borderColor: 'white',
     borderWidth: 2,
     borderRadius: wp('13.5%'),

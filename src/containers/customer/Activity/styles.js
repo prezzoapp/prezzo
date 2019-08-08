@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: FONT_FAMILY_MEDIUM,
     fontSize: wp('3.46%'),
-    top: -hp('0.49%'),
-    lineHeight: wp('4.8%')
+    // height: -hp('20%'),
+    lineHeight: wp('20%')
   },
 
   historyTabStyle: {
@@ -82,11 +82,11 @@ const styles = StyleSheet.create({
   },
 
   headerText: {
-    fontSize: wp('9.6%'),
+    fontSize: wp('5%'),
     color: 'white',
     fontFamily: SF_PRO_DISPLAY_BOLD,
     paddingLeft: wp('6.93%'),
-    lineHeight: wp('10.93%')
+    textAlign: 'center'
   }
 });
 

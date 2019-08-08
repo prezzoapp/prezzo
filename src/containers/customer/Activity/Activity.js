@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Container, Tab, Tabs, ScrollableTab } from 'native-base';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import ActivityOpenOrder from '../ActivityOpenOrder';
 import LoadingComponent from '../../../components/LoadingComponent';
 // import ActivityHistory from '../ActivityHistory';

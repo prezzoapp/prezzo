@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
     backgroundColor: 'transparent',
-    lineHeight: 41
+    lineHeight: hp(7)
   },
   headerTextLine2: {
     fontSize: wp('9.6%'),
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginBottom: wp('6.13%'),
     backgroundColor: 'transparent',
-    lineHeight: 41
+    lineHeight: hp(7)
   },
   profileContainer: {
     width: '100%',
@@ -227,7 +227,7 @@ class SignupPassword extends React.Component<Props, State> {
           title="Back"
           name="chevron-left"
           color="white"
-          size={wp('8%')}
+          size={wp('7%')}
         />
       </TouchableOpacity>
     )

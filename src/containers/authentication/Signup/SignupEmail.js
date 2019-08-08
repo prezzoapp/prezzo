@@ -78,14 +78,14 @@ const styles = StyleSheet.create({
     fontSize: wp('9.6%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
-    lineHeight: 41,
+    lineHeight: hp(7),
     backgroundColor: 'transparent'
   },
   headerTextLine2: {
     fontSize: wp('9.6%'),
     fontFamily: FONT_FAMILY_MEDIUM,
     color: '#fff',
-    lineHeight: 41,
+    lineHeight: hp(7),
     marginBottom: wp('10.93%'),
     backgroundColor: 'transparent'
   },
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   promotionalText: {
     fontSize: wp('4.53%'),
-    lineHeight: 27.51,
+    lineHeight: hp(3.5),
     fontFamily: FONT_FAMILY_REGULAR,
     color: '#fff',
     backgroundColor: 'transparent'
@@ -147,7 +147,7 @@ class SignupEmail extends React.Component<Props> {
           title="Back"
           name="chevron-left"
           color="white"
-          size={wp('8%')}
+          size={wp('7%')}
         />
       </TouchableOpacity>
     )

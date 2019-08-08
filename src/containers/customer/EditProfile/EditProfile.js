@@ -56,7 +56,7 @@ class EditProfile extends Component<Props, State> {
       <Text
         style={{
           width: wp('70%'),
-          fontSize: wp('6.4%'),
+          fontSize: wp('5%'),
           fontFamily: FONT_FAMILY_MEDIUM,
           color: COLOR_WHITE,
           textAlign: 'center'
@@ -82,7 +82,7 @@ class EditProfile extends Component<Props, State> {
           title="Back"
           name="chevron-left"
           color="white"
-          size={wp('8%')}
+          size={wp('7%')}
         />
       </TouchableOpacity>
     )

@@ -25,7 +25,7 @@ export default class AccountMenu extends React.Component {
       <Text
         style={{
           flex: 1,
-          fontSize: wp('6.4%'),
+          fontSize: wp('5%'),
           fontFamily: FONT_FAMILY_MEDIUM,
           color: COLOR_WHITE,
           textAlign: 'center'

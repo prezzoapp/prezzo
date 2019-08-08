@@ -72,7 +72,7 @@ class Login extends React.Component<Props, State> {
           title="Back"
           name="chevron-left"
           color="white"
-          size={wp('8%')}
+          size={wp('7%')}
         />
       </TouchableOpacity>
     )

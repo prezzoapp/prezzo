@@ -49,7 +49,7 @@ const styles = {
     width: '100%',
     backgroundColor: buttonBlack,
     borderRadius: 6,
-    height: 0.20 * 0.85 * Dimensions.get('window').width,
+    height: 0.09 * Dimensions.get('window').height,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
