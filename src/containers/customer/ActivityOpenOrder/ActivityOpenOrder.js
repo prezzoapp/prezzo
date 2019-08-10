@@ -297,7 +297,8 @@ class ActivityOpenOrder extends Component {
 
   renderHeader = () => {
     const data = this.props.data;
-    const tableNumber = data.first().get('readableIdentifier');
+    const item = data.first();
+    const tableNumber = item ? item.get('readableIdentifier') : '';
 
     if (data.size !== 0 && data.first().get('items').size !== 0) {
       return (
