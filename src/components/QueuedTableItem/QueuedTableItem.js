@@ -16,9 +16,6 @@ class QueuedTableItem extends Component {
       (item, index) => newItems.getIn([index, 'status']) !== item.get('status')
     );
 
-    console.log(this.props.data.get('_id'));
-    console.log(nextProps.data.get('_id'));
-
     if(
       nextProps.data.get('_id') !== this.props.data.get('_id') ||
       nextProps.data.getIn(['creator', 'avatarURL']) !== this.props.data.getIn(['creator', 'avatarURL'])
@@ -28,9 +25,11 @@ class QueuedTableItem extends Component {
 
   showAcceptDeniedAlert = status => {
     const item = this.props.data;
+    const tableNumber = item.getIn(['readableIdentifier']);
+
     Alert.alert(
       status === 'accept' ? 'Accept' : 'Remove',
-      `${item.getIn(['creator', 'fullName'])} \n Table 9192`,
+      `${item.getIn(['creator', 'fullName'])} \n Table ${tableNumber}`,
       [
         {
           text: 'Cancel',
@@ -46,15 +45,16 @@ class QueuedTableItem extends Component {
   };
 
   render() {
-    console.log('QueuedTableItem component render called!');
     const item = this.props.data;
+    const tableNumber = item.getIn(['readableIdentifier']);
+
     return (
       <TouchableOpacity
         style={styles.container}
         onPress={() => this.props.navigate &&
           this.props.navigate({ routeName: 'OpenTableDetails',
           params: {
-            userName: `${item.getIn(['creator', 'fullName'])} - 9192`,
+            userName: `${item.getIn(['creator', 'fullName'])} - ${tableNumber}`,
             userImage: item.getIn(['creator', 'avatarURL']),
             innerTab: this.props.innerTab,
             item: item
@@ -75,7 +75,7 @@ class QueuedTableItem extends Component {
           <Text style={styles.userName}>{item.getIn(['creator', 'fullName'])}</Text>
           {this.props.tabName === 'tables' ? (
             <View style={styles.statusContainer}>
-              <Text style={styles.tableId}>Table 9192</Text>
+              <Text style={styles.tableId}>Table {tableNumber}</Text>
             </View>
           ): null}
         </View>

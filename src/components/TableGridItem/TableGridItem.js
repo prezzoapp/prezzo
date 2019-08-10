@@ -17,11 +17,12 @@ import CacheImage from '../CacheImage';
 
 const TableGridItem = props => {
   const item = props.data;
+  const tableNumber = item.getIn(['readableIdentifier']);
   const { tableType } = props;
   function showAcceptDeniedAlert(status) {
     Alert.alert(
       status === 'accept' ? 'Accept' : 'Remove',
-      `${item.getIn(['creator', 'fullName'])} \n Table 9192`,
+      `${item.getIn(['creator', 'fullName'])} \n Table ${tableNumber}`,
       [
         {
           text: 'Cancel',
@@ -75,7 +76,7 @@ const TableGridItem = props => {
         </View>
         <Text style={styles.userName}>
           {item.getIn(['creator', 'fullName'])} -{' '}
-          <Text style={styles.tableId}>Table 9192</Text>
+          <Text style={styles.tableId}>Table {tableNumber}</Text>
         </Text>
         {tableType === 1 ? (
           <View style={styles.buttonContainer}>
@@ -103,7 +104,7 @@ const TableGridItem = props => {
                   params: {
                       userName:
                       props.tabName !== 'delivery'
-                        ? `${item.getIn(['creator', 'fullName'])} - 9192`
+                        ? `${item.getIn(['creator', 'fullName'])} - ${tableNumber}`
                           : `${item.get('userName')}`,
                       userImage: item.getIn(['creator', 'avatarURL']),
                     item,

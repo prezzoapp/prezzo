@@ -61,9 +61,9 @@ const styles = StyleSheet.create({
     width: wp('24.33%'),
     textAlign: 'center',
     fontFamily: FONT_FAMILY_MEDIUM,
-    fontSize: wp('3.46%'),
-    // height: -hp('20%'),
-    lineHeight: wp('20%')
+    fontSize: wp('5%'),
+    top: -hp('0.49%'),
+    lineHeight: wp('4%')
   },
 
   historyTabStyle: {

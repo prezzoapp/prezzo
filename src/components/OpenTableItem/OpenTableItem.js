@@ -32,6 +32,7 @@ class OpenTableItem extends Component {
   render() {
     console.log('OpenTableItem component rerender!');
     const item = this.props.data;
+    const tableNumber = item.getIn(['readableIdentifier']);
     let itemImagesLength = 0;
 
     item.get('items').map(ele => {
@@ -54,7 +55,7 @@ class OpenTableItem extends Component {
               params: {
                 userName:
                   this.props.tabName !== 'delivery'
-                    ? `${item.getIn(['creator', 'fullName'])} - 9192`
+                    ? `${item.getIn(['creator', 'fullName'])} - ${tableNumber}`
                     : `${item.get('userName')}`,
                 userImage: item.getIn(['creator', 'avatarURL']),
                 item: item,
@@ -80,7 +81,7 @@ class OpenTableItem extends Component {
             if (this.props.tabName === 'tables') {
               return (
                 <View style={styles.statusContainer}>
-                  <Text style={styles.tableId}>Table 9192 </Text>
+                  <Text style={styles.tableId}>Table {tableNumber} </Text>
                   <Text style={[styles.statusText, { color: '#2ED573' }]}>
                     • Waiter Reqested
                   </Text>

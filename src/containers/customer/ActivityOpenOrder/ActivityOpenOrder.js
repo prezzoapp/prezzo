@@ -297,10 +297,12 @@ class ActivityOpenOrder extends Component {
 
   renderHeader = () => {
     const data = this.props.data;
+    const tableNumber = data.first().get('readableIdentifier');
+
     if (data.size !== 0 && data.first().get('items').size !== 0) {
       return (
         <View style={styles.listHeaderHolder}>
-          <Text style={styles.tableCode}>Table 9192</Text>
+          <Text style={styles.tableCode}>Table {tableNumber}</Text>
         </View>
       );
     }

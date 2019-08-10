@@ -189,11 +189,12 @@ export default class RestaurantDetails extends Component {
         this.selectedPaymentMethod,
         data.get('_id')
       )
-      .then(() => {
+      .then(order => {
         this.setState(
           () => {
             return {
-              modalVisible: true
+              modalVisible: true,
+              order
             };
           },
           () => {
@@ -641,7 +642,7 @@ export default class RestaurantDetails extends Component {
             modalVisible={this.state.modalVisible}
             title="Congratulations!"
             message="Please show the table code to your server.!"
-            otherInfo="9192"
+            otherInfo={this.state.order.readableIdentifier}
             image={require('../../../../assets/images/custom_modal_icons/thumbs_up_icon.png')}
             onDismiss={this.hideModal}
           />

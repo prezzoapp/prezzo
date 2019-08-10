@@ -32,15 +32,16 @@ export const createOrder = async (
   dispatch({ type: CREATE_ORDER_REQUEST });
 
   try {
+    let order;
     if(paymentMethod === '') {
-      await post(`/v1/orders`, {
+      order = await post(`/v1/orders`, {
         items,
         type,
         paymentType,
         vendor
       });
     } else {
-      await post(`/v1/orders`, {
+      order = await post(`/v1/orders`, {
         items,
         type,
         paymentType,
@@ -50,6 +51,7 @@ export const createOrder = async (
     }
 
     dispatch({ type: CREATE_ORDER_SUCCESS });
+    return order;
   } catch (e) {
     dispatch({ type: CREATE_ORDER_FAILURE });
     throw e;
