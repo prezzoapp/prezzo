@@ -6,7 +6,14 @@ import {
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
+import { Platform } from 'react-native';
+
+console.log('Platform', Platform);
+console.log('Platform.isPad', Platform.isPad);
 
 import { MaterialIcons, Feather } from '@expo/vector-icons';
 import Tutorial from '../../authentication/Tutorial';
@@ -143,9 +150,13 @@ const CustomerSectionTabNavigator = createBottomTabNavigator(
     Explore: {
       screen: Explore,
       navigationOptions: {
-        title: 'Explore',
+        title: !Platform.isPad ? 'Explore' : '',
         tabBarIcon: props => (
-          <MaterialIcons name="explore" size={24} color={props.tintColor} />
+          <MaterialIcons
+            name="explore"
+            size={24}
+            color={props.tintColor}
+          />
         ),
         headerTintColor: 'white',
         headerStyle: {
@@ -161,7 +172,7 @@ const CustomerSectionTabNavigator = createBottomTabNavigator(
     CustomerActivityNavigator: {
       screen: CustomerActivityNavigator,
       navigationOptions: {
-        title:'Activity',
+        title: !Platform.isPad ? 'Activity' : '',
         tabBarIcon: ({ focused }) => (
           <Feather
             name="activity"
@@ -174,7 +185,7 @@ const CustomerSectionTabNavigator = createBottomTabNavigator(
     CustomerProfileNavigator: {
       screen: CustomerProfileNavigator,
       navigationOptions: {
-        title:'Profile',
+        title: !Platform.isPad ? 'Profile' : '',
         tabBarIcon: ({ focused }) => (
           <Feather
             name="user"
@@ -246,12 +257,12 @@ const VendorSectionTabNavigator = createBottomTabNavigator(
   {
     VendorTablesNavigator: { screen: VendorTablesNavigator,
       navigationOptions: {
-        title:'Tables',
+        title: !Platform.isPad ? 'Tables' : '',
         tabBarIcon: ({ focused }) => (
           <CacheImage
             style={{
-              height: wp('6.4%'),
-              width: wp('6.4%'),
+              height: 24,
+              width: 24,
               resizeMode: 'contain',
               tintColor: focused ? activeColor : inactiveColor
             }}
@@ -264,11 +275,11 @@ const VendorSectionTabNavigator = createBottomTabNavigator(
 
     VendorActivityNavigator: { screen: VendorActivityNavigator,
       navigationOptions: {
-        title: 'Activity',
+        title: !Platform.isPad ? 'Activity' : '',
         tabBarIcon: ({ focused }) => (
           <Feather
             name="bell"
-            size={wp('6.4%')}
+            size={24}
             color={focused ? activeColor : inactiveColor}
           />
         )
@@ -278,7 +289,7 @@ const VendorSectionTabNavigator = createBottomTabNavigator(
     VendorProfile: {
       screen: VendorProfileNavigator,
       navigationOptions: {
-        title: 'Profile',
+        title: !Platform.isPad ? 'Profile' : '',
         tabBarIcon: ({ focused }) => (
           <Feather
             name="user"
