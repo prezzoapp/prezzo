@@ -32,8 +32,8 @@
   },
   "dependencies": {
     "babel-eslint": "^8.2.6",
-    "bluebird": "^3.3.5",
     "babel-loader": "^7.1.2",
+    "bluebird": "^3.3.5",
     "braintree-web": "^3.38.0",
     "buffer": "^5.1.0",
     "eslint": "^5.5.0",
@@ -73,6 +73,7 @@
     "redux-loop-symbol-ponyfill": "^2.2.0",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.0.1",
+    "sentry-expo": "^1.13.0",
     "shorthash": "0.0.2",
     "standard-http-error": "^2.0.1"
   },

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Sentry from 'sentry-expo';
 import { Provider } from 'react-redux';
 import { AppRegistry, View, StyleSheet, ActivityIndicator } from 'react-native';
 import {
@@ -58,6 +59,9 @@ export default class Prezzo extends Component {
   };
 
   async componentDidMount() {
+    Sentry.enableInExpoDevelopment = true;
+    Sentry.config('https://e2f610d1341142d2b6af141ee946f9a5@sentry.io/1531257').install();
+
     console.log('Loading fonts.');
     try {
       setConfiguration('API_ROOT', API_ROOT);
